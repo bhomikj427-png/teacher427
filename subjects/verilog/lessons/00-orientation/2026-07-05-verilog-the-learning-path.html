@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verilog - The Learning Path</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.9.0/styles/github-dark.min.css">
+<style>
+:root{
+  --bg:#15171c; --panel:#1d2027; --ink:#e6e8ee; --dim:#9aa3b2; --line:#2c313b;
+  --accent:#6aa9ff; --accent-soft:#22304a; --check:#1e2a1e; --check-line:#3c5a3c;
+  --max:50rem;
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.65;}
+main{max-width:var(--max);margin:0 auto;padding:3rem 1.4rem 6rem;}
+.lesson-head{border-bottom:1px solid var(--line);padding-bottom:1.2rem;margin-bottom:2rem;}
+.badge{display:inline-block;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-soft);padding:.2rem .6rem;border-radius:.4rem;}
+h1{font-size:1.9rem;line-height:1.2;margin:.6rem 0 .2rem;}
+h2{font-size:1.3rem;margin:2.6rem 0 .8rem;padding-top:.6rem;border-top:1px solid var(--line);}
+.surface-note{color:var(--dim);font-size:.85rem;margin:.4rem 0 0;}
+p{margin:.7rem 0;}
+ul{margin:.6rem 0;padding-left:1.3rem;}
+li{margin:.25rem 0;}
+code{font-family:"JetBrains Mono",Consolas,Menlo,monospace;font-size:.9em;
+  background:#0e1014;border:1px solid var(--line);border-radius:.3rem;padding:.05rem .35rem;}
+pre.code{background:#0e1014;border:1px solid var(--line);border-radius:.6rem;
+  padding:1rem 1.1rem;overflow:auto;margin:1.2rem 0;}
+pre.code code{background:none;border:none;padding:0;font-size:.86rem;line-height:1.55;}
+.intro{color:var(--dim);font-size:1.02rem;}
+.math{overflow-x:auto;}
+div.math{margin:1.4rem 0;}
+figure.fig{margin:1.6rem 0;padding:0;}
+.fig .svg, .fig pre.mermaid{background:#fff;border:1px solid var(--line);border-radius:.6rem;
+  padding:1rem;text-align:center;overflow:auto;}
+.fig .svg svg, .fig pre.mermaid svg{max-width:100%;height:auto;}
+.fig pre.mermaid{color:#111;}
+.fig .svg.missing{color:#b00;font-family:monospace;}
+figcaption{color:var(--dim);font-size:.85rem;margin-top:.5rem;text-align:center;}
+table.grid{border-collapse:collapse;width:100%;background:var(--panel);border-radius:.6rem;
+  overflow:hidden;font-size:.92rem;}
+table.grid th,table.grid td{border:1px solid var(--line);padding:.5rem .75rem;text-align:left;}
+table.grid th{background:#222633;color:var(--ink);font-weight:600;}
+table.grid tr.hi td{background:var(--accent-soft);}
+.note{color:var(--dim);font-size:.85rem;font-style:italic;}
+.check{background:var(--check);border:1px solid var(--check-line);border-left:4px solid #5fa85f;
+  border-radius:.6rem;padding:1rem 1.2rem;margin:1.8rem 0;}
+.check-tag{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#8fce8f;
+  margin-bottom:.4rem;}
+.check-q p{margin:.3rem 0;}
+.answer{margin-top:.8rem;}
+.answer summary{cursor:pointer;color:var(--accent);font-size:.85rem;}
+.answer>div{margin-top:.6rem;padding-top:.6rem;border-top:1px dashed var(--check-line);}
+</style>
+</head>
+<body>
+<main>
+  <header class="lesson-head">
+    <span class="badge">verilog</span>
+    <h1>Verilog - The Learning Path</h1>
+    <p class="surface-note">Lesson surface. The dialogue, retrieval prompts and CHECK answers
+      happen in the terminal; this tab holds the figures, math and code.</p>
+  </header>
+  <div class="intro"><p><strong>Verilog is a Hardware Description Language (HDL)</strong> - a formal notation for describing digital hardware (gates, wires, registers), standardized as IEEE 1364. It is <strong>not</strong> a software language; the C-like syntax is a trap.</p>
+<p>Read the <strong>flow map first</strong> (Figure 1): it is the ordered path we take and where you stand now. The smaller sub-maps zoom into the first few stops. Later stages stay single nodes on the flow map until we reach them.</p></div>
+  <section><h2>The path (start here)</h2><figure class="fig"><pre class="mermaid">
+flowchart TD
+    S0[&quot;Stage 0 - The reframe&lt;br/&gt;hardware, not software; all concurrent&quot;]
+    S1[&quot;Stage 1 - Building blocks&lt;br/&gt;modules, ports, wire/reg, 4-state, vectors&quot;]
+    S2[&quot;Stage 2 - Describing a circuit&lt;br/&gt;structural / dataflow / behavioral&quot;]
+    S3[&quot;Stage 3 - Combinational logic&lt;br/&gt;assign, always@*, latch traps&quot;]
+    S4[&quot;Stage 4 - Sequential logic&lt;br/&gt;flip-flops, clock, reset&quot;]
+    S5[&quot;Stage 5 - The core mechanism&lt;br/&gt;blocking vs nonblocking + event queue&quot;]
+    S6[&quot;Stage 6 - RTL model + FSMs&lt;br/&gt;registers &amp;amp; clouds per clock; Moore/Mealy&quot;]
+    S7[&quot;Stage 7 - Synthesis discipline&lt;br/&gt;synth subset, sim/synth mismatch&quot;]
+    S8[&quot;Stage 8 - Verification&lt;br/&gt;testbenches, self-checking, waveforms&quot;]
+    S9[&quot;Stage 9 - Scaling + pro horizon&lt;br/&gt;parameters/generate; timing; SystemVerilog&quot;]
+    S0 --&gt; S1 --&gt; S2 --&gt; S3 --&gt; S4 --&gt; S5 --&gt; S6 --&gt; S7 --&gt; S8 --&gt; S9
+    classDef here fill:#2d5a2d,stroke:#8fdd8f,color:#fff,stroke-width:2px;
+    classDef next fill:#5a4a1e,stroke:#e0c060,color:#fff,stroke-width:2px;
+    class S3 here;
+    class S4 next;
+</pre><figcaption>Figure 1 — The route, in order. Green = where you are (Stage 3). Gold = what&#x27;s next (Stage 4). Follow the arrows top to bottom.</figcaption></figure></section>
+<section><h2>Zoom: the first stops</h2><figure class="fig"><pre class="mermaid">
+mindmap
+  root((Stage 0&lt;br/&gt;The reframe))
+    Hardware, not a program
+      code maps to gates, wires, registers
+      it does not run on a CPU, line by line
+    Concurrency is the default
+      every assign and always block runs in parallel
+      statement order does not set execution order
+    Why beginners trip here
+      C-like syntax suggests sequential execution
+      that wrong intuition causes most early bugs
+</pre><figcaption>Figure 2 — Stage 0 detail - the one idea that reorganizes everything else.</figcaption></figure>
+<figure class="fig"><pre class="mermaid">
+mindmap
+  root((Stage 1&lt;br/&gt;Building blocks))
+    module
+      a hardware block with input and output ports
+      instantiate and wire modules into a hierarchy
+    signals and values
+      wire vs reg is assignment context, not hardware
+      four-state values - 0, 1, x, z
+      vectors and buses carry many bits at once
+</pre><figcaption>Figure 3 — Stage 1 detail - the vocabulary you build designs out of.</figcaption></figure>
+<figure class="fig"><pre class="mermaid">
+mindmap
+  root((Stages 3 and 4&lt;br/&gt;Comb then Seq))
+    Combinational - YOU ARE HERE
+      output depends only on the current inputs
+      written with assign or always at star
+      a missing branch makes an accidental latch
+    Sequential - NEXT
+      output depends on stored state
+      flip-flop stores a bit, updates on a clock edge
+      clock advances state; reset makes it start known
+</pre><figcaption>Figure 4 — Stages 3-4 detail - your current ground, and the next climb.</figcaption></figure></section>
+</main>
+
+<script>
+  window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+                      svg: { fontCache: 'global' } };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'loose' });</script>
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+</body>
+</html>

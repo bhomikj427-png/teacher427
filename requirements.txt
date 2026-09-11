@@ -1,0 +1,17 @@
+# ece' engine — Python dependencies (pinned to a known-good, installed set).
+# Plumbing only (content-sourcing + the Visual & Rendering subsystem); no pedagogy lives here.
+# Pins are >= the verified working version, < next major, so a fresh install matches what the
+# tools were built and smoke-tested against (see rendering.md §9, tools/README.md).
+
+# --- Visual & Rendering subsystem (rendering.md) ---
+# Primitive 4 "Quantitative plot" — make_figure.py kind="matplotlib"
+matplotlib>=3.9,<4
+numpy>=2.1,<3
+scipy>=1.14,<2
+# Primitive 6 "Domain structural diagram" — the shipped ECE registry entry (schemdraw).
+# Imported lazily inside its handler: a subject that never draws a schematic can skip this.
+schemdraw>=0.19,<1
+
+# --- Content sourcing (subject-research-protocol.md §2) ---
+# NPTEL/YouTube lecture caption puller — tools/fetch_transcripts.py
+yt-dlp>=2026.6,<2027

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparison Sorting — Why O(n log n) Wins</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.9.0/styles/github-dark.min.css">
+<style>
+:root{
+  --bg:#15171c; --panel:#1d2027; --ink:#e6e8ee; --dim:#9aa3b2; --line:#2c313b;
+  --accent:#6aa9ff; --accent-soft:#22304a; --check:#1e2a1e; --check-line:#3c5a3c;
+  --max:50rem;
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.65;}
+main{max-width:var(--max);margin:0 auto;padding:3rem 1.4rem 6rem;}
+.lesson-head{border-bottom:1px solid var(--line);padding-bottom:1.2rem;margin-bottom:2rem;}
+.badge{display:inline-block;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-soft);padding:.2rem .6rem;border-radius:.4rem;}
+h1{font-size:1.9rem;line-height:1.2;margin:.6rem 0 .2rem;}
+h2{font-size:1.3rem;margin:2.6rem 0 .8rem;padding-top:.6rem;border-top:1px solid var(--line);}
+.surface-note{color:var(--dim);font-size:.85rem;margin:.4rem 0 0;}
+p{margin:.7rem 0;}
+ul{margin:.6rem 0;padding-left:1.3rem;}
+li{margin:.25rem 0;}
+code{font-family:"JetBrains Mono",Consolas,Menlo,monospace;font-size:.9em;
+  background:#0e1014;border:1px solid var(--line);border-radius:.3rem;padding:.05rem .35rem;}
+pre.code{background:#0e1014;border:1px solid var(--line);border-radius:.6rem;
+  padding:1rem 1.1rem;overflow:auto;margin:1.2rem 0;}
+pre.code code{background:none;border:none;padding:0;font-size:.86rem;line-height:1.55;}
+.intro{color:var(--dim);font-size:1.02rem;}
+.math{overflow-x:auto;}
+div.math{margin:1.4rem 0;}
+figure.fig{margin:1.6rem 0;padding:0;}
+.fig .svg, .fig pre.mermaid{background:#fff;border:1px solid var(--line);border-radius:.6rem;
+  padding:1rem;text-align:center;overflow:auto;}
+.fig .svg svg, .fig pre.mermaid svg{max-width:100%;height:auto;}
+.fig pre.mermaid{color:#111;}
+.fig .svg.missing{color:#b00;font-family:monospace;}
+figcaption{color:var(--dim);font-size:.85rem;margin-top:.5rem;text-align:center;}
+table.grid{border-collapse:collapse;width:100%;background:var(--panel);border-radius:.6rem;
+  overflow:hidden;font-size:.92rem;}
+table.grid th,table.grid td{border:1px solid var(--line);padding:.5rem .75rem;text-align:left;}
+table.grid th{background:#222633;color:var(--ink);font-weight:600;}
+table.grid tr.hi td{background:var(--accent-soft);}
+.note{color:var(--dim);font-size:.85rem;font-style:italic;}
+.check{background:var(--check);border:1px solid var(--check-line);border-left:4px solid #5fa85f;
+  border-radius:.6rem;padding:1rem 1.2rem;margin:1.8rem 0;}
+.check-tag{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#8fce8f;
+  margin-bottom:.4rem;}
+.check-q p{margin:.3rem 0;}
+.answer{margin-top:.8rem;}
+.answer summary{cursor:pointer;color:var(--accent);font-size:.85rem;}
+.answer>div{margin-top:.6rem;padding-top:.6rem;border-top:1px dashed var(--check-line);}
+</style>
+</head>
+<body>
+<main>
+  <header class="lesson-head">
+    <span class="badge">python</span>
+    <h1>Comparison Sorting — Why O(n log n) Wins</h1>
+    <p class="surface-note">Lesson surface. The dialogue, retrieval prompts and CHECK answers
+      happen in the terminal; this tab holds the figures, math and code.</p>
+  </header>
+  <div class="intro"><p>Sorting rearranges a sequence into order by <strong>comparing</strong> elements. The whole story is one question: how does the work grow as the input grows? <strong>Quadratic</strong> sorts double their cost fourfold; <strong>n log n</strong> sorts barely flinch.</p></div>
+  <section><h2>The family (open here)</h2><figure class="fig"><pre class="mermaid">graph TD
+  S[Comparison sorts] --&gt; Q[Quadratic O(n^2)]
+  S --&gt; D[Divide &amp; conquer O(n log n)]
+  Q --&gt; BUB[Bubble]
+  Q --&gt; INS[Insertion]
+  D --&gt; MRG[Merge sort]
+  D --&gt; QCK[Quicksort]
+  MRG -. stable, O(n) extra space .-&gt; NOTE1[ ]
+  QCK -. in-place, O(n^2) worst case .-&gt; NOTE2[ ]</pre><figcaption>Figure 1 — Comparison sorts, by strategy</figcaption></figure></section>
+<section><h2>How merge sort runs</h2><figure class="fig"><pre class="mermaid">flowchart TD
+  A[Receive list a] --&gt; B{len a &lt;= 1 ?}
+  B -- yes --&gt; C[Return a: already sorted]
+  B -- no --&gt; D[Split at midpoint]
+  D --&gt; E[merge_sort left half]
+  D --&gt; F[merge_sort right half]
+  E --&gt; G[Merge two sorted halves in linear time]
+  F --&gt; G
+  G --&gt; H[Return merged sorted list]</pre><figcaption>Figure 2 — Divide until trivial, then merge back up</figcaption></figure></section>
+<section><h2>The reason it matters</h2><figure class="fig"><div class="svg"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="446.4pt" height="266.4pt" viewBox="0 0 446.4 266.4" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-06-24T01:38:12.487405</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 266.4 
+L 446.4 266.4 
+L 446.4 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 68.33 221.92 
+L 434.52 221.92 
+L 434.52 11.88 
+L 68.33 11.88 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 81.612374 221.92 
+L 81.612374 11.88 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="m14ec926c1a" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m14ec926c1a" x="81.612374" y="221.92" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font: 11px 'DejaVu Sans'; text-anchor: middle" x="81.612374" y="237.278281" transform="rotate(-0 81.612374 237.278281)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 148.864899 221.92 
+L 148.864899 11.88 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m14ec926c1a" x="148.864899" y="221.92" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font: 11px 'DejaVu Sans'; text-anchor: middle" x="148.864899" y="237.278281" transform="rotate(-0 148.864899 237.278281)">20</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 216.117424 221.92 
+L 216.117424 11.88 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m14ec926c1a" x="216.117424" y="221.92" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font: 11px 'DejaVu Sans'; text-anchor: middle" x="216.117424" y="237.278281" transform="rotate(-0 216.117424 237.278281)">40</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 283.369949 221.92 
+L 283.369949 11.88 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m14ec926c1a" x="283.369949" y="221.92" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font: 11px 'DejaVu Sans'; text-anchor: middle" x="283.369949" y="237.278281" transform="rotate(-0 283.369949 237.278281)">60</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_9">
+      <path d="M 350.622475 221.92 
+L 350.622475 11.88 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m14ec926c1a" x="350.622475" y="221.92" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font: 11px 'DejaVu Sans'; text-anchor: middle" x="350.622475" y="237.278281" transform="rotate(-0 350.622475 237.278281)">80</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_11">
+      <path d="M 417.875 221.92 
+L 417.875 11.88 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#m14ec926c1a" x="417.875" y="221.92" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font: 11px 'DejaVu Sans'; text-anchor: middle" x="417.875" y="237.278281" transform="rotate(-0 417.875 237.278281)">100</text>
+     </g>
+    </g>
+    <g id="text_7">
+     <text style="font: 11px 'DejaVu Sans'; text-anchor: middle" x="251.425" y="251.924219" transform="rotate(-0 251.425 251.924219)">input size  n</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_13">
+      <path d="M 68.33 212.372727 
+L 434.52 212.372727 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <defs>
+       <path id="med0da754c6" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#med0da754c6" x="68.33" y="212.372727" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font: 11px 'DejaVu Sans'; text-anchor: end" x="61.33" y="216.551868" transform="rotate(-0 61.33 216.551868)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_15">
+      <path d="M 68.33 174.183636 
+L 434.52 174.183636 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#med0da754c6" x="68.33" y="174.183636" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font: 11px 'DejaVu Sans'; text-anchor: end" x="61.33" y="178.362777" transform="rotate(-0 61.33 178.362777)">2000</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_17">
+      <path d="M 68.33 135.994545 
+L 434.52 135.994545 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_18">
+      <g>
+       <use xlink:href="#med0da754c6" x="68.33" y="135.994545" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font: 11px 'DejaVu Sans'; text-anchor: end" x="61.33" y="140.173686" transform="rotate(-0 61.33 140.173686)">4000</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_19">
+      <path d="M 68.33 97.805455 
+L 434.52 97.805455 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#med0da754c6" x="68.33" y="97.805455" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font: 11px 'DejaVu Sans'; text-anchor: end" x="61.33" y="101.984595" transform="rotate(-0 61.33 101.984595)">6000</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_21">
+      <path d="M 68.33 59.616364 
+L 434.52 59.616364 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_22">
+      <g>
+       <use xlink:href="#med0da754c6" x="68.33" y="59.616364" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font: 11px 'DejaVu Sans'; text-anchor: end" x="61.33" y="63.795504" transform="rotate(-0 61.33 63.795504)">8000</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_23">
+      <path d="M 68.33 21.427273 
+L 434.52 21.427273 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_24">
+      <g>
+       <use xlink:href="#med0da754c6" x="68.33" y="21.427273" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="font: 11px 'DejaVu Sans'; text-anchor: end" x="61.33" y="25.606413" transform="rotate(-0 61.33 25.606413)">10000</text>
+     </g>
+    </g>
+    <g id="text_14">
+     <text style="font: 11px 'DejaVu Sans'; text-anchor: middle" x="20.048594" y="116.9" transform="rotate(-90 20.048594 116.9)">comparisons (approx)</text>
+    </g>
+   </g>
+   <g id="line2d_25">
+    <path d="M 84.975 212.353633 
+L 88.337626 212.296349 
+L 91.700253 212.200876 
+L 95.062879 212.067215 
+L 98.425505 211.895364 
+L 101.788131 211.685324 
+L 105.150758 211.437095 
+L 108.513384 211.150676 
+L 111.87601 210.826069 
+L 115.238636 210.463273 
+L 118.601263 210.062287 
+L 121.963889 209.623113 
+L 125.326515 209.145749 
+L 128.689141 208.630196 
+L 132.051768 208.076455 
+L 135.414394 207.484524 
+L 138.77702 206.854404 
+L 142.139646 206.186095 
+L 145.502273 205.479596 
+L 148.864899 204.734909 
+L 152.227525 203.952033 
+L 155.590152 203.130967 
+L 158.952778 202.271713 
+L 162.315404 201.374269 
+L 165.67803 200.438636 
+L 169.040657 199.464815 
+L 172.403283 198.452804 
+L 175.765909 197.402604 
+L 179.128535 196.314215 
+L 182.491162 195.187636 
+L 185.853788 194.022869 
+L 189.216414 192.819913 
+L 192.57904 191.578767 
+L 195.941667 190.299433 
+L 199.304293 188.981909 
+L 202.666919 187.626196 
+L 206.029545 186.232295 
+L 209.392172 184.800204 
+L 212.754798 183.329924 
+L 216.117424 181.821455 
+L 219.480051 180.274796 
+L 222.842677 178.689949 
+L 226.205303 177.066913 
+L 229.567929 175.405687 
+L 232.930556 173.706273 
+L 236.293182 171.968669 
+L 239.655808 170.192876 
+L 243.018434 168.378895 
+L 246.381061 166.526724 
+L 249.743687 164.636364 
+L 253.106313 162.707815 
+L 256.468939 160.741076 
+L 259.831566 158.736149 
+L 263.194192 156.693033 
+L 266.556818 154.611727 
+L 269.919444 152.492233 
+L 273.282071 150.334549 
+L 276.644697 148.138676 
+L 280.007323 145.904615 
+L 283.369949 143.632364 
+L 286.732576 141.321924 
+L 290.095202 138.973295 
+L 293.457828 136.586476 
+L 296.820455 134.161469 
+L 300.183081 131.698273 
+L 303.545707 129.196887 
+L 306.908333 126.657313 
+L 310.27096 124.079549 
+L 313.633586 121.463596 
+L 316.996212 118.809455 
+L 320.358838 116.117124 
+L 323.721465 113.386604 
+L 327.084091 110.617895 
+L 330.446717 107.810996 
+L 333.809343 104.965909 
+L 337.17197 102.082633 
+L 340.534596 99.161167 
+L 343.897222 96.201513 
+L 347.259848 93.203669 
+L 350.622475 90.167636 
+L 353.985101 87.093415 
+L 357.347727 83.981004 
+L 360.710354 80.830404 
+L 364.07298 77.641615 
+L 367.435606 74.414636 
+L 370.798232 71.149469 
+L 374.160859 67.846113 
+L 377.523485 64.504567 
+L 380.886111 61.124833 
+L 384.248737 57.706909 
+L 387.611364 54.250796 
+L 390.97399 50.756495 
+L 394.336616 47.224004 
+L 397.699242 43.653324 
+L 401.061869 40.044455 
+L 404.424495 36.397396 
+L 407.787121 32.712149 
+L 411.149747 28.988713 
+L 414.512374 25.227087 
+L 417.875 21.427273 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke: #0072b2; stroke-width: 1.5; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_26">
+    <path d="M 84.975 212.372727 
+L 88.337626 212.334538 
+L 91.700253 212.281935 
+L 95.062879 212.219971 
+L 98.425505 212.151046 
+L 101.788131 212.076575 
+L 105.150758 211.997491 
+L 108.513384 211.914458 
+L 111.87601 211.827973 
+L 115.238636 211.73842 
+L 118.601263 211.646108 
+L 121.963889 211.551289 
+L 125.326515 211.45417 
+L 128.689141 211.354931 
+L 132.051768 211.253723 
+L 135.414394 211.150676 
+L 138.77702 211.045907 
+L 142.139646 210.939516 
+L 145.502273 210.831595 
+L 148.864899 210.722222 
+L 152.227525 210.611472 
+L 155.590152 210.499409 
+L 158.952778 210.386094 
+L 162.315404 210.271581 
+L 165.67803 210.155919 
+L 169.040657 210.039156 
+L 172.403283 209.921332 
+L 175.765909 209.802488 
+L 179.128535 209.68266 
+L 182.491162 209.561882 
+L 185.853788 209.440185 
+L 189.216414 209.3176 
+L 192.57904 209.194154 
+L 195.941667 209.069872 
+L 199.304293 208.944781 
+L 202.666919 208.818902 
+L 206.029545 208.692258 
+L 209.392172 208.564869 
+L 212.754798 208.436756 
+L 216.117424 208.307935 
+L 219.480051 208.178426 
+L 222.842677 208.048246 
+L 226.205303 207.917409 
+L 229.567929 207.785931 
+L 232.930556 207.653828 
+L 236.293182 207.521112 
+L 239.655808 207.387797 
+L 243.018434 207.253896 
+L 246.381061 207.119421 
+L 249.743687 206.984384 
+L 253.106313 206.848796 
+L 256.468939 206.712667 
+L 259.831566 206.576009 
+L 263.194192 206.438831 
+L 266.556818 206.301143 
+L 269.919444 206.162954 
+L 273.282071 206.024273 
+L 276.644697 205.885109 
+L 280.007323 205.74547 
+L 283.369949 205.605364 
+L 286.732576 205.464799 
+L 290.095202 205.323782 
+L 293.457828 205.18232 
+L 296.820455 205.040422 
+L 300.183081 204.898093 
+L 303.545707 204.75534 
+L 306.908333 204.61217 
+L 310.27096 204.468588 
+L 313.633586 204.324602 
+L 316.996212 204.180216 
+L 320.358838 204.035437 
+L 323.721465 203.89027 
+L 327.084091 203.74472 
+L 330.446717 203.598792 
+L 333.809343 203.452493 
+L 337.17197 203.305826 
+L 340.534596 203.158796 
+L 343.897222 203.011409 
+L 347.259848 202.863669 
+L 350.622475 202.71558 
+L 353.985101 202.567146 
+L 357.347727 202.418373 
+L 360.710354 202.269263 
+L 364.07298 202.119822 
+L 367.435606 201.970053 
+L 370.798232 201.819959 
+L 374.160859 201.669546 
+L 377.523485 201.518815 
+L 380.886111 201.367772 
+L 384.248737 201.216419 
+L 387.611364 201.06476 
+L 390.97399 200.912798 
+L 394.336616 200.760537 
+L 397.699242 200.607979 
+L 401.061869 200.455129 
+L 404.424495 200.301988 
+L 407.787121 200.148561 
+L 411.149747 199.994849 
+L 414.512374 199.840857 
+L 417.875 199.686586 
+" clip-path="url(#p465e796dbf)" style="fill: none; stroke-dasharray: 5.55,2.4; stroke-dashoffset: 0; stroke: #d55e00; stroke-width: 1.5"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 68.33 221.92 
+L 68.33 11.88 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 68.33 221.92 
+L 434.52 221.92 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="legend_1">
+    <g id="line2d_27">
+     <path d="M 78.23 26.288281 
+L 89.23 26.288281 
+L 100.23 26.288281 
+" style="fill: none; stroke: #0072b2; stroke-width: 1.5; stroke-linecap: square"/>
+    </g>
+    <g id="text_15">
+     <text style="font: 11px 'DejaVu Sans'; text-anchor: start" x="109.03" y="30.138281" transform="rotate(-0 109.03 30.138281)">O(n^2)  bubble/insertion</text>
+    </g>
+    <g id="line2d_28">
+     <path d="M 78.23 42.434219 
+L 89.23 42.434219 
+L 100.23 42.434219 
+" style="fill: none; stroke-dasharray: 5.55,2.4; stroke-dashoffset: 0; stroke: #d55e00; stroke-width: 1.5"/>
+    </g>
+    <g id="text_16">
+     <text style="font: 11px 'DejaVu Sans'; text-anchor: start" x="109.03" y="46.284219" transform="rotate(-0 109.03 46.284219)">O(n log n)  merge/quick</text>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p465e796dbf">
+   <rect x="68.33" y="11.88" width="366.19" height="210.04"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>Figure 3 — Operations vs input size. The gap is the whole game.</figcaption></figure></section>
+<section><h2>Merge sort, in Python</h2><pre class="code"><code class="language-python">def merge_sort(a):
+    if len(a) &lt;= 1:                      # base case: 0 or 1 element is already sorted
+        return a
+    mid = len(a) // 2
+    left = merge_sort(a[:mid])           # divide
+    right = merge_sort(a[mid:])
+    return _merge(left, right)           # conquer: linear-time merge of two sorted halves
+
+def _merge(left, right):
+    out, i, j = [], 0, 0
+    while i &lt; len(left) and j &lt; len(right):
+        if left[i] &lt;= right[j]:          # &lt;= keeps equal keys in order -&gt; stable
+            out.append(left[i]); i += 1
+        else:
+            out.append(right[j]); j += 1
+    out.extend(left[i:]); out.extend(right[j:])
+    return out
+</code></pre></section>
+<section><h2>The trade-offs at a glance</h2><figure class="fig"><table class='grid'><thead><tr><th>Sort</th><th>Avg time</th><th>Worst time</th><th>Stable?</th><th>In-place?</th></tr></thead><tbody><tr><td>Bubble</td><td>O(n^2)</td><td>O(n^2)</td><td>yes</td><td>yes</td></tr><tr><td>Insertion</td><td>O(n^2)</td><td>O(n^2)</td><td>yes</td><td>yes</td></tr><tr class="hi"><td>Merge</td><td>O(n log n)</td><td>O(n log n)</td><td>yes</td><td>no (O(n) extra)</td></tr><tr><td>Quicksort</td><td>O(n log n)</td><td>O(n^2)</td><td>no</td><td>yes</td></tr></tbody></table><figcaption>Figure 4 — Pick by constraint: memory, stability, worst-case guarantee</figcaption></figure></section>
+<section><h2>Check</h2><div class="check"><div class="check-tag">CHECK — retrieve before revealing</div><div class="check-q"><p>You must sort a huge list and you need a <strong>guaranteed</strong> worst-case time bound, with stability. Which of the four above do you pick, and what is the one cost you accept for it?</p></div><details class="answer"><summary>show answer</summary><div><p><strong>Merge sort.</strong> It is the only one that is *both* stable *and* O(n log n) in the <strong>worst</strong> case (quicksort degrades to O(n^2) worst-case; the quadratic sorts are O(n^2) always). The cost you accept: <strong>O(n) extra memory</strong> — merge sort is not in-place.</p></div></details></div></section>
+</main>
+
+<script>
+  window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+                      svg: { fontCache: 'global' } };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true, theme: 'dark', securityLevel: 'loose' });</script>
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+</body>
+</html>

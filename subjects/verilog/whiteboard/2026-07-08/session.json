@@ -1,0 +1,102 @@
+{
+ "subject": "verilog",
+ "unit": null,
+ "date": "2026-07-08",
+ "fig": 2,
+ "blocks": [
+  {
+   "id": 1,
+   "fig": null,
+   "block": {
+    "type": "say",
+    "md": "From memory - what did we cover last session, and where did we stop?"
+   },
+   "orig": {
+    "type": "say",
+    "md": "From memory - what did we cover last session, and where did we stop?"
+   }
+  },
+  {
+   "id": 2,
+   "fig": null,
+   "block": {
+    "type": "say",
+    "md": "Good - that matches the record. Overview again, properly this time, then we place you and start building."
+   },
+   "orig": {
+    "type": "say",
+    "md": "Good - that matches the record. Overview again, properly this time, then we place you and start building."
+   }
+  },
+  {
+   "id": 3,
+   "fig": 1,
+   "block": {
+    "type": "map",
+    "mermaid": "flowchart TD\n    A[\"1 - Foundations: digital-logic check + the reframe<br/>(Verilog DESCRIBES hardware - it is not a program that runs)\"]\n    B[\"2 - Modules and data<br/>(module, ports, wire vs reg, buses)\"]\n    C[\"3 - Combinational design: gates + assign<br/>PROJECT: 4-bit adder\"]\n    D[\"4 - Behavioral combinational<br/>(always @*, if/case, latch traps)\"]\n    E[\"5 - Behavioral sequential<br/>(posedge clk, flip-flops, counters)\"]\n    F[\"6 - Blocking vs nonblocking **KEYSTONE**<br/>(the #1 source of real-world bugs)\"]\n    G[\"7 - State machines (FSMs)\"]\n    H[\"8 - Testbenches and verification\"]\n    I[\"9 - Scaling: parameters, generate\"]\n    J[\"10 - RTL discipline, synthesis, timing\"]\n    K[\"11 - SystemVerilog -> career track<br/>(internship/job edge starts paying here)\"]\n    A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K\n    style C fill:#fff3bf,stroke:#f08c00,stroke-width:3px\n",
+    "caption": "The whole Verilog path. Highlighted = where you likely are (you have built half/full adders) - we confirm that today. Anchored to IIT-KGP NPTEL + Berkeley EECS151."
+   },
+   "orig": {
+    "type": "map",
+    "mermaid": "flowchart TD\n    A[\"1 - Foundations: digital-logic check + the reframe<br/>(Verilog DESCRIBES hardware - it is not a program that runs)\"]\n    B[\"2 - Modules and data<br/>(module, ports, wire vs reg, buses)\"]\n    C[\"3 - Combinational design: gates + assign<br/>PROJECT: 4-bit adder\"]\n    D[\"4 - Behavioral combinational<br/>(always @*, if/case, latch traps)\"]\n    E[\"5 - Behavioral sequential<br/>(posedge clk, flip-flops, counters)\"]\n    F[\"6 - Blocking vs nonblocking **KEYSTONE**<br/>(the #1 source of real-world bugs)\"]\n    G[\"7 - State machines (FSMs)\"]\n    H[\"8 - Testbenches and verification\"]\n    I[\"9 - Scaling: parameters, generate\"]\n    J[\"10 - RTL discipline, synthesis, timing\"]\n    K[\"11 - SystemVerilog -> career track<br/>(internship/job edge starts paying here)\"]\n    A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K\n    style C fill:#fff3bf,stroke:#f08c00,stroke-width:3px\n",
+    "caption": "The whole Verilog path. Highlighted = where you likely are (you have built half/full adders) - we confirm that today. Anchored to IIT-KGP NPTEL + Berkeley EECS151."
+   }
+  },
+  {
+   "id": 4,
+   "fig": 2,
+   "block": {
+    "type": "map",
+    "mermaid": "flowchart LR\n    U1[\"1a - Foundations audit<br/>binary, gates, flip-flop, clock\"]\n    U2[\"1b - The reframe<br/>code = parallel hardware, all at once\"]\n    U3[\"2 - Modules<br/>ports, instantiation, wire vs reg\"]\n    U4[\"3 - Combinational<br/>structural + dataflow assign\"]\n    P[\"PROJECT: 4-bit ripple-carry adder<br/>from your full adder\"]\n    U1 --> U2 --> U3 --> U4 --> P\n",
+    "caption": "Zoomed: the near-term stretch (stages 1-3). Everything past stage 3 stays a single node until we get there."
+   },
+   "orig": {
+    "type": "map",
+    "mermaid": "flowchart LR\n    U1[\"1a - Foundations audit<br/>binary, gates, flip-flop, clock\"]\n    U2[\"1b - The reframe<br/>code = parallel hardware, all at once\"]\n    U3[\"2 - Modules<br/>ports, instantiation, wire vs reg\"]\n    U4[\"3 - Combinational<br/>structural + dataflow assign\"]\n    P[\"PROJECT: 4-bit ripple-carry adder<br/>from your full adder\"]\n    U1 --> U2 --> U3 --> U4 --> P\n",
+    "caption": "Zoomed: the near-term stretch (stages 1-3). Everything past stage 3 stays a single node until we get there."
+   }
+  },
+  {
+   "id": 5,
+   "fig": null,
+   "block": {
+    "type": "say",
+    "md": "Placement first - answer these three on the board, rough is fine:\n\n1. Your full adder - from memory, what did the code roughly look like? (gate instances wired together? assign equations? an always block? just sketch what you remember)\n\n2. A Verilog module has ten assign statements in a file. In what order do they execute?\n\n3. What does a flip-flop do, and why do digital circuits need a clock at all?"
+   },
+   "orig": {
+    "type": "say",
+    "md": "Placement first - answer these three on the board, rough is fine:\n\n1. Your full adder - from memory, what did the code roughly look like? (gate instances wired together? assign equations? an always block? just sketch what you remember)\n\n2. A Verilog module has ten assign statements in a file. In what order do they execute?\n\n3. What does a flip-flop do, and why do digital circuits need a clock at all?"
+   }
+  },
+  {
+   "id": 6,
+   "fig": null,
+   "block": {
+    "type": "learner",
+    "md": "two hald adders, conncected to count till 3 where each hald adder only counts till 2. all assign statments fire all at once, i still dont know shit about flip flop or digital circuits"
+   },
+   "orig": {
+    "type": "learner",
+    "md": "two hald adders, conncected to count till 3 where each hald adder only counts till 2. all assign statments fire all at once, i still dont know shit about flip flop or digital circuits"
+   }
+  }
+ ],
+ "events": [
+  {
+   "id": 1,
+   "kind": "ask",
+   "time": "20:57:58",
+   "text": "",
+   "path": "C:\\Users\\bhomi\\OneDrive\\Desktop\\claude\\ece'\\subjects\\verilog\\whiteboard\\2026-07-08\\board-205758.png",
+   "via": "typed"
+  },
+  {
+   "id": 2,
+   "kind": "ask",
+   "time": "21:03:26",
+   "text": "two hald adders, conncected to count till 3 where each hald adder only counts till 2. all assign statments fire all at once, i still dont know shit about flip flop or digital circuits",
+   "path": "C:\\Users\\bhomi\\OneDrive\\Desktop\\claude\\ece'\\subjects\\verilog\\whiteboard\\2026-07-08\\board-210326.png",
+   "via": "typed"
+  }
+ ]
+}

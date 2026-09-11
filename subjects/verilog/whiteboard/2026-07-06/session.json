@@ -1,0 +1,61 @@
+{
+ "subject": "verilog",
+ "unit": "00-orientation",
+ "date": "2026-07-06",
+ "fig": 1,
+ "blocks": [
+  {
+   "id": 1,
+   "fig": null,
+   "block": {
+    "type": "say",
+    "md": "This board is now THE whiteboard. Everything I write or draw is an object here - grab any tool from the top bar and draw straight over it: circle things, cross them out, write in the margins. When you want me to look, hit Ask (bottom bar, or the mic) - I get a snapshot of the board exactly as you marked it."
+   },
+   "orig": {
+    "type": "say",
+    "md": "This board is now THE whiteboard. Everything I write or draw is an object here - grab any tool from the top bar and draw straight over it: circle things, cross them out, write in the margins. When you want me to look, hit Ask (bottom bar, or the mic) - I get a snapshot of the board exactly as you marked it."
+   }
+  },
+  {
+   "id": 2,
+   "fig": 1,
+   "block": {
+    "type": "map",
+    "mermaid": "flowchart LR\n    A[I explain here] --> B[you mark it up<br/>circle / cross / write]\n    B --> C[hit Ask]\n    C --> D[I see your marks<br/>and answer below]\n    D --> A\n",
+    "caption": "the loop - try it on this very diagram"
+   },
+   "orig": {
+    "type": "map",
+    "mermaid": "flowchart LR\n    A[I explain here] --> B[you mark it up<br/>circle / cross / write]\n    B --> C[hit Ask]\n    C --> D[I see your marks<br/>and answer below]\n    D --> A\n",
+    "caption": "the loop - try it on this very diagram"
+   }
+  },
+  {
+   "id": 3,
+   "fig": null,
+   "block": {
+    "type": "math",
+    "tex": "V_{out} = V_{in}\\cdot\\frac{1}{\\sqrt{1+(\\omega RC)^2}}",
+    "display": true
+   },
+   "orig": {
+    "type": "math",
+    "tex": "V_{out} = V_{in}\\cdot\\frac{1}{\\sqrt{1+(\\omega RC)^2}}",
+    "display": true
+   }
+  },
+  {
+   "id": 4,
+   "fig": null,
+   "block": {
+    "type": "say",
+    "md": "Try it now: circle any part of the formula or the diagram above, write a question next to it, and press Ask. Your notebook goes on the board too - the camera button drops a photo right here, and Ctrl+V pastes any screenshot."
+   },
+   "orig": {
+    "type": "say",
+    "md": "Try it now: circle any part of the formula or the diagram above, write a question next to it, and press Ask. Your notebook goes on the board too - the camera button drops a photo right here, and Ctrl+V pastes any screenshot."
+   }
+  }
+ ],
+ "events": []
+}
