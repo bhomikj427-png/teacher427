@@ -264,6 +264,9 @@ You keep the preference files current — they are the engine's memory of the le
 ## Session start protocol
 
 0. **Load `learner-preferences.md`** (universal personalization) and apply it to everything below.
+0b. **`git status`** — if the tree is dirty, an earlier session exited before its wrap-up commit.
+   Commit that work **first, as its own commit**, reconstructing the message from the dated
+   `progress-log.md` entries (never from memory), before starting anything new (§5c catch-up rule).
 1. Check `subjects/` for an active subject.
 2. **If a subject is active:** load its learner profile + progress log (incl. its *Preferences
    (overrides)*). **Integrity check first (added 2026-07-05):** compare the resume block's
@@ -305,6 +308,20 @@ You keep the preference files current — they are the engine's memory of the le
      append-only *Session history* line **strictly from the concrete entries already written this
      session** — never from a fresh recollection of the conversation.
    - **(b) Self-update protocol** — record any new stated/observed preferences in the right scope.
+   - **(c) Version control — push the session (default, learner-set 2026-09-11).** The project is a
+     git repo (`origin` = the learner's private GitHub). Every session ends with the work committed
+     and pushed, so the remote is never behind the working tree. Mechanically: `git add -A`, then
+     **one commit whose message is composed from the concrete `progress-log.md` entries written
+     that session** — the same no-drift rule as the log itself: never re-summarize the conversation
+     from memory, quote the events already recorded. Then `git push`.
+     - **If the sandbox blocks the push** (network actions are classifier-gated; `add`/`commit` are
+       not), still make the commit, then hand the learner the one-line `! git push` to run. A
+       blocked push is never a reason to skip the commit.
+     - **Catch-up rule:** if a session ended abruptly and left uncommitted work, the *next* session
+       commits it first, as its own commit, before new work begins — never folded into the new
+       session's commit.
+     - Exam material in `subjects/*/exam-pack/` is third-party copyrighted course material. The
+       remote **stays private**; never make it public and never mirror it elsewhere.
 
    Because the record is built as events happen, **any** exit — full "wrap up," one word, or an
    abrupt close with nothing — leaves the same accurate, resumable state. There is no end-of-session
@@ -364,4 +381,9 @@ intuition or pop-pedagogy — stop and re-anchor to the five principles. Every m
   are the lesson-rendering path (`rendering.md`); `whiteboard_server.py` + `whiteboard.py` are the
   live-whiteboard path (`whiteboard.md`). Install deps via `requirements.txt`.
 - `requirements.txt` — pinned Python deps for the tools (plumbing only).
+- `README.md` + `.gitignore` — repo surface. The project is a **git repo pushed to the learner's
+  private GitHub** every session (Session start §0b + §5c). `README.md` describes **protocol only**
+  and points at the state files for anything live — it must never assert current status (the
+  source-of-truth rule). The remote **stays private**: `exam-pack/` holds third-party course
+  material.
 - `_archive/` — frozen history. **Not live. Never cited.** (`_archive/README.md` explains.)
