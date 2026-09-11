@@ -18,7 +18,7 @@ past, not only on the present inputs.
                           |
                           +--> D FF     Q+ = D
                           +--> JK FF    Q+ = JQ' + K'Q      (fixes SR's forbidden state)
-                          +--> T FF     Q+ = T (+) Q        (toggle)
+                          +--> T FF     Q+ = T ⊕ Q        (toggle)
                           +--> master-slave JK             (fixes race-around)
                                 |
                                 v
@@ -119,7 +119,7 @@ be reached.
   D FF :  Q+ = D
   SR FF:  Q+ = S + R'·Q          (with S·R = 0)
   JK FF:  Q+ = J·Q' + K'·Q
-  T FF :  Q+ = T (+) Q  =  T·Q' + T'·Q
+  T FF :  Q+ = T ⊕ Q  =  T·Q' + T'·Q
 ```
 
 **The JK equation is the one to memorise cold.** Read it: J sets when Q is low, K' holds when Q is
@@ -141,7 +141,7 @@ Given the transition you **want**, what inputs do you **apply**? This is what co
 Read the `T` column as one rule:
 
 ```
-  T = Q (+) Q+           T is 1 exactly when the state must CHANGE
+  T = Q ⊕ Q+           T is 1 exactly when the state must CHANGE
 ```
 
 Read the `J K` column as: each transition constrains only **one** of J and K; the other is a
@@ -219,7 +219,7 @@ Check: `T = 0` gives `J = K = 0` -> hold. `T = 1` gives `J = K = 1` -> toggle. C
 **JK to D:** `J = D`, `K = D'`.
 Check: `D = 1` gives `J = 1, K = 0` -> set. `D = 0` gives `J = 0, K = 1` -> reset. Correct.
 
-**D to T:** `D = T (+) Q`.
+**D to T:** `D = T ⊕ Q`.
 This is the characteristic equation of a T flip-flop fed straight into a D input — one XOR gate.
 
 ---
@@ -232,13 +232,13 @@ This is the characteristic equation of a T flip-flop fed straight into a D input
   T = 1
 ```
 
-From the characteristic equation `Q+ = T (+) Q`: with `T = 1`, `Q+ = 1 (+) Q = Q'`, which is the
+From the characteristic equation `Q+ = T ⊕ Q`: with `T = 1`, `Q+ = 1 ⊕ Q = Q'`, which is the
 toggle. With `T = 0`, `Q+ = Q`, a hold.
 
 The general rule behind it — worth writing as the second line of the answer:
 
 ```
-  T = Q (+) Q+     ->  T = 1 whenever the state must change
+  T = Q ⊕ Q+     ->  T = 1 whenever the state must change
 ```
 
 ---
@@ -323,7 +323,7 @@ edge-triggered JK does not suffer from it — saying otherwise is wrong.
 Set `J = K = T`:
 
 ```
-  Q+ = T·Q' + T'·Q  =  T (+) Q
+  Q+ = T·Q' + T'·Q  =  T ⊕ Q
 ```
 
 which is the T flip-flop's characteristic equation. That substitution *is* the JK-to-T conversion.

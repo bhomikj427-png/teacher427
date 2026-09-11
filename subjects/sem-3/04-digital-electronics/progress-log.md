@@ -54,3 +54,8 @@
 - [2026-09-11] **Where we stopped:** study-pack delivered; learner has not yet worked any drill.
   Next session: start-of-session recall, then a live diagnostic against Drill A Section B to place
   level before teaching (`curriculum.md` U1 entry), scoring order per `knowledge-base/exam-map.md` §5.
+- [2026-09-11] Learner correction (stated): study-pack spelled out `Sigma-m`/`Pi-M`/`(+)` instead
+  of the real symbols — "costing me precious processing time". Fixing all 10 files to Σm / ΠM / ⊕
+  (+ ≥, superscript exponents, log₂). Not a conflict with the ASCII-math rule: that rule bans
+  **TeX** (`$...$`, rac), not Unicode symbols, and the KB already used Σm. Rule logged to
+  `learner-preferences.md` §3 as a hard standing rule for every generated document.

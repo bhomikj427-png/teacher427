@@ -125,7 +125,7 @@ complemented inputs are available.
   OR(C,D) --+
 ```
 
-Each of those ORs is itself 3 NORs, so count carefully. Tree depth grows as log2 of the number of
+Each of those ORs is itself 3 NORs, so count carefully. Tree depth grows as log₂ of the number of
 inputs — two levels of ORing for 4 inputs, three for 8.
 
 ### Bubble pushing (the fast way to read a diagram)
@@ -251,9 +251,9 @@ loses marks even though the logic is right.
 
 1. Convert `F = AB + A'C` to NAND-only. Count the gates.
 2. Convert `F = (A + B)(A' + C)` to NOR-only. Count the gates.
-3. Minimize `F(w,x,y,z) = Sigma-m(0,1,3,5,7,10,11) + d(2,6,13)` and realize using NAND only.
+3. Minimize `F(w,x,y,z) = Σm(0,1,3,5,7,10,11) + d(2,6,13)` and realize using NAND only.
 4. How many 2-input NOR gates to build `F = ABCD`?
-5. Minimize `F(v,w,x,y,z) = Sigma-m(0,2,5,8,10,13,15,17,19,21,26,28,29,30,31) + d(7,12,14,23,24)`
+5. Minimize `F(v,w,x,y,z) = Σm(0,2,5,8,10,13,15,17,19,21,26,28,29,30,31) + d(7,12,14,23,24)`
    and implement using a universal gate.
 6. A gate is drawn as an **OR symbol with both inputs bubbled**. Which standard gate is it?
    And if its output feeds *both* inputs of a second identical gate, what is the overall function?

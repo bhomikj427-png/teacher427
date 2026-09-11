@@ -38,13 +38,13 @@ will be the output? **(2)**
 expression. Also draw the logic circuit using basic gates. **(4)**
 
 ```
-  F(a,b,c,d) = Sigma-m(0, 4, 5, 7, 8, 9, 15) + d(1, 3, 6, 14)
+  F(a,b,c,d) = Σm(0, 4, 5, 7, 8, 9, 15) + d(1, 3, 6, 14)
 ```
 
 **B5.** Implement the following function using single 8:1 Multiplexer. **(4)**
 
 ```
-  F(P,Q,R,S) = Sigma-m(0, 1, 3, 4, 8, 9, 10, 11, 13, 15)
+  F(P,Q,R,S) = Σm(0, 1, 3, 4, 8, 9, 10, 11, 13, 15)
 ```
 
 **B6.** Design Full Adder using suitable decoder. **(4)**
@@ -79,19 +79,19 @@ Ten questions, all from the professor's practice sheet. **Untimed, but write ful
 **P1.** Minimize using K-Map and implement the circuit using universal gate.
 
 ```
-  F(v,w,x,y,z) = Sigma-m(0,2,5,8,10,13,15,17,19,21,26,28,29,30,31) + d(7,12,14,23,24)
+  F(v,w,x,y,z) = Σm(0,2,5,8,10,13,15,17,19,21,26,28,29,30,31) + d(7,12,14,23,24)
 ```
 
 **P2.** Minimize using K-Map and realize using NAND gates only.
 
 ```
-  F(w,x,y,z) = Sigma-m(0,1,3,5,7,10,11) + d(2,6,13)
+  F(w,x,y,z) = Σm(0,1,3,5,7,10,11) + d(2,6,13)
 ```
 
 **P3.** Implement using 8:1 Multiplexer.
 
 ```
-  F(a,b,c,d) = Sigma-m(0,1,3,5,7,9,15)
+  F(a,b,c,d) = Σm(0,1,3,5,7,9,15)
 ```
 
 **P4.** Design a combinational circuit having 4 inputs that will produce an output `1` when two
@@ -101,21 +101,21 @@ consecutive input bits are 1, and `0` for other cases.
 4:1 Multiplexer. Take `D` as input variable.
 
 ```
-  F(A,B,C,D) = Sigma-m(0,2,7,8,9,11,13,14,15)
+  F(A,B,C,D) = Σm(0,2,7,8,9,11,13,14,15)
 ```
 
 **P6.** Implement using 8:1 Multiplexer.
 
 ```
-  F(P,Q,R,S) = Sigma-m(0,2,5,9,11,12,14,15)
+  F(P,Q,R,S) = Σm(0,2,5,9,11,12,14,15)
 ```
 
-**P7.** Realize the Boolean function `Y = Pi-M(0,3,5,6,7)` with a Decoder and one NOR gate.
+**P7.** Realize the Boolean function `Y = ΠM(0,3,5,6,7)` with a Decoder and one NOR gate.
 
 **P8.** Implement the following function using suitable decoder.
 
 ```
-  F(a,b,c,d) = Sigma-m(0,1,2,5,6,8,9,15)
+  F(a,b,c,d) = Σm(0,1,2,5,6,8,9,15)
 ```
 
 **P9.** Draw the logic diagram of a 4-bit odd/even parity generator.
@@ -164,11 +164,11 @@ It is the cheapest mark on the paper.
 both inputs tied to P. Full working: file `01`, worked example 1, and file `02`.
 
 **A2.** `1011` has **three** 1s, an odd count, so the even-parity bit is **1**:
-`P = 1 (+) 0 (+) 1 (+) 1 = 1`. The transmitted word `10111` then has four 1s. Full working: file
+`P = 1 ⊕ 0 ⊕ 1 ⊕ 1 = 1`. The transmitted word `10111` then has four 1s. Full working: file
 `03`.
 
-**A3.** `T = 1`. From `Q+ = T (+) Q`, setting `T = 1` gives `Q+ = Q'`. General rule:
-`T = Q (+) Q+`. Full working: file `07`.
+**A3.** `T = 1`. From `Q+ = T ⊕ Q`, setting `T = 1` gives `Q+ = Q'`. General rule:
+`T = Q ⊕ Q+`. Full working: file `07`.
 
 **B4.**
 
@@ -191,8 +191,8 @@ Full pairing table and diagram: file `04`, worked example 1.
 **B6.** 3-to-8 decoder with inputs `A, B, Cin`, two OR gates:
 
 ```
-  Sum  = D1 + D2 + D4 + D7        (Sum  = Sigma-m(1,2,4,7))
-  Cout = D3 + D5 + D6 + D7        (Cout = Sigma-m(3,5,6,7))
+  Sum  = D1 + D2 + D4 + D7        (Sum  = Σm(1,2,4,7))
+  Cout = D3 + D5 + D6 + D7        (Cout = Σm(3,5,6,7))
 ```
 
 `D7` feeds both gates. With active-low decoder outputs use NAND gates instead. Full diagram:
@@ -264,7 +264,7 @@ File `04`, self-test 1.
 **P4.** Inputs `A B C D` in order; consecutive pairs are `(A,B)`, `(B,C)`, `(C,D)`.
 
 ```
-  F = A·B + B·C + C·D          = Sigma-m(3,6,7,11,12,13,14,15)
+  F = A·B + B·C + C·D          = Σm(3,6,7,11,12,13,14,15)
 ```
 
 K-map confirmation (rows `AB`, columns `CD`):
@@ -299,7 +299,7 @@ worked example 2.
 
 File `04`, self-test 2.
 
-**P7.** `Pi-M(0,3,5,6,7)` means Y is **0** at those five indices.
+**P7.** `ΠM(0,3,5,6,7)` means Y is **0** at those five indices.
 
 ```
   Y = ( D0 + D3 + D5 + D6 + D7 )'
@@ -319,8 +319,8 @@ With active-low outputs, use an 8-input NAND. File `05`, self-test 1.
 **P9.**
 
 ```
-  Even parity generator:  P = A (+) B (+) C (+) D
-  Odd parity generator:   P = ( A (+) B (+) C (+) D )'
+  Even parity generator:  P = A ⊕ B ⊕ C ⊕ D
+  Odd parity generator:   P = ( A ⊕ B ⊕ C ⊕ D )'
 ```
 
 Three XOR gates in a tree; for odd parity the final stage is an XNOR (or add one inverter).

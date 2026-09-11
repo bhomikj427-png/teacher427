@@ -47,7 +47,7 @@ in the MSI-devices unit and the question forms are short. Work this file after 0
 
 ```
   L = A'·B
-  E = A (+) B  complemented  =  XNOR(A, B)  =  A·B + A'·B'
+  E = A ⊕ B  complemented  =  XNOR(A, B)  =  A·B + A'·B'
   G = A·B'
 ```
 
@@ -123,7 +123,7 @@ replicates the sign bit to keep the value correct.
 A combinational shifter that shifts by **any amount in one operation**, no clock, no repeated
 single-bit shifts.
 
-Built as **log2(n) stages of 2:1 MUXes**, each stage shifting by a power of two:
+Built as **log₂(n) stages of 2:1 MUXes**, each stage shifting by a power of two:
 
 ```
   8-bit barrel shifter, shift amount S2 S1 S0
@@ -136,7 +136,7 @@ Built as **log2(n) stages of 2:1 MUXes**, each stage shifting by a power of two:
 Any shift 0-7 is the sum of those powers: shift 5 = 4 + 1, so stages 1 and 3 act and stage 2 passes
 through.
 
-**For an n-bit barrel shifter: log2(n) stages, log2(n) select lines, n·log2(n) MUXes.**
+**For an n-bit barrel shifter: log₂(n) stages, log₂(n) select lines, n·log₂(n) MUXes.**
 
 ### ALU
 
@@ -193,7 +193,7 @@ gating is the mechanism to describe in an exam answer.
 
 ## Traps
 
-**Equality is XNOR, not XOR.** XOR is the *inequality* detector. Writing `x_i = A_i (+) B_i` inverts
+**Equality is XNOR, not XOR.** XOR is the *inequality* detector. Writing `x_i = A_i ⊕ B_i` inverts
 the whole comparator.
 
 **Higher bits gate lower bits.** Every lower-order term in a magnitude comparator carries the
@@ -204,7 +204,7 @@ the whole comparator.
 **right** shift only. A question asking for both on the left is testing whether you know they
 coincide.
 
-**Barrel shifter stages are powers of two, not one each.** `log2(n)` stages, not `n`.
+**Barrel shifter stages are powers of two, not one each.** `log₂(n)` stages, not `n`.
 
 ---
 
@@ -239,8 +239,8 @@ coincide.
 Careful with the last one: `NAND(n1, n2) = (n1·n2)'`. With `n1 = (A'B)'` and `n2 = (AB')'`,
 
 ```
-  n1 · n2 = (A'B)'·(AB')' = (A'B + AB')' = (A (+) B)'
-  E = ( (A (+) B)' )' = A (+) B          -- that is XOR, not XNOR
+  n1 · n2 = (A'B)'·(AB')' = (A'B + AB')' = (A ⊕ B)'
+  E = ( (A ⊕ B)' )' = A ⊕ B          -- that is XOR, not XNOR
 ```
 
 So `NAND(n1, n2)` gives XOR. Invert once more:
@@ -308,7 +308,7 @@ exists.
 Check the rotate: the two LSBs `10` come off the right and reappear at the left of the remaining
 `1101`, giving `10` + `1101` = `101101`.
 
-**5.** 16-bit barrel shifter: `log2(16) = 4` stages, each with 16 MUXes.
+**5.** 16-bit barrel shifter: `log₂(16) = 4` stages, each with 16 MUXes.
 
 ```
   4 × 16 = 64 two-input MUXes,  4 select lines  (shift amounts 0 to 15)

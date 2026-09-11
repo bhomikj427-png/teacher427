@@ -150,6 +150,18 @@ prefers minimal prose, wants diagrams described, etc.)*
   still covered, but split across linked maps + an explicit order — never one dense view. Better
   intrinsic-load management than the superseded rule (principle 3). Applies to **every subject**.
 
+- [stated 2026-09-11] **Use the real symbol, never a spelled-out or ASCII-substitute name — HARD
+  rule, every generated document and every terminal turn.** Writing `Sigma-m`, `Pi-M`, `(+)`, `>=`
+  forces the learner to decode the substitute back into the symbol: "really costing me precious
+  processing time." → write **Σ Π ⊕ ⊙ ≥ ≤ ≠ ± √ ∞ ∈ ∴ Δ Ω μ** and superscripts/subscripts
+  (2ⁿ, log₂, Q₀) directly as Unicode. Standard domain notation stays as the domain writes it —
+  `A'` for complement, `·` for AND, `+` for OR are correct as-is and are NOT substitutes.
+  **This refines, and does not contradict, the 2026-06-19 ASCII-math rule above:** that rule bans
+  **TeX** (`$...$`, `\frac`, `\mid`) because it does not render — Unicode symbols render fine
+  everywhere, including the terminal, and the knowledge base already used Σm. Applies to
+  study-pack generation, lessons, KB files and terminal dialogue alike. Retrofitted across all 10
+  Digital Electronics study-pack files the day it was stated.
+
 ## 4. Autonomy & choice
 *(How much the learner wants to steer — pick next topic, choose examples, set pace. Unseeded.)*
 
@@ -236,3 +248,8 @@ without breaking the method.)*
 - 2026-09-11 — Logged a §7 tension: learner requested readable study .md files (Digital Electronics
   MTE). Resolved by making every file question-first with answers separated to the bottom —
   format honored, retrieval mechanism preserved. Sets the default shape for future study documents.
+- 2026-09-11 — Added a hard §3 notation rule (learner, mid-session): **real symbols only — Σ, Π, ⊕,
+  ≥, superscripts — never spelled-out or ASCII-substitute names.** Reason given: decoding
+  substitutes costs reading time. Clarified that it refines rather than reverses the ASCII-math
+  rule (TeX is still banned; Unicode is not TeX). All 10 Digital Electronics study-pack files
+  retrofitted the same day.

@@ -20,7 +20,7 @@ Everything on this page is built from one gate: **XOR**. Sum is XOR. Difference 
 XOR. Learn the XOR identities and most of this file collapses.
 
 ```
-  A (+) 0 = A          A (+) 1 = A'         A (+) A = 0         A (+) A' = 1
+  A ⊕ 0 = A          A ⊕ 1 = A'         A ⊕ A = 0         A ⊕ A' = 1
   XOR of n bits = 1  exactly when the number of 1s is ODD
 ```
 
@@ -51,7 +51,7 @@ Adds two bits. No carry input.
 | 1 | 1 | 0 | 1 |
 
 ```
-  Sum   = A (+) B
+  Sum   = A ⊕ B
   Carry = A · B
 ```
 
@@ -71,12 +71,12 @@ Adds two bits **plus a carry in** — the cell you actually chain.
 | 1 | 1 | 1 | 1 | 1 |
 
 ```
-  Sum  = A (+) B (+) Cin                      = Sigma-m(1, 2, 4, 7)
-  Cout = A·B + B·Cin + A·Cin                  = Sigma-m(3, 5, 6, 7)
-       = A·B + Cin·(A (+) B)                  <- the two-half-adder form
+  Sum  = A ⊕ B ⊕ Cin                      = Σm(1, 2, 4, 7)
+  Cout = A·B + B·Cin + A·Cin                  = Σm(3, 5, 6, 7)
+       = A·B + Cin·(A ⊕ B)                  <- the two-half-adder form
 ```
 
-**Memorise `Sum = Sigma-m(1,2,4,7)` and `Cout = Sigma-m(3,5,6,7)`.** The decoder question in file 05
+**Memorise `Sum = Σm(1,2,4,7)` and `Cout = Σm(3,5,6,7)`.** The decoder question in file 05
 and the MUX questions in file 04 both start from those two index sets.
 
 ### Full adder from two half adders
@@ -93,8 +93,8 @@ and the MUX questions in file 04 both start from those two index sets.
               C2 --+
 ```
 
-- HA1: `S1 = A (+) B`, `C1 = A·B`
-- HA2: `Sum = S1 (+) Cin`, `C2 = S1·Cin`
+- HA1: `S1 = A ⊕ B`, `C1 = A·B`
+- HA2: `Sum = S1 ⊕ Cin`, `C2 = S1·Cin`
 - `Cout = C1 + C2`
 
 **An OR joins them, and an XOR would work equally well here** — C1 and C2 can never both be 1 at
@@ -123,7 +123,7 @@ Compute the carries from the inputs directly instead of waiting for them.
 
 ```
   Generate:   G_i = A_i · B_i             this bit makes a carry by itself
-  Propagate:  P_i = A_i (+) B_i           this bit passes an incoming carry along
+  Propagate:  P_i = A_i ⊕ B_i           this bit passes an incoming carry along
 
   C_(i+1) = G_i + P_i · C_i
 ```
@@ -144,16 +144,16 @@ gate count, which is why real designs use 4-bit look-ahead blocks chained togeth
 **Half subtractor** (A - B):
 
 ```
-  Difference = A (+) B
+  Difference = A ⊕ B
   Borrow     = A' · B
 ```
 
 **Full subtractor** (A - B - Bin):
 
 ```
-  Difference = A (+) B (+) Bin
+  Difference = A ⊕ B ⊕ Bin
   Bout       = A'·B + A'·Bin + B·Bin
-             = A'·B + Bin·(A (+) B)'
+             = A'·B + Bin·(A ⊕ B)'
 ```
 
 **Note the difference from the adder:** `Sum` and `Difference` are the *same* expression; only the
@@ -176,7 +176,7 @@ Use 2's complement. XOR each B bit with a mode line M, and feed M into Cin:
 ```
 
 One 4-bit adder plus four XOR gates does both operations. **Overflow** (signed) is flagged by
-`C_n (+) C_(n-1)` — the carry into the sign bit differing from the carry out of it.
+`C_n ⊕ C_(n-1)` — the carry into the sign bit differing from the carry out of it.
 
 ### BCD adder
 
@@ -232,7 +232,7 @@ carry-look-ahead.
 **Even parity generator** outputs the bit that makes the *total* number of 1s even:
 
 ```
-  P_even = A (+) B (+) C (+) D
+  P_even = A ⊕ B ⊕ C ⊕ D
 ```
 
 It is 1 exactly when the data word has an **odd** number of 1s — that extra 1 is what makes the
@@ -241,7 +241,7 @@ total even. This inversion of wording is the whole trap.
 **Odd parity generator** is the complement:
 
 ```
-  P_odd = ( A (+) B (+) C (+) D )'          = XNOR at the final stage
+  P_odd = ( A ⊕ B ⊕ C ⊕ D )'          = XNOR at the final stage
 ```
 
 **Checker:** XOR all data bits together with the received parity bit. For an even-parity system the
@@ -269,7 +269,7 @@ to any even number — two flipped bits pass as clean.
 Count the 1s in `1011`: **three**, which is odd.
 
 ```
-  P = 1 (+) 0 (+) 1 (+) 1 = 1
+  P = 1 ⊕ 0 ⊕ 1 ⊕ 1 = 1
 ```
 
 **Output = 1.**
@@ -316,28 +316,28 @@ sum > 9" is true but unmarked — the question wants the detection logic.
 
 ```
   Form 1:  Cout = A·B + B·Cin + A·Cin
-  Form 2:  Cout = A·B + Cin·(A (+) B)
+  Form 2:  Cout = A·B + Cin·(A ⊕ B)
 ```
 
-Expand form 2: `A (+) B = A'B + AB'`, so
+Expand form 2: `A ⊕ B = A'B + AB'`, so
 
 ```
-  Cin·(A (+) B) = A'·B·Cin + A·B'·Cin
+  Cin·(A ⊕ B) = A'·B·Cin + A·B'·Cin
   Cout = A·B + A'·B·Cin + A·B'·Cin
 ```
 
 Compare with form 1. Where `A·B = 1`, both give 1. Where `A·B = 0`, form 1 reduces to
-`Cin·(A + B)` with A and B not both 1, which is exactly `Cin·(A (+) B)`. Equal on all 8 rows.
+`Cin·(A + B)` with A and B not both 1, which is exactly `Cin·(A ⊕ B)`. Equal on all 8 rows.
 
 **2.** Full subtractor, A - B - Bin:
 
 ```
-  Difference = A (+) B (+) Bin
-  Bout       = A'·B + A'·Bin + B·Bin      =  A'·B + Bin·(A (+) B)'
+  Difference = A ⊕ B ⊕ Bin
+  Bout       = A'·B + A'·Bin + B·Bin      =  A'·B + Bin·(A ⊕ B)'
 ```
 
 Verify the 1s: Bout = 1 for `(A,B,Bin)` = 001, 010, 011, 111. Check 001: `A'B = 0`,
-`Bin·(A(+)B)' = 1 · (0(+)0)' = 1 · 1 = 1`. Correct.
+`Bin·(A⊕B)' = 1 · (0⊕0)' = 1 · 1 = 1`. Correct.
 
 **3.** Ripple: `4 × 12 = 48 ns`.
 Carry-look-ahead: 2 levels × 5 ns = **10 ns**, independent of the word length (before the extra
@@ -366,11 +366,11 @@ which produce no binary carry.
    D --+
 ```
 
-Equivalently, three XORs followed by a NOT. `P_odd = (A (+) B (+) C (+) D)'`.
+Equivalently, three XORs followed by a NOT. `P_odd = (A ⊕ B ⊕ C ⊕ D)'`.
 
-**6.** No. `C1 = A·B` and `C2 = S1·Cin` where `S1 = A (+) B`.
+**6.** No. `C1 = A·B` and `C2 = S1·Cin` where `S1 = A ⊕ B`.
 
-If `C1 = 1` then `A = B = 1`, so `S1 = 1 (+) 1 = 0`, so `C2 = 0`.
+If `C1 = 1` then `A = B = 1`, so `S1 = 1 ⊕ 1 = 0`, so `C2 = 0`.
 If `C2 = 1` then `S1 = 1`, so A and B differ, so `A·B = 0`, so `C1 = 0`.
 
 They are mutually exclusive, which is why OR and XOR both work as the final carry gate.

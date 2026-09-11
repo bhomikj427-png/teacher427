@@ -1,13 +1,13 @@
 # 01 — Boolean Algebra and K-Maps
 
-Notation in this pack: `A'` = NOT A · `+` = OR · `·` or juxtaposition = AND · `(+)` = XOR.
+Notation in this pack: `A'` = NOT A · `+` = OR · `·` or juxtaposition = AND · `⊕` = XOR.
 
 ---
 
 ## Map
 
 ```
-   Truth table  <---->  Sigma-m (SOP)  <---->  Pi-M (POS)
+   Truth table  <---->  Σm (SOP)  <---->  ΠM (POS)
                               |
                               v
                         K-map plotting
@@ -26,10 +26,10 @@ Notation in this pack: `A'` = NOT A · `+` = OR · `·` or juxtaposition = AND �
 ## Attempt first
 
 1. Write `F = A'B' + A'` in its simplest form. How many gates does it need?
-2. `F(a,b,c) = Sigma-m(1,3,5)`. Write the same function as a product of maxterms.
+2. `F(a,b,c) = Σm(1,3,5)`. Write the same function as a product of maxterms.
 3. In a 4-variable K-map, are cells m0 and m8 adjacent? m0 and m10?
 4. A K-map has a don't-care sitting alone in a corner with no adjacent 1. What do you do with it?
-5. `F(a,b,c,d) = Sigma-m(0,4,5,7,8,9,15) + d(1,3,6,14)`. Minimize it.
+5. `F(a,b,c,d) = Σm(0,4,5,7,8,9,15) + d(1,3,6,14)`. Minimize it.
 
 ---
 
@@ -53,7 +53,7 @@ Notation in this pack: `A'` = NOT A · `+` = OR · `·` or juxtaposition = AND �
 
 ### Σm and ΠM are the same function
 
-For n variables, indices run 0 to 2^n - 1.
+For n variables, indices run 0 to 2ⁿ - 1.
 
 - **Minterm** m_i = the AND term that is 1 only at row i. Variable **complemented where the bit is 0**.
 - **Maxterm** M_i = the OR term that is 0 only at row i. Variable **complemented where the bit is 1**.
@@ -61,10 +61,10 @@ For n variables, indices run 0 to 2^n - 1.
 Note the inversion — this is trap T5.
 
 ```
-  Sigma-m(set S)  =  Pi-M(all indices NOT in S)
+  Σm(set S)  =  ΠM(all indices NOT in S)
 ```
 
-Example, 3 variables: `Sigma-m(1,3,5)` = `Pi-M(0,2,4,6,7)`.
+Example, 3 variables: `Σm(1,3,5)` = `ΠM(0,2,4,6,7)`.
 
 For a=1,b=0,c=1 (index 5): m5 = `a b' c`, M5 = `a' + b + c'`.
 
@@ -160,7 +160,7 @@ tied-input NOR inverter.
 
 ## Worked — MTE 2025 Q4 (4 marks)
 
-> Minimize `F(a,b,c,d) = Sigma-m(0,4,5,7,8,9,15) + d(1,3,6,14)` using a K-map. Draw the logic
+> Minimize `F(a,b,c,d) = Σm(0,4,5,7,8,9,15) + d(1,3,6,14)` using a K-map. Draw the logic
 > circuit using basic gates.
 
 **Plot.** 1 = minterm, X = don't-care, 0 = everything else.
@@ -229,8 +229,8 @@ wrap-around in both directions.
 **T4 — missed wrap.** The four corners m0, m2, m8, m10 form a legal group of 4 (`b'd'` in the
 ab/cd layout). It looks wrong on paper and is right.
 
-**T5 — ΠM read as Σm.** `Pi-M(0,3,5,6,7)` over 3 variables means the function is **0** at 0,3,5,6,7
-and **1** at 1,2,4. Convert to `Sigma-m(1,2,4)` first, then plot.
+**T5 — ΠM read as Σm.** `ΠM(0,3,5,6,7)` over 3 variables means the function is **0** at 0,3,5,6,7
+and **1** at 1,2,4. Convert to `Σm(1,2,4)` first, then plot.
 
 **T3 — no circuit drawn.** "Also draw the logic circuit" is worth marks on its own. A minimized
 expression with no diagram loses them.
@@ -240,12 +240,12 @@ expression with no diagram loses them.
 ## Self-test
 
 1. Simplify `F = AB + A'C + BC` and name the law.
-2. `F(a,b,c) = Pi-M(0,3,5,6,7)`. Convert to Σm form and minimize.
-3. Minimize `F(w,x,y,z) = Sigma-m(0,1,3,5,7,10,11) + d(2,6,13)`.
-4. Minimize `F(A,B,C,D) = Sigma-m(0,2,8,10)`. How many literals?
-5. `F(a,b,c,d) = Sigma-m(0,4,5,7,8,9,15) + d(1,3,6,14)` — give the **other** minimal form, the one
+2. `F(a,b,c) = ΠM(0,3,5,6,7)`. Convert to Σm form and minimize.
+3. Minimize `F(w,x,y,z) = Σm(0,1,3,5,7,10,11) + d(2,6,13)`.
+4. Minimize `F(A,B,C,D) = Σm(0,2,8,10)`. How many literals?
+5. `F(a,b,c,d) = Σm(0,4,5,7,8,9,15) + d(1,3,6,14)` — give the **other** minimal form, the one
    not used in the worked solution above, and confirm it has the same cost.
-6. Five-variable: minimize `F(v,w,x,y,z) = Sigma-m(0,2,5,8,10,13,15,17,19,21,26,28,29,30,31) +
+6. Five-variable: minimize `F(v,w,x,y,z) = Σm(0,2,5,8,10,13,15,17,19,21,26,28,29,30,31) +
    d(7,12,14,23,24)`.
 
 ---
@@ -257,7 +257,7 @@ expression with no diagram loses them.
 **1.** Consensus law. `AB + A'C + BC = AB + A'C`. The `BC` term is implied by the other two: wherever
 BC = 1, either A = 1 (so AB = 1) or A = 0 (so A'C = 1).
 
-**2.** `Pi-M(0,3,5,6,7)` = `Sigma-m(1,2,4)`.
+**2.** `ΠM(0,3,5,6,7)` = `Σm(1,2,4)`.
 
 ```
           bc=00   bc=01   bc=11   bc=10

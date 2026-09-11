@@ -10,12 +10,12 @@ more times in the practice set.
 ```
    MUX = many inputs -> one output, chosen by select lines
         |
-        +--> 2^n : 1 MUX has n select lines
+        +--> 2ⁿ : 1 MUX has n select lines
         |
         +--> USE 1: data routing
         +--> USE 2: implement any Boolean function   <-- this is what gets examined
                       |
-                      +--> exact fit:  n vars on a 2^(n-1):1 MUX, last var as data
+                      +--> exact fit:  n vars on a 2⁽ⁿ⁻¹⁾:1 MUX, last var as data
                       +--> undersized: n vars on a smaller MUX, data = f(leftovers)
                       +--> cascading:  build a big MUX from small ones
 
@@ -31,7 +31,7 @@ more times in the practice set.
 2. Write the output equation of a 4:1 MUX in terms of `S1, S0, I0..I3`.
 3. You must implement a 4-variable function on an 8:1 MUX. Which variables become selects, and what
    are the four possible values a data input can take?
-4. `F(P,Q,R,S) = Sigma-m(0,1,3,4,8,9,10,11,13,15)` on one 8:1 MUX. Give `D0` through `D7`.
+4. `F(P,Q,R,S) = Σm(0,1,3,4,8,9,10,11,13,15)` on one 8:1 MUX. Give `D0` through `D7`.
 5. What changes if you are given only a **4:1** MUX for a 4-variable function?
 
 ---
@@ -40,7 +40,7 @@ more times in the practice set.
 
 ### Structure
 
-A `2^n : 1` MUX has **n select lines** and `2^n` data inputs. The select word is a binary number
+A `2ⁿ : 1` MUX has **n select lines** and `2ⁿ` data inputs. The select word is a binary number
 that picks one data input and copies it to the output.
 
 4:1 MUX:
@@ -63,7 +63,7 @@ of the select variables, with each minterm weighted by its data input.
 
 ### Implementing a function — the exact-fit method
 
-To put an **n-variable** function on a **2^(n-1) : 1** MUX:
+To put an **n-variable** function on a **2⁽ⁿ⁻¹⁾ : 1** MUX:
 
 1. Use the **n-1 most significant variables as the select lines**, in order.
 2. The **least significant variable** becomes the data variable.
@@ -104,7 +104,7 @@ Method: group the truth table in **blocks of four** (one block per select value)
 block as a function of the two remaining variables.
 
 Possible data-input values are now any function of two variables: `0`, `1`, `C`, `C'`, `D`, `D'`,
-`CD`, `C+D`, `C (+) D`, `C'+D`, and so on.
+`CD`, `C+D`, `C ⊕ D`, `C'+D`, and so on.
 
 ### Cascading
 
@@ -123,7 +123,7 @@ Alternatively use the **enable** pins: drive enables from the MSB and OR the out
 
 ### Demultiplexer
 
-One input, `2^n` outputs, n selects. The data goes to the selected output; the rest sit at 0.
+One input, `2ⁿ` outputs, n selects. The data goes to the selected output; the rest sit at 0.
 
 ```
   Y_i = D  when select = i,  else 0
@@ -138,7 +138,7 @@ equivalence.
 ## Worked — MTE 2025 Q5 (4 marks)
 
 > Implement the following function using a single 8:1 Multiplexer.
-> `F(P,Q,R,S) = Sigma-m(0, 1, 3, 4, 8, 9, 10, 11, 13, 15)`
+> `F(P,Q,R,S) = Σm(0, 1, 3, 4, 8, 9, 10, 11, 13, 15)`
 
 **Step 1 — assign.** 8:1 MUX has 3 selects. Four variables, so:
 
@@ -184,7 +184,7 @@ the minterm list. Correct.
 
 ## Worked — practice Q5: the undersized 4:1
 
-> Implement `F(A,B,C,D) = Sigma-m(0,2,7,8,9,11,13,14,15)` using **only a 4:1 Multiplexer**.
+> Implement `F(A,B,C,D) = Σm(0,2,7,8,9,11,13,14,15)` using **only a 4:1 Multiplexer**.
 
 Two selects, so `A` and `B` become selects and **both C and D are left over**.
 
@@ -243,9 +243,9 @@ the pin blank.
 
 ## Self-test
 
-1. Implement `F(a,b,c,d) = Sigma-m(0,1,3,5,7,9,15)` on an 8:1 MUX.
-2. Implement `F(P,Q,R,S) = Sigma-m(0,2,5,9,11,12,14,15)` on an 8:1 MUX.
-3. Implement `F(a,b,c) = Sigma-m(1,3,5,6)` on a 4:1 MUX with `a`, `b` as selects.
+1. Implement `F(a,b,c,d) = Σm(0,1,3,5,7,9,15)` on an 8:1 MUX.
+2. Implement `F(P,Q,R,S) = Σm(0,2,5,9,11,12,14,15)` on an 8:1 MUX.
+3. Implement `F(a,b,c) = Σm(1,3,5,6)` on a 4:1 MUX with `a`, `b` as selects.
 4. Build an 8:1 MUX from 4:1 MUXes and any additional gates. How many 4:1 MUXes?
 5. Implement a **full adder** using two 8:1 MUXes.
 6. Show how a 3-to-8 decoder with an active-high enable behaves as a 1-to-8 demultiplexer.
@@ -256,7 +256,7 @@ the pin blank.
 
 ## Answers
 
-**1.** `F(a,b,c,d) = Sigma-m(0,1,3,5,7,9,15)`. Selects `a, b, c`; data variable `d`.
+**1.** `F(a,b,c,d) = Σm(0,1,3,5,7,9,15)`. Selects `a, b, c`; data variable `d`.
 
 | abc | pair | F, F | Data |
 |---|---|---|---|
@@ -269,7 +269,7 @@ the pin blank.
 | 110 | m12, m13 | 0, 0 | `D6 = 0` |
 | 111 | m14, m15 | 0, 1 | `D7 = d` |
 
-**2.** `F(P,Q,R,S) = Sigma-m(0,2,5,9,11,12,14,15)`. Selects `P, Q, R`; data variable `S`.
+**2.** `F(P,Q,R,S) = Σm(0,2,5,9,11,12,14,15)`. Selects `P, Q, R`; data variable `S`.
 
 | PQR | pair | F, F | Data |
 |---|---|---|---|
@@ -282,7 +282,7 @@ the pin blank.
 | 110 | m12, m13 | 1, 0 | `D6 = S'` |
 | 111 | m14, m15 | 1, 1 | `D7 = 1` |
 
-**3.** `F(a,b,c) = Sigma-m(1,3,5,6)`, selects `a, b`, data variable `c`.
+**3.** `F(a,b,c) = Σm(1,3,5,6)`, selects `a, b`, data variable `c`.
 
 | ab | pair | F, F | Data |
 |---|---|---|---|
@@ -302,7 +302,7 @@ the pin blank.
 **Two 4:1 MUXes.** The enable-based alternative: drive MUX A's enable with `S2'` and MUX B's with
 `S2`, then OR the two outputs — no third MUX, one OR gate.
 
-**5.** Full adder: `Sum = Sigma-m(1,2,4,7)`, `Cout = Sigma-m(3,5,6,7)`, variables `A, B, Cin`.
+**5.** Full adder: `Sum = Σm(1,2,4,7)`, `Cout = Σm(3,5,6,7)`, variables `A, B, Cin`.
 
 An 8:1 MUX with all three variables as selects needs no data variable at all — tie each data input
 to the truth-table value:

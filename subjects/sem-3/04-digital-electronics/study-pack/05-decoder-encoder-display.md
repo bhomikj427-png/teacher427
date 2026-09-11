@@ -5,17 +5,17 @@
 ## Map
 
 ```
-   DECODER: n inputs -> 2^n outputs, exactly ONE active
+   DECODER: n inputs -> 2ⁿ outputs, exactly ONE active
         |
         +--> each output line IS one minterm
         |         |
-        |         +--> active-HIGH outputs + OR gate  -> implement Sigma-m
-        |         +--> active-HIGH outputs + NOR gate -> implement Pi-M
-        |         +--> active-LOW  outputs + NAND gate -> implement Sigma-m
+        |         +--> active-HIGH outputs + OR gate  -> implement Σm
+        |         +--> active-HIGH outputs + NOR gate -> implement ΠM
+        |         +--> active-LOW  outputs + NAND gate -> implement Σm
         |
         +--> with an enable = DEMUX (file 04)
 
-   ENCODER: 2^n inputs -> n outputs (the inverse)
+   ENCODER: 2ⁿ inputs -> n outputs (the inverse)
         |
         +--> priority encoder fixes the multiple-input ambiguity
 
@@ -31,8 +31,8 @@
 
 1. A 3-to-8 decoder is given `A=1, B=0, C=1`. Which output is active?
 2. Why can any Sum-of-Products function be built from a decoder and one OR gate?
-3. `Sum` of a full adder is `Sigma-m(1,2,4,7)`. Which decoder outputs feed the OR gate?
-4. `Y = Pi-M(0,3,5,6,7)`. Realize it with a decoder and **one NOR** gate.
+3. `Sum` of a full adder is `Σm(1,2,4,7)`. Which decoder outputs feed the OR gate?
+4. `Y = ΠM(0,3,5,6,7)`. Realize it with a decoder and **one NOR** gate.
 5. What goes wrong in a plain 8-to-3 encoder if two inputs are high at once?
 6. A common-anode display is driven by a BCD decoder. Is segment `a` driven high or low to light it?
 
@@ -42,7 +42,7 @@
 
 ### Decoder
 
-An n-to-2^n decoder activates exactly one output line for each input combination.
+An n-to-2ⁿ decoder activates exactly one output line for each input combination.
 
 3-to-8 decoder, active-high outputs:
 
@@ -64,18 +64,18 @@ An n-to-2^n decoder activates exactly one output line for each input combination
 
 | Decoder output type | Function form wanted | Collecting gate |
 |---|---|---|
-| Active **high** | `Sigma-m` (SOP) | **OR** |
-| Active **high** | `Pi-M` (POS) | **NOR** |
-| Active **low** | `Sigma-m` (SOP) | **NAND** |
-| Active **low** | `Pi-M` (POS) | **AND** |
+| Active **high** | `Σm` (SOP) | **OR** |
+| Active **high** | `ΠM` (POS) | **NOR** |
+| Active **low** | `Σm` (SOP) | **NAND** |
+| Active **low** | `ΠM` (POS) | **AND** |
 
-**Active-high + OR:** `F = Sigma-m(a,b,c)` means `F = D_a + D_b + D_c`. Wire those lines to an OR.
+**Active-high + OR:** `F = Σm(a,b,c)` means `F = D_a + D_b + D_c`. Wire those lines to an OR.
 
-**Active-high + NOR:** `F = Pi-M(a,b,c)` means F is **0** at those indices. So
+**Active-high + NOR:** `F = ΠM(a,b,c)` means F is **0** at those indices. So
 `F = (D_a + D_b + D_c)'` — a NOR over the maxterm lines. This is practice Q7.
 
 **Active-low + NAND:** with active-low outputs each line is `(minterm)'`, so
-`NAND` of the selected lines gives back `Sigma-m`. De Morgan again.
+`NAND` of the selected lines gives back `Σm`. De Morgan again.
 
 **Cost note:** one decoder serves **several functions at once** — that is its advantage over a MUX.
 A full adder needs one 3-to-8 decoder and two gates for both Sum and Cout.
@@ -93,7 +93,7 @@ Feed the MSB to one enable directly and through an inverter to the other.
 
 ### Encoder
 
-An encoder is the inverse: `2^n` inputs, n outputs, output = the binary index of the active input.
+An encoder is the inverse: `2ⁿ` inputs, n outputs, output = the binary index of the active input.
 
 8-to-3 encoder:
 
@@ -207,8 +207,8 @@ and so on for all seven. In practice you either invert the outputs or re-minimiz
 **Step 2 — write the function as minterms** (from file 03):
 
 ```
-  Sum  = Sigma-m(1, 2, 4, 7)
-  Cout = Sigma-m(3, 5, 6, 7)
+  Sum  = Σm(1, 2, 4, 7)
+  Cout = Σm(3, 5, 6, 7)
 ```
 
 **Step 3 — collect with OR gates** (assuming active-high outputs):
@@ -243,12 +243,12 @@ convention you assumed.
 
 ## Worked — practice Q7
 
-> Realize `Y = Pi-M(0,3,5,6,7)` with a Decoder and one NOR gate.
+> Realize `Y = ΠM(0,3,5,6,7)` with a Decoder and one NOR gate.
 
 Three variables (indices up to 7) -> a **3-to-8 decoder**.
 
-`Pi-M` means Y is **0** at 0, 3, 5, 6, 7 and **1** everywhere else. Equivalently
-`Y = Sigma-m(1,2,4)`.
+`ΠM` means Y is **0** at 0, 3, 5, 6, 7 and **1** everywhere else. Equivalently
+`Y = Σm(1,2,4)`.
 
 With a **NOR** gate, wire the **maxterm** lines directly:
 
@@ -274,7 +274,7 @@ directly. This is the point of the question.
 
 ## Traps
 
-**ΠM is not Σm.** `Pi-M(0,3,5,6,7)` lists where the function is **zero**. Wiring those five lines
+**ΠM is not Σm.** `ΠM(0,3,5,6,7)` lists where the function is **zero**. Wiring those five lines
 into an OR gives you the complement of the answer.
 
 **Active-high versus active-low outputs.** The collecting gate changes: OR becomes NAND for
@@ -293,7 +293,7 @@ Drawing two decoders wastes the insight the question is testing.
 
 ## Self-test
 
-1. Implement `F(a,b,c,d) = Sigma-m(0,1,2,5,6,8,9,15)` using a suitable decoder.
+1. Implement `F(a,b,c,d) = Σm(0,1,2,5,6,8,9,15)` using a suitable decoder.
 2. Write the outputs of a 3-to-8 decoder with active-**low** outputs for input `ABC = 110`.
 3. Build a 4-to-16 decoder from two 3-to-8 decoders with enables.
 4. Design a 4-to-2 priority encoder with a valid flag. Give all three equations.
@@ -366,7 +366,7 @@ Expand to check: `(B + D)(C' + D) = B·C' + B·D + C'·D + D = B·C' + D` (absor
 Segment `e` is lit for digits 0, 2, 6, 8. Test digit 0 (`0000`): `B·C' + D = 0·1 + 0 = 0` -> driver
 low -> lit. Correct. Test digit 1 (`0001`): `0 + 1 = 1` -> driver high -> off. Correct.
 
-**6.** Full subtractor (file 03): `Difference = Sigma-m(1,2,4,7)`, `Bout = Sigma-m(1,2,3,7)`.
+**6.** Full subtractor (file 03): `Difference = Σm(1,2,4,7)`, `Bout = Σm(1,2,3,7)`.
 
 ```
   Difference = D1 + D2 + D4 + D7

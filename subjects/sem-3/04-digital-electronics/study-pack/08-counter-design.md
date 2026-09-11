@@ -59,9 +59,9 @@ design work is deciding what to feed each flip-flop's *data* inputs.
 ### Number of flip-flops
 
 ```
-  n flip-flops count 2^n states,  0 to 2^n - 1
+  n flip-flops count 2ⁿ states,  0 to 2ⁿ - 1
 
-  For a mod-N counter:  choose the smallest n with  2^n >= N
+  For a mod-N counter:  choose the smallest n with  2ⁿ ≥ N
 ```
 
 0 to 7 -> 8 states -> **3 flip-flops**.
@@ -86,7 +86,7 @@ design work is deciding what to feed each flip-flop's *data* inputs.
 For T flip-flops there is a shortcut that skips the table entirely:
 
 ```
-  T_i = Q_i (+) Q_i+          T is 1 exactly when that bit must CHANGE
+  T_i = Q_i ⊕ Q_i+          T is 1 exactly when that bit must CHANGE
 ```
 
 **Step 4 — K-map each flip-flop input** as a function of the present state bits. Unused states are
@@ -120,7 +120,7 @@ For a **down** counter the rule inverts: a bit toggles when all lower bits are *
 > Design a synchronous counter that counts clock pulses from 0-7 using negative edge triggered T
 > flipflop.
 
-**Step 0 — size it.** 0 to 7 is 8 states, so `2^n >= 8` gives **n = 3**. Flip-flops `Q2 Q1 Q0`,
+**Step 0 — size it.** 0 to 7 is 8 states, so `2ⁿ ≥ 8` gives **n = 3**. Flip-flops `Q2 Q1 Q0`,
 `Q2` the MSB. All eight states are used — **no don't-cares, no unused-state problem.**
 
 **Step 1 and 2 — state table.**
@@ -136,7 +136,7 @@ For a **down** counter the rule inverts: a bit toggles when all lower bits are *
 | 6 | 1 1 0 | 1 1 1 |
 | 7 | 1 1 1 | 0 0 0 |
 
-**Step 3 — excitation, using `T = Q (+) Q+`.**
+**Step 3 — excitation, using `T = Q ⊕ Q+`.**
 
 | Q2 Q1 Q0 | T2 | T1 | T0 |
 |---|---|---|---|
@@ -318,10 +318,10 @@ trade-off if a question asks you to compare.
 **T8 — wrong excitation table.** T flip-flops are not JK flip-flops. Use the table for the device
 the question names.
 
-**T9 — unused states unchecked.** Any mod-N counter with `2^n > N` has unused states. Trace them.
+**T9 — unused states unchecked.** Any mod-N counter with `2ⁿ > N` has unused states. Trace them.
 Three lines of work, and it is where the last marks of Section C sit.
 
-**Forgetting the `T = Q (+) Q+` shortcut.** For T flip-flops it turns step 3 into a column of XORs.
+**Forgetting the `T = Q ⊕ Q+` shortcut.** For T flip-flops it turns step 3 into a column of XORs.
 
 **Treating "negative edge" as a logic change.** It is not. The equations are identical; only the
 active edge differs.
@@ -350,7 +350,7 @@ two minutes of a 24-minute question and converts a plausible answer into a demon
 
 ## Answers
 
-**1.** Down counter `111 -> 110 -> ... -> 000 -> 111`. Using `T = Q (+) Q+`:
+**1.** Down counter `111 -> 110 -> ... -> 000 -> 111`. Using `T = Q ⊕ Q+`:
 
 | Q2 Q1 Q0 | next | T2 T1 T0 |
 |---|---|---|
@@ -428,7 +428,7 @@ on `Q2 Q1` with `Q0` tied low — but designed as asked with three:
 `Q1` toggles every clock; `Q2` toggles when `Q1` is 1. This is a 2-bit up counter shifted one
 position left — counting in steps of 2 is counting normally on the upper bits.
 
-**4.** Mod-12 needs `2^n >= 12` -> **n = 4** flip-flops (16 states).
+**4.** Mod-12 needs `2ⁿ ≥ 12` -> **n = 4** flip-flops (16 states).
 
 ```
   unused states = 16 - 12 = 4     (1100, 1101, 1110, 1111)
