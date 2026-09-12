@@ -91,6 +91,12 @@ def main():
         # Prefer manual English subs; fall back to auto-captions.
         cmd = [
             "yt-dlp", "--skip-download",
+            # Node satisfies yt-dlp's JS-runtime requirement (deno is only its default, not a
+            # dependency). Without one, YouTube extraction is deprecated and formats go missing.
+            "--js-runtimes", "node",
+            # Space out requests: enumerating several playlists in quick succession is what
+            # triggers the 429 handled below.
+            "--sleep-requests", "4",
             "--write-subs", "--write-auto-subs",
             "--sub-langs", "en.*", "--sub-format", "vtt",
             "--ignore-errors",
@@ -105,8 +111,15 @@ def main():
 
         vtts = glob.glob(os.path.join(tmp, "*.vtt"))
         if not vtts:
-            print("[!] No captions found for this source. Try a different course/playlist, "
-                  "or supply the transcript PDF manually.")
+            blob = (r.stderr or "") + (r.stdout or "")
+            if "429" in blob or "Too Many Requests" in blob:
+                print("[!] HTTP 429: YouTube is RATE-LIMITING this IP. Captions exist but are")
+                print("    temporarily refused - this is NOT 'no captions'. Wait and retry with")
+                print("    backoff; 10-30 min has been enough. Playlist listing still works,")
+                print("    so enumerate first, then pull transcripts slowly.")
+            else:
+                print("[!] No captions found for this source. Try a different course/playlist,")
+                print("    or supply the transcript PDF manually.")
             sys.exit(3)
 
         # One video can yield several en tracks (en, en-US, en-orig). Keep the best per video id.

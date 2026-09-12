@@ -473,3 +473,132 @@ being wanted by the FI segment and the FO segment in the same clock. **Same caus
 duplicate the path — which is Harvard architecture at the system level and split I-/D-caches or a
 two-port memory at the pipeline level. The thread runs all the way back to the common bus in file 02:
 sharing one path in time saves wires and costs simultaneity.
+
+---
+
+## Appendix — the CPI formulation (a *different* way this topic gets asked)
+
+⚠ **This appendix is not Mano and not the method above.** Everything before this line uses Mano's
+S = n·tₙ/((k+n−1)·tₚ) and his FI-DA-FO-EX segments. What follows works the same topic in **CPI and
+clock-rate** terms on a MIPS 5-stage pipeline. Do not mix the two formulas.
+
+**Why it is here at all** — one specific, checkable reason: the hand-out marks **L16 and L17 with
+`*`, meaning they are delivered by an industry practitioner**, not by the course instructor
+(`../knowledge-base/exam-map.md` §1). Industry pipelining is taught in CPI and IPC, not in Mano's
+segment counts. So there is a real chance your pipelining lectures use this framing. That is a
+`likely`, **not** a `settled` — nobody has told us what the practitioner actually taught.
+
+**Provenance:** both problems come from an IIT Guwahati NPTEL tutorial (*Introduction to Advanced
+Computer Architecture*, Prof. John Jose, Tutorial 2). The transcript was fetched and read; **the
+arithmetic below was re-derived independently and matches.** See `../video-lectures.md` §5.
+
+### The CPI model in three lines
+
+```
+   execution time per instruction  =  CPI × clock period
+
+   effective CPI (pipelined)  =  base CPI (= 1)  +  Σ (stall cycles per instruction)
+
+   stall contribution of a cause  =  (fraction of instructions of that type)
+                                   × (fraction of those that stall)
+                                   × (cycles lost per stall)
+```
+
+**The trap:** that middle factor. "5% of memory instructions miss" is **not** 5% of all
+instructions — it is 5% of the 30% that are memory instructions.
+
+### A1 — Speedup with a slower pipelined clock
+
+> An unpipelined design runs at **1.5 GHz** and takes **5 cycles** per instruction. Pipelining it
+> into 5 stages adds interface-register overhead, so the pipelined version runs at only **1 GHz**.
+> In a given program: **30%** of instructions are memory instructions, of which **5%** miss and cost
+> **50** stall cycles · **20%** are branches, of which **30%** cost **2** stall cycles · **10%** are
+> load-ALU pairs costing **1** stall cycle. Find the speedup.
+
+**Step 1 — the two clock periods.**
+
+```
+   unpipelined:  1 / 1.5 GHz = 0.667 ns
+   pipelined:    1 / 1 GHz   = 1.0 ns          <- slower, on purpose: that is the register overhead
+```
+
+**Step 2 — unpipelined time per instruction.**
+
+```
+   CPI × clock = 5 × 0.667 = 3.33 ns
+```
+
+**Step 3 — effective CPI of the pipelined version.** Base 1, then one term per stall cause:
+
+| Cause | fraction × fraction × cycles | contribution |
+|---|---|---|
+| memory miss | 0.30 × 0.05 × 50 | **0.75** |
+| branch | 0.20 × 0.30 × 2 | **0.12** |
+| load-ALU | 0.10 × 1 | **0.10** |
+| | base | 1.00 |
+| | **effective CPI** | **1.97** |
+
+**Step 4 — pipelined time and speedup.**
+
+```
+   pipelined:  1.97 × 1.0 ns = 1.97 ns
+   speedup  =  3.33 / 1.97   =  1.69
+```
+
+**The sentence that carries the mark.** A 5-stage pipeline gave **1.69×**, not 5×, for two separate
+reasons — and naming both is the answer:
+1. the clock got **slower** (1.5 GHz → 1 GHz) because of interface-register overhead, and
+2. stalls pushed CPI from 1 to **1.97**, nearly doubling it, with the memory misses alone (0.75)
+   costing more than branches and load-use combined.
+
+Note this is the same story as the Mano ceiling — *you never reach k* — told with different numbers.
+
+### A2 — Stalls in a dependency chain, with and without forwarding
+
+> A program has **2000 instructions**: Load, Add, Load, Add, … Every Add depends on the Load
+> immediately before it, and every Load depends on the Add immediately before it. On a 5-stage
+> pipeline, find the actual CPI **without** operand forwarding and **with** it.
+
+**Without forwarding.** A dependent instruction cannot decode until the producer has written back,
+so **ID of instruction n must follow WB of instruction n−1** — that is **3 stall cycles** each.
+
+```
+   instruction 1 reaches WB at cycle 5
+   every later instruction follows 4 cycles behind the last (1 + 3 stalls)
+
+   total = 5 + 1999 × 4 = 5 + 7996 = 8001 cycles
+   CPI   = 8001 / 2000 = 4.0
+```
+
+**With forwarding.** Now the asymmetry appears, and it is the whole point of the question:
+
+- **Add after Load → still 1 stall.** Forwarding cannot beat the clock here: the loaded value does
+  not exist until the end of MEM, so it can only reach the *next* instruction's EX. This is the
+  **load-use** case from the Traps table above.
+- **Load after Add → no stall.** The Add's result is available at the ALU output and forwards
+  cleanly.
+
+So **every second instruction stalls once**, not every instruction three times.
+
+```
+   loads complete at 5, 8, 11, 14, …        adds complete at 7, 10, 13, 16, …
+   the last instruction is the 1000th Add:  7 + 999 × 3 = 3004 cycles
+   CPI = 3004 / 2000 = 1.502
+```
+
+**Sanity check worth doing in the exam:** 2000 instructions, 1000 of them stalling once, ≈ 3000
+cycles, CPI ≈ 1.5. If your exact answer is far from that, you mis-counted the pattern.
+
+**What this problem is really testing** — and the reason it earns its place here even though the
+notation is not Mano's: **forwarding does not remove all data stalls.** The load-use hazard survives
+it. An answer that says "forwarding fixes data hazards" full stop is the one this question is built
+to catch, in exactly the way trap "forwarding removes every data stall" above says.
+
+### What was deliberately left out
+
+The same tutorial's third numerical is a **2-bit correlating branch predictor** (state transitions
+over 16 outcomes). Branch prediction is named in `study-pack/10` as one of the five control-hazard
+cures, and that is all the MTE needs — predictor *state machines* are Stage-2 depth
+(`../knowledge-base/stage-2/04-…`). **Out of scope; skip it.**
+
+---

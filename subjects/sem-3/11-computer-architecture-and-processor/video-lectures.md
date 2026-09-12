@@ -36,8 +36,9 @@ pack, the study pack is right until proven otherwise — and tell me, because th
 
 **Why this matters more for you than for most students.** You are the first batch, so there is no
 PYQ and no senior's notes. What you *can* do is watch someone else's *examination* of the same
-material — which is why §5 (tutorial/problem-solving lectures) is the most valuable section in this
-file, not the lecture lists.
+material — so **§5 is the section to read first**. It is also the section where transcripts were
+actually fetched and read, which is why two of its original four recommendations had to be
+retracted: titles lie, and the only cure is opening the thing.
 
 ---
 
@@ -202,28 +203,72 @@ mind; the same video watched cold is entertainment.
 
 ## §5 — The part that substitutes for a PYQ
 
-You have no past paper and you never will for this cohort. The closest available substitute is
-**someone else's worked problems on the same material**, and two of these courses have them
-explicitly:
+**Updated 2026-09-13 — transcripts fetched and read. Two of the four claims in the first version of
+this section were wrong, and are corrected below rather than quietly edited away.**
 
-| Source | What it gives you |
+You have no past paper and never will for this cohort. The closest substitute is **someone else's
+worked problems on the same material**. Here is what survived checking.
+
+### ✅ [IITG-ACA] Tutorial 2 — `MjjFqj01PzU` — the one real find
+
+A genuine week-2 tutorial: **8 true/false items and 3 numericals, worked end to end.** Verified by
+transcript, not by title.
+
+**But read this before you open it.** It works in **MIPS 5-stage / CPI / RAW-WAR-WAW** terms — not
+Mano's FI-DA-FO-EX segments and not S = n·tₙ/((k+n−1)·tₚ). Same topic, **different formulation**.
+Watching it as if it were your syllabus would drill the wrong formula.
+
+| Part of it | Verdict for your MTE |
 |---|---|
-| **[IITG-ACA] Tutorial 1** — instruction pipeline and performance | worked **speedup numericals** — `exam-map.md` F14, the likeliest U4 numerical |
-| **[IITG-ACA] Tutorial 2** — pipeline hazard analysis | worked **hazard identification**, F16 |
-| **[IITG-ACA] Tutorial 3** — static and dynamic scheduling | partly beyond scope; the static-scheduling half is `study-pack/10`'s delayed-load material |
-| **[IITM-CO] L13, L14** `F5pU5LbmLVg`, `hhvl7nbVpLo` — "Problem Exercise" ×2 | worked **control-unit / microprogramming problems** — the U3 unit with no deck |
+| True/false: *"RAW data hazard can be reduced by operand forwarding"* (true) | **useful** — this is `study-pack/10`'s forwarding, in different vocabulary |
+| True/false: *"a normal in-order 5-stage MIPS pipeline can achieve IPC > 1"* (false) | **useful** — it is the throughput ceiling argument |
+| Numerical: CPI-based speedup | **useful with the caveat** — worked in `study-pack/10`, Appendix |
+| Numerical: Load/Add chain, stalls with and without forwarding | **the best single item** — worked in `study-pack/10`, Appendix |
+| Numerical: 2-bit correlating branch predictor | **out of scope** — stage-2 depth, skip for the MTE |
+| True/false on FP multi-cycle initiation interval, WAW, big/little endian | **out of scope** |
 
-**Treat these four as unofficial practice papers.** Pause before each solution, attempt it, then
-watch. They are not your examiner's questions — but they are *examiners'* questions on your topics,
-which is one step better than nothing and one step worse than a real PYQ. Say exactly that much
-about them, no more.
+Both usable numericals are now **worked, with the arithmetic independently re-derived**, in
+`study-pack/10` → *Appendix — the CPI formulation*. You do not need to watch the video to get them.
 
-**The other substitute you already have:** the professor's Unit-1 deck ends on a slide reading
-*"Design a 4-bit ALU that may perform the following operations. Explain its working in detail"* —
-marked "QnA". That is the **highest-confidence single question item in the entire subject**
-(`exam-map.md` F4), because it is the instructor's own question in the instructor's own deck. It is
-worth more than every video on this page. It is fully worked in `study-pack/03` and again as
-`study-pack/11` Drill A, Section C.
+### ❌ [IITM-CO] L13 and L14 — claim retracted
+
+The first version of this file called these *"worked control-unit / microprogramming problems — the
+U3 unit with no deck."* **That was inferred from the titles and it is wrong.** The transcripts say:
+
+- **L13 `F5pU5LbmLVg`** — instruction-format and operand-count design (how many bits for opcode
+  vs. source vs. destination, 2⁴ = 16 combinations). Relevant to **U2 instruction codes**, on a
+  machine that is not Mano's. Not a control-unit problem.
+- **L14 `hhvl7nbVpLo`** — a conceptual recap (data path, control signals, "a microinstruction is one
+  small step", ALU + controller = CPU) that then **moves on to memory** — i.e. **U6, ETE material**.
+  Not a problem exercise.
+
+Neither is useless — L14's opening is a clean statement of *processor = data path + controller* — but
+they are **not** the U3 practice this file claimed. ASR quality on both is poor ("up code" for opcode,
+"for nyman" for von Neumann), so treat any specific in them with suspicion.
+
+### ⚠ [IITG-ACA] "Tutorial 1" — does not contain Tutorial 1
+
+`deKUGMHZjB4` is titled *"Tutorial 1: Instruction Pipeline and Performance"*. Its transcript opens:
+
+> *"Welcome to the fourth lecture of the course. Today's lecture will be dedicated on discussion
+> related to pipeline hazards."*
+
+That is **Lec 4**, not a tutorial. And `IQql2ojVzsU`, titled *"Lec 4: Pipeline Hazards"*, opens
+*"Welcome to lecture number five… control hazards and branch prediction"* — i.e. **Lec 5**.
+
+**The playlist's titles are unreliable; the speedup-numericals tutorial was not found at its labelled
+link.** What `deKUGMHZjB4` actually contains is still worth watching — a careful structural-hazard
+walkthrough on a uni-port memory, with both cures (stall/bubble, or duplicate the hardware into
+separate instruction and data memories) — which **corroborates `study-pack/10` §8(a) exactly**. Just
+do not expect the tutorial the title promises.
+
+### The item that still outranks every video here
+
+Your professor's Unit-1 deck ends on a slide reading *"Design a 4-bit ALU that may perform the
+following operations. Explain its working in detail"*, marked "QnA". That is the
+**highest-confidence single question item in the subject** (`exam-map.md` F4) — the instructor's own
+question, in the instructor's own deck. Worth more than everything above. Worked in
+`study-pack/03` and again as `study-pack/11` Drill A, Section C.
 
 ---
 
@@ -231,19 +276,24 @@ worth more than every video on this page. It is fully worked in `study-pack/03` 
 
 Stated rather than hidden, so you know what has and has not been checked.
 
-1. **No video content was watched or transcribed.** Every recommendation is made from **verified
-   lecture titles** pulled from live playlist listings — never from a claim about what a lecture
-   says. Titles are strong evidence of topic and weak evidence of depth.
-2. **The transcript ingestion path was attempted and is currently rate-limited.**
-   `tools/fetch_transcripts.py` reported "no captions" on three test videos; the diagnosis is that
-   captions **do** exist (`yt-dlp --list-subs` shows `en`, `en-orig` and an official
-   *English — NPTEL Official* track) but the download returns **HTTP 429 Too Many Requests** after
-   this session's playlist enumeration. yt-dlp also warns that **no JS runtime (deno) is installed**,
-   which it now deprecates for YouTube extraction. Retry spaced out; install deno.
-3. **Channel provenance is confirmed for only one source.** [KGP-HPCA]'s uploader is `nptelhrd`, the
-   official NPTEL channel. [IITG-COA]'s owner could not be confirmed programmatically; [IITM-CO] and
-   [IITG-ACA] are third-party compilations/re-uploads of institutional content. Content quality is
-   not in question; *channel identity* is unverified, and re-uploads can be incomplete or reordered.
+1. **Five lectures have now been transcribed and read** (§5). **Everything else on this page is
+   still recommended from verified lecture titles only** — pulled from live playlist listings, never
+   from a claim about content. Titles are strong evidence of topic and weak evidence of depth, and
+   §5 is the proof: of the five transcripts fetched, **two were not what their titles said**.
+2. **The transcript path works; the earlier failure was rate-limiting, not breakage.** The HTTP 429
+   cleared on the third retry, ~25 minutes later, and all five lectures downloaded. Diagnosis
+   confirmed along the way: captions do exist (`--list-subs` shows `en`, `en-orig` and an official
+   *English — NPTEL Official* track), and **two independent libraries** (yt-dlp and
+   `youtube-transcript-api`) both reported an IP block, so it was request volume, not a tool bug.
+   `tools/fetch_transcripts.py` now passes `--js-runtimes node` (Node v20 is installed — deno was
+   never needed), sleeps between requests, and reports a 429 honestly instead of claiming "no
+   captions found".
+3. **Channel provenance is confirmed for only one source, and one re-upload is now proven
+   mis-titled.** [KGP-HPCA]'s uploader is `nptelhrd`, the official NPTEL channel. [IITG-COA]'s owner
+   could not be confirmed programmatically. [IITM-CO] and [IITG-ACA] are third-party re-uploads —
+   and **[IITG-ACA]'s titles are verifiably wrong** for at least two entries (§5). Treat every
+   lecture-number reference to that playlist as approximate: **open the video and check the opening
+   sentence**, which always states which lecture it is.
 4. **[KGP-CAO] and [IITG-MPI] were identified from their NPTEL course pages, not from lecture
    listings.** NPTEL's course pages do not fetch cleanly (JS-loaded tabs), so their per-lecture
    contents are **unverified** — unlike every entry in §2, which came from a real listing.

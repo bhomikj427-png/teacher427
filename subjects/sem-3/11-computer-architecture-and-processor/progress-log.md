@@ -6,8 +6,10 @@
 
 ## Session resume
 - Last session: 2026-09-13 (no teaching).
-- Where we stopped: `study-pack/` built to MTE scope (U1–U4) and `video-lectures.md` built
-  (two-layer lecture map). Learner has not worked any drill and has not reported watching anything.
+- Where we stopped: `study-pack/` built to MTE scope (U1–U4); `video-lectures.md` built and then
+  **corrected against fetched transcripts** (one source retracted, one playlist's titles shown
+  unreliable); `study-pack/10` gained a verified CPI-formulation appendix. Learner has not worked
+  any drill and has not reported watching anything.
 - Next up: **Session 1** — diagnostic before any teaching. Place level with three probes:
   (a) RTL-is-hardware probe — "what two things must be true for `DR ← M[AR]` to happen?";
   (b) the control-derivation scan — "give LD(AR) for the Basic Computer";
@@ -67,3 +69,43 @@
   after), every entry carrying a direct video ID/URL taken from a live playlist listing, tier label,
   and channel-provenance caveat where the uploader could not be confirmed as institutional. **No
   teaching event.**
+- [2026-09-13] **Transcript pull succeeded on the 3rd retry (~25 min).** The HTTP 429 was
+  time-based as diagnosed; all 5 target lectures fetched (21k-36k chars each). Retry driver:
+  `scratchpad/pull_tutorials.py`. **Three findings, all of which change `video-lectures.md`:**
+  - **(a) The [IITG-ACA] playlist's titles do not match its content** — verified by transcript, not
+    assumed. `deKUGMHZjB4`, titled *"Tutorial 1: Instruction Pipeline and Performance"*, opens
+    *"Welcome to the fourth lecture of the course… dedicated on discussion related to pipeline
+    hazards"* = **Lec 4**. `IQql2ojVzsU`, titled *"Lec 4: Pipeline Hazards"*, opens *"Welcome to
+    lecture number five… control hazards and branch prediction"* = **Lec 5**. So the re-upload is
+    mis-titled and **the real "Tutorial 1" content was not found at its labelled link.** The §6
+    provenance caveat about re-uploads is now an observed fact, not a precaution.
+  - **(b) The [IITM-CO] "Problem Exercise" claim was WRONG and is retracted.** L13 (`F5pU5LbmLVg`)
+    is instruction-format / operand-count design (opcode field sizing on a non-Mano machine);
+    L14 (`hhvl7nbVpLo`) is a conceptual recap (data path, control signals, microinstruction as one
+    step, ALU + controller = CPU) that then **moves into memory** = U6/ETE. Neither is a worked
+    control-unit problem. That §5 claim was title-inference; the transcripts refute it. ASR quality
+    on these two is also poor ("up code" = opcode, "for nyman" = von Neumann).
+  - **(c) [IITG-ACA] Tutorial 2 (`MjjFqj01PzU`) is genuine and good — but formulated differently
+    from this syllabus.** It is a real week-2 tutorial: 8 true/false items + 3 numericals. However
+    it works in **MIPS 5-stage / CPI / RAW-WAR-WAW** terms, not Mano's FI-DA-FO-EX and
+    S = n·tₙ/((k+n−1)·tₚ). Importing it wholesale would drill the wrong formula.
+- [2026-09-13] **Two numericals from Tutorial 2 verified by independent re-computation** and added
+  to `study-pack/10` as a clearly-labelled appendix (NOT as "Drill C" — fewer items survived the
+  scope screen than expected, so a third full paper was not warranted):
+  - CPI speedup: 1.5 GHz unpipelined / CPI 5 → 3.33 ns; pipelined 1 GHz, effective CPI
+    1 + (0.30×0.05×50) + (0.20×0.30×2) + (0.10×1) = 1 + 0.75 + 0.12 + 0.10 = **1.97** → speedup
+    3.33/1.97 = **1.69**. Arithmetic re-derived here, matches the lecture.
+  - Load/Add dependency chain, 2000 instructions: without forwarding 5 + 1999×4 = **8001** cycles,
+    CPI ≈ **4**; with forwarding 7 + 999×3 = **3004**, CPI = **1.502**. Re-derived, matches.
+  - **Justification for including a non-Mano formulation:** the hand-out marks **L16/L17 as
+    `*` practitioner-delivered (industry)**, so a CPI/MIPS framing of pipelining is a live
+    possibility for those two lectures. Labelled `uncertain` and kept separate from the Mano method.
+  - Branch-prediction numerical (2-bit predictor, (1,2) correlating) **excluded** — stage-2 depth,
+    outside MTE scope.
+- [2026-09-13] `tools/fetch_transcripts.py` hardened from this session's failure: passes
+  `--js-runtimes node` (Node v20 present; deno never needed — yt-dlp's deprecation warning is
+  satisfied), adds `--sleep-requests`, and now reports **HTTP 429 as rate-limiting with a
+  retry-later message** instead of the misleading "No captions found".
+- [2026-09-13] Raw transcripts kept at `_transcripts/` (5 files, ~142 kB) with a README recording
+  what each **actually** contains vs what its playlist title claimed, so the retractions above can be
+  checked against evidence rather than taken on trust. ASR caveat restated there.
