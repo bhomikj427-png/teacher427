@@ -29,6 +29,7 @@ pipelining→COA, FPGA→verilog). **Ready to TEACH** (diagnose→curriculum fro
 | 7 | 08 | Electronic Devices Lab-I | ECE2130 | stage-0 | 0/? | 2026-06-16 | Map pass (lab; pairs with 03) |
 | 8 | 09 | Digital Electronics Lab | ECE2131 | stage-0 | 0/? | 2026-06-16 | Map pass (lab; pairs with 04) |
 | 9 | 10 | Project-Based Learning 1 | ECE2170 | stage-0 | 0/? | 2026-06-16 | Minimal KB (process/method, not a content syllabus) |
+| 3.5 | 11 | **Computer Architecture & Processor** | **ECE2108** | **stage-2✓ (TEACH-READY)** | 8/8 S1 + 8/8 S2 | **2026-09-12** | **NEW SUBJECT, created + fully built this session** (learner dropped the course hand-out + 3 unit decks; reported the subject missing from the registry). **COMPLETE BASE — teaching gate met.** Scope is the best-evidenced in the batch: built from the professor's **own course hand-out** (36-lecture plan) + 3 decks, not an inferred syllabus. **Assessment split `settled` — MTE 30 / CWS 30 / ETE 40 (first verified MUJ marks split anywhere in the batch; ECE2108 only, do not generalize).** **MTE/ETE boundary `settled` from the printed lecture-plan divider after L19 → MTE = U1+U2+U3+U4 (incl. pipelining), ETE = U5–U8.** 8 units: 01 arch-fundamentals+RTL · 02 Basic Computer · 03 control unit/microprogrammed · 04 parallel+pipelining · 05 I/O org · 06 memory org · 07 **8086** · 08 **RISC-V**. Verified this session: Mano ch.7 field widths triangulated across **2 independent** reproductions (128×20, F1/F2/F3/CD/BR/AD = 3/3/3/2/2/7, sequencer input logic); BC's 25 instructions; pipeline speedup + both worked examples; Mano ch.12 cache splits; 8086 architecture/flags/ModR-M/segment table; **RISC-V quoted directly from the ratified spec** (the one true primary here); Wilkes 1951, NetBurst 20→31 stages, the A20 gate, Hill & Smith's 3 C's. **All 34 numeric claims re-computed programmatically — all pass.** Both exit tests passed. **Caught + corrected 2 real source errors** (deck's ISZ `D₆T₄`→`D₆T₆`; an institutional doc's "SF is used with unsigned numbers"). **Ready to TEACH.** Open: **no PYQ at all** → question forms are inference (scope is not); no deck for L12–L36; **Mano 3e could not be read directly** (server truncates — verified via multiple agreeing reproductions instead, `sources.md` §4); taxonomy counts (addressing modes 12/8/7, instruction groups 7/8, transfer modes 3/4) are conventions not facts; CWS composition unspecified |
 | 10 | 02 | Management of Technology | **MBB2101** | **stage-1✓** (content complete; no PYQ) | 5/5 | 2026-06-24 | **UN-PARKED + Stage-1 built** (learner-activated). Resolved MBB21XX→MBB2101; official topic list located in MUJ R&AI Scheme PDF. **Reframe:** it's an entrepreneurship+biz-functions+IPR survey, not classical MOT. **Stage-2 analysis done; learner decided 2026-06-26: NO full Stage 2 — `stage-1✓` IS the teaching gate for this subject (logged exception).** Fold targeted "Stage 1.5" (IPR→Acts, finance worked-probs if PYQ, innovation theory +1 notch) into Stage 1 on teaching activation. **TEACH-READY** (subject-scoped exception; global gate unchanged). Open: unit/MTE-ETE split & "Project Formulations 1/2/3" `uncertain` (no handout/PYQ); GI term `likely`; NPTEL week outline not extracted |
 
 `Units done = ?` means the unit count is set by the map pass (it hasn't run yet).
@@ -57,7 +58,59 @@ scrapable for Sem-3 ECE, and MUJ Central's catalog didn't yet list Sem-3 ECE. **
 material (any subject, unsorted) into the central **`../_inbox/`**; the engine **triages it first**
 (see `AUTONOMOUS-RUN.md` "Inbox triage" + `../_inbox/README.md`), routing each file to the right
 subject's `exam-pack/` and logging it to `../_inbox/TRIAGE-LOG.md`. Until material arrives, exam-maps
-are `uncertain` and research proceeds syllabus-driven. MTE/ETE weightage unverified. **Inbox status 2026-09-11: EMPTIED — first material received and routed.** 11 files -> `04-digital-electronics/exam-pack/` (8 prof decks + 1 partial merge + **MTE PYQ 25-Sep-2025** + practice set); `04`'s `exam-map.md` rebuilt from it (2026-09-11). Every other subject's exam-pack is still empty and its exam-map still an inferred stub.
+are `uncertain` and research proceeds syllabus-driven. MTE/ETE weightage unverified. **Inbox status 2026-09-11: EMPTIED — first material received and routed.** 11 files -> `04-digital-electronics/exam-pack/` (8 prof decks + 1 partial merge + **MTE PYQ 25-Sep-2025** + practice set); `04`'s `exam-map.md` rebuilt from it (2026-09-11).
+
+**Inbox status 2026-09-12: EMPTIED again — second drop.** 4 files -> **new** `11-computer-architecture-and-processor/exam-pack/`: the **official ECE2108 course hand-out** + 3 prof unit decks. **The hand-out is the most valuable single document in the batch so far** — it is the only first-party source that states a **marks split (MTE 30 / CWS 30 / ETE 40)** and an **MTE/ETE boundary** outright instead of by inference, and it carries a full 36-lecture plan. Both are `settled` **for ECE2108 only** — `exam-resources.md`'s batch-wide `uncertain` on weightage still stands for every other course.
+
+Every subject other than `04` and `11` still has an empty exam-pack and an inferred exam-map stub. **Still missing for `11`: any past paper (MTE or ETE) — question forms there are inference, not evidence — and any deck for L12–L36, which includes the 8086 (8 lectures, the highest-value unit in that course).**
+
+## ⚠ BATCH-LEVEL OPEN QUESTION — the registry is built on the WRONG SCHEME REVISION
+
+`[opened 2026-09-12]` **The learner is enrolled under the MUJ *2025-2026 onwards* ECE scheme, but this
+batch was seeded (2026-06-16) from the *2023-onwards* curriculum PDF.** That is why the learner reports
+both "subjects I don't have" and "a subject I have that isn't listed."
+
+**Evidence (both official MUJ PDFs, text-extracted this session):**
+- *2023-onwards* curriculum: **67 course codes, ECE2108 absent.**
+- *2025-2026 onwards* scheme (`jaipur.manipal.edu/fosta/img/programs/ECE/Scheme-2025-ECE.pdf`):
+  **ECE2108 present, Third Semester, 3 credits.**
+
+**The two Sem-3 lists, side by side:**
+
+| 2023-onwards (what this batch has) | 2025-2026 onwards (what the learner is on) |
+|---|---|
+| MAS2001 Statistics & Probability | MASXXXX Probability and Statistics |
+| MBB21XX Management of Technology | *Principles of Management / Engineering Economics* |
+| ECE2101 Electronic Devices-I | **ECE2106 Electronics Devices & Circuits** |
+| ECE2102 Digital Electronics (4 cr) | **ECE2105 Digital Electronics (3 cr)** |
+| ECE2103 Signals and Systems | — *(not in Sem-3)* |
+| Flexi Core 1: ECE2120 CNT / ECE2121 LIC | — *(not in Sem-3)* |
+| — | **ECE2104 Data Structures and Algorithms** ← subject the learner has, absent from this batch |
+| — | **ECE2108 Computer Architecture & Processor** ← built this session |
+| ECE2130 Electronic Devices Lab-I | ECE2134 Electronics Devices & Circuits Lab |
+| ECE2131 Digital Electronics Lab | ECE2133 Digital Electronics lab |
+| ECE2170 Project-Based Learning 1 | — *(PBL-1 is ECE2271, Sem 4)* |
+| — | **ECE2132 Data Structures and Algorithms Lab** |
+| Total 25 credits | **Total 24 credits** |
+
+**Consequences:**
+- **Likely not the learner's courses at all:** 05 Signals & Systems, 06 Circuits & Network Theory,
+  07 Linear Integrated Circuits, 10 Project-Based Learning 1, and 02 Management of Technology as
+  currently framed. **`06` already has a `stage-1✓` knowledge base that may be wasted effort** — and
+  `01`/`03`/`04` may need re-scoping to the new course titles (note `ECE2106` is "Devices **& Circuits**",
+  a wider scope than `ECE2101` "Devices-I").
+- **Missing entirely:** **ECE2104 Data Structures and Algorithms** + its lab, and **ECE2107 Circuits &
+  Systems**.
+- **`[RESOLVED]` the ECE 2105 vs ECE2102 code mismatch** flagged in `../_inbox/TRIAGE-LOG.md`
+  (2026-09-11): the professor's Digital Electronics deck heads itself **ECE 2105** because that is the
+  **new** code; the MTE paper and that subject's KB say **ECE2102**, the **old** one. **Both are
+  correct, for different scheme revisions.** `uncertain → settled`.
+
+**NOT ACTED ON UNILATERALLY.** Restructuring the registry would touch subjects with built knowledge
+bases (`01`, `03`, `04` teach-ready; `06` at stage-1✓) and is an architecture-level change — the
+learner's standing rule is design-first, sign-off before editing the core. **Resolve by:** the learner
+confirming their actual registered course list, then re-mapping the batch in one deliberate pass.
+Nothing in `01`–`10` was edited this session.
 
 ## Open questions surfaced during research (batch-level)
 
@@ -146,6 +199,24 @@ are `uncertain` and research proceeds syllabus-driven. MTE/ETE weightage unverif
   treating stage-1✓ as the teaching gate for this subject. Open: unit/MTE-ETE split & "Project
   Formulations 1/2/3" `uncertain`; GI term `likely`; NPTEL outline not extracted; no PYQ.
 
+- `[2026-09-12]` **NEW SUBJECT `11 Computer Architecture & Processor (ECE2108)` — created and taken to
+  `stage-2✓` in one session** (learner: "make the subject… go do research for this session, do it hands
+  free"). Inbox triaged (4 files → `11-…/exam-pack/`, logged). Built `course-info` + `00-map` +
+  `exam-map` + Stage-1 units `01`–`08` + `misconceptions` (M1–M23) + `sources` + `CHANGELOG`, then
+  `stage-2/01`–`08` + `stage-2/sources`. **Scope `settled` from the professor's own hand-out** (36-lecture
+  plan): **MTE 30 / CWS 30 / ETE 40** (first verified MUJ marks split in the batch) and **MTE = U1–U4,
+  ETE = U5–U8** from the printed divider after L19. **Verified this session:** Mano ch.7 triangulated
+  across 2 independent reproductions; BC 25-instruction count; pipeline speedup + both worked examples;
+  ch.12 cache splits; 8086 architecture/flags/ModR-M/segment defaults; **RISC-V quoted directly from the
+  ratified specification**; and for Stage 2 — Wilkes 1951/EDSAC 2, NetBurst 20→31 stages, the 8086 A20
+  wraparound + keyboard-controller gate + HMA, Hill & Smith's three C's. **34/34 numeric claims
+  re-computed programmatically — all pass.** Stage-1 and Stage-2 exit tests passed. **Two real source
+  errors caught and corrected** (deck ISZ `D₆T₄`→`D₆T₆`; "SF is used with unsigned numbers" rejected).
+  **Also resolved a standing batch question as a side effect** — the ECE 2105 vs ECE2102 Digital
+  Electronics code mismatch (different scheme revisions) — and **surfaced a batch-level problem: the
+  registry is built on the 2023 scheme while the learner is on the 2025-2026 one** (see the section
+  above; deliberately not acted on). Open for `11`: no PYQ (question forms are inference); no deck for
+  L12–L36; Mano 3e unreadable directly (mitigated, `sources.md` §4); taxonomy counts are conventions.
 - `[2026-09-11]` **Inbox triage — first exam material in the batch.** 11 files routed out of
   `_inbox/_unsorted/` into `04-digital-electronics/exam-pack/` (audit: `_inbox/TRIAGE-LOG.md`):
   professor's decks 1-8 (syllabus/Boolean, K-map, adders, MUX-demux, decoder-encoder,

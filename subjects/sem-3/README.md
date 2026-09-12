@@ -35,6 +35,17 @@ differs. Each subject's exact official text + textbooks live in its `course-info
 | 08 | `08-electronic-devices-lab-1` | ECE2130 | Electronic Devices Lab-I | 0-0-2-1 |
 | 09 | `09-digital-electronics-lab` | ECE2131 | Digital Electronics Lab | 0-0-2-1 |
 | 10 | `10-project-based-learning-1` | ECE2170 | Project-Based Learning 1 | 0-0-2-1 |
+| 11 | `11-computer-architecture-and-processor` | **ECE2108** | **Computer Architecture & Processor** | 3-0-0-3 |
+
+> ⚠ **Row 11 is NOT from the 2023-onwards scheme above — and that matters for the whole table.**
+> ECE2108 was added 2026-09-12 from the learner's **own course hand-out**, after they reported that the
+> subject was missing here. It is **absent** from the 2023-onwards curriculum PDF and **present** in the
+> MUJ **2025-2026 onwards** scheme, where the whole Sem-3 list differs (ECE2104 Data Structures,
+> ECE2105 Digital Electronics, ECE2106 Devices & Circuits, ECE2107 Circuits & Systems, ECE2108).
+> **So rows 01–10 above are likely the wrong scheme revision for this learner.** The `11-` number is a
+> folder ordinal, not a scheme position. **Full side-by-side comparison, consequences, and what needs
+> confirming: `research-engine/research-queue.md`** — the batch has deliberately *not* been restructured
+> without the learner's confirmation.
 
 **Flexi Core 1 (06/07):** the official scheme requires the learner to take *one* of ECE2120 /
 ECE2121. Both are scaffolded here (learner has not yet confirmed which). Research covers whichever
