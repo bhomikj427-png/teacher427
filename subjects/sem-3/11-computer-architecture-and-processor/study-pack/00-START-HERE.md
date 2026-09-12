@@ -182,6 +182,18 @@ recall-and-table material you can compress into one pass.
 
 ---
 
+## Video lectures
+
+A verified, unit-by-unit lecture map lives in **`../video-lectures.md`** — two layers, because no
+single course matches this syllabus: NPTEL/institutional courses for **mechanism**, Mano-sequence
+YouTube channels for **scope and notation**. It also lists the four worked-problem lectures that are
+the closest thing to a practice paper you can get.
+
+**Videos come second.** Attempt the questions in these files first, fail some, *then* watch. A video
+watched cold is entertainment; the same video after a failed attempt is teaching.
+
+---
+
 ## Source honesty
 
 **Scope, emphasis and framing** come from the professor's hand-out and decks — they are authoritative

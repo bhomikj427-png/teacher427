@@ -5,8 +5,9 @@
 > See `../README.md`.
 
 ## Session resume
-- Last session: 2026-09-12 (no teaching).
-- Where we stopped: `study-pack/` built to MTE scope (U1–U4). Learner has not worked any drill.
+- Last session: 2026-09-13 (no teaching).
+- Where we stopped: `study-pack/` built to MTE scope (U1–U4) and `video-lectures.md` built
+  (two-layer lecture map). Learner has not worked any drill and has not reported watching anything.
 - Next up: **Session 1** — diagnostic before any teaching. Place level with three probes:
   (a) RTL-is-hardware probe — "what two things must be true for `DR ← M[AR]` to happen?";
   (b) the control-derivation scan — "give LD(AR) for the Basic Computer";
@@ -44,3 +45,25 @@
   + hand-out. Deck errata carried through as corrections, not repeats (ISZ `D₆T₆` not `D₆T₄`;
   the muddled arch-vs-org row). **No teaching event — nothing taught, nothing assessed; mastery
   ledger and review queue unchanged.**
+- [2026-09-13] Learner request: **video lectures for the subject** — framed by the learner as
+  compensating for being the **first batch** (no PYQ will ever exist for this cohort). Searched and
+  verified candidate courses by listing their actual lecture titles with `yt-dlp --flat-playlist`
+  (not from recall). **Core finding: no single course matches this syllabus.** The Tier-1 NPTEL
+  courses (IITG COA, IITM Raman, IITKGP HPCA) teach COA from a MIPS/RISC or generic-CPU angle and
+  never cover Mano's Basic Computer chapter-for-chapter; the courses that *do* follow Mano unit by
+  unit are individual-educator YouTube channels = **Tier 4** (`subject-research-protocol.md` §2).
+  Resolution: a **two-layer** map — Tier-1 for mechanism/correctness, Tier-4 for syllabus coverage
+  with verify-before-trust — rather than pretending one source does both. Next artifact:
+  `video-lectures.md`.
+- [2026-09-13] ⚠ **Engine finding (tooling, not content): the NPTEL transcript path is currently
+  rate-limited, not broken.** `tools/fetch_transcripts.py` reported "No captions found" for three
+  test videos (one Tier-4, two NPTEL). Diagnosed: captions **do** exist — `yt-dlp --list-subs` shows
+  `en`, `en-orig` and an official `English - NPTEL Official` track — but the caption download returns
+  **HTTP 429 Too Many Requests** after this session's playlist enumeration. Also logged: yt-dlp now
+  warns **no JS runtime (deno) installed**, deprecated for YouTube extraction. *Consequence:* no
+  transcript was ingested this session; the videos are recommended from **verified lecture titles**
+  only, never from claimed content. *Resolve by:* retrying spaced out, and installing deno.
+- [2026-09-13] `video-lectures.md` **built** — unit-by-unit lecture map (U1-U4 first, ETE units
+  after), every entry carrying a direct video ID/URL taken from a live playlist listing, tier label,
+  and channel-provenance caveat where the uploader could not be confirmed as institutional. **No
+  teaching event.**
