@@ -161,3 +161,14 @@
 - [2026-09-15] Learner: "what is even Mano? can't find much online"; videos are gap-fillers, not the
   starting point. Pack used "Mano" without ever defining it. Fix: `study-pack-v2/00-START-HERE.md`
   gains a "The textbook" section (full title, chapter → unit map, how to get it).
+- [2026-09-15] Learner approved: verify the Tier-4 [MANO-SA] videos by transcript against the KB and
+  update `video-lectures.md` (incl. re-pointing to study-pack-v2). Transcript pull started in the
+  background → `_transcripts/MANO-SA/`.
+- [2026-09-15] **First teaching exchange:** learner asked "what is fetch?" (unprompted, basic).
+  Explained the fetch phase (definition, BC T₀/T₁ microoperations, why AR, why PC increments at T₁),
+  then posed one retrieval check. Outcome pending.
+- [2026-09-15] Fetch retrieval check (PC = 3AF, M[3AF] = 932E) **not attempted** — learner moved on to
+  the video task. Carry it into the next teaching session as an opening probe.
+- [2026-09-15] Transcript pull hit **HTTP 429** on videos 01–04 (same time-based rate limit as
+  2026-09-13; triggered right after the playlist listing). Loop stopped; restarted with a 20-min
+  initial wait, 90 s spacing, 10-min backoff. Meanwhile `video-lectures.md` re-pointed to study-pack-v2.

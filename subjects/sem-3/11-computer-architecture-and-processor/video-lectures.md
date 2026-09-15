@@ -35,7 +35,8 @@ explanation**, never a source of fact. If a Tier-4 video states a number that co
 pack, the study pack is right until proven otherwise — and tell me, because that is worth checking.
 
 **Why this matters more for you than for most students.** You are the first batch, so there is no
-PYQ and no senior's notes. What you *can* do is watch someone else's *examination* of the same
+PYQ and no senior's notes. (Since 2026-09-15 the professor's two assignments give real question forms —
+`study-pack-v2/` is built on them and outranks every video here.) What you *can* do is watch someone else's *examination* of the same
 material — so **§5 is the section to read first**. It is also the section where transcripts were
 actually fetched and read, which is why two of its original four recommendations had to be
 retracted: titles lie, and the only cure is opening the thing.
@@ -77,11 +78,12 @@ retracted: titles lie, and the only cure is opening the thing.
 
 ## §2 — MTE map: U1 → U4
 
-Watch order matches `study-pack/`. **Pair each video with its study-pack file** — the file is where
-the retrieval happens; the video is only exposure.
+Watch order matches `study-pack-v2/` (assignment-anchored, 2026-09-15). **Pair each video with its
+v2 file** — the file is where the retrieval happens; the video is only exposure. v1 file numbers are
+given second, for U3 (which v2 does not cover).
 
 ### U1 — Architecture fundamentals, RTL, microoperations, ALSU
-*(study-pack 01, 02, 03)*
+*(v2 01, 02, 03, 04, 05 · v1 01, 02, 03)*
 
 | Topic | Tier 4 — your syllabus's order | Tier 1 — the mechanism |
 |---|---|---|
@@ -91,15 +93,15 @@ the retrieval happens; the video is only exposure.
 | Arithmetic microoperations, the 4-bit arithmetic circuit | [MANO-SA] #4 `oTtvWDdeSEQ` | — |
 | Logic microoperations | [MANO-SA] #5 `VIR_jcKo94E` | — |
 | Shift microoperations | [MANO-SA] #6 `6TwX8d9GuOc` | — |
-| **ALSU — the deck's own exam question** | [MANO-SA] #7 `LjuIcbqRrbI` | — |
+| **ALSU — the deck's own exam question** | [MANO-SA] #7 `LjuIcbqRrbI` ⚠ check which select-code table it uses (`study-pack-v2/05`) | — |
 
 ⚠ **U1 has almost no Tier-1 video coverage**, because "arithmetic/logic/shift microoperations and a
 one-stage ALSU" is a Mano-specific treatment. This is the unit where you lean hardest on
-`study-pack/03` and the professor's Unit-1 deck, and use the Tier-4 videos only to see the circuit
+`study-pack-v2/05` and the professor's Unit-1 deck, and use the Tier-4 videos only to see the circuit
 drawn.
 
 ### U2 — The Basic Computer
-*(study-pack 04, 05, 06)*
+*(v2 06, 07, 08 · v1 04, 05, 06)*
 
 | Topic | Tier 4 | Tier 1 |
 |---|---|---|
@@ -112,11 +114,11 @@ drawn.
 | **Design of BC + accumulator logic** | [MANO-SA] #17 `qw05VJh_f-w` · #18 `dSQtryKGkVE` | [IITG-COA] M03 L03 `KvjmIpOYn4o` — *the same scan method, different machine* |
 
 **[IITG-COA] M03 L03 is the single most transferable Tier-1 video for U2.** It derives control
-signals for a complete instruction execution — which is exactly `study-pack/06`'s scan method, done
+signals for a complete instruction execution — which is exactly `study-pack-v2/08`'s scan method, done
 on a non-Mano machine. Watch it to understand *why* the method works, then do the scan on the BC.
 
 ### U3 — Control unit design and microprogrammed control
-*(study-pack 07, 08)*
+*(v1 07, 08 — neither assignment tested U3, so v2 has no file for it)*
 
 | Topic | Tier 4 | Tier 1 |
 |---|---|---|
@@ -133,7 +135,7 @@ where video coverage earns the most — you have no slides to tell you the empha
 independent treatments is the best substitute available.
 
 ### U4 — Parallel processing and pipelining
-*(study-pack 09, 10)*
+*(v2 09 · v1 09, 10)*
 
 | Topic | Tier 4 | Tier 1 |
 |---|---|---|
@@ -180,10 +182,10 @@ learning while producing almost none. The study pack is question-first for exact
 **The pattern that makes a video worth its time:**
 
 ```
-   1. Read the study-pack file's Map + Attempt section.  Try the questions. Fail some.
+   1. Read the study-pack-v2 file's Map + Attempt section.  Try the questions. Fail some.
    2. NOW watch the mapped video(s).  You are looking for the thing you got wrong.
    3. Close the video. Redo the Attempt questions from memory.
-   4. Only then read the file's Method section.
+   4. Only then read the file's Learn section.
 ```
 
 Step 3 is the one that does the work. A video watched *after* a failed attempt lands on a prepared
@@ -268,7 +270,8 @@ Your professor's Unit-1 deck ends on a slide reading *"Design a 4-bit ALU that m
 following operations. Explain its working in detail"*, marked "QnA". That is the
 **highest-confidence single question item in the subject** (`exam-map.md` F4) — the instructor's own
 question, in the instructor's own deck. Worth more than everything above. Worked in
-`study-pack/03` and again as `study-pack/11` Drill A, Section C.
+`study-pack-v2/05` (with the corrected ALSU table), and in v1 `study-pack/03` / `11`.
+Assignment 1 Q17 then asked it.
 
 ---
 
