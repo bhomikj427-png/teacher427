@@ -64,6 +64,12 @@ Each entry is one line:
   the map. -> ask a question plainly, no label, no rationale for asking it; state a finding only when
   it IS teaching content, never as workflow narration. If a sentence describes the process rather
   than the subject, delete it.
+- [stated 2026-09-15] **Terse ≠ assuming knowledge.** A minimal-word file that uses undefined terms
+  "is not teaching me, it expects I already know." → keep sentences earning, but define every term
+  before its first use, build from the learner's actual level (diagnose; default novice for a new
+  subject), and teach before testing with exam questions. Cut filler, never cut the explanation
+  steps. Found on ECE2108 study-pack-v2/01; v3 shape (Predict → Build with per-step Checks → Exam
+  form → Attempt) is the response.
 
 ## 2. Pace & session shape
 - [stated 2026-06-21] **Wants pace as fast as possible — "feed big, not small."** Deliver in large

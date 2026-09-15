@@ -172,3 +172,22 @@
 - [2026-09-15] Transcript pull hit **HTTP 429** on videos 01–04 (same time-based rate limit as
   2026-09-13; triggered right after the playlist listing). Loop stopped; restarted with a 20-min
   initial wait, 90 s spacing, 10-min backoff. Meanwhile `video-lectures.md` re-pointed to study-pack-v2.
+- [2026-09-15] Learner, on `study-pack-v2/01`: terse is still wanted, but the file "expects that I
+  already know" — it is not teaching. **Diagnosis (from the file, not the learner):** v2 01 is a
+  reference sheet — it uses register, clock pulse, instruction set, addressing mode, word, bus before
+  defining any of them, and opens with exam questions a novice cannot attempt (contract: never open
+  with unguided struggle for a true novice). Learner level for ECE2108 = **novice** (signals: asked
+  "what is fetch?", "what is Mano?"). Request: **study-pack-v3, files 00 and 01 only**, to iterate on
+  the shape before the rest is built.
+- [2026-09-15] v3 shape decided: **Predict → Build (one idea per step, concrete, every term defined
+  before use, a covered Check after each step) → Exam form → Attempt (assignment Qs moved AFTER the
+  build) → Traps → Self-test → Answers at bottom.** One running example across both files: a
+  3-instruction Basic Computer program (LDA 200 / ADD 201 / STA 202 → 3 + 5 = 8), opcodes verified
+  against KB U2 (LDA 2xxx, ADD 1xxx, STA 3xxx; 4096 × 16-bit memory). 00 = start page + ground zero
+  (bit → binary/hex → word → memory/address → register → clock → instruction/program); 01 =
+  foundations rebuilt on it. Facts from KB U1 §1–§4, §11.
+- [2026-09-15] `study-pack-v3/` **built — 2 files**: `00-START-HERE.md` (file shape, path, textbook,
+  ground zero in 9 steps with Checks) and `01-foundations.md` (7 build steps with Checks, exam-form
+  tables carried from v2, A1 attempt set, traps, 6 self-test items, answers at bottom). Awaiting
+  learner feedback on the shape before 02–10. **No teaching event — mastery ledger and review queue
+  unchanged.**
