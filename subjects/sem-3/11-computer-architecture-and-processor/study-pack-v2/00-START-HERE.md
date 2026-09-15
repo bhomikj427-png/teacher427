@@ -6,6 +6,28 @@ topic-organized reference; v2 is organized around **what this professor actually
 
 ---
 
+## The textbook ("Mano")
+
+**"Mano" = M. Morris Mano, *Computer System Architecture*, 3rd edition, Pearson (2007).** Reference 1 on
+your course hand-out; every "Ref: M. M. Mano" on the professor's slides means this book. Searching
+"Mano" alone returns nothing — search the full title with the author's name.
+
+| Mano chapter | Your unit |
+|---|---|
+| 4 — Register Transfer and Microoperations | U1 |
+| 5 — Basic Computer Organization and Design | U2 |
+| 7 — Microprogrammed Control | U3 |
+| 8 — Central Processing Unit (program control) | U3 |
+| 9 — Pipeline and Vector Processing | U4 |
+| 11 — Input-Output Organization · 12 — Memory Organization | U5, U6 (after the MTE) |
+
+The professor's decks are built from chapters 4, 5 and 9, and Assignment 2 copies its end-of-chapter
+problems. Get it from the college library or as the Pearson India paperback. This pack and the
+knowledge base already contain what you need from it; the book is for the extra end-of-chapter
+problems.
+
+---
+
 ## What the assignments changed
 
 | | v1 | **v2** |

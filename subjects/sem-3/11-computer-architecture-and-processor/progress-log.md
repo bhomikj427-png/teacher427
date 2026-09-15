@@ -158,3 +158,6 @@
   the two delay conventions (register delay inside vs separate), found while reconciling Mano 9-5 with
   the KB's FP-adder example. v1 `00-START-HERE` points to v2. **No teaching event — mastery ledger and
   review queue unchanged.**
+- [2026-09-15] Learner: "what is even Mano? can't find much online"; videos are gap-fillers, not the
+  starting point. Pack used "Mano" without ever defining it. Fix: `study-pack-v2/00-START-HERE.md`
+  gains a "The textbook" section (full title, chapter → unit map, how to get it).
