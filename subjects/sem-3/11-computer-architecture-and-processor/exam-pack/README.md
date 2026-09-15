@@ -11,6 +11,8 @@ Material for **Computer Architecture & Processor [ECE2108]**. Routed here from `
 | `slides-unit1-register-transfer-microoperations.pdf` | prof deck (33 pp) | U1 — arch vs organization, functional units, RTL, bus/memory transfers, arithmetic/logic/shift microoperations, ALSU |
 | `slides-unit2-basic-computer-organization-design.pdf` | prof deck (48 pp) | U2 — Mano's Basic Computer end to end |
 | `slides-unit3-parallel-processing-pipelining.pdf` | prof deck (36 pp) | U4 — parallel processing, Flynn, pipelining, hazards |
+| `ASSIGNMENT-A1-ECE2108-2026-08.pdf` | **assignment** (CWS, 20 Q / 200 marks) — added 2026-09-15 | U1 + DE prerequisites + generations/types of computers + bus standards + RISC/CISC |
+| `ASSIGNMENT-A2-ECE2108-2026-09.pdf` | **assignment** (CWS, 15 Q / 150 marks, due 16-09-2026) — added 2026-09-15 | U2 instruction format/bus/traces/control gates + U4 pipeline numericals; 12 of 15 are Mano ch. 5/9 end-of-chapter problems |
 
 **The hand-out is the most valuable single document in the whole sem-3 batch so far** — it is the only
 first-party source that fixes a marks split and an MTE/ETE boundary by direct statement rather than
@@ -20,8 +22,8 @@ inference.
 
 Ranked by value to exam performance — see `../knowledge-base/exam-map.md` §5:
 
-1. **Any ECE2108 past paper (MTE or ETE).** None exists here. Question *forms* in the exam-map are
-   therefore **inference, not evidence** — this is the single highest-value gap.
+1. **Any ECE2108 past paper (MTE or ETE).** None exists here. Since 2026-09-15 the two assignments
+   give **first-party question forms** for U1, U2 and U4 — but not exam mark splits or U3 forms.
 2. **Decks for L12–L36** — i.e. everything from microprogrammed control onward: control unit design,
    program control, I/O organization, memory organization, **the 8086** (8 lectures, the highest-value
    unit), and RISC-V. Those units were built textbook-primary.

@@ -45,3 +45,10 @@
   units are researched **textbook + NPTEL-primary** per the protocol, not deck-driven.
 - **No PYQ for this subject** — neither MTE nor ETE. Exam *structure* comes from the handout's marks
   table; question *forms* are `uncertain` until a paper arrives.
+
+- `[2026-09-15]` `A1. ECE2108-CAP - Assignment 1 v2.pdf` → `11-computer-architecture-and-processor/exam-pack/ASSIGNMENT-A1-ECE2108-2026-08.pdf` — **ASSIGNMENT** (CWS) — Assignment 1, 20 Q, 200 marks, due 18-08-2026 extended to 24-08-2026; "one mark = 20 words". Covers U1 end-to-end + DE prerequisites (flip-flop, decoder, MUX, registers, shift register) + generations/types of computers + bus standards + RISC/CISC. **First professor-set question evidence for ECE2108.**
+- `[2026-09-15]` `2. ECE2108 Assignment 2.pdf` → `.../exam-pack/ASSIGNMENT-A2-ECE2108-2026-09.pdf` — **ASSIGNMENT** (CWS) — Assignment 2, 15 Q, 150 marks, due 16-09-2026 16:30. Covers U2 (instruction format, bus control, CLA/ADD-indirect traces, 3-word fetch, JK control gates, PC control gates) + U4 (pipeline register table, k+n−1, speedup numerical, branch-handling hardware, FI-DA-FO-EX step). **12 of 15 items are verbatim Mano 3e end-of-chapter problems** (ch. 5 and ch. 9) — signals the professor draws exam-style items from Mano's exercises.
+
+### Findings raised by this batch
+- **ALSU select codes:** the professor's ALSU slide (deck 1 p. 32) uses Mano Table 4-8's ordering, which differs from the arithmetic-circuit table on deck 1 p. 25. The KB and study-pack v1 had used the p. 25 ordering for the ALSU — corrected 2026-09-15.
+- **A2 Q5 `C₇T₃`** is not a BC signal name; most likely `D₇T₃`. `uncertain`.

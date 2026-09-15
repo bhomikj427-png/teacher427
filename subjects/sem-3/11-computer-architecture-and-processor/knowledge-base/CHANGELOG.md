@@ -166,3 +166,25 @@ hard teaching gate (`../../research-engine/two-stage-depth.md`) is met. **Caveat
 teaching and must be stated to the learner, not hidden:** exam *question forms* are inference (no PYQ);
 no deck exists for L12–L36; Mano was verified through reproductions rather than read directly; and
 taxonomy counts (addressing modes, instruction groups, transfer modes) are conventions, not facts.
+
+---
+
+## 2026-09-15 — Assignment delta (A1 + A2)
+
+- **Triggered by** the professor's Assignment 1 and Assignment 2 arriving (`../exam-pack/ASSIGNMENT-*`).
+  Delta diagnosis per `subject-research-protocol.md` §2 (late material re-scopes, never re-teaches).
+- **ERROR CORRECTED — U1 §10 ALSU function table.** The base used the arithmetic-circuit ordering
+  (`0000 1` = add with carry) for the ALSU. The professor's ALSU slide (deck 1 p. 32, image read) and
+  Mano Table 4-8 (Adelphi reproduction) give `0000 0` transfer A, `0000 1` increment, `0001 0` add,
+  `0001 1` add with carry, … Full table now in §10 with the MUX-wiring explanation (0, B, B′, 1) that
+  reconciles the two tables. Logged as `misconceptions.md` M24. `study-pack/03` corrected the same day.
+- **ADDED — U1 §11:** digital-computer and computer definitions (Mano ch. 1, Hamacher §1), generations
+  of computers with technology + landmark machines + people, computer types on four axes, the bus's
+  role and seven named bus standards. Sources in `sources.md` §"2026-09-15 additions". Generation
+  boundaries marked `contested` (vary by author).
+- **VERIFIED — A2 numericals and traces against the Mano Solutions Manual, each re-derived:** 5-1
+  (7/6/18 bits), 5-3, 5-4, 5-6, 5-9 (CLA row), 5-12 (0A62, E = 1), 5-20 (J/K for F), 5-21 (PC gates),
+  9-3 (205 cycles), 9-5 (50 ns / 100 ns / 1.67 / 1.96 / 2), 9-10, 9-11. Two manual typos caught (see
+  `sources.md`). No KB fact changed as a result — the base already agreed.
+- **exam-map §4** — forms appearing in A1/A2 promoted from inference to **evidence** (new §4a).
+- Status unchanged: `stage-2✓`.

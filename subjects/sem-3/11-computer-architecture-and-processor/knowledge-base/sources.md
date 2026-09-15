@@ -133,6 +133,24 @@ is flagged in its unit file and in `misconceptions.md` (M13, M18, M21). **No bar
 `likely`) and the full opcode map; RISC-V ABI register names (convention, `likely`); RISC-V's UC
 Berkeley origin and governance (widely documented, not checked against a primary record).
 
+## 2026-09-15 additions (Assignment-driven delta)
+
+| Source | Tier | Used for | Confidence |
+|---|---|---|---|
+| **Assignment 1 and Assignment 2, ECE/VDT 2108**, MUJ (`../exam-pack/ASSIGNMENT-A*.pdf`) | 0 (scope/forms) | first-party question forms for U1, U2, U4 | `settled` for forms; never for truth |
+| **Unit 1 deck p. 32, ALSU function table** (embedded image, extracted with pypdf and read) | 0 | the ALSU select-code ordering the professor uses | `settled` as the professor's table |
+| **Solutions Manual — M. Morris Mano, *Computer System Architecture*** (reproduction hosted at uobabylon.edu.iq, `paper_11_1497_49.pdf`, 98 pp) | 1–2 (publisher solutions, via reproduction) | answers to Mano 4-12, 4-19, 4-21, 5-1, 5-3, 5-4, 5-6, 5-9, 5-10, 5-12, 5-16, 5-20, 5-21, 5-22, 5-25, 9-2…9-11 — **every one re-derived, not copied** | `settled` where re-derivation agrees; **two typos caught** (5-12(c) AR = 7AC → 9AC; 5-21 `RT7` → `RT2`, `rB4 + (AC15)′` → `rB4(AC15)′`) |
+| **Adelphi Univ. CS371 lecture 9** (`home.adelphi.edu/~siegfried/cs371/371l9.pdf`), reproducing Mano ch. 4 | 2 | independent confirmation of Mano Table 4-8 ALSU ordering | `settled` (agrees with deck p. 32) |
+| **Hamacher, Vranesic, Zaky, *Computer Organization* 5e §1.1** (reproduction at idoc.pub) | 1 (prescribed ref. 5) | computer definition; six computer types | `settled` |
+| **Mano CSA ch. 1** definition of digital computer (quoted identically by several institutional notes, e.g. svcn.ac.in ECE lecture notes) | 1 via 2 | definition | `settled` |
+| **Computer History Museum** — computers timeline (`computerhistory.org/timeline/computers/`) and *The Silicon Engine* timeline + 1971 microprocessor entry | 2 (museum, curated) | ENIAC, First Draft 1945, Manchester Baby 1948, UNIVAC 1951, TX-0 1956, IBM 7090, System/360 1964, RCA Spectra 1966, 4004 1971 (Hoff, Mazor, Faggin, Shima), Altair, Apple II, IBM PC; transistor Dec 1947; Kilby 1958; Noyce 1959 | `settled` |
+| Wikipedia — *History of computing hardware*; *EISA*; *VESA Local Bus*; *Fifth Generation Computer Systems* | 3 | ENIAC tube count and dates; EISA 1988 32-bit; VLB 1992; FGCS 1982–1994 (MITI/ICOT) | `likely`; cross-checked against CHM where overlapping |
+| EBSCO Research Starters / historyofinformation.com — FORTRAN | 3 | FORTRAN shipped April 1957, John Backus's IBM team | `likely` |
+| 74HC194 datasheet (Nexperia) | 2 | bidirectional shift register mode table 00 hold / 01 right / 10 left / 11 load (matches Mano ch. 2 register) | `settled` |
+
+**Generation date boundaries are `contested` across authors** (±2–5 years); the technology assigned to
+each generation is not. Packs say "approximately".
+
 ## Verification log
 
 - `[2026-09-12]` **U3 field widths triangulated** — control memory 128 × 20 and the microinstruction

@@ -279,13 +279,97 @@ operations. Explain its working in detail."** Treat this as the single most like
 - Total: **4 select lines + Cᵢₙ**.
 
 **Operation count (`settled`):** with S₃S₂ = 00 the arithmetic circuit's S₁S₀ + Cᵢₙ give **8**
-operations (§7's table); S₃S₂ = 01 the logic circuit's S₁S₀ give **4** (AND, OR, XOR, complement);
+operations; S₃S₂ = 01 the logic circuit's S₁S₀ give **4** (AND, OR, XOR, complement);
 S₃S₂ = 10 gives **shift right**; S₃S₂ = 11 gives **shift left**. **8 + 4 + 1 + 1 = 14 operations.**
+
+**ALSU function table — `settled` (corrected 2026-09-15).** The professor's ALSU slide (deck 1 p. 32)
+and Mano Table 4-8 both print this ordering, which is **not** the §7 arithmetic-circuit ordering:
+
+| S₃ | S₂ | S₁ | S₀ | Cᵢₙ | Operation | Function |
+|---|---|---|---|---|---|---|
+| 0 | 0 | 0 | 0 | 0 | F = A | transfer A |
+| 0 | 0 | 0 | 0 | 1 | F = A + 1 | increment A |
+| 0 | 0 | 0 | 1 | 0 | F = A + B | addition |
+| 0 | 0 | 0 | 1 | 1 | F = A + B + 1 | add with carry |
+| 0 | 0 | 1 | 0 | 0 | F = A + B′ | subtract with borrow |
+| 0 | 0 | 1 | 0 | 1 | F = A + B′ + 1 | subtraction |
+| 0 | 0 | 1 | 1 | 0 | F = A − 1 | decrement A |
+| 0 | 0 | 1 | 1 | 1 | F = A | transfer A |
+| 0 | 1 | 0 | 0 | × | F = A ∧ B | AND |
+| 0 | 1 | 0 | 1 | × | F = A ∨ B | OR |
+| 0 | 1 | 1 | 0 | × | F = A ⊕ B | XOR |
+| 0 | 1 | 1 | 1 | × | F = A′ | complement A |
+| 1 | 0 | × | × | × | F = shr A | shift right A into F |
+| 1 | 1 | × | × | × | F = shl A | shift left A into F |
+
+**Why it differs from §7, mechanically:** this table is what you get when the arithmetic stage's
+4-to-1 MUX is wired **input 0 → 0, 1 → B, 2 → B′, 3 → 1** (check: S₁S₀ = 00 gives A + 0 + Cᵢₙ = transfer
+or increment; 11 gives A + 1111 = A − 1, or A with Cᵢₙ = 1). §7's standalone circuit is wired B, B′, 0, 1.
+Both are correct *for their own wiring*. **When answering the ALSU question, use this table and draw
+the MUX with this wiring** — the professor's slide is this table. Before 2026-09-15 this section and
+`study-pack/03` wrongly reused §7's ordering for the ALSU (`CHANGELOG.md`, `misconceptions.md` M24).
 
 **Mechanism worth saying out loud:** the ALSU computes *all* candidate results in parallel, every
 cycle, and the select lines merely choose which one is allowed out. Hardware does not "decide then
 compute" — it computes everything and discards. That is the deep reason control is just *selection*,
 and it is the idea U2's control unit is built on.
+
+## 11. Definitions, generations, computer types, bus standards — added 2026-09-15
+
+Added after Assignment 1 (Q1, Q3, Q5, Q13) asked for material this unit did not yet hold. Sources in
+`sources.md` §"2026-09-15 additions".
+
+**Definitions.**
+- **Digital computer** (Mano ch. 1): "a digital system that performs various computational tasks. The
+  word *digital* implies that the information in the computer is represented by variables that take a
+  limited number of discrete values." `settled`.
+- **Computer** (Hamacher §1): "a fast electronic calculating machine that accepts digitized input
+  information, processes it according to a list of internally stored instructions, and produces the
+  resulting output information." `settled`.
+- **Microarchitecture** = computer organization (§1): the implementation of an ISA — datapath, control,
+  pipelining, caches. `settled`.
+- **Microoperation** (§7), **RTL** (§5). `settled`.
+
+**Generations of computers.** Date boundaries **vary by author by a few years** (`contested` as to exact
+years; the *technology* per generation is `settled`). Stating "approximately" is the honest form.
+
+| Gen | ≈ Period | Switching technology | Landmark machines / advances | People |
+|---|---|---|---|---|
+| 1 | 1945–1956 | vacuum tubes; machine language; magnetic drum / delay-line memory | ENIAC (operational end-1945, 18,000+ tubes); von Neumann's *First Draft of a Report on the EDVAC* (1945) = stored-program concept; Manchester Baby ran the first stored program (21-Jun-1948); UNIVAC I (1951, first widely known commercial computer) | J. Presper Eckert & John Mauchly (ENIAC, UNIVAC); John von Neumann (stored program); Tom Kilburn & F. C. Williams (Manchester) |
+| 2 | 1956–1964 | discrete **transistors** (point-contact transistor, Bell Labs, Dec 1947); magnetic-core memory; assembly + first high-level languages | TX-0 (1956, first general-purpose transistorized computer); IBM 7090; **FORTRAN** shipped 1957 | John Bardeen, Walter Brattain, William Shockley (transistor; 1956 Nobel); John Backus (FORTRAN) |
+| 3 | 1964–1971 | **integrated circuits** (SSI/MSI); operating systems, multiprogramming | IBM System/360 (1964, one architecture across a 50:1 performance range — the architecture/organization split made commercial); RCA Spectra 70 (1966, first large commercial IC computers) | Jack Kilby (IC demonstrated 1958); Robert Noyce (monolithic planar IC patent 1959) |
+| 4 | 1971–≈1980s | **LSI → VLSI**; the **microprocessor** (CPU on one chip); personal computers | Intel 4004 (1971, 4-bit, ~2,300 transistors); Altair 8800 (1975); Apple II (1977); IBM PC (1981) | Ted Hoff & Stanley Mazor (4004 concept); Federico Faggin & Masatoshi Shima (4004 implementation) |
+| 5 | ≈1980s– | ULSI, massively parallel processing, AI-oriented design | Japan's **Fifth Generation Computer Systems** project (MITI/ICOT, 1982–1994: parallel inference machines, logic programming) | — (national programme; "fifth generation" is a label, not a single technology break) |
+
+**Types of computers.** "In how many ways are computers divided" has **no single textbook count** —
+there are three standard axes (`likely` as a framing; each category's content `settled`):
+
+| Axis | Classes |
+|---|---|
+| **By size / capability** (Hamacher §1.1, the prescribed reference) | personal (desktop) · portable notebook · workstation (high-res graphics, engineering use) · enterprise system / mainframe (business data processing) · server (large databases, many access requests) · supercomputer (large-scale numerical: weather forecasting, aircraft simulation) |
+| **By data representation** | analog (continuous quantities) · digital (discrete values — Mano's definition) · hybrid (both) |
+| **By purpose** | general-purpose (stored program, any task) · special-purpose / embedded (fixed task) |
+| **By Flynn's streams** | SISD · SIMD · MISD · MIMD (U4 §3) |
+
+**Bus: definition and role** (§6 + standard). A bus is a shared set of wires connecting several
+sources to several destinations, time-shared so only one source drives it at once. A **system bus**
+has three functional groups: **data lines** (the word), **address lines** (which memory location or
+I/O port), **control lines** (read/write, timing, interrupt, bus request/grant). Role: replace n(n−1)
+point-to-point links with one shared path.
+
+**Named bus standards** (for "list five popular bus structures"; `settled` facts, Tier 2–3 sources):
+
+| Bus | Year | Character |
+|---|---|---|
+| **ISA** (Industry Standard Architecture) | 1981 (8-bit PC), 1984 (16-bit PC/AT) | IBM PC expansion bus |
+| **EISA** (Extended ISA) | 1988 | 32-bit, ISA-compatible; clone-vendor answer to IBM's MCA |
+| **VESA Local Bus (VLB)** | 1992 | 32-bit, runs at processor local-bus speed; short-lived (i486 era) |
+| **PCI** (Peripheral Component Interconnect) | 1992 | processor-independent parallel bus, 32-bit at 33 MHz; dominant by the mid-1990s |
+| **SCSI** (Small Computer System Interface) | ANSI X3.131 | parallel bus for disks/peripherals |
+| **USB** (Universal Serial Bus) | 1996 | serial, hot-pluggable peripheral bus |
+| **PCI Express (PCIe)** | 2003 | serial point-to-point *links* replacing PCI/AGP — "bus" in name only (stage-2 §) |
+
+Hamacher 5e §4.7 ("Standard I/O Interfaces") treats **PCI, SCSI and USB** as its three examples.
 
 ---
 

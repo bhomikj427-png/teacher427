@@ -5,17 +5,16 @@
 > See `../README.md`.
 
 ## Session resume
-- Last session: 2026-09-13 (no teaching).
-- Where we stopped: `study-pack/` built to MTE scope (U1–U4); `video-lectures.md` built and then
-  **corrected against fetched transcripts** (one source retracted, one playlist's titles shown
-  unreliable); `study-pack/10` gained a verified CPI-formulation appendix. Learner has not worked
-  any drill and has not reported watching anything.
-- Next up: **Session 1** — diagnostic before any teaching. Place level with three probes:
-  (a) RTL-is-hardware probe — "what two things must be true for `DR ← M[AR]` to happen?";
-  (b) the control-derivation scan — "give LD(AR) for the Basic Computer";
-  (c) pipeline ceiling probe — "would a 12-stage pipeline be 12× faster?".
-  Then open U1 via the loop at the placed level. Digital Electronics is an assumed prerequisite
-  (registers, decoders, MUX, flip-flops, adders, tri-state) — verify by retrieval, teach only gaps.
+- Last session: 2026-09-15 (no teaching).
+- Where we stopped: `study-pack-v2/` built (11 files, assignment-anchored) from Assignments 1 and 2;
+  KB U1 §10 ALSU table corrected (was wrong vs the professor's slide) and U1 §11 added; v1 files 03
+  and 11 corrected. A2 (due 16-09-2026 16:30) answer key **not yet added** to v2 files 06–09 —
+  add it after the deadline. Learner offered marking of their A2 answers; none received yet.
+- Next up: (1) after 16-09-2026 16:30, append A2 answer keys to v2 files 06–09 (verified values in
+  this log's 2026-09-15 entries + `knowledge-base/sources.md`); (2) **Session 1** diagnostic, unchanged:
+  (a) "what two things must be true for `DR ← M[AR]` to happen?"; (b) "give LD(AR) for the Basic
+  Computer"; (c) "would a 12-stage pipeline be 12× faster?". Learner's own A2 answers, if sent, serve
+  as diagnostic evidence for U2/U4.
 - Due for review today: nothing yet (no items mastered).
 
 ## Mastery ledger
@@ -109,3 +108,53 @@
 - [2026-09-13] Raw transcripts kept at `_transcripts/` (5 files, ~142 kB) with a README recording
   what each **actually** contains vs what its playlist title claimed, so the retractions above can be
   checked against evidence rather than taken on trust. ASR caveat restated there.
+- [2026-09-15] Learner dropped **two professor-set assignments** in `_inbox/`: `A1. ECE2108-CAP -
+  Assignment 1 v2.pdf` (20 Q, 200 marks, submitted by 24-08-2026) and `2. ECE2108 Assignment 2.pdf`
+  (15 Q, 150 marks, **due 16-09-2026 16:30**). Request: **study-pack-v2** built from them, to the
+  universal preferences. These are the **first first-party question-form evidence** for ECE2108
+  (previously all forms were inference). Routing: triage → `exam-pack/`; delta diagnosis vs the KB
+  before any file is written.
+- [2026-09-15] **Delta diagnosis (A1+A2 vs KB) — results:**
+  - **Covered by KB, no delta:** A1 Q2, Q4, Q6, Q10–Q12, Q14–Q16, Q18–Q20; A2 Q1–Q4, Q6–Q7, Q9–Q15.
+  - **Gaps (not in KB, researched this session, sourced):** A1 Q1 (definitions of digital computer),
+    Q3 (**generations of computers** + contributors), Q5 (**types of computers**), Q13 (**named bus
+    standards**). A1 Q7–Q9 are Digital-Electronics prerequisites → taken from the DE KB + Mano ch. 2–3.
+  - **⚠ ERROR FOUND in KB U1 §10 and in `study-pack/03`:** the ALSU function table there uses the
+    arithmetic-circuit ordering (`0000 1` = add with carry). The **professor's own ALSU slide** (deck 1
+    p. 32, image extracted and read) and **Mano Table 4-8** (confirmed via an Adelphi Univ.
+    reproduction) give `0000 0` = transfer A, `0000 1` = increment, `0001 0` = add, `0001 1` = add
+    with carry, `0010 0/1` = subtract w/ borrow / subtract, `0011 0/1` = decrement / transfer,
+    `0100–0111` = AND/OR/XOR/complement, `10xx` shr, `11xx` shl. The two tables are consistent only if
+    the ALSU's MUX is wired **0 → 0, 1 → B, 2 → B′, 3 → 1**. A1 Q17 asks exactly this item.
+  - **New verification source:** the *Solutions Manual, Mano CSA* (uobabylon.edu.iq reproduction).
+    **A2 Q1, Q2, Q3, Q4b, Q6, Q7, Q9, Q10, Q12, Q13, Q14, Q15 are Mano end-of-chapter problems
+    5-1, 5-3, 5-4, 5-6, 5-9, 5-12, 5-20, 5-21, 9-3, 9-5, 9-10, 9-11**; A1 Q16 = 4-12, Q18 = 4-19.
+    Manual answers cross-checked by re-derivation; **two manual typos caught**: 5-12(c) prints
+    AR = 7AC (must be 9AC); 5-21 prints `RT7` and `rB4 + (AC15)′` (must be `RT2` and `rB4(AC15)′`).
+  - **A2 Q5 wording** `C₇T₃: SC ← 0` matches no BC signal; read as `D₇T₃` (textbook form `D₃T₄`),
+    flagged `uncertain` in the pack.
+- [2026-09-15] **Pack decision (A2 due tomorrow):** A2's own questions appear as attempt items with
+  method + a fully worked **twin** (different numbers) for each; A2's exact answer key is **held back
+  until after the 16-09-2026 16:30 deadline**; learner offered marking of their own answers. A1
+  (already submitted) gets full answers.
+- [2026-09-15] Triage: A1 → `exam-pack/ASSIGNMENT-A1-ECE2108-2026-08.pdf`, A2 →
+  `exam-pack/ASSIGNMENT-A2-ECE2108-2026-09.pdf`; recorded in `../_inbox/TRIAGE-LOG.md` and
+  `exam-pack/README.md`. KB edits following from the delta: U1 §10 ALSU table corrected + new U1 §11
+  (definitions, generations, computer types, bus standards) with sources; `CHANGELOG.md`,
+  `sources.md`, `misconceptions.md` (M24), `exam-map.md` §4 (A1/A2 forms now **evidence**).
+  `study-pack/03` ALSU table corrected in place with a dated correction note.
+- [2026-09-15] Started `study-pack-v2/` (assignment-anchored). Planned files: 00 start-here, 01
+  foundations (A1 Q1–6, Q20), 02 digital building blocks (A1 Q7), 03 RTL + bus (A1 Q10–14), 04
+  microoperations + signed arithmetic (A1 Q8–9, Q15–16, Q18–19), 05 ALSU (A1 Q17), 06 BC format + bus
+  control (A2 Q1–4), 07 timing + traces (A2 Q5–8), 08 control-gate derivation (A2 Q9–10), 09 pipeline
+  numericals + branching (A2 Q11–15), 10 mock paper. All numbers pre-verified by
+  `scratchpad/verify_v2.py` (A1 Q8/9/16/18/19, A2 Q7, every twin, every speedup).
+- [2026-09-15] `study-pack-v2/` **built — 11 files**: 00 start-here, 01 foundations, 02 digital
+  building blocks, 03 RTL + common bus, 04 microoperations + signed arithmetic, 05 ALSU, 06 BC format +
+  bus control, 07 timing + traces, 08 control-gate derivation, 09 pipelining numericals, 10 mock paper
+  (30 marks, layout assumed from the DE sibling MTE). A1 answers complete; A2 items carry method +
+  worked twin, key withheld to deadline. Twin/mock numbers re-verified by script (1250/720 = 1.74,
+  12500/6120 = 2.04, 3900/1495 = 2.61, 39000/13195 = 2.96, 195/65 = 3.0). Also added to file 09:
+  the two delay conventions (register delay inside vs separate), found while reconciling Mano 9-5 with
+  the KB's FP-adder example. v1 `00-START-HERE` points to v2. **No teaching event — mastery ledger and
+  review queue unchanged.**

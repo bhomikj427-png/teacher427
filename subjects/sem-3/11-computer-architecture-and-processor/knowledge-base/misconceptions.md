@@ -232,6 +232,14 @@ for the reader.**
 **Teaching move:** ask *who* the encoding is designed to be convenient for. The answer reframes the
 whole unit.
 
+
+**M24 — "The ALSU uses the same select codes as the arithmetic circuit."** `observed-in-source`
+The deck's arithmetic-circuit table (p. 25: `S₁S₀Cᵢₙ = 001` → add with carry) and its ALSU table
+(p. 32, = Mano Table 4-8: `S₃S₂S₁S₀Cᵢₙ = 00011` → add with carry) use **different orderings**; the ALSU
+table implies MUX wiring 0, B, B′, 1. This KB and `study-pack/03` made exactly this error until
+2026-09-15. **Correction:** quote the ALSU table from U1 §10 and draw the MUX to match it; say which
+wiring you drew.
+
 ---
 
 ## To-verify (protocol §10 backlog)
@@ -244,7 +252,7 @@ whole unit.
   sources: two machines with different parameters, a convention that varies, an encoding exception).
   What is **not** verified is *how often learners actually fall into it*. State the distinction
   honestly rather than claiming frequency data that does not exist here.
-- Entries marked `observed-in-source` (**M1, M7, M9, M16, M21, M23**) are the strongest: each is an
+- Entries marked `observed-in-source` (**M1, M7, M9, M16, M21, M23, M24**) are the strongest: each is an
   error or a precision point **found in the supplied or primary material this session**, with the
   contradiction documented in `CHANGELOG.md` or the unit file.
 - **Once teaching begins, replace inference with observation.** Real errors this learner makes are

@@ -261,16 +261,19 @@ select lines S₃S₂S₁S₀ plus a carry input Cᵢₙ.
 ripples from stage i to stage i+1.
 
 **(3) The arithmetic circuit.** One full adder per bit. X = Aᵢ. **Y is the output of a 4-to-1 MUX**
-selecting Bᵢ, Bᵢ′, 0 or 1 under S₁S₀. Cᵢₙ enters stage 0.
+selecting 0, Bᵢ, Bᵢ′ or 1 under S₁S₀. Cᵢₙ enters stage 0.
+
+> ⚠ **Corrected 2026-09-15** — this table previously used the standalone arithmetic-circuit ordering
+> (B, B′, 0, 1). The professor's ALSU slide and Mano Table 4-8 use the ordering below.
 
 | S₁ | S₀ | Cᵢₙ | Y | Output D | Microoperation |
 |---|---|---|---|---|---|
-| 0 | 0 | 0 | B | A + B | add |
-| 0 | 0 | 1 | B | A + B + 1 | add with carry |
-| 0 | 1 | 0 | B′ | A + B′ | subtract with borrow |
-| 0 | 1 | 1 | B′ | A + B′ + 1 | subtract |
-| 1 | 0 | 0 | 0 | A | transfer A |
-| 1 | 0 | 1 | 0 | A + 1 | increment A |
+| 0 | 0 | 0 | 0 | A | transfer A |
+| 0 | 0 | 1 | 0 | A + 1 | increment A |
+| 0 | 1 | 0 | B | A + B | addition |
+| 0 | 1 | 1 | B | A + B + 1 | add with carry |
+| 1 | 0 | 0 | B′ | A + B′ | subtract with borrow |
+| 1 | 0 | 1 | B′ | A + B′ + 1 | subtraction |
 | 1 | 1 | 0 | 1 | A − 1 | decrement A |
 | 1 | 1 | 1 | 1 | A | transfer A |
 

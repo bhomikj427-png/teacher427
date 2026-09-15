@@ -216,7 +216,7 @@ replicated four times, once per bit; all four stages share the same select lines
 ripples from stage i to stage i+1."*
 
 **(3) Give the arithmetic block.** One full adder per bit; X = Aᵢ; Y = the output of a 4-to-1 MUX
-selecting Bᵢ, Bᵢ′, 0 or 1 under S₁S₀; Cᵢₙ into stage 0. Reproduce the 8-row function table.
+selecting 0, Bᵢ, Bᵢ′ or 1 under S₁S₀ (ALSU wiring — see the correction below); Cᵢₙ into stage 0.
 
 **(4) Give the logic block.** Four gates per bit — AND, OR, XOR, NOT of Aᵢ — selected by S₁S₀:
 
@@ -230,14 +230,19 @@ selecting Bᵢ, Bᵢ′, 0 or 1 under S₁S₀; Cᵢₙ into stage 0. Reproduce 
 **(5) Give the output MUX and the full function table.** The 4-to-1 output MUX takes Dᵢ (arithmetic),
 Eᵢ (logic), Aᵢ₊₁ (shift right) and Aᵢ₋₁ (shift left), selected by S₃S₂:
 
+> ⚠ **Corrected 2026-09-15.** This table previously reused the arithmetic-circuit ordering. The
+> professor's ALSU slide (deck 1 p. 32) and Mano Table 4-8 use the ordering below, which corresponds to
+> the arithmetic MUX wired **0 → 0, 1 → B, 2 → B′, 3 → 1**. Draw the MUX that way in this answer.
+> Worked in full in `../study-pack-v2/05-alsu.md`.
+
 | S₃ | S₂ | S₁ | S₀ | Cᵢₙ | Operation | Function |
 |---|---|---|---|---|---|---|
-| 0 | 0 | 0 | 0 | 0 | F = A + B | add |
-| 0 | 0 | 0 | 0 | 1 | F = A + B + 1 | add with carry |
-| 0 | 0 | 0 | 1 | 0 | F = A + B′ | subtract with borrow |
-| 0 | 0 | 0 | 1 | 1 | F = A + B′ + 1 | subtract |
-| 0 | 0 | 1 | 0 | 0 | F = A | transfer A |
-| 0 | 0 | 1 | 0 | 1 | F = A + 1 | increment A |
+| 0 | 0 | 0 | 0 | 0 | F = A | transfer A |
+| 0 | 0 | 0 | 0 | 1 | F = A + 1 | increment A |
+| 0 | 0 | 0 | 1 | 0 | F = A + B | addition |
+| 0 | 0 | 0 | 1 | 1 | F = A + B + 1 | add with carry |
+| 0 | 0 | 1 | 0 | 0 | F = A + B′ | subtract with borrow |
+| 0 | 0 | 1 | 0 | 1 | F = A + B′ + 1 | subtraction |
 | 0 | 0 | 1 | 1 | 0 | F = A − 1 | decrement A |
 | 0 | 0 | 1 | 1 | 1 | F = A | transfer A |
 | 0 | 1 | 0 | 0 | × | F = A ∧ B | AND |

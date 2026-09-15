@@ -124,12 +124,47 @@ drill list, **not** as evidence of what will be asked.
 | F28 | RISC-V: why an open ISA; RV32I features; the register file | U8 | L35–L36 outcomes ("need & USP") |
 | F29 | Identify/decode a RISC-V instruction format (R/I/S/U + B/J variants) | U8 | Patterson & Hennessy |
 
+## 4a. Question forms now EVIDENCED by the professor's assignments — `settled` (added 2026-09-15)
+
+Assignment 1 (200 marks) and Assignment 2 (150 marks) are first-party. They are **CWS** instruments, not
+the MTE — so they settle *what the professor asks and how*, not the MTE mark split.
+
+| Form | Where it appears | Promotes |
+|---|---|---|
+| Define 6 terms at 2 marks each (digital computer, architecture, organization, microarchitecture, microoperation, RTL) | A1 Q1 | F1 |
+| Arch vs org · von Neumann vs Harvard · RISC/CISC short notes (10 marks each) | A1 Q2, Q6, Q20 | F1, F2 |
+| **Generations of computers, tabulated with technology + people** | A1 Q3 | new |
+| Functional units and their roles · types of computers | A1 Q4, Q5 | new |
+| **Explain + draw from basic gates:** D FF, 3:8 decoder, 4:1 MUX, quad 2:1 MUX, 4-bit parallel-load register, 4-bit bidirectional shift register with parallel load | A1 Q7 (24 marks) | new — DE prerequisites are examinable here |
+| Signed-magnitude / 1's / 2's representation; 8-bit 2's-complement addition | A1 Q8, Q9 | new |
+| Classify register vs memory transfer; conditional RTL → block diagram | A1 Q10–Q12 | F3 |
+| Bus: definition, role, five named standards; **common bus for 4×4-bit registers with MUXes and with tri-state + decoder** | A1 Q13, Q14 | F6 |
+| **4-bit adder-subtractor with given M, A, B** | A1 Q16 | new |
+| **Design 4-bit ALSU, explain named functions** | A1 Q17 (16 marks) | F4 — confirmed |
+| Micro-operation sequence on 8-bit registers; shift sequence on R | A1 Q18, Q19 | F5 |
+| Instruction-format bit sizing (memory size + register count) | A2 Q1 | new |
+| **Bus control inputs ↔ register transfer, both directions** | A2 Q2, Q3 | F6 — confirmed |
+| Binary instruction → hex → meaning | A2 Q4 | new |
+| Timing diagram for one `D·T: SC ← 0` | A2 Q5 | F7 |
+| **Register-contents trace after an RRI / an indirect MRI** | A2 Q6, Q7 | new |
+| Fetch sequence for a non-BC machine (3-word instruction) | A2 Q8 | F7 variant |
+| **JK control gates for a flip-flop from RTL** · **PC control gates LD/INR/CLR** | A2 Q9, Q10 | F9 — confirmed |
+| Pipeline configuration + register table for an arithmetic expression | A2 Q11 | F15 |
+| k + n − 1 · **delay-based speedup (tₚ, tₙ, S for two n, Sₘₐₓ)** | A2 Q12, Q13 | F14 — confirmed |
+| Four hardware branch-handling schemes | A2 Q14 | F16 |
+| FI-DA-FO-EX contents at step k | A2 Q15 | F15 |
+
+**Two structural signals:** (1) **12 of A2's 15 items are verbatim Mano 3e end-of-chapter problems**
+(ch. 5: 5-1, 5-3, 5-4, 5-6, 5-9, 5-12, 5-20, 5-21; ch. 9: 9-3, 9-5, 9-10, 9-11) — Mano's exercises are
+the professor's question bank; drill them. (2) **U3 (microprogrammed control) appears in neither
+assignment** — its forms F11–F13 stay inference.
+
 ## 5. What would sharpen this map
 
 Ranked by how much it would improve exam targeting:
 
-1. **Any ECE2108 MTE or ETE paper** — would convert §4 from inference to evidence and fix the
-   per-question mark split. *The single highest-value thing the learner can supply.*
+1. **Any ECE2108 MTE or ETE paper** — would fix the per-question mark split; §4a (assignments) now
+   evidences forms for U1/U2/U4 but not exam marks or U3. *Still the highest-value item.*
 2. **The decks for L12–L36** — would confirm emphasis for U3 and all four ETE units, and resolve
    whether 8086 is taught from Bhurchandi's notation (BA/EA/MA) or Intel's.
 3. **What CWS actually consists of** — 30 marks, currently unplannable.
