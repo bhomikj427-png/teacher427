@@ -172,23 +172,23 @@ Otherwise, the content of F must not change. Draw the logic diagram showing the 
 **Q10** *(10)* `= Mano 5-21` · v3 file 08 · **verbatim, word for word**
 Derive the control gates associated with the program counter PC in the basic computer. Draw the logic diagram of the gates and show how the output is connected to the LD, INR and CLR inputs of PC. Minimize the number of gates.
 
-**Q11** *(10)* `= Mano 9-1` · v3 file 09
+**Q11** *(10)* `= Mano 9-1` · v3 file 11
 In certain scientific computations it is necessary to perform the arithmetic operation (Aᵢ + Bᵢ)(Cᵢ + Dᵢ) with a stream of numbers. Specify a pipeline configuration to carry out this task. List the contents of all registers in the pipeline for i = 1 through 6.
 
-**Q12** *(10)* `= Mano 9-3` · v3 file 09 · **verbatim**
+**Q12** *(10)* `= Mano 9-3` · v3 file 11 · **verbatim**
 Determine the number of clock cycles that it takes to process 200 tasks in a six-segment pipeline.
 
-**Q13** *(10)* `= Mano 9-5` · v3 file 09
+**Q13** *(10)* `= Mano 9-5` · v3 file 11
 A three segment pipeline structure is used to perform the arithmetic operation (Aᵢ × Bᵢ) + Cᵢ for i = 1 through 6 with a stream of numbers. R1 through R5 are registers that receive new data with every clock pulse. The pipeline configuration has the following propagation times: 40 ns for the operands to be read from memory into registers R1 and R2, 45 ns for the signal to propagate through the multiplier, 5 ns for the transfer into R3, and 15 ns to add the two numbers into R5.
 a. What is the minimum clock cycle time that can be used?
 b. A non-pipeline system can perform the same operation by removing R3 and R4. How long will it take to multiply and add the operands without using the pipeline?
 c. Calculate the speedup of the pipeline for 10 tasks and again for 100 tasks.
 d. What is the maximum speedup that can be achieved?
 
-**Q14** *(10)* `= Mano 9-10` · v3 file 09 · **verbatim**
+**Q14** *(10)* `= Mano 9-10` · v3 file 11 · **verbatim**
 Explain four possible hardware schemes that can be used in an instruction pipeline in order to minimize the performance degradation caused by instruction branching.
 
-**Q15** *(10)* `= Mano 9-11` · v3 file 09
+**Q15** *(10)* `= Mano 9-11` · v3 file 11
 Consider the four instructions in the following program. Suppose that the first instruction starts from step 1 in the four-segment pipeline. Specify what operations are performed in the four segments during step 4.
 ```
 Load    R1 ← M[312]
@@ -312,7 +312,7 @@ fifteen are the exam.
 - **5-24** *(file 08)* Derive the Boolean logic expression for x₁ (see Table 5-7). Show that x₁ can be generated with one AND gate and one OR gate.
 - **5-25** *(file 08)* Derive the Boolean expression for the gate structure that clears the sequence counter SC to 0. Draw the logic diagram of the gates and show how the output is connected to the INR and CLR inputs of SC (see Fig. 5-6). Minimize the number of gates.
 
-## Chapter 7 — Microprogrammed Control → U3
+## Chapter 7 — Microprogrammed Control → file 09 (U3)
 
 **Neither assignment touches U3.** This chapter is the *only* question evidence that exists for it.
 The MTE covers U3 (lectures L12–L15, before the mid-term divider), so do not skip it.
@@ -342,7 +342,7 @@ The MTE covers U3 (lectures L12–L15, before the mid-term divider), so do not s
 - **7-23** Design a 7-bit combinational circuit incrementer for the microprogram sequencer of Fig. 7-8 (see Fig. 4-8). Modify the incrementer by including a control input D: when D = 0 the circuit increments by one, when D = 1 by two.
 - **7-24** Insert an exclusive-OR gate between MUX 2 and the input logic of Fig. 7-8. One input to the gate comes from the test output of the multiplexer; the other from a polarity bit P in the microinstruction. Explain the effect.
 
-## Chapter 8 — Central Processing Unit (program control + status bits) → U3
+## Chapter 8 — Central Processing Unit (program control + status bits) → file 10 (U3)
 
 U3's *program control and status bits* half. Only the in-scope items are listed.
 
@@ -359,30 +359,30 @@ U3's *program control and status bits* half. Only the in-scope items are listed.
 - **8-30** The program compares two unsigned numbers A and B by A − B and updating the status bits. A = 01000001, B = 10000100. a. Evaluate the difference and interpret the binary result. b. Determine C (borrow) and Z. c. List the conditional branch instructions from Table 8-11 that will have a true condition.
 - **8-31** As 8-30, but A and B are **signed**.
 
-## Chapter 9 — Pipeline and Vector Processing → file 09 (U4)
+## Chapter 9 — Pipeline and Vector Processing → file 11 (U4)
 
 **He copies this chapter too.** Five of its 20 problems are Assignment 2 Q11–Q15.
 
-- **9-1** *(file 09)* `[A2 Q11]`
-- **9-2** *(file 09)* Draw a space-time diagram for a six-segment pipeline showing the time it takes to process eight tasks. — **not asked yet; the diagram behind A2 Q12's formula**
-- **9-3** *(file 09)* `[A2 Q12]` — verbatim.
-- **9-4** *(file 09)* A nonpipeline system takes 50 ns to process a task. The same task can be processed in a six-segment pipeline with a clock cycle of 10 ns. Determine the speedup ratio of the pipeline for 100 tasks. What is the maximum speedup that can be achieved? — **not asked yet; the cleanest speedup numerical in the book**
-- **9-5** *(file 09)* `[A2 Q13]`
-- **9-6** *(file 09)* It is necessary to design a pipeline for a fixed-point multiplier that multiplies two 8-bit binary integers. Each segment consists of a number of AND gates and a binary adder similar to an array multiplier (Fig. 10-10). a. How many AND gates are there in each segment, and what size of adder is needed? b. How many segments are there in the pipeline? c. If the propagation delay in each segment is 30 ns, what is the average time to multiply two fixed-point numbers in the pipeline?
-- **9-7** *(file 09)* The time delays of the four segments in the pipeline of Fig. 9-6 are t₁ = 50 ns, t₂ = 30 ns, t₃ = 95 ns, t₄ = 45 ns. The interface register delay tᵣ = 5 ns. a. How long would it take to add 100 pairs of numbers in the pipeline? b. How can we reduce the total time to about one-half of the time calculated in part (a)? — **the unequal-segment case; the bottleneck segment sets the clock**
-- **9-8** *(file 09)* How would you use the floating-point pipeline adder of Fig. 9-6 to add 100 floating-point numbers X₁ + X₂ + X₃ + ⋯ + X₁₀₀?
-- **9-9** *(file 09)* Formulate a six-segment instruction pipeline for a computer. Specify the operations to be performed in each segment. — **not asked yet; the FI-DA-FO-EX four-segment version is what the deck teaches**
-- **9-10** *(file 09)* `[A2 Q14]` — verbatim.
-- **9-11** *(file 09)* `[A2 Q15]`
-- **9-12** *(file 09)* Give an example of a program that will cause data conflict in the three-segment pipeline of Sec. 9-5.
-- **9-13** *(file 09)* Give an example that uses delayed load with the three-segment pipeline of Sec. 9-5.
-- **9-14** *(file 09)* Give an example of a program that will cause a branch penalty in the three-segment pipeline of Sec. 9-5.
-- **9-15** *(file 09)* Give an example that uses delayed branch with the three-segment pipeline of Sec. 9-5.
-- **9-16** *(file 09)* Consider the multiplication of two 40 × 40 matrices using a vector processor. a. How many product terms are there in each inner product, and how many inner products must be evaluated? b. How many multiply-add operations are needed to calculate the product matrix?
-- **9-17** *(file 09)* How many clock cycles does it take to process an inner product in the pipeline of Fig. 9-12 when used to evaluate the product of two 60 × 60 matrices? How many inner products are there, and how many clock cycles does it take to evaluate the product matrix?
-- **9-18** *(file 09)* Assign addresses to an array of data of 1024 words to be stored in the memory described in Fig. 9-13.
-- **9-19** *(file 09)* A weather forecasting computation requires 250 billion floating-point operations. The problem is processed in a supercomputer that can perform 100 megaflops. How long will it take to do these calculations?
-- **9-20** *(file 09)* Consider a computer with four floating-point pipeline processors, each using a cycle time of 40 ns. How long will it take to perform 400 floating-point operations? Is there a difference if the same 400 operations are carried out using a single pipeline processor with a cycle time of 10 ns?
+- **9-1** *(file 11)* `[A2 Q11]`
+- **9-2** *(file 11)* Draw a space-time diagram for a six-segment pipeline showing the time it takes to process eight tasks. — **not asked yet; the diagram behind A2 Q12's formula**
+- **9-3** *(file 11)* `[A2 Q12]` — verbatim.
+- **9-4** *(file 11)* A nonpipeline system takes 50 ns to process a task. The same task can be processed in a six-segment pipeline with a clock cycle of 10 ns. Determine the speedup ratio of the pipeline for 100 tasks. What is the maximum speedup that can be achieved? — **not asked yet; the cleanest speedup numerical in the book**
+- **9-5** *(file 11)* `[A2 Q13]`
+- **9-6** *(file 11)* It is necessary to design a pipeline for a fixed-point multiplier that multiplies two 8-bit binary integers. Each segment consists of a number of AND gates and a binary adder similar to an array multiplier (Fig. 10-10). a. How many AND gates are there in each segment, and what size of adder is needed? b. How many segments are there in the pipeline? c. If the propagation delay in each segment is 30 ns, what is the average time to multiply two fixed-point numbers in the pipeline?
+- **9-7** *(file 11)* The time delays of the four segments in the pipeline of Fig. 9-6 are t₁ = 50 ns, t₂ = 30 ns, t₃ = 95 ns, t₄ = 45 ns. The interface register delay tᵣ = 5 ns. a. How long would it take to add 100 pairs of numbers in the pipeline? b. How can we reduce the total time to about one-half of the time calculated in part (a)? — **the unequal-segment case; the bottleneck segment sets the clock**
+- **9-8** *(file 11)* How would you use the floating-point pipeline adder of Fig. 9-6 to add 100 floating-point numbers X₁ + X₂ + X₃ + ⋯ + X₁₀₀?
+- **9-9** *(file 11)* Formulate a six-segment instruction pipeline for a computer. Specify the operations to be performed in each segment. — **not asked yet; the FI-DA-FO-EX four-segment version is what the deck teaches**
+- **9-10** *(file 11)* `[A2 Q14]` — verbatim.
+- **9-11** *(file 11)* `[A2 Q15]`
+- **9-12** *(file 11)* Give an example of a program that will cause data conflict in the three-segment pipeline of Sec. 9-5.
+- **9-13** *(file 11)* Give an example that uses delayed load with the three-segment pipeline of Sec. 9-5.
+- **9-14** *(file 11)* Give an example of a program that will cause a branch penalty in the three-segment pipeline of Sec. 9-5.
+- **9-15** *(file 11)* Give an example that uses delayed branch with the three-segment pipeline of Sec. 9-5.
+- **9-16** *(file 11)* Consider the multiplication of two 40 × 40 matrices using a vector processor. a. How many product terms are there in each inner product, and how many inner products must be evaluated? b. How many multiply-add operations are needed to calculate the product matrix?
+- **9-17** *(file 11)* How many clock cycles does it take to process an inner product in the pipeline of Fig. 9-12 when used to evaluate the product of two 60 × 60 matrices? How many inner products are there, and how many clock cycles does it take to evaluate the product matrix?
+- **9-18** *(file 11)* Assign addresses to an array of data of 1024 words to be stored in the memory described in Fig. 9-13.
+- **9-19** *(file 11)* A weather forecasting computation requires 250 billion floating-point operations. The problem is processed in a supercomputer that can perform 100 megaflops. How long will it take to do these calculations?
+- **9-20** *(file 11)* Consider a computer with four floating-point pipeline processors, each using a cycle time of 40 ns. How long will it take to perform 400 floating-point operations? Is there a difference if the same 400 operations are carried out using a single pipeline processor with a cycle time of 10 ns?
 
 ---
 

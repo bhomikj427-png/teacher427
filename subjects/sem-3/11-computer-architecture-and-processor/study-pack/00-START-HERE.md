@@ -4,8 +4,10 @@ Scope: **U1 + U2 + U3 + U4.** Built from the professor's course hand-out, the th
 the textbook-verified knowledge base. U5 (I/O organization), U6 (memory organization), U7 (8086) and
 U8 (RISC-V) are **ETE material and are not in this pack**.
 
-> **v2 exists (2026-09-15):** `../study-pack-v2/` is rebuilt around the professor's Assignments 1 and 2
-> — real question forms. This pack's ALSU table (file 03, file 11) was corrected the same day.
+> **⭐ v3 is the live pack (2026-09-23):** `../study-pack-v3/` — 13 files, question-first, covering the
+> whole MTE scope **including U3**, which neither this pack's ordering nor v2 handled well. Start there.
+> This pack stays as the topic-organized reference; `../study-pack-v2/` stays as the assignment-anchored
+> one. This pack's ALSU table (files 03 and 11) was corrected on 2026-09-15.
 
 ---
 

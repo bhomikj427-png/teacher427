@@ -4,6 +4,10 @@ Built from the professor's **Assignment 1** (20 Q, 200 marks) and **Assignment 2
 Every file is anchored to specific assignment questions. v1 (`../study-pack/`) stays as the
 topic-organized reference; v2 is organized around **what this professor actually asks**.
 
+> **⭐ Superseded by v3 (2026-09-23):** `../study-pack-v3/` is the live pack — same assignment anchoring,
+> but every concept is introduced by the real question it answers, and it covers **U3**, which this pack
+> omits entirely because neither assignment tests it. U3 is still on the mid-term. Use v3.
+
 ---
 
 ## The textbook ("Mano")

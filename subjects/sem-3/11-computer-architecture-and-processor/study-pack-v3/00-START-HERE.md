@@ -4,7 +4,7 @@
 The question comes first, you guess, then the answer teaches you the concept.
 No invented questions — every one is quoted from the professor's assignments or from the textbook.
 
-Status: **00 and 01 built**; 02–10 follow once this shape is right.
+Status: **complete — 13 files, 00–12**, covering the whole MTE scope U1–U4.
 
 ---
 
@@ -55,30 +55,31 @@ Mark every Check and Self-test item:
 ## The path
 
 ```
-   [00] Ground zero              ◄ YOU ARE HERE    bits, hex, memory, register, clock, program
-    │
-   [01] Foundations                                what a computer is, its parts,
-    │                                              von Neumann/Harvard, architecture, RISC/CISC
-   [02] Digital building blocks                    flip-flop, decoder, MUX, register circuits
-    │
-   [03] RTL + common bus          *                how registers pass data — the gate to everything after
-    │
-   [04] Microoperations + signed arithmetic
-    │
-   [05] ALSU                      *
-    │
-   [06] Basic Computer: instruction format + bus
-    │
-   [07] Timing + execution traces *
-    │
-   [08] Control-gate derivation   *
-    │
-   [09] Pipelining numericals                      needs only 03
-    │
-   [10] Mock paper
+  U1 │ [00] Ground zero        ◄ START   bits, hex, memory, register, clock, program
+     │ [01] Foundations                 what a computer is, its parts, von Neumann,
+     │                                  architecture vs organization, RISC/CISC
+     │ [02] Digital building blocks     flip-flop, decoder, MUX, register circuits
+     │ [03] RTL + common bus      *     how registers pass data — the gate to all of U2
+     │ [04] Microoperations + signed arithmetic
+     │ [05] ALSU                  *     the professor's own closing slide
+  ───┼──────────────────────────────────────────────────────────────────
+  U2 │ [06] BC: instruction format + bus control
+     │ [07] Timing + execution traces   *
+     │ [08] Control-gate derivation     *
+  ───┼──────────────────────────────────────────────────────────────────
+  U3 │ [09] Microprogrammed control     ⚠ no assignment covers U3
+     │ [10] Program control + status bits
+  ───┼──────────────────────────────────────────────────────────────────
+  U4 │ [11] Pipelining numericals       needs only 03 — can be done early
+  ───┼──────────────────────────────────────────────────────────────────
+     │ [12] Mock paper                  30 marks, timed — a diagnostic, not a lesson
 ```
 
-`*` = most marks per hour.
+`*` = most marks per hour. **If time is short: 03, 07, 08, 05 first, then 11.**
+
+⚠ **U3 (files 09 and 10) is your most exposed unit.** Neither assignment touches it, so there are no
+worked examples from the professor at all — but the hand-out prints the Mid-Term divider after L19,
+and U3 is L12–L15. Everything you practise there comes from Mano.
 
 ---
 

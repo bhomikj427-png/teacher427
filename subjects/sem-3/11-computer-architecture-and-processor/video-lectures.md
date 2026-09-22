@@ -36,7 +36,7 @@ pack, the study pack is right until proven otherwise — and tell me, because th
 
 **Why this matters more for you than for most students.** You are the first batch, so there is no
 PYQ and no senior's notes. (Since 2026-09-15 the professor's two assignments give real question forms —
-`study-pack-v2/` is built on them and outranks every video here.) What you *can* do is watch someone else's *examination* of the same
+`study-pack-v3/` is built on them and outranks every video here.) What you *can* do is watch someone else's *examination* of the same
 material — so **§5 is the section to read first**. It is also the section where transcripts were
 actually fetched and read, which is why two of its original four recommendations had to be
 retracted: titles lie, and the only cure is opening the thing.
@@ -78,7 +78,7 @@ retracted: titles lie, and the only cure is opening the thing.
 
 ## §2 — MTE map: U1 → U4
 
-Watch order matches `study-pack-v2/` (assignment-anchored, 2026-09-15). **Pair each video with its
+Watch order matches `study-pack-v3/` (assignment-anchored, 2026-09-15). **Pair each video with its
 v2 file** — the file is where the retrieval happens; the video is only exposure. v1 file numbers are
 given second, for U3 (which v2 does not cover).
 
@@ -93,11 +93,11 @@ given second, for U3 (which v2 does not cover).
 | Arithmetic microoperations, the 4-bit arithmetic circuit | [MANO-SA] #4 `oTtvWDdeSEQ` | — |
 | Logic microoperations | [MANO-SA] #5 `VIR_jcKo94E` | — |
 | Shift microoperations | [MANO-SA] #6 `6TwX8d9GuOc` | — |
-| **ALSU — the deck's own exam question** | [MANO-SA] #7 `LjuIcbqRrbI` ⚠ check which select-code table it uses (`study-pack-v2/05`) | — |
+| **ALSU — the deck's own exam question** | [MANO-SA] #7 `LjuIcbqRrbI` ⚠ check which select-code table it uses (`study-pack-v3/05`) | — |
 
 ⚠ **U1 has almost no Tier-1 video coverage**, because "arithmetic/logic/shift microoperations and a
 one-stage ALSU" is a Mano-specific treatment. This is the unit where you lean hardest on
-`study-pack-v2/05` and the professor's Unit-1 deck, and use the Tier-4 videos only to see the circuit
+`study-pack-v3/05` and the professor's Unit-1 deck, and use the Tier-4 videos only to see the circuit
 drawn.
 
 ### U2 — The Basic Computer
@@ -114,7 +114,7 @@ drawn.
 | **Design of BC + accumulator logic** | [MANO-SA] #17 `qw05VJh_f-w` · #18 `dSQtryKGkVE` | [IITG-COA] M03 L03 `KvjmIpOYn4o` — *the same scan method, different machine* |
 
 **[IITG-COA] M03 L03 is the single most transferable Tier-1 video for U2.** It derives control
-signals for a complete instruction execution — which is exactly `study-pack-v2/08`'s scan method, done
+signals for a complete instruction execution — which is exactly `study-pack-v3/08`'s scan method, done
 on a non-Mano machine. Watch it to understand *why* the method works, then do the scan on the BC.
 
 ### U3 — Control unit design and microprogrammed control
@@ -182,7 +182,7 @@ learning while producing almost none. The study pack is question-first for exact
 **The pattern that makes a video worth its time:**
 
 ```
-   1. Read the study-pack-v2 file's Map + Attempt section.  Try the questions. Fail some.
+   1. Read the study-pack-v3 file's Map + Attempt section.  Try the questions. Fail some.
    2. NOW watch the mapped video(s).  You are looking for the thing you got wrong.
    3. Close the video. Redo the Attempt questions from memory.
    4. Only then read the file's Learn section.
@@ -222,15 +222,15 @@ Watching it as if it were your syllabus would drill the wrong formula.
 
 | Part of it | Verdict for your MTE |
 |---|---|
-| True/false: *"RAW data hazard can be reduced by operand forwarding"* (true) | **useful** — this is `study-pack/10`'s forwarding, in different vocabulary |
+| True/false: *"RAW data hazard can be reduced by operand forwarding"* (true) | **useful** — this is `study-pack-v3/11`'s forwarding, in different vocabulary |
 | True/false: *"a normal in-order 5-stage MIPS pipeline can achieve IPC > 1"* (false) | **useful** — it is the throughput ceiling argument |
-| Numerical: CPI-based speedup | **useful with the caveat** — worked in `study-pack/10`, Appendix |
-| Numerical: Load/Add chain, stalls with and without forwarding | **the best single item** — worked in `study-pack/10`, Appendix |
+| Numerical: CPI-based speedup | **useful with the caveat** — worked in `study-pack-v3/11`, Appendix |
+| Numerical: Load/Add chain, stalls with and without forwarding | **the best single item** — worked in `study-pack-v3/11`, Appendix |
 | Numerical: 2-bit correlating branch predictor | **out of scope** — stage-2 depth, skip for the MTE |
 | True/false on FP multi-cycle initiation interval, WAW, big/little endian | **out of scope** |
 
 Both usable numericals are now **worked, with the arithmetic independently re-derived**, in
-`study-pack/10` → *Appendix — the CPI formulation*. You do not need to watch the video to get them.
+`study-pack-v3/11` → *Appendix — the CPI formulation*. You do not need to watch the video to get them.
 
 ### ❌ [IITM-CO] L13 and L14 — claim retracted
 
@@ -261,7 +261,7 @@ That is **Lec 4**, not a tutorial. And `IQql2ojVzsU`, titled *"Lec 4: Pipeline H
 **The playlist's titles are unreliable; the speedup-numericals tutorial was not found at its labelled
 link.** What `deKUGMHZjB4` actually contains is still worth watching — a careful structural-hazard
 walkthrough on a uni-port memory, with both cures (stall/bubble, or duplicate the hardware into
-separate instruction and data memories) — which **corroborates `study-pack/10` §8(a) exactly**. Just
+separate instruction and data memories) — which **corroborates `study-pack-v3/11` §8(a) exactly**. Just
 do not expect the tutorial the title promises.
 
 ### The item that still outranks every video here
@@ -270,7 +270,7 @@ Your professor's Unit-1 deck ends on a slide reading *"Design a 4-bit ALU that m
 following operations. Explain its working in detail"*, marked "QnA". That is the
 **highest-confidence single question item in the subject** (`exam-map.md` F4) — the instructor's own
 question, in the instructor's own deck. Worth more than everything above. Worked in
-`study-pack-v2/05` (with the corrected ALSU table), and in v1 `study-pack/03` / `11`.
+`study-pack-v3/05` (with the corrected ALSU table), and in v1 `study-pack/03` / `11`.
 Assignment 1 Q17 then asked it.
 
 ---

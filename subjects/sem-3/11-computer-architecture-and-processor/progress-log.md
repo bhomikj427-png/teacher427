@@ -6,20 +6,21 @@
 
 ## Session resume
 - Last session: 2026-09-23 (no teaching).
-- Where we stopped: `study-pack-v3/` files **00 and 01 rebuilt question-first** and awaiting the
-  learner's verdict on the shape; 02–10 unbuilt. `question-bank.md` built (35 assignment questions
-  verbatim + 141 Mano problems, chs. 2–9). Mano 3e full text obtained — the 2026-09-12 limitation is
-  closed; `exam-map.md`, `sources.md`, `00-map.md`, `CHANGELOG.md` updated accordingly.
-- **v2 is dropped by learner instruction** (2026-09-23: "forget about v2"). The previously-pending task
-  "after 16-09-2026 append A2 answer keys to v2 files 06–09" is therefore **cancelled, not overdue**.
-  `study-pack-v2/` stays on disk as reference; v3 is the live pack.
-- Next up: (1) learner verdict on the v3 00/01 question-first shape → then build 02–10 to it, in the
-  order 03, 07, 08, 05 first (most marks per hour). (2) **Session 1** diagnostic, unchanged:
-  (a) "what two things must be true for `DR ← M[AR]` to happen?"; (b) "give LD(AR) for the Basic
-  Computer"; (c) "would a 12-stage pipeline be 12× faster?".
-  (3) **Carry-over retrieval probe, still unattempted since 2026-09-15:** A2 Q7 / Mano 5-12 —
-  PC = 3AF, M[3AF] = 932E, what is fetched next? It is now the closing question of v3 file 00, so ask
-  it as the opening probe next session.
+- Where we stopped: **`study-pack-v3/` is COMPLETE — 13 files, 00–12**, all question-first, covering the
+  whole MTE scope U1–U4 including **U3**, which v2 omitted. `question-bank.md` holds the standing
+  question base (35 assignment questions verbatim + 141 Mano problems, chs. 2–9). Mano 3e obtained;
+  the 2026-09-12 limitation is closed. v1, v2 and `video-lectures.md` all re-point to v3.
+- **v2 is dropped by learner instruction** (2026-09-23: "forget about v2"). The old pending task
+  "append A2 answer keys to v2 files 06–09" is **cancelled, not overdue**.
+- Next up — **nothing is left to build; the next move is teaching.** In order:
+  (1) **Open with the carry-over retrieval probe, unattempted since 2026-09-15:** A2 Q7 / Mano 5-12 —
+  PC = 3AF, M[3AF] = 932E, what is fetched and executed next? It is now v3 file 00's closing question,
+  so it doubles as a check on whether the pack's ground zero landed.
+  (2) **Session 1 diagnostic, unchanged:** (a) "what two things must be true for `DR ← M[AR]` to
+  happen?"; (b) "give LD(AR) for the Basic Computer"; (c) "would a 12-stage pipeline be 12× faster?".
+  (3) Teach in pack order, leading with files 03, 07, 08, 05 (most marks per hour).
+  (4) Ask the learner for the **L12–L15 decks** if they exist — U3 is the most exposed unit (no
+  assignment, no deck) and a deck would settle its emphasis.
 - Due for review today: nothing yet (no items mastered).
 
 ## Mastery ledger
@@ -329,3 +330,25 @@
   A<B but S⊕V says A>B**, which is the concrete proof of why signed comparison uses S⊕V.
   Also threads the one-return-address limitation across all three levels (BSA → single SBR → stack).
   **No teaching event.**
+- [2026-09-23] v3 **files 11–12 built — the pack is complete (13 files, 00–12)**.
+  11 pipelining — A2 Q11–Q15 (= Mano 9-1, 9-3, 9-5, 9-10, 9-11) + Mano 9-2, 9-4, 9-7, 9-12–9-15.
+  **Re-derived:** 9-3 → **205**; 9-5 → tₚ=**50 ns** (segment 2 = 45 multiplier + 5 transfer), tₙ=**100 ns**,
+  S(10)=**1.67**, S(100)=**1.96**, Sₘₐₓ=**2** (agrees with the 2026-09-15 script check); 9-4 → **4.76**,
+  max 5; 9-7 → tₚ=100 ns, **10,300 ns**, halved by splitting the 95 ns segment → 5,720 ns;
+  9-1 → 3 segments with **two adders in parallel** in segment 2, 8-clock register table;
+  9-11 → step 4 = Load in **EX**, ADD in **FO**, INC in **DA**, STORE in **FI**, plus the structural
+  hazard that FI and FO both want memory at that step. **A2 Q14 precision:** the question says
+  *hardware* schemes, so the four are prefetch-target / BTB / loop buffer / branch prediction —
+  **delayed branch is the compiler's**, named separately. Carries the two-delay-convention warning
+  (tᵣ inside a segment vs added to the slowest) found on 2026-09-15.
+  12 mock paper — 30 marks, layout **assumed** from the DE sibling MTE (3×2 + 4×4 + 1×8) and labelled
+  as an assumption; all numbers new. **U3 is now examined in it** (A3, B4) — v2's mock excluded U3 and
+  v3 does not inherit that hole. Full mark scheme, a score→action table, and a lost-marks→weak-file
+  diagnosis table pointing back into the pack.
+- [2026-09-23] Cross-reference sweep: v3 `00-START-HERE` path map rebuilt for 13 files and grouped by
+  unit; v1 and v2 start pages re-pointed to v3; `video-lectures.md` re-pointed from study-pack-v2 to
+  study-pack-v3, with **pipelining renumbered v2/09 → v3/11** (v3 inserts the two U3 files at 09–10).
+- [2026-09-23] `question-bank.md` file tags corrected for the new 13-file path: chapter-9 items and
+  A2 Q11–Q15 were tagged `file 09` under the old numbering and are now **file 11**; Mano ch. 7 and
+  ch. 8 items now name their files (**09** and **10**) instead of only "U3". Caught by re-reading the
+  bank against the rebuilt path map — the bank was written before the U3 gap was found.
