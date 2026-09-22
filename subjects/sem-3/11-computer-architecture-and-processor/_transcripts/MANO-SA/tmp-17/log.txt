@@ -1,0 +1,5 @@
+[*] Fetching captions for: https://www.youtube.com/watch?v=qw05VJh_f-w
+[!] HTTP 429: YouTube is RATE-LIMITING this IP. Captions exist but are
+    temporarily refused - this is NOT 'no captions'. Wait and retry with
+    backoff; 10-30 min has been enough. Playlist listing still works,
+    so enumerate first, then pull transcripts slowly.
