@@ -5,16 +5,21 @@
 > See `../README.md`.
 
 ## Session resume
-- Last session: 2026-09-15 (no teaching).
-- Where we stopped: `study-pack-v2/` built (11 files, assignment-anchored) from Assignments 1 and 2;
-  KB U1 §10 ALSU table corrected (was wrong vs the professor's slide) and U1 §11 added; v1 files 03
-  and 11 corrected. A2 (due 16-09-2026 16:30) answer key **not yet added** to v2 files 06–09 —
-  add it after the deadline. Learner offered marking of their A2 answers; none received yet.
-- Next up: (1) after 16-09-2026 16:30, append A2 answer keys to v2 files 06–09 (verified values in
-  this log's 2026-09-15 entries + `knowledge-base/sources.md`); (2) **Session 1** diagnostic, unchanged:
+- Last session: 2026-09-23 (no teaching).
+- Where we stopped: `study-pack-v3/` files **00 and 01 rebuilt question-first** and awaiting the
+  learner's verdict on the shape; 02–10 unbuilt. `question-bank.md` built (35 assignment questions
+  verbatim + 141 Mano problems, chs. 2–9). Mano 3e full text obtained — the 2026-09-12 limitation is
+  closed; `exam-map.md`, `sources.md`, `00-map.md`, `CHANGELOG.md` updated accordingly.
+- **v2 is dropped by learner instruction** (2026-09-23: "forget about v2"). The previously-pending task
+  "after 16-09-2026 append A2 answer keys to v2 files 06–09" is therefore **cancelled, not overdue**.
+  `study-pack-v2/` stays on disk as reference; v3 is the live pack.
+- Next up: (1) learner verdict on the v3 00/01 question-first shape → then build 02–10 to it, in the
+  order 03, 07, 08, 05 first (most marks per hour). (2) **Session 1** diagnostic, unchanged:
   (a) "what two things must be true for `DR ← M[AR]` to happen?"; (b) "give LD(AR) for the Basic
-  Computer"; (c) "would a 12-stage pipeline be 12× faster?". Learner's own A2 answers, if sent, serve
-  as diagnostic evidence for U2/U4.
+  Computer"; (c) "would a 12-stage pipeline be 12× faster?".
+  (3) **Carry-over retrieval probe, still unattempted since 2026-09-15:** A2 Q7 / Mano 5-12 —
+  PC = 3AF, M[3AF] = 932E, what is fetched next? It is now the closing question of v3 file 00, so ask
+  it as the opening probe next session.
 - Due for review today: nothing yet (no items mastered).
 
 ## Mastery ledger
@@ -191,3 +196,72 @@
   tables carried from v2, A1 attempt set, traps, 6 self-test items, answers at bottom). Awaiting
   learner feedback on the shape before 02–10. **No teaching event — mastery ledger and review queue
   unchanged.**
+- [2026-09-23] Learner review of `study-pack-v3` 00/01: shape approved ("i like v3 so far"), with two
+  changes. (1) **Make it question-oriented**: open each teaching step with a **real quoted question**
+  — from the assignments first, from the textbook second — that the learner *would obviously not know
+  the answer to*, then answer it to teach the concept. (2) **Build a Mano question base as priority 2**
+  ("most of my assignment is built from mano anyways"). Scope held to **00 and 01 only** as the test
+  piece. v2 explicitly dropped from consideration ("forget about v2").
+  **Engine note (principle 1, kept):** question-then-answer is honoured as **pretesting / errorful
+  generation** (`research/02 §1, §5`; contract ACTIVATE "have them predict/attempt first — wrong
+  guesses help"). Each opening question therefore carries an explicit *guess before you read on* line.
+  Without it the shape degrades into a Q&A lecture and produces fluency, not learning.
+- [2026-09-23] ✅ **LIMITATION RESOLVED — a clean full copy of Mano 3e was obtained.** The open item
+  `[opened 2026-09-12]` in `knowledge-base/00-map.md` ("could not obtain a clean full copy… 8 download
+  attempts, truncating; *resolve by:* the learner supplying a Mano PDF") is closed **without** the
+  learner supplying anything. Source: **archive.org item `computer-system-architecture-morris-mano-third-edition`**,
+  OCR full text at `https://archive.org/download/computer-system-architecture-morris-mano-third-edition/computer-system-architecture-morris-mano-third-edition_djvu.txt`
+  (HTTP 200, 1,100,795 bytes, complete through ch. 12 references). Verified as the right book by
+  matching problem 5-1 verbatim against the professor's Assignment 2 Q1. Route note: `curl` reached
+  archive.org; the earlier-recorded host (uobabylon.edu.iq) is now `ECONNREFUSED`, and the
+  pdfcoffee/epdf copies are a truncated preview and an answers-only solutions manual respectively —
+  **only the archive.org route works**, so it is recorded in `sources.md`. The file is **not committed**
+  (whole third-party textbook); the identifier above re-fetches it in one command.
+- [2026-09-23] ⚠ **KB CORRECTION — the "12 of A2's 15 items are verbatim Mano problems" claim is wrong;
+  it is 15 of 15.** With the book itself readable, every A2 item was matched to its Mano source by
+  statement text, and the pairing cross-anchored on two items already independently verified from the
+  solutions manual on 2026-09-15 (5-9 = the CLA trace, 5-12 = the PC-3AF trace). Map:
+  A2 Q1=**5-1**, Q2=**5-3**, Q3=**5-4**, Q4=**5-6**, Q5=**5-8**, Q6=**5-9**, Q7=**5-12**, Q8=**5-16**,
+  Q9=**5-20**, Q10=**5-21**, Q11=**9-1**, Q12=**9-3**, Q13=**9-5**, Q14=**9-10**, Q15=**9-11**.
+  The two previously missed are **5-8** (the `C₇T₃: SC ← 0` timing diagram) and **5-16** (the 65,536×8
+  three-word-instruction fetch). Assignment 2 is Mano ch. 5 + ch. 9, unaltered, with sub-parts dropped.
+- [2026-09-23] **New finding — Assignment 1 is also Mano-derived, but *adapted*, not copied.** Traced:
+  A1 Q10 ← Mano **4-7** (memory-transfer statements, list changed); Q12 ← **4-1** (`yT₃` → `yT₂`);
+  Q14(ii) ← **4-5** (tri-state + decoder bus); Q14(i) ← **4-6** (16×32 registers → 4×4); Q16 ← **4-12**
+  (adder-subtractor — the professor's two cases *are* Mano's rows (a) and (d), unchanged);
+  Q18 ← **4-19** (registers renamed AR/BR/CR/DR → R1–R4, values and microoperation sequence identical);
+  Q19 ← **4-21** (`R = 11011101` → `11111111`, shifts reordered). Q17 (ALSU) is not a numbered problem —
+  it is Mano §4-7 / Fig. 4-13 itself. **Consequence for teaching order:** the professor copies ch. 5 and
+  ch. 9 outright and *re-numbers* ch. 4 — so for U2/U4 the Mano problem is the exam item, while for U1
+  the Mano problem predicts the *form* but the numbers will move. Recorded in `exam-map.md` §4a.
+- [2026-09-23] Built `question-bank.md` — the two-priority question base the learner asked for.
+  P1 = the professor's A1 (20 Q) + A2 (15 Q), transcribed verbatim from the `exam-pack` PDFs (pypdf).
+  P2 = Mano's end-of-chapter problems for the MTE scope, transcribed from the archive.org full text:
+  ch. 3 (26), ch. 4 (23), ch. 5 (25), ch. 7 (24), ch. 9 (20), plus the ch. 2 items A1 Q7 examines and
+  the ch. 8 status-bit items. Each P1 item carries its Mano source; each P2 item carries its v3 file.
+  OCR-damaged passages are marked, not silently repaired.
+- [2026-09-23] `study-pack-v3/` 00 and 01 **rebuilt question-first** (test piece; 02–10 still unbuilt).
+  New per-step shape: **Q (quoted, with its source and marks) → "guess first, on paper" → the answer,
+  taught → Check.** Every Build step in both files now opens on a real question, none invented.
+  File 00 opens its nine steps on A1 Q1(i), Mano 3-1, Mano 3-5, A2 Q1 (=Mano 5-1), A1 Q10(iii),
+  A1 Q18, A2 Q5 (=Mano 5-8), A2 Q4 (=Mano 5-6), A2 Q7 (=Mano 5-12). File 01 opens its seven on
+  A1 Q1, Q4, Q6, Q2, Q20, Q3, Q5 — 1:1, the whole 76-mark A1 foundations block.
+  **Honest gap stated in file 01:** Mano contributes **no** questions to it — his book has no
+  architecture-vs-organization, von Neumann/Harvard, generations or types problems, so P2 for
+  foundations is genuinely empty and the file says so rather than inventing items. Mano's question
+  base starts at file 02 and dominates 03–09.
+  File 00's closing question is **A2 Q7 / Mano 5-12 (PC = 3AF, M[3AF] = 932E)** — deliberately the
+  same probe logged unattempted on 2026-09-15, now reachable from ground zero.
+  **No teaching event — mastery ledger and review queue unchanged.**
+- [2026-09-23] **Catch-up (Session start §0b/§5c):** the tree carried uncommitted work from the session
+  that ended abruptly after 2026-09-15 — `_transcripts/MANO-SA/` (18 caption files + two yt-dlp `tmp-0x`
+  scratch dirs whose `log.txt` records the HTTP 429 diagnosis). Committed first, as its own commit,
+  before this session's work.
+  ⚠ **Quality check on those transcripts, done now rather than assumed: they are only partly usable.**
+  4 of 18 (`07`, `12`, `14`, `20`) are clean ASR. The other 14 are contaminated with YouTube
+  caption-spam — file `06` contains the word "subscribe" **146 times**, `21` 82 times, `02` 70 — injected
+  mid-sentence through the technical content, so whole passages are unreadable ("…transfer time t-20
+  have initiated the transfer… subscribe and subscribe the Channel…"). This is worse than ordinary ASR
+  mangling: it is not noise around the facts, it replaces them. **Consequence:** [MANO-SA] transcripts
+  stay Tier 4 and are **not** a usable verification source for the video-lecture map except for those
+  four files. The two claims retracted on 2026-09-15 stay retracted; no new claim rests on these.

@@ -349,14 +349,19 @@ architecture or extensions beyond RV32I.
   units are built **textbook + institutional/NPTEL-primary**, per protocol §2 ("when no instructor
   material exists for a unit, skip straight to the prescribed textbook + NPTEL"). Their *emphasis* is
   therefore less certain than U1/U2/U4's. Later decks probably exist — **ask the learner.**
-- `[opened 2026-09-12]` **Could not obtain a clean full copy of Mano 3e this session.** The one
+- `[CLOSED 2026-09-23]` ~~**Could not obtain a clean full copy of Mano 3e this session.**~~ The one
   full-text copy located is served chunked and **truncates** — 8 download attempts gave 2.0–7.3 MB,
   never a complete file; an xref rebuild recovered 1262 of ~4759 objects, with the page tree lost
   inside object streams. **Consequence and mitigation:** Mano's chapters were verified against
   **multiple independent institutional reproductions that agree with each other and with the
   professor's decks** (triangulation table in `sources.md`). That is authoritative-secondary, not
   primary. Load-bearing numbers so verified are `settled`; anything resting on a single reproduction
-  stays `likely`. *Resolve by:* the learner supplying a Mano PDF, or a library copy.
+  stays `likely`. ~~*Resolve by:* the learner supplying a Mano PDF, or a library copy.~~
+  **RESOLVED `[2026-09-23]` — the book was obtained** from archive.org item
+  `computer-system-architecture-morris-mano-third-edition` (OCR full text, complete; `sources.md`).
+  Mano-derived claims may now be verified against the primary text directly. The end-of-chapter
+  problems are transcribed into `../question-bank.md`. OCR damages subscripts and figure values, so
+  the text is primary for *prose and problem statements* and still wants a figure check for *numbers*.
 - `[opened 2026-09-12]` **8086 addressing-mode COUNT is convention-dependent — and CO4 is the
   highest-target CO (85%, L3).** Institutional sources give **12 modes in 5 groups** (register,
   immediate, direct, register indirect, based, indexed, based-index, string, direct I/O port,

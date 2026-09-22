@@ -154,10 +154,17 @@ the MTE — so they settle *what the professor asks and how*, not the MTE mark s
 | Four hardware branch-handling schemes | A2 Q14 | F16 |
 | FI-DA-FO-EX contents at step k | A2 Q15 | F15 |
 
-**Two structural signals:** (1) **12 of A2's 15 items are verbatim Mano 3e end-of-chapter problems**
-(ch. 5: 5-1, 5-3, 5-4, 5-6, 5-9, 5-12, 5-20, 5-21; ch. 9: 9-3, 9-5, 9-10, 9-11) — Mano's exercises are
-the professor's question bank; drill them. (2) **U3 (microprogrammed control) appears in neither
-assignment** — its forms F11–F13 stay inference.
+**Two structural signals:** (1) ~~12~~ **ALL 15 of A2's items are verbatim Mano 3e end-of-chapter
+problems** — corrected `[2026-09-23]` once the book itself became readable (`sources.md`); the earlier
+count of 12 was taken from the solutions manual's answer list and missed **5-8** and **5-16**. Map:
+Q1=5-1, Q2=5-3, Q3=5-4, Q4=5-6, Q5=5-8, Q6=5-9, Q7=5-12, Q8=5-16, Q9=5-20, Q10=5-21, Q11=9-1, Q12=9-3,
+Q13=9-5, Q14=9-10, Q15=9-11. Sub-parts are sometimes dropped — those remain fair exam game.
+**A1 is Mano-derived too, but adapted:** Q10←4-7, Q12←4-1 (`yT₃`→`yT₂`), Q14(i)←4-6 (16×32→4×4),
+Q14(ii)←4-5, Q16←4-12 (rows a and d **unchanged**), Q18←4-19 (registers renamed, values identical),
+Q19←4-21 (start value changed). **Consequence:** for U2/U4 the Mano problem *is* the question; for U1
+it predicts the form and he moves the numbers. Full transcription: `../question-bank.md`.
+(2) **U3 (microprogrammed control) appears in neither assignment** — its forms F11–F13 stay inference,
+so **Mano ch. 7's 24 problems are U3's only question evidence** (in the question bank).
 
 ## 5. What would sharpen this map
 

@@ -7,6 +7,42 @@
 
 ---
 
+## 2026-09-23 — Mano 3e obtained; assignment→textbook map corrected
+
+- `[2026-09-23]` **LIMITATION CLOSED — Mano 3e full text obtained** — the open item from 2026-09-12
+  ("could not obtain a clean full copy; *resolve by:* the learner supplying a Mano PDF") is closed
+  without learner input — trigger: the learner asked for a Mano question base for study-pack-v3, so
+  the book was hunted again; archive.org item `computer-system-architecture-morris-mano-third-edition`
+  serves a complete OCR full text (1.1 MB, HTTP 200) — confidence for Mano-derived claims:
+  `settled via reproductions` → **`settled via primary`**, except numbers inside figures/tables, which
+  OCR damages and which still want a figure check. Recorded in `sources.md`; the book is **not
+  committed** (whole third-party textbook), the identifier re-fetches it.
+
+- `[2026-09-23]` **CORRECTED — "12 of Assignment 2's 15 items are verbatim Mano problems"** — the
+  count was **wrong; it is 15 of 15** — the 2026-09-15 figure came from the solutions manual's answer
+  list, which does not restate problems, so **5-8** (the `C₇T₃: SC ← 0` timing diagram, A2 Q5) and
+  **5-16** (the 65,536×8 three-word-instruction fetch, A2 Q8) were not recognised as Mano items —
+  trigger: matching every A2 statement against the primary text, cross-anchored on 5-9 and 5-12 which
+  were independently verified on 2026-09-15 — confidence: `settled` (a wrong count) → `settled`
+  (corrected). Fixed in `exam-map.md` §4a. **No teaching claim depended on the count**; what changes is
+  the strength of the "drill Mano" strategy, which is now stronger, not weaker.
+
+- `[2026-09-23]` **NEW — Assignment 1 is Mano-derived but adapted** — previously recorded only as
+  "first-party question forms"; now traced item by item: A1 Q10←4-7, Q12←4-1, Q14(i)←4-6, Q14(ii)←4-5,
+  Q16←4-12, Q18←4-19, Q19←4-21, with Q17 being Mano §4-7/Fig. 4-13 itself — trigger: same pass —
+  confidence: `settled` for the six with identical data or wording, `likely` for Q11≈4-3.
+  **Consequence recorded in `exam-map.md` §4a:** he copies ch. 5 and ch. 9 outright but re-numbers
+  ch. 4, so for U1 the Mano problem predicts the *form* only.
+
+- `[2026-09-23]` **ADDED — `../question-bank.md`** — all 35 assignment questions (verbatim, pypdf) and
+  141 Mano problems across chs. 2, 3, 4, 5, 7, 8, 9, each tagged with its study-pack file and its
+  assignment counterpart — no KB fact changed. Notable gap it exposes: **U3 has no assignment
+  coverage at all**, so Mano ch. 7's 24 problems are that unit's only question evidence.
+
+- Status unchanged: `stage-2✓`.
+
+---
+
 ## 2026-09-12 — subject created, Stage 1 built
 
 - `[2026-09-12]` **Subject created** — `11-computer-architecture-and-processor/` scaffolded and
