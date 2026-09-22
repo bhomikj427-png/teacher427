@@ -309,3 +309,23 @@
   `rB₄(AC₁₅)′` — the two caught on 2026-09-15, now taught rather than just logged). Includes the
   `r + p = D₇T₃` simplification for Mano 5-25 and the note that `(AC=0)` is a 16-input NOR, not a wire.
   **No teaching event.**
+- [2026-09-23] v3 **files 09–10 built — the U3 gap closed.** Both carry the standing warning that
+  neither assignment touches U3 while the hand-out puts the MTE divider after L19 (U3 = L12–L15), so
+  Mano ch. 7 and ch. 8 are its only question evidence.
+  09 microprogrammed control — 10 steps on Mano 7-2, 7-3, 7-4, 7-5, 7-6, 7-7, 7-11, 7-12, 7-13, 7-20,
+  7-21, 7-22. Carries **M7 (the different-machine warning)** as its own step with the side-by-side
+  table. **Derived, not copied:** 7-4 → 100 ns / **10 MHz** with CDR (the fetch path dominates the
+  40 ns microoperations), 130 ns / **≈7.69 MHz** without — removing the pipeline register makes it
+  *slower*, which is the point. 7-7 → 8, 44, 60. 7-8 → `00 xxxxxx 000`. 7-20 → **5+4 bit subfields
+  (31+15 = 46), so 2 microoperations per microinstruction** (three 3-bit fields give only 21).
+  7-21 → 20-bit control word 4/4/4/5/3.
+  ⚠ **7-12(c) is impossible and the file says so:** ARTPC is F3 but **DRTAC (100) and WRITE (111) are
+  both F1**, so the three cannot share a microinstruction. Derived from the settled F1/F2/F3 tables;
+  taught as the concrete case of the fit-in-one rule.
+  10 program control + status bits — 8 steps on Mano 8-20, 8-21, 8-23, 8-25, 8-26, 8-27, 8-28, 8-29,
+  8-30, 8-31. **Re-derived:** 8-25 (a) C1 S0 Z0 V0, (b) C0 S1 Z0 **V1**, (c) C0 S1 Z0 **V1**,
+  (d)(e) C0 S0 **Z1** V0. 8-23(b) → carry-in 0, carry-out 1 → **V=1** (two negatives summing to a
+  positive). 8-29/8-30/8-31 built as the same bit pair read three ways — the pair where **S alone says
+  A<B but S⊕V says A>B**, which is the concrete proof of why signed comparison uses S⊕V.
+  Also threads the one-return-address limitation across all three levels (BSA → single SBR → stack).
+  **No teaching event.**
