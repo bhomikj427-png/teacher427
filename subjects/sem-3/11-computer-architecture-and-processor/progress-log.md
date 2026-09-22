@@ -294,3 +294,18 @@
   A1 Q18 → R1=01001001, R2=00000000, R3=10101000, R4 unchanged; A1 Q19 sequence
   01111111 → 10111111 → 01111110 → 11111100; Mano 2-13 six-shift table.
   **No teaching event.**
+- [2026-09-23] v3 **files 06–08 built** (U2 complete). Every step opens on its Mano problem, since
+  A2 Q1–Q10 are Mano 5-1/5-3/5-4/5-6/5-8/5-9/5-12/5-16/5-20/5-21 verbatim; each file also prints the
+  **sub-parts the professor dropped**, flagged as the likely exam extension.
+  06 format + bus control — A2 Q1–Q4 + Mano 5-2, 5-5, 5-7. Bus table both directions; the AC-loaded-
+  from-the-adder rule taught as the thing that makes A2 Q2(d) and Q3(d) answerable.
+  07 timing + traces — A2 Q5–Q8 + Mano 5-10/5-11/5-18. Carries the ISZ `D₆T₆` deck-erratum correction.
+  **Numerics re-derived:** A2 Q6 (CLA, assuming Mano's PC=021) → AC=0000, **E=1 unchanged**, PC=022,
+  AR=800, IR=7800. A2 Q7 → indirect ADD, EA=9AC, operand 8B9F, 7EC3+8B9F = **0A62 with E=1**,
+  PC=3B0, AR=9AC, DR=8B9F, IR=932E, SC=0000 (agrees with the 2026-09-15 solutions-manual check).
+  A2 Q8 → 7-step sequence via TR, with the byte-order assumption stated explicitly rather than hidden.
+  08 control-gate derivation — A2 Q9/Q10 + Mano 5-19/5-22/5-23/5-24/5-25. PC's **twelve** statements
+  listed; **both solutions-manual typos carried as warnings** (`RT₇`→`RT₂`, `rB₄ + (AC₁₅)′`→
+  `rB₄(AC₁₅)′` — the two caught on 2026-09-15, now taught rather than just logged). Includes the
+  `r + p = D₇T₃` simplification for Mano 5-25 and the note that `(AC=0)` is a 16-input NOR, not a wire.
+  **No teaching event.**
