@@ -352,3 +352,8 @@
   A2 Q11–Q15 were tagged `file 09` under the old numbering and are now **file 11**; Mano ch. 7 and
   ch. 8 items now name their files (**09** and **10**) instead of only "U3". Caught by re-reading the
   bank against the rebuilt path map — the bank was written before the U3 gap was found.
+- [2026-09-23] Self-update protocol: learner's approval of the question-first shape ("i am loving
+  this", then "finish the study-pack v3 with the same format") recorded in the **universal**
+  `learner-preferences.md` §3 — it is a format preference that holds regardless of subject, not an
+  ECE2108 override. Noted there that the shape is honoured as **pretesting**, with the mandatory
+  "guess before you read on" line, so it serves principle 1 rather than sitting in tension with it.

@@ -70,6 +70,21 @@ Each entry is one line:
   subject), and teach before testing with exam questions. Cut filler, never cut the explanation
   steps. Found on ECE2108 study-pack-v2/01; v3 shape (Predict → Build with per-step Checks → Exam
   form → Attempt) is the response.
+- [stated 2026-09-23] **Question-first: open every concept with a REAL question the learner cannot yet
+  answer, then answer it to teach the concept.** Confirmed twice on ECE2108 study-pack-v3 ("i am
+  loving this"; "finish the study-pack v3 with the same format"). Two hard parts: (a) the question
+  must be **quoted from a real source** — the professor's assignments first, the prescribed textbook
+  second — and tagged with its origin and marks; **never invented**; (b) the concept is introduced
+  *because* it is what the question needs, so the material arrives already justified.
+  → per teaching step: `Q (quoted, sourced, marks) → "guess first, on paper" → the answer, taught
+  → a Check`. Build a two-priority question base per subject before writing (assignment/PYQ = P1,
+  textbook problems = P2) and say plainly where P2 is empty rather than padding it.
+  **Why this does not fight principle 1:** the mandatory *guess before you read on* line makes it
+  **pretesting / errorful generation** (`research/02 §1, §5`; contract ACTIVATE — "have them
+  predict/attempt first, wrong guesses help"). Without that line it degenerates into a Q&A lecture
+  and produces fluency, not learning — so **the guess prompt is not optional decoration; it is the
+  mechanism.** Supersedes nothing; refines the 2026-09-11 question-first default and the 2026-09-15
+  "terse ≠ assuming knowledge" entry directly above.
 
 ## 2. Pace & session shape
 - [stated 2026-06-21] **Wants pace as fast as possible — "feed big, not small."** Deliver in large
@@ -259,3 +274,7 @@ without breaking the method.)*
   substitutes costs reading time. Clarified that it refines rather than reverses the ASCII-math
   rule (TeX is still banned; Unicode is not TeX). All 10 Digital Electronics study-pack files
   retrofitted the same day.
+- 2026-09-23 — Added a §3 entry making **question-first** concrete (ECE2108 v3): every concept opens
+  on a real, sourced, marks-tagged question the learner cannot yet answer, followed by a mandatory
+  "guess first" line, then the teaching. Learner-confirmed twice. Recorded that the guess prompt is
+  what keeps the shape inside principle 1 (pretesting) rather than becoming a Q&A lecture.
