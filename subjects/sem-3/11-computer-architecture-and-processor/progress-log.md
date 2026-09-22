@@ -265,3 +265,32 @@
   mangling: it is not noise around the facts, it replaces them. **Consequence:** [MANO-SA] transcripts
   stay Tier 4 and are **not** a usable verification source for the video-lecture map except for those
   four files. The two claims retracted on 2026-09-15 stay retracted; no new claim rests on these.
+- [2026-09-23] Learner approved the question-first shape ("i am loving this") and asked to **finish
+  study-pack-v3 in the same format**.
+  ⚠ **Gap found before building — v3's path omits U3 entirely.** The path in `00-START-HERE` was
+  inherited from v2, which was *assignment*-anchored; **neither assignment touches U3**, so v2 had no
+  U3 file and v3 copied that hole. But `exam-map.md` §2 is `settled` first-party: **MTE = U1+U2+U3+U4**,
+  with U3 = "Control unit design & microprogrammed control", L12–L15. Building 02–10 as listed would
+  have shipped a pack that silently omits an examinable unit.
+  **Fix: path extended from 11 files to 13** (00–12). New: **09 microprogrammed control** and
+  **10 program control + status bits** (both U3); pipelining moves to 11, mock paper to 12.
+  U3's questions come from Mano ch. 7 (24 problems) and ch. 8 (the status-bit subset) — the only
+  question evidence that exists for the unit, now transcribed in `question-bank.md`.
+- [2026-09-23] v3 **files 02–05 built** (U1 complete), same question-first shape.
+  02 digital building blocks — 6 steps on A1 Q7(i)–(vi), Mano 2-6/2-8/2-13/2-15 as follow-ups; the
+  clock-gating trap (Mano 2-10) taught as the wrong-way/right-way contrast.
+  03 RTL + common bus — 8 steps on A1 Q10, Q11, Q12(=Mano 4-1), Q13, Q14(i)(ii)(=Mano 4-6/4-5),
+  Mano 4-7, Mano 4-23. Threshold idea (★1, KB U1 §5) taught explicitly: the simultaneous swap needs
+  no temp register, and A1 Q12 is set to catch the "impossible" answer.
+  04 microoperations + signed arithmetic — 8 steps on A1 Q15, Q8, Q9, Q18(=4-19), Q16(=4-12),
+  Q19(=4-21), Mano 4-18, 4-20. **A1 Q9 verified to overflow** (+64 + 84 = 148 > +127; carry-in to
+  sign 1, carry-out 0 → V=1; stored pattern 10010100 = −108) — the file is built around that being
+  the answer.
+  05 ALSU — 6 steps on Mano 4-15, 4-17, A1 Q17. Carries the **corrected** ALSU table (professor's
+  deck p.32 = Mano Table 4-8) and a dedicated step 6 on why it differs from the standalone
+  arithmetic-circuit ordering (MUX wired 0,B,B′,1 vs B,B′,0,1) — the error corrected in the KB on
+  2026-09-15, now taught as a trap with the defensive move (label the MUX inputs).
+  All numerics re-derived in-file, not copied: A1 Q16 (i) S=1101 C₄=0, (ii) S=1011 C₄=0;
+  A1 Q18 → R1=01001001, R2=00000000, R3=10101000, R4 unchanged; A1 Q19 sequence
+  01111111 → 10111111 → 01111110 → 11111100; Mano 2-13 six-shift table.
+  **No teaching event.**
