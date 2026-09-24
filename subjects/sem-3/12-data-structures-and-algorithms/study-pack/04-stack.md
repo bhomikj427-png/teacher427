@@ -1,5 +1,9 @@
 # 04 — Stack
 
+> **MTE blueprint:** CO2. The best candidate for the **4-mark Section B coding** question (§3 array
+> stack, or `07` B1 linked stack) **and** a 4-mark theory question (§6 infix→postfix table, §7
+> evaluation).
+
 **A1: B3, B5, C1, C4, D3 · 14 of 50 marks · deck 7 · hand-out L12–L14 · CO2**
 
 **The highest-yield file.** Five A1 questions. On the exam, a stack trace or an expression conversion is a

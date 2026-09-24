@@ -64,8 +64,8 @@ best predictor you have.**
  [06] Recursion & trees ─────── base case, call stack; tree words + types
   │    ~15 min
   ▼
- [07] Mock paper ────────────── 30 marks, timed, answers at the bottom
-       ~15 min (or skip, and do only its Section A)
+ [07] Mock paper ────────────── 30 marks in the REAL blueprint format, answers at the bottom
+       ~15 min (or just Section A + B Q4)
 ```
 
 **If you only have 1 hour:** 04 → 03 → 01 → the Section C/D answers in 05. Stack + linked list +

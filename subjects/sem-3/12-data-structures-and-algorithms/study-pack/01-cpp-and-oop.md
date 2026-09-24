@@ -1,5 +1,10 @@
 # 01 — C++ and OOP
 
+> **MTE blueprint: CO1 = 11 marks, the biggest block.** Section A Q1 + Q2 (2 + 2, theory: §3 OOP features,
+> §4 class/object, §5 access specifiers, §6 constructor vs destructor, §7 call by value/reference) and
+> **all of Section C** (2 theory + **5 coding**: a class with constructors and a destructor. Drill §8–§9, and
+> the BankAccount program in `07` C2).
+
 **A1: A2, A3, A4, A5, A7, A9, B2, C3, D1 · 15 of 50 marks · decks 1–5 · CO1 (target 85%, the highest)**
 
 CO1 has the highest target in the hand-out (85%). Expect at least one definition question and one

@@ -1,5 +1,9 @@
 # 05 — Queue (and choosing a data structure)
 
+> **MTE blueprint:** CO2. Likely a 2-mark Section A question or a 4-mark Section B theory question
+> (§3 circular queue conditions, §5 stack vs queue, §6 comparison table). The §2 queue program
+> is the backup for the coding question.
+
 **A1: A6, C2, D4 · 8 of 50 marks · deck 8 · hand-out L14–L15 · CO2**
 
 ## Map

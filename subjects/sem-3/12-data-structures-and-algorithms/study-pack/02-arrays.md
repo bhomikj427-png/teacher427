@@ -1,5 +1,8 @@
 # 02 — Data structures and arrays
 
+> **MTE blueprint:** CO2 (14 marks, shared with 03–05). From this file, expect at most a 2-mark
+> Section A question (§1 classification, §3 insert/delete shifting).
+
 **A1: A1, A8, B4 · 4 of 50 marks · deck 6 · CO2**
 
 Small in A1, but everything in 03–05 is compared **against** the array, so read it anyway.

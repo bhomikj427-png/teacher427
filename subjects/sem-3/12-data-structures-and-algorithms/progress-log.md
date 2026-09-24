@@ -71,3 +71,8 @@
 - [2026-09-24] Pack updated for the blueprint: `06` §6 **BST build/search/delete added** (worked tree for
   45 15 79 90 10 55 12 20 50 + 3 deletion cases + program + 2 practice items). Every tree, traversal
   and deletion was verified by execution. AVL/RB marked off-MTE. `00` gains the blueprint table.
+- [2026-09-24] Learner asked whether the mock and other files were updated for the blueprint. Honest
+  answer: only 00 and 06 had been. Then: **`07` mock rebuilt to the exact blueprint** (A CO1/CO1/CO2/CO3,
+  B 4c/4/4/3, C 2 + 5c). New numbers throughout. Every answer verified by execution: `5 15`, circular
+  queue full, `AB+C*DE/-` = 16, BST 60 25 75 10 40 90 35 70 with delete 25 → successor 35, linked-stack
+  and BankAccount programs. Blueprint headers added to 01–05. Full pack re-check: 18 programs, 0 problems.

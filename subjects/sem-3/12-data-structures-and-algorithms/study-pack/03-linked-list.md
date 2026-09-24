@@ -1,5 +1,9 @@
 # 03 — Linked list
 
+> **MTE blueprint:** CO2. Likely one 4-mark **theory** question in Section B (§1 array vs linked
+> list, §2 types, §4–5 insertion/deletion with diagrams). A linked-list **program** could also be the
+> 4-mark Section B coding question. `07` B1 (linked stack) is the compact version to know.
+
 **A1: B1, C5, D2 · 9 of 50 marks · no deck yet · hand-out L8–L12 (5 lectures) · CO2**
 
 > **Why this file matters more than the decks suggest:** none of the 8 decks covers linked lists, but
