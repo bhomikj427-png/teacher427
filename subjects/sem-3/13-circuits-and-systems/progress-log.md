@@ -10,7 +10,7 @@
   (ECE2120, `stage-1✓`), which was built for the old scheme; whether 06's KB is re-used for ECE2107
   is part of the batch re-map the learner still has to confirm (`../research-engine/research-queue.md`).
 - Where we stopped: learner's handwritten class notes transcribed + verified (see below). No teaching.
-- Next up: learner reviews the ⚠ corrections in `exam-pack/NOTES-class-notes-transcribed.md`;
+- Next up: learner reviews the re-checked summary (slips, not method errors) in `exam-pack/NOTES-class-notes-transcribed.md`;
   get the ECE2107 course hand-out (syllabus, textbook, MTE boundary) into the inbox.
 - Due for review today: nothing.
 
@@ -33,3 +33,14 @@
   loop; "active element needs no external energy" contradicts "amplifier is active") and **3 gaps**
   (superposition doesn't apply to power; dependent sources are never switched off; P_max = V_th²/4R_th).
   Lab pages: 20 Vpp into a bridge gives ~8.6 V peak, which is below a 7809's ~11 V minimum input.
+- `[2026-09-25]` Re-check at the learner's request ("teacher's notes shouldn't have big mistakes").
+  Re-read every flagged passage at 260 dpi and simulated every circuit with a nodal solver
+  (`verify.py`, scratchpad). **Revised verdicts:** p.7 superposition: with 4 Ω/2 Ω the full-circuit solve
+  gives **exactly 3 A**, the notes' answer, so the method and answer are right and only the "k" labels clash
+  (was E3 "wrong", now a unit-label slip). p.16 "0 5 mW": no decimal point is visible, so it may read 5 mW
+  (was E4 "wrong", now ❓). p.9: both sources + on top; "remove, don't short" gives 5+5 = 10 mA vs the true
+  5 mA, which is most likely the teacher's **demonstration of limitation 3**, not an error. p.3 C-for-L =
+  pen slip (the side box has ψ = Li). p.22–23 RL: kept as a question to clarify, not a teacher error.
+  All numeric answers in the notes and all my additions confirmed by simulation: p.5 5.33/2.67/4 A;
+  p.11 I_L = 20/11 mA (V_oc 6.67 V, I_sc 2.5 mA, R_Th 2.67 kΩ); MPT sweep peak at R_L = 10 kΩ, 2.5 mW;
+  RL step Euler sim matches (V/R)(1−e^(−t/τ)), τ = 1 µs; 5τ = 99.3 %; ladder 2.3177 kΩ.

@@ -10,25 +10,43 @@ emphasis). They are **not** the authority on facts; the textbook is.
 
 **Legend:**
 - ✅ correct as written
-- ⚠ **error or gap in the notes**, with the correction
+- ⚠ **slip, gap or caution**, with the fix
 - ❓ couldn't read it with certainty, or the question is ambiguous. My best reading is given.
 - *(my addition)* = not in the notes; added so the page is complete.
 
 ---
 
-## Error summary (read this first)
+## Summary (read this first). Re-checked 2026-09-25
 
-| # | Page | What the notes say | What is correct |
-|---|------|--------------------|-----------------|
-| E1 | 3 | Inductor: v = d/dt(**C**I) = **C** dI/dt | v = d/dt(**L**i) = **L** di/dt |
-| E2 | 2 | Active element "doesn't require any external energy source", and "an amplifier is active" | These two contradict each other: an amplifier needs a DC supply. Textbook definition: an active element can **generate/deliver** energy; a passive one cannot |
-| E3 | 8 | Superposition answer: I = 5/3 + 4/3 = **3 A** | Case 1 gives 5/3 **mA**, so the sum mixes units. If the source is **2 mA** (probable), I = **3 mA**. If it really is 2 A, I ≈ 1.335 A |
-| E4 | 16 | Total source power = 10 × 0.5 mA = **0.5 mW** | 10 V × 0.5 mA = **5 mW**. P_load = 2.5 mW. The efficiency (50 %) is still right |
-| E5 | 22–23 | RL question, switch opens: I_R(0⁺) = 0 but I_L(0⁺) = 10 mA | R and L are **in series**, so they must carry the **same** current. The question as drawn is ill-posed (see p. 22–23) |
-| G1 | 6–7 | Superposition limitations | **Missing the big one:** superposition does **not** apply to **power** (P = I²R is not linear) |
-| G2 | 7 | "remaining sources replaced by internal resistance" | This applies to **independent** sources only. **Dependent sources are never switched off** |
-| G3 | 13–14 | MPT derivation stops at R_L = R_th | Add **P_max = V_th² / (4 R_th)** |
-| M1 | 5 | "I₂ + I₃ = 6×4/10 = 2.4" | That is the **resistance** 6k‖4k = 2.4 kΩ, not a current (a labelling slip; the arithmetic is fine) |
+**Bottom line: none of the teacher's methods or concepts is wrong.** Every procedure (VDR, CDR, source
+transformation, superposition, Thévenin, Norton, MPT derivation, the 0⁻/0⁺/∞ transient method, the
+first-order formula) matches the textbook. Every numeric answer checks out once units are read consistently.
+I re-read each flagged spot at high resolution and **simulated every circuit** with a nodal solver
+(results in `../progress-log.md`). My first pass called 5 things "errors"; after this re-check, the list is:
+
+**Slips of the pen / copying (the concept is right; just read them correctly):**
+
+| # | Page | Written | Read it as |
+|---|------|---------|------------|
+| S1 | 3 | d/dt(**C**I) = **C** dI/dt for the inductor | **L** di/dt. The side box on the same page correctly has ψ = Li, so this is a pen slip |
+| S2 | 7–8 | resistors labelled "4k", "2k"; answer **3 A** | The teacher's working (10×2/6 = 10/3 V → 5/3 A) treats them as **4 Ω and 2 Ω**. With ohms, a full-circuit simulation gives **exactly 3 A** ✅. Only the "k" labels clash |
+| S3 | 5 | "I₂ + I₃ = 6×4/10 = 2.4" | the **resistance** 6‖4 = 2.4 (a label slip; the arithmetic is fine) |
+| S4 | 16 | "0 5 mW" | ❓ no decimal point is visible. The correct value is **5 mW** (10 V × 0.5 mA); the 50 % efficiency is right either way |
+
+**Wording to tighten (not a calculation issue):**
+- p.2 "active element doesn't require any external energy source": taken literally, this conflicts with the next
+  line (an amplifier needs a DC supply). The safer textbook wording (Alexander & Sadiku): an active element
+  **can generate/deliver energy**; a passive one cannot.
+
+**Question to clarify with the teacher (your notes stop partway):**
+- p.22–23 RL question: I_R(0⁺) = 0 and I_L(0⁺) = 10 mA can't both hold in one **series** loop. The teacher's
+  point (inductor current can't jump → 10 mA) is right. What's missing is where that current goes after
+  the switch opens. Most likely the full board question had a discharge path.
+
+**Textbook points worth adding (the teacher may cover them later; not errors):**
+- G1 superposition does **not** apply to **power** (find the currents, add them, *then* P = I²R)
+- G2 when switching sources off, **dependent sources stay on**
+- G3 **P_max = V_Th² / (4R_Th)**
 
 ---
 
@@ -68,8 +86,8 @@ Basic Circuit Element
 
 **Active element:**
 - Delivers energy / power ✅
-- ⚠ **(E2)** "Doesn't require any external force or energy source". This is not the textbook definition,
-  and it contradicts the next line. Alexander & Sadiku: *"An active element is capable of generating
+- "Doesn't require any external force or energy source": loose wording. Taken literally, it conflicts with the
+  next line (an amplifier needs a DC supply). Alexander & Sadiku: *"An active element is capable of generating
   energy while a passive element is not."*
 - Amplifier is also an active element ✅ (but it takes its energy from a DC supply)
 
@@ -91,7 +109,7 @@ as a CCCS (I_C = β·I_B).
 2. **L**: stores energy in a **magnetic field** ✅. The note "the current is stored" is loose wording: it stores **energy**,
    W = ½Li².
    Side box: ψ = Nφ, ψ ∝ i, ψ = Li ✅
-   v = dψ/dt = d(Nφ)/dt = ⚠ **(E1)** the notes write d/dt(**C**I) = **C** dI/dt. **Correct: v = d(Li)/dt = L di/dt.**
+   v = dψ/dt = d(Nφ)/dt = d(Li)/dt = **L di/dt** ✅ (S1: the notes write "C" here, a pen slip; the side box has ψ = Li)
    ★ **Inductor doesn't allow a sudden change in current** ✅ (a jump would need infinite voltage)
 3. **C**: stores energy in an **electric field** ✅ ("stores voltage" is loose; W = ½Cv²)
    Q ∝ V ⇒ Q = CV → differentiate: dQ/dt = d(CV)/dt ⇒ *(completing the line)* **i = C dv/dt** ✅
@@ -117,7 +135,7 @@ Q: 15 V across 3 kΩ + 6 kΩ in series → V₁ = 15×3/9 = **5 V**, V₂ = 15×
 - I₂ (6k) = 12 × (12/7)/(6 + 12/7) = **2.67 A** ✅ (12/7 k = 3k‖4k)
 - I₃ (4k) = 12 × (18/9)/(2+4) = **4 A** ✅ (2k = 3k‖6k)
 - Check: 5.33 + 2.67 + 4 = 12 ✅ (also V = 12 × 4/3 k, and I = V/R per branch gives the same numbers)
-- ⚠ **(M1)** the side-note "I₂ + I₃ = 6×4/10 = 2.4" is the **resistance** 6k‖4k = 2.4 kΩ, not a current.
+- (S3) the side-note "I₂ + I₃ = 6×4/10 = 2.4" is the **resistance** 6k‖4k = 2.4 kΩ, not a current.
 - The first attempt, struck through in the notes, is correctly discarded.
 
 **Q:** v = 10 sin(2kt + 30°) across 3k + 7k in series. Let x be the source voltage.
@@ -140,7 +158,7 @@ Q: 15 V across 3 kΩ + 6 kΩ in series → V₁ = 15×3/9 = **5 V**, V₂ = 15×
 3. "Sometimes gives false results in the case of ideal circuits" ❓. *My reading:* this is the case of **ideal
    sources that can't be switched off one at a time**, e.g. two ideal voltage sources in parallel. Shorting one
    shorts the other (see the p. 9 question).
-- ⚠ **(G1) missing:** superposition does **not** apply to **power**. Find each current by superposition, add them,
+- ⚠ **(G1) textbook addition:** superposition does **not** apply to **power**. Find each current by superposition, add them,
   *then* compute P = I²R. Summing the individual powers gives the wrong answer.
 
 **NOTE** (faint pencil, ❓ partly guessed; the meaning is clear): when a single source is active, the remaining
@@ -155,24 +173,24 @@ sources are replaced by their **internal resistance**:
 and a 2 A current source (arrow up, feeding A).
 
 - **Case 1**: 10 V only (current source → open):
-  V₂ₖ = 10 × 2k/6k = **10/3 V** ✅ → I₁ = (10/3 V)/2 kΩ = **5/3 mA** (the notes write "5/3 A" ⚠)
+  V₂ₖ = 10 × 2/6 = **10/3 V** ✅ → I₁ = (10/3)/2 = **5/3 A** ✅ (with 2 Ω; see S2)
 - **Case 2**: 2 A only (10 V → short): the 4k and 2k are now in parallel.
   I₂ = 2 × 4/6 = **4/3** (in the source's units) ✅
-- **Step 3**: I = I₁ + I₂. ⚠ **(E3)** the notes add 5/3 + 4/3 = **3 A**, but I₁ is in mA and I₂ is in A.
-  - If the source is **2 mA** (the numbers suggest this): I = 5/3 + 4/3 = **3 mA**
-  - If it really is 2 A: I = 0.00167 + 1.333 ≈ **1.335 A**
-  - ❓ check the source value against the original board question.
+- **Step 3**: I = I₁ + I₂ = 5/3 + 4/3 = **3 A** ✅ (verified by simulating the whole circuit with both sources on).
+  - (S2) This holds when the resistors are **4 Ω and 2 Ω**, which is how the working treats them. With literal
+    "4k/2k" and a 2 A source, the answer would be 1.335 A; with 2 mA it would be 3 mA. Just keep the units consistent.
 
 ## p. 9 — Superposition question (unfinished)
 
 **Q:** find I₁ by superposition. Left 5 V source, right 5 V source, 1 kΩ between the top and bottom rails.
 Step 1 in the notes draws only the left 5 V with the 1k; the right source is simply *removed*.
 
-⚠ *(My addition.)* Both sources connect **directly across the 1k**, so they are ideal voltage sources in parallel.
-Superposition breaks here: "switching off" the right source means **shorting** it, which also shorts the 1k and the
-left source. This is exactly limitation 3 above. Solve by inspection instead: the 1k sees 5 V, so **I₁ = 5 mA**
-(assuming both + terminals are at the top, as drawn in Step 1). If the polarities were opposite, the circuit would
-violate KVL and couldn't exist.
+*(My reading. The notes stop after Step 1.)* Both sources (+ at the top, confirmed at high zoom) connect
+**directly across the 1k**, so they are ideal voltage sources in parallel. This is almost certainly the teacher's
+**example of limitation 3** ("gives false results for ideal circuits"):
+- by superposition: 5 V alone → 5 mA, and the other 5 V alone → 5 mA, so the "sum" is **10 mA** ✗
+- actual: the 1k simply sees 5 V → **I₁ = 5 mA** ✅
+- (and strictly, "switching off" one source means **shorting** it, which would short the other one. So superposition can't even be applied properly here.)
 
 ## p. 10–11 — Thévenin's theorem
 
@@ -231,7 +249,7 @@ The notes stop at Step 1 (setting up V_Th). *(Completed by me; units V, mA, kΩ,
 
 **Circuit:** 10 V, 10 kΩ series, variable R_L.
 - Q1 value of R_L for maximum power: **R_L = R_Th = 10 kΩ** ✅
-- Q2 total power delivered by the source: I = 10/20k = **0.5 mA** ✅ → P = V·I = 10 × 0.5 mA = ⚠ **(E4) 5 mW** (the notes say 0.5 mW)
+- Q2 total power delivered by the source: I = 10/20k = **0.5 mA** ✅ → P = V·I = 10 × 0.5 mA = **5 mW** (S4: the notes read "0 5 mW" ❓)
 - Power in the load: P_L = I²R_L = (0.5 mA)² × 10k = **2.5 mW** (= V_Th²/4R_Th ✅)
 - Q3 power consumed by R_Th: **2.5 mW**
 - Q efficiency: η = P_L/P_total × 100 = 2.5/5 × 100 = **50 %** ✅ (the notes' 0.25/0.5 has the same ratio)
@@ -285,7 +303,7 @@ Valid for: RL ✅, RC ✅; **not** for RLC ✗ or LC ✗ (those are second order
 **Q:** 10 V, switch (**opens** at t = 0), 1 kΩ, 1 mH, all in **series**.
 - Step 1, t = 0⁻: switch closed, steady state, inductor = short → **I_L(0⁻) = 10 V/1 kΩ = 10 mA** ✅
 - Step 2, t = 0⁺: switch open → **I_L(0⁺) = 10 mA** ✅ (continuity), and the notes write I_R(0⁺) = 0.
-- ⚠ **(E5)** In a single series loop, R and L carry the **same** current, so I_R ≠ I_L is impossible. Opening a switch in series
+- ❓ **To clarify:** in a single series loop, R and L carry the **same** current, so I_R ≠ I_L is impossible. Opening a switch in series
   with a current-carrying inductor has **no ideal solution**: di/dt → ∞ and the voltage spikes (in real life, an arc at the
   switch). The original question most likely has **another path** (e.g. the switch moves the R-L onto a discharge
   path, or there is a resistor in parallel). ❓ Check the board/textbook version.
