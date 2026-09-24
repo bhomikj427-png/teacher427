@@ -44,3 +44,20 @@
   All numeric answers in the notes and all my additions confirmed by simulation: p.5 5.33/2.67/4 A;
   p.11 I_L = 20/11 mA (V_oc 6.67 V, I_sc 2.5 mA, R_Th 2.67 kΩ); MPT sweep peak at R_L = 10 kΩ, 2.5 mW;
   RL step Euler sim matches (V/R)(1−e^(−t/τ)), τ = 1 µs; 5τ = 99.3 %; ladder 2.3177 kΩ.
+- `[2026-09-25]` Learner request: "make my study pack … convert the files into clean pdfs with diagrams".
+  Building `study-pack/` (v3 question-first shape: Q → guess → taught answer → Check; Exam form,
+  Attempt, Traps, Self-test, Answers). Output = one PDF per file + one combined PDF, built by
+  `study-pack/src/build.py`: schemdraw circuits, matplotlib plots, HTML → Chrome headless → PDF.
+  **Gate note:** ECE2107 has no KB of its own (below `stage-1`). Facts are anchored to
+  `../06-circuits-and-network-theory/knowledge-base/` (textbook-sourced, `stage-1✓`, same topics) plus the
+  simulation-verified notes. Question base: P1 = the professor's board questions in the learner's notes
+  (12 items); P2 (textbook problems) = empty, stated as such. This is the first build of the parked
+  pictorial-pack design (`../../../_PARKED-visual-study-packs.md`, option C: PDF). It stays local to
+  this subject; no engine files (CLAUDE.md, rendering.md, tools/) are edited.
+- `[2026-09-25]` Study pack built: `study-pack/pdf/` = 8 PDFs (00–07) + `ECE2107-Circuits-and-Systems-study-pack.pdf`
+  (45 pp., bookmarked). 32 figures (schemdraw circuits for every board question and every solution sub-circuit;
+  matplotlib plots: AC division, ladder convergence, MPT power/efficiency sweep, first-order curves,
+  continuity). Every page visually reviewed. Fixes made during review: CCVS polarity drawn upside down in
+  the first render; mixed text+math labels lost text in schemdraw (all math labels now pure math); nested
+  fractions not rendering. Source of truth = `study-pack/src/` (`build.py`, `figures.py`, `content/*.md`);
+  rebuild with `python build.py`.

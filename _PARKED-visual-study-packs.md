@@ -96,3 +96,18 @@ packs) from the **private tutor** (the loop, retrieval, progress logs).
 - **D5.** Is the figure-first rule an **engine rule** (`CLAUDE.md` + `rendering.md`, applies to
   every subject), or a **universal preference** (`learner-preferences.md`)? Since other readers are
   involved, it is likely an engine rule.
+
+---
+
+## 6. Pilot built (2026-09-25)
+
+The learner asked for the Circuits & Systems pack as "clean pdfs with diagrams". This settles **D2 for that pack:
+option C (PDF)**. D1, D3, D4 and D5 remain open.
+- Where: `subjects/sem-3/13-circuits-and-systems/study-pack/`. It is subject-local: no engine file was edited.
+- Pipeline: Markdown with figure tags → schemdraw/matplotlib SVG → HTML → Chrome headless → PDF, plus one merged,
+  bookmarked PDF.
+- Lessons for generalising it:
+  - schemdraw labels that mix text and `$math$` drop text; use pure-math labels.
+  - Arial lacks ⁺ and ⇔ inside SVG.
+  - Nested `\frac` needs sub/sup expanded first.
+- Not published anywhere. The pack quotes the professor's board questions, so the copyright rule in §4 applies before sharing.
