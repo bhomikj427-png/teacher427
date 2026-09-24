@@ -92,3 +92,15 @@
   used `git add -A` while this pack was being written. It picked up and pushed this folder's exam-pack, the 11 study-pack
   files, the first 80 lines of this log, and the TRIAGE-LOG line under the ECE2107 message. The content is intact and pushed
   history was not rewritten. The remaining MEE2003 changes go in a follow-up commit whose message records the MEE2003 work.
+- [2026-09-25] Learner request: "make the entire study pack into a combined pdf with better pictorial representation …
+  convert all diagrams into photos … check if its all looking ok". Building `study-pack/pdf-src/build.py`: the .md files stay
+  the source. The ASCII maps are redrawn as Mermaid flowcharts (mermaid.min.js fetched from jsDelivr, stored locally), and
+  matplotlib concept figures are added (demand/supply + tax shift, elasticity degrees, EOQ cost curve, cumulative payback,
+  discounting, NPV-vs-rate/IRR, PPC). Chrome headless → PDF → one combined PDF with bookmarks.
+- [2026-09-25] **Combined PDF built:** `study-pack/pdf/MEE2003-Engineering-Economics-study-pack.pdf`, **54 pages**, bookmarked
+  per file. There are 10 Mermaid maps (00–09, replacing the ASCII maps) and 11 matplotlib figures: PPC, movement vs shift, tax P1 to
+  scale, elasticity degrees, cloud EAC, estimate accuracy, EOQ curve (battery numbers), cumulative payback, discounting,
+  furnace NPV vs rate, and machine NPV vs rate with the interpolation chord. Every plotted value comes from the verified problems. The
+  whole PDF was reviewed visually. Fixed before shipping: the 00 path map had taken a whole page, the 06/08/09 maps were too wide,
+  a blank page came from a non-breaking table, hard-wrapped lines were rendering as mid-sentence breaks, `Q*` was turning into
+  italics, and labels overlapped on the tax and EOQ figures. The .md files are unchanged and remain the source. Rebuild with `study-pack/pdf-src/build.py`.
