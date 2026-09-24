@@ -37,6 +37,7 @@ differs. Each subject's exact official text + textbooks live in its `course-info
 | 10 | `10-project-based-learning-1` | ECE2170 | Project-Based Learning 1 | 0-0-2-1 |
 | 11 | `11-computer-architecture-and-processor` | **ECE2108** | **Computer Architecture & Processor** | 3-0-0-3 |
 | 12 | `12-data-structures-and-algorithms` | **ECE2104** | **Data Structures and Algorithms** *(exam-pack only, not researched)* | ? |
+| 13 | `13-circuits-and-systems` | **ECE2107** | **Circuits & Systems** *(exam-pack only, not researched; overlaps 06)* | ? |
 
 > ⚠ **Rows 11 and 12 are NOT from the 2023-onwards scheme above** (row 12, ECE2104, was added 2026-09-24
 > by inbox triage when its decks arrived. It has an exam-pack and no knowledge base yet).

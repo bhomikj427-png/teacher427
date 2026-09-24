@@ -100,7 +100,8 @@ both "subjects I don't have" and "a subject I have that isn't listed."
   `01`/`03`/`04` may need re-scoping to the new course titles (note `ECE2106` is "Devices **& Circuits**",
   a wider scope than `ECE2101` "Devices-I").
 - **Missing entirely:** **ECE2104 Data Structures and Algorithms** + its lab, and **ECE2107 Circuits &
-  Systems**.
+  Systems**. `[2026-09-25]` **ECE2107 folder `13-circuits-and-systems/` created** by inbox triage (learner's
+  handwritten notes; exam-pack only, not researched). Its topics so far match `06`'s U1–U2 KB.
 - **`[RESOLVED]` the ECE 2105 vs ECE2102 code mismatch** flagged in `../_inbox/TRIAGE-LOG.md`
   (2026-09-11): the professor's Digital Electronics deck heads itself **ECE 2105** because that is the
   **new** code; the MTE paper and that subject's KB say **ECE2102**, the **old** one. **Both are
