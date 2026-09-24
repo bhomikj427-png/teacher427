@@ -61,3 +61,13 @@
   errors before they shipped: linked-list search position (3 → **4** after an insert) and a circular
   queue peek line. Self-test and mock answers were re-verified by execution (postfix conversions,
   evaluations 21 / 7, octal 8959 / 11). No teaching event.
+- [2026-09-24] **MTE blueprint received from the learner** (pasted, source not stated, presumably the
+  professor/class). Marks by CO: **CO1 11 · CO2 14 · CO3 5**, with scope **up to BST only, BST = 5
+  marks**. The paper is mostly theory, with **2 coding questions**. **A:** 4 × 2 (Q1, Q2 CO1 · Q3 CO2 · Q4 CO3).
+  **B:** Q1 CO2 **coding**, Q2 CO2, Q3 CO2, Q4 CO3, marked 4 + 4 + 4 + 3 (the arithmetic forces the three
+  CO2 questions to be 4 marks and the CO3 one 3). **C:** all CO1, 2 + 5, where the **5 is coding**. Totals check: 8 + 15 + 7 = 30.
+  Consequences: C++/OOP rises to the top (11 marks). AVL/Red-Black are out of scope. **Gap found: file 06
+  had only the BST definition, with no construction, search or deletion**. Adding it now, verified.
+- [2026-09-24] Pack updated for the blueprint: `06` §6 **BST build/search/delete added** (worked tree for
+  45 15 79 90 10 55 12 20 50 + 3 deletion cases + program + 2 practice items). Every tree, traversal
+  and deletion was verified by execution. AVL/RB marked off-MTE. `00` gains the blueprint table.

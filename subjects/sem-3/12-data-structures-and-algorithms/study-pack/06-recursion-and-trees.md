@@ -1,11 +1,10 @@
-# 06 — Recursion, and trees up to "types of trees"
+# 06 — Recursion, and trees up to BST
 
-**Recursion: hand-out L16, the last lecture before the MTE divider · Trees: L17+, included because
-your professor said "till red-black tree" · CO2 / CO3**
+**Recursion: hand-out L16 (CO2) · Trees up to BST: CO3 = 5 marks on the MTE (A Q4 = 2, B Q4 = 3)**
 
-No A1 question covers this file. Recursion is **inside** the printed MTE scope. Trees are **beyond**
-the hand-out's divider and included on your professor's word, so expect **definitions and
-distinctions** there, not programs.
+> **MTE blueprint (2026-09-24): trees stop at BST.** AVL, Red-Black and heaps (§4, lower table) are
+> **not on the MTE**, so skip them. For CO3's 5 marks, do **§2 terminology, §3–4 binary tree types,
+> §5 traversals and §6 BST** (build / search / delete).
 
 ## Map
 
@@ -283,6 +282,167 @@ Postorder: D E B F C A
 
 ---
 
+## 6. BST — build, search, delete (**the CO3 marks**)
+
+**BST rule:** for **every** node, all keys in its **left subtree < node < all keys in its right
+subtree**. Duplicates are normally not allowed (if a question allows them, say "equal keys go right").
+
+### Construct: insert one key at a time, always starting at the root
+
+**Q ▸** Build the BST for **45, 15, 79, 90, 10, 55, 12, 20, 50**. Try it on paper first.
+
+Each key starts at the root: **smaller → go left, larger → go right**, until you reach an empty spot.
+
+```text
+ 45             root
+ 15  < 45                 → left of 45
+ 79  > 45                 → right of 45
+ 90  > 45, > 79           → right of 79
+ 10  < 45, < 15           → left of 15
+ 55  > 45, < 79           → left of 79
+ 12  < 45, < 15, > 10     → right of 10
+ 20  < 45, > 15           → right of 15
+ 50  > 45, < 79, < 55     → left of 55
+
+              45
+           /      \
+         15        79
+        /  \      /  \
+      10    20   55    90
+        \       /
+        12     50
+```
+
+**Check your tree:** the **inorder** traversal of a BST is always **sorted**.
+Inorder = `10 12 15 20 45 50 55 79 90` ✔ sorted.
+Preorder = `45 15 10 12 20 79 55 50 90`. Postorder = `12 10 20 15 50 55 90 79 45`.
+
+### Search
+
+Start at the root. Equal → found. Smaller → go left. Larger → go right. NULL → not found.
+Search 50: 45 → 79 → 55 → **50**, found in 4 comparisons. Search 25: 45 → 15 → 20 → right of 20 is
+NULL → **not found**.
+
+### Delete: three cases (the classic 3-mark question)
+
+| Case | Rule | Example on the tree above |
+|---|---|---|
+| **1. Leaf** (no children) | just remove it | delete 12 → 10 now has no children |
+| **2. One child** | replace the node with its only child (link the parent to the child) | delete 55 → 50 moves up to be 79's left child |
+| **3. Two children** | copy in its **inorder successor** (the **smallest** key in its **right** subtree), then delete the successor node, which is always case 1 or 2 | delete 45 → successor is **50** → the root becomes 50, and 55's left becomes empty |
+
+(The **inorder predecessor**, the largest key in the left subtree, is equally correct. Name the one you use.)
+
+```text
+ delete 45 (two children) → successor 50
+
+              50
+           /      \
+         15        79
+        /  \      /  \
+      10    20   55    90
+        \
+        12
+```
+
+**Efficiency:** search, insert and delete are all **O(h)**: **O(log n)** when balanced, **O(n)** when
+skewed (keys inserted in sorted order). That answers "advantages/disadvantages of a BST".
+
+**Binary tree vs BST (2-mark favourite):** a binary tree only limits each node to ≤ 2 children. A
+BST **also orders** the keys (left < root < right), which is what makes search fast. Every BST is a
+binary tree, but not every binary tree is a BST.
+
+The program (insert + search + delete + inorder):
+
+```cpp
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int key;
+    Node *left, *right;
+};
+
+Node* newNode(int k) {
+    Node *n = new Node;
+    n->key = k;
+    n->left = n->right = NULL;
+    return n;
+}
+
+Node* insert(Node *root, int k) {
+    if (root == NULL) return newNode(k);          // empty spot found
+    if (k < root->key) root->left = insert(root->left, k);
+    else if (k > root->key) root->right = insert(root->right, k);
+    return root;                                  // duplicates ignored
+}
+
+bool search(Node *root, int k) {
+    while (root != NULL) {
+        if (k == root->key) return true;
+        root = (k < root->key) ? root->left : root->right;
+    }
+    return false;
+}
+
+Node* minNode(Node *n) {                          // leftmost = smallest
+    while (n->left != NULL) n = n->left;
+    return n;
+}
+
+Node* deleteKey(Node *root, int k) {
+    if (root == NULL) return NULL;
+    if (k < root->key) root->left = deleteKey(root->left, k);
+    else if (k > root->key) root->right = deleteKey(root->right, k);
+    else {
+        if (root->left == NULL) {                 // case 1 or 2
+            Node *t = root->right; delete root; return t;
+        }
+        if (root->right == NULL) {                // case 2
+            Node *t = root->left; delete root; return t;
+        }
+        Node *s = minNode(root->right);           // case 3: inorder successor
+        root->key = s->key;
+        root->right = deleteKey(root->right, s->key);
+    }
+    return root;
+}
+
+void inorder(Node *r) {
+    if (r) { inorder(r->left); cout << r->key << " "; inorder(r->right); }
+}
+
+int main() {
+    int keys[] = {45, 15, 79, 90, 10, 55, 12, 20, 50};
+    Node *root = NULL;
+    for (int k : keys) root = insert(root, k);
+
+    cout << "Inorder: "; inorder(root); cout << endl;
+    cout << "Search 50: " << (search(root, 50) ? "found" : "not found") << endl;
+    cout << "Search 25: " << (search(root, 25) ? "found" : "not found") << endl;
+
+    root = deleteKey(root, 45);
+    cout << "After deleting 45, root = " << root->key << endl;
+    cout << "Inorder: "; inorder(root); cout << endl;
+    return 0;
+}
+```
+
+Output:
+
+```text
+Inorder: 10 12 15 20 45 50 55 79 90 
+Search 50: found
+Search 25: not found
+After deleting 45, root = 50
+Inorder: 10 12 15 20 50 55 79 90 
+```
+
+**Practice (answers at the bottom, item 7):** (P1) Build the BST for `50 30 70 20 40 60 80` and give its
+preorder. (P2) Build it for `8 3 10 1 6 14 4 7 13`, then delete 3 and describe the result.
+
+---
+
 ## Traps
 
 - **No base case → infinite recursion → stack overflow.**
@@ -310,3 +470,6 @@ Postorder: D E B F C A
 5. **BST: yes.** Complete: yes. **Perfect: yes** (all leaves on level 2, all internal nodes have 2 children).
 6. Any two: root is black · no red node has a red child · every path to NIL has the same black count ·
    every node is red or black · NIL leaves are black.
+7. **P1:** root 50, children 30 and 70, leaves 20 40 60 80 (a perfect tree). Preorder `50 30 20 40 70 60 80`.
+   **P2:** built = `8(3(1, 6(4,7)), 10(_, 14(13,_)))`. Delete 3 (two children) → successor **4** →
+   `8(4(1, 6(_,7)), 10(_, 14(13,_)))`. Inorder after: `1 4 6 7 8 10 13 14`.

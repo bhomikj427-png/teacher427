@@ -11,6 +11,21 @@ section teaches the concept, then you get an **exam answer** you can reproduce.
 
 ---
 
+## ⚠ MTE blueprint (received 2026-09-24, this overrides the guesses below)
+
+| Section | Q | CO | Marks | Kind | Study |
+|---|---|---|---|---|---|
+| A | Q1, Q2 | CO1 | 2 + 2 | theory | 01 |
+| A | Q3 | CO2 | 2 | theory | 02–05 |
+| A | Q4 | CO3 | 2 | theory | 06 §2–4, §6 |
+| B | Q1 | CO2 | 4 | **coding** | 04 §3 · 05 §2 · 03 §6 · 02 §4 |
+| B | Q2, Q3 | CO2 | 4 + 4 | theory | 03, 04, 05 |
+| B | Q4 | CO3 | 3 | theory (BST) | 06 §6 |
+| C | — | CO1 | 2 + **5 coding** | theory + class program | 01 §6–9 |
+
+**CO1 = 11 · CO2 = 14 · CO3 = 5 (trees only up to BST, so AVL/Red-Black are out).** Only 2 coding
+questions. Everything else is theory.
+
 ## What's on the MTE
 
 | Source | Says |
