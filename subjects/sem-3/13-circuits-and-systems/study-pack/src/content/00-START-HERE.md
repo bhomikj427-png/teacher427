@@ -2,6 +2,28 @@
 
 <div class="sub">ECE2107 · B.Tech ECE Sem 3 · follows the professor's MTE syllabus (dated 10/9/26) · built from two sets of class notes · every answer checked by circuit simulation</div>
 
+## Priority order: if time is short, study in this order
+
+Ranked by how much the professor stressed each topic: the number of board questions worked in class, and how many notes pages it took. There is **no past paper yet**, so this is an estimate. The one hard fact is the syllabus, and every item on it can come up.
+
+| Rank | Study | Why it ranks here | Do first | Rough time |
+|---|---|---|---|---|
+| **1** | **06 Thévenin & Norton** | The professor's longest worked question (dependent source, nodal route); it appears in both notes sets | 06 §2–5, then mock B10 | 60 min |
+| **2** | **05 Superposition** | 2 board questions + the "limitation" question the professor highlighted | 05 §1–5, mock B7–B8 | 40 min |
+| **3** | **08 First order** | 4 board questions (switching at 0⁻/0⁺/∞, τ, RC and RL); Laplace and test signals are separate syllabus items | 08 §1–4, then §6–7 | 60 min |
+| **4** | **07 Maximum power transfer** | 2 board question sets, one of them six parts long; the derivation is a likely theory question | 07 §2–3, mock B12–B14 | 30 min |
+| **5** | **04 Nodal & mesh** | A syllabus item, and 06 depends on it (the professor solved V_{Th} by nodal) | 04 §1–4 | 40 min |
+| **6** | **09 Second-order RLC** | A syllabus item with four named cases; no board question yet | 09 §3–4, exam form | 40 min |
+| **7** | **02 Dividers, power & energy** | 4 short board questions, all quick marks | 02 §1–4 | 25 min |
+| **8** | **03 KVL, KCL, source transformation** | Short; used inside every other method | 03 §1–4 | 20 min |
+| **9** | **01 Elements & sources** | Theory only (classification, dependent sources, lumped vs distributed) | 01 exam form | 20 min |
+| **last** | **10 Mock paper** | Closed-book, after the rest | all | 2–3 h |
+
+Two rules for using the ranking:
+
+- **Short on time:** go down the list and do only the "Do first" column, then the matching mock-paper items.
+- **Stuck on 06:** it builds on 05 (switching sources off) and 04 (nodal). Go back one step and don't skip ahead.
+
 ## The path through this pack
 
 The order is the professor's MTE syllabus, item by item.

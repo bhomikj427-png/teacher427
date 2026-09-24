@@ -97,3 +97,6 @@
   FIGTOKEN10, misplacing figures in files with ≥ 10 figures). Every page of the combined PDF viewed; fixed during review:
   stale "0N —" titles after renumbering, form-feed chars from `\f` escapes, a markdown-eaten conjugate asterisk, label
   overlaps in the KVL/mesh figures, s-domain initial-condition source polarities (inductor + at bottom, capacitor + at top).
+- `[2026-09-25]` Learner request: "combine all pdfs … i hope there is a priority order in the beginning". The combined PDF
+  already existed (00–10 merged). Added a **priority order** section to the top of `00-START-HERE` (ranked by the professor's
+  emphasis: board questions per topic + class time; no PYQ yet, stated as an estimate), rebuilt the combined PDF.
