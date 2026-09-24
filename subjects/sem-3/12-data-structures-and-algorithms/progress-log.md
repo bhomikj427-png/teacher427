@@ -8,11 +8,18 @@
 - Status: **folder created by inbox triage only — no knowledge base, below `stage-1`.** Not teachable
   (teaching gate: `stage-2✓`). Research has **not** been started; it waits on the batch re-map the
   learner has to confirm (`../research-engine/research-queue.md`, scheme-revision section).
-- Where we stopped: nothing started.
+- Where we stopped: `study-pack/` built for the MTE (2026-09-24). No teaching or mastery yet.
 - Next up: learner decides whether to activate ECE2104 for research. When it is activated, the 8 prof
   decks in `exam-pack/` set **scope and emphasis** (C++ → OOP → arrays → stack → queue/pointers);
   facts come from the prescribed textbook, never the slides.
 - Due for review today: nothing.
+- ⚠ **[2026-09-24] Learner-decided gate exception (MTE in ~2 h):** "do not research data structures, just
+  go off of slides and assignment; make me a study pack around answering assignment questions."
+  The `stage-2✓` gate is not met and is **not** being met. Logged as a subject-scoped exception, like
+  MoT's. Scope per the learner: **up to "types of trees"** (professor said "till red-black tree", learner
+  reads that as tree types). The hand-out prints the MTE divider after L16 (recursion), so trees are
+  beyond the printed boundary. Covered anyway, briefly. Accuracy guard: standard textbook DSA content
+  only, every program compiled and run before inclusion.
 
 ## Mastery ledger
 *(empty)*
@@ -37,3 +44,20 @@
   evaluation `12 3 4 * + 6 2 / -` (C4), a stack overflow/underflow trace (C1), a DS-selection
   justification (C2), and a C++ output question about an octal literal (A7, `021377`). Bloom verbs
   in the questions (Apply/Analyze) suggest CO-tagged items. No teaching event.
+- [2026-09-24] **Course hand-out arrived** (`Course Handout ECE2104VDT2104_26.pdf`) →
+  `exam-pack/HANDOUT-ECE2104-course-handout.pdf`. Session July–Nov 2026. Coordinator Dr. Kamal Kishor
+  Upadhyay. Assessment MTE 30 / CWS 30 (quiz, MOOC, assignment) / ETE 40. 5 COs. **Prescribed
+  textbook [1] = Kanetkar, *Data Structures Through C++*** (matches the decks). Lecture plan prints
+  **MID SEMESTER EXAMINATION after L16 (recursion)**: MTE = C++ intro, DS memory representation,
+  linked lists, stack, queue, circular queue, recursion.
+- [2026-09-24] Learner request: **MTE study pack in ~2 h, built around answering Assignment 1**, shaped
+  like ECE2108 study-pack-v3 but more informative. Building `study-pack/`.
+- [2026-09-24] `study-pack/` **built — 8 files, 00–07**, question-first, every A1 question (23/23) answered
+  in place: 00 start-here + A1→file map + 2-h plan · 01 C++/OOP (A2–A5, A7, A9, B2, C3, D1) · 02 arrays
+  (A1, A8, B4) · 03 linked list (B1, C5, D2) · 04 stack (B3, B5, C1, C4, D3) · 05 queue + DS choice
+  (A6, C2, D4) · 06 recursion + tree terminology/types incl. AVL, Red-Black 5 properties, heap, bonus
+  traversals · 07 mock MTE in the ECE2108 MTE format, with answers. **All 20 C++ programs compiled
+  (zig c++ / clang, C++17) and run. Printed outputs are the real outputs.** The checker caught 2 of my
+  errors before they shipped: linked-list search position (3 → **4** after an insert) and a circular
+  queue peek line. Self-test and mock answers were re-verified by execution (postfix conversions,
+  evaluations 21 / 7, octal 8959 / 11). No teaching event.

@@ -69,3 +69,4 @@
 - **ECE2104 has no hand-out yet**, so no syllabus, prescribed textbook, marks split or MTE/ETE boundary. Decks cite Kanetkar, *Data Structures Through C++* (BPB 2023), and Shukla (Wiley). Neither is confirmed as the prescribed text.
 - **ECE2104 is registered but not researched.** Research waits on the learner confirming the batch re-map (`../research-engine/research-queue.md`).
 - **The MTE window has passed** for at least ECE2108 (sat on or before 2026-09-23). Recorded in `../research-engine/exam-calendar.md`.
+- `[2026-09-24]` `Course Handout ECE2104VDT2104_26.pdf` → `12-data-structures-and-algorithms/exam-pack/HANDOUT-ECE2104-course-handout.pdf` — **HANDOUT** — MTE 30 / CWS 30 / ETE 40. Textbook [1] = Kanetkar. **MTE divider printed after L16 (Recursion).** Closes the "no hand-out" open question above. (The learner mentioned two uploads; only this one was in the inbox.)
