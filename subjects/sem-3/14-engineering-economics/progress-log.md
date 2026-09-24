@@ -7,7 +7,8 @@
 - Last session: 2026-09-25 (no teaching).
 - Status: **folder created by inbox triage only. No knowledge base, below `stage-1`.** Not teachable
   (teaching gate: `stage-2✓`). Research has not been started.
-- Where we stopped: `study-pack/` being built (see Session history).
+- Where we stopped: `study-pack/` **complete, 00–10** (2026-09-25). No teaching or mastery yet. The MTE covers L1–L24, and
+  **L20–24 (cost, LCC, financing, break-even) have no deck yet**. Add them to the pack when they arrive.
 - Next up: learner decides whether to activate MEE2003 for research. When activated, the prof decks in
   `exam-pack/` set **scope and emphasis**. Facts come from the prescribed textbook (Panneerselvam,
   *Engineering Economics*, PHI), never from the slides.
@@ -78,3 +79,16 @@
   (L10–12) · 06 EOQ (L13) · 07 payback + ROR · 08 TVM + NPV · 09 IRR (L14–19) · 10 mock MTE. **Gap:** L20–24
   (cost elements, LCC, project financing, break-even) are on the MTE per the hand-out, but no deck for
   them has been uploaded.
+- [2026-09-25] `study-pack/` **built: 11 files, 00–10.** Question-first, and every professor-set problem (37 rows in `00`'s
+  question→file table) is answered in place. 00 start-here + MTE scope + gap notice · 01 basics/demand/supply (L1–3) · 02
+  equilibrium/tax/subsidy, 4 deck problems · 03 elasticity, 3 · 04 decision making + car + cloud (⚠) · 05 estimates, 12
+  one-line numericals · 06 EOQ, 2 deck + 4 sheet questions · 07 payback/ROR, 5 · 08 TVM/NPV, 8 (⚠ A vs B) · 09 IRR, 3 (⚠
+  equipment) · 10 mock MTE (assumed ECE2108 format A 2+2+3 / B 3×5 / C 8, new numbers). **Every self-test and mock answer
+  was computed by script.** One of my own slips was caught (09 self-test NPV₁₀ −52.4 → −52.6) and fixed before shipping.
+  No teaching event.
+- [2026-09-25] `course-info.md` written from the hand-out. Row 14 added to `../README.md`. Folder noted in
+  `../research-engine/research-queue.md` (scheme table).
+- [2026-09-25] **Commit note:** the parallel ECE2107 session's commit `4b89167` ("ECE2107: pictorial study pack as PDFs")
+  used `git add -A` while this pack was being written. It picked up and pushed this folder's exam-pack, the 11 study-pack
+  files, the first 80 lines of this log, and the TRIAGE-LOG line under the ECE2107 message. The content is intact and pushed
+  history was not rewritten. The remaining MEE2003 changes go in a follow-up commit whose message records the MEE2003 work.

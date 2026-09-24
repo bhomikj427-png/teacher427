@@ -102,6 +102,11 @@ both "subjects I don't have" and "a subject I have that isn't listed."
 - **Missing entirely:** **ECE2104 Data Structures and Algorithms** + its lab, and **ECE2107 Circuits &
   Systems**. `[2026-09-25]` **ECE2107 folder `13-circuits-and-systems/` created** by inbox triage (learner's
   handwritten notes; exam-pack only, not researched). Its topics so far match `06`'s U1–U2 KB.
+- `[2026-09-25]` **The "Principles of Management / Engineering Economics" slot resolved to Engineering Economics
+  (MEE2003)**, because the learner uploaded its decks and hand-out. **Folder `14-engineering-economics/` created**: exam-pack (L1–L19
+  decks, EOQ sheet, notes, hand-out) + an MTE study pack built on learner request without research (same
+  exception shape as ECE2104). **Not researched, below `stage-1`.** This makes `02` Management of Technology even
+  less likely to be the learner's course.
 - **`[RESOLVED]` the ECE 2105 vs ECE2102 code mismatch** flagged in `../_inbox/TRIAGE-LOG.md`
   (2026-09-11): the professor's Digital Electronics deck heads itself **ECE 2105** because that is the
   **new** code; the MTE paper and that subject's KB say **ECE2102**, the **old** one. **Both are
