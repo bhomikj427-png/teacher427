@@ -34,8 +34,8 @@ questions. Everything else is theory.
 | Your professor (per you) | "till red-black tree" → you read it as **types of trees** |
 | Marks | MTE **30** · CWS 30 (quiz, MOOC, assignment) · ETE 40 |
 
-So the MTE is: **C++/OOP basics → arrays → linked list → stack → queue → recursion**, plus **tree
-terminology and types** as a safety margin (file 06).
+So the MTE is: **C++/OOP basics → arrays → linked list → stack → queue → recursion → trees up to BST**
+(the blueprint above confirms the BST limit).
 
 The ECE2108 MTE (same department, same week) was **A: 3 short (2/2/3) · B: 3 × 5 · C: 1 × 8**, and
 5 of its 7 questions came straight from the assignments. **Expect the same here: Assignment 1 is the
@@ -68,8 +68,9 @@ best predictor you have.**
        ~15 min (or just Section A + B Q4)
 ```
 
-**If you only have 1 hour:** 04 → 03 → 01 → the Section C/D answers in 05. Stack + linked list +
-class programs are the bulk of A1's marks.
+**Order by blueprint marks:** **01** (CO1, 11) → **06 §6 BST** (CO3, 5, quickest marks) → **04** →
+**05** → **03** → 02 → 06 §1 recursion. **Coding: memorize `01` §9 / `07` C2 (class) and `04` §3 /
+`07` B1 (stack).**
 
 ---
 
