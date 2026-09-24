@@ -14,6 +14,11 @@
 
 Per-subject deviations (a subject whose paper falls outside the common window): note here.
 
+- `[2026-09-24]` **ECE2108 Computer Architecture — MTE already sat**, on or before **2026-09-23**
+  (the learner's photo of their own paper is dated 2026-09-23; the paper reads "Academic Session:
+  September 2026"). Exact date `uncertain`. Implies the sem-3 MTE window is **mid/late Sept 2026** —
+  `likely` for the other subjects too, but not recorded as their date until confirmed.
+
 ## How dates change scheduling (the rule, evidence-aligned)
 
 - **Normal mode (no date near):** expanding intervals as usual (successive relearning,

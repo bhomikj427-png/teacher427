@@ -166,12 +166,39 @@ it predicts the form and he moves the numbers. Full transcription: `../question-
 (2) **U3 (microprogrammed control) appears in neither assignment** — its forms F11–F13 stay inference,
 so **Mano ch. 7's 24 problems are U3's only question evidence** (in the question bank).
 
+## 4b. The real MTE paper — `settled` (added 2026-09-24)
+
+Source: `../exam-pack/PYQ-MTE-ECE2108-2026-09.jpeg` — MUJ Odd Semester Mid Term Examination, Academic
+Session September 2026, **ECE/VDT 2108**, 30 marks, 1.5 h, calculator allowed, all compulsory.
+Full text: `../question-bank.md` → "MTE 2026-09".
+
+| Q | Sec | Marks | CO | Unit | Form | Traces to |
+|---|---|---|---|---|---|---|
+| 1 | A | 2 | 1 | U1 | Masking (AND) — recover R1's original bits, say which were masked | Mano **4-18** family (mask/set/clear) — not in either assignment |
+| 2 | A | 2 | 2 | U2 | Decode `0001 0000 0010 0100` → instruction family | **Mano 5-6(a)** — the part he *dropped* from A2 Q4 |
+| 3 | A | 3 | 3 | U4 | Speedup, 50 ns non-pipe vs 6-seg 10 ns, 100 tasks + Sₘₐₓ | **Mano 9-4 verbatim** |
+| 4 | B | 5 | 1 | U1 | `x + yT₂: AR ← AR + BR` → block diagram + control gates | Mano 4-1 form / **A1 Q12** (same `yT₂` swap) |
+| 5 | B | 5 | 2 | U2 | Direct vs indirect address instruction; memory-reference count | F8 territory; descriptive |
+| 6 | B | 5 | 2 | U2 | PC=3AF trace: fetched instruction + AC binary operation | **A2 Q7 = Mano 5-12 verbatim** |
+| 7 | C | 8 | 3 | U4 | `(Aᵢ × Bᵢ) + Cᵢ` pipeline config + register table i=1..6 + speedup for 10 tasks | **A2 Q11's form on A2 Q13's data** (Mano 9-1 + 9-5) |
+
+**What this settles:**
+1. **Structure:** A = 3 short (2/2/3), B = 3 × 5, C = 1 × 8. Differs from the Digital Electronics MTE
+   (A 3×2 / B 4×4 / C 1×8) — do not generalize across subjects.
+2. **Mark split by unit:** U1 7 · U2 12 · **U3 0** · U4 11. U2 + U4 = 23 of 30.
+3. **The assignments were the MTE's best predictor.** 5 of 7 questions (24 of 30 marks) are an
+   assignment item or the Mano problem next to one. Q1 and Q5 are the only forms neither assignment
+   asked. For the ETE: **drill the assignment-adjacent Mano problems for every unit.**
+4. **U3 (microprogrammed control) was not examined**, matching its absence from both assignments.
+   `likely`, not settled, that it is light in the ETE — one paper is one sample.
+
 ## 5. What would sharpen this map
 
 Ranked by how much it would improve exam targeting:
 
-1. **Any ECE2108 MTE or ETE paper** — would fix the per-question mark split; §4a (assignments) now
-   evidences forms for U1/U2/U4 but not exam marks or U3. *Still the highest-value item.*
+1. ~~Any ECE2108 MTE paper~~ — **arrived 2026-09-24, §4b.** Now: **an ETE paper** (none can exist for
+   this first batch, so the next best is any ETE-style question set the professor hands out) and the
+   **CWS quiz papers**, which would evidence U5–U8 forms before the ETE.
 2. **The decks for L12–L36** — would confirm emphasis for U3 and all four ETE units, and resolve
    whether 8086 is taught from Bhurchandi's notation (BA/EA/MA) or Intel's.
 3. **What CWS actually consists of** — 30 marks, currently unplannable.

@@ -52,3 +52,20 @@
 ### Findings raised by this batch
 - **ALSU select codes:** the professor's ALSU slide (deck 1 p. 32) uses Mano Table 4-8's ordering, which differs from the arithmetic-circuit table on deck 1 p. 25. The KB and study-pack v1 had used the p. 25 ordering for the ALSU — corrected 2026-09-15.
 - **A2 Q5 `C₇T₃`** is not a BC signal name; most likely `D₇T₃`. `uncertain`.
+
+- `[2026-09-24]` `WhatsApp Image 2026-09-23 at 11.46.47 AM.jpeg` → `11-computer-architecture-and-processor/exam-pack/PYQ-MTE-ECE2108-2026-09.jpeg` — **PYQ** — the learner's own **ECE2108 Odd-Sem MTE, Sept 2026** (photo), 30 marks / 1.5 h, A (2+2+3) / B (3×5) / C (1×8). **First ECE2108 exam paper.** 5 of 7 items trace to the assignments or the Mano problem next to one. No U3 question. Analysis: `exam-map.md` §4b. Contains the learner's name + reg. no. (private repo).
+- `[2026-09-24]` `1.pptx` → `12-data-structures-and-algorithms/exam-pack/slides-01-cpp-overview.pptx` — PPT — header "Data Structure and Algorithms, **ECE/VDT 2104**". **Triggered creation of `12-data-structures-and-algorithms/`** (same precedent as ECE2108: in the learner's 2025-26 scheme, absent from the seeded 2023 scheme).
+- `[2026-09-24]` `2.pptx` → `.../exam-pack/slides-02-cpp-basic-terms-operations.pptx` — PPT — C++ paradigm, C++ vs C abstractions.
+- `[2026-09-24]` `3.pptx` → `.../exam-pack/slides-03-conditionals-loops-functions.pptx` — PPT — if/else, loops, functions + 6 beyond-class programs.
+- `[2026-09-24]` `4.pptx` → `.../exam-pack/slides-04-class-objects-access-specifiers.pptx` — PPT — classes/objects/access specifiers + 5 programs.
+- `[2026-09-24]` `5.pptx` → `.../exam-pack/slides-05-class-constructor-destructor.pptx` — PPT — constructors/destructors + 10 short-answer Qs.
+- `[2026-09-24]` `6.pptx` → `.../exam-pack/slides-06-arrays.pptx` — PPT — linear arrays, memory representation, traversal, insert/delete.
+- `[2026-09-24]` `7.pptx` → `.../exam-pack/slides-07-stack.pptx` — PPT — stack ADT, PUSH/POP algorithms, expression notations.
+- `[2026-09-24]` `8.pptx` → `.../exam-pack/slides-08-queue-pointers.pptx` — PPT — queue, circular queue, pointers + 6 activity items.
+- `[2026-09-24]` `9.pptx` → `.../exam-pack/slides-08-queue-pointers-COPY.pptx` — PPT — **duplicate of 8.pptx** (identical slide text, 27 slides, 101-byte size difference = metadata). Kept, not deleted. Safe to remove.
+- `[2026-09-24]` `DSA Assignment.pdf` (arrived during this sort) → `12-data-structures-and-algorithms/exam-pack/ASSIGNMENT-A1-ECE2104-2026-08.pdf` — **ASSIGNMENT** (CWS) — Assignment 1, 50 marks, due 27-08-2026, 23 Q (A 9×1 / B 5×2 / C 5×3 / D 4×4). Covers **linked lists**, which no deck covers.
+
+### Open questions raised by this batch
+- **ECE2104 has no hand-out yet**, so no syllabus, prescribed textbook, marks split or MTE/ETE boundary. Decks cite Kanetkar, *Data Structures Through C++* (BPB 2023), and Shukla (Wiley). Neither is confirmed as the prescribed text.
+- **ECE2104 is registered but not researched.** Research waits on the learner confirming the batch re-map (`../research-engine/research-queue.md`).
+- **The MTE window has passed** for at least ECE2108 (sat on or before 2026-09-23). Recorded in `../research-engine/exam-calendar.md`.

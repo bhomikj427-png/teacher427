@@ -7,7 +7,8 @@
 | **P1** | The professor's **Assignment 1 + Assignment 2** | First-party. This is literally what he wrote and marked. | 35 |
 | **P2** | **Mano's end-of-chapter problems** | He builds the assignments out of them — *Assignment 2 is 15 of 15 Mano problems.* So Mano is the best available predictor of everything he hasn't asked yet. | 118 in MTE scope |
 
-There is still **no ECE2108 past paper**. P1 and P2 are the best evidence that exists; neither is an exam paper.
+**P0 (added 2026-09-24): the real MTE paper, Sept 2026** — section below Assignment 2. It confirms the order:
+5 of its 7 questions are an assignment item or the Mano problem next to one (`knowledge-base/exam-map.md` §4b).
 
 ---
 
@@ -198,6 +199,33 @@ STORE   M[314] ← R3
 ```
 
 ---
+
+## P0 · MTE, Odd Semester, September 2026 — 7 questions, 30 marks
+
+Transcribed from `exam-pack/PYQ-MTE-ECE2108-2026-09.jpeg` (photo of the printed paper). 1.5 h, all
+compulsory, "missing data, if any, may be assumed suitably", calculator allowed.
+
+**Section A**
+
+**Q1** *(2 · CO1)* Bits in register R1 have the value of 1000 after a masking operation is performed using register bits in R2 with value 1100. Determine the original binary value present in register R1. Also, explain which bit positions were masked? — *Mano 4-18 family*
+
+**Q2** *(2 · CO2)* Observe the following binary sequence used to represent basic computer instruction format. Instruction bit sequence = 0001 0000 0010 0100. Determine which family of instruction does the aforementioned instruction belongs to? — **`= Mano 5-6(a)`**, the part dropped from A2 Q4
+
+**Q3** *(3 · CO3)* A non-pipeline system takes 50 ns to process a task. The same task can be processed in a six-segment pipeline with a clock cycle of 10 ns. Determine the speedup ratio of the pipeline for 100 tasks. What is the maximum speedup that can be achieved? — **`= Mano 9-4` verbatim**
+
+**Section B**
+
+**Q4** *(5 · CO1)* Create the block diagram of the hardware that implements the following register transfer statement: `x + yT₂: AR ← AR + BR`, where AR and BR are two n-bit registers and x, y, and T₂ are control variables. Explain the working of the block diagram with a suitable example and include the logic gates for the control function in both design and explanation. — *Mano 4-1 form; A1 Q12*
+
+**Q5** *(5 · CO2)* Explain the working of direct and an indirect address instruction with the help of suitable example. Also, highlight the difference between the two instructions in terms of 'number of references to memory'?
+
+**Q6** *(5 · CO2)* The content of PC in the basic computer is 3AF. The content of AC is 7EC3. The content of memory at address 3AF is 932E. The content of memory at address 32E is 09AC. The content of memory at address 9AC is 8B9F. a. What is the instruction that will be fetched and executed next? b. Show the binary operation that will be performed in the AC when the instruction is executed. — **`= A2 Q7 = Mano 5-12` verbatim**
+
+**Section C**
+
+**Q7** *(8 · CO3)* In certain scientific computations it is necessary to perform the arithmetic operation (Aᵢ * Bᵢ) + Cᵢ with a stream of numbers. Specify a pipeline configuration to carry out this task. List the contents of all registers in the pipeline for i = 1 through 6. Let the following be the respective propagation times: operands to be read from memory into registers propagation time = 40 ns; signal to propagate through the multiplier propagation time = 45 ns; internal register transfer propagation time = 5 ns; signal to propagate through the adder propagation time = 15 ns. Calculate the speedup of the pipeline for 10 tasks. — **A2 Q11's form on A2 Q13's data (Mano 9-1 + 9-5)**
+
+---
 ---
 
 # P2 · Mano's end-of-chapter problems — MTE scope
@@ -291,7 +319,7 @@ fifteen are the exam.
 - **5-3** *(file 06)* `[A2 Q2]`
 - **5-4** *(file 06)* `[A2 Q3]`
 - **5-5** *(file 06)* Explain why each of the following microoperations cannot be executed during a single clock pulse in the system shown in Fig. 5-4. Specify a sequence of microoperations that will perform the operation. a. `IR ← M[PC]` b. `AC ← AC + TR` c. `DR ← DR + AC` (AC does not change) — **not asked yet; tests the bus bottleneck directly**
-- **5-6** *(file 06)* `[A2 Q4]` — he dropped part (a), `0001 0000 0010 0100`.
+- **5-6** *(file 06)* `[A2 Q4]` — he dropped part (a), `0001 0000 0010 0100` — **then asked it: MTE 2026-09 Q2.**
 - **5-7** *(file 06)* What are the two instructions needed in the basic computer in order to set the E flip-flop to 1? — **not asked yet**
 - **5-8** *(file 07)* `[A2 Q5]`
 - **5-9** *(file 07)* `[A2 Q6]` — he dropped the other 11 register-reference instructions.
@@ -366,7 +394,7 @@ U3's *program control and status bits* half. Only the in-scope items are listed.
 - **9-1** *(file 11)* `[A2 Q11]`
 - **9-2** *(file 11)* Draw a space-time diagram for a six-segment pipeline showing the time it takes to process eight tasks. — **not asked yet; the diagram behind A2 Q12's formula**
 - **9-3** *(file 11)* `[A2 Q12]` — verbatim.
-- **9-4** *(file 11)* A nonpipeline system takes 50 ns to process a task. The same task can be processed in a six-segment pipeline with a clock cycle of 10 ns. Determine the speedup ratio of the pipeline for 100 tasks. What is the maximum speedup that can be achieved? — **not asked yet; the cleanest speedup numerical in the book**
+- **9-4** *(file 11)* A nonpipeline system takes 50 ns to process a task. The same task can be processed in a six-segment pipeline with a clock cycle of 10 ns. Determine the speedup ratio of the pipeline for 100 tasks. What is the maximum speedup that can be achieved? — **asked: MTE 2026-09 Q3, verbatim**
 - **9-5** *(file 11)* `[A2 Q13]`
 - **9-6** *(file 11)* It is necessary to design a pipeline for a fixed-point multiplier that multiplies two 8-bit binary integers. Each segment consists of a number of AND gates and a binary adder similar to an array multiplier (Fig. 10-10). a. How many AND gates are there in each segment, and what size of adder is needed? b. How many segments are there in the pipeline? c. If the propagation delay in each segment is 30 ns, what is the average time to multiply two fixed-point numbers in the pipeline?
 - **9-7** *(file 11)* The time delays of the four segments in the pipeline of Fig. 9-6 are t₁ = 50 ns, t₂ = 30 ns, t₃ = 95 ns, t₄ = 45 ns. The interface register delay tᵣ = 5 ns. a. How long would it take to add 100 pairs of numbers in the pipeline? b. How can we reduce the total time to about one-half of the time calculated in part (a)? — **the unequal-segment case; the bottleneck segment sets the clock**

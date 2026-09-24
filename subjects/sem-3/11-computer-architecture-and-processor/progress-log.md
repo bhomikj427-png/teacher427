@@ -22,6 +22,10 @@
   (4) Ask the learner for the **L12–L15 decks** if they exist — U3 is the most exposed unit (no
   assignment, no deck) and a deck would settle its emphasis.
 - Due for review today: nothing yet (no items mastered).
+- ⚠ **[2026-09-24] The MTE has been sat** — the learner's own ECE2108 MTE paper (Sept 2026) arrived via
+  `_inbox/` (photo dated 2026-09-23). The "Next up" list above was written for a pre-MTE learner: MTE
+  scope U1–U4 is now ETE-revision material, and U5–U8 (ETE-only) move up. Re-plan with the learner at
+  the next session; the carry-over probe A2 Q7 / Mano 5-12 **was MTE Q6** — ask how it went.
 
 ## Mastery ledger
 *(empty — nothing mastered to criterion yet)*
@@ -357,3 +361,11 @@
   `learner-preferences.md` §3 — it is a format preference that holds regardless of subject, not an
   ECE2108 override. Noted there that the shape is honoured as **pretesting**, with the mandatory
   "guess before you read on" line, so it serves principle 1 rather than sitting in tension with it.
+- [2026-09-24] **Inbox triage: the ECE2108 Odd-Sem MTE paper (Sept 2026) arrived** — phone photo of the
+  learner's own paper, 30 marks / 1.5 h, Sections A (2+2+3) / B (5+5+5) / C (8), CO-tagged. Filed as
+  `exam-pack/PYQ-MTE-ECE2108-2026-09.jpeg`. **First real ECE2108 exam evidence.** Traced every item:
+  Q2 = Mano 5-6(a) (the part dropped from A2 Q4) · Q3 = Mano 9-4 verbatim · Q4 = the 4-1 / A1 Q12
+  RTL→block-diagram form · Q6 = A2 Q7 = Mano 5-12 verbatim · Q7 = A2 Q11's form on A2 Q13's data
+  (Mano 9-1 + 9-5) · Q1 masking (4-18 family) and Q5 direct-vs-indirect are the only non-assignment
+  forms. **No U3 question at all.** Updates follow: `exam-map.md` §4b, `question-bank.md`, exam-pack
+  README, `exam-calendar.md`. No teaching event.

@@ -85,7 +85,7 @@ both "subjects I don't have" and "a subject I have that isn't listed."
 | ECE2102 Digital Electronics (4 cr) | **ECE2105 Digital Electronics (3 cr)** |
 | ECE2103 Signals and Systems | — *(not in Sem-3)* |
 | Flexi Core 1: ECE2120 CNT / ECE2121 LIC | — *(not in Sem-3)* |
-| — | **ECE2104 Data Structures and Algorithms** ← subject the learner has, absent from this batch |
+| — | **ECE2104 Data Structures and Algorithms** ← subject the learner has. **Folder `12-` created 2026-09-24** (exam-pack: 8 decks + Assignment 1). Not researched |
 | — | **ECE2108 Computer Architecture & Processor** ← built this session |
 | ECE2130 Electronic Devices Lab-I | ECE2134 Electronics Devices & Circuits Lab |
 | ECE2131 Digital Electronics Lab | ECE2133 Digital Electronics lab |
