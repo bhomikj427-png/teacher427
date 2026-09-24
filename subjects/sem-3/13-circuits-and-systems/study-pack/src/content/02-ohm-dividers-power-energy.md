@@ -1,10 +1,10 @@
-# 02 — Dividers, source transformation, ladders
+# 02 — Ohm's law, dividers, power and energy
 
-<div class="sub">Class notes p.1, p.4–5 · 4 board questions · needs 01</div>
+<div class="sub">Class notes p.1, p.4–5, set 2 p.4–6 · MTE syllabus item 2 · 4 board questions · needs 01</div>
 
 ## Map
 
-[[map:1 Voltage division > 2 Current division > 3 Division with AC > 4 Source transformation > 5 Ladder reduction|here=1]]
+[[map:1 Voltage division > 2 Current division > 3 Division with AC > 4 Power and energy > 5 Ladder reduction|here=1]]
 
 ## The questions this file answers
 
@@ -91,24 +91,38 @@ $$v_{1} = 0.3 × 10 sin(2000t + 30°) = 3 sin(2000t + 30°) V      v_{2} = 7 sin
 
 [[fig:acplot|All three waves cross zero together: same frequency, same phase. Only the amplitude is divided.|w=80]]
 
-This holds only because both elements are **resistors**. With an L or C in the divider, the ratio becomes complex and shifts the phase. That case uses impedances (05, conjugate matching).
+This holds only because both elements are **resistors**. With an L or C in the divider, the ratio becomes complex and shifts the phase. That case uses impedances (05 §6, 06 §6).
 
-### 4 · Source transformation
+### 4 · Power and energy: the sign convention
 
 :::guess Predict
-A 10 V source with 2 kΩ in series. Short its terminals: what current flows? Leave them open: what voltage appears? Could a current source with a resistor in parallel give the same two answers?
+A 12 V battery drives 1 mA. Another circuit forces 1 mA *into* the battery's + terminal (charging it). In which case does the battery absorb power?
 :::
 
-[[fig:srctx|Both give the same open-circuit voltage (V) and the same short-circuit current (V/R), so no outside circuit can tell them apart.|w=75]]
+**Passive sign convention.** Label each element's voltage + / −. If the current arrow **enters the + terminal**, then
 
-A **voltage source V in series with R** is equivalent to a **current source I = V/R in parallel with the same R** (class p.4), as seen from the terminals a–b.
+$$p = v·i   is the power ABSORBED by the element$$
 
-For the Predict: short-circuit current = 10/2k = **5 mA**; open-circuit voltage = **10 V**. So it is equivalent to 5 mA ∥ 2 kΩ, and 5 mA × 2 kΩ = 10 V, the same terminal behaviour.
+- p > 0: the element **absorbs** power (a resistor, always; a battery being charged).
+- p < 0: the element **delivers** power (a source driving a circuit).
+- If the current **leaves** the + terminal, the absorbed power is p = −v·i.
 
-It is the bridge between Thévenin and Norton in 04: I_{N} = V_{Th} / R_{Th}.
+Units: V × mA = mW, so 12 V × 1 mA = 12 mW. For the Predict: current entering + ⇒ the battery absorbs 12 mW (charging); current leaving + ⇒ it delivers 12 mW.
+
+**Energy** is power over time:
+
+$$w = ∫ p dt   (joules; constant power: w = P·t)$$
+
+| Element | Power absorbed | Energy |
+|---|---|---|
+| R | p = i^{2}R = \frac{v^{2}}{R} ≥ 0 | all turned into heat |
+| L | p = Li·\frac{di}{dt} | stored: ½Li^{2} |
+| C | p = Cv·\frac{dv}{dt} | stored: ½Cv^{2} |
+
+**Conservation (Tellegen): in any circuit the absorbed powers add to zero.** What the sources deliver, the other elements absorb. 03 uses this as the check on every loop and node answer.
 
 :::check Check 3
-Convert 3 mA in parallel with 4 kΩ into a voltage-source form.
+A 5 V source has 2 mA **leaving** its + terminal. Absorbed power? Is it delivering or absorbing?
 :::
 
 ### 5 · Series–parallel reduction: the infinite ladder
@@ -147,13 +161,13 @@ Here every section is different, so the rest of the ladder never looks like the 
 
 - **VDR**: V_{k} = V·\frac{R_{k}}{R_{total}}. **CDR (two branches)**: I_{1} = I·\frac{R_{2}}{R_{1}+R_{2}}.
 - Division holds for any waveform when every element is a resistor. Phase is unchanged.
-- **Source transformation**: V in series with R ⇔ V/R in parallel with R.
+- **Power**: p = vi absorbed when i enters +. p > 0 absorbs, p < 0 delivers. Energy w = ∫p dt; ½Li^{2}, ½Cv^{2}.
 - **Ladder**: reduce from the far end. Identical infinite ladder: R_{eq} = R + R ∥ R_{eq}.
 
 ## Traps
 
 - CDR with the **same** resistor on top (I·R_{1}/(R_{1}+R_{2}) for I_{1}) is the most common slip: the answer comes out swapped.
-- Source transformation keeps R **the same size**. It changes from series to parallel, not in value.
+- Power sign: a source whose current **leaves** + delivers power, so its absorbed power is **negative**.
 - Forgetting that R_{eq} of a network with a shunt resistor across the terminals must be smaller than that resistor.
 
 ## Self-test
@@ -161,7 +175,7 @@ Here every section is different, so the rest of the ladder never looks like the 
 1. 20 V across 2 kΩ and 8 kΩ in series. Both voltages?
 2. 9 mA into 3 kΩ ∥ 6 kΩ. Both currents?
 3. v = 6 sin(100t) V across 1 kΩ and 2 kΩ in series. v across the 2 kΩ?
-4. Transform 12 V in series with 3 kΩ.
+4. 3 mA flows through a 2 kΩ resistor for 10 s. Power, and energy turned into heat?
 5. An infinite ladder of identical 1 kΩ sections (series then shunt). R_{eq}?
 
 <!--ANSWERS-->
@@ -171,13 +185,13 @@ Here every section is different, so the rest of the ladder never looks like the 
 
 **Check 2.** (a) 10 × 4/5 = **8 mA**. (b) Same voltage across both, and I = V/R, so the smaller R takes more current.
 
-**Check 3.** 3 mA × 4 kΩ = **12 V in series with 4 kΩ**.
+**Check 3.** p = −5 × 2 = **−10 mW** absorbed: it **delivers** 10 mW.
 
 **Self-test.**
 
 1. **4 V** and **16 V**.
 2. 3 kΩ: 9 × 6/9 = **6 mA**; 6 kΩ: **3 mA**.
 3. \frac{2}{3} × 6 sin(100t) = **4 sin(100t) V**.
-4. **4 mA in parallel with 3 kΩ**.
+4. P = (3 mA)^{2} × 2 kΩ = **18 mW**; w = 18 mW × 10 s = **0.18 J**.
 5. R(1 + √5)/2 = **1.618 kΩ**.
 <!--/ANSWERS-->

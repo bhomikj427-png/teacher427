@@ -1,6 +1,6 @@
-# 05 — Maximum power transfer
+# 07 — Maximum power transfer
 
-<div class="sub">Class notes p.13–14, p.16–17 · 2 board question sets · needs 04</div>
+<div class="sub">Class notes p.13–14, p.16–17, set 2 p.14 · MTE syllabus item 5 (DC and AC) · 2 board question sets + 1 textbook AC problem · needs 06</div>
 
 ## Map
 
@@ -27,7 +27,7 @@ Make R_{L} tiny, then huge. What happens to the load's power at each extreme? So
 
 ### 1 · Power in the load
 
-From 04, every linear source network is V_{Th} in series with R_{Th}, so this circuit is already in that form. The load current and power:
+From 06, every linear source network is V_{Th} in series with R_{Th}, so this circuit is already in that form. The load current and power:
 
 $$I_{L} = \frac{V_{Th}}{R_{Th} + R_{L}}      P_{L} = I_{L}^{2} R_{L} = \frac{V_{Th}^{2} R_{L}}{(R_{Th} + R_{L})^{2}}$$
 
@@ -94,20 +94,30 @@ The 50 % refers to the Thévenin equivalent. The power actually lost inside the 
 A source has Z_{Th} = 3 + j4 Ω. Its reactance j4 Ω doesn't absorb power, but it does limit the current. What reactance should the load add?
 :::
 
-For impedances (class p.16):
+For impedances (class p.16; set 2 p.14: "Z_{L} = Z_{Th}^{&#42;}, * = complex conjugate, i → −i"):
 
-$$Z_{L} = Z_{Th}^{*}   (the complex conjugate: j → −j)$$
+$$Z_{L} = Z_{Th}^{&#42;}   (the complex conjugate: j → −j)$$
 
 - **R_{L} = R_{Th}**: the resistance match, as before.
 - **X_{L} = −X_{Th}**: the load's reactance **cancels** the source's, so the loop is purely resistive and the current is as large as possible.
 
-For the Predict: Z_{L} = 3 − j4 Ω. Then P_{max} = \frac{|V_{Th}|^{2}}{4R_{Th}}, with V_{Th} as an rms value.
+For the Predict: Z_{L} = 3 − j4 Ω. Then P_{max} = \frac{|V_{Th}|^{2}}{4R_{Th}}, with V_{Th} as an **rms** value (with a peak value it is \frac{|V_{Th}|^{2}}{8R_{Th}}).
+
+:::q <span class="tag">textbook</span>
+The AC network of 06 §6 has V_{Th} = 7.07∠−45° V (peak) and Z_{Th} = 500 − j500 Ω. Find the load for maximum power, and that power.
+:::
+
+- **Load:** Z_{L} = Z_{Th}^{&#42;} = **500 + j500 Ω** (500 Ω with an inductive reactance of 500 Ω; at ω = 1000 that is L = 0.5 H).
+- **Loop:** Z_{Th} + Z_{L} = 1000 Ω, purely resistive: the reactances cancel. I = \frac{7.07}{1000} = 7.07 mA peak = 5 mA rms.
+- **Power:** P = I_{rms}^{2}R_{L} = (5 mA)^{2} × 500 Ω = **12.5 mW**. Same by formula: V_{rms} = 5 V, \frac{25}{4 × 500} = 12.5 mW.
+
+A computer sweep over every load R + jX gives its peak at exactly R = 500 Ω, X = +500 Ω, 12.5 mW.
 
 ---
 
 ## Exam form
 
-**Statement.** A linear network delivers maximum power to a resistive load when R_{L} = R_{Th}. The maximum power is P_{max} = V_{Th}^{2}/(4R_{Th}). For an AC network with a complex load, the condition is Z_{L} = Z_{Th}^{*}.
+**Statement.** A linear network delivers maximum power to a resistive load when R_{L} = R_{Th}. The maximum power is P_{max} = V_{Th}^{2}/(4R_{Th}). For an AC network with a complex load, the condition is Z_{L} = Z_{Th}^{&#42;}.
 
 **Derivation.** P_{L} = V_{Th}^{2}R_{L}/(R_{Th}+R_{L})^{2}; set dP_{L}/dR_{L} = 0 ⇒ R_{L} = R_{Th} (step 2).
 
@@ -118,15 +128,15 @@ For the Predict: Z_{L} = 3 − j4 Ω. Then P_{max} = \frac{|V_{Th}|^{2}}{4R_{Th}
 - Using P = V_{Th}^{2}/(R_{Th} + R_{L}) (the crossed-out attempt on class p.13).
 - Saying "maximum power means maximum efficiency".
 - In the AC case, matching Z_{L} = Z_{Th} instead of the **conjugate**.
-- Forgetting to find R_{Th} first when the source network is more than one resistor: use 04.
+- Forgetting to find R_{Th} first when the source network is more than one resistor: use 06.
 
 ## Self-test
 
 1. Derive R_{L} = R_{Th} (three lines).
 2. V_{Th} = 12 V, R_{Th} = 3 kΩ. Find P_{max} and the source power at that point.
 3. Why do power companies not operate at maximum power transfer?
-4. Z_{Th} = 50 − j20 Ω. Load for maximum power?
-5. In the 04 board circuit (V_{Th} = 20/3 V, R_{Th} = 8/3 kΩ), what R_{L} gets maximum power, and how much?
+4. Z_{Th} = 50 − j20 Ω. Load for maximum power? If V_{Th} = 10 V rms, what is P_{max}?
+5. In the 06 board circuit (V_{Th} = 20/3 V, R_{Th} = 8/3 kΩ), what R_{L} gets maximum power, and how much?
 
 <!--ANSWERS-->
 ## Answers
@@ -138,6 +148,6 @@ For the Predict: Z_{L} = 3 − j4 Ω. Then P_{max} = \frac{|V_{Th}|^{2}}{4R_{Th}
 1. P_{L} = V_{Th}^{2}R_{L}/(R_{Th}+R_{L})^{2}; the numerator of the derivative is (R_{Th}+R_{L})^{2} − 2R_{L}(R_{Th}+R_{L}) = 0; this gives R_{Th}^{2} = R_{L}^{2}, so R_{L} = R_{Th}.
 2. P_{max} = 144/12k = **12 mW**; I = 12/6k = 2 mA; P_{s} = 24 mW.
 3. Efficiency would be only 50 %: half of the generated power lost in the source and lines.
-4. Z_{L} = **50 + j20 Ω**.
+4. Z_{L} = **50 + j20 Ω**; P_{max} = 100/(4 × 50) = **0.5 W**.
 5. R_{L} = **8/3 kΩ ≈ 2.67 kΩ**; P_{max} = (20/3)^{2} / (4 × 8/3) = **4.17 mW**.
 <!--/ANSWERS-->

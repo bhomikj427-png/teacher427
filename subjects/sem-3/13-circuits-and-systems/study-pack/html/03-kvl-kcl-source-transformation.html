@@ -1,0 +1,630 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>03 — KVL, KCL and source transformation</title>
+<style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2107 Circuits & Systems · MTE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+</style></head><body><h1>03 — KVL, KCL and source transformation</h1>
+<div class="sub">Class notes p.4–5, set 2 p.4, p.11 · MTE syllabus item 3 · 1 board question + 1 textbook problem · needs 02</div>
+
+<h2>Map</h2>
+<div class="map"><span class="n here">1 KCL: currents at a node</span><span class="a">→</span><span class="n">2 KVL: voltages round a loop</span><span class="a">→</span><span class="n">3 Power check</span><span class="a">→</span><span class="n">4 Source transformation</span><span class="a">→</span><span class="n">5 Using it on a class circuit</span></div>
+
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">textbook</span> A loop with 12 V, 2 kΩ, an opposing 4 V source and 4 kΩ: find i, each voltage, and each element's power.</li>
+<li><span class="tag">Class p.4</span> Source transformation: V in series with R ⇔ V/R in parallel with R.</li>
+<li><span class="tag">Class p.7 · set 2 p.8</span> The superposition circuit again, solved in three lines by source transformation.</li>
+</ul>
+<p>The professor used both laws inside other methods (KCL in the nodal working on set 2 p.11; KVL in every divider). This file states them on their own, as the syllabus asks.</p>
+<hr />
+<h2>Build</h2>
+<h3>1 · KCL: what goes into a node comes out</h3>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>5 mA and 3 mA flow into a node. 2 mA flows out along a third wire. What flows in the fourth wire, and which way?</p>
+</div>
+
+<figure style="max-width:40%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="194.142316pt" height="169.632pt" viewBox="0 0 194.142316 169.632" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-25T04:52:51.329137</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 169.632 
+L 194.142316 169.632 
+L 194.142316 0 
+L 0 0 
+L 0 169.632 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <defs>
+     <path id="m960de9511f" d="M 0 4.5 
+C 1.193414 4.5 2.338109 4.025852 3.181981 3.181981 
+C 4.025852 2.338109 4.5 1.193414 4.5 0 
+C 4.5 -1.193414 4.025852 -2.338109 3.181981 -3.181981 
+C 2.338109 -4.025852 1.193414 -4.5 0 -4.5 
+C -1.193414 -4.5 -2.338109 -4.025852 -3.181981 -3.181981 
+C -4.025852 -2.338109 -4.5 -1.193414 -4.5 0 
+C -4.5 1.193414 -4.025852 2.338109 -3.181981 3.181981 
+C -2.338109 4.025852 -1.193414 4.5 0 4.5 
+z
+" style="stroke: #1f2937"/>
+    </defs>
+    <g clip-path="url(#pa2545f14da)">
+     <use xlink:href="#m960de9511f" x="97.071158" y="84.816" style="fill: #1f2937; stroke: #1f2937"/>
+    </g>
+   </g>
+   <g id="patch_2">
+    <path d="M 17.367378 84.816 
+Q 53.15629 84.816 86.932741 84.816 
+" style="fill: none; stroke: #1d4ed8; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 82.932741 82.816 
+L 86.932741 84.816 
+L 82.932741 86.816 
+z
+" style="fill: #1d4ed8; stroke: #1d4ed8; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <!-- 5 mA in -->
+    <g style="fill: #1d4ed8" transform="translate(36.294329 76.645895) scale(0.095 -0.095)">
+     <defs>
+      <path id="ArialMT-35" d="M 266 1200 
+L 856 1250 
+Q 922 819 1161 601 
+Q 1400 384 1738 384 
+Q 2144 384 2425 690 
+Q 2706 997 2706 1503 
+Q 2706 1984 2436 2262 
+Q 2166 2541 1728 2541 
+Q 1456 2541 1237 2417 
+Q 1019 2294 894 2097 
+L 366 2166 
+L 809 4519 
+L 3088 4519 
+L 3088 3981 
+L 1259 3981 
+L 1013 2750 
+Q 1425 3038 1878 3038 
+Q 2478 3038 2890 2622 
+Q 3303 2206 3303 1553 
+Q 3303 931 2941 478 
+Q 2500 -78 1738 -78 
+Q 1113 -78 717 272 
+Q 322 622 266 1200 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-20" transform="scale(0.015625)"/>
+      <path id="ArialMT-6d" d="M 422 0 
+L 422 3319 
+L 925 3319 
+L 925 2853 
+Q 1081 3097 1340 3245 
+Q 1600 3394 1931 3394 
+Q 2300 3394 2536 3241 
+Q 2772 3088 2869 2813 
+Q 3263 3394 3894 3394 
+Q 4388 3394 4653 3120 
+Q 4919 2847 4919 2278 
+L 4919 0 
+L 4359 0 
+L 4359 2091 
+Q 4359 2428 4304 2576 
+Q 4250 2725 4106 2815 
+Q 3963 2906 3769 2906 
+Q 3419 2906 3187 2673 
+Q 2956 2441 2956 1928 
+L 2956 0 
+L 2394 0 
+L 2394 2156 
+Q 2394 2531 2256 2718 
+Q 2119 2906 1806 2906 
+Q 1569 2906 1367 2781 
+Q 1166 2656 1075 2415 
+Q 984 2175 984 1722 
+L 984 0 
+L 422 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-41" d="M -9 0 
+L 1750 4581 
+L 2403 4581 
+L 4278 0 
+L 3588 0 
+L 3053 1388 
+L 1138 1388 
+L 634 0 
+L -9 0 
+z
+M 1313 1881 
+L 2866 1881 
+L 2388 3150 
+Q 2169 3728 2063 4100 
+Q 1975 3659 1816 3225 
+L 1313 1881 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-69" d="M 425 3934 
+L 425 4581 
+L 988 4581 
+L 988 3934 
+L 425 3934 
+z
+M 425 0 
+L 425 3319 
+L 988 3319 
+L 988 0 
+L 425 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-6e" d="M 422 0 
+L 422 3319 
+L 928 3319 
+L 928 2847 
+Q 1294 3394 1984 3394 
+Q 2284 3394 2536 3286 
+Q 2788 3178 2913 3003 
+Q 3038 2828 3088 2588 
+Q 3119 2431 3119 2041 
+L 3119 0 
+L 2556 0 
+L 2556 2019 
+Q 2556 2363 2490 2533 
+Q 2425 2703 2258 2804 
+Q 2091 2906 1866 2906 
+Q 1506 2906 1245 2678 
+Q 984 2450 984 1813 
+L 984 0 
+L 422 0 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#ArialMT-35"/>
+     <use xlink:href="#ArialMT-20" x="55.615234"/>
+     <use xlink:href="#ArialMT-6d" x="83.398438"/>
+     <use xlink:href="#ArialMT-41" x="166.699219"/>
+     <use xlink:href="#ArialMT-20" x="227.898438"/>
+     <use xlink:href="#ArialMT-69" x="255.681641"/>
+     <use xlink:href="#ArialMT-6e" x="277.898438"/>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 97.071158 13.288559 
+Q 97.071158 44.988571 97.071158 74.676123 
+" style="fill: none; stroke: #1d4ed8; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 99.071158 70.676123 
+L 97.071158 74.676123 
+L 95.071158 70.676123 
+z
+" style="fill: #1d4ed8; stroke: #1d4ed8; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_2">
+    <!-- 3 mA in -->
+    <g style="fill: #1d4ed8" transform="translate(103.198737 43.965474) scale(0.095 -0.095)">
+     <defs>
+      <path id="ArialMT-33" d="M 269 1209 
+L 831 1284 
+Q 928 806 1161 595 
+Q 1394 384 1728 384 
+Q 2125 384 2398 659 
+Q 2672 934 2672 1341 
+Q 2672 1728 2419 1979 
+Q 2166 2231 1775 2231 
+Q 1616 2231 1378 2169 
+L 1441 2663 
+Q 1497 2656 1531 2656 
+Q 1891 2656 2178 2843 
+Q 2466 3031 2466 3422 
+Q 2466 3731 2256 3934 
+Q 2047 4138 1716 4138 
+Q 1388 4138 1169 3931 
+Q 950 3725 888 3313 
+L 325 3413 
+Q 428 3978 793 4289 
+Q 1159 4600 1703 4600 
+Q 2078 4600 2393 4439 
+Q 2709 4278 2876 4000 
+Q 3044 3722 3044 3409 
+Q 3044 3113 2884 2869 
+Q 2725 2625 2413 2481 
+Q 2819 2388 3044 2092 
+Q 3269 1797 3269 1353 
+Q 3269 753 2831 336 
+Q 2394 -81 1725 -81 
+Q 1122 -81 723 278 
+Q 325 638 269 1209 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#ArialMT-33"/>
+     <use xlink:href="#ArialMT-20" x="55.615234"/>
+     <use xlink:href="#ArialMT-6d" x="83.398438"/>
+     <use xlink:href="#ArialMT-41" x="166.699219"/>
+     <use xlink:href="#ArialMT-20" x="227.898438"/>
+     <use xlink:href="#ArialMT-69" x="255.681641"/>
+     <use xlink:href="#ArialMT-6e" x="277.898438"/>
+    </g>
+   </g>
+   <g id="patch_4">
+    <path d="M 105.196009 84.816 
+Q 140.984921 84.816 174.761372 84.816 
+" style="fill: none; stroke: #b91c1c; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 170.761372 82.816 
+L 174.761372 84.816 
+L 170.761372 86.816 
+z
+" style="fill: #b91c1c; stroke: #b91c1c; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_3">
+    <!-- 2 mA out -->
+    <g style="fill: #b91c1c" transform="translate(123.259823 76.645895) scale(0.095 -0.095)">
+     <defs>
+      <path id="ArialMT-32" d="M 3222 541 
+L 3222 0 
+L 194 0 
+Q 188 203 259 391 
+Q 375 700 629 1000 
+Q 884 1300 1366 1694 
+Q 2113 2306 2375 2664 
+Q 2638 3022 2638 3341 
+Q 2638 3675 2398 3904 
+Q 2159 4134 1775 4134 
+Q 1369 4134 1125 3890 
+Q 881 3647 878 3216 
+L 300 3275 
+Q 359 3922 746 4261 
+Q 1134 4600 1788 4600 
+Q 2447 4600 2831 4234 
+Q 3216 3869 3216 3328 
+Q 3216 3053 3103 2787 
+Q 2991 2522 2730 2228 
+Q 2469 1934 1863 1422 
+Q 1356 997 1212 845 
+Q 1069 694 975 541 
+L 3222 541 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-6f" d="M 213 1659 
+Q 213 2581 725 3025 
+Q 1153 3394 1769 3394 
+Q 2453 3394 2887 2945 
+Q 3322 2497 3322 1706 
+Q 3322 1066 3130 698 
+Q 2938 331 2570 128 
+Q 2203 -75 1769 -75 
+Q 1072 -75 642 372 
+Q 213 819 213 1659 
+z
+M 791 1659 
+Q 791 1022 1069 705 
+Q 1347 388 1769 388 
+Q 2188 388 2466 706 
+Q 2744 1025 2744 1678 
+Q 2744 2294 2464 2611 
+Q 2184 2928 1769 2928 
+Q 1347 2928 1069 2612 
+Q 791 2297 791 1659 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-75" d="M 2597 0 
+L 2597 488 
+Q 2209 -75 1544 -75 
+Q 1250 -75 995 37 
+Q 741 150 617 320 
+Q 494 491 444 738 
+Q 409 903 409 1263 
+L 409 3319 
+L 972 3319 
+L 972 1478 
+Q 972 1038 1006 884 
+Q 1059 663 1231 536 
+Q 1403 409 1656 409 
+Q 1909 409 2131 539 
+Q 2353 669 2445 892 
+Q 2538 1116 2538 1541 
+L 2538 3319 
+L 3100 3319 
+L 3100 0 
+L 2597 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-74" d="M 1650 503 
+L 1731 6 
+Q 1494 -44 1306 -44 
+Q 1000 -44 831 53 
+Q 663 150 594 308 
+Q 525 466 525 972 
+L 525 2881 
+L 113 2881 
+L 113 3319 
+L 525 3319 
+L 525 4141 
+L 1084 4478 
+L 1084 3319 
+L 1650 3319 
+L 1650 2881 
+L 1084 2881 
+L 1084 941 
+Q 1084 700 1114 631 
+Q 1144 563 1211 522 
+Q 1278 481 1403 481 
+Q 1497 481 1650 503 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#ArialMT-32"/>
+     <use xlink:href="#ArialMT-20" x="55.615234"/>
+     <use xlink:href="#ArialMT-6d" x="83.398438"/>
+     <use xlink:href="#ArialMT-41" x="166.699219"/>
+     <use xlink:href="#ArialMT-20" x="227.898438"/>
+     <use xlink:href="#ArialMT-6f" x="255.681641"/>
+     <use xlink:href="#ArialMT-75" x="311.296875"/>
+     <use xlink:href="#ArialMT-74" x="366.912109"/>
+    </g>
+   </g>
+   <g id="patch_5">
+    <path d="M 97.071158 92.947085 
+Q 97.071158 124.647098 97.071158 154.334649 
+" style="fill: none; stroke: #b91c1c; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 99.071158 150.334649 
+L 97.071158 154.334649 
+L 95.071158 150.334649 
+z
+" style="fill: #b91c1c; stroke: #b91c1c; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_4">
+    <!-- $i_x$ out -->
+    <g style="fill: #b91c1c" transform="translate(103.198737 125.666526) scale(0.095 -0.095)">
+     <defs>
+      <path id="DejaVuSans-Oblique-69" d="M 1172 4863 
+L 1747 4863 
+L 1606 4134 
+L 1031 4134 
+L 1172 4863 
+z
+M 909 3500 
+L 1484 3500 
+L 800 0 
+L 225 0 
+L 909 3500 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Oblique-78" d="M 3841 3500 
+L 2234 1784 
+L 3219 0 
+L 2559 0 
+L 1819 1388 
+L 531 0 
+L -166 0 
+L 1556 1844 
+L 641 3500 
+L 1300 3500 
+L 1972 2234 
+L 3144 3500 
+L 3841 3500 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-Oblique-69" transform="translate(0 0.015625)"/>
+     <use xlink:href="#DejaVuSans-Oblique-78" transform="translate(27.783203 -16.390625) scale(0.7)"/>
+     <use xlink:href="#ArialMT-20" transform="translate(71.943359 0.015625)"/>
+     <use xlink:href="#ArialMT-6f" transform="translate(99.726562 0.015625)"/>
+     <use xlink:href="#ArialMT-75" transform="translate(155.341797 0.015625)"/>
+     <use xlink:href="#ArialMT-74" transform="translate(210.957031 0.015625)"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pa2545f14da">
+   <rect x="7.2" y="7.2" width="179.742316" height="155.232"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>One node, four wires.</figcaption></figure>
+
+<p><strong>Kirchhoff's current law (KCL):</strong> the algebraic sum of the currents at any node is zero. Equivalently, <strong>total current in = total current out</strong>.</p>
+<div class="eq">Σ i<sub>in</sub> = Σ i<sub>out</sub></div>
+
+<p>Why it holds: charge cannot pile up at a node (a node stores no charge). So every coulomb that arrives per second must leave.</p>
+<p>For the Predict: 5 + 3 = 2 + i<sub>x</sub>, so <strong>i<sub>x</sub> = 6 mA, out</strong>. If you had drawn i<sub>x</sub> pointing in, you would get i<sub>x</sub> = −6 mA: the same answer. A minus sign only means the real current flows against your arrow.</p>
+<p>You already used KCL in 02: the three branch currents of the class p.5 question add back to the source, 5.33 + 2.67 + 4 = 12 A.</p>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>Currents into a node: 4 mA, −1 mA, i. Out of it: 7 mA. Find i.</p>
+</div>
+<h3>2 · KVL: round a loop, the voltages add to zero</h3>
+<div class="box q">
+<div class="bh"><span class="tag">textbook</span></div>
+<p>Find the loop current i, the voltage across each resistor, and the power of every element.</p>
+</div>
+
+<figure style="max-width:55%"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" height="175.72871093750004pt" width="221.05537109374998pt" viewBox="-52.94267578124999 -149.06435546875002 221.05537109374998 175.72871093750004"><circle cx="3.747419205390901e-15" cy="-61.199999999999996" r="18.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;" /><circle cx="122.39999999999999" cy="-61.20000000000002" r="18.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;" /><path d="M 92.61 -39.21 a 35.99999999999999 45.0 0 1 1 0.0 -43.98" style="stroke:#1f2937;fill:none;stroke-width:1.6;" /><path d="M 96.02898870787305 -77.08500383678596 L 90.25239375937267 -81.87258681789028 L 94.96359274737904 -84.51164045421669 Z" style="stroke:#1f2937;fill:#1f2937;stroke-linecap:butt;stroke-linejoin:miter;" /><path d="M 0.0,-0.0 L 2.645237086158283e-15,-43.199999999999996 L 2.645237086158283e-15,-43.199999999999996 M 4.8496013246235196e-15,-79.2 L 4.8496013246235196e-15,-79.2 L 7.494838410781803e-15,-122.4" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 3.600000000000003,-52.199999999999996 L -3.599999999999997,-52.199999999999996" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 4.078073841160686e-15,-66.60000000000001 L 4.518946688853733e-15,-73.8" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 3.6000000000000045,-70.2 L -3.5999999999999956,-70.2" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 7.494838410781803e-15,-122.4 L 43.2,-122.4 L 46.2,-131.4 L 52.2,-113.4 L 58.20000000000001,-131.4 L 64.2,-113.4 L 70.2,-131.4 L 76.2,-113.4 L 79.2,-122.4 L 122.4,-122.4" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 122.4,-122.4 L 122.4,-79.2 L 122.4,-79.2 M 122.39999999999999,-43.2 L 122.39999999999999,-43.2 L 122.39999999999999,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 126.0,-52.20000000000002 L 118.8,-52.20000000000002" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 122.39999999999999,-73.80000000000001 L 122.39999999999999,-66.60000000000002" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 126.0,-70.20000000000002 L 118.80000000000001,-70.20000000000002" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 122.39999999999999,-0.0 L 79.2,-5.290474172316566e-15 L 76.2,8.999999999999995 L 70.2,-9.000000000000005 L 64.19999999999999,8.999999999999993 L 58.2,-9.000000000000007 L 52.199999999999996,8.999999999999991 L 46.199999999999996,-9.00000000000001 L 43.19999999999999,-9.699202649247039e-15 L -1.5987211554602254e-14,-1.4989676821563607e-14" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><g><g><symbol id="arial_20" viewBox="0 -12.475 4.471 16.371"><path d="M 4.471 0 L 4.471 0 L 3.416 0 L 3.416 -6.721 Q 3.035 -6.357 2.417 -5.994 Q 1.799 -5.631 1.307 -5.449 L 1.307 -6.469 Q 2.191 -6.885 2.854 -7.477 Q 3.516 -8.068 3.791 -8.625 L 4.471 -8.625 Z " /></symbol><symbol id="arial_21" viewBox="0 -12.475 6.041 16.371"><path d="M 6.041 -1.014 L 6.041 -1.014 L 6.041 0 L 0.363 0 Q 0.352 -0.381 0.486 -0.732 Q 0.703 -1.312 1.181 -1.875 Q 1.658 -2.438 2.561 -3.176 Q 3.961 -4.324 4.453 -4.995 Q 4.945 -5.666 4.945 -6.264 Q 4.945 -6.891 4.497 -7.321 Q 4.049 -7.752 3.328 -7.752 Q 2.566 -7.752 2.109 -7.295 Q 1.652 -6.838 1.646 -6.029 L 0.562 -6.141 Q 0.674 -7.354 1.4 -7.989 Q 2.127 -8.625 3.352 -8.625 Q 4.588 -8.625 5.309 -7.939 Q 6.029 -7.254 6.029 -6.24 Q 6.029 -5.725 5.818 -5.227 Q 5.607 -4.729 5.118 -4.178 Q 4.629 -3.627 3.492 -2.666 Q 2.543 -1.869 2.273 -1.585 Q 2.004 -1.301 1.828 -1.014 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_57" viewBox="0 -12.475 7.91 16.371"><path d="M 3.381 0 L 3.381 0 L 0.053 -8.59 L 1.283 -8.59 L 3.516 -2.35 Q 3.785 -1.6 3.967 -0.943 Q 4.166 -1.646 4.43 -2.35 L 6.75 -8.59 L 7.91 -8.59 L 4.547 0 Z " /></symbol><g transform="translate(-48.343 -56.528)" fill="#1f2937"><use href="#arial_20" x="0" y="-13.514" width="4.843" height="17.735" /><use href="#arial_21" x="7.23" y="-13.514" width="6.544" height="17.735" /><use href="#arial_3" x="14.46" y="-13.514" width="0" height="17.735" /><use href="#arial_57" x="18.072" y="-13.514" width="8.569" height="17.735" /></g></g></g><g><g><symbol id="arial_21" viewBox="0 -12.475 6.041 16.371"><path d="M 6.041 -1.014 L 6.041 -1.014 L 6.041 0 L 0.363 0 Q 0.352 -0.381 0.486 -0.732 Q 0.703 -1.312 1.181 -1.875 Q 1.658 -2.438 2.561 -3.176 Q 3.961 -4.324 4.453 -4.995 Q 4.945 -5.666 4.945 -6.264 Q 4.945 -6.891 4.497 -7.321 Q 4.049 -7.752 3.328 -7.752 Q 2.566 -7.752 2.109 -7.295 Q 1.652 -6.838 1.646 -6.029 L 0.562 -6.141 Q 0.674 -7.354 1.4 -7.989 Q 2.127 -8.625 3.352 -8.625 Q 4.588 -8.625 5.309 -7.939 Q 6.029 -7.254 6.029 -6.24 Q 6.029 -5.725 5.818 -5.227 Q 5.607 -4.729 5.118 -4.178 Q 4.629 -3.627 3.492 -2.666 Q 2.543 -1.869 2.273 -1.585 Q 2.004 -1.301 1.828 -1.014 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_78" viewBox="0 -12.475 5.953 16.371"><path d="M 0.797 0 L 0.797 0 L 0.797 -8.59 L 1.852 -8.59 L 1.852 -3.691 L 4.348 -6.223 L 5.713 -6.223 L 3.334 -3.914 L 5.953 0 L 4.652 0 L 2.596 -3.182 L 1.852 -2.467 L 1.852 0 Z " /></symbol><symbol id="arial_525" viewBox="0 -12.475 8.408 16.371"><path d="M 0.568 -1.014 L 0.568 -1.014 L 2.443 -1.014 Q 0.662 -2.502 0.662 -4.646 Q 0.662 -5.812 1.131 -6.738 Q 1.6 -7.664 2.455 -8.2 Q 3.311 -8.736 4.512 -8.736 Q 5.701 -8.736 6.495 -8.244 Q 7.289 -7.752 7.802 -6.832 Q 8.314 -5.912 8.314 -4.646 Q 8.314 -2.502 6.533 -1.014 L 8.408 -1.014 L 8.408 0 L 5.068 0 L 5.068 -0.949 Q 7.154 -1.922 7.154 -4.471 Q 7.154 -5.906 6.419 -6.835 Q 5.684 -7.764 4.506 -7.764 Q 3.293 -7.764 2.566 -6.829 Q 1.84 -5.895 1.84 -4.529 Q 1.84 -1.945 3.914 -0.949 L 3.914 0 L 0.568 0 Z " /></symbol><g transform="translate(47.67 -135)" fill="#1f2937"><use href="#arial_21" x="0" y="-13.514" width="6.544" height="17.735" /><use href="#arial_3" x="7.23" y="-13.514" width="0" height="17.735" /><use href="#arial_78" x="10.842" y="-13.514" width="6.449" height="17.735" /><use href="#arial_525" x="17.342" y="-13.514" width="9.109" height="17.735" /></g></g></g><g><g><symbol id="arial_23" viewBox="0 -12.475 6.094 16.371"><path d="M 3.879 0 L 3.879 0 L 3.879 -2.057 L 0.152 -2.057 L 0.152 -3.023 L 4.072 -8.59 L 4.934 -8.59 L 4.934 -3.023 L 6.094 -3.023 L 6.094 -2.057 L 4.934 -2.057 L 4.934 0 Z M 3.879 -3.023 L 3.879 -3.023 L 3.879 -6.896 L 1.189 -3.023 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_57" viewBox="0 -12.475 7.91 16.371"><path d="M 3.381 0 L 3.381 0 L 0.053 -8.59 L 1.283 -8.59 L 3.516 -2.35 Q 3.785 -1.6 3.967 -0.943 Q 4.166 -1.646 4.43 -2.35 L 6.75 -8.59 L 7.91 -8.59 L 4.547 0 Z " /></symbol><g transform="translate(144 -56.547)" fill="#1f2937"><use href="#arial_23" x="0" y="-13.514" width="6.602" height="17.735" /><use href="#arial_3" x="7.23" y="-13.514" width="0" height="17.735" /><use href="#arial_57" x="10.842" y="-13.514" width="8.569" height="17.735" /></g></g></g><g><g><symbol id="arial_23" viewBox="0 -12.475 6.094 16.371"><path d="M 3.879 0 L 3.879 0 L 3.879 -2.057 L 0.152 -2.057 L 0.152 -3.023 L 4.072 -8.59 L 4.934 -8.59 L 4.934 -3.023 L 6.094 -3.023 L 6.094 -2.057 L 4.934 -2.057 L 4.934 0 Z M 3.879 -3.023 L 3.879 -3.023 L 3.879 -6.896 L 1.189 -3.023 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_78" viewBox="0 -12.475 5.953 16.371"><path d="M 0.797 0 L 0.797 0 L 0.797 -8.59 L 1.852 -8.59 L 1.852 -3.691 L 4.348 -6.223 L 5.713 -6.223 L 3.334 -3.914 L 5.953 0 L 4.652 0 L 2.596 -3.182 L 1.852 -2.467 L 1.852 0 Z " /></symbol><symbol id="arial_525" viewBox="0 -12.475 8.408 16.371"><path d="M 0.568 -1.014 L 0.568 -1.014 L 2.443 -1.014 Q 0.662 -2.502 0.662 -4.646 Q 0.662 -5.812 1.131 -6.738 Q 1.6 -7.664 2.455 -8.2 Q 3.311 -8.736 4.512 -8.736 Q 5.701 -8.736 6.495 -8.244 Q 7.289 -7.752 7.802 -6.832 Q 8.314 -5.912 8.314 -4.646 Q 8.314 -2.502 6.533 -1.014 L 8.408 -1.014 L 8.408 0 L 5.068 0 L 5.068 -0.949 Q 7.154 -1.922 7.154 -4.471 Q 7.154 -5.906 6.419 -6.835 Q 5.684 -7.764 4.506 -7.764 Q 3.293 -7.764 2.566 -6.829 Q 1.84 -5.895 1.84 -4.529 Q 1.84 -1.945 3.914 -0.949 L 3.914 0 L 0.568 0 Z " /></symbol><g transform="translate(47.67 22.064)" fill="#1f2937"><use href="#arial_23" x="0" y="-13.514" width="6.602" height="17.735" /><use href="#arial_3" x="7.23" y="-13.514" width="0" height="17.735" /><use href="#arial_78" x="10.842" y="-13.514" width="6.449" height="17.735" /><use href="#arial_525" x="17.342" y="-13.514" width="9.109" height="17.735" /></g></g></g><g><g><symbol id="arial_76" viewBox="0 -12.475 1.852 16.371"><path d="M 0.797 -7.377 L 0.797 -7.377 L 0.797 -8.59 L 1.852 -8.59 L 1.852 -7.377 Z M 0.797 0 L 0.797 0 L 0.797 -6.223 L 1.852 -6.223 L 1.852 0 Z " /></symbol><g transform="translate(59.756 -56.547)" fill="#1f2937"><use href="#arial_76" x="0" y="-13.514" width="2.006" height="17.735" /></g></g></g></svg><figcaption>The 4 V source has + at the top, so it pushes against the 12 V source.</figcaption></figure>
+
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Which source "wins", and is the current in the direction of the arrow shown?</p>
+</div>
+<p><strong>Kirchhoff's voltage law (KVL):</strong> the algebraic sum of the voltages around any closed loop is zero.</p>
+<div class="eq">Σ v<sub>rises</sub> = Σ v<sub>drops</sub>&emsp;&emsp;&emsp;(round any closed loop)</div>
+
+<p>Why it holds: voltage is energy per unit charge. A charge that travels round a loop and returns to its start has the same energy it began with.</p>
+<p><strong>Method.</strong> Go round the loop in the direction of i (clockwise). A source traversed from − to + is a <strong>rise</strong>. A resistor traversed along i is a <strong>drop</strong> of iR. A source traversed from + to − is a <strong>drop</strong>.</p>
+<ul>
+<li>12 V source, bottom to top (− to +): rise of 12 V.</li>
+<li>2 kΩ: drop 2i. 4 V source, top to bottom (+ to −): drop 4 V. 4 kΩ: drop 4i.</li>
+</ul>
+<div class="eq">12 = 2i + 4 + 4i&emsp;&emsp;&emsp;⇒&emsp;&emsp;&emsp;i = <span class="frac"><span>8</span><span>6</span></span> = <span class="frac"><span>4</span><span>3</span></span> mA ≈ 1.33 mA</div>
+
+<p>Voltages: v<sub>2kΩ</sub> = 2 × <span class="frac"><span>4</span><span>3</span></span> = <strong>2.67 V</strong>, v<sub>4kΩ</sub> = <strong>5.33 V</strong>. Check round the loop: 12 = 2.67 + 4 + 5.33 ✓.</p>
+<p>The Guess answer: the 12 V source wins, and i &gt; 0 means the current does flow clockwise.</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>Swap the 4 V source (+ at the bottom, so it now helps). Find i.</p>
+</div>
+<h3>3 · The power check (02 §4, in use)</h3>
+<p>Sign rule from 02: current <strong>entering +</strong> means the element absorbs p = vi.</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Current enters its…</th>
+<th>Absorbed power</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12 V source</td>
+<td>− terminal (current leaves +)</td>
+<td>−12 × <span class="frac"><span>4</span><span>3</span></span> = <strong>−16 mW</strong> (delivers 16 mW)</td>
+</tr>
+<tr>
+<td>4 V source</td>
+<td>+ terminal</td>
+<td>+4 × <span class="frac"><span>4</span><span>3</span></span> = <strong>+5.33 mW</strong> (it is being charged)</td>
+</tr>
+<tr>
+<td>2 kΩ</td>
+<td>+ (always, for a resistor)</td>
+<td>(<span class="frac"><span>4</span><span>3</span></span>)<sup>2</sup> × 2 = <strong>+3.56 mW</strong></td>
+</tr>
+<tr>
+<td>4 kΩ</td>
+<td>+</td>
+<td>(<span class="frac"><span>4</span><span>3</span></span>)<sup>2</sup> × 4 = <strong>+7.11 mW</strong></td>
+</tr>
+<tr>
+<td><strong>Sum</strong></td>
+<td></td>
+<td>−16 + 5.33 + 3.56 + 7.11 = <strong>0</strong> ✓</td>
+</tr>
+</tbody>
+</table>
+<p>Delivered = absorbed. Use this as the last line of any loop or node answer: if the powers do not add to zero, something upstream is wrong.</p>
+<h3>4 · Source transformation</h3>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>A 10 V source with 2 kΩ in series. Short its terminals: what current flows? Leave them open: what voltage appears? Could a current source with a resistor in parallel give the same two answers?</p>
+</div>
+
+<figure style="max-width:75%"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" height="129.43466796875pt" width="413.00087890625pt" viewBox="-34.870898437499996 -120.1056640625 413.00087890625 129.43466796875"><circle cx="2.865673510004807e-15" cy="-46.800000000000004" r="18.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;" /><circle cx="259.2" cy="-46.800000000000004" r="18.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;" /><path d="M 0.0,-0.0 L 1.7634913907721887e-15,-28.8 L 1.7634913907721887e-15,-28.8 M 3.9678556292374245e-15,-64.8 L 3.9678556292374245e-15,-64.8 L 5.731347020009614e-15,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 3.6000000000000028,-37.800000000000004 L -3.599999999999998,-37.800000000000004" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 3.1963281457745923e-15,-52.2 L 3.637200993467639e-15,-59.4" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 3.6000000000000036,-55.800000000000004 L -3.5999999999999965,-55.800000000000004" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 5.731347020009614e-15,-93.60000000000001 L 28.800000000000004,-93.60000000000001 L 31.800000000000008,-102.60000000000001 L 37.80000000000001,-84.60000000000001 L 43.80000000000001,-102.60000000000001 L 49.800000000000004,-84.60000000000001 L 55.80000000000001,-102.60000000000001 L 61.80000000000001,-84.60000000000001 L 64.80000000000001,-93.60000000000001 L 93.60000000000001,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 0.0,-0.0 L 46.800000000000004,-0.0 L 93.60000000000001,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 259.2,-0.0 L 259.2,-28.8 L 259.2,-28.8 M 259.2,-64.8 L 259.2,-64.8 L 259.2,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 259.2,-37.800000000000004 L 259.2,-46.800000000000004" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 259.2 -53.800000000000004 L 261.9 -46.800000000000004 L 256.5 -46.800000000000004 Z" style="stroke:#1f2937;fill:#1f2937;stroke-linecap:butt;stroke-linejoin:miter;" /><path d="M 259.2,-93.60000000000001 L 288.0,-93.60000000000001 L 316.8,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 316.8,-93.60000000000001 L 316.8,-64.8 L 325.8,-61.800000000000004 L 307.8,-55.800000000000004 L 325.8,-49.8 L 307.8,-43.800000000000004 L 325.8,-37.800000000000004 L 307.8,-31.799999999999997 L 316.8,-28.8 L 316.8,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 316.8,-93.60000000000001 L 338.40000000000003,-93.60000000000001 L 360.0,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 259.2,-0.0 L 309.59999999999997,-0.0 L 360.0,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><g><g><symbol id="arial_57" viewBox="0 -12.475 7.91 16.371"><path d="M 3.381 0 L 3.381 0 L 0.053 -8.59 L 1.283 -8.59 L 3.516 -2.35 Q 3.785 -1.6 3.967 -0.943 Q 4.166 -1.646 4.43 -2.35 L 6.75 -8.59 L 7.91 -8.59 L 4.547 0 Z " /></symbol><g transform="translate(-30.271 -42.147)" fill="#1f2937"><use href="#arial_57" x="0" y="-13.514" width="8.569" height="17.735" /></g></g></g><g><g><symbol id="arial_53" viewBox="0 -12.475 8.514 16.371"><path d="M 0.943 0 L 0.943 0 L 0.943 -8.59 L 4.752 -8.59 Q 5.9 -8.59 6.498 -8.358 Q 7.096 -8.127 7.453 -7.541 Q 7.811 -6.955 7.811 -6.246 Q 7.811 -5.332 7.219 -4.705 Q 6.627 -4.078 5.391 -3.908 Q 5.842 -3.691 6.076 -3.48 Q 6.574 -3.023 7.02 -2.338 L 8.514 0 L 7.084 0 L 5.947 -1.787 Q 5.449 -2.561 5.127 -2.971 Q 4.805 -3.381 4.55 -3.545 Q 4.295 -3.709 4.031 -3.773 Q 3.838 -3.814 3.398 -3.814 L 2.08 -3.814 L 2.08 0 Z M 2.08 -4.799 L 2.08 -4.799 L 4.523 -4.799 Q 5.303 -4.799 5.742 -4.96 Q 6.182 -5.121 6.41 -5.476 Q 6.639 -5.83 6.639 -6.246 Q 6.639 -6.855 6.196 -7.248 Q 5.754 -7.641 4.799 -7.641 L 2.08 -7.641 Z " /></symbol><g transform="translate(42.106 -106.2)" fill="#1f2937"><use href="#arial_53" x="0" y="-13.514" width="9.223" height="17.735" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_1582" viewBox="0 -31.524 11.124 51.216"><path d="M 11.124 -3.168 L 11.124 -3.168 L 11.124 -3.048 Q 10.92 -2.904 10.5 -2.598 Q 10.08 -2.292 9.534 -1.86 Q 8.988 -1.428 8.4 -0.918 Q 7.812 -0.408 7.272 0.12 L 6.924 -0.132 Q 7.056 -0.276 7.26 -0.474 Q 7.464 -0.672 7.62 -0.888 Q 7.776 -1.104 7.776 -1.272 Q 7.776 -1.38 7.728 -1.428 Q 7.68 -1.476 7.404 -1.476 L 4.008 -1.476 Q 3.768 -1.476 3.672 -1.44 Q 3.576 -1.404 3.576 -1.248 Q 3.576 -1.032 3.822 -0.798 Q 4.068 -0.564 4.428 -0.156 L 4.152 0.12 Q 3.6 -0.408 3 -0.912 Q 2.4 -1.416 1.848 -1.854 Q 1.296 -2.292 0.876 -2.604 Q 0.456 -2.916 0.24 -3.048 L 0.24 -3.168 Q 0.456 -3.324 0.876 -3.642 Q 1.296 -3.96 1.842 -4.392 Q 2.388 -4.824 2.988 -5.328 Q 3.588 -5.832 4.152 -6.348 L 4.428 -6.072 Q 4.284 -5.904 4.074 -5.694 Q 3.864 -5.484 3.708 -5.292 Q 3.552 -5.1 3.552 -4.968 Q 3.552 -4.836 3.684 -4.788 Q 3.816 -4.74 3.972 -4.74 L 7.404 -4.74 Q 7.596 -4.74 7.674 -4.83 Q 7.752 -4.92 7.752 -5.004 Q 7.752 -5.208 7.608 -5.388 Q 7.464 -5.568 7.266 -5.736 Q 7.068 -5.904 6.924 -6.06 L 7.272 -6.348 Q 7.836 -5.832 8.424 -5.328 Q 9.012 -4.824 9.546 -4.386 Q 10.08 -3.948 10.494 -3.63 Q 10.908 -3.312 11.124 -3.168 Z M 2.328 -2.28 L 2.328 -2.28 L 9.012 -2.28 Q 9.324 -2.46 9.534 -2.67 Q 9.744 -2.88 9.744 -3.108 Q 9.744 -3.324 9.534 -3.528 Q 9.324 -3.732 9.024 -3.924 L 2.34 -3.924 Q 2.04 -3.756 1.836 -3.54 Q 1.632 -3.324 1.62 -3.108 Q 1.62 -2.892 1.83 -2.688 Q 2.04 -2.484 2.328 -2.28 Z " /></symbol><use href="#STIXTwoMathRegular_1582" x="148.192" y="-102.485" width="20.394" height="93.896" fill="#1f2937" /></g></g></g><g><g><symbol id="arial_44" viewBox="0 -12.475 2.256 16.371"><path d="M 1.119 0 L 1.119 0 L 1.119 -8.59 L 2.256 -8.59 L 2.256 0 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_32" viewBox="0 -12.475 6.34 16.371"><path d="M 6.34 -5.051 L 6.34 -5.051 L 0.668 -5.051 L 0.668 -6.035 L 6.34 -6.035 Z M 6.34 -2.443 L 6.34 -2.443 L 0.668 -2.443 L 0.668 -3.428 L 6.34 -3.428 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_57" viewBox="0 -12.475 7.91 16.371"><path d="M 3.381 0 L 3.381 0 L 0.053 -8.59 L 1.283 -8.59 L 3.516 -2.35 Q 3.785 -1.6 3.967 -0.943 Q 4.166 -1.646 4.43 -2.35 L 6.75 -8.59 L 7.91 -8.59 L 4.547 0 Z " /></symbol><symbol id="arial_18" viewBox="0 -12.475 3.334 16.371"><path d="M 0 0.146 L 0 0.146 L 2.49 -8.736 L 3.334 -8.736 L 0.85 0.146 Z " /></symbol><symbol id="arial_53" viewBox="0 -12.475 8.514 16.371"><path d="M 0.943 0 L 0.943 0 L 0.943 -8.59 L 4.752 -8.59 Q 5.9 -8.59 6.498 -8.358 Q 7.096 -8.127 7.453 -7.541 Q 7.811 -6.955 7.811 -6.246 Q 7.811 -5.332 7.219 -4.705 Q 6.627 -4.078 5.391 -3.908 Q 5.842 -3.691 6.076 -3.48 Q 6.574 -3.023 7.02 -2.338 L 8.514 0 L 7.084 0 L 5.947 -1.787 Q 5.449 -2.561 5.127 -2.971 Q 4.805 -3.381 4.55 -3.545 Q 4.295 -3.709 4.031 -3.773 Q 3.838 -3.814 3.398 -3.814 L 2.08 -3.814 L 2.08 0 Z M 2.08 -4.799 L 2.08 -4.799 L 4.523 -4.799 Q 5.303 -4.799 5.742 -4.96 Q 6.182 -5.121 6.41 -5.476 Q 6.639 -5.83 6.639 -6.246 Q 6.639 -6.855 6.196 -7.248 Q 5.754 -7.641 4.799 -7.641 L 2.08 -7.641 Z " /></symbol><g transform="translate(197.502 -42.147)" fill="#1f2937"><use href="#arial_44" x="0" y="-13.514" width="2.444" height="17.735" /><use href="#arial_3" x="3.612" y="-13.514" width="0" height="17.735" /><use href="#arial_32" x="7.224" y="-13.514" width="6.868" height="17.735" /><use href="#arial_3" x="14.815" y="-13.514" width="0" height="17.735" /><use href="#arial_57" x="18.427" y="-13.514" width="8.569" height="17.735" /><use href="#arial_18" x="27.098" y="-13.514" width="3.612" height="17.735" /><use href="#arial_53" x="30.71" y="-13.514" width="9.223" height="17.735" /></g></g></g><g><g><symbol id="arial_53" viewBox="0 -12.475 8.514 16.371"><path d="M 0.943 0 L 0.943 0 L 0.943 -8.59 L 4.752 -8.59 Q 5.9 -8.59 6.498 -8.358 Q 7.096 -8.127 7.453 -7.541 Q 7.811 -6.955 7.811 -6.246 Q 7.811 -5.332 7.219 -4.705 Q 6.627 -4.078 5.391 -3.908 Q 5.842 -3.691 6.076 -3.48 Q 6.574 -3.023 7.02 -2.338 L 8.514 0 L 7.084 0 L 5.947 -1.787 Q 5.449 -2.561 5.127 -2.971 Q 4.805 -3.381 4.55 -3.545 Q 4.295 -3.709 4.031 -3.773 Q 3.838 -3.814 3.398 -3.814 L 2.08 -3.814 L 2.08 0 Z M 2.08 -4.799 L 2.08 -4.799 L 4.523 -4.799 Q 5.303 -4.799 5.742 -4.96 Q 6.182 -5.121 6.41 -5.476 Q 6.639 -5.83 6.639 -6.246 Q 6.639 -6.855 6.196 -7.248 Q 5.754 -7.641 4.799 -7.641 L 2.08 -7.641 Z " /></symbol><g transform="translate(329.4 -42.147)" fill="#1f2937"><use href="#arial_53" x="0" y="-13.514" width="9.223" height="17.735" /></g></g></g><circle cx="93.60000000000001" cy="-93.60000000000001" r="2.6999999999999997" style="stroke:#1f2937;fill:white;stroke-width:1.6;" /><g><g><symbol id="arial_68" viewBox="0 -12.475 6.164 16.371"><path d="M 4.852 -0.768 L 4.852 -0.768 Q 4.266 -0.27 3.724 -0.064 Q 3.182 0.141 2.561 0.141 Q 1.535 0.141 0.984 -0.36 Q 0.434 -0.861 0.434 -1.641 Q 0.434 -2.098 0.642 -2.476 Q 0.85 -2.854 1.187 -3.082 Q 1.523 -3.311 1.945 -3.428 Q 2.256 -3.51 2.883 -3.586 Q 4.16 -3.738 4.764 -3.949 Q 4.77 -4.166 4.77 -4.225 Q 4.77 -4.869 4.471 -5.133 Q 4.066 -5.49 3.27 -5.49 Q 2.525 -5.49 2.171 -5.229 Q 1.816 -4.969 1.646 -4.307 L 0.615 -4.447 Q 0.756 -5.109 1.078 -5.517 Q 1.4 -5.924 2.01 -6.144 Q 2.619 -6.363 3.422 -6.363 Q 4.219 -6.363 4.717 -6.176 Q 5.215 -5.988 5.449 -5.704 Q 5.684 -5.42 5.777 -4.986 Q 5.83 -4.717 5.83 -4.014 L 5.83 -2.607 Q 5.83 -1.137 5.897 -0.747 Q 5.965 -0.357 6.164 0 L 5.062 0 Q 4.898 -0.328 4.852 -0.768 Z M 4.764 -3.123 L 4.764 -3.123 Q 4.189 -2.889 3.041 -2.725 Q 2.391 -2.631 2.121 -2.514 Q 1.852 -2.396 1.705 -2.171 Q 1.559 -1.945 1.559 -1.67 Q 1.559 -1.248 1.878 -0.967 Q 2.197 -0.686 2.812 -0.686 Q 3.422 -0.686 3.896 -0.952 Q 4.371 -1.219 4.594 -1.682 Q 4.764 -2.039 4.764 -2.736 Z " /></symbol><g transform="translate(99.9 -90.229)" fill="#1f2937"><use href="#arial_68" x="0" y="-13.514" width="6.678" height="17.735" /></g></g></g><circle cx="93.60000000000001" cy="-0.0" r="2.6999999999999997" style="stroke:#1f2937;fill:white;stroke-width:1.6;" /><g><g><symbol id="arial_69" viewBox="0 -12.475 6.182 16.371"><path d="M 1.764 0 L 1.764 0 L 0.785 0 L 0.785 -8.59 L 1.84 -8.59 L 1.84 -5.525 Q 2.508 -6.363 3.545 -6.363 Q 4.119 -6.363 4.632 -6.132 Q 5.145 -5.9 5.476 -5.481 Q 5.807 -5.062 5.994 -4.471 Q 6.182 -3.879 6.182 -3.205 Q 6.182 -1.605 5.391 -0.732 Q 4.6 0.141 3.492 0.141 Q 2.391 0.141 1.764 -0.779 Z M 1.752 -3.158 L 1.752 -3.158 Q 1.752 -2.039 2.057 -1.541 Q 2.555 -0.727 3.404 -0.727 Q 4.096 -0.727 4.6 -1.327 Q 5.104 -1.928 5.104 -3.117 Q 5.104 -4.336 4.62 -4.916 Q 4.137 -5.496 3.451 -5.496 Q 2.76 -5.496 2.256 -4.896 Q 1.752 -4.295 1.752 -3.158 Z " /></symbol><g transform="translate(99.9 4.577)" fill="#1f2937"><use href="#arial_69" x="0" y="-13.514" width="6.697" height="17.735" /></g></g></g><circle cx="316.8" cy="-93.60000000000001" r="2.6999999999999997" style="stroke:#1f2937;fill:#1f2937;stroke-width:1.6;" /><circle cx="360.0" cy="-93.60000000000001" r="2.6999999999999997" style="stroke:#1f2937;fill:white;stroke-width:1.6;" /><g><g><symbol id="arial_68" viewBox="0 -12.475 6.164 16.371"><path d="M 4.852 -0.768 L 4.852 -0.768 Q 4.266 -0.27 3.724 -0.064 Q 3.182 0.141 2.561 0.141 Q 1.535 0.141 0.984 -0.36 Q 0.434 -0.861 0.434 -1.641 Q 0.434 -2.098 0.642 -2.476 Q 0.85 -2.854 1.187 -3.082 Q 1.523 -3.311 1.945 -3.428 Q 2.256 -3.51 2.883 -3.586 Q 4.16 -3.738 4.764 -3.949 Q 4.77 -4.166 4.77 -4.225 Q 4.77 -4.869 4.471 -5.133 Q 4.066 -5.49 3.27 -5.49 Q 2.525 -5.49 2.171 -5.229 Q 1.816 -4.969 1.646 -4.307 L 0.615 -4.447 Q 0.756 -5.109 1.078 -5.517 Q 1.4 -5.924 2.01 -6.144 Q 2.619 -6.363 3.422 -6.363 Q 4.219 -6.363 4.717 -6.176 Q 5.215 -5.988 5.449 -5.704 Q 5.684 -5.42 5.777 -4.986 Q 5.83 -4.717 5.83 -4.014 L 5.83 -2.607 Q 5.83 -1.137 5.897 -0.747 Q 5.965 -0.357 6.164 0 L 5.062 0 Q 4.898 -0.328 4.852 -0.768 Z M 4.764 -3.123 L 4.764 -3.123 Q 4.189 -2.889 3.041 -2.725 Q 2.391 -2.631 2.121 -2.514 Q 1.852 -2.396 1.705 -2.171 Q 1.559 -1.945 1.559 -1.67 Q 1.559 -1.248 1.878 -0.967 Q 2.197 -0.686 2.812 -0.686 Q 3.422 -0.686 3.896 -0.952 Q 4.371 -1.219 4.594 -1.682 Q 4.764 -2.039 4.764 -2.736 Z " /></symbol><g transform="translate(366.3 -90.229)" fill="#1f2937"><use href="#arial_68" x="0" y="-13.514" width="6.678" height="17.735" /></g></g></g><circle cx="360.0" cy="-0.0" r="2.6999999999999997" style="stroke:#1f2937;fill:white;stroke-width:1.6;" /><g><g><symbol id="arial_69" viewBox="0 -12.475 6.182 16.371"><path d="M 1.764 0 L 1.764 0 L 0.785 0 L 0.785 -8.59 L 1.84 -8.59 L 1.84 -5.525 Q 2.508 -6.363 3.545 -6.363 Q 4.119 -6.363 4.632 -6.132 Q 5.145 -5.9 5.476 -5.481 Q 5.807 -5.062 5.994 -4.471 Q 6.182 -3.879 6.182 -3.205 Q 6.182 -1.605 5.391 -0.732 Q 4.6 0.141 3.492 0.141 Q 2.391 0.141 1.764 -0.779 Z M 1.752 -3.158 L 1.752 -3.158 Q 1.752 -2.039 2.057 -1.541 Q 2.555 -0.727 3.404 -0.727 Q 4.096 -0.727 4.6 -1.327 Q 5.104 -1.928 5.104 -3.117 Q 5.104 -4.336 4.62 -4.916 Q 4.137 -5.496 3.451 -5.496 Q 2.76 -5.496 2.256 -4.896 Q 1.752 -4.295 1.752 -3.158 Z " /></symbol><g transform="translate(366.3 4.577)" fill="#1f2937"><use href="#arial_69" x="0" y="-13.514" width="6.697" height="17.735" /></g></g></g></svg><figcaption>Both give the same open-circuit voltage (V) and the same short-circuit current (V/R), so no outside circuit can tell them apart.</figcaption></figure>
+
+<p>A <strong>voltage source V in series with R</strong> is equivalent to a <strong>current source I = V/R in parallel with the same R</strong> (class p.4; set 2 p.4 writes I = V/R under the current source), as seen from the terminals a–b.</p>
+<p>For the Predict: short-circuit current = 10/2k = <strong>5 mA</strong>; open-circuit voltage = <strong>10 V</strong>. So it is equivalent to 5 mA ∥ 2 kΩ, and 5 mA × 2 kΩ = 10 V, the same terminal behaviour.</p>
+<p>It is the bridge between Thévenin and Norton in 06: I<sub>N</sub> = V<sub>Th</sub> / R<sub>Th</sub>.</p>
+<div class="box trap">
+<div class="bh">Only works with a resistor</div>
+<p>An <strong>ideal</strong> voltage source (no series R) has no current-source equivalent: V/0 is undefined. Same for an ideal current source with no parallel R.</p>
+</div>
+<h3>5 · Using it on a class circuit</h3>
+<div class="box q">
+<div class="bh"><span class="tag">Class p.7 · set 2 p.8</span></div>
+<p>Find I in the superposition circuit (10 V, 4 Ω, 2 Ω, 2 A) without superposition.</p>
+</div>
+
+<figure style="max-width:50%"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" height="124.86435546875pt" width="284.77626953124997pt" viewBox="-52.94267578124999 -120.26435546875001 284.77626953124997 124.86435546875"><circle cx="2.865673510004807e-15" cy="-46.800000000000004" r="18.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;" /><circle cx="187.20000000000002" cy="-46.800000000000004" r="18.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;" /><path d="M 0.0,-0.0 L 1.7634913907721887e-15,-28.8 L 1.7634913907721887e-15,-28.8 M 3.9678556292374245e-15,-64.8 L 3.9678556292374245e-15,-64.8 L 5.731347020009614e-15,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 3.6000000000000028,-37.800000000000004 L -3.599999999999998,-37.800000000000004" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 3.1963281457745923e-15,-52.2 L 3.637200993467639e-15,-59.4" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 3.6000000000000036,-55.800000000000004 L -3.5999999999999965,-55.800000000000004" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 5.731347020009614e-15,-93.60000000000001 L 28.800000000000004,-93.60000000000001 L 31.800000000000008,-102.60000000000001 L 37.80000000000001,-84.60000000000001 L 43.80000000000001,-102.60000000000001 L 49.800000000000004,-84.60000000000001 L 55.80000000000001,-102.60000000000001 L 61.80000000000001,-84.60000000000001 L 64.80000000000001,-93.60000000000001 L 93.60000000000001,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 93.60000000000001,-93.60000000000001 L 93.60000000000001,-64.8 L 102.60000000000001,-61.800000000000004 L 84.60000000000001,-55.800000000000004 L 102.6,-49.8 L 84.6,-43.800000000000004 L 102.6,-37.800000000000004 L 84.6,-31.799999999999997 L 93.6,-28.8 L 93.6,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 93.60000000000001,-93.60000000000001 L 140.4,-93.60000000000001 L 187.20000000000002,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 187.20000000000002,-93.60000000000001 L 187.20000000000002,-64.8 L 187.20000000000002,-64.8 M 187.20000000000002,-28.8 L 187.20000000000002,-28.8 L 187.2,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 187.20000000000002,-46.800000000000004 L 187.20000000000002,-37.800000000000004" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 187.20000000000002 -53.800000000000004 L 189.9 -46.800000000000004 L 184.50000000000003 -46.800000000000004 Z" style="stroke:#1f2937;fill:#1f2937;stroke-linecap:butt;stroke-linejoin:miter;" /><path d="M 187.2,-0.0 L 93.6,-1.1462694040019223e-14 L 0.0,-2.2925388080038446e-14" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><g><g><symbol id="arial_20" viewBox="0 -12.475 4.471 16.371"><path d="M 4.471 0 L 4.471 0 L 3.416 0 L 3.416 -6.721 Q 3.035 -6.357 2.417 -5.994 Q 1.799 -5.631 1.307 -5.449 L 1.307 -6.469 Q 2.191 -6.885 2.854 -7.477 Q 3.516 -8.068 3.791 -8.625 L 4.471 -8.625 Z " /></symbol><symbol id="arial_19" viewBox="0 -12.475 6.1 16.371"><path d="M 0.498 -4.236 L 0.498 -4.236 Q 0.498 -5.76 0.812 -6.688 Q 1.125 -7.617 1.743 -8.121 Q 2.361 -8.625 3.299 -8.625 Q 3.99 -8.625 4.512 -8.347 Q 5.033 -8.068 5.373 -7.544 Q 5.713 -7.02 5.906 -6.267 Q 6.1 -5.514 6.1 -4.236 Q 6.1 -2.725 5.789 -1.796 Q 5.479 -0.867 4.86 -0.36 Q 4.242 0.146 3.299 0.146 Q 2.057 0.146 1.348 -0.744 Q 0.498 -1.816 0.498 -4.236 Z M 1.582 -4.236 L 1.582 -4.236 Q 1.582 -2.121 2.077 -1.421 Q 2.572 -0.721 3.299 -0.721 Q 4.025 -0.721 4.521 -1.424 Q 5.016 -2.127 5.016 -4.236 Q 5.016 -6.357 4.521 -7.055 Q 4.025 -7.752 3.287 -7.752 Q 2.561 -7.752 2.127 -7.137 Q 1.582 -6.352 1.582 -4.236 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_57" viewBox="0 -12.475 7.91 16.371"><path d="M 3.381 0 L 3.381 0 L 0.053 -8.59 L 1.283 -8.59 L 3.516 -2.35 Q 3.785 -1.6 3.967 -0.943 Q 4.166 -1.646 4.43 -2.35 L 6.75 -8.59 L 7.91 -8.59 L 4.547 0 Z " /></symbol><g transform="translate(-48.343 -42.207)" fill="#1f2937"><use href="#arial_20" x="0" y="-13.514" width="4.843" height="17.735" /><use href="#arial_19" x="7.23" y="-13.514" width="6.608" height="17.735" /><use href="#arial_3" x="14.46" y="-13.514" width="0" height="17.735" /><use href="#arial_57" x="18.072" y="-13.514" width="8.569" height="17.735" /></g></g></g><g><g><symbol id="arial_23" viewBox="0 -12.475 6.094 16.371"><path d="M 3.879 0 L 3.879 0 L 3.879 -2.057 L 0.152 -2.057 L 0.152 -3.023 L 4.072 -8.59 L 4.934 -8.59 L 4.934 -3.023 L 6.094 -3.023 L 6.094 -2.057 L 4.934 -2.057 L 4.934 0 Z M 3.879 -3.023 L 3.879 -3.023 L 3.879 -6.896 L 1.189 -3.023 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_525" viewBox="0 -12.475 8.408 16.371"><path d="M 0.568 -1.014 L 0.568 -1.014 L 2.443 -1.014 Q 0.662 -2.502 0.662 -4.646 Q 0.662 -5.812 1.131 -6.738 Q 1.6 -7.664 2.455 -8.2 Q 3.311 -8.736 4.512 -8.736 Q 5.701 -8.736 6.495 -8.244 Q 7.289 -7.752 7.802 -6.832 Q 8.314 -5.912 8.314 -4.646 Q 8.314 -2.502 6.533 -1.014 L 8.408 -1.014 L 8.408 0 L 5.068 0 L 5.068 -0.949 Q 7.154 -1.922 7.154 -4.471 Q 7.154 -5.906 6.419 -6.835 Q 5.684 -7.764 4.506 -7.764 Q 3.293 -7.764 2.566 -6.829 Q 1.84 -5.895 1.84 -4.529 Q 1.84 -1.945 3.914 -0.949 L 3.914 0 L 0.568 0 Z " /></symbol><g transform="translate(36.52 -106.2)" fill="#1f2937"><use href="#arial_23" x="0" y="-13.514" width="6.602" height="17.735" /><use href="#arial_3" x="7.23" y="-13.514" width="0" height="17.735" /><use href="#arial_525" x="10.842" y="-13.514" width="9.109" height="17.735" /></g></g></g><g><g><symbol id="arial_21" viewBox="0 -12.475 6.041 16.371"><path d="M 6.041 -1.014 L 6.041 -1.014 L 6.041 0 L 0.363 0 Q 0.352 -0.381 0.486 -0.732 Q 0.703 -1.312 1.181 -1.875 Q 1.658 -2.438 2.561 -3.176 Q 3.961 -4.324 4.453 -4.995 Q 4.945 -5.666 4.945 -6.264 Q 4.945 -6.891 4.497 -7.321 Q 4.049 -7.752 3.328 -7.752 Q 2.566 -7.752 2.109 -7.295 Q 1.652 -6.838 1.646 -6.029 L 0.562 -6.141 Q 0.674 -7.354 1.4 -7.989 Q 2.127 -8.625 3.352 -8.625 Q 4.588 -8.625 5.309 -7.939 Q 6.029 -7.254 6.029 -6.24 Q 6.029 -5.725 5.818 -5.227 Q 5.607 -4.729 5.118 -4.178 Q 4.629 -3.627 3.492 -2.666 Q 2.543 -1.869 2.273 -1.585 Q 2.004 -1.301 1.828 -1.014 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_525" viewBox="0 -12.475 8.408 16.371"><path d="M 0.568 -1.014 L 0.568 -1.014 L 2.443 -1.014 Q 0.662 -2.502 0.662 -4.646 Q 0.662 -5.812 1.131 -6.738 Q 1.6 -7.664 2.455 -8.2 Q 3.311 -8.736 4.512 -8.736 Q 5.701 -8.736 6.495 -8.244 Q 7.289 -7.752 7.802 -6.832 Q 8.314 -5.912 8.314 -4.646 Q 8.314 -2.502 6.533 -1.014 L 8.408 -1.014 L 8.408 0 L 5.068 0 L 5.068 -0.949 Q 7.154 -1.922 7.154 -4.471 Q 7.154 -5.906 6.419 -6.835 Q 5.684 -7.764 4.506 -7.764 Q 3.293 -7.764 2.566 -6.829 Q 1.84 -5.895 1.84 -4.529 Q 1.84 -1.945 3.914 -0.949 L 3.914 0 L 0.568 0 Z " /></symbol><g transform="translate(106.2 -42.068)" fill="#1f2937"><use href="#arial_21" x="0" y="-13.514" width="6.544" height="17.735" /><use href="#arial_3" x="7.23" y="-13.514" width="0" height="17.735" /><use href="#arial_525" x="10.842" y="-13.514" width="9.109" height="17.735" /></g></g></g><g><g><symbol id="arial_21" viewBox="0 -12.475 6.041 16.371"><path d="M 6.041 -1.014 L 6.041 -1.014 L 6.041 0 L 0.363 0 Q 0.352 -0.381 0.486 -0.732 Q 0.703 -1.312 1.181 -1.875 Q 1.658 -2.438 2.561 -3.176 Q 3.961 -4.324 4.453 -4.995 Q 4.945 -5.666 4.945 -6.264 Q 4.945 -6.891 4.497 -7.321 Q 4.049 -7.752 3.328 -7.752 Q 2.566 -7.752 2.109 -7.295 Q 1.652 -6.838 1.646 -6.029 L 0.562 -6.141 Q 0.674 -7.354 1.4 -7.989 Q 2.127 -8.625 3.352 -8.625 Q 4.588 -8.625 5.309 -7.939 Q 6.029 -7.254 6.029 -6.24 Q 6.029 -5.725 5.818 -5.227 Q 5.607 -4.729 5.118 -4.178 Q 4.629 -3.627 3.492 -2.666 Q 2.543 -1.869 2.273 -1.585 Q 2.004 -1.301 1.828 -1.014 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_36" viewBox="-0.018 -12.475 8.039 16.371"><path d="M -0.018 0 L -0.018 0 L 3.281 -8.59 L 4.506 -8.59 L 8.021 0 L 6.727 0 L 5.725 -2.602 L 2.133 -2.602 L 1.189 0 Z M 2.461 -3.527 L 2.461 -3.527 L 5.373 -3.527 L 4.477 -5.906 Q 4.066 -6.99 3.867 -7.688 Q 3.703 -6.861 3.404 -6.047 Z " /></symbol><g transform="translate(208.8 -42.128)" fill="#1f2937"><use href="#arial_21" x="0" y="-13.514" width="6.544" height="17.735" /><use href="#arial_3" x="7.23" y="-13.514" width="0" height="17.735" /><use href="#arial_36" x="10.105" y="-13.514" width="8.709" height="17.735" /></g></g></g><circle cx="93.60000000000001" cy="-93.60000000000001" r="2.6999999999999997" style="stroke:#1f2937;fill:#1f2937;stroke-width:1.6;" /><g><g><symbol id="arial_36" viewBox="-0.018 -12.475 8.039 16.371"><path d="M -0.018 0 L -0.018 0 L 3.281 -8.59 L 4.506 -8.59 L 8.021 0 L 6.727 0 L 5.725 -2.602 L 2.133 -2.602 L 1.189 0 Z M 2.461 -3.527 L 2.461 -3.527 L 5.373 -3.527 L 4.477 -5.906 Q 4.066 -6.99 3.867 -7.688 Q 3.703 -6.861 3.404 -6.047 Z " /></symbol><g transform="translate(89.246 -99.9)" fill="#1f2937"><use href="#arial_36" x="-0.019" y="-13.514" width="8.709" height="17.735" /></g></g></g><path d="M 93.6,-86.4 L 93.6,-86.39999999999999" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 93.6 -77.60000000000001 L 88.19999999999999 -86.40000000000002 L 99.0 -86.40000000000002 Z" style="stroke:#1f2937;fill:#1f2937;stroke-linecap:butt;stroke-linejoin:miter;" /><g><g><symbol id="arial_44" viewBox="0 -12.475 2.256 16.371"><path d="M 1.119 0 L 1.119 0 L 1.119 -8.59 L 2.256 -8.59 L 2.256 0 Z " /></symbol><g transform="translate(79.188 -76.347)" fill="#1f2937"><use href="#arial_44" x="0" y="-13.514" width="2.444" height="17.735" /></g></g></g></svg><figcaption>The class circuit (05 §1).</figcaption></figure>
+
+<p>Transform 10 V in series with 4 Ω into <span class="frac"><span>10</span><span>4</span></span> = <strong>2.5 A in parallel with 4 Ω</strong>:</p>
+
+<figure style="max-width:62%"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" height="118.4056640625pt" width="359.308984375pt" viewBox="-55.475390624999996 -113.8056640625 359.308984375 118.4056640625"><circle cx="2.865673510004807e-15" cy="-46.800000000000004" r="18.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;" /><circle cx="259.2" cy="-46.800000000000004" r="18.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;" /><path d="M 0.0,-0.0 L 1.7634913907721887e-15,-28.8 L 1.7634913907721887e-15,-28.8 M 3.9678556292374245e-15,-64.8 L 3.9678556292374245e-15,-64.8 L 5.731347020009614e-15,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 2.3145824503884976e-15,-37.800000000000004 L 2.8656735100048066e-15,-46.800000000000004" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 3.2942998897063804e-15 -53.800000000000004 L 2.7000000000000024 -46.800000000000004 L -2.699999999999997 -46.800000000000004 Z" style="stroke:#1f2937;fill:#1f2937;stroke-linecap:butt;stroke-linejoin:miter;" /><path d="M 5.731347020009614e-15,-93.60000000000001 L 43.2,-93.60000000000001 L 86.39999999999999,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 86.39999999999999,-93.60000000000001 L 86.39999999999999,-64.8 L 95.39999999999999,-61.800000000000004 L 77.39999999999999,-55.800000000000004 L 95.39999999999998,-49.8 L 77.39999999999998,-43.800000000000004 L 95.39999999999998,-37.800000000000004 L 77.39999999999998,-31.799999999999997 L 86.39999999999998,-28.8 L 86.39999999999998,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 86.39999999999999,-93.60000000000001 L 129.6,-93.60000000000001 L 172.79999999999998,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 172.79999999999998,-93.60000000000001 L 172.79999999999998,-64.8 L 181.79999999999998,-61.800000000000004 L 163.79999999999998,-55.800000000000004 L 181.79999999999998,-49.8 L 163.79999999999998,-43.800000000000004 L 181.79999999999998,-37.800000000000004 L 163.79999999999998,-31.799999999999997 L 172.79999999999998,-28.8 L 172.79999999999995,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 172.79999999999998,-93.60000000000001 L 216.0,-93.60000000000001 L 259.2,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 259.2,-93.60000000000001 L 259.2,-64.8 L 259.2,-64.8 M 259.2,-28.8 L 259.2,-28.8 L 259.19999999999993,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 259.2,-46.800000000000004 L 259.2,-37.800000000000004" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 259.2 -53.800000000000004 L 261.9 -46.800000000000004 L 256.5 -46.800000000000004 Z" style="stroke:#1f2937;fill:#1f2937;stroke-linecap:butt;stroke-linejoin:miter;" /><path d="M 259.19999999999993,-0.0 L 129.59999999999997,-1.5871422516949695e-14 L 0.0,-3.174284503389939e-14" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><g><g><symbol id="arial_21" viewBox="0 -12.475 6.041 16.371"><path d="M 6.041 -1.014 L 6.041 -1.014 L 6.041 0 L 0.363 0 Q 0.352 -0.381 0.486 -0.732 Q 0.703 -1.312 1.181 -1.875 Q 1.658 -2.438 2.561 -3.176 Q 3.961 -4.324 4.453 -4.995 Q 4.945 -5.666 4.945 -6.264 Q 4.945 -6.891 4.497 -7.321 Q 4.049 -7.752 3.328 -7.752 Q 2.566 -7.752 2.109 -7.295 Q 1.652 -6.838 1.646 -6.029 L 0.562 -6.141 Q 0.674 -7.354 1.4 -7.989 Q 2.127 -8.625 3.352 -8.625 Q 4.588 -8.625 5.309 -7.939 Q 6.029 -7.254 6.029 -6.24 Q 6.029 -5.725 5.818 -5.227 Q 5.607 -4.729 5.118 -4.178 Q 4.629 -3.627 3.492 -2.666 Q 2.543 -1.869 2.273 -1.585 Q 2.004 -1.301 1.828 -1.014 Z " /></symbol><symbol id="arial_17" viewBox="0 -12.475 2.291 16.371"><path d="M 1.09 0 L 1.09 0 L 1.09 -1.201 L 2.291 -1.201 L 2.291 0 Z " /></symbol><symbol id="arial_24" viewBox="0 -12.475 6.193 16.371"><path d="M 0.498 -2.25 L 0.498 -2.25 L 1.605 -2.344 Q 1.729 -1.535 2.177 -1.128 Q 2.625 -0.721 3.258 -0.721 Q 4.02 -0.721 4.547 -1.295 Q 5.074 -1.869 5.074 -2.818 Q 5.074 -3.721 4.567 -4.242 Q 4.061 -4.764 3.24 -4.764 Q 2.73 -4.764 2.32 -4.532 Q 1.91 -4.301 1.676 -3.932 L 0.686 -4.061 L 1.518 -8.473 L 5.789 -8.473 L 5.789 -7.465 L 2.361 -7.465 L 1.898 -5.156 Q 2.672 -5.695 3.521 -5.695 Q 4.646 -5.695 5.42 -4.916 Q 6.193 -4.137 6.193 -2.912 Q 6.193 -1.746 5.514 -0.896 Q 4.688 0.146 3.258 0.146 Q 2.086 0.146 1.345 -0.51 Q 0.604 -1.166 0.498 -2.25 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_36" viewBox="-0.018 -12.475 8.039 16.371"><path d="M -0.018 0 L -0.018 0 L 3.281 -8.59 L 4.506 -8.59 L 8.021 0 L 6.727 0 L 5.725 -2.602 L 2.133 -2.602 L 1.189 0 Z M 2.461 -3.527 L 2.461 -3.527 L 5.373 -3.527 L 4.477 -5.906 Q 4.066 -6.99 3.867 -7.688 Q 3.703 -6.861 3.404 -6.047 Z " /></symbol><g transform="translate(-50.875 -42.207)" fill="#1f2937"><use href="#arial_21" x="0" y="-13.514" width="6.544" height="17.735" /><use href="#arial_17" x="7.23" y="-13.514" width="2.482" height="17.735" /><use href="#arial_24" x="10.842" y="-13.514" width="6.709" height="17.735" /><use href="#arial_3" x="18.072" y="-13.514" width="0" height="17.735" /><use href="#arial_36" x="20.947" y="-13.514" width="8.709" height="17.735" /></g></g></g><g><g><symbol id="arial_23" viewBox="0 -12.475 6.094 16.371"><path d="M 3.879 0 L 3.879 0 L 3.879 -2.057 L 0.152 -2.057 L 0.152 -3.023 L 4.072 -8.59 L 4.934 -8.59 L 4.934 -3.023 L 6.094 -3.023 L 6.094 -2.057 L 4.934 -2.057 L 4.934 0 Z M 3.879 -3.023 L 3.879 -3.023 L 3.879 -6.896 L 1.189 -3.023 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_525" viewBox="0 -12.475 8.408 16.371"><path d="M 0.568 -1.014 L 0.568 -1.014 L 2.443 -1.014 Q 0.662 -2.502 0.662 -4.646 Q 0.662 -5.812 1.131 -6.738 Q 1.6 -7.664 2.455 -8.2 Q 3.311 -8.736 4.512 -8.736 Q 5.701 -8.736 6.495 -8.244 Q 7.289 -7.752 7.802 -6.832 Q 8.314 -5.912 8.314 -4.646 Q 8.314 -2.502 6.533 -1.014 L 8.408 -1.014 L 8.408 0 L 5.068 0 L 5.068 -0.949 Q 7.154 -1.922 7.154 -4.471 Q 7.154 -5.906 6.419 -6.835 Q 5.684 -7.764 4.506 -7.764 Q 3.293 -7.764 2.566 -6.829 Q 1.84 -5.895 1.84 -4.529 Q 1.84 -1.945 3.914 -0.949 L 3.914 0 L 0.568 0 Z " /></symbol><g transform="translate(99 -42.068)" fill="#1f2937"><use href="#arial_23" x="0" y="-13.514" width="6.602" height="17.735" /><use href="#arial_3" x="7.23" y="-13.514" width="0" height="17.735" /><use href="#arial_525" x="10.842" y="-13.514" width="9.109" height="17.735" /></g></g></g><g><g><symbol id="arial_21" viewBox="0 -12.475 6.041 16.371"><path d="M 6.041 -1.014 L 6.041 -1.014 L 6.041 0 L 0.363 0 Q 0.352 -0.381 0.486 -0.732 Q 0.703 -1.312 1.181 -1.875 Q 1.658 -2.438 2.561 -3.176 Q 3.961 -4.324 4.453 -4.995 Q 4.945 -5.666 4.945 -6.264 Q 4.945 -6.891 4.497 -7.321 Q 4.049 -7.752 3.328 -7.752 Q 2.566 -7.752 2.109 -7.295 Q 1.652 -6.838 1.646 -6.029 L 0.562 -6.141 Q 0.674 -7.354 1.4 -7.989 Q 2.127 -8.625 3.352 -8.625 Q 4.588 -8.625 5.309 -7.939 Q 6.029 -7.254 6.029 -6.24 Q 6.029 -5.725 5.818 -5.227 Q 5.607 -4.729 5.118 -4.178 Q 4.629 -3.627 3.492 -2.666 Q 2.543 -1.869 2.273 -1.585 Q 2.004 -1.301 1.828 -1.014 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_525" viewBox="0 -12.475 8.408 16.371"><path d="M 0.568 -1.014 L 0.568 -1.014 L 2.443 -1.014 Q 0.662 -2.502 0.662 -4.646 Q 0.662 -5.812 1.131 -6.738 Q 1.6 -7.664 2.455 -8.2 Q 3.311 -8.736 4.512 -8.736 Q 5.701 -8.736 6.495 -8.244 Q 7.289 -7.752 7.802 -6.832 Q 8.314 -5.912 8.314 -4.646 Q 8.314 -2.502 6.533 -1.014 L 8.408 -1.014 L 8.408 0 L 5.068 0 L 5.068 -0.949 Q 7.154 -1.922 7.154 -4.471 Q 7.154 -5.906 6.419 -6.835 Q 5.684 -7.764 4.506 -7.764 Q 3.293 -7.764 2.566 -6.829 Q 1.84 -5.895 1.84 -4.529 Q 1.84 -1.945 3.914 -0.949 L 3.914 0 L 0.568 0 Z " /></symbol><g transform="translate(185.4 -42.068)" fill="#1f2937"><use href="#arial_21" x="0" y="-13.514" width="6.544" height="17.735" /><use href="#arial_3" x="7.23" y="-13.514" width="0" height="17.735" /><use href="#arial_525" x="10.842" y="-13.514" width="9.109" height="17.735" /></g></g></g><g><g><symbol id="arial_21" viewBox="0 -12.475 6.041 16.371"><path d="M 6.041 -1.014 L 6.041 -1.014 L 6.041 0 L 0.363 0 Q 0.352 -0.381 0.486 -0.732 Q 0.703 -1.312 1.181 -1.875 Q 1.658 -2.438 2.561 -3.176 Q 3.961 -4.324 4.453 -4.995 Q 4.945 -5.666 4.945 -6.264 Q 4.945 -6.891 4.497 -7.321 Q 4.049 -7.752 3.328 -7.752 Q 2.566 -7.752 2.109 -7.295 Q 1.652 -6.838 1.646 -6.029 L 0.562 -6.141 Q 0.674 -7.354 1.4 -7.989 Q 2.127 -8.625 3.352 -8.625 Q 4.588 -8.625 5.309 -7.939 Q 6.029 -7.254 6.029 -6.24 Q 6.029 -5.725 5.818 -5.227 Q 5.607 -4.729 5.118 -4.178 Q 4.629 -3.627 3.492 -2.666 Q 2.543 -1.869 2.273 -1.585 Q 2.004 -1.301 1.828 -1.014 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_36" viewBox="-0.018 -12.475 8.039 16.371"><path d="M -0.018 0 L -0.018 0 L 3.281 -8.59 L 4.506 -8.59 L 8.021 0 L 6.727 0 L 5.725 -2.602 L 2.133 -2.602 L 1.189 0 Z M 2.461 -3.527 L 2.461 -3.527 L 5.373 -3.527 L 4.477 -5.906 Q 4.066 -6.99 3.867 -7.688 Q 3.703 -6.861 3.404 -6.047 Z " /></symbol><g transform="translate(280.8 -42.128)" fill="#1f2937"><use href="#arial_21" x="0" y="-13.514" width="6.544" height="17.735" /><use href="#arial_3" x="7.23" y="-13.514" width="0" height="17.735" /><use href="#arial_36" x="10.105" y="-13.514" width="8.709" height="17.735" /></g></g></g><circle cx="172.79999999999998" cy="-93.60000000000001" r="2.6999999999999997" style="stroke:#1f2937;fill:#1f2937;stroke-width:1.6;" /><g><g><symbol id="arial_36" viewBox="-0.018 -12.475 8.039 16.371"><path d="M -0.018 0 L -0.018 0 L 3.281 -8.59 L 4.506 -8.59 L 8.021 0 L 6.727 0 L 5.725 -2.602 L 2.133 -2.602 L 1.189 0 Z M 2.461 -3.527 L 2.461 -3.527 L 5.373 -3.527 L 4.477 -5.906 Q 4.066 -6.99 3.867 -7.688 Q 3.703 -6.861 3.404 -6.047 Z " /></symbol><g transform="translate(168.446 -99.9)" fill="#1f2937"><use href="#arial_36" x="-0.019" y="-13.514" width="8.709" height="17.735" /></g></g></g><path d="M 172.79999999999998,-86.4 L 172.79999999999998,-86.39999999999999" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 172.79999999999998 -77.60000000000001 L 167.39999999999998 -86.40000000000002 L 178.2 -86.40000000000002 Z" style="stroke:#1f2937;fill:#1f2937;stroke-linecap:butt;stroke-linejoin:miter;" /><g><g><symbol id="arial_44" viewBox="0 -12.475 2.256 16.371"><path d="M 1.119 0 L 1.119 0 L 1.119 -8.59 L 2.256 -8.59 L 2.256 0 Z " /></symbol><g transform="translate(158.388 -76.347)" fill="#1f2937"><use href="#arial_44" x="0" y="-13.514" width="2.444" height="17.735" /></g></g></g></svg><figcaption>Now everything is in parallel between node A and the bottom rail.</figcaption></figure>
+
+<p>Both current sources push up into A: 2.5 + 2 = 4.5 A. It flows into 4 Ω ∥ 2 Ω = <span class="frac"><span>4</span><span>3</span></span> Ω, so V<sub>A</sub> = 4.5 × <span class="frac"><span>4</span><span>3</span></span> = <strong>6 V</strong> and <strong>I = <span class="frac"><span>6</span><span>2</span></span> = 3 A</strong>, the professor's answer (05 §1) in three lines.</p>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>Convert 3 mA in parallel with 4 kΩ into a voltage-source form.</p>
+</div>
+<hr />
+<h2>Exam form</h2>
+<ul>
+<li><strong>KCL</strong>: Σ currents into a node = Σ currents out (charge is conserved; a node stores no charge).</li>
+<li><strong>KVL</strong>: Σ voltage rises = Σ voltage drops round any closed loop (energy is conserved).</li>
+<li><strong>Sign rule</strong>: a negative answer means the real direction is opposite to the arrow you drew. Keep your arrow; report the sign.</li>
+<li><strong>Power balance</strong>: Σ absorbed power = 0 over the whole circuit.</li>
+<li><strong>Source transformation</strong>: V in series with R ⇔ V/R in parallel with R. Not for ideal sources.</li>
+</ul>
+<h2>Traps</h2>
+<ul>
+<li>Changing sign conventions half-way round a loop. Fix the direction once and apply the rise/drop rule to every element.</li>
+<li>Source transformation keeps R <strong>the same size</strong>. It changes from series to parallel, not in value.</li>
+<li>Transforming a source whose resistor is the one you are asked about: that resistor disappears into the equivalent. Keep the element you need outside the transformation.</li>
+</ul>
+<h2>Self-test</h2>
+<ol>
+<li>State KCL and KVL, each with the conservation law behind it.</li>
+<li>A node has 10 mA in and three outputs: 2 mA, 5 mA, i. Find i.</li>
+<li>A loop has 9 V, 1 kΩ and 2 kΩ. Find i and check the power balance.</li>
+<li>Transform 12 V in series with 3 kΩ.</li>
+<li>Why is a negative answer from KCL not a mistake?</li>
+</ol>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 1.</strong> 4 + (−1) + i = 7 ⇒ <strong>i = 4 mA</strong> into the node.</p>
+<p><strong>Check 2.</strong> 12 + 4 = 6i ⇒ <strong>i = 8/3 ≈ 2.67 mA</strong>.</p>
+<p><strong>Check 3.</strong> 3 mA × 4 kΩ = <strong>12 V in series with 4 kΩ</strong>.</p>
+<p><strong>Self-test.</strong></p>
+<ol>
+<li>KCL: Σ i<sub>in</sub> = Σ i<sub>out</sub> at a node (conservation of charge). KVL: Σ v round a closed loop = 0 (conservation of energy).</li>
+<li>10 = 2 + 5 + i ⇒ <strong>i = 3 mA</strong>.</li>
+<li>i = 9/3k = <strong>3 mA</strong>. Source delivers 9 × 3 = 27 mW; resistors absorb 9 + 18 = 27 mW ✓.</li>
+<li><strong>4 mA in parallel with 3 kΩ</strong>.</li>
+<li>It only means the current flows opposite to the arrow you chose; the magnitude is still right.</li>
+</ol>
+</div></body></html>

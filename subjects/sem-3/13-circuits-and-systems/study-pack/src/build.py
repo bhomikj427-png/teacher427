@@ -9,6 +9,7 @@ Content syntax on top of Markdown:
   :::q Title ... :::             boxes: q (question), guess, check, trap, note, key
   $$ ... $$                      display equation (one line)
   \\frac{a}{b}  x_{sub}  x^{sup}  stacked fraction / subscript / superscript
+  \\sqrt{x}                     √(x)
 """
 import re
 import subprocess
@@ -29,7 +30,7 @@ CONTENT = HERE / "content"
 HTML = ROOT / "html"
 PDF = ROOT / "pdf"
 CHROME = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
-PACK = "ECE2107 Circuits & Systems · Study Pack"
+PACK = "ECE2107 Circuits & Systems · MTE Study Pack"
 
 CSS = """
 @page { size: A4; margin: 16mm 15mm 16mm 15mm;
@@ -113,6 +114,7 @@ def inline(t):
     t = re.sub(r"_\{([^{}]*)\}", r"<sub>\1</sub>", t)
     t = re.sub(r"\^\{([^{}]*)\}", r"<sup>\1</sup>", t)
     for _ in range(3):
+        t = re.sub(r"\\sqrt\{([^{}]*)\}", r"√(\1)", t)
         t = re.sub(r"\\frac\{([^{}]*)\}\{([^{}]*)\}",
                    r'<span class="frac"><span>\1</span><span>\2</span></span>', t)
     return t
@@ -136,7 +138,7 @@ def render(md_text):
 
     def keep(m):
         stash.append(fig(m))
-        return f"\n\nFIGTOKEN{len(stash) - 1}\n\n"
+        return f"\n\nFIGTOKEN{len(stash) - 1}X\n\n"
     t = re.sub(r"\[\[fig:(.*?)\]\]", keep, t)
     t = re.sub(r"\[\[map:(.*?)\]\]", fmap, t)
     t = re.sub(r"^\$\$(.*?)\$\$[ \t]*$",
@@ -148,7 +150,7 @@ def render(md_text):
     t = t.replace("<!--ANSWERS-->", '<div class="answers" markdown="1">').replace("<!--/ANSWERS-->", "</div>")
     h = markdown.markdown(t, extensions=["tables", "md_in_html", "attr_list", "sane_lists"])
     for k, f in enumerate(stash):
-        h = h.replace(f"<p>FIGTOKEN{k}</p>", f).replace(f"FIGTOKEN{k}", f)
+        h = h.replace(f"<p>FIGTOKEN{k}X</p>", f).replace(f"FIGTOKEN{k}X", f)
     return h
 
 

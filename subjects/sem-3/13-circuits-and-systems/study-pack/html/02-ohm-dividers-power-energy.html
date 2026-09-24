@@ -1,7 +1,7 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>02 — Dividers, source transformation, ladders</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>02 — Ohm's law, dividers, power and energy</title>
 <style>
 @page { size: A4; margin: 16mm 15mm 16mm 15mm;
-  @bottom-left { content: "ECE2107 Circuits & Systems · Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-left { content: "ECE2107 Circuits & Systems · MTE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
   @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
 :root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
 * { box-sizing: border-box; }
@@ -45,11 +45,11 @@ figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
 .tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
   padding: 0 5px; font-weight: 600; }
 hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
-</style></head><body><h1>02 — Dividers, source transformation, ladders</h1>
-<div class="sub">Class notes p.1, p.4–5 · 4 board questions · needs 01</div>
+</style></head><body><h1>02 — Ohm's law, dividers, power and energy</h1>
+<div class="sub">Class notes p.1, p.4–5, set 2 p.4–6 · MTE syllabus item 2 · 4 board questions · needs 01</div>
 
 <h2>Map</h2>
-<div class="map"><span class="n here">1 Voltage division</span><span class="a">→</span><span class="n">2 Current division</span><span class="a">→</span><span class="n">3 Division with AC</span><span class="a">→</span><span class="n">4 Source transformation</span><span class="a">→</span><span class="n">5 Ladder reduction</span></div>
+<div class="map"><span class="n here">1 Voltage division</span><span class="a">→</span><span class="n">2 Current division</span><span class="a">→</span><span class="n">3 Division with AC</span><span class="a">→</span><span class="n">4 Power and energy</span><span class="a">→</span><span class="n">5 Ladder reduction</span></div>
 
 <h2>The questions this file answers</h2>
 <ul>
@@ -152,7 +152,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-09-25T04:15:10.401995</dc:date>
+    <dc:date>2026-09-25T04:52:49.625715</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -189,12 +189,12 @@ z
     <g id="xtick_1">
      <g id="line2d_1">
       <defs>
-       <path id="m225e3d0db0" d="M 0 0 
+       <path id="m9cd0e7d200" d="M 0 0 
 L 0 3.5 
 " style="stroke: #374151; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#m225e3d0db0" x="60.033267" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#m9cd0e7d200" x="60.033267" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_1">
@@ -234,7 +234,7 @@ z
     <g id="xtick_2">
      <g id="line2d_2">
       <g>
-       <use xlink:href="#m225e3d0db0" x="110.088944" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#m9cd0e7d200" x="110.088944" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_2">
@@ -261,7 +261,7 @@ z
     <g id="xtick_3">
      <g id="line2d_3">
       <g>
-       <use xlink:href="#m225e3d0db0" x="160.14462" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#m9cd0e7d200" x="160.14462" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_3">
@@ -301,7 +301,7 @@ z
     <g id="xtick_4">
      <g id="line2d_4">
       <g>
-       <use xlink:href="#m225e3d0db0" x="210.200296" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#m9cd0e7d200" x="210.200296" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_4">
@@ -349,7 +349,7 @@ z
     <g id="xtick_5">
      <g id="line2d_5">
       <g>
-       <use xlink:href="#m225e3d0db0" x="260.255973" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#m9cd0e7d200" x="260.255973" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_5">
@@ -383,7 +383,7 @@ z
     <g id="xtick_6">
      <g id="line2d_6">
       <g>
-       <use xlink:href="#m225e3d0db0" x="310.311649" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#m9cd0e7d200" x="310.311649" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_6">
@@ -423,7 +423,7 @@ z
     <g id="xtick_7">
      <g id="line2d_7">
       <g>
-       <use xlink:href="#m225e3d0db0" x="360.367326" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#m9cd0e7d200" x="360.367326" y="164.623687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_7">
@@ -603,12 +603,12 @@ z
     <g id="ytick_1">
      <g id="line2d_8">
       <defs>
-       <path id="m4d1ba83ef3" d="M 0 0 
+       <path id="mda284176b4" d="M 0 0 
 L -3.5 0 
 " style="stroke: #374151; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#m4d1ba83ef3" x="44.307812" y="158.740259" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#mda284176b4" x="44.307812" y="158.740259" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_9">
@@ -632,7 +632,7 @@ z
     <g id="ytick_2">
      <g id="line2d_9">
       <g>
-       <use xlink:href="#m4d1ba83ef3" x="44.307812" y="129.323116" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#mda284176b4" x="44.307812" y="129.323116" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_10">
@@ -646,7 +646,7 @@ z
     <g id="ytick_3">
      <g id="line2d_10">
       <g>
-       <use xlink:href="#m4d1ba83ef3" x="44.307812" y="99.905973" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#mda284176b4" x="44.307812" y="99.905973" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_11">
@@ -659,7 +659,7 @@ z
     <g id="ytick_4">
      <g id="line2d_11">
       <g>
-       <use xlink:href="#m4d1ba83ef3" x="44.307812" y="70.48883" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#mda284176b4" x="44.307812" y="70.48883" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_12">
@@ -672,7 +672,7 @@ z
     <g id="ytick_5">
      <g id="line2d_12">
       <g>
-       <use xlink:href="#m4d1ba83ef3" x="44.307812" y="41.071687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#mda284176b4" x="44.307812" y="41.071687" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_13">
@@ -863,7 +863,7 @@ L 369.816846 80.574824
 L 373.492244 72.651928 
 L 374.542358 70.48883 
 L 374.542358 70.48883 
-" clip-path="url(#pd542233885)" style="fill: none; stroke: #1f2937; stroke-width: 1.8; stroke-linecap: square"/>
+" clip-path="url(#p0905ed8279)" style="fill: none; stroke: #1f2937; stroke-width: 1.8; stroke-linecap: square"/>
    </g>
    <g id="line2d_14">
     <path d="M 60.033267 79.313973 
@@ -977,7 +977,7 @@ L 369.816846 86.374169
 L 374.017301 80.066692 
 L 374.542358 79.313973 
 L 374.542358 79.313973 
-" clip-path="url(#pd542233885)" style="fill: none; stroke: #1d4ed8; stroke-width: 1.8; stroke-linecap: square"/>
+" clip-path="url(#p0905ed8279)" style="fill: none; stroke: #1d4ed8; stroke-width: 1.8; stroke-linecap: square"/>
    </g>
    <g id="line2d_15">
     <path d="M 60.033267 91.08083 
@@ -1062,12 +1062,12 @@ L 361.415935 99.921402
 L 370.341903 93.758205 
 L 374.542358 91.08083 
 L 374.542358 91.08083 
-" clip-path="url(#pd542233885)" style="fill: none; stroke: #b91c1c; stroke-width: 1.8; stroke-linecap: square"/>
+" clip-path="url(#p0905ed8279)" style="fill: none; stroke: #b91c1c; stroke-width: 1.8; stroke-linecap: square"/>
    </g>
    <g id="line2d_16">
     <path d="M 44.307812 99.905973 
 L 390.267813 99.905973 
-" clip-path="url(#pd542233885)" style="fill: none; stroke: #d1d5db; stroke-width: 0.8; stroke-linecap: square"/>
+" clip-path="url(#p0905ed8279)" style="fill: none; stroke: #d1d5db; stroke-width: 0.8; stroke-linecap: square"/>
    </g>
    <g id="patch_3">
     <path d="M 44.307812 164.623687 
@@ -1676,28 +1676,61 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pd542233885">
+  <clipPath id="p0905ed8279">
    <rect x="44.307812" y="20.479687" width="345.96" height="144.144"/>
   </clipPath>
  </defs>
 </svg>
 <figcaption>All three waves cross zero together: same frequency, same phase. Only the amplitude is divided.</figcaption></figure>
 
-<p>This holds only because both elements are <strong>resistors</strong>. With an L or C in the divider, the ratio becomes complex and shifts the phase. That case uses impedances (05, conjugate matching).</p>
-<h3>4 · Source transformation</h3>
+<p>This holds only because both elements are <strong>resistors</strong>. With an L or C in the divider, the ratio becomes complex and shifts the phase. That case uses impedances (05 §6, 06 §6).</p>
+<h3>4 · Power and energy: the sign convention</h3>
 <div class="box guess">
 <div class="bh">Predict</div>
-<p>A 10 V source with 2 kΩ in series. Short its terminals: what current flows? Leave them open: what voltage appears? Could a current source with a resistor in parallel give the same two answers?</p>
+<p>A 12 V battery drives 1 mA. Another circuit forces 1 mA <em>into</em> the battery's + terminal (charging it). In which case does the battery absorb power?</p>
 </div>
+<p><strong>Passive sign convention.</strong> Label each element's voltage + / −. If the current arrow <strong>enters the + terminal</strong>, then</p>
+<div class="eq">p = v·i&emsp;&emsp;&emsp;is the power ABSORBED by the element</div>
 
-<figure style="max-width:75%"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" height="129.43466796875pt" width="413.00087890625pt" viewBox="-34.870898437499996 -120.1056640625 413.00087890625 129.43466796875"><circle cx="2.865673510004807e-15" cy="-46.800000000000004" r="18.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;" /><circle cx="259.2" cy="-46.800000000000004" r="18.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;" /><path d="M 0.0,-0.0 L 1.7634913907721887e-15,-28.8 L 1.7634913907721887e-15,-28.8 M 3.9678556292374245e-15,-64.8 L 3.9678556292374245e-15,-64.8 L 5.731347020009614e-15,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 3.6000000000000028,-37.800000000000004 L -3.599999999999998,-37.800000000000004" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 3.1963281457745923e-15,-52.2 L 3.637200993467639e-15,-59.4" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 3.6000000000000036,-55.800000000000004 L -3.5999999999999965,-55.800000000000004" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 5.731347020009614e-15,-93.60000000000001 L 28.800000000000004,-93.60000000000001 L 31.800000000000008,-102.60000000000001 L 37.80000000000001,-84.60000000000001 L 43.80000000000001,-102.60000000000001 L 49.800000000000004,-84.60000000000001 L 55.80000000000001,-102.60000000000001 L 61.80000000000001,-84.60000000000001 L 64.80000000000001,-93.60000000000001 L 93.60000000000001,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 0.0,-0.0 L 46.800000000000004,-0.0 L 93.60000000000001,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 259.2,-0.0 L 259.2,-28.8 L 259.2,-28.8 M 259.2,-64.8 L 259.2,-64.8 L 259.2,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 259.2,-37.800000000000004 L 259.2,-46.800000000000004" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 259.2 -53.800000000000004 L 261.9 -46.800000000000004 L 256.5 -46.800000000000004 Z" style="stroke:#1f2937;fill:#1f2937;stroke-linecap:butt;stroke-linejoin:miter;" /><path d="M 259.2,-93.60000000000001 L 288.0,-93.60000000000001 L 316.8,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 316.8,-93.60000000000001 L 316.8,-64.8 L 325.8,-61.800000000000004 L 307.8,-55.800000000000004 L 325.8,-49.8 L 307.8,-43.800000000000004 L 325.8,-37.800000000000004 L 307.8,-31.799999999999997 L 316.8,-28.8 L 316.8,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 316.8,-93.60000000000001 L 338.40000000000003,-93.60000000000001 L 360.0,-93.60000000000001" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 259.2,-0.0 L 309.59999999999997,-0.0 L 360.0,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;" /><g><g><symbol id="arial_57" viewBox="0 -12.475 7.91 16.371"><path d="M 3.381 0 L 3.381 0 L 0.053 -8.59 L 1.283 -8.59 L 3.516 -2.35 Q 3.785 -1.6 3.967 -0.943 Q 4.166 -1.646 4.43 -2.35 L 6.75 -8.59 L 7.91 -8.59 L 4.547 0 Z " /></symbol><g transform="translate(-30.271 -42.147)" fill="#1f2937"><use href="#arial_57" x="0" y="-13.514" width="8.569" height="17.735" /></g></g></g><g><g><symbol id="arial_53" viewBox="0 -12.475 8.514 16.371"><path d="M 0.943 0 L 0.943 0 L 0.943 -8.59 L 4.752 -8.59 Q 5.9 -8.59 6.498 -8.358 Q 7.096 -8.127 7.453 -7.541 Q 7.811 -6.955 7.811 -6.246 Q 7.811 -5.332 7.219 -4.705 Q 6.627 -4.078 5.391 -3.908 Q 5.842 -3.691 6.076 -3.48 Q 6.574 -3.023 7.02 -2.338 L 8.514 0 L 7.084 0 L 5.947 -1.787 Q 5.449 -2.561 5.127 -2.971 Q 4.805 -3.381 4.55 -3.545 Q 4.295 -3.709 4.031 -3.773 Q 3.838 -3.814 3.398 -3.814 L 2.08 -3.814 L 2.08 0 Z M 2.08 -4.799 L 2.08 -4.799 L 4.523 -4.799 Q 5.303 -4.799 5.742 -4.96 Q 6.182 -5.121 6.41 -5.476 Q 6.639 -5.83 6.639 -6.246 Q 6.639 -6.855 6.196 -7.248 Q 5.754 -7.641 4.799 -7.641 L 2.08 -7.641 Z " /></symbol><g transform="translate(42.106 -106.2)" fill="#1f2937"><use href="#arial_53" x="0" y="-13.514" width="9.223" height="17.735" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_1582" viewBox="0 -31.524 11.124 51.216"><path d="M 11.124 -3.168 L 11.124 -3.168 L 11.124 -3.048 Q 10.92 -2.904 10.5 -2.598 Q 10.08 -2.292 9.534 -1.86 Q 8.988 -1.428 8.4 -0.918 Q 7.812 -0.408 7.272 0.12 L 6.924 -0.132 Q 7.056 -0.276 7.26 -0.474 Q 7.464 -0.672 7.62 -0.888 Q 7.776 -1.104 7.776 -1.272 Q 7.776 -1.38 7.728 -1.428 Q 7.68 -1.476 7.404 -1.476 L 4.008 -1.476 Q 3.768 -1.476 3.672 -1.44 Q 3.576 -1.404 3.576 -1.248 Q 3.576 -1.032 3.822 -0.798 Q 4.068 -0.564 4.428 -0.156 L 4.152 0.12 Q 3.6 -0.408 3 -0.912 Q 2.4 -1.416 1.848 -1.854 Q 1.296 -2.292 0.876 -2.604 Q 0.456 -2.916 0.24 -3.048 L 0.24 -3.168 Q 0.456 -3.324 0.876 -3.642 Q 1.296 -3.96 1.842 -4.392 Q 2.388 -4.824 2.988 -5.328 Q 3.588 -5.832 4.152 -6.348 L 4.428 -6.072 Q 4.284 -5.904 4.074 -5.694 Q 3.864 -5.484 3.708 -5.292 Q 3.552 -5.1 3.552 -4.968 Q 3.552 -4.836 3.684 -4.788 Q 3.816 -4.74 3.972 -4.74 L 7.404 -4.74 Q 7.596 -4.74 7.674 -4.83 Q 7.752 -4.92 7.752 -5.004 Q 7.752 -5.208 7.608 -5.388 Q 7.464 -5.568 7.266 -5.736 Q 7.068 -5.904 6.924 -6.06 L 7.272 -6.348 Q 7.836 -5.832 8.424 -5.328 Q 9.012 -4.824 9.546 -4.386 Q 10.08 -3.948 10.494 -3.63 Q 10.908 -3.312 11.124 -3.168 Z M 2.328 -2.28 L 2.328 -2.28 L 9.012 -2.28 Q 9.324 -2.46 9.534 -2.67 Q 9.744 -2.88 9.744 -3.108 Q 9.744 -3.324 9.534 -3.528 Q 9.324 -3.732 9.024 -3.924 L 2.34 -3.924 Q 2.04 -3.756 1.836 -3.54 Q 1.632 -3.324 1.62 -3.108 Q 1.62 -2.892 1.83 -2.688 Q 2.04 -2.484 2.328 -2.28 Z " /></symbol><use href="#STIXTwoMathRegular_1582" x="148.192" y="-102.485" width="20.394" height="93.896" fill="#1f2937" /></g></g></g><g><g><symbol id="arial_44" viewBox="0 -12.475 2.256 16.371"><path d="M 1.119 0 L 1.119 0 L 1.119 -8.59 L 2.256 -8.59 L 2.256 0 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_32" viewBox="0 -12.475 6.34 16.371"><path d="M 6.34 -5.051 L 6.34 -5.051 L 0.668 -5.051 L 0.668 -6.035 L 6.34 -6.035 Z M 6.34 -2.443 L 6.34 -2.443 L 0.668 -2.443 L 0.668 -3.428 L 6.34 -3.428 Z " /></symbol><symbol id="arial_3" viewBox="0 -12.475 0 16.371" /><symbol id="arial_57" viewBox="0 -12.475 7.91 16.371"><path d="M 3.381 0 L 3.381 0 L 0.053 -8.59 L 1.283 -8.59 L 3.516 -2.35 Q 3.785 -1.6 3.967 -0.943 Q 4.166 -1.646 4.43 -2.35 L 6.75 -8.59 L 7.91 -8.59 L 4.547 0 Z " /></symbol><symbol id="arial_18" viewBox="0 -12.475 3.334 16.371"><path d="M 0 0.146 L 0 0.146 L 2.49 -8.736 L 3.334 -8.736 L 0.85 0.146 Z " /></symbol><symbol id="arial_53" viewBox="0 -12.475 8.514 16.371"><path d="M 0.943 0 L 0.943 0 L 0.943 -8.59 L 4.752 -8.59 Q 5.9 -8.59 6.498 -8.358 Q 7.096 -8.127 7.453 -7.541 Q 7.811 -6.955 7.811 -6.246 Q 7.811 -5.332 7.219 -4.705 Q 6.627 -4.078 5.391 -3.908 Q 5.842 -3.691 6.076 -3.48 Q 6.574 -3.023 7.02 -2.338 L 8.514 0 L 7.084 0 L 5.947 -1.787 Q 5.449 -2.561 5.127 -2.971 Q 4.805 -3.381 4.55 -3.545 Q 4.295 -3.709 4.031 -3.773 Q 3.838 -3.814 3.398 -3.814 L 2.08 -3.814 L 2.08 0 Z M 2.08 -4.799 L 2.08 -4.799 L 4.523 -4.799 Q 5.303 -4.799 5.742 -4.96 Q 6.182 -5.121 6.41 -5.476 Q 6.639 -5.83 6.639 -6.246 Q 6.639 -6.855 6.196 -7.248 Q 5.754 -7.641 4.799 -7.641 L 2.08 -7.641 Z " /></symbol><g transform="translate(197.502 -42.147)" fill="#1f2937"><use href="#arial_44" x="0" y="-13.514" width="2.444" height="17.735" /><use href="#arial_3" x="3.612" y="-13.514" width="0" height="17.735" /><use href="#arial_32" x="7.224" y="-13.514" width="6.868" height="17.735" /><use href="#arial_3" x="14.815" y="-13.514" width="0" height="17.735" /><use href="#arial_57" x="18.427" y="-13.514" width="8.569" height="17.735" /><use href="#arial_18" x="27.098" y="-13.514" width="3.612" height="17.735" /><use href="#arial_53" x="30.71" y="-13.514" width="9.223" height="17.735" /></g></g></g><g><g><symbol id="arial_53" viewBox="0 -12.475 8.514 16.371"><path d="M 0.943 0 L 0.943 0 L 0.943 -8.59 L 4.752 -8.59 Q 5.9 -8.59 6.498 -8.358 Q 7.096 -8.127 7.453 -7.541 Q 7.811 -6.955 7.811 -6.246 Q 7.811 -5.332 7.219 -4.705 Q 6.627 -4.078 5.391 -3.908 Q 5.842 -3.691 6.076 -3.48 Q 6.574 -3.023 7.02 -2.338 L 8.514 0 L 7.084 0 L 5.947 -1.787 Q 5.449 -2.561 5.127 -2.971 Q 4.805 -3.381 4.55 -3.545 Q 4.295 -3.709 4.031 -3.773 Q 3.838 -3.814 3.398 -3.814 L 2.08 -3.814 L 2.08 0 Z M 2.08 -4.799 L 2.08 -4.799 L 4.523 -4.799 Q 5.303 -4.799 5.742 -4.96 Q 6.182 -5.121 6.41 -5.476 Q 6.639 -5.83 6.639 -6.246 Q 6.639 -6.855 6.196 -7.248 Q 5.754 -7.641 4.799 -7.641 L 2.08 -7.641 Z " /></symbol><g transform="translate(329.4 -42.147)" fill="#1f2937"><use href="#arial_53" x="0" y="-13.514" width="9.223" height="17.735" /></g></g></g><circle cx="93.60000000000001" cy="-93.60000000000001" r="2.6999999999999997" style="stroke:#1f2937;fill:white;stroke-width:1.6;" /><g><g><symbol id="arial_68" viewBox="0 -12.475 6.164 16.371"><path d="M 4.852 -0.768 L 4.852 -0.768 Q 4.266 -0.27 3.724 -0.064 Q 3.182 0.141 2.561 0.141 Q 1.535 0.141 0.984 -0.36 Q 0.434 -0.861 0.434 -1.641 Q 0.434 -2.098 0.642 -2.476 Q 0.85 -2.854 1.187 -3.082 Q 1.523 -3.311 1.945 -3.428 Q 2.256 -3.51 2.883 -3.586 Q 4.16 -3.738 4.764 -3.949 Q 4.77 -4.166 4.77 -4.225 Q 4.77 -4.869 4.471 -5.133 Q 4.066 -5.49 3.27 -5.49 Q 2.525 -5.49 2.171 -5.229 Q 1.816 -4.969 1.646 -4.307 L 0.615 -4.447 Q 0.756 -5.109 1.078 -5.517 Q 1.4 -5.924 2.01 -6.144 Q 2.619 -6.363 3.422 -6.363 Q 4.219 -6.363 4.717 -6.176 Q 5.215 -5.988 5.449 -5.704 Q 5.684 -5.42 5.777 -4.986 Q 5.83 -4.717 5.83 -4.014 L 5.83 -2.607 Q 5.83 -1.137 5.897 -0.747 Q 5.965 -0.357 6.164 0 L 5.062 0 Q 4.898 -0.328 4.852 -0.768 Z M 4.764 -3.123 L 4.764 -3.123 Q 4.189 -2.889 3.041 -2.725 Q 2.391 -2.631 2.121 -2.514 Q 1.852 -2.396 1.705 -2.171 Q 1.559 -1.945 1.559 -1.67 Q 1.559 -1.248 1.878 -0.967 Q 2.197 -0.686 2.812 -0.686 Q 3.422 -0.686 3.896 -0.952 Q 4.371 -1.219 4.594 -1.682 Q 4.764 -2.039 4.764 -2.736 Z " /></symbol><g transform="translate(99.9 -90.229)" fill="#1f2937"><use href="#arial_68" x="0" y="-13.514" width="6.678" height="17.735" /></g></g></g><circle cx="93.60000000000001" cy="-0.0" r="2.6999999999999997" style="stroke:#1f2937;fill:white;stroke-width:1.6;" /><g><g><symbol id="arial_69" viewBox="0 -12.475 6.182 16.371"><path d="M 1.764 0 L 1.764 0 L 0.785 0 L 0.785 -8.59 L 1.84 -8.59 L 1.84 -5.525 Q 2.508 -6.363 3.545 -6.363 Q 4.119 -6.363 4.632 -6.132 Q 5.145 -5.9 5.476 -5.481 Q 5.807 -5.062 5.994 -4.471 Q 6.182 -3.879 6.182 -3.205 Q 6.182 -1.605 5.391 -0.732 Q 4.6 0.141 3.492 0.141 Q 2.391 0.141 1.764 -0.779 Z M 1.752 -3.158 L 1.752 -3.158 Q 1.752 -2.039 2.057 -1.541 Q 2.555 -0.727 3.404 -0.727 Q 4.096 -0.727 4.6 -1.327 Q 5.104 -1.928 5.104 -3.117 Q 5.104 -4.336 4.62 -4.916 Q 4.137 -5.496 3.451 -5.496 Q 2.76 -5.496 2.256 -4.896 Q 1.752 -4.295 1.752 -3.158 Z " /></symbol><g transform="translate(99.9 4.577)" fill="#1f2937"><use href="#arial_69" x="0" y="-13.514" width="6.697" height="17.735" /></g></g></g><circle cx="316.8" cy="-93.60000000000001" r="2.6999999999999997" style="stroke:#1f2937;fill:#1f2937;stroke-width:1.6;" /><circle cx="360.0" cy="-93.60000000000001" r="2.6999999999999997" style="stroke:#1f2937;fill:white;stroke-width:1.6;" /><g><g><symbol id="arial_68" viewBox="0 -12.475 6.164 16.371"><path d="M 4.852 -0.768 L 4.852 -0.768 Q 4.266 -0.27 3.724 -0.064 Q 3.182 0.141 2.561 0.141 Q 1.535 0.141 0.984 -0.36 Q 0.434 -0.861 0.434 -1.641 Q 0.434 -2.098 0.642 -2.476 Q 0.85 -2.854 1.187 -3.082 Q 1.523 -3.311 1.945 -3.428 Q 2.256 -3.51 2.883 -3.586 Q 4.16 -3.738 4.764 -3.949 Q 4.77 -4.166 4.77 -4.225 Q 4.77 -4.869 4.471 -5.133 Q 4.066 -5.49 3.27 -5.49 Q 2.525 -5.49 2.171 -5.229 Q 1.816 -4.969 1.646 -4.307 L 0.615 -4.447 Q 0.756 -5.109 1.078 -5.517 Q 1.4 -5.924 2.01 -6.144 Q 2.619 -6.363 3.422 -6.363 Q 4.219 -6.363 4.717 -6.176 Q 5.215 -5.988 5.449 -5.704 Q 5.684 -5.42 5.777 -4.986 Q 5.83 -4.717 5.83 -4.014 L 5.83 -2.607 Q 5.83 -1.137 5.897 -0.747 Q 5.965 -0.357 6.164 0 L 5.062 0 Q 4.898 -0.328 4.852 -0.768 Z M 4.764 -3.123 L 4.764 -3.123 Q 4.189 -2.889 3.041 -2.725 Q 2.391 -2.631 2.121 -2.514 Q 1.852 -2.396 1.705 -2.171 Q 1.559 -1.945 1.559 -1.67 Q 1.559 -1.248 1.878 -0.967 Q 2.197 -0.686 2.812 -0.686 Q 3.422 -0.686 3.896 -0.952 Q 4.371 -1.219 4.594 -1.682 Q 4.764 -2.039 4.764 -2.736 Z " /></symbol><g transform="translate(366.3 -90.229)" fill="#1f2937"><use href="#arial_68" x="0" y="-13.514" width="6.678" height="17.735" /></g></g></g><circle cx="360.0" cy="-0.0" r="2.6999999999999997" style="stroke:#1f2937;fill:white;stroke-width:1.6;" /><g><g><symbol id="arial_69" viewBox="0 -12.475 6.182 16.371"><path d="M 1.764 0 L 1.764 0 L 0.785 0 L 0.785 -8.59 L 1.84 -8.59 L 1.84 -5.525 Q 2.508 -6.363 3.545 -6.363 Q 4.119 -6.363 4.632 -6.132 Q 5.145 -5.9 5.476 -5.481 Q 5.807 -5.062 5.994 -4.471 Q 6.182 -3.879 6.182 -3.205 Q 6.182 -1.605 5.391 -0.732 Q 4.6 0.141 3.492 0.141 Q 2.391 0.141 1.764 -0.779 Z M 1.752 -3.158 L 1.752 -3.158 Q 1.752 -2.039 2.057 -1.541 Q 2.555 -0.727 3.404 -0.727 Q 4.096 -0.727 4.6 -1.327 Q 5.104 -1.928 5.104 -3.117 Q 5.104 -4.336 4.62 -4.916 Q 4.137 -5.496 3.451 -5.496 Q 2.76 -5.496 2.256 -4.896 Q 1.752 -4.295 1.752 -3.158 Z " /></symbol><g transform="translate(366.3 4.577)" fill="#1f2937"><use href="#arial_69" x="0" y="-13.514" width="6.697" height="17.735" /></g></g></g></svg><figcaption>Both give the same open-circuit voltage (V) and the same short-circuit current (V/R), so no outside circuit can tell them apart.</figcaption></figure>
+<ul>
+<li>p &gt; 0: the element <strong>absorbs</strong> power (a resistor, always; a battery being charged).</li>
+<li>p &lt; 0: the element <strong>delivers</strong> power (a source driving a circuit).</li>
+<li>If the current <strong>leaves</strong> the + terminal, the absorbed power is p = −v·i.</li>
+</ul>
+<p>Units: V × mA = mW, so 12 V × 1 mA = 12 mW. For the Predict: current entering + ⇒ the battery absorbs 12 mW (charging); current leaving + ⇒ it delivers 12 mW.</p>
+<p><strong>Energy</strong> is power over time:</p>
+<div class="eq">w = ∫ p dt&emsp;&emsp;&emsp;(joules; constant power: w = P·t)</div>
 
-<p>A <strong>voltage source V in series with R</strong> is equivalent to a <strong>current source I = V/R in parallel with the same R</strong> (class p.4), as seen from the terminals a–b.</p>
-<p>For the Predict: short-circuit current = 10/2k = <strong>5 mA</strong>; open-circuit voltage = <strong>10 V</strong>. So it is equivalent to 5 mA ∥ 2 kΩ, and 5 mA × 2 kΩ = 10 V, the same terminal behaviour.</p>
-<p>It is the bridge between Thévenin and Norton in 04: I<sub>N</sub> = V<sub>Th</sub> / R<sub>Th</sub>.</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Power absorbed</th>
+<th>Energy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R</td>
+<td>p = i<sup>2</sup>R = <span class="frac"><span>v<sup>2</sup></span><span>R</span></span> ≥ 0</td>
+<td>all turned into heat</td>
+</tr>
+<tr>
+<td>L</td>
+<td>p = Li·<span class="frac"><span>di</span><span>dt</span></span></td>
+<td>stored: ½Li<sup>2</sup></td>
+</tr>
+<tr>
+<td>C</td>
+<td>p = Cv·<span class="frac"><span>dv</span><span>dt</span></span></td>
+<td>stored: ½Cv<sup>2</sup></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conservation (Tellegen): in any circuit the absorbed powers add to zero.</strong> What the sources deliver, the other elements absorb. 03 uses this as the check on every loop and node answer.</p>
 <div class="box check">
 <div class="bh">Check 3</div>
-<p>Convert 3 mA in parallel with 4 kΩ into a voltage-source form.</p>
+<p>A 5 V source has 2 mA <strong>leaving</strong> its + terminal. Absorbed power? Is it delivering or absorbing?</p>
 </div>
 <h3>5 · Series–parallel reduction: the infinite ladder</h3>
 <div class="box q">
@@ -1722,7 +1755,7 @@ z
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-09-25T04:15:10.501374</dc:date>
+    <dc:date>2026-09-25T04:52:49.725183</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -1759,12 +1792,12 @@ z
     <g id="xtick_1">
      <g id="line2d_1">
       <defs>
-       <path id="mbc11620711" d="M 0 0 
+       <path id="me9d7a7f1d9" d="M 0 0 
 L 0 3.5 
 " style="stroke: #374151; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#mbc11620711" x="46.092987" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#me9d7a7f1d9" x="46.092987" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_1">
@@ -1804,7 +1837,7 @@ z
     <g id="xtick_2">
      <g id="line2d_2">
       <g>
-       <use xlink:href="#mbc11620711" x="102.255325" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#me9d7a7f1d9" x="102.255325" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_2">
@@ -1844,7 +1877,7 @@ z
     <g id="xtick_3">
      <g id="line2d_3">
       <g>
-       <use xlink:href="#mbc11620711" x="158.417662" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#me9d7a7f1d9" x="158.417662" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_3">
@@ -1872,7 +1905,7 @@ z
     <g id="xtick_4">
      <g id="line2d_4">
       <g>
-       <use xlink:href="#mbc11620711" x="214.58" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#me9d7a7f1d9" x="214.58" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_4">
@@ -1886,7 +1919,7 @@ z
     <g id="xtick_5">
      <g id="line2d_5">
       <g>
-       <use xlink:href="#mbc11620711" x="270.742338" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#me9d7a7f1d9" x="270.742338" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_5">
@@ -1927,7 +1960,7 @@ z
     <g id="xtick_6">
      <g id="line2d_6">
       <g>
-       <use xlink:href="#mbc11620711" x="326.904675" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#me9d7a7f1d9" x="326.904675" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_6">
@@ -1941,7 +1974,7 @@ z
     <g id="xtick_7">
      <g id="line2d_7">
       <g>
-       <use xlink:href="#mbc11620711" x="383.067013" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#me9d7a7f1d9" x="383.067013" y="159.079688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_7">
@@ -2486,12 +2519,12 @@ z
     <g id="ytick_1">
      <g id="line2d_8">
       <defs>
-       <path id="mf738a2f529" d="M 0 0 
+       <path id="m48893e65b8" d="M 0 0 
 L -3.5 0 
 " style="stroke: #374151; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#mf738a2f529" x="41.6" y="137.578733" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#m48893e65b8" x="41.6" y="137.578733" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_9">
@@ -2534,7 +2567,7 @@ z
     <g id="ytick_2">
      <g id="line2d_9">
       <g>
-       <use xlink:href="#mf738a2f529" x="41.6" y="100.645718" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#m48893e65b8" x="41.6" y="100.645718" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_10">
@@ -2584,7 +2617,7 @@ z
     <g id="ytick_3">
      <g id="line2d_10">
       <g>
-       <use xlink:href="#mf738a2f529" x="41.6" y="63.712703" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#m48893e65b8" x="41.6" y="63.712703" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_11">
@@ -2641,7 +2674,7 @@ z
     <g id="ytick_4">
      <g id="line2d_11">
       <g>
-       <use xlink:href="#mf738a2f529" x="41.6" y="26.779688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
+       <use xlink:href="#m48893e65b8" x="41.6" y="26.779688" style="fill: #374151; stroke: #374151; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_12">
@@ -2807,9 +2840,9 @@ L 304.43974 152.779687
 L 326.904675 152.779687 
 L 349.36961 152.779687 
 L 371.834545 152.779688 
-" clip-path="url(#pcc3d3281d7)" style="fill: none; stroke: #1d4ed8; stroke-width: 1.5; stroke-linecap: square"/>
+" clip-path="url(#pd2eb69c898)" style="fill: none; stroke: #1d4ed8; stroke-width: 1.5; stroke-linecap: square"/>
     <defs>
-     <path id="m6fd8ecc143" d="M 0 2 
+     <path id="m4b3e64b4c3" d="M 0 2 
 C 0.530406 2 1.03916 1.789267 1.414214 1.414214 
 C 1.789267 1.03916 2 0.530406 2 0 
 C 2 -0.530406 1.789267 -1.03916 1.414214 -1.414214 
@@ -2821,28 +2854,28 @@ C -1.03916 1.789267 -0.530406 2 0 2
 z
 " style="stroke: #1d4ed8"/>
     </defs>
-    <g clip-path="url(#pcc3d3281d7)">
-     <use xlink:href="#m6fd8ecc143" x="57.325455" y="26.779688" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="79.79039" y="137.578733" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="102.255325" y="150.629582" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="124.72026" y="152.483126" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="147.185195" y="152.732304" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="169.65013" y="152.772374" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="192.115065" y="152.778649" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="214.58" y="152.779534" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="237.044935" y="152.779666" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="259.50987" y="152.779684" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="281.974805" y="152.779687" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="304.43974" y="152.779687" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="326.904675" y="152.779687" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="349.36961" y="152.779687" style="fill: #1d4ed8; stroke: #1d4ed8"/>
-     <use xlink:href="#m6fd8ecc143" x="371.834545" y="152.779688" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+    <g clip-path="url(#pd2eb69c898)">
+     <use xlink:href="#m4b3e64b4c3" x="57.325455" y="26.779688" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="79.79039" y="137.578733" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="102.255325" y="150.629582" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="124.72026" y="152.483126" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="147.185195" y="152.732304" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="169.65013" y="152.772374" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="192.115065" y="152.778649" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="214.58" y="152.779534" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="237.044935" y="152.779666" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="259.50987" y="152.779684" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="281.974805" y="152.779687" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="304.43974" y="152.779687" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="326.904675" y="152.779687" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="349.36961" y="152.779687" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m4b3e64b4c3" x="371.834545" y="152.779688" style="fill: #1d4ed8; stroke: #1d4ed8"/>
     </g>
    </g>
    <g id="line2d_13">
     <path d="M 41.6 152.779688 
 L 387.56 152.779688 
-" clip-path="url(#pcc3d3281d7)" style="fill: none; stroke-dasharray: 3.7,1.6; stroke-dashoffset: 0; stroke: #b91c1c"/>
+" clip-path="url(#pd2eb69c898)" style="fill: none; stroke-dasharray: 3.7,1.6; stroke-dashoffset: 0; stroke: #b91c1c"/>
    </g>
    <g id="patch_3">
     <path d="M 41.6 159.079688 
@@ -3048,7 +3081,7 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pcc3d3281d7">
+  <clipPath id="pd2eb69c898">
    <rect x="41.6" y="20.479688" width="345.96" height="138.6"/>
   </clipPath>
  </defs>
@@ -3066,13 +3099,13 @@ z
 <ul>
 <li><strong>VDR</strong>: V<sub>k</sub> = V·<span class="frac"><span>R<sub>k</sub></span><span>R<sub>total</sub></span></span>. <strong>CDR (two branches)</strong>: I<sub>1</sub> = I·<span class="frac"><span>R<sub>2</sub></span><span>R<sub>1</sub>+R<sub>2</sub></span></span>.</li>
 <li>Division holds for any waveform when every element is a resistor. Phase is unchanged.</li>
-<li><strong>Source transformation</strong>: V in series with R ⇔ V/R in parallel with R.</li>
+<li><strong>Power</strong>: p = vi absorbed when i enters +. p &gt; 0 absorbs, p &lt; 0 delivers. Energy w = ∫p dt; ½Li<sup>2</sup>, ½Cv<sup>2</sup>.</li>
 <li><strong>Ladder</strong>: reduce from the far end. Identical infinite ladder: R<sub>eq</sub> = R + R ∥ R<sub>eq</sub>.</li>
 </ul>
 <h2>Traps</h2>
 <ul>
 <li>CDR with the <strong>same</strong> resistor on top (I·R<sub>1</sub>/(R<sub>1</sub>+R<sub>2</sub>) for I<sub>1</sub>) is the most common slip: the answer comes out swapped.</li>
-<li>Source transformation keeps R <strong>the same size</strong>. It changes from series to parallel, not in value.</li>
+<li>Power sign: a source whose current <strong>leaves</strong> + delivers power, so its absorbed power is <strong>negative</strong>.</li>
 <li>Forgetting that R<sub>eq</sub> of a network with a shunt resistor across the terminals must be smaller than that resistor.</li>
 </ul>
 <h2>Self-test</h2>
@@ -3080,20 +3113,20 @@ z
 <li>20 V across 2 kΩ and 8 kΩ in series. Both voltages?</li>
 <li>9 mA into 3 kΩ ∥ 6 kΩ. Both currents?</li>
 <li>v = 6 sin(100t) V across 1 kΩ and 2 kΩ in series. v across the 2 kΩ?</li>
-<li>Transform 12 V in series with 3 kΩ.</li>
+<li>3 mA flows through a 2 kΩ resistor for 10 s. Power, and energy turned into heat?</li>
 <li>An infinite ladder of identical 1 kΩ sections (series then shunt). R<sub>eq</sub>?</li>
 </ol>
 <div class="answers">
 <h2>Answers</h2>
 <p><strong>Check 1.</strong> 12 × 2/6 = <strong>4 V</strong>.</p>
 <p><strong>Check 2.</strong> (a) 10 × 4/5 = <strong>8 mA</strong>. (b) Same voltage across both, and I = V/R, so the smaller R takes more current.</p>
-<p><strong>Check 3.</strong> 3 mA × 4 kΩ = <strong>12 V in series with 4 kΩ</strong>.</p>
+<p><strong>Check 3.</strong> p = −5 × 2 = <strong>−10 mW</strong> absorbed: it <strong>delivers</strong> 10 mW.</p>
 <p><strong>Self-test.</strong></p>
 <ol>
 <li><strong>4 V</strong> and <strong>16 V</strong>.</li>
 <li>3 kΩ: 9 × 6/9 = <strong>6 mA</strong>; 6 kΩ: <strong>3 mA</strong>.</li>
 <li><span class="frac"><span>2</span><span>3</span></span> × 6 sin(100t) = <strong>4 sin(100t) V</strong>.</li>
-<li><strong>4 mA in parallel with 3 kΩ</strong>.</li>
+<li>P = (3 mA)<sup>2</sup> × 2 kΩ = <strong>18 mW</strong>; w = 18 mW × 10 s = <strong>0.18 J</strong>.</li>
 <li>R(1 + √5)/2 = <strong>1.618 kΩ</strong>.</li>
 </ol>
 </div></body></html>

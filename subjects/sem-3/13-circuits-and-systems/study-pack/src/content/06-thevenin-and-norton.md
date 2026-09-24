@@ -1,27 +1,28 @@
-# 04 — Thévenin's and Norton's theorems
+# 06 — Thévenin's and Norton's theorems
 
-<div class="sub">Class notes p.10–11, p.15 · 1 board question (with a dependent source) · needs 01, 02, 03</div>
+<div class="sub">Class notes p.10–11, p.15, set 2 p.10–13 · MTE syllabus item 5 (DC and AC) · 1 board question (with a dependent source) + 1 textbook AC problem · needs 01, 03, 04, 05</div>
 
 ## Map
 
-[[map:1 The idea > 2 V_{Th}: open-circuit voltage > 3 R_{Th} with a dependent source > 4 Load current > 5 Norton: the same, as a current source|here=1]]
+[[map:1 The idea > 2 V_{Th} by nodal analysis > 3 R_{Th} with a dependent source > 4 Load current > 5 Norton > 6 AC: impedances|here=1]]
 
 ## The question this file answers
 
-- <span class="tag">Class p.11</span> Determine the load current using Thévenin's theorem (10 V source, dependent source 2I, R_{L} = 1 kΩ).
+- <span class="tag">Class p.11 · set 2 p.11</span> Determine the load current using Thévenin's theorem (10 V source, dependent source 2I, R_{L} = 1 kΩ).
+- <span class="tag">textbook</span> AC: 10∠0° V, 1 kΩ, 1 µF at ω = 1000 rad/s. Find the Thévenin and Norton equivalents.
 
 ---
 
 ## Build
 
-:::q <span class="tag">Class p.11</span>
+:::q <span class="tag">Class p.11 · set 2 p.11</span>
 Determine the load current I_{L} using Thévenin's theorem.
 :::
 
 [[fig:th_q|The board circuit. I is the current in the left 2 kΩ, flowing right. The dependent source is a CCVS of value 2I, with + at the top.|w=65]]
 
 :::note Units
-With kΩ and mA, "2I" means 2 kΩ × I (01, step 3): I = 1 mA gives 2 V. The notes stop after setting up Step 1; the rest below is the standard method, with every number confirmed by computer.
+With kΩ and mA, "2I" means 2 kΩ × I (01, step 3): I = 1 mA gives 2 V. The set 2 working reads it differently and gets V_{Th} = 5.0025 V; the Note at the end of step 2 explains why both are right for their reading. The rest below is the standard method, with every number confirmed by computer.
 :::
 
 :::guess Guess first
@@ -40,16 +41,18 @@ Any **linear** two-terminal network, however complicated, behaves at its termina
 3. Find R_{Th} across the same terminals.
 4. Put R_{L} back on the equivalent: I_{L} = V_{Th} / (R_{Th} + R_{L}).
 
-### 2 · V_{Th}: the open-circuit voltage
+### 2 · V_{Th} by nodal analysis (the professor's route)
 
 [[fig:th_voc|Load removed. No current flows in the right 2 kΩ (it leads to an open end), so V_{Th} = V_{A}.|w=60]]
 
-Units: V, mA, kΩ. Take I in the left 2 kΩ:
+This is nodal analysis (04) with one unknown, V_{A}. Units: V, mA, kΩ.
 
-- Left resistor: I = \frac{10 − V_{A}}{2}
-- Middle branch, flowing down: \frac{V_{A} − 2I}{2}. It is the only other path out of A, so it carries all of I.
-- KCL at A: I = \frac{V_{A} − 2I}{2} ⇒ **V_{A} = 4I**
-- Substitute: I = \frac{10 − 4I}{2} ⇒ I = \frac{5}{3} mA ⇒ V_{A} = \frac{20}{3} V
+- Current in the left resistor, into A: I = \frac{10 − V_{A}}{2}
+- Current in the middle branch, down: I_{1} = \frac{V_{A} − 2I}{2}. No current in the right 2 kΩ, so KCL at A gives **I = I_{1}** (set 2 p.11 writes exactly this).
+- KCL: \frac{10 − V_{A}}{2} = \frac{V_{A} − 2I}{2} ⇒ 10 − V_{A} = V_{A} − 2I
+- Substitute the controlling current, 2I = 2 × \frac{10 − V_{A}}{2} = 10 − V_{A}:
+
+$$10 − V_{A} = V_{A} − (10 − V_{A})  ⇒  V_{A} = \frac{20}{3} V   (and I = \frac{5}{3} mA)$$
 
 $$V_{Th} = 20/3 ≈ 6.67 V$$
 
@@ -57,13 +60,25 @@ $$V_{Th} = 20/3 ≈ 6.67 V$$
 Why does no current flow in the right-hand 2 kΩ here, and why does that make V_{Th} = V_{A}?
 :::
 
+:::note Set 2 p.12 gets V_{Th} = 5.0025 V. Not an arithmetic error: a unit reading
+The set 2 working writes I = \frac{10 − V_{A}}{2k} **in amperes** (2k = 2000 Ω) and then uses the source as 2 × I volts. That treats the constant as **2 Ω**:
+
+$$10 − V_{A} = V_{A} − 2·\frac{10 − V_{A}}{2000}  ⇒  10.01 = 2.001 V_{A}  ⇒  V_{A} = 5.0025 V$$
+
+For that reading the arithmetic is right: a computer solve with a 2 Ω source gives 5.0025 V, R_{Th} = 2.9995 kΩ, I_{L} = 1.2508 mA.
+
+The pack keeps **2 kΩ** (V_{Th} = 20/3 V, I_{L} = 20/11 mA) because in a kΩ circuit written in mA, "2I" normally means 2 V per mA. And a 2 Ω source against 2 kΩ resistors changes V_{Th} by only 0.0025 V from the 5 V it would be without the source, so the question could not be showing off a dependent source. **Ask the professor which unit the "2" has.** In the exam, state your reading in one line ("2I with I in mA, i.e. 2 kΩ") before solving.
+:::
+
+[[fig:th_verify_2ohm|V_{Th} from the same nodal equation for every value of the constant. The two readings are two points on one curve.|w=80]]
+
 ### 3 · R_{Th} when there is a dependent source
 
 :::guess Guess first
 Switch off the 10 V source and "look in" from B: 2 kΩ in series with (2 kΩ ∥ 2 kΩ) = 3 kΩ. What is wrong with doing that here?
 :::
 
-The dependent source **stays on** (03), and it changes how current flows. So resistors alone don't give R_{Th}. Two correct methods; both give the same answer.
+The dependent source **stays on** (05), and it changes how current flows. So resistors alone don't give R_{Th}. Two correct methods; both give the same answer.
 
 **Method A: R_{Th} = V_{oc} / I_{sc}.** Short the terminals and find the short-circuit current:
 
@@ -100,7 +115,7 @@ Confirmed by solving the full original circuit with R_{L} in place: **1.818 mA**
 
 ### 5 · Norton: the same network as a current source
 
-Norton's equivalent is a **current source I_{N} in parallel with R_{N}** (class p.15). By source transformation (02, step 4):
+Norton's equivalent is a **current source I_{N} in parallel with R_{N}** (class p.15). By source transformation (03, step 4):
 
 $$I_{N} = I_{sc} = \frac{V_{Th}}{R_{Th}}      R_{N} = R_{Th}$$
 
@@ -112,6 +127,38 @@ Current division: I_{L} = 2.5 × \frac{8/3}{8/3 + 1} = **20/11 mA** ✓. Same an
 
 :::check Check 3
 A network has V_{Th} = 12 V and R_{Th} = 4 kΩ. Give its Norton equivalent.
+:::
+
+### 6 · Thévenin and Norton with AC sources
+
+:::q <span class="tag">textbook</span>
+A source 10∠0° V (peak) at ω = 1000 rad/s drives 1 kΩ in series, with 1 µF across the output a–b. Find the Thévenin and Norton equivalents at a–b.
+:::
+
+[[fig:ac_th|The capacitor's impedance at ω = 1000: Z_{C} = \frac{1}{jωC} = \frac{1}{j·1000·10^{−6}} = −j1000 Ω.|w=55]]
+
+:::guess Guess first
+Is the open-circuit voltage 10 V, less, or more? Is it in phase with the source?
+:::
+
+Nothing new in the method: the same four steps, with every resistance replaced by an **impedance** Z (R → R, L → jωL, C → \frac{1}{jωC}) and every value a **phasor** (a complex number carrying amplitude and phase). Work in kΩ: Z_{C} = −j1 kΩ.
+
+**V_{Th}**: open circuit, so the capacitor and the 1 kΩ form a voltage divider (02):
+
+$$V_{Th} = 10·\frac{−j1}{1 − j1} = 10·\frac{−j(1 + j)}{2} = 5 − j5 = 7.07∠−45° V$$
+
+**Z_{Th}**: source → short, look in from a–b: 1 kΩ in parallel with −j1 kΩ:
+
+$$Z_{Th} = \frac{1·(−j1)}{1 − j1} = 0.5 − j0.5 kΩ = 500 − j500 Ω$$
+
+**Norton**: I_{N} = \frac{V_{Th}}{Z_{Th}} = \frac{5 − j5}{0.5 − j0.5} = **10∠0° mA**. Check: shorting a–b shorts the capacitor, leaving 10 V across 1 kΩ: 10 mA ✓.
+
+The Guess answer: **less** (7.07 V) and **lagging** by 45°. Unlike the resistor divider in 02, an impedance divider changes the phase.
+
+The Thévenin equivalent is 7.07∠−45° V in series with 500 − j500 Ω (a resistor with a capacitive part). 07 §4 finds the load that takes the most power from it.
+
+:::check Check 4
+Same circuit at ω = 2000 rad/s. Find Z_{C} and V_{Th}.
 :::
 
 ---
@@ -126,19 +173,23 @@ A network has V_{Th} = 12 V and R_{Th} = 4 kΩ. Give its Norton equivalent.
 
 **R_{Th} with dependent sources:** keep them on; use V_{oc}/I_{sc}, or apply a test source: R_{Th} = V_{t}/I_{t}.
 
+**AC:** the same, with impedances (Z_{L} = jωL, Z_{C} = 1/jωC) and phasors: V_{Th} and Z_{Th} are complex; I_{N} = V_{Th}/Z_{Th}.
+
 ## Traps
 
 - Switching off the dependent source when finding R_{Th}.
 - Using the test-source method but forgetting to switch off the **independent** sources (the class p.10 sketch still shows V_{in}; it must be zeroed).
 - Measuring V_{Th} with the load still connected.
 - Norton: I_{N} is the **short-circuit** current, not the current in the original load.
+- Mixing A and mA in one nodal equation (set 2 p.12): decide the unit of every dependent-source constant first.
+- AC: adding impedance magnitudes instead of the complex numbers (1 kΩ and −j1 kΩ in series is 1.414 kΩ in size, not 2 kΩ).
 
 ## Self-test
 
 1. State Thévenin's theorem in two lines.
 2. Which two measurements, both at the terminals, give V_{Th} and R_{Th} for any linear network?
 3. For the board circuit, what would R_{Th} be if the dependent source were replaced by a plain wire?
-4. Find I_{L} for the board circuit if R_{L} = 8/3 kΩ. What is special about that value? (Hint: 05.)
+4. Find I_{L} for the board circuit if R_{L} = 8/3 kΩ. What is special about that value? (Hint: 07.)
 5. Convert V_{Th} = 6 V, R_{Th} = 3 kΩ into Norton form.
 
 <!--ANSWERS-->
@@ -149,6 +200,8 @@ A network has V_{Th} = 12 V and R_{Th} = 4 kΩ. Give its Norton equivalent.
 **Check 2.** (a) With the 10 V shorted, current flows from ground *into* A through the left resistor, which is opposite to the defined direction of I. (b) Only the test-source method: V_{oc} = 0 and I_{sc} = 0, so V_{oc}/I_{sc} is 0/0.
 
 **Check 3.** I_{N} = 12/4 = **3 mA** in parallel with **4 kΩ**.
+
+**Check 4.** Z_{C} = 1/(j·2000·10^{−6}) = **−j500 Ω**. V_{Th} = 10 × \frac{−j0.5}{1 − j0.5} = **4.47∠−63.4° V** (= 2 − j4 V).
 
 **Self-test.**
 

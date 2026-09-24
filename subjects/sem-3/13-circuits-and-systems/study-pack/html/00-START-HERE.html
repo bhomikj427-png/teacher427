@@ -1,7 +1,7 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Circuits & Systems — Study Pack</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Circuits & Systems — Study Pack (MTE)</title>
 <style>
 @page { size: A4; margin: 16mm 15mm 16mm 15mm;
-  @bottom-left { content: "ECE2107 Circuits & Systems · Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-left { content: "ECE2107 Circuits & Systems · MTE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
   @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
 :root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
 * { box-sizing: border-box; }
@@ -45,63 +45,97 @@ figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
 .tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
   padding: 0 5px; font-weight: 600; }
 hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
-</style></head><body><h1>Circuits &amp; Systems — Study Pack</h1>
-<div class="sub">ECE2107 · B.Tech ECE Sem 3 · built from the professor's class (notes to 12 Sept 2026) · every answer checked by circuit simulation</div>
+</style></head><body><h1>Circuits &amp; Systems — Study Pack (MTE)</h1>
+<div class="sub">ECE2107 · B.Tech ECE Sem 3 · follows the professor's MTE syllabus (dated 10/9/26) · built from two sets of class notes · every answer checked by circuit simulation</div>
 
 <h2>The path through this pack</h2>
-<div class="map"><span class="n here">01 Elements & sources</span><span class="a">→</span><span class="n">02 Dividers & source transformation</span><span class="a">→</span><span class="n">03 Superposition</span><span class="a">→</span><span class="n">04 Thévenin & Norton</span><span class="a">→</span><span class="n">05 Maximum power transfer</span><span class="a">→</span><span class="n">06 First-order transients</span><span class="a">→</span><span class="n">07 Mock paper</span></div>
+<p>The order is the professor's MTE syllabus, item by item.</p>
+<p><strong>Part I — elements, laws, analysis</strong></p>
+<div class="map"><span class="n here">01 Elements & sources</span><span class="a">→</span><span class="n">02 Ohm, dividers, power & energy</span><span class="a">→</span><span class="n">03 KVL, KCL, source transformation</span><span class="a">→</span><span class="n">04 Nodal & mesh</span></div>
 
-<p>Each file needs the ones before it. 04 uses 03's "switch a source off" rule and 01's dependent sources.
-05 is built on 04. 06 uses 04 for the time constant.</p>
+<p><strong>Part II — theorems (DC and AC)</strong></p>
+<div class="map"><span class="n">05 Superposition</span><span class="a">→</span><span class="n">06 Thévenin & Norton</span><span class="a">→</span><span class="n">07 Maximum power transfer</span></div>
+
+<p><strong>Part III — transient analysis</strong></p>
+<div class="map"><span class="n">08 First order: step-wise, Laplace, test signals</span><span class="a">→</span><span class="n">09 Second order RLC</span><span class="a">→</span><span class="n">10 Mock paper</span></div>
+
+<p>Each file needs the ones before it. 04 is KCL/KVL (03) written as a method. 06 uses 05's "switch a source off" rule, 04's nodal analysis and 01's dependent sources. 07 is built on 06. 08 uses 06 for the time constant; 09 uses 08's Laplace route.</p>
 <table>
 <thead>
 <tr>
 <th>File</th>
+<th>Syllabus item</th>
 <th>What it teaches</th>
-<th>Professor's questions in it</th>
+<th>Board Qs</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>01</td>
-<td>active vs passive, independent and dependent sources, the R, L, C laws, what can't change suddenly</td>
-<td>none yet (theory)</td>
+<td>1 · elements (R, L, C, IDS, DS)</td>
+<td>active vs passive, independent and dependent sources (with devices), R, L, C laws, what can't jump, lumped vs distributed</td>
+<td>—</td>
 </tr>
 <tr>
 <td>02</td>
-<td>voltage division, current division, source transformation, series–parallel reduction</td>
+<td>2 · laws</td>
+<td>Ohm, voltage and current division (DC and AC), power sign convention, energy, ladders</td>
 <td>4</td>
 </tr>
 <tr>
 <td>03</td>
-<td>superposition: method, and the cases where it fails</td>
-<td>2</td>
+<td>3 · KVL, KCL, source transformation</td>
+<td>the two laws, power balance, source transformation</td>
+<td>1 + 1 textbook</td>
 </tr>
 <tr>
 <td>04</td>
-<td>Thévenin and Norton, with a dependent source</td>
-<td>1</td>
+<td>4 · nodal and mesh</td>
+<td>both methods, with current sources and dependent sources</td>
+<td>1 + 1 textbook</td>
 </tr>
 <tr>
 <td>05</td>
-<td>maximum power transfer, efficiency, conjugate matching</td>
-<td>2 sets</td>
+<td>5 · superposition</td>
+<td>method, the cases where it fails, AC sources at different frequencies</td>
+<td>2 + 1 textbook</td>
 </tr>
 <tr>
 <td>06</td>
-<td>0⁻ / 0⁺ / ∞ analysis, time constant, the one first-order formula</td>
-<td>3</td>
+<td>5 · Thévenin &amp; Norton</td>
+<td>with a dependent source; with AC impedances</td>
+<td>1 + 1 textbook</td>
 </tr>
 <tr>
 <td>07</td>
-<td>all of the above as one paper</td>
-<td>13</td>
+<td>5 · maximum power transfer</td>
+<td>R<sub>L</sub> = R<sub>Th</sub>, efficiency, conjugate match (worked)</td>
+<td>2 sets + 1 textbook</td>
+</tr>
+<tr>
+<td>08</td>
+<td>6 · first order</td>
+<td>0⁻ / 0⁺ / ∞, τ, the one formula, Laplace, test signals δ, u, r</td>
+<td>4 + 2 textbook</td>
+</tr>
+<tr>
+<td>09</td>
+<td>7 · second order</td>
+<td>series RLC: over-, critically, under-damped, undamped</td>
+<td>textbook</td>
+</tr>
+<tr>
+<td>10</td>
+<td>all</td>
+<td>one paper: 12 theory prompts + 20 numericals</td>
+<td>14 + 6 textbook</td>
 </tr>
 </tbody>
 </table>
 <h2>Where the questions come from</h2>
-<p>Every question that opens a section is <strong>quoted from the professor's board</strong>, as written in the class notes, and tagged
-with the notes page: <span class="tag">Class p.7</span>. No question is invented.</p>
+<p>A question that opens a section is <strong>quoted from the professor's board</strong> where one exists, and tagged with its notes page:
+<span class="tag">Class p.7</span> = first notes set (the 23-page scan), <span class="tag">Set 2 p.9</span> = second notes set (22 photos).
+Where the syllabus names a topic the class has not yet worked a question on, the pack uses a standard textbook-style problem, tagged <span class="tag">textbook</span>.</p>
 <table>
 <thead>
 <tr>
@@ -113,13 +147,13 @@ with the notes page: <span class="tag">Class p.7</span>. No question is invented
 <tbody>
 <tr>
 <td><strong>P1</strong></td>
-<td>The professor's board questions (class notes, 23 pages)</td>
-<td><strong>13 questions</strong>, all used</td>
+<td>The professor's board questions (notes sets 1 and 2)</td>
+<td><strong>14 questions</strong>, all used</td>
 </tr>
 <tr>
 <td><strong>P2</strong></td>
-<td>Textbook end-of-chapter problems</td>
-<td><strong>empty for now</strong>: no course hand-out yet, so the prescribed book is unconfirmed. The notes name Alexander &amp; Sadiku, Van Valkenburg, A.K. Chakraborty</td>
+<td>Textbook problems</td>
+<td><strong>7</strong>, written for syllabus items with no board question (KVL, nodal/mesh, AC theorems, Laplace, test signals, RLC). Values chosen so answers are clean; all checked by simulation</td>
 </tr>
 </tbody>
 </table>
@@ -146,10 +180,6 @@ with the notes page: <span class="tag">Class p.7</span>. No question is invented
 <td>what to reproduce in the exam: statements, procedures, the formula sheet</td>
 </tr>
 <tr>
-<td><strong>Attempt</strong></td>
-<td>the professor's questions again, now answerable</td>
-</tr>
-<tr>
 <td><strong>Traps</strong></td>
 <td>the mistakes that cost marks</td>
 </tr>
@@ -172,16 +202,47 @@ A wrong guess that gets corrected sticks better than a right answer you only rea
 </ul>
 <h2>Units and symbols used everywhere</h2>
 <ul>
-<li>Uppercase <strong>V, I</strong> = DC (constant) values. Lowercase <strong>v, i</strong> = values that change with time.</li>
+<li>Uppercase <strong>V, I</strong> = DC (constant) values. Lowercase <strong>v, i</strong> = values that change with time. Complex values such as 5 − j5 V are <strong>phasors</strong>: amplitude and phase in one number.</li>
 <li>Resistances in <strong>kΩ</strong> with currents in <strong>mA</strong> give voltages in <strong>V</strong> directly: 2 kΩ × 3 mA = 6 V. Most questions use this.</li>
 <li><strong>R<sub>Th</sub></strong>, <strong>V<sub>Th</sub></strong> = Thévenin resistance and voltage. <strong>I<sub>N</sub></strong> = Norton current. <strong>R<sub>L</sub></strong> = load resistance.</li>
 <li><strong>0⁻</strong> = just before the switch moves. <strong>0⁺</strong> = just after. <strong>∞</strong> = long after (steady state).</li>
 </ul>
+<h2>Where the two notes sets disagree with the pack</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Notes say</th>
+<th>Pack says</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Superposition, two 5 V sources (05 §5)</td>
+<td>set 2: 0 + 0 = 0 A, "LIMITATION"; set 1: 10 mA</td>
+<td>0 A by superposition, true 5 mA</td>
+<td>set 2 is the correct use of the rule and shows why it fails; the pack follows set 2</td>
+</tr>
+<tr>
+<td>Thévenin with 2I (06 §2)</td>
+<td>set 2: V<sub>Th</sub> = 5.0025 V</td>
+<td>20/3 V</td>
+<td>set 2 reads 2I as 2 Ω × I; the pack reads 2 kΩ × I. Both are right for their reading. <strong>Ask the professor</strong></td>
+</tr>
+<tr>
+<td>RL switch that opens (08 §5)</td>
+<td>I<sub>R</sub>(0⁺) = 0, I<sub>L</sub>(0⁺) = 10 mA</td>
+<td>cannot both hold in one series loop</td>
+<td><strong>ask the professor</strong> which path the current takes</td>
+</tr>
+</tbody>
+</table>
 <h2>How this pack was checked</h2>
 <ul>
 <li>Facts: checked against the textbook-sourced circuits knowledge base (Hayt, Van Valkenburg, Sudhakar &amp; Shyammohan)
   and Alexander &amp; Sadiku.</li>
 <li>Numbers: every circuit in this pack was solved a second time by computer (nodal analysis and time simulation),
-  and the answers here match.</li>
+  and the answers here match. The script is <code>src/verify_mte.py</code>.</li>
 <li>Where the class notes had a slip of the pen, the pack uses the corrected version and says so in a Note.</li>
 </ul></body></html>
