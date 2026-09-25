@@ -779,6 +779,108 @@ def splane():
     return _plt(fig)
 
 
+# ---------------------------------------------------------------- 04b AC primer
+def ac_wave():
+    t = np.linspace(0, 0.0095, 800)
+    fig, ax = plt.subplots(figsize=(6.2, 2.7))
+    ax.plot(t * 1e3, 10 * np.cos(1000 * t), color=INK, lw=2, label="source: 10 cos(1000t)")
+    ax.plot(t * 1e3, 7.071 * np.cos(1000 * t - np.pi / 4), color=ACCENT, lw=2, label="resistor: 7.07 cos(1000t − 45°)")
+    ax.axhline(0, color="#d1d5db", lw=0.8)
+    ax.annotate("", xy=(2 * np.pi, 10.6), xytext=(2 * np.pi + np.pi / 4, 10.6),
+                arrowprops=dict(arrowstyle="<->", color=WARN, lw=1.4))
+    ax.text(2 * np.pi + np.pi / 8, 11.3, "shift = 45°", color=WARN, ha="center", fontsize=9)
+    ax.annotate("", xy=(np.pi + np.pi / 4, 0), xytext=(np.pi + np.pi / 4, -7.071),
+                arrowprops=dict(arrowstyle="<->", color=ACCENT, lw=1.2))
+    ax.text(np.pi + np.pi / 4 + 0.2, -10.2, "size 7.07", color=ACCENT, fontsize=9, va="bottom")
+    ax.set_xlabel("t (ms)")
+    ax.set_ylabel("volts")
+    ax.set_ylim(-11, 18)
+    ax.legend(frameon=False, fontsize=8.5, loc="upper left", ncol=2)
+    ax.set_title("Same ω, so the only differences are the size and the shift", fontsize=10)
+    return _plt(fig)
+
+
+def _plane(ax, lim):
+    ax.axhline(0, color="#9ca3af", lw=0.8)
+    ax.axvline(0, color="#9ca3af", lw=0.8)
+    ax.set_xlim(-lim, lim)
+    ax.set_ylim(-lim, lim)
+    ax.set_aspect("equal")
+    ax.set_xlabel("real part")
+    ax.set_ylabel("j part")
+
+
+def phasor_plane():
+    import matplotlib.patches as mp
+    fig, ax = plt.subplots(figsize=(4.6, 4.6))
+    _plane(ax, 8)
+    for (a, b), c, lab, off in [((3, 4), ACCENT, "3 + j4 = 5∠53.1°", (0.2, 0.35)),
+                                ((5, -5), WARN, "5 − j5 = 7.07∠−45°", (-1.8, -0.9))]:
+        ax.annotate("", xy=(a, b), xytext=(0, 0), arrowprops=dict(arrowstyle="-|>", color=c, lw=2))
+        ax.plot([a, a], [0, b], color=c, ls=":", lw=1)
+        ax.plot([0, a], [b, b], color=c, ls=":", lw=1)
+        ax.text(a + off[0], b + off[1], lab, color=c, fontsize=9.5, fontweight="bold")
+    ax.add_patch(mp.Arc((0, 0), 2.4, 2.4, theta1=0, theta2=53.13, color=ACCENT, lw=1.2))
+    ax.text(1.35, 0.55, "53.1°", color=ACCENT, fontsize=8.5)
+    ax.add_patch(mp.Arc((0, 0), 3.2, 3.2, theta1=-45, theta2=0, color=WARN, lw=1.2))
+    ax.text(1.7, -0.95, "−45°", color=WARN, fontsize=8.5)
+    ax.text(3.1, -0.55, "a = 3", color=ACCENT, fontsize=8)
+    ax.text(-0.2, 4.3, "b = 4", color=ACCENT, fontsize=8, ha="right")
+    ax.set_title("A complex number is an arrow: length and angle", fontsize=10)
+    return _plt(fig)
+
+
+def z_plane():
+    fig, ax = plt.subplots(figsize=(4.4, 3.0))
+    _plane(ax, 1.4)
+    ax.set_xlim(-0.3, 2.2)
+    ax.set_ylim(-1.35, 1.35)
+    for (x, y), c, lab in [((1, 0), INK, "R  (angle 0°)"),
+                           ((0, 1), ACCENT, "L:  +jωL  (angle +90°)"),
+                           ((0, -1), WARN, "C:  −j/(ωC)  (angle −90°)")]:
+        ax.annotate("", xy=(x, y), xytext=(0, 0), arrowprops=dict(arrowstyle="-|>", color=c, lw=2.2))
+        ax.text(x + 0.06, y + (0.12 if x else 0), lab, color=c, fontsize=9.5, va="center", fontweight="bold")
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_title("Where each element's impedance points", fontsize=10)
+    return _plt(fig)
+
+
+def ac_rl_domains():
+    d = _d()
+    d.config(unit=2.4)
+    d += (V := elm.SourceSin().up().label("10 cos(1000t) V"))
+    d += elm.Resistor().right().label("1 kΩ")
+    d += elm.Inductor2().down().label("1 H", loc="bottom")
+    d += elm.Line().to(V.start)
+    d += elm.Label().at((4.6, 1.2)).label(r"$\Rightarrow$", fontsize=24)
+    d += (V2 := elm.SourceSin().at((7.4, 0)).up().label(r"$10\angle 0°$ V", color=ACCENT))
+    d += elm.Resistor().right().label("1000 Ω", color=ACCENT)
+    d += elm.Resistor().down().label("j1000 Ω", loc="bottom", color=ACCENT)
+    d += elm.Line().to(V2.start)
+    d += elm.Label().at((1.2, -1.3)).label("time domain", color=MUTED, fontsize=11)
+    d += elm.Label().at((8.6, -1.3)).label("phasor domain (ω = 1000)", color=ACCENT, fontsize=11)
+    return _svg(d)
+
+
+def kvl_phasor():
+    fig, ax = plt.subplots(figsize=(4.4, 3.6))
+    ax.axhline(0, color="#9ca3af", lw=0.8)
+    ax.axvline(0, color="#9ca3af", lw=0.8)
+    ax.annotate("", xy=(5, -5), xytext=(0, 0), arrowprops=dict(arrowstyle="-|>", color=ACCENT, lw=2))
+    ax.annotate("", xy=(10, 0), xytext=(5, -5), arrowprops=dict(arrowstyle="-|>", color=WARN, lw=2))
+    ax.annotate("", xy=(10, 0), xytext=(0, 0), arrowprops=dict(arrowstyle="-|>", color=INK, lw=2.2))
+    ax.text(1.4, -4.4, "across R:\n7.07∠−45°", color=ACCENT, fontsize=9.5, ha="right")
+    ax.text(7.9, -3.3, "across L: 7.07∠+45°", color=WARN, fontsize=9.5)
+    ax.text(5, 0.5, "source 10∠0°", color=INK, fontsize=9.5, ha="center")
+    ax.set_xlim(-3.5, 13)
+    ax.set_ylim(-6.5, 2)
+    ax.set_aspect("equal")
+    ax.set_xticks([0, 5, 10])
+    ax.set_yticks([-5, 0])
+    ax.set_title("KVL still holds, as arrows:  7.07 + 7.07 ≠ 10,\nbut (5 − j5) + (5 + j5) = 10", fontsize=9.5)
+    return _plt(fig)
+
 ALL = {name: fn for name, fn in globals().items()
        if callable(fn) and not name.startswith("_") and fn.__module__ == __name__
 }

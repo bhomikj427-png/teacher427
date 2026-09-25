@@ -17,11 +17,13 @@ Ranked by how much the professor stressed each topic: the number of board questi
 | **7** | **02 Dividers, power & energy** | 4 short board questions, all quick marks | 02 §1–4 | 25 min |
 | **8** | **03 KVL, KCL, source transformation** | Short; used inside every other method | 03 §1–4 | 20 min |
 | **9** | **01 Elements & sources** | Theory only (classification, dependent sources, lumped vs distributed) | 01 exam form | 20 min |
+| **AC prereq** | **04b AC in 15 minutes** | Phasors, j and angles. The AC parts of 05, 06, 07 and mock B11 all use it | read it before any AC section | 15 min |
 | **last** | **10 Mock paper** | Closed-book, after the rest | all | 2–3 h |
 
 Two rules for using the ranking:
 
 - **Short on time:** go down the list and do only the "Do first" column, then the matching mock-paper items.
+- **AC (∠, j) is new to you:** read 04b once (15 min) before any section marked AC.
 - **Stuck on 06:** it builds on 05 (switching sources off) and 04 (nodal). Go back one step and don't skip ahead.
 
 ## The path through this pack
@@ -31,6 +33,10 @@ The order is the professor's MTE syllabus, item by item.
 **Part I — elements, laws, analysis**
 
 [[map:01 Elements & sources > 02 Ohm, dividers, power & energy > 03 KVL, KCL, source transformation > 04 Nodal & mesh|here=1]]
+
+**Bridge — AC basics (before Part II's AC sections)**
+
+[[map:04b AC in 15 minutes: phasors, j, angles, impedance]]
 
 **Part II — theorems (DC and AC)**
 
@@ -48,6 +54,7 @@ Each file needs the ones before it. 04 is KCL/KVL (03) written as a method. 06 u
 | 02 | 2 · laws | Ohm, voltage and current division (DC and AC), power sign convention, energy, ladders | 4 |
 | 03 | 3 · KVL, KCL, source transformation | the two laws, power balance, source transformation | 1 + 1 textbook |
 | 04 | 4 · nodal and mesh | both methods, with current sources and dependent sources | 1 + 1 textbook |
+| 04b | tool for the AC parts of 5 | AC source as a cosine, phasors, j, rectangular ↔ polar, impedance of R, L, C, the 4-step recipe | textbook |
 | 05 | 5 · superposition | method, the cases where it fails, AC sources at different frequencies | 2 + 1 textbook |
 | 06 | 5 · Thévenin & Norton | with a dependent source; with AC impedances | 1 + 1 textbook |
 | 07 | 5 · maximum power transfer | R_{L} = R_{Th}, efficiency, conjugate match (worked) | 2 sets + 1 textbook |

@@ -7,7 +7,7 @@
 - Last session: 2026-09-25 (no teaching; MTE study-pack build).
 - Status: below `stage-1` as a subject (no KB of its own; facts anchored to `../06-circuits-and-network-theory/knowledge-base/`).
   Not teachable under the gate. The study pack is a learner-requested self-study artifact, not a lesson.
-- Where we stopped: MTE study pack complete to the professor's syllabus: `study-pack/pdf/ECE2107-Circuits-and-Systems-study-pack.pdf` (73 pp.).
+- Where we stopped: MTE study pack complete to the professor's syllabus + AC primer 04b (15 min): `study-pack/pdf/ECE2107-Circuits-and-Systems-study-pack.pdf` (81 pp.).
 - Open questions for the professor: (1) Thévenin 2I: is the constant 2 Ω (set 2's 5.0025 V) or 2 kΩ (pack's 20/3 V)?
   (2) RL switch that opens: which path does the inductor current take after t = 0? (3) infinite ladder: do the values
   continue as primes? (4) class p.7 labels "4k/2k" vs working in Ω.
@@ -100,3 +100,15 @@
 - `[2026-09-25]` Learner request: "combine all pdfs … i hope there is a priority order in the beginning". The combined PDF
   already existed (00–10 merged). Added a **priority order** section to the top of `00-START-HERE` (ranked by the professor's
   emphasis: board questions per topic + class time; no PYQ yet, stated as an estimate), rebuilt the combined PDF.
+- `[2026-09-25]` Learner request: "i dont know ac source and all the angle and j … teach me in the context of circuits and
+  system … a pdf in study pack … finish it in 10-max-20 mins". Plan: new short primer `study-pack/src/content/04b-ac-in-15-minutes.md`
+  (sorts between 04 and 05, the first file that uses AC): a sinusoid → a phasor, what j is, rectangular ↔ polar, impedance
+  of R, L, C, the 4-step recipe on the 05 §6 circuit (10 cos 1000t, 1 kΩ, 1 H), rms vs peak; 4 new figures; numbers checked
+  by script; 00-START-HERE priority table + map updated; rebuild the PDFs.
+- `[2026-09-25]` Built `study-pack/pdf/04b-ac-in-15-minutes.pdf` (7 pp.: 5 teaching pages, self-test, answers). Sections:
+  cosine → phasor, j and rectangular ↔ polar (quadrant trap), impedance of R, L, C, the 4-step recipe on 10 cos 1000t /
+  1 kΩ / 1 H (I = 7.07∠−45° mA; KVL as arrows, V_R = 7.07∠−45°, V_L = 7.07∠+45°), peak vs rms. 5 new figures
+  (`ac_wave`, `phasor_plane`, `z_plane`, `ac_rl_domains`, `kvl_phasor`). Every number checked by `src/verify_ac.py`
+  (phasor algebra + ODE simulation: peak 7.071 mA, lagging 45°). 00-START-HERE: added an "AC prereq" row to the priority
+  table, a bridge map, a file-table row. Combined PDF rebuilt: **81 pp.** Every page of 04b viewed; fixed label overlaps
+  and a missing ∠ glyph.
