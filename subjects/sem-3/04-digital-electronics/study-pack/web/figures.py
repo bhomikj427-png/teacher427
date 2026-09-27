@@ -365,6 +365,12 @@ def ans6():
     return kmap5(cells, groups, cs=40)
 
 
+def five_var_demo():
+    """One group of 4 spanning both 5-variable maps: m5, m7 (v=0) + m21, m23 (v=1) = w'xz."""
+    cells = {m: "1" for m in (5, 7, 21, 23)}
+    return kmap5(cells, [{"cells": [5, 7, 21, 23], "term": "w'xz  (v dropped)"}], cs=40)
+
+
 # ------------------------------------------------------------------ circuits (schemdraw)
 def _sd():
     d = schemdraw.Drawing(show=False)

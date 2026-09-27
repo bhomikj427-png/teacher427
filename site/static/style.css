@@ -214,3 +214,7 @@ tr:last-child td { border-bottom: 0; }
   h2 { margin-top: 44px; }
   .crumbs { display: none; }
 }
+
+/* home */
+.home { max-width: 1000px; margin: 0 auto; padding: 0 16px 64px; }
+.top .grow { flex: 1; }

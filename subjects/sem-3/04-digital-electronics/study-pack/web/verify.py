@@ -60,6 +60,7 @@ check_group("ans6", [5, 7, 13, 15, 21, 23, 29, 31], "xz", "vwxyz")
 check_group("ans6", [8, 10, 12, 14, 24, 26, 28, 30], "wz'", "vwxyz")
 check_group("ans6", [17, 19, 21, 23], "vw'z", "vwxyz")
 check_group("ans6", [0, 2, 8, 10], "v'x'z'", "vwxyz")
+check_group("five-var demo", [5, 7, 21, 23], "w'xz", "vwxyz")
 # group-size strip
 for cells, term in (([5], "a'bc'd"), ([5, 7], "a'bd"), ([5, 7, 13, 15], "bd"),
                     ([1, 3, 5, 7, 13, 15, 9, 11], "d")):

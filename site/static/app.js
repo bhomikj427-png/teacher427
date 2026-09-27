@@ -1,8 +1,7 @@
-// ece' study — theme toggle, figure steppers, table-of-contents highlight.
+// ece' study — shared: theme toggle + figure steppers (works for figures added later, e.g. in cards).
 (function () {
   var root = document.documentElement;
 
-  // theme: explicit choice wins, else follow the OS
   document.querySelectorAll('.theme').forEach(function (b) {
     b.addEventListener('click', function () {
       var dark = root.dataset.theme
@@ -13,40 +12,28 @@
     });
   });
 
-  // steppers: groups tagged data-step appear one at a time
-  document.querySelectorAll('figure[data-steps]').forEach(function (fig) {
-    var max = +fig.dataset.steps, label = fig.querySelector('.step-n');
-    function show(n) {
-      n = Math.max(0, Math.min(max, n));
-      fig.dataset.step = n;
-      fig.querySelectorAll('[data-step]').forEach(function (g) {
-        if (g === fig) return;
-        g.classList.toggle('off', +g.dataset.step > n);
-      });
-      label.textContent = 'step ' + n + ' / ' + max;
-    }
-    fig.querySelector('.stepper').addEventListener('click', function (e) {
-      var act = e.target.dataset && e.target.dataset.act, n = +fig.dataset.step;
-      if (act === 'next') show(n + 1);
-      else if (act === 'prev') show(n - 1);
-      else if (act === 'all') show(max);
+  function show(fig, n) {
+    var max = +fig.dataset.steps;
+    n = Math.max(0, Math.min(max, n));
+    fig.dataset.step = n;
+    fig.querySelectorAll('[data-step]').forEach(function (g) {
+      if (g !== fig) g.classList.toggle('off', +g.dataset.step > n);
     });
-    show(0);
+    var label = fig.querySelector('.step-n');
+    if (label) label.textContent = 'step ' + n + ' / ' + max;
+  }
+
+  // one delegated handler for every stepper, present or future
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('.stepper button');
+    if (!btn) return;
+    var fig = btn.closest('figure[data-steps]'), n = +fig.dataset.step;
+    var act = btn.dataset.act;
+    show(fig, act === 'next' ? n + 1 : act === 'prev' ? n - 1 : +fig.dataset.steps);
   });
 
-  // TOC: mark the section currently on screen
-  var links = document.querySelectorAll('.toc a');
-  if (links.length && 'IntersectionObserver' in window) {
-    var byId = {};
-    links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting && byId[en.target.id]) {
-          links.forEach(function (a) { a.classList.remove('on'); });
-          byId[en.target.id].classList.add('on');
-        }
-      });
-    }, { rootMargin: '-80px 0px -70% 0px' });
-    document.querySelectorAll('main h2[id]').forEach(function (h) { io.observe(h); });
-  }
+  window.initSteppers = function (scope) {
+    (scope || document).querySelectorAll('figure[data-steps]').forEach(function (f) { show(f, 0); });
+  };
+  window.initSteppers();
 })();

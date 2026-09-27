@@ -72,3 +72,12 @@
   `verify.py` passes (every answer + every drawn group machine-checked). Site generator at root
   `site/` (home → subject page with exam-split bar + clickable learning path → chapter). Checked by
   screenshot at desktop and 390px. Not yet deployed (needs a public repo). **No teaching event.**
+- [2026-09-27] Learner feedback on the demo (stated): "too much info dump" on first look; wants the
+  landing to be a **map of everything in the material**, colour-coded; **one concept at a time**;
+  no sidebar; one page where clicking a concept **zooms into it** and shows its content. Rebuilt
+  the site as a zoomable subject map: 9 chapter islands (hue = stage: foundations / building
+  blocks / memory / drill), 76 concept nodes (badge = kind: idea, method, exam, trap, practice;
+  outline titles for ch 2-9 from the text study pack, marked "not drawn yet"), click chapter →
+  zoom, click concept → card grows out of the node, ◀ ▶ + progress pips walk the order, Esc /
+  Back zooms out; phone view = ring + concept list sheet. Ch1 content split into 13 concept cards,
+  added quick-check reveals + a 5-variable demo figure; `verify.py` passes. **No teaching event.**

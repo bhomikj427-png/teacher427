@@ -1,10 +1,8 @@
-# Boolean algebra & K-maps
+@@ warm-up | Warm-up: try these cold | practice | Five questions before any teaching. Guess if you must.
 
-<div class="sub">Chapter 1 of 9 · MTE weight: very high · feeds every other chapter</div>
+Write an answer on paper for each, even a guess. A wrong attempt that you then correct sticks harder than a right answer you only read.
 
-[[map:Laws > Σm / ΠM > K-map layout > Grouping > Don't-cares > POS|here=0]]
-
-:::q Attempt first — write something down before scrolling
+:::q Attempt first
 1. Simplify `F = A'B' + A'`. How many gates does it need?
 2. `F(a,b,c) = Σm(1,3,5)`. Write it as a product of maxterms.
 3. In a 4-variable K-map, are m0 and m8 adjacent? m0 and m10?
@@ -12,15 +10,13 @@
 5. Minimize `F(a,b,c,d) = Σm(0,4,5,7,8,9,15) + d(1,3,6,14)`.
 :::
 
-A wrong attempt that you then correct sticks harder than a right answer you only read.
+Keep your answers. The concepts on this map settle each one, and the worked MTE question (★) is question 5.
 
-## Two laws do most of the work
+@@ laws | Two laws do most of the work | idea | Absorption and second absorption collapse exam expressions on sight.
 
 [[fig:venn_absorption|**Absorption:** AB sits inside A, so adding it changes nothing. A + AB = A.|w=90]]
 
 [[fig:venn_absorption2|**Second absorption:** the part of B outside A, added to A, fills out all of A and B. A + A'B = A + B.|w=90]]
-
-`A'B' + A'` is absorption on sight: `A'` swallows `A'B'`, leaving `A'`.
 
 [[fig:demorgan_gates|**De Morgan, drawn:** a NOR is an AND with both inputs inverted. (A + B)' = A'B'.|w=80]]
 
@@ -37,28 +33,46 @@ A wrong attempt that you then correct sticks harder than a right answer you only
 | De Morgan | `(A + B)' = A'B'` · `(AB)' = A' + B'` |
 :::
 
-## Σm and ΠM: one function, two lists
+:::reveal Quick check: simplify A'B' + A'
+Absorption. `A'` swallows `A'B'`, leaving **A'**: one NOT gate.
+:::
 
-[[fig:strip_sm_pm|Same truth table, read twice. Σm names the 1-rows; ΠM names the 0-rows. Together they list every row exactly once.|w=100]]
+@@ sm-pm | Σm and ΠM: one function, two lists | idea | Σm lists the rows where F = 1; ΠM lists the rows where F = 0.
 
-- **Minterm** mᵢ: AND term, 1 only at row i. Complement a variable where its **bit is 0**. m5 = `ab'c`.
-- **Maxterm** Mᵢ: OR term, 0 only at row i. Complement a variable where its **bit is 1**. M5 = `a' + b + c'`.
+[[fig:strip_sm_pm|Same truth table, read twice. Together the two lists name every row exactly once.|w=100]]
+
+| | Minterm mᵢ | Maxterm Mᵢ |
+|---|---|---|
+| Gate | AND | OR |
+| True/false at row i only | **1** only at row i | **0** only at row i |
+| Complement a variable when its bit is | **0** | **1** |
+| Row 5 (abc = 101) | `ab'c` | `a' + b + c'` |
 
 :::trap T5 · ΠM read as Σm
 `ΠM(0,3,5,6,7)` means F is **0** at those rows. Convert to `Σm(1,2,4)` first, then plot.
 :::
 
-## The K-map: a truth table folded so neighbours touch
+:::reveal Quick check: Σm(1,3,5) as maxterms
+**ΠM(0,2,4,6,7)**: every row not in the Σm list.
+:::
 
-[[fig:kmap_layout|Rows and columns run in Gray code (00, 01, 11, 10), so any two touching cells differ in one bit. m0 has four neighbours, and two of them are across the edge.|w=70]]
+@@ kmap-layout | The K-map: a folded truth table | idea | Gray-code order makes neighbours differ in one bit, and the edges wrap.
 
-**The map wraps.** Left edge touches right edge; top touches bottom. So m0 and m8 **are** adjacent, and so are the four corners m0, m2, m8, m10.
+[[fig:kmap_layout|Rows and columns run 00, 01, 11, 10. m0 has four neighbours; two of them are across the edge.|w=70]]
 
-## Bigger group, fewer letters
+**The map wraps.** Left edge touches right edge, top touches bottom. So the four corners m0, m2, m8, m10 are neighbours too.
+
+:::reveal Quick check: are m0 and m8 adjacent? m0 and m10?
+**m0–m8: yes** (top and bottom rows wrap). **m0–m10: no.** They differ in two bits (0000 vs 1010). They only join as part of the four-corner group.
+:::
+
+@@ group-size | Bigger group, fewer letters | method | Each doubling of a group deletes one variable.
 
 [[fig:group_sizes|Each time a group doubles, the variable that changes inside it drops out.|w=100]]
 
-## What counts as a group
+On a 4-variable map: **1 cell → 4 letters, 2 → 3, 4 → 2, 8 → 1.**
+
+@@ group-rules | What counts as a group | method | Power-of-2 rectangles on the wrapped map, as big as possible.
 
 [[fig:legal_illegal|Top: illegal. Bottom: legal, including the ones that look wrong on paper.|w=100]]
 
@@ -67,53 +81,61 @@ A wrong attempt that you then correct sticks harder than a right answer you only
 3. Overlap is free; an extra term is not.
 4. Cover every 1, then **delete any group whose 1s are all covered by others**.
 
-## Don't-cares: use them only to grow a group
+@@ dont-cares | Don't-cares: jokers | method | Use an X only when it makes a group bigger. Otherwise it's 0.
 
 [[fig:dontcare_effect|The same two 1s. Reading the X cells as 1 turns a pair into a quad and saves a letter.|w=80]]
 
 Never make a group out of X cells alone. An X you don't need just stays 0 and costs nothing.
 
-## Minimal POS: group the 0s
+:::reveal Quick check: an X alone in a corner, no 1 beside it?
+**Leave it as 0.** It can't grow any group, and a group made only of X cells adds a term for nothing.
+:::
 
-[[fig:pos_example|F = Σm(0,1,2,3,7). Group the 0s to get F' = ab' + ac', then apply De Morgan to each term.|w=60]]
+@@ pos | Minimal POS: group the 0s | method | Group the 0s to get F', then De Morgan each term.
 
-$$F = (a' + b)(a' + c)$$
+[[fig:pos_example|F = Σm(0,1,2,3,7). The 0s group into F' = ab' + ac'.|w=60]]
 
-## Five variables: two maps, stacked
+$$F' = ab' + ac'   ⟹   F = (a' + b)(a' + c)$$
 
-The v = 0 map (m0–m15) sits beside the v = 1 map (m16–m31). **Cells in the same position on both maps are adjacent.** A group that spans both maps drops v. Self-test 6 below shows it drawn.
+Don't-cares work here too, now as honorary 0s.
 
-## Worked · MTE 2025 Q1 (2 marks)
+@@ five-var | Five variables: two maps | method | Same cell on both maps = adjacent. A group across both drops v.
+
+[[fig:five_var_demo|m5, m7 on the v = 0 map and m21, m23 in the same cells on the v = 1 map form one group of 4. v changes inside it, so v drops: w'xz.|w=100]]
+
+A group that stays on one map **keeps** v (v' on the left map, v on the right).
+
+@@ q1 | MTE 2025 Q1 · 2 marks | exam | Absorption, then a NOR with its inputs tied.
 
 :::q
 Optimize `F = P'Q' + P'` and implement using 2-input NOR gates.
 :::
 
-Absorption: `P'` swallows `P'Q'`, so **F = P'**. A NOR with both inputs tied is an inverter:
+**Minimize.** Absorption: `P'` swallows `P'Q'`, so **F = P'**.
+
+**Realize.** Tie both inputs of a NOR together and it becomes an inverter:
 
 [[fig:nor_inverter|NOR(P, P) = (P + P)' = P'. One gate.|w=55]]
 
-## Worked · MTE 2025 Q4 (4 marks)
+@@ q4 | MTE 2025 Q4 · 4 marks | exam | Plot, find the essential groups, cover what's left, draw the circuit.
 
 :::q
 Minimize `F(a,b,c,d) = Σm(0,4,5,7,8,9,15) + d(1,3,6,14)` using a K-map. Draw the logic circuit using basic gates.
 :::
 
-**Step through the grouping.** Press ▶ to add one group at a time.
+**Try the grouping yourself first. Then press ▶ to add one group at a time.**
 
-[[fig:q4_steps|Small numbers are minterm indices. Essential groups first: only b'c' covers m8 and m9, only bc covers m15. Then m4 and m5 are left, and a'b takes both.|w=70|steps=3]]
+[[fig:q4_steps|Small numbers are minterm indices. Essential groups first: only b'c' covers m8 and m9, only bc covers m15. m4 and m5 are left, and a'b takes both.|w=70|steps=3]]
 
 $$F = b'c' + bc + a'b$$
 
-The circuit carries marks of its own (trap T3). Bubbles on a gate input are the NOT gates:
-
-[[fig:q4_circuit|Three 2-input ANDs into a 3-input OR.|w=70]]
+[[fig:q4_circuit|The circuit carries its own marks (trap T3). Bubbles on a gate input are the NOT gates.|w=70]]
 
 :::check Check before moving on
 m8 = 1000: b'c' = 1, so F = 1 ✓ (a minterm). m12 = 1100: every term is 0, so F = 0 ✓ (not a minterm).
 :::
 
-## Traps
+@@ traps | The five traps | trap | Where K-map marks are actually lost.
 
 | # | Trap | Picture to remember |
 |---|---|---|
@@ -123,9 +145,7 @@ m8 = 1000: b'c' = 1, so F = 1 ✓ (a minterm). m12 = 1100: every term is 0, so F
 | T4 | Missed wrap-around | The four corners are one group |
 | T5 | ΠM read as Σm | ΠM lists the **0** rows |
 
-## Self-test
-
-Try each one on paper first. Then open its answer.
+@@ self-test | Self-test | practice | Six questions. Paper first, then open each answer.
 
 **1.** Simplify `F = AB + A'C + BC` and name the law.
 
