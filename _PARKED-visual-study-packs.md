@@ -111,3 +111,12 @@ option C (PDF)**. D1, D3, D4 and D5 remain open.
   - Arial lacks ⁺ and ⇔ inside SVG.
   - Nested `\frac` needs sub/sup expanded first.
 - Not published anywhere. The pack quotes the professor's board questions, so the copyright rule in §4 applies before sharing.
+
+## 7. Website demo (2026-09-27)
+
+Learner chose **their own free website (option B, GitHub Pages)**, "mostly for personal use", and
+asked for a basic demo to iterate on. Built: `site/` generator + DE chapter 1 as the pilot
+(`subjects/sem-3/04-digital-electronics/study-pack/web/`). Only generated pages are published, via
+`site/deploy.sh` to a separate public repo. The private repo stays private.
+Known next iterations: learning-path diagram too small on phones; chapters 2–9 still to convert;
+other subjects join by adding `study-pack/web/`.

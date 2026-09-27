@@ -20,3 +20,6 @@ scratch/
 tmp/
 *.tmp
 *.log
+
+# Generated study website (rebuild with python site/build.py)
+site/public/

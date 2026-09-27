@@ -59,3 +59,16 @@
   (+ ≥, superscript exponents, log₂). Not a conflict with the ASCII-math rule: that rule bans
   **TeX** (`$...$`, rac), not Unicode symbols, and the KB already used Σm. Rule logged to
   `learner-preferences.md` §3 as a hard standing rule for every generated document.
+- [2026-09-27] Learner request: a **personal study website** (free, own site; GitHub Pages),
+  pictorial, "basic demo then iterate" — DE chosen as the pilot. Building a figure-first web
+  version of `study-pack/01-boolean-kmap.md` in `study-pack/web/` (content + figures.py) plus a
+  root `site/` generator (home → subject → chapter). Answers behind click-to-reveal so the
+  attempt-first mechanism survives. Engine design context: `_PARKED-visual-study-packs.md` (D2 → B
+  for the site). **No teaching event.**
+- [2026-09-27] Web demo **built**: `study-pack/web/` = `content/01-boolean-kmap.md` (figure-first
+  rewrite of study-pack 01: Venn laws, Σm/ΠM strip, K-map layout with wrap arcs, group-size and
+  legal/illegal strips, don't-care and POS maps, Q1 NOR inverter, Q4 click-through grouping +
+  circuit, 6 self-test answers behind reveals with K-map figures) + `figures.py` + `meta.json`;
+  `verify.py` passes (every answer + every drawn group machine-checked). Site generator at root
+  `site/` (home → subject page with exam-split bar + clickable learning path → chapter). Checked by
+  screenshot at desktop and 390px. Not yet deployed (needs a public repo). **No teaching event.**

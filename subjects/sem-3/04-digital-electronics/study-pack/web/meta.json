@@ -1,0 +1,28 @@
+{
+  "slug": "digital-electronics",
+  "code": "ECE2102",
+  "title": "Digital Electronics",
+  "blurb": "Boolean algebra to synchronous counters: the MTE scope, drawn.",
+  "exam": {
+    "name": "MTE",
+    "marks": 30,
+    "minutes": 90,
+    "sections": [
+      {"label": "A · Memory", "count": 3, "each": 2},
+      {"label": "B · Concept", "count": 4, "each": 4},
+      {"label": "C · Analytical", "count": 1, "each": 8}
+    ]
+  },
+  "chapters": [
+    {"id": "01-boolean-kmap", "n": 1, "title": "Boolean + K-map", "row": 0, "weight": "very high", "note": "START. Feeds everything."},
+    {"id": "02-nand-nor-realization", "n": 2, "title": "NAND / NOR realization", "row": 1, "weight": "very high", "note": "Where marks are lost"},
+    {"id": "03-adders-subtractors-parity", "n": 3, "title": "Adders · subtractors · parity", "row": 2, "weight": "high"},
+    {"id": "04-mux-demux", "n": 4, "title": "MUX / Demux", "row": 2, "weight": "very high"},
+    {"id": "05-decoder-encoder-display", "n": 5, "title": "Decoder / encoder / display", "row": 2, "weight": "high"},
+    {"id": "06-comparator-shifter-alu", "n": 6, "title": "Comparator · shifter · ALU", "row": 3, "weight": "medium"},
+    {"id": "07-flipflops-waveforms", "n": 7, "title": "Flip-flops + waveforms", "row": 4, "weight": "high", "note": "Memory begins"},
+    {"id": "08-counter-design", "n": 8, "title": "Synchronous counter design", "row": 5, "weight": "high", "note": "The 8-mark Section C"},
+    {"id": "09-drill-set", "n": 9, "title": "Drill set (timed)", "row": 6, "weight": "—"}
+  ],
+  "edges": [[1, 2], [2, 3], [2, 4], [2, 5], [3, 6], [4, 6], [5, 6], [6, 7], [7, 8], [8, 9]]
+}
