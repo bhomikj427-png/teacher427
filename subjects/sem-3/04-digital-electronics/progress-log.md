@@ -81,3 +81,11 @@
   zoom, click concept → card grows out of the node, ◀ ▶ + progress pips walk the order, Esc /
   Back zooms out; phone view = ring + concept list sheet. Ch1 content split into 13 concept cards,
   added quick-check reveals + a 5-variable demo figure; `verify.py` passes. **No teaching event.**
+- [2026-09-27] Learner feedback on the map (stated): "not tree like enough"; leaf-only sets should
+  be lists; show how concepts **build on** each other; **minimalistic**, nothing tacky; the key is
+  the balance of information vs overwhelm. Rebuilt as a tree: subject → stage → chapter → group →
+  concept. Landing = 4 stages + 9 folded chapters (number, exam-weight bars, concept count). Open
+  a chapter → its branch grows; groups either fan out (independent) or draw a spine with dots
+  (each builds on the one above); hovering a concept highlights what it builds on; card shows
+  path + "Builds on" links + prev/next. Phones: indented outline. Old radial map removed. Ch1 tree
+  + needs in `meta.json`, ch2-9 outlined as groups/sequences. **No teaching event.**

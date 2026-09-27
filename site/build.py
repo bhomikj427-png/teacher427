@@ -3,12 +3,12 @@
 Run:   python site/build.py
 Open:  site/public/index.html   (relative links: works from disk and on GitHub Pages)
 
-Each subject is ONE page: a zoomable map of every chapter and concept. Click a chapter to zoom in;
-click a concept to open its card (one concept at a time, ◀ ▶ to walk the order, Esc to zoom out).
+Each subject is ONE page: a tree (subject → stage → chapter → group → concept). Click a chapter and its
+branch grows out; click a concept to open its card (one at a time, ← → to walk, Esc to step back).
 
 A pack is a folder `study-pack/web/` holding:
-  meta.json      subject, exam shape, stages (colour groups), chapters (+ outline concepts for
-                 chapters without content yet), learning-path edges
+  meta.json      subject, exam shape, stages (colour groups), chapters with their concept `tree`
+                 (ids for written concepts, [title, kind] outlines, {group, seq, items}) and `needs`
   figures.py     functions returning SVG strings (ALL = {name: fn})
   content/NN-*.md   one file per chapter, split into concepts by header lines:
                  @@ id | Title | kind | one-line gist      (kind: idea, method, exam, trap, practice)
@@ -143,61 +143,71 @@ def build_pack(web):
     files = {p.stem: p for p in (web / "content").glob("*.md")}
     templates, chapters, n_concepts, n_ready = [], [], 0, 0
     for c in meta["chapters"]:
-        ch = {k: c[k] for k in ("id", "n", "title", "stage", "weight")}
-        ch["note"] = c.get("note", "")
+        written = {}
         if c["id"] in files:
-            concepts = []
             for cid, title, kind, gist, body in split_concepts(files[c["id"]].read_text(encoding="utf-8")):
-                tid = f"t-{c['id']}--{cid}"
-                templates.append(f'<template id="{tid}">{render(body, figs)}</template>')
-                concepts.append({"id": cid, "title": title, "kind": kind, "gist": gist, "ready": True})
-            ch["ready"] = True
-        else:
-            concepts = [{"id": f"c{k}", "title": t, "kind": kd, "gist": "", "ready": False}
-                        for k, (t, kd) in enumerate(c.get("concepts", []), 1)]
-            ch["ready"] = False
-        ch["concepts"] = concepts
-        n_concepts += len(concepts)
-        n_ready += sum(x["ready"] for x in concepts)
-        chapters.append(ch)
+                templates.append(f'<template id="t-{c["id"]}--{cid}">{render(body, figs)}</template>')
+                written[cid] = {"id": cid, "title": title, "kind": kind, "gist": gist, "ready": True,
+                                "needs": c.get("needs", {}).get(cid, [])}
+        used, counter = set(), [0]
+
+        def resolve(items):
+            res = []
+            for it in items:
+                if isinstance(it, dict):
+                    res.append({"group": it["group"], "seq": bool(it.get("seq")), "items": resolve(it["items"])})
+                elif isinstance(it, str):
+                    assert it in written, f"{c['id']}: tree names {it!r} but the content file has no such concept"
+                    assert it not in used, f"{c['id']}: {it!r} appears twice in the tree"
+                    used.add(it)
+                    res.append(written[it])
+                else:
+                    counter[0] += 1
+                    title, kind = it
+                    assert kind in KINDS, kind
+                    res.append({"id": f"o{counter[0]}", "title": title, "kind": kind, "gist": "", "ready": False,
+                                "needs": []})
+            return res
+
+        tree = resolve(c["tree"])
+        missing = set(written) - used
+        assert not missing, f"{c['id']}: concepts written but not placed in the tree: {sorted(missing)}"
+
+        def count(items):
+            return sum(count(i["items"]) if "group" in i else 1 for i in items)
+        n = count(tree)
+        n_concepts += n
+        n_ready += len(written)
+        chapters.append({"id": c["id"], "n": c["n"], "title": c["title"], "stage": c["stage"], "weight": c["weight"],
+                         "ready": bool(written), "count": n, "tree": tree})
+    ex = meta["exam"]
+    exam = f'{ex["name"]} · {ex["marks"]} marks · {ex["minutes"]} min'
     data = {"slug": slug, "code": meta["code"], "title": meta["title"], "stages": meta["stages"],
-            "chapters": chapters, "edges": meta["edges"]}
-    stage_legend = "".join(f'<span class="lg-st h-{s["hue"]}"><i></i>{html.escape(s["title"])}</span>' for s in meta["stages"])
-    kind_legend = "".join(f'<span class="lg-k k-{k}"><i></i>{lbl}</span>' for k, lbl in
-                          (("idea", "idea"), ("method", "method"), ("exam", "exam question"), ("trap", "trap"),
-                           ("practice", "practice")))
-    body = f"""<body class="mapmode">
-<header class="mbar">
-  <a class="brand" href="../index.html" title="All subjects"><span class="logo">◧</span></a>
-  <button class="crumb" type="button" data-go="">
-    <span class="code">{meta['code']}</span><span class="st">{html.escape(meta['title'])}</span></button>
-  <span class="crumb-ch" hidden></span>
+            "chapters": chapters, "exam": exam}
+    body = f"""<body class="treemode">
+<header class="tbar">
+  <a class="brand" href="../index.html" title="All subjects">◧</a>
+  <span class="tb-t">{html.escape(meta['title'])}</span>
   <span class="grow"></span>
-  {exam_mini(meta['exam'])}
+  <span class="tb-x">{html.escape(exam)}</span>
   <button class="theme" type="button" aria-label="Toggle dark mode">◐</button>
 </header>
-<div id="viewport" aria-label="Concept map"><svg id="map" xmlns="http://www.w3.org/2000/svg"><g id="cam"></g></svg></div>
-<div class="legend" id="legend"><button type="button" class="lg-toggle" aria-expanded="true">Key</button>
-  <div class="lg-body"><div class="lg-row">{stage_legend}</div><div class="lg-row">{kind_legend}</div>
-  <div class="lg-row lg-count">{len(chapters)} chapters · {n_concepts} concepts · {n_ready} drawn so far</div></div></div>
-<div class="zoom"><button type="button" data-z="in" aria-label="Zoom in">+</button><button type="button" data-z="out" aria-label="Zoom out">−</button><button type="button" data-z="fit" aria-label="Show everything">⤢</button></div>
-<div class="hint" id="hint">Click a chapter to zoom in · scroll or pinch to zoom · drag to move</div>
-<nav class="chsheet" id="chsheet" aria-label="Concepts in this chapter" hidden></nav>
-<div class="toast" id="toast" role="status"></div>
+<main id="stage"><div id="tree"><svg id="wires" xmlns="http://www.w3.org/2000/svg"></svg></div></main>
+<footer class="key"><span><b class="mk exam">★</b> exam question</span><span><b class="mk trap">!</b> trap</span>
+  <span><svg width="14" height="14" aria-hidden="true"><line x1="7" y1="0" x2="7" y2="14"/><circle cx="7" cy="7" r="3"/></svg>each builds on the one above</span>
+  <span class="dim-t">grey = not drawn yet · {n_ready} of {n_concepts} drawn</span></footer>
 <div class="scrim" id="scrim"></div>
 <article class="card" id="card" role="dialog" aria-modal="true" aria-labelledby="card-title" hidden>
-  <header class="card-h"><div class="card-meta"><span class="card-ch"></span><span class="card-kind"></span></div>
-    <h2 id="card-title"></h2><p class="card-gist"></p>
-    <button class="card-x" type="button" aria-label="Back to the map">✕</button></header>
+  <header class="card-h"><div class="crumbs"></div><h2 id="card-title"></h2><p class="gist"></p><div class="builds"></div>
+    <button class="card-x" type="button" aria-label="Back to the tree">✕</button></header>
   <div class="card-b"></div>
-  <footer class="card-f"><button type="button" class="nav prev">◀ <span></span></button><div class="pips"></div>
-    <button type="button" class="nav next"><span></span> ▶</button></footer>
+  <footer class="card-f"><button type="button" class="nav prev"></button><span class="pos"></span><button type="button" class="nav next"></button></footer>
 </article>
 {''.join(templates)}
-<script id="map-data" type="application/json">{json.dumps(data, ensure_ascii=False)}</script>
-<script src="../static/app.js"></script><script src="../static/map.js"></script>
+<script id="tree-data" type="application/json">{json.dumps(data, ensure_ascii=False)}</script>
+<script src="../static/app.js"></script><script src="../static/tree.js"></script>
 </body></html>"""
-    (out / "index.html").write_text(head(meta["title"], "../", meta["blurb"], '<link rel="stylesheet" href="../static/map.css">')
+    (out / "index.html").write_text(head(meta["title"], "../", meta["blurb"], '<link rel="stylesheet" href="../static/tree.css">')
                                     + body, encoding="utf-8")
     return meta, n_concepts, n_ready
 
@@ -220,8 +230,8 @@ def main():
         for m, n, r in packs)
     body = f"""<body><header class="top"><div class="top-in"><a class="brand" href="index.html"><span class="logo">◧</span>{SITE_NAME}</a>
 <span class="grow"></span><button class="theme" type="button" aria-label="Toggle dark mode">◐</button></div></header>
-<main class="home"><section class="hero"><h1>Study packs, as maps.</h1>
-<p class="lede">Each subject is one map. Zoom into a chapter, open one concept at a time, and try before you reveal.</p></section>
+<main class="home"><section class="hero"><h1>Study packs, as trees.</h1>
+<p class="lede">Each subject is one tree. Open a chapter, take one concept at a time, and try before you reveal.</p></section>
 <div class="subjects">{cards}</div></main><script src="static/app.js"></script></body></html>"""
     (OUT / "index.html").write_text(head("Home", "", "Pictorial study maps") + body, encoding="utf-8")
     print("site ->", OUT)
