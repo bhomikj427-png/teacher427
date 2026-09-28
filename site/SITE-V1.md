@@ -88,7 +88,7 @@
   circles or hubs, kind badges on every node, pulsing rings, gradients, radial wheels,
   pan/zoom camera gymnastics, a sidebar, long scrolling pages.
 - **Footer key:** one quiet line: ★ exam question · ! trap · spine = builds on the one above ·
-  grey = not drawn yet · n of N drawn.
+  grey = not drawn yet · n of N drawn. (★ is left out on a page that has no exam questions.)
 - **Top bar:** ◧ (all subjects) · subject title · exam line (muted) · ◐.
 
 ## 5. Card content rules (inherited from the pictorial pack rules)
@@ -113,7 +113,8 @@
 Each subject has `subjects/<…>/study-pack/web/`:
 
 ```
-meta.json      slug, code, title, blurb, exam {name, marks, minutes, sections},
+meta.json      slug, code, title, blurb, exam {name, marks, minutes, sections}
+               (or, for a subject with no exam, `line`: the muted top-bar text instead),
                stages [{id, title, hue: blue|green|violet|amber}],
                chapters [{id, n, title, stage, weight 0-3, tree, needs?}]
 figures.py     functions returning SVG strings; ALL = {name: fn}. Generated, never hand-drawn.

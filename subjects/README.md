@@ -6,9 +6,10 @@ active. This folder is where **subjects** plug in. It was kept empty until the e
 in each subject's `progress-log.md` and `sem-3/research-engine/research-queue.md` — this README
 describes the *shape* of a subject, never live state.
 
-**Two layouts exist:** standalone subjects sit flat (`subjects/<name>/`); the sem-3 batch nests
-one level (`subjects/sem-3/<NN-subject>/`, same internal shape) with its shared research engine in
-`sem-3/research-engine/` and intake in `sem-3/_inbox/`. Tools that take a subject name accept the
+**Two layouts exist:** standalone subjects sit flat (`subjects/<name>/`); groups nest one level
+(`subjects/<group>/<NN-subject>/`, same internal shape). The groups are the sem-3 batch (shared research
+engine in `sem-3/research-engine/`, intake in `sem-3/_inbox/`) and `digital-arts/` (creative software;
+its README says how the gate and sourcing apply when there is no syllabus and no exam). Tools that take a subject name accept the
 nested form (e.g. `save_lesson` with `subject="sem-3/01-statistics-and-probability"`).
 
 ## Stage status & the teaching gate (engine-level — applies to EVERY subject)

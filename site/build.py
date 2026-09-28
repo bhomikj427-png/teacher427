@@ -7,7 +7,7 @@ Each subject is ONE page: a tree (subject → stage → chapter → group → co
 branch grows out; click a concept to open its card (one at a time, ← → to walk, Esc to step back).
 
 A pack is a folder `study-pack/web/` holding:
-  meta.json      subject, exam shape, stages (colour groups), chapters with their concept `tree`
+  meta.json      subject, exam shape (or `line` for a subject with no exam), stages (colour groups), chapters with their concept `tree`
                  (ids for written concepts, [title, kind] outlines, {group, seq, items}) and `needs`
   figures.py     functions returning SVG strings (ALL = {name: fn})
   content/NN-*.md   one file per chapter, split into concepts by header lines:
@@ -180,10 +180,16 @@ def build_pack(web):
         n_ready += len(written)
         chapters.append({"id": c["id"], "n": c["n"], "title": c["title"], "stage": c["stage"], "weight": c["weight"],
                          "ready": bool(written), "count": n, "tree": tree})
-    ex = meta["exam"]
-    exam = f'{ex["name"]} · {ex["marks"]} marks · {ex["minutes"]} min'
+    ex = meta.get("exam")
+    # `line` replaces the exam line for subjects with no exam (e.g. a software skill).
+    exam = meta.get("line") or f'{ex["name"]} · {ex["marks"]} marks · {ex["minutes"]} min'
     data = {"slug": slug, "code": meta["code"], "title": meta["title"], "stages": meta["stages"],
             "chapters": chapters, "exam": exam}
+
+    def kinds(items):
+        return set().union(*(kinds(i["items"]) if "group" in i else {i["kind"]} for i in items)) if items else set()
+    has_exam = any("exam" in kinds(c["tree"]) for c in chapters)
+    exam_key = '<span><b class="mk exam">★</b> exam question</span>' if has_exam else ""
     body = f"""<body class="treemode">
 <header class="tbar">
   <a class="brand" href="../index.html" title="All subjects">◧</a>
@@ -193,7 +199,7 @@ def build_pack(web):
   <button class="theme" type="button" aria-label="Toggle dark mode">◐</button>
 </header>
 <main id="stage"><div id="tree"><svg id="wires" xmlns="http://www.w3.org/2000/svg"></svg></div></main>
-<footer class="key"><span><b class="mk exam">★</b> exam question</span><span><b class="mk trap">!</b> trap</span>
+<footer class="key">{exam_key}<span><b class="mk trap">!</b> trap</span>
   <span><svg width="14" height="14" aria-hidden="true"><line x1="7" y1="0" x2="7" y2="14"/><circle cx="7" cy="7" r="3"/></svg>each builds on the one above</span>
   <span class="dim-t">grey = not drawn yet · {n_ready} of {n_concepts} drawn</span></footer>
 <div class="scrim" id="scrim"></div>

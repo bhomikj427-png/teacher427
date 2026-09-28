@@ -363,8 +363,9 @@ intuition or pop-pedagogy — stop and re-anchor to the five principles. Every m
 - `subject-research-protocol.md` — **how to build a subject's knowledge base to standard**: the
   anti-surface-level bar for Layer-2 *content* (the analogue of `research/00`'s bar for *method*).
 - `subjects/` — Layer 2; how subjects plug in (`subjects/README.md`). Live: `verilog/`, `python/`,
-  and the `sem-3/` batch (nested `sem-3/NN-subject/` layout; status in its `research-engine/
-  research-queue.md`).
+  the `sem-3/` batch (nested `sem-3/NN-subject/` layout; status in its `research-engine/
+  research-queue.md`), and the `digital-arts/` group (same nesting; creative software, vendor docs as
+  the textbook).
 - `rendering.md` — **the Visual & Rendering subsystem** (design doc/source of truth): the
   two-surface rule (terminal = ASCII control channel; browser tab = lesson surface for rendered
   math/figures/diagrams), the six visual primitives, and the subject-agnostic renderer registry.
