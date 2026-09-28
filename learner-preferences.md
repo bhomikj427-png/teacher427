@@ -182,6 +182,18 @@ prefers minimal prose, wants diagrams described, etc.)*
   everywhere, including the terminal, and the knowledge base already used Σm. Applies to
   study-pack generation, lessons, KB files and terminal dialogue alike. Retrofitted across all 10
   Digital Electronics study-pack files the day it was stated.
+- [stated 2026-09-27] **Study material must be pictorial, not textual.** The text study packs were
+  "too text-ual". → packs and site cards open each concept with a figure that carries the
+  structure; text is the caption (≈60 words/block max). Evidence: dual coding / multimedia
+  (`research/02 §9`), which applies to everyone and is not a learning-styles match.
+- [stated 2026-09-27/28] **Overview as a TREE, one concept at a time, minimal, balanced.** Rejected:
+  long pages + sidebar ("info dump"), and a busy radial zoom map ("not tree like enough",
+  "tacky"). Wants: landing = a tree of everything in the material; branches that show how
+  concepts **build on** each other (sequences) vs. independent ones (fans); plain lists where the
+  items are just leaves; clean and minimal, with colour only where it carries meaning; "that sweet
+  balance [of information vs overwhelm] … the balance is the key". → the approved format is
+  **site-v1** (`site/SITE-V1.md`); apply the same instincts to any structured overview (lessons,
+  maps, Studio boards): structure first, one concept in focus, no decoration.
 
 ## 4. Autonomy & choice
 *(How much the learner wants to steer — pick next topic, choose examples, set pace. Unseeded.)*
@@ -278,3 +290,5 @@ without breaking the method.)*
   on a real, sourced, marks-tagged question the learner cannot yet answer, followed by a mandatory
   "guess first" line, then the teaching. Learner-confirmed twice. Recorded that the guess prompt is
   what keeps the shape inside principle 1 (pretesting) rather than becoming a Q&A lecture.
+- 2026-09-28 — Added two stated §3 prefs: pictorial-not-textual study material; overview as a
+  minimal concept tree with one concept at a time (format frozen as `site/SITE-V1.md`).

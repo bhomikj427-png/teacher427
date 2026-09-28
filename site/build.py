@@ -1,4 +1,4 @@
-"""Build the study website: every subjects/**/study-pack/web/ pack -> site/public/.
+"""Build the study website (format: site/SITE-V1.md — frozen v1): every subjects/**/study-pack/web/ pack -> site/public/.
 
 Run:   python site/build.py
 Open:  site/public/index.html   (relative links: works from disk and on GitHub Pages)
@@ -222,7 +222,7 @@ def main():
     for m in sorted(ROOT.glob("subjects/**/study-pack/web/meta.json")):
         meta, n, r = build_pack(m.parent)
         packs.append((meta, n, r))
-        print(f"{meta['slug']}: map page, {n} concepts ({r} drawn)")
+        print(f"{meta['slug']}: tree page, {n} concepts ({r} drawn)")
     cards = "".join(
         f'<a class="subj" href="{m["slug"]}/index.html"><span class="code">{m["code"]}</span>'
         f'<span class="subj-t">{html.escape(m["title"])}</span><span class="subj-b">{html.escape(m["blurb"])}</span>'

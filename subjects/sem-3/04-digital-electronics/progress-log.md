@@ -89,3 +89,8 @@
   (each builds on the one above); hovering a concept highlights what it builds on; card shows
   path + "Builds on" links + prev/next. Phones: indented outline. Old radial map removed. Ch1 tree
   + needs in `meta.json`, ch2-9 outlined as groups/sequences. **No teaching event.**
+- [2026-09-28] Learner (stated): "i like this … i want this format to be the site-v1, note
+  everything down". Format frozen as **site-v1**: full spec written to `site/SITE-V1.md` (tree
+  hierarchy, fan/spine/list encoding, behaviour, minimal visual language, card rules, authoring,
+  code map, version history); git tag `site-v1`; README, parked design doc, universal preferences
+  (§3) and CLAUDE.md file map point at it. **No teaching event.**

@@ -120,3 +120,13 @@ asked for a basic demo to iterate on. Built: `site/` generator + DE chapter 1 as
 `site/deploy.sh` to a separate public repo. The private repo stays private.
 Known next iterations: learning-path diagram too small on phones; chapters 2–9 still to convert;
 other subjects join by adding `study-pack/web/`.
+
+## 8. Site format settled: site-v1 (2026-09-28)
+
+After two rejected iterations (v0.1 long pages with a sidebar: "info dump"; v0.2 radial zoom map:
+"not tree like", "tacky"), the learner approved the **minimal concept tree** and froze it as
+**site-v1**. The full spec is in **`site/SITE-V1.md`** (git tag `site-v1`). This settles D2 (site,
+GitHub Pages), D3 (the figure-first rule applies to the site's cards; the terminal is unchanged) and
+D5 for the site (it is a site-format rule, recorded in SITE-V1.md; the learner's taste is recorded in
+`learner-preferences.md` §3). Still open: D1 (who else reads it; "mostly personal use" for now)
+and D4 (retrofitting other packs: done chapter by chapter as they are drawn).

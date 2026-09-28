@@ -380,6 +380,10 @@ intuition or pop-pedagogy — stop and re-anchor to the five principles. Every m
   NPTEL-lecture → transcript path for content sourcing (§2); `make_figure.py` + `render_lesson.py`
   are the lesson-rendering path (`rendering.md`); `whiteboard_server.py` + `whiteboard.py` are the
   live-whiteboard path (`whiteboard.md`). Install deps via `requirements.txt`.
+- `site/` — **the pictorial study website** (personal, GitHub Pages via `site/deploy.sh`). Format is
+  frozen as **`site/SITE-V1.md`** (subject → stage → chapter → group → concept tree, one concept
+  card at a time, minimal visual language); subjects join via `study-pack/web/`. Delivery only —
+  figure-first cards keep retrieval (warm-ups, hidden answers); never a substitute for CHECKs.
 - `requirements.txt` — pinned Python deps for the tools (plumbing only).
 - `README.md` + `.gitignore` — repo surface. The project is a **git repo pushed to the learner's
   private GitHub** every session (Session start §0b + §5c). `README.md` describes **protocol only**
