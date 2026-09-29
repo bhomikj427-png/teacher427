@@ -53,3 +53,10 @@ after the sprint, then +3 days, +7 days.)*
   shell was still inside `site/public/after-effects`. Shell moved out; rebuild OK (69/69 drawn; ★ legend
   absent on after-effects, present on digital-electronics). 390 px check re-run inside iframes: card and
   tree fit with no clipping → the earlier clipping was the headless minimum-width artefact.
+
+## Live log — 2026-09-29
+- Learner report: opening a card works, but next/prev makes the card vanish. Cause (site-wide, all packs):
+  `openCard` in `site/static/tree.js` reset `card.className`, dropping `open` → the card went to opacity 0
+  while still covering the page. Fixed: keep `open` when swapping; a card still fading out counts as
+  closed. Headless checks: next within a chapter, next across chapters (ch 3 → ch 4), prev, and
+  close-then-reopen within 100 ms all render.

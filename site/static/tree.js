@@ -255,8 +255,10 @@
   // ------------------------------------------------------------ card
   function openCard(n) {
     var tpl = document.getElementById('t-' + n.ch.id + '--' + n.c.id);
-    var wasOpen = !card.hidden;
-    card.className = 'card h-' + n.hue + ' k-' + n.c.kind;
+    // "open" = visible now; a card still fading out after a close counts as closed, so it animates back in
+    var wasOpen = !card.hidden && card.classList.contains('open');
+    // keep `open` when swapping cards in place; dropping it faded the card to opacity 0 (it vanished on next/prev)
+    card.className = 'card h-' + n.hue + ' k-' + n.c.kind + (wasOpen ? ' open' : '');
     var cr = card.querySelector('.crumbs');
     cr.innerHTML = '';
     var trail = [];
