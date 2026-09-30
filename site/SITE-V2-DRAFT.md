@@ -334,7 +334,7 @@ figures.py / verify.py    generated figures + machine checks (unchanged role)
 | # | Deliverable | Learner judges |
 |---|---|---|
 | **1** ✓ | This draft plus the session record (2026-09-29/30) | the direction (given in-session) |
-| **2** | **Throwaway prototypes** of L0 and L1 on real data: the three container variants (§3.1) and the L0 variants, desktop + 390px screenshots side by side | which layer look they want |
+| **2** ✓ built | **Throwaway prototypes** of L0 and L1 on real data: the three container variants (§3.1) and the L0 variants, desktop + 390px screenshots side by side. See §13. | which layer look they want (**pending**) |
 | **3** | **Real build:** graph data model, auto-chaptering, bridges, focus (L2), zoom transitions, §2.1 growth; migrate the test subject | the working site |
 | **4** | **Content engine v2** (§8) on the content test subject: real images with markers, tool output, depth bar | content quality ("does it reach the potential?") |
 | **5** | L3 web layer, the full "drop material" automation (§7), move other subjects over; freeze as `SITE-V2.md` + tag `site-v2` | freeze |
@@ -358,3 +358,45 @@ figures.py / verify.py    generated figures + machine checks (unchanged role)
    Design this in session 3.
 6. Deployment: the learner said "treat this as if i am keeping this local". Public Pages deploy is no
    longer a goal. Local build first, and share with friends however is easiest (decide later).
+
+## 13. Session 2 results (2026-09-30; built, awaiting the learner's picks)
+
+Everything is in `v2-design/prototypes/`. Start at `compare.html`. The record is
+`v2-design/2026-09-30-session-2-record.md`.
+
+**What exists:**
+- The whole of Digital Electronics as a v2 graph: 117 concepts, 188 bridged flow edges (30 with predict-first), 18
+  relates-to links.
+- The automatic chapter cutter (§6), working: 17 chapters of 5–9 concepts; 85/188 edges cross chapter boundaries.
+- Live L0–L3 prototypes, and a self-test (576 renders, 0 errors).
+
+**How §6 is implemented (prototype):**
+1. Validate.
+2. Build a topological order that keeps each KB topic together. It takes topics in **syllabus unit order**, then
+   shallowest first. This signal is needed because edges alone would put U5 logic families at chapter 3, while the
+   KB says they go last on purpose.
+3. Run a DP split, minimising edges that cross chapters plus a penalty for mixing topics, with chapter size in
+   [5, 9].
+4. Refine with single-concept moves.
+5. Name each chapter from its dominant topics, disambiguating repeats by the hub concept.
+
+**Design changes that came out of building:**
+- **§2.1, ghost edges.** Growth must not *hide* not-yet edges: an unstarted chapter became shapeless dots. Not-yet
+  edges are now faint dotted ghosts and turn solid when earned.
+- **§3.1 variant 2, rails replace port nodes.** Ports laid out as graph nodes sprawled dashed lines across the page.
+  Now:
+  - a "comes from" tag rail sits above the chapter graph and a "leads to" rail below;
+  - a small stub marks each concept with an outside link;
+  - hovering a tag lights up its concepts. No crossing lines.
+
+**Open problems found** (listed in `compare.html`):
+- On a phone, the L1 graph scales down to about 70%. A phone-specific chapter layout may be needed.
+- River L0 does not work on a phone.
+- 17 chapters exceeds the 6–12 hoped for at L0 (the floor is ⌈117/9⌉ = 13). Options: accept it, or show stages first.
+- The auto chapter names are clunky.
+- The phone focus strip is one sideways-scrolling line.
+
+**Engine's picks** (the learner decides):
+- L0: river on desktop, strata on a phone;
+- L1: ports (rails);
+- growth: on, with ghosts.

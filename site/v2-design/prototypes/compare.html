@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site v2 · session 2 · pick your layers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #f7f7f4; --card: #fff; --ink: #1c1f24; --muted: #6a707a; --line: #e3e3de; --soft: #f0f0eb; --accent: #2f5bea;
+  --blue: #3b5bdb; --green: #2b8a3e; --violet: #6741d9; --amber: #d9480f; }
+@media (prefers-color-scheme: dark) { :root { --bg: #111317; --card: #1a1d22; --ink: #e8e9eb; --muted: #9aa0a9; --line: #2c3037; --soft: #22262c;
+  --accent: #7b9cff; --blue: #8ea4ff; --green: #69db7c; --violet: #b197fc; --amber: #ffa94d; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15.5px/1.6 Inter, "Segoe UI", system-ui, sans-serif; }
+a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 40px 16px 80px; }
+h1 { font-size: 30px; letter-spacing: -0.015em; margin: 0 0 6px; line-height: 1.2; }
+.lede { color: var(--muted); max-width: 70ch; margin: 0 0 12px; }
+h2 { font-size: 21px; margin: 56px 0 4px; letter-spacing: -0.01em; display: flex; gap: 10px; align-items: baseline; }
+h2 .k { font: 700 13px "JetBrains Mono", monospace; color: var(--accent); }
+.q { color: var(--muted); margin: 0 0 18px; max-width: 80ch; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .grid3, .grid4, .grid2 { grid-template-columns: 1fr; } }
+.opt { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.opt.rec { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.opt h3 { margin: 0; font-size: 16.5px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.opt h3 .tag { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.opt p { margin: 0; font-size: 14px; color: var(--muted); }
+.opt ul { margin: 0; padding-left: 18px; font-size: 14px; } .opt li { margin: 2px 0; }
+.opt li.plus::marker { content: "+  "; color: var(--green); font-weight: 700; } .opt li.minus::marker { content: "–  "; color: var(--amber); font-weight: 700; }
+.shots { display: grid; grid-template-columns: 1fr 34%; gap: 8px; align-items: start; }
+.shots.one { grid-template-columns: 1fr; }
+figure { margin: 0; }
+figure img { width: 100%; display: block; border: 1px solid var(--line); border-radius: 10px; background: var(--soft); cursor: zoom-in; }
+figcaption { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.live { font-weight: 600; font-size: 14px; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 18px 0; }
+.fact { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.fact b { display: block; font-size: 22px; letter-spacing: -0.01em; }
+.fact span { font-size: 12.5px; color: var(--muted); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+th, td { text-align: left; padding: 7px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+th { background: var(--soft); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); border-top: 0; }
+td .n { font: 700 12.5px "JetBrains Mono", monospace; }
+.h-blue { color: var(--blue); } .h-green { color: var(--green); } .h-violet { color: var(--violet); } .h-amber { color: var(--amber); }
+.note { border-left: 3px solid var(--amber); background: var(--card); border-radius: 0 12px 12px 0; padding: 12px 16px; margin: 14px 0; font-size: 14.5px; }
+.note b { color: var(--amber); }
+.pick { background: var(--card); border: 1px dashed var(--accent); border-radius: 16px; padding: 18px 22px; margin-top: 18px; }
+.pick code { font: 600 13.5px "JetBrains Mono", monospace; background: var(--soft); padding: 2px 8px; border-radius: 6px; }
+.pick ol { margin: 8px 0 0; padding-left: 22px; } .pick li { margin: 6px 0; }
+.zoom { position: fixed; inset: 0; background: rgba(0,0,0,.72); display: none; align-items: center; justify-content: center; z-index: 10; padding: 20px; cursor: zoom-out; }
+.zoom img { max-width: 100%; max-height: 100%; border-radius: 10px; }
+.zoom.on { display: flex; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Site v2 · session 2: pick your layers</h1>
+<p class="lede">Real prototypes of every layer (SITE-V2-DRAFT §3) on the <b>whole</b> Digital Electronics subject,
+cut into chapters automatically, no hand placement anywhere. Each option has a desktop and a phone screenshot
+(click to enlarge) and a <b>live</b> link. On the live page, the <b>prototype controls</b> bottom-left switch variants,
+turn growth on/off and drag the progress slider to watch the map grow.</p>
+<p class="lede"><a class="live" href="proto.html">Open the live prototype →</a> &nbsp;·&nbsp; card <i>content</i> is a placeholder except the K-map
+chapter (reused v1 cards). Content is session 4; this session judges <b>structure</b>.</p>
+
+<h2><span class="k">0</span>What the engine did automatically</h2>
+<p class="q">From the knowledge base: every concept, every "A leads to B" edge with its bridge, the chapter cuts, the trunk, the chapter names and colours, the teaching order.</p>
+<div class="facts">
+  <div class="fact"><b>117</b><span>concepts, from KB units 1–5 + prerequisites</span></div>
+  <div class="fact"><b>188</b><span>flow edges, every one with a bridge sentence</span></div>
+  <div class="fact"><b>30</b><span>edges with a "predict first" question</span></div>
+  <div class="fact"><b>18</b><span>relates-to links (web layer only)</span></div>
+  <div class="fact"><b>17</b><span>chapters, each ≤ 9 concepts, cut by algorithm</span></div>
+  <div class="fact"><b>0</b><span>errors in the self-test (576 renders: every layer × variant × concept)</span></div>
+</div>
+<table>
+  <tr><th>#</th><th>Auto-named chapter</th><th>Concepts</th><th>#</th><th>Auto-named chapter</th><th>Concepts</th></tr>
+  <tr><td><span class="n h-blue">1</span></td><td>Numbers &amp; codes · Gates <i>(trunk)</i></td><td>9</td><td><span class="n h-violet">10</span></td><td>Flip-flops</td><td>8</td></tr>
+  <tr><td><span class="n h-blue">2</span></td><td>Boolean algebra</td><td>9</td><td><span class="n h-violet">11</span></td><td>Timing</td><td>5</td></tr>
+  <tr><td><span class="n h-blue">3</span></td><td>K-maps</td><td>7</td><td><span class="n h-violet">12</span></td><td>Shift registers</td><td>5</td></tr>
+  <tr><td><span class="n h-blue">4</span></td><td>K-maps · Combinational design</td><td>6</td><td><span class="n h-violet">13</span></td><td>Counters</td><td>6</td></tr>
+  <tr><td><span class="n h-green">5</span></td><td>Adders</td><td>9</td><td><span class="n h-violet">14</span></td><td>State machines: The FSM model</td><td>5</td></tr>
+  <tr><td><span class="n h-green">6</span></td><td>MUX / DEMUX</td><td>6</td><td><span class="n h-violet">15</span></td><td>State machines: State diagram → state table</td><td>6</td></tr>
+  <tr><td><span class="n h-green">7</span></td><td>Decoder / encoder</td><td>5</td><td><span class="n h-amber">16</span></td><td>Logic families</td><td>9</td></tr>
+  <tr><td><span class="n h-green">8</span></td><td>Display · Comparators</td><td>7</td><td><span class="n h-amber">17</span></td><td>Memories &amp; PLDs · Logic families</td><td>7</td></tr>
+  <tr><td><span class="n h-violet">9</span></td><td>Latches · Timing</td><td>8</td><td></td><td></td><td></td></tr>
+</table>
+<div class="note"><b>How the cut works:</b> it orders concepts so that each topic stays together, taking topics in syllabus order.
+It then splits that order into chapters by dynamic programming, which minimises the edges crossing a chapter boundary
+(each chapter holds 5–9 concepts). A final pass moves single concepts where that cuts fewer edges. 85 of the 188 edges
+cross a chapter boundary. That is expected: gates, XOR, minterms and the design pipeline feed nearly everything.
+<b>Weak spot I can see:</b> the auto-names are functional but clunky, for example "State machines: State diagram →
+state table". Better naming is a session-3 job.</div>
+
+<h2><span class="k">A</span>Layer 0: the subject map (chapters only)</h2>
+<p class="q">The first thing you see: everything in the subject, without concepts, without overwhelm.</p>
+<div class="grid3">
+  <div class="opt rec">
+    <h3>River <span class="tag">my pick · desktop</span></h3>
+    <div class="shots"><figure><img src="shots/l0-river.png" alt=""><figcaption>desktop</figcaption></figure><figure><img src="shots/l0-river-phone.png" alt=""><figcaption>phone</figcaption></figure></div>
+    <ul><li class="plus">The only one that literally shows <b>converge and diverge</b>: the trunk at the top, branching into building blocks and memory, then re-joining at state machines.</li>
+      <li class="plus">Shortcut links are hidden (a transitive reduction); hover shows every link of a chapter.</li>
+      <li class="minus">Crossings between rows 5–8, because the subject really is a web.</li>
+      <li class="minus">Unreadable on a phone (it shrinks to about 40%).</li></ul>
+    <a class="live" href="proto.html?l0=river#/">open live →</a>
+  </div>
+  <div class="opt">
+    <h3>Lanes</h3>
+    <div class="shots"><figure><img src="shots/l0-lanes.png" alt=""><figcaption>desktop</figcaption></figure><figure><img src="shots/l0-lanes-phone.png" alt=""><figcaption>phone</figcaption></figure></div>
+    <ul><li class="plus">Teaching order is exact, top to bottom; each stage is a coloured thread.</li>
+      <li class="plus">One format that works on desktop and phone.</li>
+      <li class="minus">The links between lanes bundle into a braid, so which chapter feeds which is hard to read.</li>
+      <li class="minus">Reads as "a list with a git graph", less like a map.</li></ul>
+    <a class="live" href="proto.html?l0=lanes#/">open live →</a>
+  </div>
+  <div class="opt rec">
+    <h3>Strata <span class="tag">my pick · phone</span></h3>
+    <div class="shots"><figure><img src="shots/l0-strata.png" alt=""><figcaption>desktop</figcaption></figure><figure><img src="shots/l0-strata-phone.png" alt=""><figcaption>phone</figcaption></figure></div>
+    <ul><li class="plus">The calmest: one row per chapter and one dot per concept (filled = done), grouped by stage.</li>
+      <li class="plus">Perfect on a phone.</li>
+      <li class="minus">The web is invisible until you hover a row (it lights up what that row builds on).</li>
+      <li class="minus">Close to v1's rejected "list" feeling.</li></ul>
+    <a class="live" href="proto.html?l0=strata#/">open live →</a>
+  </div>
+</div>
+
+<h2><span class="k">B</span>Layer 1: one chapter (containers vs connected)</h2>
+<p class="q">Your open question: strict containers (less visual weight) or connected (more web)? Same chapter (5 · Adders), same progress, three treatments.</p>
+<div class="grid3">
+  <div class="opt">
+    <h3>Strict container</h3>
+    <div class="shots"><figure><img src="shots/l1-strict.png" alt=""><figcaption>desktop</figcaption></figure><figure><img src="shots/l1-strict-phone.png" alt=""><figcaption>phone</figcaption></figure></div>
+    <ul><li class="plus">The least ink: only this chapter's own flow.</li>
+      <li class="minus">No hint of where things come from (for example, that the half adder needs XOR from chapter 1).</li></ul>
+    <a class="live" href="proto.html?l1=strict&p=35#/ch/ch5">open live →</a>
+  </div>
+  <div class="opt rec">
+    <h3>Container + ports <span class="tag">my pick</span></h3>
+    <div class="shots"><figure><img src="shots/l1-ports.png" alt=""><figcaption>desktop</figcaption></figure><figure><img src="shots/l1-ports-phone.png" alt=""><figcaption>phone</figcaption></figure></div>
+    <ul><li class="plus">A <b>comes from</b> rail on top and a <b>leads to</b> rail below, as quiet dashed tags. <b>No line crosses the page.</b></li>
+      <li class="plus">Hover a tag and the concepts it feeds light up; its tooltip shows the bridge. Click to jump there.</li>
+      <li class="plus">A tiny stub on a concept marks "something outside connects here".</li>
+      <li class="minus">The rails wrap to 2–3 lines on a phone.</li></ul>
+    <a class="live" href="proto.html?l1=ports&p=35#/ch/ch5">open live →</a>
+  </div>
+  <div class="opt">
+    <h3>Connected in place</h3>
+    <div class="shots"><figure><img src="shots/l1-connected.png" alt=""><figcaption>desktop</figcaption></figure><figure><img src="shots/l1-connected-phone.png" alt=""><figcaption>phone</figcaption></figure></div>
+    <ul><li class="plus">The real web: neighbouring chapters sit around the open one, with real lines into its concepts.</li>
+      <li class="minus">About 3× the ink, and long lines cross the chapter box.</li>
+      <li class="minus">The chapter itself becomes a smaller part of the screen, which works against focus.</li></ul>
+    <a class="live" href="proto.html?l1=connected&p=35#/ch/ch5">open live →</a>
+  </div>
+</div>
+
+<h2><span class="k">C</span>Growth: leaves become nodes as you go</h2>
+<p class="q">Your rule: introduce a concept as a leaf, and let it become a node as your understanding widens. Chapter 5, progress
+30 → 33 → 36 → 40. A line becomes solid once its source is done and its target is done or next up. Not-yet lines are faint
+ghosts, so the <i>shape</i> stays visible. Watch <b>Half subtractor</b>: at 33 it is done with one visible connection (○ leaf);
+at 36 Full subtractor opens and it becomes a node (●).</p>
+<div class="grid4">
+  <figure><img src="shots/grow-0.png" alt=""><figcaption>30 done: the chapter is new, one concept is next up</figcaption></figure>
+  <figure><img src="shots/grow-1.png" alt=""><figcaption>33: the first lines are solid</figcaption></figure>
+  <figure><img src="shots/grow-2.png" alt=""><figcaption>36: leaves have turned into nodes</figcaption></figure>
+  <figure><img src="shots/grow-3.png" alt=""><figcaption>40: the chapter is complete, the whole flow is solid</figcaption></figure>
+</div>
+<div class="grid2" style="margin-top:14px">
+  <figure><img src="shots/grow-off.png" alt=""><figcaption>growth off: the full map from day one, for comparison</figcaption></figure>
+  <div class="note" style="margin:0"><b>Something I found while building:</b> my first version hid not-yet lines completely. An unstarted
+  chapter then looked like scattered dots with no shape at all, which defeats the point of a map. The ghost lines fix
+  that. You see where the flow will go; it just isn't solid until you've earned it. Tell me if even the ghosts are too
+  much.</div>
+</div>
+
+<h2><span class="k">D</span>Layer 2: focus</h2>
+<p class="q">Full takeover. Nothing but the concept, plus the from / leads-to strip. Tap a chip for the <b>bridge</b>. If the next concept
+has a prediction question and you haven't done it yet, the chip asks you to <b>predict first</b> and keeps the bridge hidden.</p>
+<div class="grid2">
+  <figure><img src="shots/l2-focus.png" alt=""><figcaption>focus on a concept that has real (v1) content</figcaption></figure>
+  <div style="display:grid;gap:12px">
+    <figure><img src="shots/l2-predict.png" alt=""><figcaption>"leads to" chip: predict first, bridge hidden behind a tap</figcaption></figure>
+    <figure><img src="shots/l2-bridge.png" alt=""><figcaption>"from" chip: the bridge explaining how Half adder leads here</figcaption></figure>
+  </div>
+</div>
+<div class="grid3" style="margin-top:12px">
+  <figure><img src="shots/l2-focus-phone.png" alt=""><figcaption>focus on a phone</figcaption></figure>
+  <figure><img src="shots/dark-l2.png" alt=""><figcaption>dark mode</figcaption></figure>
+  <figure><img src="shots/dark-l0.png" alt=""><figcaption>dark mode, L0 river</figcaption></figure>
+</div>
+
+<h2><span class="k">E</span>Layer 3: the web (only after done)</h2>
+<p class="q">"Connect to the web" stays locked until the concept is marked done. Then a side panel (a bottom sheet on a phone)
+shows related ideas plus the links to other chapters, each with its sentence.</p>
+<div class="grid2">
+  <figure><img src="shots/l3-web.png" alt=""><figcaption>desktop: Multiplexer after it is done</figcaption></figure>
+  <figure style="max-width:320px"><img src="shots/l3-web-phone.png" alt=""><figcaption>phone</figcaption></figure>
+</div>
+
+<h2><span class="k">!</span>Problems I found (not hiding them)</h2>
+<div class="note"><b>1. Phone L1 shrinks.</b> A chapter graph that is 4 concepts wide gets scaled to about 70% on a phone, so its labels
+are small. The option for session 3 is a phone-only chapter layout (a vertical stream where merges show as joins).</div>
+<div class="note"><b>2. River on a phone doesn't work.</b> If you pick river, the phone needs a different L0 (strata or lanes). That is
+why I recommend a split.</div>
+<div class="note"><b>3. There are 17 chapters, and the draft hoped for 6–12 at L0.</b> 117 concepts ÷ 9 per chapter can't be fewer than 13.
+Either accept it (the stage grouping carries the overview), or have L0 show the 4 stages first and let chapters open
+beneath them. The second adds a layer.</div>
+<div class="note"><b>4. Auto chapter names</b> need a better generator (see §0).</div>
+<div class="note"><b>5. The focus strip on a phone</b> is one line you swipe sideways. With many links it would otherwise take a
+third of the screen. An alternative is "from 2 · leads to 4" counters that expand on tap.</div>
+
+<div class="pick">
+<b>Your picks.</b> Reply in any words. The quickest form is:
+<ol>
+  <li><code>L0 = river / lanes / strata / river-desktop + strata-phone</code></li>
+  <li><code>L1 = strict / ports / connected</code></li>
+  <li><code>growth = ghosts ok / hide them / off</code></li>
+  <li><code>17 chapters = fine / stages first</code></li>
+  <li>anything on focus, bridges, predict-first, the web panel, or the feel of the zoom (try it live)</li>
+</ol>
+</div>
+</div>
+<div class="zoom" id="zoom"><img alt=""></div>
+<script>
+const z = document.getElementById('zoom');
+document.querySelectorAll('figure img').forEach(i => i.addEventListener('click', () => { z.querySelector('img').src = i.src; z.classList.add('on'); }));
+z.addEventListener('click', () => z.classList.remove('on'));
+addEventListener('keydown', e => { if (e.key === 'Escape') z.classList.remove('on'); });
+</script>
+</body>
+</html>
