@@ -334,7 +334,7 @@ figures.py / verify.py    generated figures + machine checks (unchanged role)
 | # | Deliverable | Learner judges |
 |---|---|---|
 | **1** ✓ | This draft plus the session record (2026-09-29/30) | the direction (given in-session) |
-| **2** ✓ built | **Throwaway prototypes** of L0 and L1 on real data: the three container variants (§3.1) and the L0 variants, desktop + 390px screenshots side by side. See §13. | which layer look they want (**pending**) |
+| **2** ✓ built, then reworked | Throwaway prototypes. The first round (§13) was rejected; the rework is "the river" (§14). | river picks (**pending**) |
 | **3** | **Real build:** graph data model, auto-chaptering, bridges, focus (L2), zoom transitions, §2.1 growth; migrate the test subject | the working site |
 | **4** | **Content engine v2** (§8) on the content test subject: real images with markers, tool output, depth bar | content quality ("does it reach the potential?") |
 | **5** | L3 web layer, the full "drop material" automation (§7), move other subjects over; freeze as `SITE-V2.md` + tag `site-v2` | freeze |
@@ -400,3 +400,69 @@ Everything is in `v2-design/prototypes/`. Start at `compare.html`. The record is
 - L0: river on desktop, strata on a phone;
 - L1: ports (rails);
 - growth: on, with ghosts.
+
+## 14. Session 2 rework: the river (2026-09-30; built, awaiting the learner's picks)
+
+The learner rejected §13's L0: "this is the web and not what i wanted, this would suit L3 better … its just too much
+same problem as v1". The verbatim feedback is in `v2-design/2026-09-30-session-2-record.md`. **This section
+supersedes §3's layer table, §3.1 and §13 wherever they disagree.**
+
+**The river interaction (L0 and L1 share it; L1 is "the same flow as L0, just applied on a chapter"):**
+- The page **waits for input**: a bobbing ▾, a dotted ghost of the next stop, and water trickling toward it.
+- Each input (space, ↓, a tap, or scroll in variant C) lets the water flow on to the next stop, which pops in with its
+  **priming card**.
+- Only the stops you have reached are shown. Past stops shrink to dots; older links fade.
+- **Visual-load budget:** one card and at most 6 map labels at a time. The self-test enforces it (the maximum
+  measured is 3).
+- "See it all" is available, but only when you ask for it.
+
+**Priming (the learner's word).** Evidenced as pretraining (Mayer: names and characteristics first; 13 of 16 tests,
+with a likely inflated median effect), advance organizers (modest), and pretesting (`research/02 §5`, strong). A stop
+shows:
+- its heading;
+- then either at most 3 key terms with short glosses (default), or one sentence, or a guess question with the words
+  revealed on a tap.
+
+**To do:** add pretraining and advance organizers to `research/` properly before citing them as the engine's evidence.
+
+**Concept kinds** (the learner: "3 kinds or even more … take initiative"). Five kinds, each with a study verb:
+- Logic · work it out;
+- Memorise · remember it;
+- Method · do it;
+- Circuit · draw it;
+- Trap · avoid it.
+
+**Colour modes:** kind (default) / topic (unit) / role (trunk, node, leaf, edge, grown per §2.1) / layer.
+
+**L2 = a sprint.**
+- The from/to strip is **removed**. Only the content and an exit are on screen ("the focus only exists to be a
+  sprint").
+- The concept is broken into the simplest steps: guess → idea → each figure → each point → check → done.
+- Connecting it to other concepts belongs to L3.
+
+**L3 = the web.** It is the full L0 chapter map, plus the concept's cross-chapter links and relates-to links, revealed
+one per input. Edges are content, so each link has its own **link sprint**: the two ends → guess → bridge → done.
+Two variants, to be picked:
+- **merged:** the link sprints live inside L3;
+- **split:** L3 is visual only, and L4 explains.
+
+**Prototype:**
+- `v2-design/prototypes/river.html`: live, with a ⚙ panel for every variant;
+- `v2-design/prototypes/compare-river.html`: the decision page;
+- `v2-design/prototypes/priming.py`: stand-in for the automatic kind and priming step;
+- `v2-design/prototypes/build_river.py`: the data build.
+
+**Engine's picks:**
+- L0 A (step river);
+- priming: 3 terms at L0, guess first at L1 where a sourced predict question exists;
+- colour: kind, with role as a toggle;
+- L3 merged;
+- sprint dots on.
+
+**Open problems:**
+- In variant A, the wide middle of the DE graph causes some stream crossings (a custom main-channel layout is a
+  session-3 item).
+- Kinds and priming are hand-written stand-ins.
+- Sprints have real content for 9 concepts only.
+- L3 is at chapter level on purpose: all 117 concepts on one screen would be overload.
+- On a phone, "see it all" shows numbers only.

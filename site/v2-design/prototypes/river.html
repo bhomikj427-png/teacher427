@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Site v2 river prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+(function(){var m=location.search.match(/[?&]theme=(light|dark)/);if(m)document.documentElement.dataset.theme=m[1];})();</script>
+<link rel="stylesheet" href="../../static/style.css">
+<link rel="stylesheet" href="river.css">
+</head>
+<body data-layer="0">
+<header class="rbar" id="bar">
+  <a class="rhome" href="#/" title="Subject map">◧</a>
+  <span class="lbadge" id="lbadge">L0</span>
+  <nav class="crumbs" id="crumbs"></nav>
+  <button class="theme" id="theme" type="button" aria-label="Toggle dark mode">◐</button>
+</header>
+<main id="view"></main>
+<div id="sprint" hidden></div>
+<button class="pp-btn" id="ppbtn" type="button" title="Prototype controls">⚙</button>
+<aside class="pp" id="pp" hidden></aside>
+<script src="vendor/dagre.min.js"></script>
+<script src="../../static/app.js"></script>
+<script src="out/river-data.js"></script>
+<script src="river.js"></script>
+</body>
+</html>
