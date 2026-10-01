@@ -201,3 +201,17 @@ real build) starts only after the learner picks.
 10. **Wrap-up (2026-10-01)**: the learner said "wrap up and also open the new demo".
     - The session was committed and pushed.
     - Next session: collect the picks from `compare-river.html`, then session 3 (the real build).
+11. **Learner feedback (2026-10-01), verbatim:**
+    > "dont hate this, but for every map i feel very lost, i want every node/leaf to be not horizontally aligned but
+    > rather atleast very slightly in vertical numerical order, meaning the first leaf/node is going to be slightly
+    > vertically up than the next one"
+12. **The staircase rule is built** (`river.js` `staircase()`, applied to every map: L0 A/B/C, L1, L3).
+    - dagre still sets each stop's x position.
+    - In teaching order, each stop's y = max(dagre y, previous stop's y + 44 px). Reading top to bottom is therefore
+      always the numbered order.
+    - Edges are redrawn as downward curves. They always flow down, because the order is topological.
+    - The row-alternating labels are removed: the 44 px step already keeps neighbouring labels apart.
+    - ranksep went from 96 to 84 to offset the extra height.
+    - The self-test now asserts the staircase on the chapter map. Result: PASS, 2662 renders, 0 errors, max 3 labels.
+    - All 37 screenshots were retaken, and `compare-river.html` was regenerated with a note on the staircase.
+    - **Draft rule (§14):** on every map, vertical position follows teaching order, strictly.

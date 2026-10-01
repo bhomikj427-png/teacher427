@@ -415,6 +415,11 @@ supersedes §3's layer table, §3.1 and §13 wherever they disagree.**
 - **Visual-load budget:** one card and at most 6 map labels at a time. The self-test enforces it (the maximum
   measured is 3).
 - "See it all" is available, but only when you ask for it.
+- **Staircase rule** (learner, 2026-10-01: "for every map i feel very lost"):
+  - On every map, each stop sits strictly lower than the one before it in teaching order: y = max(layout y,
+    previous stop's y + step).
+  - Reading top to bottom is the numbered order; no two stops share a row.
+  - Sideways position still shows the river's branches.
 
 **Priming (the learner's word).** Evidenced as pretraining (Mayer: names and characteristics first; 13 of 16 tests,
 with a likely inflated median effect), advance organizers (modest), and pretesting (`research/02 §5`, strong). A stop

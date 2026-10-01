@@ -91,6 +91,20 @@
     g.setDefaultEdgeLabel(() => ({}));
     return g;
   }
+  // The staircase (learner, 2026-10-01: "for every map i feel very lost"): dagre keeps the river's shape sideways,
+  // but every stop sits strictly lower than the stop before it in teaching order, so reading top to bottom IS the
+  // numerical order. Stops dagre put on one row become a gentle stair; edges are redrawn as downward curves.
+  const STAIR = 44;
+  function staircase(g, ids) {
+    const pos = {};
+    let prev = -Infinity;
+    ids.forEach(id => { const n = g.node(id); const y = Math.max(n.y, prev + STAIR); pos[id] = { x: n.x, y }; prev = y; });
+    const path = (a, b) => {
+      const A = pos[a], B = pos[b], d = (B.y - A.y) * 0.55;
+      return `M${A.x},${A.y} C${A.x},${A.y + d} ${B.x},${B.y - d} ${B.x},${B.y}`;
+    };
+    return { P: id => pos[id], W: g.graph().width, H: Math.max(g.graph().height, prev + 44), path };
+  }
   function restart(node, cls) { node.classList.remove(cls); void node.getBoundingClientRect(); node.classList.add(cls); }
 
   // ------------------------------------------------------------------ colour modes
@@ -118,11 +132,12 @@
     const N = spec.stops.length, idx = {};
     spec.stops.forEach((s, i) => idx[s.id] = i);
     const phone = narrow();
-    const g = dag({ nodesep: phone ? 30 : spec.nodesep || 80, ranksep: phone ? 50 : 96 });
+    const g = dag({ nodesep: phone ? 30 : spec.nodesep || 80, ranksep: phone ? 46 : 84 });
     spec.stops.forEach(s => g.setNode(s.id, { width: 36, height: 30 }));
     spec.edges.forEach(([a, b]) => g.setEdge(a, b));
     dagre.layout(g);
-    const GW = g.graph().width, GH = g.graph().height, P = id => g.node(id);
+    const L = staircase(g, spec.stops.map(s => s.id));
+    const GW = L.W, GH = L.H, P = L.P;
 
     host.innerHTML = "";
     const scroll = spec.input === "scroll";
@@ -143,7 +158,7 @@
 
     const gE = el("g", {}, svg), gT = el("g", {}, svg), gS = el("g", {}, svg);
     const edges = spec.edges.map(([a, b]) => {
-      const p = el("path", { class: "e", d: basis(g.edge(a, b).points) }, gE);
+      const p = el("path", { class: "e", d: L.path(a, b) }, gE);
       return { a, b, p };
     });
     edges.forEach(e => e.p.style.setProperty("--len", Math.ceil(e.p.getTotalLength() || 400)));
@@ -162,13 +177,6 @@
       n.addEventListener("click", ev => { ev.stopPropagation(); onStop(i); });
       return { n, fill, ring, num, lab };
     });
-
-    // stops sharing a row alternate their labels below / above, so neighbours never collide
-    const rows = {};
-    spec.stops.forEach(s => (rows[Math.round(P(s.id).y)] = rows[Math.round(P(s.id).y)] || []).push(s.id));
-    Object.values(rows).forEach(r => r.sort((a, b) => P(a).x - P(b).x).forEach((id, j) => {
-      if (j % 2) nodes[idx[id]].lab.setAttribute("y", -17);
-    }));
 
     let K = 0, cur = 0, overview = false, idle = null;
     const saved = pos[spec.key];
@@ -644,11 +652,11 @@
   let chapterLayout = null;
   function layoutChapters() {
     const phone = narrow();
-    const g = dag({ nodesep: phone ? 30 : 80, ranksep: phone ? 50 : 96 });
+    const g = dag({ nodesep: phone ? 30 : 80, ranksep: phone ? 46 : 84 });
     D.chapters.forEach(ch => g.setNode(ch.id, { width: 36, height: 30 }));
     D.chapterEdges.filter(e => e.direct).forEach(e => g.setEdge(e.from, e.to));
     dagre.layout(g);
-    return g;
+    return staircase(g, D.chapters.map(ch => ch.id));
   }
   function linksOf(cid) {
     if (!cid) return D.relates.map(r => ({ a: r.a, b: r.b, type: "relates", text: r.note }));
@@ -665,7 +673,7 @@
     setLayer(3, crumbs);
     const links = linksOf(cid);
     const g = chapterLayout = layoutChapters();
-    const GW = g.graph().width, GH = g.graph().height, P = id => g.node(id);
+    const GW = g.W, GH = g.H, P = g.P;
     view.innerHTML = "";
     const root = h("div", { class: "rv" }), box = h("div", { class: "rv-river" }), cam = h("div", { class: "rv-cam" });
     const svg = el("svg", { class: "rv-svg", width: GW, height: GH, viewBox: `0 0 ${GW} ${GH}` });
@@ -675,7 +683,7 @@
     const capBox = h("div", { class: "rv-cap" }), cap = h("div", { class: "cap" });
     capBox.appendChild(cap); root.appendChild(capBox); view.appendChild(root);
     if (!narrow()) box.style.width = Math.min(GW + 48, innerWidth - 470) + "px";
-    D.chapterEdges.filter(e => e.direct).forEach(e => el("path", { class: "wm-e", d: basis(g.edge(e.from, e.to).points) }, svg));
+    D.chapterEdges.filter(e => e.direct).forEach(e => el("path", { class: "wm-e", d: g.path(e.from, e.to) }, svg));
     const me = cid ? chapterOf[cid] : null;
     const gL = el("g", {}, svg), gD = el("g", {}, svg), gT = el("g", {}, svg);
     D.chapters.forEach(ch => {
@@ -957,6 +965,9 @@
         if (K < active.state().N - 1 && !document.querySelector("#view .st.ghost")) errs.push(`motion: no waiting ghost at L0 step ${K}`);
       }
       S.motion = false; document.body.classList.add("still");
+      // staircase: on every map, each stop is strictly lower than the one before it in teaching order
+      const stair = (ids, Lx, where) => ids.forEach((id, k) => { if (k && !(Lx.P(id).y > Lx.P(ids[k - 1]).y)) errs.push(`staircase broken: ${where} ${ids[k - 1]} → ${id}`); });
+      stair(D.chapters.map(c => c.id), layoutChapters(), "L0/L3");
       // data checks
       const seen = new Set();
       D.order.forEach((id, k) => { preds[id].forEach(p => { if (orderIdx[p] > k) errs.push(`order: ${p} after ${id}`); }); seen.add(id); });

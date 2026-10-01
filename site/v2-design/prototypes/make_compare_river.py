@@ -31,6 +31,7 @@ body = f"""
 <div class="wrap">
 <h1>Site v2 · the river</h1>
 <p class="lede">The session 2 rework, built from your feedback. L0 and L1 now use the same river: it waits for your input, and each input lets the water flow on to the next stop. Each stop shows its heading and three key words, nothing more. L2 is a sprint with only the content on screen. L3 is the web, where each link is its own small idea.</p>
+<p class="lede"><b>New, the staircase:</b> on every map (L0, L1, L3), each stop sits a little lower than the stop before it. Reading top to bottom is the numbered order; nothing shares a row any more.</p>
 <p class="lede"><b>Screenshots can't show the motion.</b> Open the live page and press space (or tap).</p>
 <div class="big-live"><a href="river.html">Open the live river (fresh start)</a><a class="soft" href="{R}p=24">…with 24 concepts done</a><a class="soft" href="{R}selftest=1">self-test</a></div>
 <p class="q">The ⚙ button (bottom left) switches every variant live: L0 variant, colour mode, priming card, L3 split, motion, progress.</p>
