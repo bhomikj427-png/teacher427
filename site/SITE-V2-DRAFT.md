@@ -1,5 +1,8 @@
 # Study site — v2 design DRAFT (not built, not frozen)
 
+> **PARKED 2026-10-01** (learner: "park this"). Resume by collecting the river picks from
+> `v2-design/prototypes/compare-river.html` (§14), then session 3.
+>
 > **Status: DRAFT, design phase.** Nothing here is implemented. Written 2026-09-29/30 at the end of v2
 > design session 1, where the learner set the direction. `SITE-V1.md` is still the live, built format
 > until this draft is prototyped, built and frozen as `SITE-V2.md`.

@@ -215,3 +215,8 @@ real build) starts only after the learner picks.
     - The self-test now asserts the staircase on the chapter map. Result: PASS, 2662 renders, 0 errors, max 3 labels.
     - All 37 screenshots were retaken, and `compare-river.html` was regenerated with a note on the staircase.
     - **Draft rule (§14):** on every map, vertical position follows teaching order, strictly.
+13. **PARKED (2026-10-01).** The learner said "park this".
+    - Site v2 stops here.
+    - The river picks in `compare-river.html` are still open.
+    - Resume by collecting those picks, then session 3 (the real build).
+    - The learner moved on to an engine gap: teaching by everyday examples and analogies.
