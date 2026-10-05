@@ -22,3 +22,7 @@
 ## Session history
 - [2026-07-05] Scaffolded (engine audit; no teaching): curriculum derived from 00-map,
   profile + this log initialized. KB state unchanged (`stage-2✓` since 2026-06-24).
+- [2026-10-05] Inbox triage (no teaching): the professor's JFET-parameters slide (via a classmate's
+  WhatsApp, captioned "8 marks") filed to `exam-pack/TIP-JFET-parameters-8marks-2026-10-05.md`.
+  Gap found: KB `03-jfets.md` had g_m and r_d but **not g_d or μ, or μ = g_m·r_d**. Added them,
+  checked by derivation. `exam-map.md` gets its first evidence row (U3, 8-mark item, `likely`).

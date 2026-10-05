@@ -46,6 +46,26 @@ V_DS at fixed V_GS:
 - **Channel-length modulation** (the slight upward slope in saturation): I_D = I_DSS(1−V_GS/V_P)²(1+λV_DS);
   output resistance r_d = 1/(λI_D). Often neglected in first-pass Stage 1.
 
+### The four characteristic parameters (professor's slide, flagged "8 marks", added 2026-10-05) — `settled`
+Each is a partial derivative of the surface I_D = f(V_GS, V_DS). The variable held constant is part of
+the definition, so learn it with the formula.
+| Parameter | Definition | Held constant | Unit |
+|---|---|---|---|
+| Transconductance **g_m** | (∂I_D/∂V_GS) ≈ ΔI_D/ΔV_GS | V_DS | S (mho) |
+| Drain (output) resistance **r_d** | (∂V_DS/∂I_D) ≈ ΔV_DS/ΔI_D | V_GS | Ω |
+| Drain conductance **g_d** | (∂I_D/∂V_DS) = **1/r_d** | V_GS | S |
+| Amplification factor **μ** | **−**(∂V_DS/∂V_GS) ≈ −ΔV_DS/ΔV_GS | I_D | none |
+- **μ = g_m · r_d** (the usual "find the relation" part). *Derivation:* dI_D = g_m dV_GS + (1/r_d) dV_DS.
+  Hold I_D constant (dI_D = 0): 0 = g_m dV_GS + dV_DS/r_d, so (∂V_DS/∂V_GS) at constant I_D = −g_m r_d,
+  and therefore μ = g_m r_d. The minus sign in the definition is there because raising V_GS must be
+  offset by *lowering* V_DS to keep I_D fixed. It makes μ positive.
+- Where to read them off: g_m is the slope of the **transfer** curve (I_D vs V_GS). r_d is the inverse
+  slope of an **output** curve (I_D vs V_DS) in saturation. μ = how much V_DS change one volt of V_GS
+  is "worth".
+- Check: the definitions and the μ = g_m r_d relation follow from the chain rule given the slide's
+  definitions, so they are certain. They match the slide exactly (incl. the minus sign on μ).
+  `exam-pack/TIP-JFET-parameters-8marks-2026-10-05.md` is evidence of **emphasis only**.
+
 ### Biasing (find the Q-point)
 - **Fixed bias:** a negative V_GG directly on the gate; V_GS = −V_GG; plug into Shockley for I_D.
 - **Self-bias:** a source resistor R_S; V_GS = −I_D·R_S. Solve simultaneously with Shockley
@@ -83,6 +103,7 @@ V_DS at fixed V_GS:
 - I_D = I_DSS(1 − V_GS/V_P)² (saturation) · sat. condition V_DS ≥ V_GS − V_P
 - g_m = (−2I_DSS/V_P)(1−V_GS/V_P) = 2√(I_DSS I_D)/|V_P| · g_m0 = −2I_DSS/V_P
 - Self-bias V_GS = −I_D R_S · A_v ≈ −g_m(R_D∥r_d) · r_d = 1/(λI_D)
+- g_d = 1/r_d · μ = −(∂V_DS/∂V_GS) at constant I_D = g_m·r_d
 
 ---
 **Stage 2 (deep structure) — ✓ BUILT (2026-06-24):** lives separately in `stage-2/03-jfets.md`. *Adds:* derivation

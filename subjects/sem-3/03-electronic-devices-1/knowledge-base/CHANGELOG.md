@@ -109,3 +109,9 @@ the open items below (none block teaching; exam-targeting still wants PYQs to we
 - **Next:** TEACH-READY (`stage-2✓`). On teaching activation: run the teaching loop, lead with
   exam-relevant material (scoring-over-depth). Re-verify stale/`contested` claims on re-entry. Rebuild
   `exam-map.md` + re-weight depth when PYQs/PPTs land in `exam-pack/`.
+
+## 2026-10-05 — inbox delta: JFET characteristic parameters
+- Trigger: the professor's slide (classmate's WhatsApp, "8 marks") → `../exam-pack/TIP-JFET-parameters-8marks-2026-10-05.md`.
+- `03-jfets.md`: added **g_d = 1/r_d**, **μ = −(∂V_DS/∂V_GS) at constant I_D**, and **μ = g_m·r_d** with its
+  derivation, plus a table of held-constant variables. These were missing before (g_m and r_d were present). `settled` (derivation).
+- `exam-map.md`: first evidence row. U3 has an 8-mark item (`likely`).

@@ -7,6 +7,14 @@
 > Honesty split (`exam-resources.md`): a PYQ/PPT is tier-1 for *what is asked*; never for *what is
 > true*. Rebuild this file the moment papers arrive.
 
+## Evidence received (replaces hypothesis where it applies)
+
+| Date | Evidence | What it says | Conf |
+|------|----------|--------------|------|
+| 2026-10-05 | `../exam-pack/TIP-JFET-parameters-8marks-2026-10-05.md`: photo of the professor's slide, relayed by a classmate with "Yelo 8 marks" | **U3 JFET: an 8-mark item on the four characteristic parameters** (g_m, r_d, g_d, μ). Likely form: define each with the held-constant variable and derive μ = g_m·r_d. Possibly also read them off the characteristic curves. KB: `03-jfets.md`, "The four characteristic parameters". | `likely` (a classmate's relay, not a paper) |
+
+→ **U3 weight raised from Med toward High** for the coming exam on this evidence. The rest of the table stays a hypothesis.
+
 ## Inferred topic weightage (HYPOTHESIS — replace with PYQ evidence)
 
 | Unit | Topic | Inferred weight | Likely question types | Conf |
