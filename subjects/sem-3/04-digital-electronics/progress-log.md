@@ -122,3 +122,19 @@
   nothing assessed; mastery ledger and review queue unchanged.**
 - [2026-10-17] **Where we stopped:** DE-v1.pdf delivered; learner has not worked any Check yet.
   Next session: start-of-session recall, then run the mock paper (Section C first) as the diagnostic.
+- [2026-10-17] Learner verdict on DE-v1.pdf (stated): "feels very disconnected … starts from a random
+  place … expected to know alot before hand … all the shit i … tried to build … feels like non of it is
+  there, especially the visual weight and attention thing … make a v2, maybe just a demo". Diagnosis:
+  v1 ignored the site-v2 river rules (staircase map, priming ≤3 terms, one concept in focus, edges as
+  bridge content, visual-load budget) and the 2026-09-15 define-before-use rule. Building
+  `study-pack/pdf-v2/` = **one-chapter demo** (registers → shift registers → ring → Johnson →
+  decoding/lock-out, ending on the Anna 2015 Q13(b)(i) Johnson question), river-shaped, starting
+  from the D flip-flop, one idea per page, with a mechanical per-page load test. **No teaching event.**
+- [2026-10-17] `study-pack/pdf-v2/DE-v2-demo.pdf` **built: 47 landscape pages, one chapter**
+  ("Shift registers & shift counters"). It opens on the Anna 2015 Q13(b)(i) Johnson question, then
+  a where-it-sits staircase, then 6 stops (D flip-flop → register → shift register → ring → Johnson
+  → decode + lock-out). Each stop = staircase map + ≤3 priming terms → guess → idea pages → check →
+  answer on the next page; a bridge page between stops; it closes with the exam question again, an
+  answer outline mapped to stops, and a connects-to page. Load test passed (worst page 74 words,
+  budget 75; ≤1 figure per page). Awaiting the learner's verdict before scaling to other chapters.
+  **No teaching event.**

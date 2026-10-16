@@ -194,6 +194,13 @@ prefers minimal prose, wants diagrams described, etc.)*
   balance [of information vs overwhelm] … the balance is the key". → the approved format is
   **site-v1** (`site/SITE-V1.md`); apply the same instincts to any structured overview (lessons,
   maps, Studio boards): structure first, one concept in focus, no decoration.
+- [stated 2026-10-17] **Every study artifact (PDF, pack, lesson), not only the site, must carry the
+  river rules.** DE-v1.pdf was rejected as "disconnected", starting "from a random place", "expected to
+  know alot before hand", with "the visual weight and attention thing" missing. → open on where the
+  chapter sits (small staircase map of neighbouring chapters) and start from what the learner already
+  has; prime ≤3 terms before each concept; one concept in focus per page/screen; write the edge
+  between concepts as its own bridge ("why the next thing exists"); define every term before first
+  use; enforce a per-page load budget mechanically. Extends the 2026-09-15 and site-v2 rules to print.
 
 ## 4. Autonomy & choice
 *(How much the learner wants to steer — pick next topic, choose examples, set pace. Unseeded.)*
@@ -292,3 +299,5 @@ without breaking the method.)*
   what keeps the shape inside principle 1 (pretesting) rather than becoming a Q&A lecture.
 - 2026-09-28 — Added two stated §3 prefs: pictorial-not-textual study material; overview as a
   minimal concept tree with one concept at a time (format frozen as `site/SITE-V1.md`).
+- 2026-10-17 — Added §3 pref: river rules (start from known, priming, focus, bridges, load budget)
+  apply to every study artifact, after DE-v1.pdf was rejected as disconnected and assuming knowledge.
