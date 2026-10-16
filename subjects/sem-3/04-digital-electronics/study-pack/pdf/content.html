@@ -1,0 +1,693 @@
+<!-- DE-v1 content. Double-brace expressions are evaluated against figs.py by build.py. -->
+
+<section class="cover">
+  <div class="kicker">ECE 2105 / ECE2102 · Digital Electronics · MUJ Sem 3</div>
+  <h1>Digital Electronics: ETE pack, v1</h1>
+  <p class="sub">Covers the rest of the syllabus after the MTE: ripple counters, shift registers, timing, state machines,
+    logic families, memories, PLDs. A recap of the MTE half comes first.</p>
+  <div class="fig wide">{{ flow_map() }}</div>
+  <table class="legend">
+    <tr><td><span class="tag q">Q</span></td><td>A real exam question, quoted with its source and marks. If no real paper item was found, it is labelled <b>practice</b>.</td></tr>
+    <tr><td><span class="tag g">Guess</span></td><td>Write an answer on paper <b>before</b> reading on. A wrong guess still helps you remember the answer when you read it.</td></tr>
+    <tr><td><span class="tag c">Check</span></td><td>Answer from memory. Answers are at the end of each Part.</td></tr>
+  </table>
+  <p class="fine">Scope comes from the course syllabus slide (deck 1, ECE 2105). Facts come from the prescribed textbooks (Anand Kumar, Jain, Brown &amp; Vranesic, Mano), checked across several sources.
+    Every number in a worked answer is checked by <code>verify.py</code>. ETE format is <b>unknown</b>, because no ETE paper has been seen.
+    The 2025 MTE used 2-mark recall, 4-mark method and 8-mark design questions, so these pages drill all three.</p>
+</section>
+
+<!-- ============================================================ PART A -->
+<section class="part">
+  <div class="part-no">Part A</div>
+  <h1>The MTE half: recap sheet</h1>
+  <p class="lead">Cover the right column and say it out loud, then uncover it. Re-learn any row you missed in
+    study-pack 01–09 tonight. The ETE is comprehensive, so these are still worth marks.</p>
+</section>
+
+<section class="concept">
+  <h3>A1 · Minimise and realise</h3>
+  <table class="recall">
+    <tr><th>Cue</th><th>Recall</th></tr>
+    <tr><td>K-map group sizes</td><td>1, 2, 4, 8 … rectangles, wrap around the edges; each doubling removes one variable.</td></tr>
+    <tr><td>Don't-cares (X)</td><td>Use an X as 1 only when it makes a group bigger. Never chase an X on its own.</td></tr>
+    <tr><td>POS from a K-map</td><td>Group the 0s → get F′ as SOP → complement each term (De Morgan).</td></tr>
+    <tr><td>NAND-only</td><td>Minimal SOP → AND-OR → replace both levels with NAND (two-level NAND–NAND).</td></tr>
+    <tr><td>NOR-only</td><td>Minimal POS → OR-AND → NOR–NOR. Inverter = NOR with its inputs tied together.</td></tr>
+    <tr><td>Σm ↔ ΠM</td><td>ΠM lists exactly the indices that Σm leaves out.</td></tr>
+  </table>
+</section>
+
+<section class="concept">
+  <h3>A2 · Arithmetic and parity</h3>
+  <table class="recall">
+    <tr><th>Cue</th><th>Recall</th></tr>
+    <tr><td>Half adder</td><td>S = A ⊕ B, C = AB</td></tr>
+    <tr><td>Full adder</td><td>S = A ⊕ B ⊕ C<sub>in</sub>, C<sub>out</sub> = AB + C<sub>in</sub>(A ⊕ B)</td></tr>
+    <tr><td>Half / full subtractor</td><td>D = A ⊕ B, B<sub>out</sub> = A′B · full: D = A ⊕ B ⊕ B<sub>in</sub>, B<sub>out</sub> = A′B + B<sub>in</sub>(A ⊕ B)′</td></tr>
+    <tr><td>Ripple vs look-ahead</td><td>Ripple: the carry crawls through n stages. CLA: G<sub>i</sub> = A<sub>i</sub>B<sub>i</sub>, P<sub>i</sub> = A<sub>i</sub> ⊕ B<sub>i</sub>, C<sub>i+1</sub> = G<sub>i</sub> + P<sub>i</sub>C<sub>i</sub>, expanded so every carry comes out of two gate levels.</td></tr>
+    <tr><td>BCD adder</td><td>If the sum &gt; 9 or there is a carry, add 0110. Trigger Y = C<sub>out</sub> + S₃S₂ + S₃S₁.</td></tr>
+    <tr><td>Parity</td><td>Even-parity bit P = XOR of all the data bits. The checker XORs everything, including P: 0 means no error.</td></tr>
+  </table>
+</section>
+
+<section class="concept">
+  <h3>A3 · MSI blocks</h3>
+  <table class="recall">
+    <tr><th>Cue</th><th>Recall</th></tr>
+    <tr><td>n-variable function on a 2ⁿ:1 MUX</td><td>Variables go on the selects; data inputs = the truth-table output column.</td></tr>
+    <tr><td>On a 2ⁿ⁻¹:1 MUX</td><td>n−1 variables on the selects; each data input is 0, 1, x or x′ (x = the leftover variable).</td></tr>
+    <tr><td>Decoder + gate</td><td>An n:2ⁿ decoder outputs every minterm, so OR the minterms of F. With an active-low decoder, use NAND.</td></tr>
+    <tr><td>Priority encoder</td><td>Outputs the code of the highest-priority active input, plus a "valid" flag.</td></tr>
+    <tr><td>Comparator (1 bit)</td><td>A&gt;B: AB′ · A&lt;B: A′B · A=B: (A ⊕ B)′. For n bits, work from the MSB down using the equality terms.</td></tr>
+    <tr><td>7-segment, common anode</td><td>A segment lights on a LOW, so the decoder outputs are active-low.</td></tr>
+  </table>
+</section>
+
+<section class="concept">
+  <h3>A4 · Flip-flops and synchronous counter design</h3>
+  <table class="recall">
+    <tr><th>Cue</th><th>Recall</th></tr>
+    <tr><td>Characteristic equations</td><td>SR: Q⁺ = S + R′Q (SR = 0) · D: Q⁺ = D · JK: Q⁺ = JQ′ + K′Q · T: Q⁺ = T ⊕ Q</td></tr>
+    <tr><td>Excitation (Q → Q⁺)</td><td>0→0: JK 0X, T 0, D 0 · 0→1: JK 1X, T 1, D 1 · 1→0: JK X1, T 1, D 0 · 1→1: JK X0, T 0, D 1</td></tr>
+    <tr><td>Race-around</td><td>Level-triggered JK with J = K = 1 toggles many times while CLK is high. Fixes: master–slave or edge-triggered.</td></tr>
+    <tr><td>Counter design</td><td>State table → excitation for each FF → K-map each input (unused states = X) → circuit → check that unused states lead back into the count.</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ PART B -->
+<section class="part">
+  <div class="part-no">Part B</div>
+  <h1>Sequential logic: the rest of Unit 3</h1>
+  <div class="fig">{{ sub_map(["Ripple /\nmod-N", "Shift\nregisters", "Ring /\nJohnson", "Timing\nanalysis"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Counters</div>
+  <h2>B1 · Ripple (asynchronous) counters</h2>
+  <div class="q"><span class="src">Anna Univ. EC6302 · Apr/May 2015 · Part A Q6 · 2 marks</span>
+    What is the minimum no of flip flops needed to design a counter of modulus 60?</div>
+  <div class="guess">Guess first, on paper.</div>
+  <div class="fig">{{ ripple_counter() }}</div>
+  <div class="fig">{{ ripple_waves() }}</div>
+  <p><b>How it counts.</b> Every FF has T = 1, so it toggles. FF0 toggles on each falling CLK edge. FF1 toggles whenever
+    Q0 falls (1→0), and FF2 whenever Q1 falls. Reading Q2Q1Q0 gives 0, 1, 2 … 7, 0. That is an <b>up</b> counter.
+    Clock the next stage from Q′ instead and it counts <b>down</b>. With positive-edge FFs the rule flips.</p>
+  <p><b>The flaw: ripple delay.</b> Each stage waits for the one before it, so after edge 4 (011 → 100) the outputs pass through
+    010 and 000 before settling (shaded). The worst-case settle time is n·t<sub>pd</sub>. A decoder reading the outputs sees
+    <b>glitches</b>, and f<sub>max</sub> ≈ 1 / (n·t<sub>pd</sub>) drops as n grows. Synchronous counters fix this because every FF shares one clock.</p>
+  <p><b>Mod-N.</b> n flip-flops give at most 2ⁿ states, so you need the smallest n with 2ⁿ ≥ N.
+    To stop a ripple counter at N, detect the state N with a gate and use it to drive the asynchronous CLEAR.
+    Mod-10: NAND(Q₃, Q₁) → CLR′ at 1010. Count 1010 appears for a few nanoseconds and is then cleared, which is another glitch.</p>
+  <div class="ans"><b>Answer.</b> 2⁵ = 32 &lt; 60 ≤ 64 = 2⁶, so <b>6 flip-flops</b>.</div>
+  <div class="check"><b>Check B1.</b> (a) A 4-bit ripple counter uses FFs with t<sub>pd</sub> = 25 ns. Find the longest time it takes to settle after an edge.
+    (b) Which gate inputs reset a mod-12 ripple counter?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Shift registers</div>
+  <h2>B2 · Shift registers</h2>
+  <div class="q"><span class="src">Anna Univ. EC6302 · Apr/May 2015 · Q13(b)(ii) · 8 marks (also Nov/Dec 2021, 6 marks)</span>
+    Explain the functioning of a recirculating shift register with various modes of operation.</div>
+  <div class="guess">Guess first, on paper: what happens to the data that falls off the end?</div>
+  <div class="fig">{{ chain(4, "shift") }}</div>
+  <p><b>Structure.</b> A row of D flip-flops on one shared clock, with each Q feeding the next D. Every clock edge moves the stored word one place.</p>
+  <table class="data">
+    <tr><th>Mode</th><th>Data in</th><th>Data out</th><th>Use</th></tr>
+    <tr><td>SISO</td><td>serial</td><td>serial</td><td>delay line: n clocks of delay</td></tr>
+    <tr><td>SIPO</td><td>serial</td><td>all Q at once</td><td>serial → parallel (receiver)</td></tr>
+    <tr><td>PISO</td><td>parallel load</td><td>serial</td><td>parallel → serial (transmitter)</td></tr>
+    <tr><td>PIPO</td><td>parallel load</td><td>all Q at once</td><td>storage register</td></tr>
+  </table>
+  <p><b>SIPO, loading 1011 (MSB first), starting from 0000:</b></p>
+  <table class="data mono">
+    <tr><th>clock</th><th>serial in</th><th>Q0 Q1 Q2 Q3</th></tr>
+    <tr><td>0</td><td>–</td><td>0 0 0 0</td></tr><tr><td>1</td><td>1</td><td>1 0 0 0</td></tr>
+    <tr><td>2</td><td>0</td><td>0 1 0 0</td></tr><tr><td>3</td><td>1</td><td>1 0 1 0</td></tr>
+    <tr><td>4</td><td>1</td><td>1 1 0 1</td></tr>
+  </table>
+  <p>After 4 clocks the whole word sits in the register: Q3 holds the first bit, Q0 the last.</p>
+  <p><b>Universal shift register (74194).</b> A 4:1 MUX in front of each D chooses the mode with S₁S₀:
+    00 hold, 01 shift right, 10 shift left, 11 parallel load.</p>
+  <div class="ans"><b>Answer.</b> A <b>recirculating</b> shift register feeds the serial output back to the serial input,
+    so data that leaves one end re-enters the other. Nothing is lost, and the word comes back to its starting position after n clocks.
+    The modes to describe are SISO, SIPO, PISO and PIPO, shifting left or right. Recirculating one 1 gives a <b>ring counter</b> (B3).</div>
+  <div class="check"><b>Check B2.</b> A 4-bit SISO register holds 0000. Bits 1, 1, 0, 1 enter on clocks 1–4. On which clock does the first 1 appear at the serial output?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Shift-register counters</div>
+  <h2>B3 · Ring and Johnson counters</h2>
+  <div class="q"><span class="src">Anna Univ. EC6302 · Apr/May 2015 · Q13(b)(i) · 8 marks (Nov/Dec 2021: 7 marks)</span>
+    Discuss the working of a 4 bit Johnson counter with neat block diagram.</div>
+  <div class="guess">Guess first, on paper: how many states, and why that many?</div>
+  <div class="fig">{{ chain(4, "johnson") }}</div>
+  <div class="two">
+    <table class="data mono">
+      <tr><th>clk</th><th>Q0 Q1 Q2 Q3</th><th>decode</th></tr>
+      <tr><td>0</td><td>0 0 0 0</td><td>Q0′Q3′</td></tr><tr><td>1</td><td>1 0 0 0</td><td>Q0Q1′</td></tr>
+      <tr><td>2</td><td>1 1 0 0</td><td>Q1Q2′</td></tr><tr><td>3</td><td>1 1 1 0</td><td>Q2Q3′</td></tr>
+      <tr><td>4</td><td>1 1 1 1</td><td>Q0Q3</td></tr><tr><td>5</td><td>0 1 1 1</td><td>Q0′Q1</td></tr>
+      <tr><td>6</td><td>0 0 1 1</td><td>Q1′Q2</td></tr><tr><td>7</td><td>0 0 0 1</td><td>Q2′Q3</td></tr>
+    </table>
+    <div>
+      <p><b>Ring counter:</b> feed Q3 back to D0. Preset it to 1000 and the single 1 circulates:
+        1000 → 0100 → 0010 → 0001. n FFs give <b>mod-n</b>. Each Q already marks one state, so no decoder is needed.</p>
+      <p><b>Johnson (twisted ring):</b> feed <b>Q3′</b> back. The register fills with 1s and then empties: n FFs give <b>mod-2n</b>.
+        Each state is decoded by one 2-input AND (left table).</p>
+      <p><b>Lock-out.</b> 4 FFs have 16 states. The Johnson counter uses 8; the other 8 (e.g. 0100) form a separate loop.
+        A real design adds self-correcting logic or a reset.</p>
+    </div>
+  </div>
+  <div class="fig">{{ johnson_waves() }}</div>
+  <div class="ans"><b>Answer outline (8 marks).</b> Block diagram (above) → state table (8 states) → waveforms (each Q is a
+    square wave at f<sub>clk</sub>/8, each one shifted a clock later) → decoding with 2-input ANDs → mod-2n versus ring mod-n → lock-out.</div>
+  <div class="check"><b>Check B3.</b> (a) How many FFs does a mod-10 Johnson counter need? A mod-10 ring counter? (b) Give the decode term for state 0011 of the 4-bit Johnson counter.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Timing analysis</div>
+  <h2>B4 · Timing analysis of sequential circuits</h2>
+  <div class="q"><span class="src">practice · no real paper item found · 4 marks</span>
+    A synchronous circuit has t<sub>pd,FF</sub> = 8 ns, t<sub>su</sub> = 3 ns, t<sub>h</sub> = 2 ns, and combinational delays of 12 ns
+    on the longest path and 1 ns on the shortest. Find f<sub>max</sub> and check the hold time.</div>
+  <div class="guess">Guess first, on paper.</div>
+  <div class="fig">{{ setup_hold() }}</div>
+  <p><b>Three numbers per flip-flop.</b> <b>t<sub>su</sub></b> (setup): D must be stable <i>before</i> the edge.
+    <b>t<sub>h</sub></b> (hold): D must stay stable <i>after</i> the edge. <b>t<sub>pd</sub></b>: time from the edge until Q is valid.
+    Break setup or hold and the FF can go <b>metastable</b>: its output sits between 0 and 1 for an unpredictable time.</p>
+  <div class="fig">{{ timing_path() }}</div>
+  <p><b>Setup (longest path):</b> data launched at edge n must reach FF2 a setup time before edge n+1, so
+    T<sub>clk</sub> ≥ t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub>, which gives f<sub>max</sub> = 1 / (that sum).<br>
+    <b>Hold (shortest path):</b> new data must not arrive while FF2 is still holding the old value, so t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub>.
+    The clock period is not in this inequality, so <b>a slower clock cannot fix a hold violation</b>.</p>
+  <div class="ans"><b>Answer.</b> T<sub>min</sub> = 8 + 12 + 3 = 23 ns, so f<sub>max</sub> = 1/23 ns ≈ <b>43.5 MHz</b>.
+    Hold: 8 + 1 = 9 ns ≥ 2 ns, so <b>hold is met</b>.</div>
+  <div class="check"><b>Check B4.</b> The same circuit gains 4 ns of extra logic on its longest path. Find the new f<sub>max</sub>. Does the hold result change?</div>
+</section>
+
+<section class="answers">
+  <h3>Part B: answers to the Checks</h3>
+  <ol>
+    <li><b>B1</b> (a) 4 × 25 = 100 ns. (b) Mod-12 → clear at 12 = 1100, so NAND(Q₃, Q₂) → CLR′.</li>
+    <li><b>B2</b> The first bit in is a 1, and it reaches Q3 on clock 4. It appears at the serial output then (4 clocks of delay).</li>
+    <li><b>B3</b> (a) Johnson needs 2n = 10, so 5 FFs; ring needs n = 10, so 10 FFs. (b) 0011 → Q1′Q2.</li>
+    <li><b>B4</b> T = 8 + 16 + 3 = 27 ns, so f<sub>max</sub> ≈ 37.0 MHz. The hold result does not change: it depends on the shortest path, which did not change.</li>
+  </ol>
+</section>
+
+<!-- ============================================================ PART C -->
+<section class="part">
+  <div class="part-no">Part C</div>
+  <h1>State machines (Unit 4)</h1>
+  <div class="fig">{{ sub_map(["FSM model\nMoore/Mealy", "Design\nprocedure", "State\nreduction", "Timing\nissues", "ASM\ncharts", "Generators", "Async\ncircuits"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Model</div>
+  <h2>C1 · Every synchronous circuit is one structure</h2>
+  <div class="q"><span class="src">Anna Univ. EC6302 · Nov/Dec 2021 · Part A Q5 · 2 marks</span>
+    What are the classifications of sequential circuits?</div>
+  <div class="guess">Guess first, on paper.</div>
+  <div class="two">
+    <div class="fig">{{ fsm_block(False) }}</div>
+    <div class="fig">{{ fsm_block(True) }}</div>
+  </div>
+  <p>A <b>finite-state machine</b> has three parts: a state register (the flip-flops), next-state logic, and output logic.
+    The only difference between the two models is <b>where the output comes from</b>.</p>
+  <table class="data">
+    <tr><th></th><th>Moore</th><th>Mealy</th></tr>
+    <tr><td>Output depends on</td><td>state only</td><td>state <b>and</b> present input</td></tr>
+    <tr><td>Output changes</td><td>only after a clock edge, stable all cycle</td><td>whenever the input changes, so it can glitch</td></tr>
+    <tr><td>States needed</td><td>often one more</td><td>fewer</td></tr>
+    <tr><td>Response</td><td>one clock later</td><td>in the same clock cycle</td></tr>
+  </table>
+  <div class="ans"><b>Answer.</b> By timing: <b>synchronous</b> (changes only at clock edges) and <b>asynchronous</b> (changes as soon as inputs change; no clock).
+    By output: <b>Moore</b> (z = f(state)) and <b>Mealy</b> (z = f(state, input)).</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Design</div>
+  <h2>C2 · Designing a synchronous FSM: the 010 detector</h2>
+  <div class="q"><span class="src">Anna Univ. EC6302 · Apr/May 2015 · Q15(b)(ii) · 14 marks</span>
+    Design a sequential pattern detector that receives a stream of input bits. The circuit should recognize the pattern 010
+    and produce an output whenever this pattern is received.</div>
+  <div class="guess">Guess first, on paper: what should each state <i>remember</i>?</div>
+  <p><b>The procedure</b> (also asked on its own: Anna Univ. Nov/Dec 2021 Q15(a)(i), 10 marks, "Summarize the design procedure"):</p>
+  <ol class="steps">
+    <li>Word spec → <b>state diagram</b>. Each state stands for "how much of the pattern I have seen so far".</li>
+    <li><b>State table</b>: present state × input → next state and output.</li>
+    <li><b>Reduce</b> the states (C3).</li>
+    <li><b>Assign</b> binary codes. ⌈log₂(number of states)⌉ FFs.</li>
+    <li>Choose an FF type and build the <b>excitation table</b>.</li>
+    <li><b>K-map</b> each FF input and each output, using unused codes as don't-cares.</li>
+    <li>Draw the circuit and check that unused states lead back into the machine.</li>
+  </ol>
+  <p><b>Mealy version.</b> S0 = nothing useful seen, S1 = seen "0", S2 = seen "01". Label = input/output.
+    Overlap is allowed: after 010 the last 0 already starts a new match, so S2 goes to S1 on input 0.</p>
+  <div class="fig">{{ mealy_010() }}</div>
+  <div class="two">
+    <table class="data mono">
+      <tr><th>PS (AB)</th><th>x=0: NS, z</th><th>x=1: NS, z</th></tr>
+      <tr><td>S0 = 00</td><td>01, 0</td><td>00, 0</td></tr>
+      <tr><td>S1 = 01</td><td>01, 0</td><td>10, 0</td></tr>
+      <tr><td>S2 = 10</td><td>01, <b>1</b></td><td>00, 0</td></tr>
+      <tr><td>11 unused</td><td>X</td><td>X</td></tr>
+    </table>
+    <div>
+      <p>With D FFs, D = next state, so read the K-maps straight off the table (11 = X):</p>
+      <p class="eq">D<sub>A</sub> = Bx<br>D<sub>B</sub> = x′<br>z = Ax′</p>
+      <p class="fine">Simulated on x = 0101001011010 → z = 0010100100001 (a 1 each time 010 completes).</p>
+    </div>
+  </div>
+  <p><b>Moore version.</b> The output must belong to a state, so add S3 = "seen 010" with z = 1. From S3: input 0 → S1, input 1 → S2 (the "01" overlap).</p>
+  <div class="fig">{{ moore_010() }}</div>
+  <p class="eq">D<sub>A</sub> = Bx + AB′x′  ·  D<sub>B</sub> = x′  ·  z = AB    (S0=00, S1=01, S2=10, S3=11)</p>
+  <div class="ans"><b>Answer outline (14 marks).</b> State diagram → state table → assignment → excitation (D) → K-maps → equations →
+    circuit (2 D-FFs plus the gates above). Mealy needs 3 states and z appears in the same clock as the final 0.
+    Moore needs 4 states and z appears one clock later.</div>
+  <div class="check"><b>Check C2.</b> (a) Draw the Mealy state diagram for <b>non-overlapping</b> 010 detection. Which single arrow changes?
+    (b) How many states does a Moore detector for 1011 (overlapping) need?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › State reduction</div>
+  <h2>C3 · State reduction</h2>
+  <div class="q"><span class="src">practice · constructed table · no real paper item found · 4 marks</span>
+    Reduce the state table below to its minimum number of states.</div>
+  <div class="guess">Guess first, on paper: which rows look like twins?</div>
+  <div class="two">
+    <table class="data mono">
+      <tr><th>PS</th><th>NS x=0</th><th>NS x=1</th><th>z x=0</th><th>z x=1</th></tr>
+      <tr><td>a</td><td>a</td><td>b</td><td>0</td><td>0</td></tr>
+      <tr><td>b</td><td>c</td><td>d</td><td>0</td><td>0</td></tr>
+      <tr><td>c</td><td>a</td><td>d</td><td>0</td><td>0</td></tr>
+      <tr><td>d</td><td>e</td><td>f</td><td>0</td><td>1</td></tr>
+      <tr><td>e</td><td>a</td><td>f</td><td>0</td><td>1</td></tr>
+      <tr><td>f</td><td>g</td><td>f</td><td>0</td><td>1</td></tr>
+      <tr><td>g</td><td>a</td><td>f</td><td>0</td><td>1</td></tr>
+    </table>
+    <div>
+      <p><b>Rule.</b> Two states are <b>equivalent</b> if, for every input, they give the same output <i>and</i> go to equivalent next states.
+        Merging them never changes how the machine behaves.</p>
+      <p><b>Partition method.</b><br>
+        P₀ (split by outputs): (abc)(defg)<br>
+        P₁: inside (abc), on x=1 a → b but b, c → d, so (a)(bc). Inside (defg), on x=0 d → e and f → g, but e, g → a, so (df)(eg).<br>
+        P₂: on x=0, b → c ∈ (bc) but c → a ∈ (a), so (a)(b)(c)(df)(eg).<br>
+        P₃ = P₂ → stop.</p>
+    </div>
+  </div>
+  <div class="ans"><b>Answer.</b> d ≡ f and e ≡ g, so <b>7 → 5 states</b>. Replace f with d and g with e everywhere.
+    Here both still need ⌈log₂⌉ = 3 FFs, but the next-state logic gets more don't-cares. Reduction does not always save a flip-flop.
+    <span class="fine">(Implication chart = the same test done pairwise on a triangle of cells.)</span></div>
+  <div class="check"><b>Check C3.</b> Why must the outputs match first, before you compare next states?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Timing issues</div>
+  <h2>C4 · Timing issues in synchronous circuits</h2>
+  <div class="q"><span class="src">practice · no real paper item found · 4 marks</span>
+    A push-button signal enters a 100 MHz synchronous system directly. What can go wrong, and how is it fixed?</div>
+  <div class="guess">Guess first, on paper.</div>
+  <ul class="tight">
+    <li><b>Clock skew.</b> The clock reaches different FFs at different times. If skew works against the data direction it eats into the
+      <b>hold</b> margin, and a slower clock cannot fix that. If it works with the data direction it eats into setup. Fix it with careful clock-tree layout.</li>
+    <li><b>Output glitches.</b> Mealy outputs, or any decoded state, can glitch while the state bits change.
+      If a glitch matters, register the output (use Moore style).</li>
+    <li><b>Asynchronous inputs → metastability.</b> An input that is not timed to the clock will sometimes violate t<sub>su</sub>/t<sub>h</sub>.
+      Fix: a <b>2-FF synchronizer</b> (two D-FFs in series on the system clock). The second FF gives the first a full clock period to settle.
+      This makes failure exponentially rarer but never impossible.</li>
+  </ul>
+  <div class="ans"><b>Answer.</b> The button can change inside a setup/hold window, so the FF may go metastable and different
+    FFs may read different values. Fix: debounce the switch (a monostable or an RC with a Schmitt trigger, C6), then pass it through a 2-FF synchronizer before any logic uses it.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › ASM</div>
+  <h2>C5 · Algorithmic State Machine (ASM) charts</h2>
+  <div class="q"><span class="src">Anna Univ. EC6302 · Apr/May 2015 · Q15(a)(i) · 8 marks</span>
+    Explain how a state graph for a sequential machine can be converted to an equivalent ASM chart.</div>
+  <div class="guess">Guess first, on paper: what in a flowchart could stand for "one clock"?</div>
+  <div class="two asm">
+    <div class="fig narrow">{{ asm_010() }}</div>
+    <div>
+      <p><b>Three symbols.</b></p>
+      <ul class="tight">
+        <li><b>State box</b> (rectangle): one state, which lasts one clock. Moore outputs are written inside it.</li>
+        <li><b>Decision box</b> (diamond): tests an input; 1 and 0 exits.</li>
+        <li><b>Conditional output box</b> (oval): a Mealy output that is active only on that path.</li>
+      </ul>
+      <p>An <b>ASM block</b> is one state box plus all the decisions and conditional outputs reachable from it in the same clock.</p>
+      <p><b>Conversion rule.</b> Each state-graph node becomes a state box. Its outgoing arcs become a decision tree on the inputs.
+        Each Moore output goes inside the state box. Each Mealy output (on an arc) becomes an oval on that branch.</p>
+      <p class="fine">Left: the Moore 010 detector from C2 as an ASM chart.</p>
+    </div>
+  </div>
+  <div class="ans"><b>Answer outline (8 marks).</b> The three symbols → definition of an ASM block → the four-step conversion rule → one converted example (the left figure).
+    Advantage: it reads like an algorithm and maps directly onto the next-state and output logic.</div>
+  <div class="check"><b>Check C5.</b> In the Mealy 010 detector, z = 1 on the arc S2 —0→ S1. Where does z go in the ASM chart?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Synchronous applications</div>
+  <h2>C6 · Pulse trains, pseudo-random sequences, clock generation</h2>
+  <div class="q"><span class="src">practice · no real paper item found · 4 marks</span>
+    A 3-bit LFSR has feedback polynomial x³ + x + 1 (D₁ = Q₂ ⊕ Q₃) and starts at Q₁Q₂Q₃ = 100. List the states and find the period.</div>
+  <div class="guess">Guess first, on paper.</div>
+  <div class="fig">{{ chain(3, "lfsr") }}</div>
+  <p><b>PRBS generator = LFSR.</b> A shift register whose input is the XOR of chosen "tap" outputs.
+    With a <b>primitive</b> polynomial it runs through all <b>2ⁿ − 1</b> non-zero states before repeating (a maximal-length or m-sequence).
+    <b>All-zeros is a lock-out</b>: 0 ⊕ 0 = 0 forever, so the seed must be non-zero. The output looks random but repeats exactly,
+    which makes it useful for test patterns, scramblers and spread spectrum.</p>
+  <div class="ans"><b>Answer.</b> 100 → 010 → 101 → 110 → 111 → 011 → 001 → 100. <b>Period 7 = 2³ − 1</b>, so this LFSR is maximal-length.
+    The serial output (Q₃) is 0 0 1 0 1 1 1, repeating.</div>
+  <p><b>Pulse-train generator.</b> Emits a fixed bit pattern, one bit per clock, over and over.
+    Two easy builds: a recirculating shift register preloaded with the pattern (B2), or a mod-N counter followed by decode logic.
+    The period equals the number of states.</p>
+  <p><b>Clock generation.</b> Dividing an existing clock: a mod-N counter gives f/N, and k toggle FFs give f/2ᵏ.
+    Making the clock in the first place is the job of a <b>multivibrator</b>:</p>
+  <table class="data">
+    <tr><th>Type</th><th>Stable states</th><th>Gives</th></tr>
+    <tr><td>Astable</td><td>0</td><td>free-running square wave, i.e. a clock</td></tr>
+    <tr><td>Monostable</td><td>1</td><td>one fixed-width pulse per trigger (debounce, timing)</td></tr>
+    <tr><td>Bistable</td><td>2</td><td>a latch / flip-flop</td></tr>
+  </table>
+  <div class="fig">{{ astable_555() }}</div>
+  <p><b>555 astable.</b> C charges through R₁+R₂ up to ⅔V<sub>CC</sub>, then discharges through R₂ down to ⅓V<sub>CC</sub>.
+    f = 1.44 / ((R₁ + 2R₂)C). Duty cycle = (R₁+R₂)/(R₁+2R₂), always &gt; 50% in this circuit. Example: R₁ = 1 kΩ, R₂ = 10 kΩ, C = 10 nF
+    gives f ≈ 6.86 kHz and duty ≈ 52%. <b>555 monostable:</b> pulse width T = 1.1RC.</p>
+  <div class="fig">{{ ring_osc() }}</div>
+  <p><b>Ring oscillator.</b> An <b>odd</b> number N of inverters in a loop has no stable state, so it oscillates at f = 1/(2N·t<sub>pd</sub>).
+    Example: 5 inverters with 2 ns each give 50 MHz. It drifts with temperature and supply voltage.
+    A <b>crystal oscillator</b> gives the precise system clock. A <b>Schmitt trigger</b> (two thresholds, with hysteresis)
+    turns slow or noisy edges into clean ones.</p>
+  <div class="check"><b>Check C6.</b> (a) What is the period of a maximal-length 5-bit LFSR? (b) Why must a ring oscillator have an odd number of inverters?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Asynchronous circuits</div>
+  <h2>C7 · Asynchronous circuits: races and hazards</h2>
+  <div class="q"><span class="src">Anna Univ. EC6302 · Nov/Dec 2021 · Q15(b) · 13 marks</span>
+    What is the objective of state assignment in a asynchronous circuit? Give the hazard free realization for the Boolean function
+    f (A, B, C, D) = ΠM (0, 2, 6, 7, 8, 10, 12).</div>
+  <div class="guess">Guess first, on paper: what goes wrong when two state bits must change "at once" with no clock?</div>
+  <p><b>Asynchronous</b> = no clock. Outputs and state react directly to input changes, through feedback delays.
+    Work in <b>fundamental mode</b>: change only one input at a time, and only after the circuit has settled.
+    A <b>stable state</b> is one where next state = present state.</p>
+  <p><b>Races.</b> If one transition needs two state variables to change, the delays decide which changes first.
+    In a <b>non-critical</b> race every order ends in the same stable state. In a <b>critical</b> race the final state depends on the order, which is a bug.
+    <b>The objective of state assignment</b> is to give codes that differ in <b>only one bit</b> to states that transition into each other, so critical races cannot happen.</p>
+  <p><b>Hazards.</b> A <b>static-1 hazard</b> is a momentary 0 when F should stay at 1, because one product term turns off before
+    the next one turns on. Static-0 is the dual, dynamic hazards bounce several times, and essential hazards are built into the flow table.</p>
+  <div class="two hz">
+    <div class="fig">{{ hazard_kmap() }}</div>
+    <div class="fig">{{ glitch() }}<div class="prov">static-1 hazard: term 1 turns off before term 2 turns on, so F dips</div></div>
+  </div>
+  <p><b>The cure.</b> On the K-map, every pair of <b>adjacent 1s</b> must sit inside <b>one common group</b>. Add the
+    <b>consensus</b> (redundant) group for any adjacent pair that crosses between two groups.</p>
+  <div class="ans"><b>Answer.</b> ΠM(0,2,6,7,8,10,12) ⇒ the 1s are at Σm(1,3,4,5,9,11,13,14,15).
+    Minimal cover: f = B′D + C′D + A′BC′ + ABC. Two adjacent pairs cross between groups: m11–m15 (B changes) and m13–m15 (C changes).
+    One extra prime implicant, AD, covers both.<br>
+    <b>Hazard-free: f = B′D + C′D + A′BC′ + ABC + AD.</b></div>
+  <div class="check"><b>Check C7.</b> F = AB + A′C. Which input change can glitch, and which term removes the glitch?</div>
+</section>
+
+<section class="answers">
+  <h3>Part C: answers to the Checks</h3>
+  <ol>
+    <li><b>C2</b> (a) Non-overlapping: after a match, S2 —0/1→ <b>S0</b> instead of S1, because the last 0 cannot start the next match. (b) 1011 Moore needs 5 states (0, 1, 10, 101, 1011 with z = 1).</li>
+    <li><b>C3</b> If two states give different outputs for some input, an observer can already tell them apart, so they can never be merged. Next states only matter among states whose outputs agree.</li>
+    <li><b>C5</b> In an oval (conditional output box) on the x = 0 exit of S2's decision box. It is not in a state box, because z depends on the input.</li>
+    <li><b>C6</b> (a) 2⁵ − 1 = 31. (b) With an even number of inverters the loop has a stable state (like a latch), so it never oscillates.</li>
+    <li><b>C7</b> With B = C = 1, A changing from 1 to 0 hands over from AB to A′C and can glitch. Add the consensus term <b>BC</b>: F = AB + A′C + BC.</li>
+  </ol>
+</section>
+
+<!-- ============================================================ PART D -->
+<section class="part">
+  <div class="part-no">Part D</div>
+  <h1>Logic families, memories, PLDs (Unit 5)</h1>
+  <div class="fig">{{ sub_map(["Yardsticks\nNM · fan-out", "TTL NAND\n+ tristate", "ECL", "CMOS +\ninterfacing", "Memories", "PLDs"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › Yardsticks</div>
+  <h2>D1 · Noise margin, fan-out, delay, power</h2>
+  <div class="q"><span class="src">Anna Univ. EC6302 · Nov/Dec 2021 · Part A Q2 · 2 marks</span> Define Noise margin.<br>
+    <span class="src">RTU (3E2075, 2012) Digital Electronics · Unit II Q(a) · 8 marks</span> Define the (i) noise immunity and (ii) Fanout.</div>
+  <div class="guess">Guess first, on paper. Then: why must "1" be a <i>range</i> of voltages?</div>
+  <div class="fig">{{ noise_bands() }}</div>
+  <p><b>Noise margin</b> is how much noise voltage a signal can pick up between one gate's output and the next gate's input and still be read correctly:
+    NM<sub>H</sub> = V<sub>OH(min)</sub> − V<sub>IH(min)</sub>,  NM<sub>L</sub> = V<sub>IL(max)</sub> − V<sub>OL(max)</sub>.
+    The guaranteed output is always better than what the input needs, and that gap is the margin.</p>
+  <div class="fig">{{ fanout_fig() }}</div>
+  <p><b>Fan-out</b> is the number of gate inputs one output can drive while staying in spec.
+    It is limited by current in both states: fan-out = min(I<sub>OL</sub>/I<sub>IL</sub>, I<sub>OH</sub>/I<sub>IH</sub>).
+    <b>Fan-in</b> is the number of inputs a gate has.</p>
+  <table class="data">
+    <tr><th colspan="4">Standard TTL (74xx), V<sub>CC</sub> = 5 V</th></tr>
+    <tr><td>V<sub>OH(min)</sub> 2.4 V</td><td>V<sub>OL(max)</sub> 0.4 V</td><td>V<sub>IH(min)</sub> 2.0 V</td><td>V<sub>IL(max)</sub> 0.8 V</td></tr>
+    <tr><td>I<sub>OH</sub> 400 µA</td><td>I<sub>OL</sub> 16 mA</td><td>I<sub>IH</sub> 40 µA</td><td>I<sub>IL</sub> 1.6 mA</td></tr>
+  </table>
+  <p>⇒ NM<sub>H</sub> = NM<sub>L</sub> = <b>0.4 V</b>; fan-out = min(16/1.6, 400/40) = <b>10</b>.
+    t<sub>pd</sub> ≈ 10 ns, P ≈ 10 mW, so the <b>power–delay product</b> ≈ 100 pJ. That figure of merit is the energy per switching event.</p>
+  <div class="ans"><b>Answer.</b> <b>Noise margin</b> (noise immunity): the largest noise voltage that can be added to a valid logic level without
+    changing how it is read. Give both formulas above. <b>Fan-out</b>: the maximum number of standard loads one output can drive without its levels leaving spec. It is set by the current ratios.</div>
+  <div class="check"><b>Check D1.</b> A family has I<sub>OL</sub> = 8 mA, I<sub>IL</sub> = 0.4 mA, I<sub>OH</sub> = 400 µA, I<sub>IH</sub> = 20 µA. Find the fan-out.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › TTL</div>
+  <h2>D2 · The TTL NAND gate (totem pole)</h2>
+  <div class="q"><span class="src">practice · textbook-style (Jain, TTL chapter) · 8 marks</span>
+    Draw the circuit of a standard TTL NAND gate with totem-pole output and explain its operation. Why can't two totem-pole outputs be tied together?</div>
+  <div class="guess">Guess first, on paper.</div>
+  <div class="fig">{{ ttl_nand() }}</div>
+  <ul class="tight">
+    <li><b>Q1 (multi-emitter)</b> does the AND. Each emitter is one input.</li>
+    <li><b>Any input LOW</b> → Q1's base current flows out through that emitter → Q2 OFF → Q4 OFF, and Q3 gets base current through R₂ → Q3 + D pull the output <b>HIGH</b>.</li>
+    <li><b>All inputs HIGH</b> → Q1's base–collector junction drives Q2 ON → Q4 saturates, output <b>LOW</b>. Q2's collector drops, and the diode D makes sure Q3 stays OFF.</li>
+    <li><b>Totem pole</b> (Q3 on top of Q4): there is an active transistor both pulling up and pulling down, so output impedance is low in both states and edges are fast.</li>
+    <li><b>Never tie two outputs together.</b> If one drives HIGH while the other drives LOW, Q3 of one gate shorts to Q4 of the other through only 130 Ω, and a large current flows. For shared lines use <b>open-collector</b> (external pull-up, gives wired-AND) or <b>tristate</b>.</li>
+    <li>An unconnected TTL input acts as a HIGH (no emitter current flows), but it picks up noise. Tie unused inputs to a defined level.</li>
+  </ul>
+  <p><b>Sub-families</b> trade speed against power: 74 (standard), 74L (low power), 74H (high speed), 74S (Schottky: a clamp stops saturation, so it is faster),
+    <b>74LS</b> (low-power Schottky, the workhorse), 74AS/ALS/F.</p>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › Tristate</div>
+  <h2>D3 · Tristate TTL</h2>
+  <div class="q"><span class="src">Anna Univ. EC6302 · Nov/Dec 2021 · Q11(b)(i) · 8 marks</span>
+    Draw and explain Tri-state TTL inverter circuit diagram with its operation.<br>
+    <span class="src">Anna Univ. EC1201 · Nov/Dec 2021 · Part A Q3 · 2 marks</span> What is tristate logic? What are the demerits?</div>
+  <div class="guess">Guess first, on paper: how can one output be "neither 0 nor 1"?</div>
+  <div class="fig">{{ tristate_bus() }}</div>
+  <p><b>Third state = high impedance (Hi-Z).</b> When the enable input is inactive, the output is electrically disconnected. This lets many outputs share one <b>bus</b>, with only the enabled one driving it.</p>
+  <p><b>Circuit.</b> Start from the totem-pole gate above and add an enable input E. It connects (1) to an <b>extra emitter of Q1</b> and
+    (2) through a <b>diode to Q2's collector</b> (Q3's base). When disabled (E LOW), the extra emitter steals Q1's base current, so Q2 and Q4 are OFF,
+    and the diode pulls Q3's base LOW, so Q3 is OFF too. <b>Both totem-pole transistors are OFF, so the output is Hi-Z.</b>
+    When enabled (E HIGH), the diode is reverse-biased and the gate works normally.</p>
+  <div class="ans"><b>Answer.</b> Tristate logic has outputs 0, 1 and Hi-Z, selected by the enable. Merit: it keeps the fast active pull-up (unlike open-collector) and still allows bus sharing.
+    <b>Demerits:</b> if two enables are on at once, two outputs fight (bus contention, large current), so control logic must arbitrate. A bus with every output in Hi-Z floats, so it needs pull-ups or bus-keepers. Enable/disable times add delay.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › ECL</div>
+  <h2>D4 · Emitter-coupled logic</h2>
+  <div class="q"><span class="src">RTU (3E2075) · Unit II Q(b) · 8 marks</span> Explain the parameters used to characterize logic families. Calculate the noise margin of ECL gate.<br>
+    <span class="src">Anna Univ. EC1201 · Nov/Dec 2021 · Q12(b)(i) · 10 marks</span> Compare the features of TTL, ECL and HTL families.</div>
+  <div class="guess">Guess first, on paper: what makes a bipolar transistor slow to turn OFF?</div>
+  <div class="two">
+    <div class="fig narrow">{{ ecl_gate() }}</div>
+    <div>
+      <p><b>A current switch.</b> R<sub>E</sub> sets a nearly constant current. Whichever transistor, Q1 (input A) or Q2 (fixed reference V<sub>BB</sub>), has the higher base takes that current.
+        The current is <b>steered</b>, never switched off, and neither transistor <b>saturates</b>.</p>
+      <p><b>Why it is the fastest family (about 1 ns).</b> A saturated BJT stores extra charge that must be removed before it can turn off. ECL never saturates, so it never pays that delay.</p>
+      <p><b>Costs.</b> Highest power (the current always flows). Small voltage swing (logic 1 ≈ −0.8 V, logic 0 ≈ −1.7 V, about 0.8 V apart), so the noise margin is small.
+        It runs from a negative supply (V<sub>EE</sub> = −5.2 V, V<sub>CC</sub> = 0). It gives both OR and NOR outputs.</p>
+    </div>
+  </div>
+  <div class="ans"><b>Noise margin, method.</b> Same formulas as D1, applied to ECL levels. With typical 10K-series values
+    V<sub>OH(min)</sub> = −0.98 V, V<sub>IH(min)</sub> = −1.105 V, V<sub>IL(max)</sub> = −1.475 V, V<sub>OL(max)</sub> = −1.63 V:
+    NM<sub>H</sub> = −0.98 − (−1.105) = <b>0.125 V</b>, NM<sub>L</sub> = −1.475 − (−1.63) = <b>0.155 V</b>.
+    <span class="fine">These levels are illustrative. Datasheet values vary with series and temperature; use the levels the paper gives you.</span></div>
+  <table class="data">
+    <tr><th></th><th>TTL (74/74LS)</th><th>ECL</th><th>CMOS (74HC)</th></tr>
+    <tr><td>Device</td><td>BJT, saturating</td><td>BJT, non-saturating</td><td>MOSFET, complementary</td></tr>
+    <tr><td>Speed</td><td>~10 ns</td><td><b>fastest</b>, ~1 ns</td><td>~10 ns (newer series faster)</td></tr>
+    <tr><td>Static power</td><td>mW per gate</td><td><b>highest</b></td><td><b>≈ 0</b></td></tr>
+    <tr><td>Noise margin</td><td>0.4 V</td><td>smallest, ~0.1–0.15 V</td><td>largest, ~0.3–0.45 V<sub>DD</sub></td></tr>
+    <tr><td>Fan-out</td><td>10</td><td>high</td><td>very high (limited by capacitance)</td></tr>
+    <tr><td>Supply</td><td>+5 V</td><td>−5.2 V</td><td>3–15 V (4000), 2–6 V (HC)</td></tr>
+  </table>
+  <p class="fine">HTL (high-threshold logic, named in the EC1201 question) is an older bipolar family for noisy industrial settings: a high supply (~15 V) and large noise margin, but slow. It does not appear in our syllabus text.</p>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › CMOS</div>
+  <h2>D5 · CMOS gates and interfacing</h2>
+  <div class="q"><span class="src">Anna Univ. EC1201 · Nov/Dec 2021 · Q12(a)(i) · 10 marks</span> Draw a CMOS NAND gate and explain its operation. List the characteristics of CMOS Logic family.<br>
+    <span class="src">RTU (3E2075) · Unit II OR-Q(a) · 8 marks</span> What are the different schemes for CMOS to TTL interface. Explain one of them.</div>
+  <div class="guess">Guess first, on paper: when is there <i>no</i> path from V<sub>DD</sub> to ground?</div>
+  <div class="two">
+    <div class="fig center">{{ commons("CMOS_Inverter.svg", 170) }}<div class="prov">CMOS inverter · Wikimedia Commons, public domain</div></div>
+    <div class="fig center">{{ commons("CMOS_NAND.svg", 190) }}<div class="prov">CMOS NAND · Wikimedia Commons, CC BY-SA 3.0</div></div>
+  </div>
+  <p><b>Rule.</b> Each gate has a PMOS <b>pull-up network</b> and an NMOS <b>pull-down network</b> that are logical complements, so exactly one of them conducts.
+    <b>NAND:</b> NMOS in <b>series</b> (both inputs must be 1 to pull the output LOW) and PMOS in <b>parallel</b> (any 0 pulls it HIGH). NOR is the reverse.</p>
+  <table class="data mono">
+    <tr><th>A B</th><th>NMOS (series)</th><th>PMOS (parallel)</th><th>Out</th></tr>
+    <tr><td>0 0</td><td>both off</td><td>both on</td><td>1</td></tr>
+    <tr><td>0 1 / 1 0</td><td>one off → open</td><td>one on</td><td>1</td></tr>
+    <tr><td>1 1</td><td>both on</td><td>both off</td><td>0</td></tr>
+  </table>
+  <p><b>Characteristics.</b> Static power ≈ 0, because in steady state no path conducts. <b>Dynamic power P = αCV<sub>DD</sub>²f</b>, so power rises with frequency.
+    Output swings rail to rail. Noise margin is large. Fan-out is very high (the input is a gate capacitor). Supply range is wide, density is high, and it scales well, which is why CMOS took over.
+    Weak points: it is sensitive to static (ESD), and it is slower with large capacitive loads.</p>
+  <p><b>Handling (EC1201 Q12(b)(ii), 6 marks).</b> Store parts in conductive foam. Ground yourself and the bench. Never insert or remove a part with power on.
+    <b>Tie every unused input</b> to V<sub>DD</sub> or GND, because a floating CMOS input wanders and can turn both networks partly on.</p>
+  <p><b>Interfacing: always compare levels <i>and</i> currents.</b></p>
+  <ul class="tight">
+    <li><b>TTL → CMOS (5 V):</b> TTL's V<sub>OH(min)</sub> = 2.4 V is below a 74HC input's V<sub>IH</sub> ≈ 3.5 V. Fix: a <b>pull-up resistor</b> to +5 V, or use <b>74HCT</b> (CMOS with TTL input thresholds).</li>
+    <li><b>CMOS → TTL:</b> the voltage levels are fine, but a CMOS output must sink TTL's I<sub>IL</sub> = 1.6 mA per load. 74HC can sink this for a few loads. 4000-series cannot, so add a <b>buffer</b> (e.g. 4049/4050) or drive LS-TTL (lower I<sub>IL</sub>).
+      With different supply voltages, use a level-shifter.</li>
+  </ul>
+  <div class="check"><b>Check D5.</b> (a) Draw the network for a CMOS NOR: which network is in series? (b) Doubling the clock frequency and halving V<sub>DD</sub> changes the dynamic power by what factor?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › Memories</div>
+  <h2>D6 · Semiconductor memories</h2>
+  <div class="q"><span class="src">Anna Univ. EC6302 · Nov/Dec 2021 · Q14(a) · 13 marks</span>
+    Write the differences between static and dynamic RAM. Draw the circuits of one cell of each and explain its working.<br>
+    <span class="src">Anna Univ. EC6302 · Apr/May 2015 · Q14(a)(i) · 8 marks</span> Explain memory decoding. Compare the RAM, ROM, PROM &amp; EPROM.</div>
+  <div class="guess">Guess first, on paper: which cell needs refreshing, and why?</div>
+  <div class="fig">{{ memory_org() }}</div>
+  <p><b>Organisation.</b> 2ᵏ words × m bits: k address lines, m data lines. The row decoder raises one <b>word line</b>, and that row's cells connect to the <b>bit lines</b>.
+    Example: 1K × 8 → 2¹⁰ words → <b>10 address lines, 8 data lines</b>, 8192 bits.</p>
+  <p><b>Memory decoding</b> (building a big memory from small chips). For 4K × 8 from four 1K × 8 chips: A₉–A₀ go to every chip, and A₁₁A₁₀ go to a <b>2:4 decoder</b> whose outputs drive each chip's <b>chip-select</b>.
+    Each chip then occupies its own 1K block of addresses.</p>
+  <div class="two">
+    <div class="fig center">{{ commons("SRAM_Cell_(6_Transistors).svg", 330) }}<div class="prov">6T SRAM cell · Wikimedia Commons, public domain</div></div>
+    <div class="fig center">{{ dram_cell() }}<div class="prov">1T-1C DRAM cell · generated</div></div>
+  </div>
+  <table class="data">
+    <tr><th></th><th>SRAM</th><th>DRAM</th></tr>
+    <tr><td>Cell</td><td>6 transistors: two cross-coupled inverters (a latch) + 2 access transistors</td><td>1 transistor + 1 capacitor</td></tr>
+    <tr><td>Stores the bit as</td><td>the latch state (feedback holds it)</td><td>charge on C</td></tr>
+    <tr><td>Refresh</td><td>none (holds while powered)</td><td><b>needed</b> every few ms: charge leaks; reads are destructive</td></tr>
+    <tr><td>Speed / density / cost per bit</td><td>fast / low / high</td><td>slower / high / low</td></tr>
+    <tr><td>Use</td><td>cache</td><td>main memory</td></tr>
+  </table>
+  <p><b>Working.</b> SRAM: the word line turns on M5/M6, the latch drives BL and BL′, and a sense amplifier reads the difference. To write, force BL/BL′ hard enough to flip the latch.
+    DRAM: the word line turns on the transistor and C shares its charge with the bit line. That small change is sensed, and the value is then <b>written back</b>.</p>
+  <table class="data">
+    <tr><th>Type</th><th>Write</th><th>Erase</th><th>Volatile?</th></tr>
+    <tr><td>RAM (SRAM/DRAM)</td><td>any time, fast</td><td>–</td><td>yes</td></tr>
+    <tr><td>Mask ROM</td><td>at manufacture</td><td>never</td><td>no</td></tr>
+    <tr><td>PROM</td><td>once (blow fuses)</td><td>never</td><td>no</td></tr>
+    <tr><td>EPROM</td><td>programmer</td><td>UV light, whole chip, through a quartz window</td><td>no</td></tr>
+    <tr><td>EEPROM / Flash</td><td>in circuit</td><td>electrically (byte / block for Flash)</td><td>no</td></tr>
+  </table>
+  <div class="check"><b>Check D6.</b> (a) How many address lines does a 16K × 4 memory need, and how many of its chips make a 64K × 8 memory? (b) EPROM vs EEPROM in one line.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › PLDs</div>
+  <h2>D7 · Programmable logic devices</h2>
+  <div class="q"><span class="src">Anna Univ. EC6302 · Nov/Dec 2021 · Part A Q8 · 2 marks</span> What is programmable logic array? How it differs from ROM?<br>
+    <span class="src">Anna Univ. EC1201 · Nov/Dec 2021 · Part A Q10 · 2 marks</span> Compare PAL and PLA devices.</div>
+  <div class="guess">Guess first, on paper: every SOP has an AND level and an OR level. Which one would you make programmable?</div>
+  <div class="fig wide">{{ pld_arrays() }}</div>
+  <table class="data">
+    <tr><th></th><th>AND array</th><th>OR array</th><th>Trait</th></tr>
+    <tr><td>PROM / ROM</td><td>fixed: a full decoder making every minterm</td><td>programmable</td><td>stores the whole truth table; no minimisation needed; grows as 2ⁿ</td></tr>
+    <tr><td>PLA</td><td>programmable</td><td>programmable</td><td>most flexible; outputs can <b>share</b> product terms; slowest</td></tr>
+    <tr><td>PAL</td><td>programmable</td><td>fixed</td><td>each output gets its own fixed set of products; faster, cheaper, most common</td></tr>
+  </table>
+  <p><b>Implementing on a PLA:</b> minimise every output as SOP, look for products shared between outputs, then mark the connections.
+    Example: F₁ = Σm(4,5,7) = AB′ + AC, F₂ = Σm(3,5,7) = BC + AC. That needs 3 product terms, not 4, because AC is shared.</p>
+  <div class="fig">{{ pla_impl() }}</div>
+  <table class="data mono">
+    <tr><th>Product</th><th>A B C</th><th>F₁ F₂</th></tr>
+    <tr><td>AB′</td><td>1 0 –</td><td>1 –</td></tr>
+    <tr><td>AC</td><td>1 – 1</td><td>1 1</td></tr>
+    <tr><td>BC</td><td>– 1 1</td><td>– 1</td></tr>
+  </table>
+  <p class="fine">This is the PLA programming table that exam answers ask for: 1 = true input, 0 = complemented input, – = not connected.
+    Beyond these: GAL (a re-programmable PAL), CPLD (many PALs on one chip), and FPGA (look-up tables, essentially small MUX-based ROMs, programmed in Verilog).</p>
+  <div class="ans"><b>Answers.</b> <b>PLA:</b> a PLD with programmable AND and OR arrays, so it generates only the product terms needed, and outputs can share them.
+    A <b>ROM</b> has a fixed AND array that generates all 2ⁿ minterms. <b>PAL vs PLA:</b> PAL's OR array is fixed, which makes it faster and cheaper but less flexible, with no sharing between outputs. PLA programs both arrays.</div>
+  <div class="check"><b>Check D7.</b> (a) What size ROM implements a 4-bit × 4-bit multiplier? (b) Why is a PAL faster than a PLA?</div>
+</section>
+
+<section class="answers">
+  <h3>Part D: answers to the Checks</h3>
+  <ol>
+    <li><b>D1</b> min(8/0.4, 400/20) = min(20, 20) = <b>20</b>.</li>
+    <li><b>D5</b> (a) NOR: PMOS in <b>series</b> (both inputs must be 0 to pull HIGH), NMOS in parallel. (b) P ∝ V²f → (½)² × 2 = <b>½</b>.</li>
+    <li><b>D6</b> (a) 16K = 2¹⁴ → 14 address lines. 64K × 8 needs ×4 the words and ×2 the width, so <b>8 chips</b>. (b) EPROM is erased by UV light, the whole chip, out of circuit. EEPROM is erased electrically, byte by byte, in circuit.</li>
+    <li><b>D7</b> (a) 8 address inputs (4 + 4 bits) → 2⁸ = 256 words, and the product is up to 8 bits: <b>256 × 8</b>. (b) A fixed OR array has fewer programmable switches in the signal path, so there is less delay and capacitance.</li>
+  </ol>
+</section>
+
+<!-- ============================================================ MOCK -->
+<section class="part">
+  <div class="part-no">Mock</div>
+  <h1>Practice paper: real questions only</h1>
+  <p class="lead">This paper uses the MTE's three bands. The real ETE format is unknown. Allow about 3 minutes per mark. Close the pack and write full answers.</p>
+</section>
+
+<section class="concept mock">
+  <h3>Section A · 2 marks each</h3>
+  <ol>
+    <li>Define Noise margin. <span class="src">Anna 2021 A2</span></li>
+    <li>What is the minimum no of flip flops needed to design a counter of modulus 60? <span class="src">Anna 2015 A6</span></li>
+    <li>What is edge-triggered flip-flop? <span class="src">Anna 2021 A6</span></li>
+    <li>Briefly explain about EEPROM. <span class="src">Anna 2021 A7</span></li>
+    <li>What is the most important consideration in making state assignments for asynchronous network? <span class="src">Anna 2015 A10 / 2021 A10</span></li>
+    <li>State the advantages of CMOS logic. <span class="src">Anna 2015 A2</span></li>
+  </ol>
+  <h3>Section B · 4–8 marks each</h3>
+  <ol start="7">
+    <li>Discuss the working of a 4 bit Johnson counter with neat block diagram. <span class="src">Anna 2015 13(b)(i)</span></li>
+    <li>Draw and explain Tri-state TTL inverter circuit diagram with its operation. <span class="src">Anna 2021 11(b)(i)</span></li>
+    <li>Write the differences between static and dynamic RAM. Draw the circuits of one cell of each and explain its working. <span class="src">Anna 2021 14(a)</span></li>
+    <li>Give the hazard free realization for f (A, B, C, D) = ΠM (0, 2, 6, 7, 8, 10, 12). <span class="src">Anna 2021 15(b)</span></li>
+    <li>Explain how a state graph for a sequential machine can be converted to an equivalent ASM chart. <span class="src">Anna 2015 15(a)(i)</span></li>
+  </ol>
+  <h3>Section C · design</h3>
+  <ol start="12">
+    <li>Design a sequential pattern detector that receives a stream of input bits. The circuit should recognize the pattern 010 and produce an output whenever this pattern is received. <i>(Moore, D flip-flops.)</i> <span class="src">Anna 2015 15(b)(ii)</span></li>
+    <li>Design a synchronous decade counter to count in the following sequence. 1, 0, 2, 3, 4, 8, 7, 6, 5. <i>(D flip-flops.)</i> <span class="src">Anna EC1201 2021 14(a)(i)</span></li>
+  </ol>
+</section>
+
+<section class="answers">
+  <h3>Mock: answer key</h3>
+  <ol>
+    <li>D1 definition + NM<sub>H</sub> = V<sub>OH</sub> − V<sub>IH</sub>, NM<sub>L</sub> = V<sub>IL</sub> − V<sub>OL</sub>.</li>
+    <li>6 (2⁶ = 64 ≥ 60 &gt; 32).</li>
+    <li>An FF that samples its inputs and changes state only at the clock's rising or falling <b>edge</b>, not during the whole level. This removes race-around and transparency.</li>
+    <li>Electrically erasable PROM: non-volatile, erased and re-written electrically, byte by byte, in circuit. Slower writes and limited write cycles.</li>
+    <li>Avoid <b>critical races</b>: give states that transition into each other codes that differ in one bit (adjacent assignment).</li>
+    <li>≈ zero static power, large noise margin, high fan-out, rail-to-rail output, wide supply range, high density.</li>
+    <li>B3.</li><li>D3.</li><li>D6.</li><li>C7: f = B′D + C′D + A′BC′ + ABC + AD.</li><li>C5.</li>
+    <li>C2 Moore: D<sub>A</sub> = Bx + AB′x′, D<sub>B</sub> = x′, z = AB.</li>
+    <li>4 D-FFs (Q₃Q₂Q₁Q₀), states 9–15 = X:
+      D₃ = Q₂Q₁′Q₀′ · D₂ = Q₁Q₀ + Q₂Q₁ + Q₃ · D₁ = Q₂′Q₀′ + Q₂Q₁Q₀ · D₀ = Q₁Q₀′ + Q₂Q₁′Q₀ + Q₃.
+      Self-start check: 9→5, 10→7, 11→5, 12→13→5, 13→5, 14→5, 15→7. Every unused state returns to the count, so the counter is <b>self-starting</b>.</li>
+  </ol>
+</section>
+
+<section class="sources">
+  <h3>Sources</h3>
+  <ul>
+    <li><b>Scope:</b> ECE 2105 syllabus slide (professor's deck 1) and the 2025 MTE paper, both in <code>exam-pack/</code>.</li>
+    <li><b>Facts:</b> prescribed texts (A. Anand Kumar 2e; R. P. Jain 4e; Brown &amp; Vranesic 3e; Mano &amp; Ciletti) via the subject knowledge base (stage-2✓, triangulated).
+      TTL DC table checked against Cornell PHYS3360 L26 and datasheet summaries. ECL levels from Cornell L26 (−0.8 / −1.7 V typical).</li>
+    <li><b>Questions:</b> Anna University B.E. EC6302 Digital Electronics, Apr/May 2015 (QP 77112) and Nov/Dec 2021 (QP 70427); EC1201 Digital Electronics, Nov/Dec 2021 (QP 86565);
+      RTU III-sem Digital Electronics (3E2075, 2012), via SKIT digital library. Items marked "practice" are not from a paper.</li>
+    <li><b>Images:</b> Wikimedia Commons (CMOS inverter, public domain; CMOS NAND, CC BY-SA 3.0; 6T SRAM cell, public domain). Everything else is generated by <code>figs.py</code>.</li>
+  </ul>
+</section>

@@ -5,7 +5,7 @@
 > See `../../README.md`.
 
 ## Session resume
-- Last session: — (no teaching session yet)
+- Last session: 2026-10-17 — no teaching; built `study-pack/pdf/DE-v1.pdf` (ETE half + MTE recap)
 - Where we stopped: subject scaffolded 2026-07-05 (engine audit) — KB was already `stage-2✓`
   (TEACH-READY, queue 2026-06-27); curriculum/profile/log created so activation needs no
   mid-boot improvisation. **No teaching yet; learner level undiagnosed.**
@@ -94,3 +94,31 @@
   hierarchy, fan/spine/list encoding, behaviour, minimal visual language, card rules, authoring,
   code map, version history); git tag `site-v1`; README, parked design doc, universal preferences
   (§3) and CLAUDE.md file map point at it. **No teaching event.**
+- [2026-10-17] Learner request (stated): "lets finish it … use the course handout and the high
+  quality stuff online and make me a v1 pdf … finish up digital electronics tonight." No new
+  professor material (no decks past flip-flops, no ETE paper). Building **study-pack PDF v1** =
+  the un-packed ETE half — U3 remainder (ripple/mod-N counters, shift registers, ring/Johnson,
+  timing analysis), U4 (FSM design, state reduction, timing issues, ASM, pulse-train/PRBS/clock
+  generation, async circuits), U5 (TTL specs/noise margin/fan-out, tristate, ECL, CMOS +
+  interfacing, memories, PLDs) — plus a one-section recap sheet of the MTE half. Scope = the
+  syllabus in `exam-pack/slides-01` (course hand-out text); facts from the stage-2✓ KB; questions
+  sourced from real papers (GATE/university) where found, else marked textbook-style. Output:
+  `study-pack/pdf/DE-v1.pdf` + its HTML source + figure script. **No teaching event.**
+- [2026-10-17] `study-pack/pdf/DE-v1.pdf` **built — 29 pages, A4**: cover flow map → Part A MTE recap
+  sheet (4 recall tables) → Part B U3 rest (B1 ripple/mod-N, B2 shift registers, B3 ring/Johnson, B4
+  timing) → Part C U4 (C1 Moore/Mealy, C2 010 detector Mealy+Moore, C3 state reduction, C4 timing
+  issues, C5 ASM, C6 LFSR/pulse train/555/ring osc, C7 races + hazard-free realization) → Part D U5
+  (D1 NM/fan-out, D2 TTL totem pole, D3 tristate, D4 ECL + family table, D5 CMOS + interfacing, D6
+  memories, D7 PLDs) → mock paper (13 real questions) + key. Every concept is Q (quoted, sourced,
+  marks) → guess line → figure-first teaching → answer → Check; Check answers at the end of each Part.
+  **Question sources (real):** Anna Univ. EC6302 Apr/May 2015 (QP 77112) + Nov/Dec 2021 (QP 70427),
+  EC1201 Nov/Dec 2021 (QP 86565), RTU 3E2075 (2012). B4, C3, C4, C6, D2 have no real item found →
+  labelled "practice". **All worked answers machine-checked by `study-pack/pdf/verify.py`** (010
+  Mealy/Moore equations + simulation, hazard-free cover, LFSR period 7, Johnson mod-8, partition
+  7→5, PLA shared term, EC1201 counter D-equations + self-start, f_max, fan-out, 555, ring osc).
+  ECL noise-margin levels flagged illustrative (10K-class; not datasheet-verified). Images: 4
+  Wikimedia Commons schematics (7400 TTL, CMOS inverter, CMOS NAND, 6T SRAM; licences printed),
+  rest generated. Source = `content.html` + `figs.py` + `build.py`. **No teaching event —
+  nothing assessed; mastery ledger and review queue unchanged.**
+- [2026-10-17] **Where we stopped:** DE-v1.pdf delivered; learner has not worked any Check yet.
+  Next session: start-of-session recall, then run the mock paper (Section C first) as the diagnostic.
