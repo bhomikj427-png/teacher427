@@ -185,3 +185,8 @@
   correct). PP 10.5 and 10.40 are the same circuits as Chakraborty 5.5(c) and 5.5(b): Sadiku's answers confirm the
   batch-1 book-error corrections. Self-check caught and fixed one slip of mine (10.50 design value). `src/verify_b8.py`.
   Next: batch 9, Sadiku §10.6 Thevenin/Norton AC (PP 10.8–10.10, Probs. 10.55–10.68).
+- `[2026-10-18]` Marathon batch 9 started: Sadiku §10.6 AC Thevenin/Norton (PP 10.8–10.10, Probs. 10.55–10.68).
+- `[2026-10-18]` Marathon batch 9 built: Sadiku §10.6 AC Thevenin/Norton, PP 10.8–10.10 + Probs. 10.55–10.68 (17; PDF
+  150 pp.). Odd answers match App. D except a digit swap in 10.55(a) (22.63 for 22.36) and a 0.1° angle difference in
+  10.67. 10.62 is Chakraborty 5.22's circuit and confirms the A22 correction. `src/verify_b9.py`. Next: batch 10,
+  Sadiku §11.3 AC max power (PP 11.4–11.5, Probs. 11.12–11.21).

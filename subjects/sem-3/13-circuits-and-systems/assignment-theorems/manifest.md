@@ -227,6 +227,30 @@ Verified = `src/verify_b8.py`: each frequency solved as its own full phasor circ
 | 10.53 | 3.529 − j5.883 V | same | built |
 | 10.54 | (even; = Prob. 10.7) | 124.08∠−153.96° V (= App. D 10.7) | built |
 
+## Part B · Sadiku 5e · ch. 10 §10.6 AC Thevenin / Norton (batch 9)
+
+Verified = `src/verify_b9.py` (phasor V_oc, I_sc, test-source Z_th).
+
+| Q | Book answer | Verified answer | Status |
+|---|---|---|---|
+| PP 10.8 | 12.4 − j3.2 Ω, 63.24∠−51.57° V | same | built |
+| PP 10.9 | 4.473∠−7.64° Ω, 7.35∠72.9° V | same | built |
+| PP 10.10 | 3.176 + j0.706 Ω, 8.396∠−32.68° A, 1.9714∠−2.10° A | same | built |
+| 10.55 | (a) 22.63∠−63.43° Ω, 50∠−150° V, 2.236∠−86.6° A; (b) 10∠26°, 33.92∠58°, 3.392∠32° | (a) 22.36 (App. D digit swap); (b) same | built |
+| 10.56 | (even) | (a) 6 − j4 Ω, 14.42∠−33.69° V, 2∠0° A; (b) 5.423∠−77.47° Ω, 19.40∠−59.04° V, 3.578∠18.43° A | built |
+| 10.57 | design | sample: j10 V, 3 + j2 Ω | built |
+| 10.58 | (even) | 55.90∠71.57° V, 10 + j5 Ω | built |
+| 10.59 | −6 + j38 Ω | same | built |
+| 10.60 | (even) | (a) 9.615∠33.69° V, 1.333 Ω; (b) 9.615∠56.31° V, 2.667 − j4 Ω | built |
+| 10.61 | −24 + j12 V, −8 + j6 Ω | same | built |
+| 10.62 | (even) | v_o = 2.299 cos(t − 163.30°) V (= Chakraborty 5.22 circuit, sign-flipped source; confirms A22 correction) | built |
+| 10.63 | 1 kΩ, 5.657 cos(200t + 75°) A | same | built |
+| 10.64 | (even) | 20 + j40 Ω, 3∠60° A | built |
+| 10.65 | design | sample: i_o = 4.472∠−63.43° A | built |
+| 10.66 | (even) | 29.79∠−3.62° V, 44.43∠−133.18° A, −0.427 + j0.517 Ω | built |
+| 10.67 | 4.945∠−69.76° V, 0.4378∠−75.24° A, 11.243 + j1.079 Ω | 4.944∠−69.66°, 0.4377∠−75.14° (0.1° off), Z same | built |
+| 10.68 | (even) | 11.52 sin(10t − 50.19°) V, 1.230 − j1.475 Ω | built |
+
 ## Still to build
 
 | Batch | Questions |
