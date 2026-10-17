@@ -129,6 +129,34 @@ Verified = `src/verify_b5.py`: every circuit solved as drawn (no transformation)
 | 4.31 | practice (VCVS) | 3.652 V | 84/23 V | built |
 | 4.32 | practice (CCCS) | (even) | 1.6 A | built |
 
+## Part B · Sadiku 5e · §4.5–4.6 Thevenin / Norton, part 1 (batch 6a)
+
+Verified = `src/verify_b6a.py`: V_oc, I_sc, R_th = V_oc/I_sc and a test-source R_th (sources off).
+
+| Q | Book answer | Verified answer | Status |
+|---|---|---|---|
+| PP 4.8 | 6 V, 3 Ω, 1.5 A | same | built |
+| PP 4.9 | 5.333 V, 444.4 mΩ | same | built |
+| PP 4.10 | 0 V, −7.5 Ω | same | built |
+| PP 4.11 | 3 Ω, 4.5 A | same | built |
+| PP 4.12 | 1 Ω, 10 A | same | built |
+| 4.33 | 40 V, 20 Ω, 1.6 A | same | built |
+| 4.34 | design | sample: 6 V, 4 Ω | built |
+| 4.35 | −125 mV | −0.125 V | built |
+| 4.36 | (even) | 0.5 A | built |
+| 4.37 | 10 Ω, 666.7 mA | same | built |
+| 4.38 | (even) | 12.8 V | built |
+| 4.39 | 20 Ω, −49.2 V | same | built |
+| 4.40 | (even) | 60 V, 2.857 kΩ | built |
+| 4.41 | 4 Ω, −8 V, −2 A | same | built |
+| 4.42 | (even) | 10 V, 10 Ω | built |
+| 4.43 | 10 Ω, 0 V | same; i_x = 0 | built |
+| 4.44 | (even) | (a) 4 V, 27/7 Ω; (b) 15 V, 45/14 Ω | built |
+| 4.45 | 3 Ω, 2 A (Norton form) | 6 V, 3 Ω, I_N 2 A | built |
+| 4.46 | design | sample: 3 A, 4 Ω | built |
+| 4.47 | 1.1905 V, 476.2 mΩ, 2.5 A | same | built |
+| 4.48 | (even) | I_N 3 A, R_N −4 Ω | built |
+
 ## Still to build
 
 | Batch | Questions |
