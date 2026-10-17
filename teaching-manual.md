@@ -264,6 +264,12 @@ successive relearning of due items first, then continue the curriculum via the l
 subjects exist (verilog, python, the sem-3 batch) — current status lives in their progress logs
 and the sem-3 research queue, never in this manual. See `subjects/README.md`.
 
+**Marathon mode** (learner-designed, 2026-10-17): a learner-started, question-driven run over a
+defined book, allowed below the `stage-2✓` gate because the book is the truth authority. The loop
+compresses to *attempt → hint (what's new) → compact solution*, with explanation fading and steps
+kept; evidence = misses the learner reports; the engine does all verification; a revision set is the
+spaced re-test. Full protocol: `marathon.md`.
+
 ---
 
 ## 15. The personalization layer & self-update (catering to this learner)

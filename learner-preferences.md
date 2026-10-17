@@ -203,7 +203,15 @@ prefers minimal prose, wants diagrams described, etc.)*
   use; enforce a per-page load budget mechanically. Extends the 2026-09-15 and site-v2 rules to print.
 
 ## 4. Autonomy & choice
-*(How much the learner wants to steer — pick next topic, choose examples, set pace. Unseeded.)*
+- [stated 2026-10-17] **Engine does all verification; the learner only learns.** "I can only either
+  learn or be checking everything myself." → re-derive and cross-check every answer independently,
+  compare against printed answers, flag book errors; never hand checking work to the learner.
+- [stated 2026-10-17] **No marking or self-scoring.** Evidence = being able to solve a question
+  unaided; the learner reports only misses ("5.7 needed the solution"), silence = solved → never ask
+  for clean/struggled/wrong marks or pass marks; act on reported misses.
+- [stated 2026-10-17] **Marathon study mode** for large question sets (`marathon.md`): cover-and-
+  solve first, "what's new" as a hint, then a compact step-by-step solution; curated questions may
+  be dropped only if practically identical, never at the cost of exposure to twists.
 
 ## 5. Scheduling & review cadence
 *(Preferred session length, days available, how aggressive the spaced-review queue should be.
@@ -235,6 +243,15 @@ without breaking the method.)*
   not preached. → when the learner asks for reference/study documents in future, build them in this
   shape by default rather than as summaries; do not refuse the format, and do not silently convert
   it into a lecture transcript.
+
+- [stated 2026-10-17] **"I actually want cramming" vs. principle 2 (space and relearn).** The learner
+  learns more in one long session, and finds that spaced sessions don't happen in practice; they
+  won't return to marathon questions. Evidence cost (named once): at retention intervals of a week
+  or more, spacing nearly doubles recall (`research/02 §2`). **Honored the spirit:** marathons are
+  massed by design; no forced spaced sessions, no lectures about it. **Kept the mechanism:** every
+  answer is generated before it is seen (retrieval, `research/02 §1`), and each marathon ends with a
+  minimal **revision set** (≈ one basic question per idea) that the learner revises from later. That
+  is the spaced re-test. → don't re-raise the cost; do always build the revision set.
 
 ---
 
@@ -301,3 +318,6 @@ without breaking the method.)*
   minimal concept tree with one concept at a time (format frozen as `site/SITE-V1.md`).
 - 2026-10-17 — Added §3 pref: river rules (start from known, priming, focus, bridges, load budget)
   apply to every study artifact, after DE-v1.pdf was rejected as disconnected and assuming knowledge.
+- 2026-10-17 — Added §4 stated prefs: engine does all verification; no marking (misses-only
+  evidence); marathon study mode (`marathon.md`). Logged the §7 cramming tension (massing honoured,
+  generation + revision set kept).

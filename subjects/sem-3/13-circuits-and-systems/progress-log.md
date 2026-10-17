@@ -112,3 +112,36 @@
   (phasor algebra + ODE simulation: peak 7.071 mA, lagging 45°). 00-START-HERE: added an "AC prereq" row to the priority
   table, a bridge map, a file-table row. Combined PDF rebuilt: **81 pp.** Every page of 04b viewed; fixed label overlaps
   and a missing ∠ glyph.
+- `[2026-10-17]` Learner request: theorems assignment (solved Qs from A K Chakraborty + unsolved Qs from Sadiku). Books
+  identified in `../_inbox/_unsorted/`: Ghosh & Chakraborty, *Circuit Theory and Networks* 4e (McGraw Hill, WBUT-2014),
+  ch. 5; Alexander & Sadiku, *Fundamentals of Electric Circuits* **5e** (syllabus lists 6e). Scope checked against the
+  official MUJ 2025 syllabus (`jaipur.manipal.edu/fosta/img/programs/ECE/Syllabus-2025-ECE.pdf`, ECE2107): theorems =
+  superposition, Thevenin/Norton, MPT, DC + AC; source transformation under basic laws (learner: include it).
+  Syllabus reference #3 is "A. Chakraborty, *Circuit Theory: Analysis and Synthesis*, Dhanpat Rai"; class notes p.1 say
+  "A.K. Chakraborty" (numerical practice), matching the Ghosh & Chakraborty book on disk. Not resolved; learner to confirm.
+- `[2026-10-17]` In-scope counts: Chakraborty solved 5.1–5.14 superposition (14), 5.15–5.34 Thevenin/Norton (20),
+  5.35–5.44 MPT (10) = 44; 5.45–5.56 reciprocity/Millman out. Sadiku EOC: 4.8–4.19 (12), 4.20–4.32 ST (13),
+  4.33–4.65 Th/N (33), 4.66–4.75 MPT (10), 10.40–10.48 (9), 10.49–10.54 ST (6), 10.55–10.68 Th/N (14), 11.12–11.21 MPT (10)
+  = 107; Ch. 4 practice problems in scope 4.3–4.13 (11). Learner says the professor expects ~300 total.
+- `[2026-10-17]` Learner design: one PDF, book-wise (Part A Chakraborty solved, Part B Sadiku unsolved), assignment
+  format; per question a "What's new" box when it carries a new idea; heavy teaching early, fading to plain solutions.
+  Demo build: Chakraborty 5.1–5.4 + Sadiku PP 4.3, 4.8, 4.9 → `assignment-theorems/`. Every answer re-derived
+  (5.1 I = 0; 5.2 V = 1 V; 5.3 I = −2/11 A; 5.4 I = 1.2∠123.7° A; PP 4.3 v_o = 7.4 V = book; 4.8 V_o = 54/13 V;
+  4.9 I = 2 A = Appendix D). Assignment pack, not a lesson (same exception shape as the MTE pack).
+- `[2026-10-17]` Demo built: `assignment-theorems/pdf/ECE2107-Theorems-Assignment.pdf` (12 pp.; cover + Part A 5.1–5.4 +
+  Part B PP 4.3, 4.8, 4.9). Figures cropped from the books (`src/crops.py`); builder adapted from the study pack
+  (`src/build.py`, one HTML → one PDF so page numbers run through). Every page viewed; crop slivers fixed. Awaiting
+  learner sign-off on format before the remaining questions.
+- `[2026-10-17]` Learner defined the **marathon** study mode (engine-level, `marathon.md`, signed off this session);
+  this assignment becomes an **assignment marathon** (every question in the confirmed 171-question scope; the
+  professor has not confirmed the ~300). Format change from the demo: try-first now comes **before** the
+  "what's new" hint; explanation moves out of the solution block. No marks; the learner reports misses only.
+- `[2026-10-17]` Marathon batch 1 started: Part A Superposition, Chakraborty 5.1–5.14 (new page order: try first →
+  hint → compact solution). Builds into `assignment-theorems/` (replaces the demo content; manifest.md added).
+- `[2026-10-17]` Marathon batch 1 built: `assignment-theorems/pdf/ECE2107-Theorems-Assignment.pdf` (25 pp.; cover + Part A
+  Superposition 5.1–5.14, 37 book figures cropped incl. the book's sub-circuits). Every total and every per-source partial
+  confirmed by `src/verify.py` (MNA, all sources on). Book errors found and corrected in the PDF: 5.5(b) (L treated as j4
+  at DC + DC/AC added as phasors; correct i₀ = 4 + 0.791 cos(4t − 71.57°) A), 5.5(c) (wrong divider + expansion slip;
+  correct 1.19∠65.45° A), 5.6 (figure 20 A vs solution 2 A; PDF follows figure), 5.7 (8i₀″ = −5 solved as −1.25;
+  correct i = 1.125 A, i₀ = 0.125 A). `manifest.md` created. Demo Sadiku pages parked in `src/later/`. Next: batch 2,
+  Chakraborty 5.15–5.34 (Thevenin/Norton).

@@ -20,7 +20,10 @@
   `stage-2✓` first (depth-first for that subject), *then* teach. `stage-1✓` is exam-ready and the
   batch research milestone, but is **not** the teaching gate. **Subject-scoped exceptions may be
   learner-logged in the research queue** (currently one: Management of Technology, learner-decided
-  2026-06-26 — `stage-1✓` is its gate; the global rule is unchanged). The gate + status vocabulary
+  2026-06-26 — `stage-1✓` is its gate; the global rule is unchanged). **Standing exception: a
+  learner-started *marathon* may run below the gate when its source is a defined book** (named
+  title + edition + sections; that book is the truth authority) — see *Marathon* below and
+  `marathon.md`. The gate + status vocabulary
   apply to **every** subject, standalone ones (verilog, python) included — engine-level summary in
   `subjects/README.md`.
 - **Subject content sourcing & sequencing (non-negotiable, see `subject-research-protocol.md`
@@ -235,6 +238,27 @@ You keep the preference files current — they are the engine's memory of the le
 
 ---
 
+## Marathon (learner-designed study mode, 2026-10-17 — full protocol: `marathon.md`)
+
+A long, question-driven run over a **defined book**; solving the questions *is* the learning.
+Learner-started only. Deterministic rules:
+- **Modes:** *learning* (engine curates) vs *assignment* (every question in scope). Same format;
+  only selection differs.
+- **Curation never costs mastery:** drop a question only if it is **practically identical** to one
+  already in (same structure, method and traps, numbers changed). Any new twist keeps it; when in
+  doubt, keep. No fixed count per topic.
+- **Per question, fixed order:** question (book figure) → *try it first* → *What's new* as a
+  **hint** (only if new) → **compact copyable solution** with every intermediate value → optional
+  side note. Explanation prose fades; solution steps never do.
+- **Order:** solved book first, then unsolved; blocked by topic in book order.
+- **No marks or checkpoints.** The learner reports **only misses**; silence = solved. The engine
+  does **all** verification (independent re-derivation + a second check; "= book" on matches;
+  mismatches flagged as possible book errors).
+- **After:** a minimal **revision set** (≈ one basic question per idea) is the spaced re-test.
+  Massing is the learner's choice, logged as a Tension (`learner-preferences.md §7`), not a rule.
+
+---
+
 ## Hard rules (defaults)
 
 - Ask before you tell. Open with a question.
@@ -381,6 +405,9 @@ intuition or pop-pedagogy — stop and re-anchor to the five principles. Every m
   NPTEL-lecture → transcript path for content sourcing (§2); `make_figure.py` + `render_lesson.py`
   are the lesson-rendering path (`rendering.md`); `whiteboard_server.py` + `whiteboard.py` are the
   live-whiteboard path (`whiteboard.md`). Install deps via `requirements.txt`.
+- `marathon.md` — **the marathon protocol** (learner-designed question-driven study mode over a
+  defined book; modes, curation rule, per-question page order, misses-only evidence, revision set).
+  Live marathon state lives in the subject's progress log + the marathon's `manifest.md`.
 - `site/` — **the pictorial study website** (personal, GitHub Pages via `site/deploy.sh`). Format is
   frozen as **`site/SITE-V1.md`** (subject → stage → chapter → group → concept tree, one concept
   card at a time, minimal visual language); subjects join via `study-pack/web/`. Delivery only —
