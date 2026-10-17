@@ -157,6 +157,30 @@ Verified = `src/verify_b6a.py`: V_oc, I_sc, R_th = V_oc/I_sc and a test-source R
 | 4.47 | 1.1905 V, 476.2 mΩ, 2.5 A | same | built |
 | 4.48 | (even) | I_N 3 A, R_N −4 Ω | built |
 
+## Part B · Sadiku 5e · §4.5–4.6 Thevenin / Norton, part 2 (batch 6b)
+
+Verified = `src/verify_b6b.py` (same method as 6a).
+
+| Q | Book answer | Verified answer | Status |
+|---|---|---|---|
+| 4.49 | 28 Ω, 3.286 A | same | built |
+| 4.50 | (even) | I_N −0.4 A, 10 Ω; i = 2.4 A | built |
+| 4.51 | (a) 2 Ω, 7 A (b) 1.5 Ω, 12.667 A | same | built |
+| 4.52 | (even) | −80 V, 2 kΩ | built |
+| 4.53 | 3 Ω, 1 A | same | built |
+| 4.54 | (even) | 2 V, −16.67 Ω (= Chakraborty 5.27 with 50 Ω) | built |
+| 4.55 | 100 kΩ, −20 mA | same | built |
+| 4.56 | (even) | V_o = −0.2857 V | built |
+| 4.57 | 10 Ω, 166.67 V, 16.667 A | same | built |
+| 4.58 | (even) | R_th → ∞ (current-source output) | built |
+| 4.59 | 22.5 Ω, 40 V, 1.7778 A | same | built |
+| 4.60 | (even) | 10 V, 3.333 Ω, 3 A | built |
+| 4.61 | 1.2 Ω, 9.6 V, 8 A | same | built |
+| 4.62 | (even) | 0 V, 31.72 Ω | built |
+| 4.63 | −3.333 Ω, 0 A | same | built |
+| 4.64 | (even) | 0 V, −1 Ω | built |
+| 4.65 | V_o = 24 − 5I_o | same | built |
+
 ## Still to build
 
 | Batch | Questions |

@@ -173,3 +173,6 @@
 - `[2026-10-18]` Marathon batch 6a started: Sadiku §4.5–4.6 Thevenin/Norton, PP 4.8–4.12 + Probs. 4.33–4.48.
 - `[2026-10-18]` Marathon batch 6a built: Sadiku Thevenin/Norton PP 4.8–4.12 + Probs. 4.33–4.48 (21; PDF 106 pp.). All
   odd answers match App. D (4.45's "3 Ω, 2 A" is the Norton form). `src/verify_b6a.py`. Next: batch 6b, Probs. 4.49–4.65.
+- `[2026-10-18]` Marathon batch 6b built: Sadiku Probs. 4.49–4.65 (17; PDF 118 pp.). All odd answers match App. D.
+  4.58 answered R_th → ∞ (dependent current source alone at the output). `src/verify_b6b.py`. Next: batch 7,
+  Sadiku §4.8 max power (PP 4.13, Probs. 4.66–4.75).

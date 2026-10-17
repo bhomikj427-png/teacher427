@@ -1,6 +1,6 @@
 # Circuit Theorems Assignment
 
-<div class="sub">ECE2107 Circuits & Systems · assignment marathon · built so far: Part A Superposition (5.1–5.14), Thevenin &amp; Norton (5.15–5.34), maximum power (5.35–5.44); Part B Sadiku superposition (PP 4.3–4.5, 4.8–4.19), source transformation (PP 4.6–4.7, 4.20–4.32)</div>
+<div class="sub">ECE2107 Circuits & Systems · assignment marathon · built so far: Part A Superposition (5.1–5.14), Thevenin &amp; Norton (5.15–5.34), maximum power (5.35–5.44); Part B Sadiku superposition (PP 4.3–4.5, 4.8–4.19), source transformation (PP 4.6–4.7, 4.20–4.32), Thevenin &amp; Norton (PP 4.8–4.12, 4.33–4.65)</div>
 
 ## How to use this
 
