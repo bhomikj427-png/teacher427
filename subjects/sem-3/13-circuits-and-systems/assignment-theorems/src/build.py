@@ -63,6 +63,7 @@ figure svg { max-width: 100%%; height: auto; }
 figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
 .eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
   border-radius: 6px; break-inside: avoid; }
+.eq .seg { display: inline-block; margin: 1pt 1.1em; vertical-align: middle; }
 .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
   margin: 0 2px; font-size: 95%%; }
 .frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
@@ -176,9 +177,12 @@ def render(md_text):
         return f"\n\nFIGTOKEN{len(stash) - 1}X\n\n"
     t = re.sub(r"\[\[img:(.*?)\]\]", keep_img, t)
     t = re.sub(r"\[\[map:(.*?)\]\]", fmap, t)
+    # a display line's parts (separated by 2+ spaces) are unbreakable units, so a long line wraps
+    # between parts, never inside a fraction or an expression
     t = re.sub(r"^\$\$(.*?)\$\$[ \t]*$",
-               lambda m: '<div class="eq">' + re.sub(r" {2,}", "&emsp;&emsp;&emsp;",
-                                                     inline(m.group(1).strip())) + "</div>",
+               lambda m: '<div class="eq">' + "".join(
+                   f'<span class="seg">{s}</span>' for s in re.split(r" {2,}", inline(m.group(1).strip()))
+               ) + "</div>",
                t, flags=re.M)
     t = boxes(t)
     t = inline(t)

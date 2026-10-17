@@ -165,3 +165,8 @@
   full answer and every per-source partial. 4.10 is a design problem: one sample design solved. Crops: `auto2` now skips
   page-size background rectangles (Sadiku PDF). Demo file `src/later/02-part-b-sadiku.md` removed (superseded).
   Next: batch 5, Sadiku §4.4 source transformation (PP 4.6–4.7, Probs. 4.20–4.32).
+- `[2026-10-18]` Marathon batch 5 started: Part B Sadiku §4.4 source transformation (PP 4.6–4.7, Probs. 4.20–4.32).
+- `[2026-10-18]` Marathon batch 5 built: Sadiku §4.4 source transformation, PP 4.6–4.7 + Probs. 4.20–4.32 (15; PDF
+  93 pp.). All odd answers match App. D; `src/verify_b5.py` solves each circuit as drawn. Builder change: display-equation
+  parts are now unbreakable units (lines wrap between parts, never inside a fraction). Next: batch 6, Sadiku
+  §4.5–4.6 Thevenin/Norton (PP 4.8–4.12, Probs. 4.33–4.65).

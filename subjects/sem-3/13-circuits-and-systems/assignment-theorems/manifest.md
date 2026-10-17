@@ -107,6 +107,28 @@ Verified = `src/verify_b4.py`: full netlist solve with all sources on, plus ever
 | 4.18 | practice (VCCS) | (even) | 11.2 V | built |
 | 4.19 | ★floating dependent source in the return wire | −26.67 V | −26.67 V | built |
 
+## Part B · Sadiku 5e · §4.4 Source transformation (batch 5)
+
+Verified = `src/verify_b5.py`: every circuit solved as drawn (no transformation).
+
+| Q | Ideas (★ = new here) | Book answer | Verified answer | Status |
+|---|---|---|---|---|
+| PP 4.6 | practice | 1.78 A | 1.7797 A | built |
+| PP 4.7 | practice (dependent V-source transformed) | 7.059 mA | 7.0588 mA | built |
+| 4.20 | reduce to one source | (even) | 160/7 V, 40/7 Ω | built |
+| 4.21 | design (sample) | multiple | V=20, R1=5, R2=20, I=2 → 24 V, −0.8 A | built |
+| 4.22 | practice | (even) | 5/9 A | built |
+| 4.23 | practice (power) | 1 A, 8 W | same | built |
+| 4.24 | practice (VCCS) | (even) | 2.979 V | built |
+| 4.25 | ★all sources transform → one loop | −6.6 V | −6.6 V | built |
+| 4.26 | practice | (even) | 7/11 A | built |
+| 4.27 | practice | −48 V | −48 V | built |
+| 4.28 | practice (VCCS) | (even) | 2 A | built |
+| 4.29 | ★only return path | 3 V | 3 V | built |
+| 4.30 | practice (CCCS) | (even) | 0.2548 A | built |
+| 4.31 | practice (VCVS) | 3.652 V | 84/23 V | built |
+| 4.32 | practice (CCCS) | (even) | 1.6 A | built |
+
 ## Still to build
 
 | Batch | Questions |
