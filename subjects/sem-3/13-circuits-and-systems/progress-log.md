@@ -190,3 +190,14 @@
   150 pp.). Odd answers match App. D except a digit swap in 10.55(a) (22.63 for 22.36) and a 0.1° angle difference in
   10.67. 10.62 is Chakraborty 5.22's circuit and confirms the A22 correction. `src/verify_b9.py`. Next: batch 10,
   Sadiku §11.3 AC max power (PP 11.4–11.5, Probs. 11.12–11.21).
+- `[2026-10-18]` Marathon batch 10 started: Sadiku §11.3 AC max power (PP 11.4–11.5, Probs. 11.12–11.21).
+- `[2026-10-18]` Marathon batch 10 built: Sadiku §11.2–11.3 AC max average power, PP 11.4–11.5 + Probs. 11.12–11.21
+  (12; PDF 158 pp.). All odd answers match App. D. `src/verify_b10.py`. Self-check caught and fixed a wrong
+  intermediate (V_o) in my 11.15 draft; final answer was unaffected.
+- `[2026-10-18]` **Assignment marathon: confirmed scope complete.** PDF `assignment-theorems/pdf/ECE2107-Theorems-Assignment.pdf`,
+  158 pp.: Part A A1–A44 (Chakraborty 5.1–5.44), Part B B1–B127 (Sadiku ch. 4, 10, 11.3). Book errors corrected this
+  session: Chakraborty 5.16, 5.22, 5.26, 5.27, 5.28 (plus 5.5b/5.5c/5.6/5.7 from batch 1); Sadiku App. D typos 10.41,
+  10.55(a). Manifest lists every question with book vs verified answer. Learner action: report misses only; then the
+  revision set (marathon.md §8) is built. Open question for the professor: 5.26 (figure ≠ solution), and whether the
+  ~300 count adds Chakraborty 5.45–5.56 / exercises.
+- `[2026-10-18]` Where we stopped: marathon content complete; next = learner reports misses → side notes; then revision set.

@@ -1,6 +1,6 @@
 # Circuit Theorems Assignment
 
-<div class="sub">ECE2107 Circuits & Systems · assignment marathon · built so far: Part A Superposition (5.1–5.14), Thevenin &amp; Norton (5.15–5.34), maximum power (5.35–5.44); Part B Sadiku superposition (PP 4.3–4.5, 4.8–4.19), source transformation (PP 4.6–4.7, 4.20–4.32), Thevenin &amp; Norton (PP 4.8–4.12, 4.33–4.65), maximum power (PP 4.13, 4.66–4.75); AC superposition &amp; source transformation (PP 10.4–10.7, 10.40–10.54), AC Thevenin &amp; Norton (PP 10.8–10.10, 10.55–10.68)</div>
+<div class="sub">ECE2107 Circuits & Systems · assignment marathon · built so far: Part A Superposition (5.1–5.14), Thevenin &amp; Norton (5.15–5.34), maximum power (5.35–5.44); Part B Sadiku superposition (PP 4.3–4.5, 4.8–4.19), source transformation (PP 4.6–4.7, 4.20–4.32), Thevenin &amp; Norton (PP 4.8–4.12, 4.33–4.65), maximum power (PP 4.13, 4.66–4.75); AC superposition &amp; source transformation (PP 10.4–10.7, 10.40–10.54), AC Thevenin &amp; Norton (PP 10.8–10.10, 10.55–10.68), AC max power (PP 11.4–11.5, 11.12–11.21)</div>
 
 ## How to use this
 
@@ -22,7 +22,7 @@ If you couldn't solve one, just tell me its number. Nothing else needs marking.
 | Part | Book | Questions | Count |
 |---|---|---|---|
 | A | Ghosh & A K Chakraborty, *Circuit Theory and Networks*, ch. 5 (**solved**) | Superposition 5.1–5.14 · Thevenin/Norton 5.15–5.34 · Max power 5.35–5.44 | 44 |
-| B | Alexander & Sadiku, *Fundamentals of Electric Circuits* 5e (**unsolved**) | Practice problems + end-of-chapter: ch. 4 (superposition, source transformation, Thevenin/Norton, max power), ch. 10 (the same in AC), ch. 11.3 (AC max power) | 107 + practice problems |
+| B | Alexander & Sadiku, *Fundamentals of Electric Circuits* 5e (**unsolved**) | Practice problems + end-of-chapter: ch. 4 (superposition, source transformation, Thevenin/Norton, max power), ch. 10 (the same in AC), ch. 11.3 (AC max power) | 127 (B1–B127) |
 
 Scope follows the official MUJ ECE2107 syllabus: superposition, Thevenin's and Norton's theorems, maximum power transfer, DC and AC, plus source transformation.
 

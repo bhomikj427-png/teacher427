@@ -251,10 +251,30 @@ Verified = `src/verify_b9.py` (phasor V_oc, I_sc, test-source Z_th).
 | 10.67 | 4.945∠−69.76° V, 0.4378∠−75.24° A, 11.243 + j1.079 Ω | 4.944∠−69.66°, 0.4377∠−75.14° (0.1° off), Z same | built |
 | 10.68 | (even) | 11.52 sin(10t − 50.19°) V, 1.230 − j1.475 Ω | built |
 
-## Still to build
+## Part B · Sadiku 5e · ch. 11 §11.2–11.3 AC max average power (batch 10)
 
-| Batch | Questions |
-|---|---|
-| later | Sadiku ch. 10 §10.4–10.6 (10.40–10.68 + PP 10.4–10.10); ch. 11 §11.3 (11.12–11.21 + PP 11.4–11.5) |
+Verified = `src/verify_b10.py` (peak phasors, P = ½Re(VI*); every maximum also found by sweeping the load).
 
-Draft Sadiku pages from the demo (PP 4.3, 4.8, 4.9) are parked in `src/later/`.
+| Q | Book answer | Verified answer | Status |
+|---|---|---|---|
+| PP 11.4 (§11.2) | −60 W, −40 W, 100 W, 0 | same | built |
+| PP 11.5 | 3.415 − j0.7317 Ω, 51.47 W | 51.43 W (book rounding) | built |
+| 11.12 | (even) | 0.823 + j0.864 Ω, 4.230 kW | built |
+| 11.13 | 28.36 W | same | built |
+| 11.14 | design | sample: 10 Ω, 62.5 W | built |
+| 11.15 | 90 W | 0.5 − j0.5 Ω, 90 W | built |
+| 11.16 | (even) | 1.670 − j3.648 Ω, 10.57 W | built |
+| 11.17 | 20 Ω, 31.25 W | same | built |
+| 11.18 | (even) | 21.23 − j20.15 Ω | built |
+| 11.19 | 258.5 W | R = 2.576 Ω, 258.5 W | built |
+| 11.20 | (even) | 6.793 Ω, 21.51 W | built |
+| 11.21 | 19.58 Ω | same | built |
+
+## Status
+
+**Confirmed scope complete (2026-10-18):** Part A Chakraborty 5.1–5.44 (44) + Part B Sadiku ch. 4 (PP 4.3–4.13,
+Probs. 4.8–4.75), ch. 10 (PP 10.4–10.10, Probs. 10.40–10.68 incl. 10.54's reference Prob. 10.7), ch. 11 (PP 11.4–11.5,
+Probs. 11.12–11.21). 127 numbered entries in Part B (B1–B127).
+
+Possible additions if the professor confirms ~300: Chakraborty 5.45–5.56 (reciprocity / Millman), Chakraborty
+exercises + MCQs, rest of Sadiku ch. 4 (4.76–4.97: PSpice + applications).
