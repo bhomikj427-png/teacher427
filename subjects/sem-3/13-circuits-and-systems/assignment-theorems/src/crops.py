@@ -139,6 +139,19 @@ CROPS = {
     "ck5_41s": ("ck", 293, (244, 200, 298, 242), "auto2"),
     "ck5_42": ("ck", 293, (179, 394, 341, 451), "auto2"),
     "ck5_44": ("ck", 294, (185, 528, 362, 580), "auto2"),
+    # Part B batch 4 (Sadiku 5e section 4.3 superposition): seeds read off the page renders, grown by auto2()
+    "sd_pp4_4": ("sd", 158, (55, 90, 190, 150), "auto2"),
+    "sd_pp4_5": ("sd", 159, (125, 390, 290, 455), "auto2"),
+    "sd4_10": ("sd", 187, (105, 275, 280, 332), "auto2"),
+    "sd4_11": ("sd", 187, (120, 435, 265, 478), "auto2"),
+    "sd4_12": ("sd", 187, (100, 575, 278, 648), "auto2"),
+    "sd4_13": ("sd", 187, (322, 84, 528, 165)),
+    "sd4_14": ("sd", 187, (342, 242, 500, 334), "auto2"),
+    "sd4_15": ("sd", 187, (335, 432, 500, 494), "auto2", (40, 5, 45, 16)),
+    "sd4_16": ("sd", 187, (328, 573, 514, 652), "auto2"),
+    "sd4_17": ("sd", 188, (55, 100, 270, 148), "auto2"),
+    "sd4_18": ("sd", 188, (84, 248, 240, 335), "auto2"),
+    "sd4_19": ("sd", 188, (84, 428, 240, 500), "auto2"),
     "sd_pp4_3": ("sd", 156, (50, 345, 212, 411)),
     "sd4_8": ("sd", 186, (325, 590, 468, 660)),
     "sd4_9": ("sd", 187, (98, 104, 260, 165)),
@@ -209,7 +222,9 @@ def auto2(page, seed, pad=(60, 16, 45, 16)):
     line (font >= 9.5 pt) is inside; the result is then ink-trimmed. Works whether the labels are
     text (about 7-8 pt) or vector glyphs."""
     seed = pymupdf.Rect(seed)
-    rs = [dr["rect"] + (-1.5, -1.5, 1.5, 1.5) for dr in page.get_drawings() if dr["rect"].y1 > 70]
+    rs = [dr["rect"] + (-1.5, -1.5, 1.5, 1.5) for dr in page.get_drawings()
+          if dr["rect"].y1 > 70 and dr["rect"] in page.rect + (-2, -2, 2, 2)
+          and not (dr["rect"].width > 300 and dr["rect"].height > 300)]
     box = None
     for r in rs:
         if r.intersects(seed):

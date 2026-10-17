@@ -84,6 +84,29 @@ sweep of the full circuit (never using the theorem). Phasor magnitudes taken as 
 
 **Part A complete: 44/44 in-scope Chakraborty solved problems built.**
 
+## Part B · Sadiku 5e · §4.3 Superposition (batch 4)
+
+Verified = `src/verify_b4.py`: full netlist solve with all sources on, plus every independent source alone
+(dependent sources kept); the partials must add to the full answer. "= App. D" = Appendix D odd-number answer.
+
+| Q | Ideas (★ = new here) | Book answer | Verified answer | Status |
+|---|---|---|---|---|
+| PP 4.3 | practice | 7.4 V | 7.4 V (5 + 2.4) | built |
+| PP 4.4 | practice (VCCS) | 31.25 V | 31.25 V (6.25 + 25) | built |
+| PP 4.5 | practice (three sources) | 375 mA | 0.375 A (0.5 − 0.375 + 0.25) | built |
+| 4.8 | ★one-node KCL shortcut | (even) | 54/13 = 4.154 V | built |
+| 4.9 | ★linearity from measurements | 2 A | 2 A | built |
+| 4.10 | ★design problem (one sample design) | multiple answers | V=12, R=4, I=3, k=2 → 8 V | built |
+| 4.11 | practice (CCCS) | 1.799 A, 17.99 V | 1.8 A, 18 V | built |
+| 4.12 | practice (current source between nodes) | (even) | −0.125 V | built |
+| 4.13 | practice | 8.696 V | 200/23 = 8.696 V | built |
+| 4.14 | practice | (even) | 8 V | built |
+| 4.15 | practice (power after summing) | 1.875 A, 10.55 W | same | built |
+| 4.16 | practice | (even) | 1/9 = 0.111 A | built |
+| 4.17 | practice | −8.571 V | −60/7 V | built |
+| 4.18 | practice (VCCS) | (even) | 11.2 V | built |
+| 4.19 | ★floating dependent source in the return wire | −26.67 V | −26.67 V | built |
+
 ## Still to build
 
 | Batch | Questions |

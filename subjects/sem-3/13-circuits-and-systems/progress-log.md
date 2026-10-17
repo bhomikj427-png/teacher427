@@ -160,3 +160,8 @@
   `src/verify_b3.py` confirms every Z_L and P_max by brute-force load sweep of the full circuit. No answer errors in
   this block; book typos noted (5.35(b) bracket, 5.38(a) j2.4 for j2.5, 5.39 4 × 0.4, 5.42 rounding). Part A complete
   (44/44). New crop mode `auto2` in `src/crops.py`. Next: Part B, Sadiku ch. 4 practice problems + end-of-chapter.
+- `[2026-10-18]` Marathon batch 4 built: Part B Sadiku §4.3 superposition, PP 4.3–4.5 + Probs. 4.8–4.19 (15; PDF now
+  82 pp.). Appendix D (odd answers, book pp. A-23/A-24) located; all 6 odd answers match. `src/verify_b4.py` checks the
+  full answer and every per-source partial. 4.10 is a design problem: one sample design solved. Crops: `auto2` now skips
+  page-size background rectangles (Sadiku PDF). Demo file `src/later/02-part-b-sadiku.md` removed (superseded).
+  Next: batch 5, Sadiku §4.4 source transformation (PP 4.6–4.7, Probs. 4.20–4.32).
