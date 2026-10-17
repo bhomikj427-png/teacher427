@@ -181,11 +181,30 @@ Verified = `src/verify_b6b.py` (same method as 6a).
 | 4.64 | (even) | 0 V, −1 Ω | built |
 | 4.65 | V_o = 24 − 5I_o | same | built |
 
+## Part B · Sadiku 5e · §4.8 Maximum power (batch 7)
+
+Verified = `src/verify_b7.py`: Thevenin by netlist + sweep of the load on the full circuit.
+
+| Q | Book answer | Verified answer | Status |
+|---|---|---|---|
+| PP 4.13 | 4.222 Ω, 2.901 W | same | built |
+| 4.66 | (even) | 1.6 Ω, 0.625 W | built |
+| 4.67 | 25 Ω, 7.84 W | same | built |
+| 4.68 | (even) | R = 0, 1.6 W (R is on the source side) | built |
+| 4.69 | ∞ (theoretically) | R_th = −1363.6 Ω ⇒ P → ∞ | built |
+| 4.70 | (even) | 104.75 Ω, 21.5 mW | built |
+| 4.71 | 8 kΩ, 1.152 W | same | built |
+| 4.72 | (even) | 40 V, 12 Ω; 2 A; 12 Ω; 33.33 W | built |
+| 4.73 | 20.77 W | same | built |
+| 4.74 | (even) | R1∥R2 + R3∥R4, V_th²/4R_th | built |
+| 4.75 | 1 kΩ, 3 mW | same (three R's meet at the output) | built |
+
+**Sadiku ch. 4 complete (PP 4.3–4.13, Probs. 4.8–4.75).**
+
 ## Still to build
 
 | Batch | Questions |
 |---|---|
-| 4+ | Sadiku ch. 4: practice problems 4.3–4.13; end-of-chapter 4.8–4.75 by section |
 | later | Sadiku ch. 10 §10.4–10.6 (10.40–10.68 + PP 10.4–10.10); ch. 11 §11.3 (11.12–11.21 + PP 11.4–11.5) |
 
 Draft Sadiku pages from the demo (PP 4.3, 4.8, 4.9) are parked in `src/later/`.

@@ -176,3 +176,6 @@
 - `[2026-10-18]` Marathon batch 6b built: Sadiku Probs. 4.49–4.65 (17; PDF 118 pp.). All odd answers match App. D.
   4.58 answered R_th → ∞ (dependent current source alone at the output). `src/verify_b6b.py`. Next: batch 7,
   Sadiku §4.8 max power (PP 4.13, Probs. 4.66–4.75).
+- `[2026-10-18]` Marathon batch 7 started: Sadiku §4.8 maximum power (PP 4.13, Probs. 4.66–4.75).
+- `[2026-10-18]` Marathon batch 7 built: Sadiku §4.8 max power, PP 4.13 + Probs. 4.66–4.75 (11; PDF 126 pp.). All odd
+  answers match App. D. Sadiku ch. 4 complete. `src/verify_b7.py`. Next: batch 8, Sadiku ch. 10 §10.4–10.6.
