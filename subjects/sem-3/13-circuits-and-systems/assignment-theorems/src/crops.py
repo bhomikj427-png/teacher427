@@ -118,6 +118,27 @@ CROPS = {
     "ck5_33s2": ("ck", 286, (187, 128, 274, 186), "auto"),
     "ck5_34": ("ck", 286, (231, 480, 304, 530), "auto"),
     "ck5_34s": ("ck", 287, (204, 157, 333, 214), "auto"),
+    # batch 3 (maximum power transfer 5.35-5.44): seeds from figfind.py, grown by auto()
+    "ck5_35": ("ck", 287, (334, 404, 474, 435), "auto2"),
+    "ck5_36a": ("ck", 288, (130, 295, 280, 340), "auto2", (60, 16, 45, 8)),
+    "ck5_36b": ("ck", 288, (130, 362, 280, 415), "auto2", (60, 8, 45, 6)),
+    "ck5_36c": ("ck", 288, (130, 437, 280, 495), "auto2", (60, 8, 45, 16)),
+    "ck5_36as": ("ck", 288, (283, 534, 468, 613), "auto2"),
+    "ck5_36as2": ("ck", 289, (190, 100, 332, 161), "auto2"),
+    "ck5_36bs1": ("ck", 289, (93, 318, 474, 382), "auto2"),
+    "ck5_36bs2": ("ck", 289, (95, 437, 465, 501), "auto2"),
+    "ck5_36cs1": ("ck", 290, (305, 81, 450, 143), "auto2", (60, 10, 45, 16)),
+    "ck5_36cs2": ("ck", 290, (296.5, 150, 485, 222), "trim"),
+    "ck5_37": ("ck", 290, (146, 261, 376, 328), "auto2"),
+    "ck5_38a": ("ck", 291, (140, 82, 370, 150), "auto2", (60, 10, 45, 6)),
+    "ck5_38b": ("ck", 291, (140, 168, 370, 255), "auto2", (60, 8, 45, 16)),
+    "ck5_40": ("ck", 292, (100, 178, 281, 254), "auto2"),
+    "ck5_40s1": ("ck", 292, (292, 290, 468, 364), "auto2"),
+    "ck5_40s2": ("ck", 292, (292, 393, 477, 469), "auto2"),
+    "ck5_41": ("ck", 292, (209, 530, 329, 590), "auto2"),
+    "ck5_41s": ("ck", 293, (244, 200, 298, 242), "auto2"),
+    "ck5_42": ("ck", 293, (179, 394, 341, 451), "auto2"),
+    "ck5_44": ("ck", 294, (185, 528, 362, 580), "auto2"),
     "sd_pp4_3": ("sd", 156, (50, 345, 212, 411)),
     "sd4_8": ("sd", 186, (325, 590, 468, 660)),
     "sd4_9": ("sd", 187, (98, 104, 260, 165)),
@@ -183,6 +204,46 @@ def auto(page, seed, reach=24, pad=3):
     return (box + (-pad, -pad, pad, pad)) & page.rect
 
 
+def auto2(page, seed, pad=(60, 16, 45, 16)):
+    """Connected drawings from the seed (as auto), padded for labels, then pulled back so no body-text
+    line (font >= 9.5 pt) is inside; the result is then ink-trimmed. Works whether the labels are
+    text (about 7-8 pt) or vector glyphs."""
+    seed = pymupdf.Rect(seed)
+    rs = [dr["rect"] + (-1.5, -1.5, 1.5, 1.5) for dr in page.get_drawings() if dr["rect"].y1 > 70]
+    box = None
+    for r in rs:
+        if r.intersects(seed):
+            box = pymupdf.Rect(r) if box is None else box | r
+    if box is None:
+        return seed
+    grown = True
+    while grown:
+        grown = False
+        for r in rs:
+            if r in box or not r.intersects(box) or (r | box).width > 440:
+                continue
+            box |= r; grown = True
+    L, T, R, B = pad
+    out = pymupdf.Rect(box.x0 - L, box.y0 - T, box.x1 + R, box.y1 + B)
+    for b in page.get_text("dict")["blocks"]:
+        for ln in b.get("lines", []):
+            for s in ln["spans"]:
+                if s["size"] < 9.5 or not s["text"].strip():
+                    continue
+                r = pymupdf.Rect(s["bbox"])
+                if not r.intersects(out) or r.intersects(box):
+                    continue
+                if r.y1 <= box.y0 + 2:
+                    out.y0 = max(out.y0, r.y1 + 0.5)
+                elif r.y0 >= box.y1 - 2:
+                    out.y1 = min(out.y1, r.y0 - 0.5)
+                elif r.x1 <= box.x0 + 2:
+                    out.x0 = max(out.x0, r.x1 + 0.5)
+                elif r.x0 >= box.x1 - 2:
+                    out.x1 = min(out.x1, r.x0 - 0.5)
+    return trim(page, out & page.rect, min_ink=8)
+
+
 def main(names=None):
     out = HERE.parent / "figs"
     out.mkdir(exist_ok=True)
@@ -195,6 +256,8 @@ def main(names=None):
             clip = trim(docs[book][page - 1], clip)
         elif mode and mode[0] == "auto":
             clip = auto(docs[book][page - 1], clip)
+        elif mode and mode[0] == "auto2":
+            clip = auto2(docs[book][page - 1], clip, *mode[1:])
         pix = docs[book][page - 1].get_pixmap(dpi=220, clip=clip)
         pix.save(out / f"{name}.png")
         print(name, pix.width, pix.height)

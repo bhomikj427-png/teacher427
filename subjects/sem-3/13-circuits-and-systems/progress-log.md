@@ -155,3 +155,8 @@
   a different circuit, checked: −29.03 V, 38.71 kΩ), 5.27 (50 Ω vs figure 50 kΩ and sign dropped; R_th = −12.50 Ω /
   −16.67 Ω), 5.28 (C = 2 F used as 1 F; i = 3/4 − 3/4e^{−2t} − 3/2·t·e^{−t} A). Manifest updated. Next: batch 3,
   Chakraborty 5.35–5.44 (maximum power transfer).
+- `[2026-10-18]` Marathon batch 3 started: Part A maximum power transfer, Chakraborty 5.35–5.44.
+- `[2026-10-18]` Marathon batch 3 built: Part A maximum power transfer, Chakraborty 5.35–5.44 (PDF now 70 pp.; 20 figures).
+  `src/verify_b3.py` confirms every Z_L and P_max by brute-force load sweep of the full circuit. No answer errors in
+  this block; book typos noted (5.35(b) bracket, 5.38(a) j2.4 for j2.5, 5.39 4 × 0.4, 5.42 rounding). Part A complete
+  (44/44). New crop mode `auto2` in `src/crops.py`. Next: Part B, Sadiku ch. 4 practice problems + end-of-chapter.

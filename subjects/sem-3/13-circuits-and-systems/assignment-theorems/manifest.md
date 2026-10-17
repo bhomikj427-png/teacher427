@@ -61,11 +61,33 @@ dependent sources appear, the full circuit with the load in place, and RK4 simul
 | 5.33 | practice (CCCS) | 7.2 V, 2 Ω | same | built |
 | 5.34 | ★no independent source ⇒ V_th = 0, test source | V_th = 0, −3.33 Ω | same | built |
 
+## Part A · Chakraborty · Maximum power transfer (batch 3)
+
+Verified = `src/verify_b3.py`: V_th, Z_th by netlist solve, then the load power maximised by brute-force
+sweep of the full circuit (never using the theorem). Phasor magnitudes taken as rms (book convention).
+
+| Q | Ideas (★ = new here) | Book answer | Verified answer | Status |
+|---|---|---|---|---|
+| 5.35 | ★powers don't superpose; ± current signs give max/min | 245/5 W; 1080/0 W | same | built (book typo in (b) bracket) |
+| 5.36a | ★MPT DC: R = R_th, P = V²/4R | 0.85 Ω, 12 W | 0.85 Ω, 12.05 W | built |
+| 5.36b | ★element across a V-source dropped; source transformations | 7/4 Ω, 1.08 W | same | built |
+| 5.36c | ★R between two non-ground nodes | 5.33 Ω, 0.188 W | 5.33 Ω, 0.1875 W | built |
+| 5.37 | ★AC conjugate match | 1.8 + j2.4 Ω, 0.694 W | same | built |
+| 5.38a | practice (Z_L only) | 7.5 + j2.4 Ω | 7.5 + j2.5 Ω | built (book typo) |
+| 5.38b | practice (Z_L only, mixed sources) | 5.316 − j3.07 Ω | 5.3165 − j3.0718 Ω | built |
+| 5.39 | ★resistive-only load: R = \|Z_th\| (or calculus) | 0.5 Ω, 1 W | same | built (book typo 4 × 0.4) |
+| 5.40 | practice (CCVS, V_oc/I_sc) | 37.5 W | 6 Ω, 37.5 W | built |
+| 5.41 | practice (AC) | 1.6 − j6.4 Ω, 1062.5 W | same | built |
+| 5.42 | practice (AC, two sources) | 4.23 + j1.154 Ω, 5.676 W | 4.231 + j1.154 Ω, 5.682 W | built (book rounds \|V\| to 9.8) |
+| 5.43 | ★Z_th from terminal measurements | 12 + j5 Ω; 12 − j5 Ω; 1408.33 W | same | built |
+| 5.44 | practice (AC, two sources) | 2.54 − j0.22 Ω | same | built |
+
+**Part A complete: 44/44 in-scope Chakraborty solved problems built.**
+
 ## Still to build
 
 | Batch | Questions |
 |---|---|
-| 3 | Chakraborty 5.35–5.44 (maximum power transfer) |
 | 4+ | Sadiku ch. 4: practice problems 4.3–4.13; end-of-chapter 4.8–4.75 by section |
 | later | Sadiku ch. 10 §10.4–10.6 (10.40–10.68 + PP 10.4–10.10); ch. 11 §11.3 (11.12–11.21 + PP 11.4–11.5) |
 
