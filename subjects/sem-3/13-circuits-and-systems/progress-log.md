@@ -145,3 +145,13 @@
   correct 1.19∠65.45° A), 5.6 (figure 20 A vs solution 2 A; PDF follows figure), 5.7 (8i₀″ = −5 solved as −1.25;
   correct i = 1.125 A, i₀ = 0.125 A). `manifest.md` created. Demo Sadiku pages parked in `src/later/`. Next: batch 2,
   Chakraborty 5.15–5.34 (Thevenin/Norton).
+- `[2026-10-18]` Catch-up commit b2a9fb7 (2026-10-17 batch 1 + marathon protocol). Learner: "get on circuit and
+  system marathon and do as much as u can without making any mistakes". Marathon batch 2 started: Part A
+  Thevenin/Norton, Chakraborty 5.15–5.34 (same page order and verification as batch 1).
+- `[2026-10-18]` Marathon batch 2 built: Part A Thevenin/Norton, Chakraborty 5.15–5.34 (PDF now 57 pp.; 60 book figures
+  cropped; new `src/verify_b2.py` checks every V_oc/I_sc/Z_th by netlist solve + test source, full circuit with load,
+  RK4 for 5.28/5.30). Book errors found and corrected in the PDF: 5.16 (I_sc sign dropped; R_th = −2 Ω so the 2 Ω load
+  has no solution), 5.22 (mesh-2 self-impedance −j6 for −j10; V₀ = 2.299∠16.70° V), 5.26 (figure has no A/B; solution is
+  a different circuit, checked: −29.03 V, 38.71 kΩ), 5.27 (50 Ω vs figure 50 kΩ and sign dropped; R_th = −12.50 Ω /
+  −16.67 Ω), 5.28 (C = 2 F used as 1 F; i = 3/4 − 3/4e^{−2t} − 3/2·t·e^{−t} A). Manifest updated. Next: batch 3,
+  Chakraborty 5.35–5.44 (maximum power transfer).

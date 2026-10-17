@@ -1,6 +1,6 @@
 # Circuit Theorems Assignment
 
-<div class="sub">ECE2107 Circuits & Systems · assignment marathon · batch 1: Part A Superposition (5.1–5.14)</div>
+<div class="sub">ECE2107 Circuits & Systems · assignment marathon · built so far: Part A Superposition (5.1–5.14), Thevenin &amp; Norton (5.15–5.34)</div>
 
 ## How to use this
 

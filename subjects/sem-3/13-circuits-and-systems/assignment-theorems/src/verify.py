@@ -15,6 +15,8 @@ def solve(n_nodes, elems):
     ('V', name, p, m, v)      voltage source, V(p)-V(m)=v; its current (p->m inside) is unknown
     ('E', name, p, m, cp, cm, k)   VCVS: V(p)-V(m)=k*(V(cp)-V(cm))
     ('H', name, p, m, vname, k)    CCVS: V(p)-V(m)=k*I(vname)  (I through source vname, p->m inside)
+    ('G', a, b, cp, cm, k)    VCCS: current k*(V(cp)-V(cm)) pushed from a to b through itself
+    ('F', a, b, vname, k)     CCCS: current k*I(vname) pushed from a to b through itself
     Returns (node voltages dict, source currents dict)."""
     vs = [e for e in elems if e[0] in "VEH"]
     N = n_nodes + len(vs)
@@ -35,6 +37,16 @@ def solve(n_nodes, elems):
             _, a, bb, i = e
             if a > 0: b[a - 1] -= i
             if bb > 0: b[bb - 1] += i
+        elif e[0] == "G":
+            _, a, bb, cp, cm, g = e
+            for node, s in ((bb, 1), (a, -1)):
+                if node > 0:
+                    if cp > 0: A[node - 1, cp - 1] -= s * g
+                    if cm > 0: A[node - 1, cm - 1] += s * g
+        elif e[0] == "F":
+            _, a, bb, vname, g = e
+            if bb > 0: A[bb - 1, idx[vname]] -= g
+            if a > 0: A[a - 1, idx[vname]] += g
     for e in vs:
         k = idx[e[1]]
         p, m = e[2], e[3]
