@@ -201,6 +201,32 @@ Verified = `src/verify_b7.py`: Thevenin by netlist + sweep of the load on the fu
 
 **Sadiku ch. 4 complete (PP 4.3–4.13, Probs. 4.8–4.75).**
 
+## Part B · Sadiku 5e · ch. 10 §10.4–10.5 AC superposition + source transformation (batch 8)
+
+Verified = `src/verify_b8.py`: each frequency solved as its own full phasor circuit.
+
+| Q | Book answer | Verified answer | Status |
+|---|---|---|---|
+| PP 10.4 (§10.3) | 6.089∠5.94° A | same | built |
+| PP 10.5 | 5.97∠65.45° A | same (= Chakraborty 5.5(c) circuit; confirms that book error) | built |
+| PP 10.6 | 11.577 sin(5t−81.12°) + 3.154 cos(10t−86.24°) | 3.151 for the second term (book rounding) | built |
+| PP 10.7 | 9.863∠99.46° A | same | built |
+| 10.40 | (even) | 4 + 0.791 cos(4t−71.57°) A (= Chakraborty 5.5(b) corrected) | built |
+| 10.41 | 4.243 cos(2t+45°) + 3.578 sin(4t+25.56°) | 26.57° (App. D typo) | built |
+| 10.42 | design | sample: I_o = 1.768∠−45° A | built |
+| 10.43 | 9.902 cos(2t−129.17°) A | same | built |
+| 10.44 | (even) | 21.41 sin(2t−15.52°) + 147.7 cos(6t+26.50°) V | built |
+| 10.45 | 791.1 cos(10t+21.47°) + 299.5 sin(4t+176.6°) mA | same | built |
+| 10.46 | (even) | 10 + 10.73 cos(3t−26.57°) + 21.47 sin(2t+26.57°) V | built |
+| 10.47 | 4 + 0.504 sin(t+19.1°) + 0.3352 cos(3t−76.43°) A | same | built |
+| 10.48 | (even) | 0.1 + 0.2175 cos(2000t+134.12°) + 1.178 sin(4000t−172.62°) A | built |
+| 10.49 | 4.472 sin(200t+56.56°) A | same | built |
+| 10.50 | design | sample: 4.472 cos(2t−63.43°) V | built |
+| 10.51 | 109.3∠30° mA (unknown design) | B86 design: 1.768∠−45° A | built |
+| 10.52 | (even) | 5.239∠17.35° A | built |
+| 10.53 | 3.529 − j5.883 V | same | built |
+| 10.54 | (even; = Prob. 10.7) | 124.08∠−153.96° V (= App. D 10.7) | built |
+
 ## Still to build
 
 | Batch | Questions |

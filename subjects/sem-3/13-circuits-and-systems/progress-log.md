@@ -179,3 +179,9 @@
 - `[2026-10-18]` Marathon batch 7 started: Sadiku §4.8 maximum power (PP 4.13, Probs. 4.66–4.75).
 - `[2026-10-18]` Marathon batch 7 built: Sadiku §4.8 max power, PP 4.13 + Probs. 4.66–4.75 (11; PDF 126 pp.). All odd
   answers match App. D. Sadiku ch. 4 complete. `src/verify_b7.py`. Next: batch 8, Sadiku ch. 10 §10.4–10.6.
+- `[2026-10-18]` Marathon batch 8 started: Sadiku ch. 10 AC superposition + source transformation (PP 10.4–10.6, Probs. 10.40–10.54).
+- `[2026-10-18]` Marathon batch 8 built: Sadiku ch. 10 AC superposition + source transformation, PP 10.4–10.7 + Probs.
+  10.40–10.54 (19; PDF 138 pp.). All odd answers match App. D except a typo in 10.41's phase (25.56° printed, 26.57°
+  correct). PP 10.5 and 10.40 are the same circuits as Chakraborty 5.5(c) and 5.5(b): Sadiku's answers confirm the
+  batch-1 book-error corrections. Self-check caught and fixed one slip of mine (10.50 design value). `src/verify_b8.py`.
+  Next: batch 9, Sadiku §10.6 Thevenin/Norton AC (PP 10.8–10.10, Probs. 10.55–10.68).
