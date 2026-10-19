@@ -201,3 +201,12 @@
   revision set (marathon.md §8) is built. Open question for the professor: 5.26 (figure ≠ solution), and whether the
   ~300 count adds Chakraborty 5.45–5.56 / exercises.
 - `[2026-10-18]` Where we stopped: marathon content complete; next = learner reports misses → side notes; then revision set.
+- `[2026-10-19]` Learner doubt (maths, from AC sources): "why are polar coordinates better in some scenarios, why can't
+  rectangular be used everywhere"; PDF requested. Building `study-pack/src/content/04c-polar-vs-rectangular.md` →
+  `study-pack/pdf/04c-polar-vs-rectangular.pdf`, anchored on Sadiku PP 10.5 (assignment B81: adding the two superposition
+  partials). Numbers checked by `study-pack/src/verify_polar.py`. Gate note: same learner-requested study-pack exception as 04b.
+- `[2026-10-19]` Built `study-pack/pdf/04c-polar-vs-rectangular.pdf` (8 pp.): anchor PP 10.5 (I_o = 5.97∠65.4° from
+  2.808∠81.84° + 3.370∠51.84°), 5 new figures in `figures.py` (two_addresses, add_angle_matters, rect_add_pp105,
+  multiply_turn, deriv_shift), 2 Checks + 6-item self-test with answers. All numbers pass `verify_polar.py`. Every page
+  visually reviewed; one figure redrawn (collinear arrows hid each other). Combined pack PDF not rebuilt (04c is standalone
+  until the next full `build.py` run). Where we stopped: learner reads 04c; marathon misses still pending.

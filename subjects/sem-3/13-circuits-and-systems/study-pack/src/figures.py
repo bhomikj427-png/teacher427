@@ -881,6 +881,124 @@ def kvl_phasor():
     ax.set_title("KVL still holds, as arrows:  7.07 + 7.07 ≠ 10,\nbut (5 − j5) + (5 + j5) = 10", fontsize=9.5)
     return _plt(fig)
 
+
+# ---------------------------------------------------------------- 04c polar vs rectangular
+def _arrow(ax, p0, p1, c, lw=2.0):
+    ax.annotate("", xy=p1, xytext=p0, arrowprops=dict(arrowstyle="-|>", color=c, lw=lw, shrinkA=0, shrinkB=0))
+
+
+def two_addresses():
+    import matplotlib.patches as mp
+    fig, axs = plt.subplots(1, 2, figsize=(7.4, 3.3))
+    for ax, title in zip(axs, ["Rectangular: 3 across, 4 up", "Polar: length 5, turned 53.1°"]):
+        ax.axhline(0, color="#d1d5db", lw=0.8)
+        ax.axvline(0, color="#d1d5db", lw=0.8)
+        ax.set_xlim(-0.6, 5.2)
+        ax.set_ylim(-0.6, 5.0)
+        ax.set_aspect("equal")
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_title(title, fontsize=10)
+        ax.text(3.15, 4.15, "3 + j4", fontsize=9.5, color=INK, fontweight="bold")
+    a = axs[0]
+    _arrow(a, (0, 0), (3, 4), "#cbd5e1", 1.6)
+    _arrow(a, (0, 0), (3, 0), ACCENT, 2.4)
+    _arrow(a, (3, 0), (3, 4), ACCENT, 2.4)
+    a.text(1.5, -0.45, "a = 3", color=ACCENT, ha="center", fontsize=9.5)
+    a.text(3.15, 2, "b = 4", color=ACCENT, fontsize=9.5)
+    b = axs[1]
+    _arrow(b, (0, 0), (3, 4), WARN, 2.4)
+    b.add_patch(mp.Arc((0, 0), 2.2, 2.2, theta1=0, theta2=53.13, color=WARN, lw=1.4))
+    b.text(1.25, 0.4, "θ = 53.1°", color=WARN, fontsize=9.5)
+    b.text(0.9, 2.3, "M = 5", color=WARN, fontsize=9.5, rotation=53, ha="center")
+    return _plt(fig)
+
+
+def add_angle_matters():
+    fig, axs = plt.subplots(1, 3, figsize=(7.6, 2.6))
+    for ax, ang in zip(axs, [0, 90, 180]):
+        r = np.radians(ang)
+        lift = 0.45 if ang in (0, 180) else 0  # collinear cases: draw the 4 just above the 3
+        tip = (3 + 4 * np.cos(r), 4 * np.sin(r))
+        _arrow(ax, (0, 0), (3, 0), ACCENT)
+        _arrow(ax, (3, lift), (tip[0], tip[1] + lift), WARN)
+        drop = -0.6 if ang in (0, 180) else 0  # and the sum just below
+        _arrow(ax, (0, drop), (tip[0], tip[1] + drop), INK, 2.6)
+        ax.text(1.5, -0.45 if ang == 90 else -0.42, "3", color=ACCENT, ha="center", fontsize=9)
+        ax.text((3 + tip[0]) / 2 + (0.3 if ang == 90 else 0), tip[1] / 2 + lift + 0.22, "4", color=WARN, ha="center", fontsize=9)
+        size = abs(3 + 4 * np.exp(1j * r))
+        ax.text(tip[0] / 2 - (1.1 if ang == 90 else 0), tip[1] / 2 + drop - (0 if ang == 90 else 0.75),
+                f"sum {size:.0f}", color=INK, ha="center", fontsize=9, fontweight="bold")
+        ax.set_xlim(-1.9, 7.4)
+        ax.set_ylim(-1.6, 4.6)
+        ax.set_aspect("equal")
+        ax.axis("off")
+        ax.set_title(f"angle between them {ang}°", fontsize=9.5)
+    return _plt(fig)
+
+
+def rect_add_pp105():
+    fig, ax = plt.subplots(figsize=(4.8, 4.4))
+    a, b = 2.808 * np.exp(1j * np.radians(81.84)), 3.370 * np.exp(1j * np.radians(51.84))
+    s = a + b
+    ax.axhline(0, color="#d1d5db", lw=0.8)
+    ax.axvline(0, color="#d1d5db", lw=0.8)
+    _arrow(ax, (0, 0), (a.real, a.imag), ACCENT)
+    _arrow(ax, (a.real, a.imag), (s.real, s.imag), WARN)
+    _arrow(ax, (0, 0), (s.real, s.imag), INK, 2.6)
+    ax.plot([s.real, s.real], [0, s.imag], color=INK, ls=":", lw=1)
+    ax.text(-0.15, 1.6, "I′ = 0.399 + j2.780", color=ACCENT, fontsize=9, ha="right")
+    ax.text(1.55, 4.35, "I″ = 2.082 + j2.650", color=WARN, fontsize=9, ha="right")
+    ax.text(2.6, 3.1, "I_o = 2.481 + j5.429\n     = 5.97∠65.4°", color=INK, fontsize=9.5, fontweight="bold")
+    ax.set_xlim(-3.4, 5.0)
+    ax.set_ylim(-0.4, 6.0)
+    ax.set_aspect("equal")
+    ax.set_xlabel("real part (A)")
+    ax.set_ylabel("j part (A)")
+    ax.set_title("Head-to-tail: real parts add, j parts add", fontsize=10)
+    return _plt(fig)
+
+
+def multiply_turn():
+    import matplotlib.patches as mp
+    fig, ax = plt.subplots(figsize=(4.6, 4.4))
+    z = 3 + 4j
+    w = z * 2 * np.exp(1j * np.radians(30))
+    ax.axhline(0, color="#d1d5db", lw=0.8)
+    ax.axvline(0, color="#d1d5db", lw=0.8)
+    _arrow(ax, (0, 0), (z.real, z.imag), ACCENT)
+    _arrow(ax, (0, 0), (w.real, w.imag), WARN, 2.4)
+    ax.add_patch(mp.Arc((0, 0), 7, 7, theta1=53.13, theta2=83.13, color=MUTED, lw=1.3, ls="--"))
+    ax.text(1.6, 3.9, "+30°", color=MUTED, fontsize=9.5)
+    ax.text(3.2, 3.4, "5∠53.1°", color=ACCENT, fontsize=9.5, fontweight="bold")
+    ax.text(1.4, 9.4, "× 2∠30°  =  10∠83.1°", color=WARN, fontsize=9.5, fontweight="bold")
+    ax.text(1.3, 7.2, "twice as long", color=WARN, fontsize=8.5)
+    ax.set_xlim(-1, 7)
+    ax.set_ylim(-0.6, 10.4)
+    ax.set_aspect("equal")
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_title("Multiplying = stretch the length, turn the angle", fontsize=10)
+    return _plt(fig)
+
+
+def deriv_shift():
+    t = np.linspace(0, 2 * np.pi, 600)
+    fig, ax = plt.subplots(figsize=(6.2, 2.6))
+    ax.plot(t, np.cos(2 * t), color=ACCENT, lw=2, label="cos(2t)")
+    ax.plot(t, -2 * np.sin(2 * t), color=WARN, lw=2, label="its slope: −2 sin(2t) = 2 cos(2t + 90°)")
+    ax.axhline(0, color="#d1d5db", lw=0.8)
+    ax.annotate("", xy=(np.pi, 1.15), xytext=(np.pi - np.pi / 4, 1.15),
+                arrowprops=dict(arrowstyle="<->", color=MUTED, lw=1.2))
+    ax.text(np.pi - np.pi / 8, 1.35, "90° earlier", color=MUTED, ha="center", fontsize=8.5)
+    ax.set_xticks([])
+    ax.set_ylim(-2.4, 3.4)
+    ax.set_xlabel("t")
+    ax.legend(frameon=False, fontsize=8.5, loc="upper right", ncol=2)
+    ax.set_title("Differentiating a sinusoid = scale by ω, shift by 90°  (a polar operation)", fontsize=10)
+    return _plt(fig)
+
+
 ALL = {name: fn for name, fn in globals().items()
        if callable(fn) and not name.startswith("_") and fn.__module__ == __name__
 }
