@@ -210,3 +210,13 @@
   multiply_turn, deriv_shift), 2 Checks + 6-item self-test with answers. All numbers pass `verify_polar.py`. Every page
   visually reviewed; one figure redrawn (collinear arrows hid each other). Combined pack PDF not rebuilt (04c is standalone
   until the next full `build.py` run). Where we stopped: learner reads 04c; marathon misses still pending.
+- `[2026-10-21]` Marathon **miss: A3 (Chakraborty 5.3)**. Learner: "i dont understand what we are doing and why we are
+  doing it". Request: a new-version file (current PDF untouched) where steps carry **How** (literal working), **What**
+  (surface description, e.g. "KCL at X, then nodal") and **Why** (transferable reasoning), fading after the first
+  questions and reappearing only on "What's new" steps. Building a demo for Part A superposition (5.1–5.14):
+  `assignment-theorems/src/content-v2/` + `src/build_v2.py` → `pdf/ECE2107-Theorems-v2-demo-superposition.pdf`.
+- `[2026-10-21]` Built `assignment-theorems/pdf/ECE2107-Theorems-v2-demo-superposition.pdf` (29 pp.; A1–A14). A1–A3 every
+  step How/What/Why; A4–A7, A9, A10, A12 What/Why only on "What's new" steps; A8, A11, A13, A14 How only. Numbers
+  carried from the verified v1 (one re-expression: A9 case II V_AB read along the bottom path, same −2 V). v1 PDF
+  untouched. Pages 1, 7, 8, 21 visually reviewed. Where we stopped: learner reviews the v2 demo; decide whether v2
+  extends to the rest of the assignment.

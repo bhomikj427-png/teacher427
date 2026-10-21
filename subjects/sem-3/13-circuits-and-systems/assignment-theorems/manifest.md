@@ -14,7 +14,7 @@ circuit solve with all sources on + every partial (`src/verify.py`).
 |---|---|---|---|---|
 | 5.1 | ★method, ★switch-off rules, ★signs, ★series-with-I / parallel-with-V shortcuts | 0 | 0 A | built |
 | 5.2 | ★AC phasors, ★complex dividers | 1 V | 1∠0° V | built |
-| 5.3 | ★dependent source stays, ★controlling variable per case (VCVS) | −2/11 A | −2/11 A | built |
+| 5.3 | ★dependent source stays, ★controlling variable per case (VCVS) | −2/11 A | −2/11 A | built · **miss 2026-10-21** → v2 demo (How/What/Why) |
 | 5.4 | ★source with angle, ★polar quadrant | 1.2∠123.7° A | 1.2∠123.7° A | built |
 | 5.5a | practice | 2.9∠26.56° A | 2.91∠26.57° A | built |
 | 5.5b | ★mixed frequencies (DC + AC), ★L short at DC, ★add in time domain | 2.63∠−63.58° A | 4 + 0.791 cos(4t − 71.57°) A | built · **book error** |
