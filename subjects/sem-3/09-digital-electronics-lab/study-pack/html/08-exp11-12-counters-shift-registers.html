@@ -1,0 +1,247 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Exps 11–12 · Synchronous counter (7473), ring and Johnson counters, shift registers (7474)</title>
+<style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2131 Digital Electronics Lab · Lab Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; } p:has(+ ul), p:has(+ ol), p:has(+ table) { break-after: avoid; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.do { background: #f0f9ff; border-color: #0284c7; } .do > .bh { color: #0369a1; }
+.write { background: #fff7ed; border-color: #ea580c; } .write > .bh { color: #c2410c; }
+.do ol { margin: 3pt 0; padding-left: 18pt; } .do li { margin: 1.5pt 0; }
+pre { background: #f3f4f6; border-radius: 5px; padding: 5pt 8pt; font-size: 9.3pt; break-inside: avoid; white-space: pre-wrap; }
+pre code { background: none; padding: 0; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+</style></head><body><h1>Exps 11–12 · Synchronous counter (7473), ring and Johnson counters, shift registers (7474)</h1>
+<div class="sub">Manual pp. 9–14 (second numbering) · ICs 7473 ×2, 7408, 7474 ×2, 7400 · every sequence below was simulated clock by clock</div>
+
+<div class="map"><span class="n">9–10 Flip-flops</span><span class="a">→</span><span class="n here">11 Counters</span><span class="a">→</span><span class="n">12 Shift registers</span><span class="a">→</span><span class="n">13 FSM</span></div>
+
+<div class="box q">
+<div class="bh"><span class="tag">Manual Exp 11, aim</span></div>
+<p>Design and test a 4-bit synchronous up counter using the 7473, and test ring and Johnson counters. Viva form: "Derive J and K for each flip-flop of the synchronous counter, and say why the ring counter needs a preset."</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>In a binary count, when does bit QC toggle?</p>
+</div>
+<h2>4-bit synchronous up counter</h2>
+<p>From the JK excitation table (0→0: 0x, 0→1: 1x, 1→0: x1, 1→1: x0), the manual's state table reduces to:</p>
+<div class="eq">J<sub>A</sub> = K<sub>A</sub> = 1&emsp;&emsp;&emsp;J<sub>B</sub> = K<sub>B</sub> = Q<sub>A</sub>&emsp;&emsp;&emsp;J<sub>C</sub> = K<sub>C</sub> = Q<sub>A</sub>Q<sub>B</sub>&emsp;&emsp;&emsp;J<sub>D</sub> = K<sub>D</sub> = Q<sub>A</sub>Q<sub>B</sub>Q<sub>C</sub></div>
+
+<p>So each bit toggles exactly when all lower bits are 1. All clocks are common: that is what makes it <strong>synchronous</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Flip-flop</th>
+<th>Pins (7473: FF1 = J 14, K 3, CLK 1, CLR' 2, Q 12; FF2 = J 7, K 10, CLK 5, CLR' 6, Q 9)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A = 7473 #1 FF1</td>
+<td>J 14, K 3 → +5 V; <strong>QA = 12</strong></td>
+</tr>
+<tr>
+<td>B = 7473 #1 FF2</td>
+<td>J 7, K 10 ← QA; <strong>QB = 9</strong></td>
+</tr>
+<tr>
+<td>C = 7473 #2 FF1</td>
+<td>J 14, K 3 ← 7408-3 (QA → 1, QB → 2); <strong>QC = 12</strong></td>
+</tr>
+<tr>
+<td>D = 7473 #2 FF2</td>
+<td>J 7, K 10 ← 7408-6 (7408-3 → 4, QC → 5); <strong>QD = 9</strong></td>
+</tr>
+<tr>
+<td>all four</td>
+<td>CLK (pins 1, 5 on both ICs) ← clock; CLR' (pins 2, 6) ← clear switch; <strong>VCC pin 4, GND pin 11</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Clear: CLR' = 0, then 1. The count shows DCBA = 0000.</li>
+<li>Apply clock pulses. The 7473 changes on the <strong>falling</strong> edge.</li>
+<li>The count goes 0000 → 0001 → … → 1111, and on the 16th pulse back to <strong>0000</strong>.</li>
+</ol>
+
+<figure style="max-width:100%"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" height="291.79999999999995pt" width="1015.0400000000002pt" viewBox="-31.24 -46.0 1015.0400000000002 291.79999999999995"><path d="M 0.0,-41.4 L 0.0,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 57.6,-41.4 L 57.6,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 115.2,-41.4 L 115.2,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 172.8,-41.4 L 172.8,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 230.4,-41.4 L 230.4,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 288.0,-41.4 L 288.0,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 345.6,-41.4 L 345.6,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 403.20000000000005,-41.4 L 403.20000000000005,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 460.8,-41.4 L 460.8,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 518.4,-41.4 L 518.4,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 576.0,-41.4 L 576.0,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 633.6,-41.4 L 633.6,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 691.2,-41.4 L 691.2,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 748.8000000000001,-41.4 L 748.8000000000001,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 806.4000000000001,-41.4 L 806.4000000000001,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 864.0,-41.4 L 864.0,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 921.6,-41.4 L 921.6,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 979.2,-41.4 L 979.2,241.20000000000002" style="stroke:#DDDDDD;fill:none;stroke-width:1;stroke-dasharray:2,3.3;stroke-linecap:round;stroke-linejoin:round;" /><defs><clipPath id="clip0"><rect x="-1.0" y="-31.6" width="981.2" height="302.6" /></clipPath></defs><path d="M 0.0,-28.8 L 0.0,-0.0 L 28.8,-0.0 L 28.8,-28.8 L 57.6,-28.8 L 57.6,-0.0 L 86.4,-0.0 L 86.4,-28.8 L 115.2,-28.8 L 115.2,-0.0 L 144.0,-0.0 L 144.0,-28.8 L 172.8,-28.8 L 172.8,-0.0 L 201.60000000000002,-0.0 L 201.60000000000002,-28.8 L 230.4,-28.8 L 230.4,-0.0 L 259.2,-0.0 L 259.2,-28.8 L 288.0,-28.8 L 288.0,-0.0 L 316.8,-0.0 L 316.8,-28.8 L 345.6,-28.8 L 345.6,-0.0 L 374.4000000000001,-0.0 L 374.4000000000001,-28.8 L 403.20000000000005,-28.8 L 403.20000000000005,-0.0 L 432.00000000000006,-0.0 L 432.00000000000006,-28.8 L 460.8,-28.8 L 460.8,-0.0 L 489.6,-0.0 L 489.6,-28.8 L 518.4,-28.8 L 518.4,-0.0 L 547.2,-0.0 L 547.2,-28.8 L 576.0,-28.8 L 576.0,-0.0 L 604.8000000000001,-0.0 L 604.8000000000001,-28.8 L 633.6,-28.8 L 633.6,-0.0 L 662.4000000000001,-0.0 L 662.4000000000001,-28.8 L 691.2,-28.8 L 691.2,-0.0 L 720.0000000000001,-0.0 L 720.0000000000001,-28.8 L 748.8000000000001,-28.8 L 748.8000000000001,-0.0 L 777.6,-0.0 L 777.6,-28.8 L 806.4000000000001,-28.8 L 806.4000000000001,-0.0 L 835.2,-0.0 L 835.2,-28.8 L 864.0,-28.8 L 864.0,-0.0 L 892.8000000000001,-0.0 L 892.8000000000001,-28.8 L 921.6,-28.8 L 921.6,-0.0 L 950.4000000000001,-0.0 L 950.4000000000001,-28.8 L 979.2,-28.8" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 0.0,-18.900000000000002 L -5.51091059616309e-16,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M -1.2246467991473532e-16 -11.9 L -2.160000000000001 -18.9 L 2.1599999999999993 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 57.6,-18.900000000000002 L 57.6,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 57.6 -11.9 L 55.44 -18.9 L 59.76 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 115.2,-18.900000000000002 L 115.2,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 115.2 -11.9 L 113.04 -18.9 L 117.36 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 172.8,-18.900000000000002 L 172.8,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 172.8 -11.9 L 170.64000000000001 -18.9 L 174.96 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 230.4,-18.900000000000002 L 230.4,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 230.4 -11.9 L 228.24 -18.9 L 232.56 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 288.0,-18.900000000000002 L 288.0,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 288.0 -11.9 L 285.84 -18.9 L 290.16 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 345.6,-18.900000000000002 L 345.6,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 345.6 -11.9 L 343.44 -18.9 L 347.76000000000005 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 403.20000000000005,-18.900000000000002 L 403.20000000000005,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 403.20000000000005 -11.9 L 401.04 -18.9 L 405.36000000000007 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 460.8,-18.900000000000002 L 460.8,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 460.8 -11.9 L 458.64 -18.9 L 462.96000000000004 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 518.4,-18.900000000000002 L 518.4,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 518.4 -11.9 L 516.24 -18.9 L 520.56 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 576.0,-18.900000000000002 L 576.0,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 576.0 -11.9 L 573.84 -18.9 L 578.16 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 633.6,-18.900000000000002 L 633.6,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 633.6 -11.9 L 631.44 -18.9 L 635.76 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 691.2,-18.900000000000002 L 691.2,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 691.2 -11.9 L 689.0400000000001 -18.9 L 693.36 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 748.8000000000001,-18.900000000000002 L 748.8000000000001,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 748.8000000000001 -11.9 L 746.6400000000001 -18.9 L 750.96 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 806.4000000000001,-18.900000000000002 L 806.4000000000001,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 806.4000000000001 -11.9 L 804.2400000000001 -18.9 L 808.5600000000001 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 864.0,-18.900000000000002 L 864.0,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 864.0 -11.9 L 861.84 -18.9 L 866.16 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 921.6,-18.900000000000002 L 921.6,-18.900000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 921.6 -11.9 L 919.44 -18.9 L 923.76 -18.9 Z" style="stroke:black;fill:black;stroke-linecap:butt;stroke-linejoin:miter;" clip-path="url(#clip0)" /><path d="M 0.0,54.0 L 57.6,54.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 57.6,54.0 L 60.480000000000004,25.2 L 115.2,25.2" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 115.2,25.2 L 118.08000000000001,54.0 L 172.8,54.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 172.8,54.0 L 175.68000000000004,25.2 L 230.4,25.2" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 230.4,25.2 L 233.28000000000003,54.0 L 288.0,54.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 288.0,54.0 L 290.88,25.2 L 345.59999999999997,25.2" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 345.59999999999997,25.2 L 348.48,54.0 L 403.2,54.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 403.2,54.0 L 406.08,25.2 L 460.79999999999995,25.2" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 460.79999999999995,25.2 L 463.67999999999995,54.0 L 518.4,54.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 518.4,54.0 L 521.28,25.2 L 575.9999999999999,25.2" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 575.9999999999999,25.2 L 578.8799999999999,54.0 L 633.5999999999999,54.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 633.5999999999999,54.0 L 636.4799999999999,25.2 L 691.1999999999999,25.2" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 691.1999999999999,25.2 L 694.0799999999999,54.0 L 748.8000000000001,54.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 748.8000000000001,54.0 L 751.68,25.2 L 806.4000000000001,25.2" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 806.4000000000001,25.2 L 809.28,54.0 L 864.0000000000001,54.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 864.0000000000001,54.0 L 866.8800000000001,25.2 L 921.6000000000001,25.2" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 921.6000000000001,25.2 L 924.4800000000001,54.0 L 979.2000000000003,54.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 0.0,108.0 L 115.2,108.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 115.2,108.0 L 118.08000000000001,79.2 L 230.4,79.2" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 230.4,79.2 L 233.28000000000003,108.0 L 345.6,108.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 345.6,108.0 L 348.4800000000001,79.2 L 460.8,79.2" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 460.8,79.2 L 463.68,108.0 L 576.0,108.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 576.0,108.0 L 578.8799999999999,79.2 L 691.1999999999999,79.2" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 691.1999999999999,79.2 L 694.0799999999999,108.0 L 806.4,108.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 806.4,108.0 L 809.2799999999999,79.2 L 921.5999999999999,79.2" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 921.5999999999999,79.2 L 924.4799999999999,108.0 L 979.1999999999999,108.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 0.0,162.0 L 230.4,162.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 230.4,162.0 L 233.28000000000003,133.20000000000002 L 460.8,133.20000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 460.8,133.20000000000002 L 463.68,162.0 L 691.2,162.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 691.2,162.0 L 694.08,133.20000000000002 L 921.6,133.20000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 921.6,133.20000000000002 L 924.48,162.0 L 979.2,162.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 0.0,216.0 L 460.8,216.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 460.8,216.0 L 463.68,187.20000000000002 L 921.6,187.20000000000002" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><path d="M 921.6,187.20000000000002 L 924.48,216.0 L 979.2,216.0" style="stroke:black;fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" clip-path="url(#clip0)" /><g><g><g><symbol id="STIXTwoMathRegular_3661" viewBox="0 -31.524 6.612 51.216"><path d="M 4.152 0.144 L 4.152 0.144 Q 3.156 0.144 2.358 -0.342 Q 1.56 -0.828 1.104 -1.74 Q 0.648 -2.652 0.648 -3.912 Q 0.648 -5.196 1.116 -6.114 Q 1.584 -7.032 2.382 -7.524 Q 3.18 -8.016 4.164 -8.016 Q 5.004 -8.016 5.544 -7.71 Q 6.084 -7.404 6.42 -7.044 L 5.856 -6.384 Q 5.16 -7.128 4.2 -7.128 Q 3.468 -7.128 2.904 -6.744 Q 2.34 -6.36 2.022 -5.646 Q 1.704 -4.932 1.704 -3.936 Q 1.704 -2.964 2.01 -2.25 Q 2.316 -1.536 2.874 -1.146 Q 3.432 -0.756 4.188 -0.756 Q 4.764 -0.756 5.22 -0.99 Q 5.676 -1.224 6.06 -1.632 L 6.612 -0.996 Q 6.132 -0.456 5.532 -0.156 Q 4.932 0.144 4.152 0.144 Z " /></symbol><use href="#STIXTwoMathRegular_3661" x="-26.64" y="-31.668" width="6.612" height="51.216" fill="blue" /><symbol id="STIXTwoMathRegular_3670" viewBox="0 -31.524 5.652 51.216"><path d="M 1.104 0 L 1.104 0 L 1.104 -7.884 L 2.136 -7.884 L 2.136 -0.876 L 5.652 -0.876 L 5.652 0 Z " /></symbol><use href="#STIXTwoMathRegular_3670" x="-19.632" y="-31.668" width="5.652" height="51.216" fill="blue" /><symbol id="STIXTwoMathRegular_3669" viewBox="0 -31.524 7.068 51.216"><path d="M 1.104 0 L 1.104 0 L 1.104 -7.884 L 2.136 -7.884 L 2.136 -3.948 L 2.172 -3.948 L 5.508 -7.884 L 6.672 -7.884 L 4.152 -4.872 L 7.068 0 L 5.916 0 L 3.516 -4.08 L 2.136 -2.484 L 2.136 0 Z " /></symbol><use href="#STIXTwoMathRegular_3669" x="-13.668" y="-31.668" width="7.068" height="51.216" fill="blue" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3675" viewBox="0 -31.524 7.692 51.216"><path d="M 6.54 1.98 L 6.54 1.98 Q 5.436 1.98 4.68 1.452 Q 3.924 0.924 3.576 0.108 Q 2.712 -0.012 2.052 -0.534 Q 1.392 -1.056 1.02 -1.932 Q 0.648 -2.808 0.648 -3.972 Q 0.648 -5.232 1.086 -6.138 Q 1.524 -7.044 2.298 -7.53 Q 3.072 -8.016 4.08 -8.016 Q 5.1 -8.016 5.874 -7.53 Q 6.648 -7.044 7.086 -6.138 Q 7.524 -5.232 7.524 -3.972 Q 7.524 -2.832 7.17 -1.974 Q 6.816 -1.116 6.174 -0.582 Q 5.532 -0.048 4.68 0.096 Q 4.956 0.612 5.478 0.87 Q 6 1.128 6.672 1.128 Q 6.924 1.128 7.128 1.098 Q 7.332 1.068 7.488 1.02 L 7.692 1.812 Q 7.512 1.872 7.212 1.926 Q 6.912 1.98 6.54 1.98 Z M 4.08 -0.708 L 4.08 -0.708 Q 4.8 -0.708 5.334 -1.104 Q 5.868 -1.5 6.162 -2.232 Q 6.456 -2.964 6.456 -3.96 Q 6.456 -5.448 5.808 -6.288 Q 5.16 -7.128 4.08 -7.128 Q 3 -7.128 2.352 -6.282 Q 1.704 -5.436 1.704 -3.96 Q 1.704 -2.976 1.998 -2.244 Q 2.292 -1.512 2.826 -1.11 Q 3.36 -0.708 4.08 -0.708 Z " /></symbol><use href="#STIXTwoMathRegular_3675" x="-21.384" y="20.496" width="7.692" height="51.216" fill="blue" /><symbol id="STIXTwoMathRegular_3659" viewBox="0 -31.524 6.648 51.216"><path d="M 0.048 0 L 0.048 0 L 2.772 -7.884 L 3.924 -7.884 L 6.648 0 L 5.556 0 L 4.8 -2.388 L 1.86 -2.388 L 1.092 0 Z M 2.124 -3.192 L 2.124 -3.192 L 4.548 -3.192 L 4.164 -4.392 Q 3.936 -5.052 3.744 -5.706 Q 3.552 -6.36 3.348 -7.044 L 3.3 -7.044 Q 3.108 -6.36 2.916 -5.706 Q 2.724 -5.052 2.508 -4.392 Z " /></symbol><use href="#STIXTwoMathRegular_3659" x="-13.224" y="20.496" width="6.648" height="51.216" fill="blue" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3675" viewBox="0 -31.524 7.692 51.216"><path d="M 6.54 1.98 L 6.54 1.98 Q 5.436 1.98 4.68 1.452 Q 3.924 0.924 3.576 0.108 Q 2.712 -0.012 2.052 -0.534 Q 1.392 -1.056 1.02 -1.932 Q 0.648 -2.808 0.648 -3.972 Q 0.648 -5.232 1.086 -6.138 Q 1.524 -7.044 2.298 -7.53 Q 3.072 -8.016 4.08 -8.016 Q 5.1 -8.016 5.874 -7.53 Q 6.648 -7.044 7.086 -6.138 Q 7.524 -5.232 7.524 -3.972 Q 7.524 -2.832 7.17 -1.974 Q 6.816 -1.116 6.174 -0.582 Q 5.532 -0.048 4.68 0.096 Q 4.956 0.612 5.478 0.87 Q 6 1.128 6.672 1.128 Q 6.924 1.128 7.128 1.098 Q 7.332 1.068 7.488 1.02 L 7.692 1.812 Q 7.512 1.872 7.212 1.926 Q 6.912 1.98 6.54 1.98 Z M 4.08 -0.708 L 4.08 -0.708 Q 4.8 -0.708 5.334 -1.104 Q 5.868 -1.5 6.162 -2.232 Q 6.456 -2.964 6.456 -3.96 Q 6.456 -5.448 5.808 -6.288 Q 5.16 -7.128 4.08 -7.128 Q 3 -7.128 2.352 -6.282 Q 1.704 -5.436 1.704 -3.96 Q 1.704 -2.976 1.998 -2.244 Q 2.292 -1.512 2.826 -1.11 Q 3.36 -0.708 4.08 -0.708 Z " /></symbol><use href="#STIXTwoMathRegular_3675" x="-21.924" y="74.496" width="7.692" height="51.216" fill="blue" /><symbol id="STIXTwoMathRegular_3660" viewBox="0 -31.524 6.732 51.216"><path d="M 1.104 0 L 1.104 0 L 1.104 -7.884 L 3.492 -7.884 Q 4.32 -7.884 4.944 -7.692 Q 5.568 -7.5 5.916 -7.08 Q 6.264 -6.66 6.264 -5.988 Q 6.264 -5.364 5.958 -4.89 Q 5.652 -4.416 5.088 -4.236 L 5.088 -4.188 Q 5.808 -4.056 6.27 -3.588 Q 6.732 -3.12 6.732 -2.28 Q 6.732 -1.524 6.342 -1.02 Q 5.952 -0.516 5.268 -0.258 Q 4.584 0 3.684 0 Z M 2.136 -0.816 L 2.136 -0.816 L 3.528 -0.816 Q 4.56 -0.816 5.142 -1.182 Q 5.724 -1.548 5.724 -2.316 Q 5.724 -3.06 5.166 -3.402 Q 4.608 -3.744 3.528 -3.744 L 2.136 -3.744 Z M 2.136 -4.524 L 2.136 -4.524 L 3.324 -4.524 Q 4.368 -4.524 4.812 -4.878 Q 5.256 -5.232 5.256 -5.832 Q 5.256 -6.504 4.77 -6.786 Q 4.284 -7.068 3.372 -7.068 L 2.136 -7.068 Z " /></symbol><use href="#STIXTwoMathRegular_3660" x="-13.764" y="74.496" width="6.732" height="51.216" fill="blue" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3675" viewBox="0 -31.524 7.692 51.216"><path d="M 6.54 1.98 L 6.54 1.98 Q 5.436 1.98 4.68 1.452 Q 3.924 0.924 3.576 0.108 Q 2.712 -0.012 2.052 -0.534 Q 1.392 -1.056 1.02 -1.932 Q 0.648 -2.808 0.648 -3.972 Q 0.648 -5.232 1.086 -6.138 Q 1.524 -7.044 2.298 -7.53 Q 3.072 -8.016 4.08 -8.016 Q 5.1 -8.016 5.874 -7.53 Q 6.648 -7.044 7.086 -6.138 Q 7.524 -5.232 7.524 -3.972 Q 7.524 -2.832 7.17 -1.974 Q 6.816 -1.116 6.174 -0.582 Q 5.532 -0.048 4.68 0.096 Q 4.956 0.612 5.478 0.87 Q 6 1.128 6.672 1.128 Q 6.924 1.128 7.128 1.098 Q 7.332 1.068 7.488 1.02 L 7.692 1.812 Q 7.512 1.872 7.212 1.926 Q 6.912 1.98 6.54 1.98 Z M 4.08 -0.708 L 4.08 -0.708 Q 4.8 -0.708 5.334 -1.104 Q 5.868 -1.5 6.162 -2.232 Q 6.456 -2.964 6.456 -3.96 Q 6.456 -5.448 5.808 -6.288 Q 5.16 -7.128 4.08 -7.128 Q 3 -7.128 2.352 -6.282 Q 1.704 -5.436 1.704 -3.96 Q 1.704 -2.976 1.998 -2.244 Q 2.292 -1.512 2.826 -1.11 Q 3.36 -0.708 4.08 -0.708 Z " /></symbol><use href="#STIXTwoMathRegular_3675" x="-21.72" y="128.496" width="7.692" height="51.216" fill="blue" /><symbol id="STIXTwoMathRegular_3661" viewBox="0 -31.524 6.612 51.216"><path d="M 4.152 0.144 L 4.152 0.144 Q 3.156 0.144 2.358 -0.342 Q 1.56 -0.828 1.104 -1.74 Q 0.648 -2.652 0.648 -3.912 Q 0.648 -5.196 1.116 -6.114 Q 1.584 -7.032 2.382 -7.524 Q 3.18 -8.016 4.164 -8.016 Q 5.004 -8.016 5.544 -7.71 Q 6.084 -7.404 6.42 -7.044 L 5.856 -6.384 Q 5.16 -7.128 4.2 -7.128 Q 3.468 -7.128 2.904 -6.744 Q 2.34 -6.36 2.022 -5.646 Q 1.704 -4.932 1.704 -3.936 Q 1.704 -2.964 2.01 -2.25 Q 2.316 -1.536 2.874 -1.146 Q 3.432 -0.756 4.188 -0.756 Q 4.764 -0.756 5.22 -0.99 Q 5.676 -1.224 6.06 -1.632 L 6.612 -0.996 Q 6.132 -0.456 5.532 -0.156 Q 4.932 0.144 4.152 0.144 Z " /></symbol><use href="#STIXTwoMathRegular_3661" x="-13.56" y="128.496" width="6.612" height="51.216" fill="blue" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3675" viewBox="0 -31.524 7.692 51.216"><path d="M 6.54 1.98 L 6.54 1.98 Q 5.436 1.98 4.68 1.452 Q 3.924 0.924 3.576 0.108 Q 2.712 -0.012 2.052 -0.534 Q 1.392 -1.056 1.02 -1.932 Q 0.648 -2.808 0.648 -3.972 Q 0.648 -5.232 1.086 -6.138 Q 1.524 -7.044 2.298 -7.53 Q 3.072 -8.016 4.08 -8.016 Q 5.1 -8.016 5.874 -7.53 Q 6.648 -7.044 7.086 -6.138 Q 7.524 -5.232 7.524 -3.972 Q 7.524 -2.832 7.17 -1.974 Q 6.816 -1.116 6.174 -0.582 Q 5.532 -0.048 4.68 0.096 Q 4.956 0.612 5.478 0.87 Q 6 1.128 6.672 1.128 Q 6.924 1.128 7.128 1.098 Q 7.332 1.068 7.488 1.02 L 7.692 1.812 Q 7.512 1.872 7.212 1.926 Q 6.912 1.98 6.54 1.98 Z M 4.08 -0.708 L 4.08 -0.708 Q 4.8 -0.708 5.334 -1.104 Q 5.868 -1.5 6.162 -2.232 Q 6.456 -2.964 6.456 -3.96 Q 6.456 -5.448 5.808 -6.288 Q 5.16 -7.128 4.08 -7.128 Q 3 -7.128 2.352 -6.282 Q 1.704 -5.436 1.704 -3.96 Q 1.704 -2.976 1.998 -2.244 Q 2.292 -1.512 2.826 -1.11 Q 3.36 -0.708 4.08 -0.708 Z " /></symbol><use href="#STIXTwoMathRegular_3675" x="-22.272" y="182.496" width="7.692" height="51.216" fill="blue" /><symbol id="STIXTwoMathRegular_3662" viewBox="0 -31.524 6.924 51.216"><path d="M 1.104 0 L 1.104 0 L 1.104 -7.884 L 3.12 -7.884 Q 4.98 -7.884 5.952 -6.87 Q 6.924 -5.856 6.924 -3.972 Q 6.924 -2.088 5.958 -1.044 Q 4.992 0 3.168 0 Z M 2.136 -0.84 L 2.136 -0.84 L 3.048 -0.84 Q 4.464 -0.84 5.166 -1.662 Q 5.868 -2.484 5.868 -3.972 Q 5.868 -5.46 5.166 -6.252 Q 4.464 -7.044 3.048 -7.044 L 2.136 -7.044 Z " /></symbol><use href="#STIXTwoMathRegular_3662" x="-14.112" y="182.496" width="6.924" height="51.216" fill="blue" /></g></g></g></svg><figcaption>Expected waveforms: QA toggles every falling edge, QB every 2nd, QC every 4th, QD every 8th (divide-by-2, 4, 8, 16).</figcaption></figure>
+
+<h2>Ring and Johnson counters (two 7474s)</h2>
+<p>Name the four flip-flops Q3, Q2, Q1, Q0: IC1 FF1, IC1 FF2, IC2 FF1, IC2 FF2.</p>
+<p>7474 pins: FF1 = CLR' 1, D 2, CLK 3, PR' 4, Q 5, Q' 6; FF2 = Q' 8, Q 9, PR' 10, CLK 11, D 12, CLR' 13.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Ring counter</th>
+<th>Johnson (twisted-ring) counter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>shift chain</td>
+<td>Q3 (IC1-5) → D (IC1-12); Q2 (IC1-9) → IC2-2; Q1 (IC2-5) → IC2-12</td>
+<td>same</td>
+</tr>
+<tr>
+<td>feedback</td>
+<td><strong>Q0 (IC2-9) → D3 (IC1-2)</strong></td>
+<td><strong>Q0' (IC2-8) → D3 (IC1-2)</strong></td>
+</tr>
+<tr>
+<td>clear line goes to</td>
+<td><strong>PR' of Q3 (IC1-4)</strong> and CLR' of Q2, Q1, Q0 (IC1-13, IC2-1, IC2-13)</td>
+<td>CLR' of all four (IC1-1, IC1-13, IC2-1, IC2-13)</td>
+</tr>
+<tr>
+<td>tie HIGH</td>
+<td>CLR' of Q3 (IC1-1), unused PR's</td>
+<td>all PR's</td>
+</tr>
+<tr>
+<td>start state</td>
+<td>1000</td>
+<td>0000</td>
+</tr>
+<tr>
+<td>sequence</td>
+<td>1000 → 0100 → 0010 → 0001 → 1000</td>
+<td>0000 → 1000 → 1100 → 1110 → 1111 → 0111 → 0011 → 0001 → 0000</td>
+</tr>
+<tr>
+<td>states (n FFs)</td>
+<td>n = 4</td>
+<td>2n = 8</td>
+</tr>
+</tbody>
+</table>
+<div class="box trap">
+<div class="bh">Trap: a ring counter cleared to 0000</div>
+<p>The manual clears all four flip-flops. A ring counter at 0000 just circulates zeros forever. One flip-flop must be <strong>preset</strong> to 1, so the clear line goes to Q3's PR' instead of its CLR'. The Johnson counter starts fine from 0000.</p>
+</div>
+<h2>Exp 12 · Shift registers (7474 ×2)</h2>
+<p><strong>SISO / SIPO (Fig 12.2):</strong></p>
+<ul>
+<li>Same chain as the ring counter, without feedback. Serial in → D3 (IC1-2); serial out = Q0 (IC2-9).</li>
+<li>All CLR' go to the clear line; all PR' are tied HIGH.</li>
+</ul>
+<p>Enter 1, 1, 0, 1 (one bit per clock):</p>
+<table>
+<thead>
+<tr>
+<th>After clock</th>
+<th>serial in</th>
+<th>Q3 Q2 Q1 Q0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1 0 0 0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>1 1 0 0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0</td>
+<td>0 1 1 0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td><strong>1 0 1 1</strong> (parallel out = 1011, the word entered)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0</td>
+<td>0 1 0 1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>0</td>
+<td>0 0 1 0</td>
+</tr>
+<tr>
+<td>7</td>
+<td>0</td>
+<td>0 0 0 1</td>
+</tr>
+</tbody>
+</table>
+<p>Serial out (Q0) after clocks 4, 5, 6, 7 = <strong>1, 1, 0, 1</strong>: the first bit in comes out first.</p>
+<p><strong>PISO / PIPO (Fig 12.3):</strong> parallel load through the <strong>preset</strong> inputs.</p>
+<ul>
+<li>Each PR' is driven by NAND(PE, data bit) on a 7400:</li>
+<li>PE → 1, D → 2 → 3 → IC1-4;</li>
+<li>PE → 4, C → 5 → 6 → IC1-10;</li>
+<li>PE → 9, B → 10 → 8 → IC2-4;</li>
+<li>PE → 12, A → 13 → 11 → IC2-10.</li>
+<li>Parallel outputs go through a 7408 (each Q AND output-enable).</li>
+</ul>
+<p><strong>Procedure:</strong></p>
+<ol>
+<li>Clear (CLR = 0, PE = 0), then set CLR = 1.</li>
+<li>Set D C B A on the switches.</li>
+<li>PE = 1 presets the 1-bits, so the register holds DCBA. Then set PE = 0.</li>
+<li><strong>PIPO:</strong> output enable = 1, read W X Y Z.</li>
+<li><strong>PISO:</strong> clock with serial in = 0. The bits leave at Q0 one per clock.</li>
+</ol>
+<div class="box write">
+<div class="bh">Write in your record</div>
+<p><strong>Result:</strong> the 4-bit synchronous counter counted 0000–1111 and returned to 0000 on the 16th pulse. The ring counter (preset 1000) cycled through 4 states and the Johnson counter through 8. SISO/SIPO: 1011 entered serially, read in parallel after 4 clocks and serially after 4–7 clocks. PISO/PIPO: parallel data loaded through preset and read out in parallel and serially.</p>
+<p><strong>Theory for the record:</strong> in a synchronous counter all flip-flops share the clock, and logic on J/K decides which toggle: each bit toggles when all lower bits are 1 (J = K = product of the lower Q's). This avoids the cumulative delay of ripple counters. A ring counter circulates a single 1 (n states, must be preset). A Johnson counter feeds back Q' (2n states). Shift registers move data one position per clock: SISO, SIPO, PISO and PIPO, according to how data enters and leaves.</p>
+</div>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>(a) Why is J<sub>D</sub> = K<sub>D</sub> = Q<sub>A</sub>Q<sub>B</sub>Q<sub>C</sub>? (b) How many flip-flops does a mod-10 Johnson counter need? (c) After loading 1011 into the SIPO register, how many clocks until the register reads 0000?</p>
+</div>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Opening question.</strong> QC toggles whenever QA = QB = 1, i.e. after every 4th count. So J<sub>C</sub> = K<sub>C</sub> = Q<sub>A</sub>Q<sub>B</sub>. The ring counter needs a preset because a cleared ring (0000) has no 1 to circulate.</p>
+<p><strong>Check 1.</strong> (a) In binary counting, a bit flips exactly when every lower bit is 1 (…0111 → …1000). So D toggles only when A, B and C are all 1. (b) 2n = 10, so <strong>5</strong>. (c) Four more clocks with serial in = 0 (it reads 0000 after clock 8).</p>
+</div></body></html>

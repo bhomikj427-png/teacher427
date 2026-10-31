@@ -1,0 +1,1536 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Exp 14 · TTL NAND and NOR gates (inside the chip)</title>
+<style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2131 Digital Electronics Lab · Lab Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; } p:has(+ ul), p:has(+ ol), p:has(+ table) { break-after: avoid; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.do { background: #f0f9ff; border-color: #0284c7; } .do > .bh { color: #0369a1; }
+.write { background: #fff7ed; border-color: #ea580c; } .write > .bh { color: #c2410c; }
+.do ol { margin: 3pt 0; padding-left: 18pt; } .do li { margin: 1.5pt 0; }
+pre { background: #f3f4f6; border-radius: 5px; padding: 5pt 8pt; font-size: 9.3pt; break-inside: avoid; white-space: pre-wrap; }
+pre code { background: none; padding: 0; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+</style></head><body><h1>Exp 14 · TTL NAND and NOR gates (inside the chip)</h1>
+<div class="sub">In the experiment list, but the manual gives no pages for it · the circuit below is the standard 7400-type TTL NAND, simulated in LTspice (src/sim/ttl.py) with discrete transistors · theory: ECE2102 logic families</div>
+
+<div class="map"><span class="n">12 Shift registers</span><span class="a">→</span><span class="n">13 FSM</span><span class="a">→</span><span class="n here">14 TTL</span></div>
+
+<div class="box q">
+<div class="bh"><span class="tag">Experiment list, item 14</span></div>
+<p>Implement TTL logic for a NAND and a NOR gate. Viva form: "What does Q1's multi-emitter do, why is the output stage called a totem pole, and what is TTL's noise margin?"</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>If any input is LOW, which way does Q1's base current go?</p>
+</div>
+<h2>The TTL NAND</h2>
+
+<figure style="max-width:78%"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" height="342.13399999999996pt" width="370.036pt" viewBox="-38.99099999999999 -314.49399999999997 370.036 342.13399999999996"><circle cx="41.4" cy="-144.0" r="19.8" style="stroke:#1f2937;fill:none;stroke-width:1.4;" /><circle cx="135.0" cy="-169.07999999999998" r="19.8" style="stroke:#1f2937;fill:none;stroke-width:1.4;" /><circle cx="214.20000000000002" cy="-223.20000000000002" r="19.8" style="stroke:#1f2937;fill:none;stroke-width:1.4;" /><polygon points="230.46000000000004,-171.96000000000004 221.46000000000004,-159.36000000000004 212.46000000000004,-171.96000000000004 " style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><circle cx="214.20000000000002" cy="-108.0" r="19.8" style="stroke:#1f2937;fill:none;stroke-width:1.4;" /><path d="M 0.0,-288.0 L 3.3065463576978533e-15,-234.0 L 9.000000000000004,-231.0 L -8.999999999999996,-225.0 L 9.000000000000004,-219.00000000000003 L -8.999999999999995,-213.0 L 9.000000000000004,-207.0 L -8.999999999999995,-201.00000000000003 L 5.5109105961630896e-15,-198.0 L 8.817456953860943e-15,-144.0" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 0.0,-144.0 L 10.799999999999999,-144.0 L 21.599999999999998,-144.0" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 21.599999999999998,-144.0 L 34.8,-144.0" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 34.8,-157.2 L 34.8,-130.8" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 34.8,-150.60000000000002 L 48.66,-162.48000000000002 L 48.66,-169.07999999999998" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 34.8,-137.4 L 48.66,-125.52000000000001 L 48.66,-118.92" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 34.8,-137.4 L 41.82669057871232,-131.37712236110372" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 47.1414867952694 -126.82158274691194 L 39.483841634270846 -128.64379859258867 L 44.169539523153816 -134.1104461296188 Z" style="stroke:#1f2937;fill:#1f2937;stroke-linecap:butt;stroke-linejoin:miter;" /><path d="M 48.66,-118.92 L 48.66,-100.86 L 48.66,-82.8" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 48.66,-169.07999999999998 L 81.93,-169.07999999999998 L 115.2,-169.07999999999998" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 115.2,-169.07999999999998 L 128.4,-169.07999999999998" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 128.4,-182.27999999999997 L 128.4,-155.88" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 128.4,-175.68 L 142.26,-187.56 L 142.26,-194.15999999999997" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 128.4,-162.48 L 142.26,-150.59999999999997 L 142.26,-143.99999999999997" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 128.4,-162.48 L 135.42669057871234,-156.4571223611037" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 140.7414867952694 -151.9015827469119 L 133.08384163427084 -153.72379859258862 L 137.7695395231538 -159.19044612961875 Z" style="stroke:#1f2937;fill:#1f2937;stroke-linecap:butt;stroke-linejoin:miter;" /><path d="M 142.26,-288.0 L 142.26,-273.59999999999997 L 151.26000000000002,-270.6 L 133.26,-264.59999999999997 L 151.26000000000002,-258.6 L 133.26,-252.6 L 151.26000000000002,-246.6 L 133.26,-240.60000000000002 L 142.26,-237.6 L 142.26,-223.20000000000002" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 142.26,-223.20000000000002 L 142.26,-208.68 L 142.26,-194.15999999999997" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 142.26,-143.99999999999997 L 142.26,-126.0 L 142.26,-108.0" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 142.26,-108.0 L 142.26,-72.0 L 151.26000000000002,-69.0 L 133.26,-63.0 L 151.26000000000002,-57.00000000000001 L 133.26,-51.0 L 151.26000000000002,-45.0 L 133.26,-39.00000000000001 L 142.26,-36.0 L 142.26,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 142.26,-223.20000000000002 L 168.32999999999998,-223.20000000000002 L 194.4,-223.20000000000002" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 194.4,-223.20000000000002 L 207.6,-223.20000000000002" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 207.6,-236.39999999999998 L 207.6,-210.00000000000003" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 207.6,-229.8 L 221.46000000000004,-241.68 L 221.46000000000004,-248.28" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 207.6,-216.6 L 221.46000000000004,-204.72 L 221.46000000000004,-198.12" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 207.6,-216.6 L 214.62669057871233,-210.5771223611037" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 219.94148679526944 -206.02158274691195 L 212.28384163427089 -207.84379859258866 L 216.96953952315386 -213.31044612961878 Z" style="stroke:#1f2937;fill:#1f2937;stroke-linecap:butt;stroke-linejoin:miter;" /><path d="M 221.46000000000004,-288.0 L 221.46000000000004,-286.14 L 230.46000000000004,-283.14 L 212.46000000000004,-277.14 L 230.46000000000004,-271.14 L 212.46000000000004,-265.14 L 230.46000000000004,-259.14 L 212.46000000000004,-253.14 L 221.46000000000004,-250.14 L 221.46000000000004,-248.28" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 221.46000000000004,-198.12 L 221.46000000000004,-171.96000000000004 M 230.46000000000004,-159.36000000000004 L 212.46000000000004,-159.36000000000004 M 221.46000000000004,-159.36000000000004 L 221.46000000000004,-133.20000000000002" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 142.26,-108.0 L 168.32999999999998,-108.0 L 194.4,-108.0" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 194.4,-108.0 L 207.6,-108.0" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 207.6,-121.2 L 207.6,-94.8" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 207.6,-114.6 L 221.46000000000004,-126.47999999999999 L 221.46000000000004,-133.08" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 207.6,-101.4 L 221.46000000000004,-89.52000000000001 L 221.46000000000004,-82.92" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 207.6,-101.4 L 214.62669057871233,-95.37712236110372" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 219.94148679526944 -90.82158274691194 L 212.28384163427089 -92.64379859258865 L 216.96953952315386 -98.1104461296188 Z" style="stroke:#1f2937;fill:#1f2937;stroke-linecap:butt;stroke-linejoin:miter;" /><path d="M 221.46000000000004,-133.20000000000002 L 221.46000000000004,-133.14 L 221.46000000000004,-133.08" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 221.46000000000004,-82.92 L 221.46000000000004,-41.46 L 221.46000000000004,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 221.46000000000004,-133.20000000000002 L 250.26000000000002,-133.20000000000002 L 279.06,-133.20000000000002" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 0.0,-288.0 L 110.73000000000002,-288.0 L 221.46000000000004,-288.0" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 142.26,-0.0 L 181.86,-0.0 L 221.46000000000004,-0.0" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 142.26,-0.0 L 142.26,14.4 L 133.26,14.4 L 151.26,14.4 M 135.96,18.72 L 148.56,18.72 M 140.46,23.04 L 144.06,23.04" style="stroke:#1f2937;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><g><g><g><symbol id="STIXTwoMathRegular_3676" viewBox="0 -31.524 6.684 51.216"><path d="M 1.104 0 L 1.104 0 L 1.104 -7.884 L 3.636 -7.884 Q 4.452 -7.884 5.088 -7.668 Q 5.724 -7.452 6.084 -6.972 Q 6.444 -6.492 6.444 -5.676 Q 6.444 -4.728 5.952 -4.176 Q 5.46 -3.624 4.644 -3.432 L 6.684 0 L 5.52 0 L 3.588 -3.324 L 2.136 -3.324 L 2.136 0 Z M 2.136 -4.152 L 2.136 -4.152 L 3.48 -4.152 Q 4.416 -4.152 4.92 -4.524 Q 5.424 -4.896 5.424 -5.664 Q 5.424 -6.432 4.92 -6.744 Q 4.416 -7.056 3.48 -7.056 L 2.136 -7.056 Z " /></symbol><use href="#STIXTwoMathRegular_3676" x="-23.589" y="-246.784" width="6.127" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4244" viewBox="0 -31.524 3.756 51.216"><path d="M 3.756 0 L 3.756 0 L 2.76 0 L 2.76 -6.348 L 1.212 -6.348 L 1.212 -6.996 Q 1.848 -7.092 2.256 -7.23 Q 2.664 -7.368 3 -7.56 L 3.756 -7.56 Z " /></symbol><use href="#STIXTwoMathRegular_4244" x="-17.176" y="-246.784" width="3.443" height="46.948" fill="#1f2937" /></g><g><symbol id="STIXTwoMathRegular_4247" viewBox="0 -31.524 5.748 51.216"><path d="M 3.732 0 L 3.732 0 L 3.732 -2.076 L 0.216 -2.076 L 0.216 -2.748 L 3.564 -7.56 L 4.692 -7.56 L 4.692 -2.88 L 5.748 -2.88 L 5.748 -2.076 L 4.692 -2.076 L 4.692 0 Z M 3.732 -2.88 L 3.732 -2.88 L 3.732 -5.028 Q 3.732 -5.34 3.75 -5.766 Q 3.768 -6.192 3.78 -6.492 L 3.732 -6.492 Q 3.588 -6.216 3.426 -5.958 Q 3.264 -5.7 3.096 -5.412 L 1.272 -2.88 Z " /></symbol><use href="#STIXTwoMathRegular_4247" x="-34.391" y="-235.784" width="5.269" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_2" viewBox="0 -31.524 0 51.216" /><use href="#STIXTwoMathRegular_2" x="-28.803" y="-235.784" width="0" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3697" viewBox="0 -31.524 5.64 51.216"><path d="M 0.948 0 L 0.948 0 L 0.948 -8.472 L 1.896 -8.472 L 1.896 -2.688 L 1.932 -2.688 L 4.332 -5.688 L 5.4 -5.688 L 3.504 -3.396 L 5.64 0 L 4.596 0 L 2.952 -2.724 L 1.896 -1.5 L 1.896 0 Z " /></symbol><use href="#STIXTwoMathRegular_3697" x="-26.218" y="-235.784" width="5.17" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_868" viewBox="0 -31.524 8.772 51.216"><path d="M 8.496 0 L 8.496 0 L 5.364 0 L 5.364 -0.864 Q 5.928 -1.32 6.318 -1.95 Q 6.708 -2.58 6.906 -3.282 Q 7.104 -3.984 7.104 -4.644 Q 7.104 -6 6.456 -6.762 Q 5.808 -7.524 4.704 -7.524 Q 3.564 -7.524 2.904 -6.75 Q 2.244 -5.976 2.244 -4.644 Q 2.244 -3.996 2.436 -3.282 Q 2.628 -2.568 3.018 -1.932 Q 3.408 -1.296 3.984 -0.852 L 3.984 0 L 0.816 0 L 0.564 -2.124 L 0.912 -2.124 Q 1.02 -1.716 1.122 -1.464 Q 1.224 -1.212 1.41 -1.092 Q 1.596 -0.972 1.932 -0.972 L 3.024 -0.972 L 3.024 -1.044 Q 2.688 -1.296 2.322 -1.626 Q 1.956 -1.956 1.644 -2.388 Q 1.332 -2.82 1.14 -3.39 Q 0.948 -3.96 0.948 -4.692 Q 0.948 -5.688 1.428 -6.438 Q 1.908 -7.188 2.76 -7.608 Q 3.612 -8.028 4.716 -8.028 Q 5.832 -8.028 6.66 -7.608 Q 7.488 -7.188 7.944 -6.438 Q 8.4 -5.688 8.4 -4.704 Q 8.4 -3.972 8.196 -3.402 Q 7.992 -2.832 7.674 -2.394 Q 7.356 -1.956 7.002 -1.626 Q 6.648 -1.296 6.336 -1.044 L 6.336 -0.972 L 7.344 -0.972 Q 7.704 -0.972 7.89 -1.092 Q 8.076 -1.212 8.19 -1.47 Q 8.304 -1.728 8.424 -2.124 L 8.772 -2.124 Z " /></symbol><use href="#STIXTwoMathRegular_868" x="-20.949" y="-235.784" width="8.041" height="46.948" fill="#1f2937" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3675" viewBox="0 -31.524 7.692 51.216"><path d="M 6.54 1.98 L 6.54 1.98 Q 5.436 1.98 4.68 1.452 Q 3.924 0.924 3.576 0.108 Q 2.712 -0.012 2.052 -0.534 Q 1.392 -1.056 1.02 -1.932 Q 0.648 -2.808 0.648 -3.972 Q 0.648 -5.232 1.086 -6.138 Q 1.524 -7.044 2.298 -7.53 Q 3.072 -8.016 4.08 -8.016 Q 5.1 -8.016 5.874 -7.53 Q 6.648 -7.044 7.086 -6.138 Q 7.524 -5.232 7.524 -3.972 Q 7.524 -2.832 7.17 -1.974 Q 6.816 -1.116 6.174 -0.582 Q 5.532 -0.048 4.68 0.096 Q 4.956 0.612 5.478 0.87 Q 6 1.128 6.672 1.128 Q 6.924 1.128 7.128 1.098 Q 7.332 1.068 7.488 1.02 L 7.692 1.812 Q 7.512 1.872 7.212 1.926 Q 6.912 1.98 6.54 1.98 Z M 4.08 -0.708 L 4.08 -0.708 Q 4.8 -0.708 5.334 -1.104 Q 5.868 -1.5 6.162 -2.232 Q 6.456 -2.964 6.456 -3.96 Q 6.456 -5.448 5.808 -6.288 Q 5.16 -7.128 4.08 -7.128 Q 3 -7.128 2.352 -6.282 Q 1.704 -5.436 1.704 -3.96 Q 1.704 -2.976 1.998 -2.244 Q 2.292 -1.512 2.826 -1.11 Q 3.36 -0.708 4.08 -0.708 Z " /></symbol><use href="#STIXTwoMathRegular_3675" x="9.126" y="-150.331" width="7.051" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4244" viewBox="0 -31.524 3.756 51.216"><path d="M 3.756 0 L 3.756 0 L 2.76 0 L 2.76 -6.348 L 1.212 -6.348 L 1.212 -6.996 Q 1.848 -7.092 2.256 -7.23 Q 2.664 -7.368 3 -7.56 L 3.756 -7.56 Z " /></symbol><use href="#STIXTwoMathRegular_4244" x="16.606" y="-150.331" width="3.443" height="46.948" fill="#1f2937" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3675" viewBox="0 -31.524 7.692 51.216"><path d="M 6.54 1.98 L 6.54 1.98 Q 5.436 1.98 4.68 1.452 Q 3.924 0.924 3.576 0.108 Q 2.712 -0.012 2.052 -0.534 Q 1.392 -1.056 1.02 -1.932 Q 0.648 -2.808 0.648 -3.972 Q 0.648 -5.232 1.086 -6.138 Q 1.524 -7.044 2.298 -7.53 Q 3.072 -8.016 4.08 -8.016 Q 5.1 -8.016 5.874 -7.53 Q 6.648 -7.044 7.086 -6.138 Q 7.524 -5.232 7.524 -3.972 Q 7.524 -2.832 7.17 -1.974 Q 6.816 -1.116 6.174 -0.582 Q 5.532 -0.048 4.68 0.096 Q 4.956 0.612 5.478 0.87 Q 6 1.128 6.672 1.128 Q 6.924 1.128 7.128 1.098 Q 7.332 1.068 7.488 1.02 L 7.692 1.812 Q 7.512 1.872 7.212 1.926 Q 6.912 1.98 6.54 1.98 Z M 4.08 -0.708 L 4.08 -0.708 Q 4.8 -0.708 5.334 -1.104 Q 5.868 -1.5 6.162 -2.232 Q 6.456 -2.964 6.456 -3.96 Q 6.456 -5.448 5.808 -6.288 Q 5.16 -7.128 4.08 -7.128 Q 3 -7.128 2.352 -6.282 Q 1.704 -5.436 1.704 -3.96 Q 1.704 -2.976 1.998 -2.244 Q 2.292 -1.512 2.826 -1.11 Q 3.36 -0.708 4.08 -0.708 Z " /></symbol><use href="#STIXTwoMathRegular_3675" x="151.26" y="-182.61" width="7.051" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4245" viewBox="0 -31.524 5.544 51.216"><path d="M 0.492 0 L 0.492 0 L 0.492 -0.6 Q 1.668 -1.728 2.484 -2.58 Q 3.3 -3.432 3.732 -4.116 Q 4.164 -4.8 4.164 -5.412 Q 4.164 -6.06 3.798 -6.468 Q 3.432 -6.876 2.688 -6.876 Q 2.196 -6.876 1.782 -6.618 Q 1.368 -6.36 1.02 -5.976 L 0.444 -6.54 Q 0.936 -7.068 1.494 -7.38 Q 2.052 -7.692 2.808 -7.692 Q 3.9 -7.692 4.53 -7.08 Q 5.16 -6.468 5.16 -5.46 Q 5.16 -4.764 4.746 -4.044 Q 4.332 -3.324 3.612 -2.526 Q 2.892 -1.728 1.968 -0.804 Q 2.28 -0.828 2.628 -0.846 Q 2.976 -0.864 3.276 -0.864 L 5.544 -0.864 L 5.544 0 Z " /></symbol><use href="#STIXTwoMathRegular_4245" x="158.74" y="-182.61" width="5.082" height="46.948" fill="#1f2937" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3676" viewBox="0 -31.524 6.684 51.216"><path d="M 1.104 0 L 1.104 0 L 1.104 -7.884 L 3.636 -7.884 Q 4.452 -7.884 5.088 -7.668 Q 5.724 -7.452 6.084 -6.972 Q 6.444 -6.492 6.444 -5.676 Q 6.444 -4.728 5.952 -4.176 Q 5.46 -3.624 4.644 -3.432 L 6.684 0 L 5.52 0 L 3.588 -3.324 L 2.136 -3.324 L 2.136 0 Z M 2.136 -4.152 L 2.136 -4.152 L 3.48 -4.152 Q 4.416 -4.152 4.92 -4.524 Q 5.424 -4.896 5.424 -5.664 Q 5.424 -6.432 4.92 -6.744 Q 4.416 -7.056 3.48 -7.056 L 2.136 -7.056 Z " /></symbol><use href="#STIXTwoMathRegular_3676" x="118.671" y="-286.45" width="6.127" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4245" viewBox="0 -31.524 5.544 51.216"><path d="M 0.492 0 L 0.492 0 L 0.492 -0.6 Q 1.668 -1.728 2.484 -2.58 Q 3.3 -3.432 3.732 -4.116 Q 4.164 -4.8 4.164 -5.412 Q 4.164 -6.06 3.798 -6.468 Q 3.432 -6.876 2.688 -6.876 Q 2.196 -6.876 1.782 -6.618 Q 1.368 -6.36 1.02 -5.976 L 0.444 -6.54 Q 0.936 -7.068 1.494 -7.38 Q 2.052 -7.692 2.808 -7.692 Q 3.9 -7.692 4.53 -7.08 Q 5.16 -6.468 5.16 -5.46 Q 5.16 -4.764 4.746 -4.044 Q 4.332 -3.324 3.612 -2.526 Q 2.892 -1.728 1.968 -0.804 Q 2.28 -0.828 2.628 -0.846 Q 2.976 -0.864 3.276 -0.864 L 5.544 -0.864 L 5.544 0 Z " /></symbol><use href="#STIXTwoMathRegular_4245" x="125.084" y="-286.45" width="5.082" height="46.948" fill="#1f2937" /></g><g><symbol id="STIXTwoMathRegular_4244" viewBox="0 -31.524 3.756 51.216"><path d="M 3.756 0 L 3.756 0 L 2.76 0 L 2.76 -6.348 L 1.212 -6.348 L 1.212 -6.996 Q 1.848 -7.092 2.256 -7.23 Q 2.664 -7.368 3 -7.56 L 3.756 -7.56 Z " /></symbol><use href="#STIXTwoMathRegular_4244" x="100.499" y="-275.45" width="3.443" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_1052" viewBox="0 -31.524 2.196 51.216"><path d="M 2.196 -0.6 L 2.196 -0.6 Q 2.196 -0.324 2.004 -0.114 Q 1.812 0.096 1.452 0.096 Q 1.092 0.096 0.918 -0.108 Q 0.744 -0.312 0.744 -0.612 Q 0.744 -0.924 0.936 -1.146 Q 1.128 -1.368 1.464 -1.368 Q 1.812 -1.368 2.004 -1.14 Q 2.196 -0.912 2.196 -0.6 Z " /></symbol><use href="#STIXTwoMathRegular_1052" x="106.087" y="-275.45" width="2.013" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4249" viewBox="0 -31.524 5.604 51.216"><path d="M 3.288 0.144 L 3.288 0.144 Q 2.52 0.144 1.908 -0.258 Q 1.296 -0.66 0.942 -1.47 Q 0.588 -2.28 0.588 -3.504 Q 0.588 -5.016 1.008 -5.94 Q 1.428 -6.864 2.106 -7.278 Q 2.784 -7.692 3.564 -7.692 Q 4.2 -7.692 4.662 -7.464 Q 5.124 -7.236 5.46 -6.888 L 4.896 -6.264 Q 4.656 -6.54 4.32 -6.702 Q 3.984 -6.864 3.612 -6.864 Q 3.06 -6.864 2.598 -6.558 Q 2.136 -6.252 1.848 -5.556 Q 1.56 -4.86 1.536 -3.66 Q 1.908 -4.116 2.394 -4.374 Q 2.88 -4.632 3.372 -4.632 Q 4.392 -4.632 4.998 -4.05 Q 5.604 -3.468 5.604 -2.292 Q 5.604 -1.56 5.286 -1.014 Q 4.968 -0.468 4.446 -0.162 Q 3.924 0.144 3.288 0.144 Z M 1.56 -2.88 L 1.56 -2.88 Q 1.656 -1.788 2.106 -1.218 Q 2.556 -0.648 3.288 -0.648 Q 3.864 -0.648 4.254 -1.098 Q 4.644 -1.548 4.644 -2.292 Q 4.644 -3.024 4.284 -3.45 Q 3.924 -3.876 3.204 -3.876 Q 2.832 -3.876 2.394 -3.648 Q 1.956 -3.42 1.56 -2.88 Z " /></symbol><use href="#STIXTwoMathRegular_4249" x="108.782" y="-275.45" width="5.137" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_2" viewBox="0 -31.524 0 51.216" /><use href="#STIXTwoMathRegular_2" x="114.37" y="-275.45" width="0" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3697" viewBox="0 -31.524 5.64 51.216"><path d="M 0.948 0 L 0.948 0 L 0.948 -8.472 L 1.896 -8.472 L 1.896 -2.688 L 1.932 -2.688 L 4.332 -5.688 L 5.4 -5.688 L 3.504 -3.396 L 5.64 0 L 4.596 0 L 2.952 -2.724 L 1.896 -1.5 L 1.896 0 Z " /></symbol><use href="#STIXTwoMathRegular_3697" x="116.955" y="-275.45" width="5.17" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_868" viewBox="0 -31.524 8.772 51.216"><path d="M 8.496 0 L 8.496 0 L 5.364 0 L 5.364 -0.864 Q 5.928 -1.32 6.318 -1.95 Q 6.708 -2.58 6.906 -3.282 Q 7.104 -3.984 7.104 -4.644 Q 7.104 -6 6.456 -6.762 Q 5.808 -7.524 4.704 -7.524 Q 3.564 -7.524 2.904 -6.75 Q 2.244 -5.976 2.244 -4.644 Q 2.244 -3.996 2.436 -3.282 Q 2.628 -2.568 3.018 -1.932 Q 3.408 -1.296 3.984 -0.852 L 3.984 0 L 0.816 0 L 0.564 -2.124 L 0.912 -2.124 Q 1.02 -1.716 1.122 -1.464 Q 1.224 -1.212 1.41 -1.092 Q 1.596 -0.972 1.932 -0.972 L 3.024 -0.972 L 3.024 -1.044 Q 2.688 -1.296 2.322 -1.626 Q 1.956 -1.956 1.644 -2.388 Q 1.332 -2.82 1.14 -3.39 Q 0.948 -3.96 0.948 -4.692 Q 0.948 -5.688 1.428 -6.438 Q 1.908 -7.188 2.76 -7.608 Q 3.612 -8.028 4.716 -8.028 Q 5.832 -8.028 6.66 -7.608 Q 7.488 -7.188 7.944 -6.438 Q 8.4 -5.688 8.4 -4.704 Q 8.4 -3.972 8.196 -3.402 Q 7.992 -2.832 7.674 -2.394 Q 7.356 -1.956 7.002 -1.626 Q 6.648 -1.296 6.336 -1.044 L 6.336 -0.972 L 7.344 -0.972 Q 7.704 -0.972 7.89 -1.092 Q 8.076 -1.212 8.19 -1.47 Q 8.304 -1.728 8.424 -2.124 L 8.772 -2.124 Z " /></symbol><use href="#STIXTwoMathRegular_868" x="122.224" y="-275.45" width="8.041" height="46.948" fill="#1f2937" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3676" viewBox="0 -31.524 6.684 51.216"><path d="M 1.104 0 L 1.104 0 L 1.104 -7.884 L 3.636 -7.884 Q 4.452 -7.884 5.088 -7.668 Q 5.724 -7.452 6.084 -6.972 Q 6.444 -6.492 6.444 -5.676 Q 6.444 -4.728 5.952 -4.176 Q 5.46 -3.624 4.644 -3.432 L 6.684 0 L 5.52 0 L 3.588 -3.324 L 2.136 -3.324 L 2.136 0 Z M 2.136 -4.152 L 2.136 -4.152 L 3.48 -4.152 Q 4.416 -4.152 4.92 -4.524 Q 5.424 -4.896 5.424 -5.664 Q 5.424 -6.432 4.92 -6.744 Q 4.416 -7.056 3.48 -7.056 L 2.136 -7.056 Z " /></symbol><use href="#STIXTwoMathRegular_3676" x="118.671" y="-84.784" width="6.127" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4246" viewBox="0 -31.524 5.472 51.216"><path d="M 2.892 0.144 L 2.892 0.144 Q 1.956 0.144 1.332 -0.186 Q 0.708 -0.516 0.324 -0.924 L 0.828 -1.584 Q 1.176 -1.236 1.656 -0.966 Q 2.136 -0.696 2.832 -0.696 Q 3.54 -0.696 3.996 -1.068 Q 4.452 -1.44 4.452 -2.064 Q 4.452 -2.508 4.218 -2.838 Q 3.984 -3.168 3.438 -3.354 Q 2.892 -3.54 1.956 -3.54 L 1.956 -4.296 Q 2.784 -4.296 3.27 -4.482 Q 3.756 -4.668 3.966 -4.986 Q 4.176 -5.304 4.176 -5.688 Q 4.176 -6.24 3.81 -6.558 Q 3.444 -6.876 2.832 -6.876 Q 2.328 -6.876 1.914 -6.666 Q 1.5 -6.456 1.152 -6.108 L 0.612 -6.756 Q 1.068 -7.164 1.62 -7.428 Q 2.172 -7.692 2.868 -7.692 Q 3.888 -7.692 4.542 -7.194 Q 5.196 -6.696 5.196 -5.772 Q 5.196 -5.088 4.806 -4.644 Q 4.416 -4.2 3.78 -3.984 L 3.78 -3.936 Q 4.488 -3.78 4.98 -3.288 Q 5.472 -2.796 5.472 -2.016 Q 5.472 -1.344 5.13 -0.858 Q 4.788 -0.372 4.2 -0.114 Q 3.612 0.144 2.892 0.144 Z " /></symbol><use href="#STIXTwoMathRegular_4246" x="125.084" y="-84.784" width="5.016" height="46.948" fill="#1f2937" /></g><g><symbol id="STIXTwoMathRegular_4244" viewBox="0 -31.524 3.756 51.216"><path d="M 3.756 0 L 3.756 0 L 2.76 0 L 2.76 -6.348 L 1.212 -6.348 L 1.212 -6.996 Q 1.848 -7.092 2.256 -7.23 Q 2.664 -7.368 3 -7.56 L 3.756 -7.56 Z " /></symbol><use href="#STIXTwoMathRegular_4244" x="108.782" y="-73.784" width="3.443" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_2" viewBox="0 -31.524 0 51.216" /><use href="#STIXTwoMathRegular_2" x="114.37" y="-73.784" width="0" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3697" viewBox="0 -31.524 5.64 51.216"><path d="M 0.948 0 L 0.948 0 L 0.948 -8.472 L 1.896 -8.472 L 1.896 -2.688 L 1.932 -2.688 L 4.332 -5.688 L 5.4 -5.688 L 3.504 -3.396 L 5.64 0 L 4.596 0 L 2.952 -2.724 L 1.896 -1.5 L 1.896 0 Z " /></symbol><use href="#STIXTwoMathRegular_3697" x="116.955" y="-73.784" width="5.17" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_868" viewBox="0 -31.524 8.772 51.216"><path d="M 8.496 0 L 8.496 0 L 5.364 0 L 5.364 -0.864 Q 5.928 -1.32 6.318 -1.95 Q 6.708 -2.58 6.906 -3.282 Q 7.104 -3.984 7.104 -4.644 Q 7.104 -6 6.456 -6.762 Q 5.808 -7.524 4.704 -7.524 Q 3.564 -7.524 2.904 -6.75 Q 2.244 -5.976 2.244 -4.644 Q 2.244 -3.996 2.436 -3.282 Q 2.628 -2.568 3.018 -1.932 Q 3.408 -1.296 3.984 -0.852 L 3.984 0 L 0.816 0 L 0.564 -2.124 L 0.912 -2.124 Q 1.02 -1.716 1.122 -1.464 Q 1.224 -1.212 1.41 -1.092 Q 1.596 -0.972 1.932 -0.972 L 3.024 -0.972 L 3.024 -1.044 Q 2.688 -1.296 2.322 -1.626 Q 1.956 -1.956 1.644 -2.388 Q 1.332 -2.82 1.14 -3.39 Q 0.948 -3.96 0.948 -4.692 Q 0.948 -5.688 1.428 -6.438 Q 1.908 -7.188 2.76 -7.608 Q 3.612 -8.028 4.716 -8.028 Q 5.832 -8.028 6.66 -7.608 Q 7.488 -7.188 7.944 -6.438 Q 8.4 -5.688 8.4 -4.704 Q 8.4 -3.972 8.196 -3.402 Q 7.992 -2.832 7.674 -2.394 Q 7.356 -1.956 7.002 -1.626 Q 6.648 -1.296 6.336 -1.044 L 6.336 -0.972 L 7.344 -0.972 Q 7.704 -0.972 7.89 -1.092 Q 8.076 -1.212 8.19 -1.47 Q 8.304 -1.728 8.424 -2.124 L 8.772 -2.124 Z " /></symbol><use href="#STIXTwoMathRegular_868" x="122.224" y="-73.784" width="8.041" height="46.948" fill="#1f2937" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3675" viewBox="0 -31.524 7.692 51.216"><path d="M 6.54 1.98 L 6.54 1.98 Q 5.436 1.98 4.68 1.452 Q 3.924 0.924 3.576 0.108 Q 2.712 -0.012 2.052 -0.534 Q 1.392 -1.056 1.02 -1.932 Q 0.648 -2.808 0.648 -3.972 Q 0.648 -5.232 1.086 -6.138 Q 1.524 -7.044 2.298 -7.53 Q 3.072 -8.016 4.08 -8.016 Q 5.1 -8.016 5.874 -7.53 Q 6.648 -7.044 7.086 -6.138 Q 7.524 -5.232 7.524 -3.972 Q 7.524 -2.832 7.17 -1.974 Q 6.816 -1.116 6.174 -0.582 Q 5.532 -0.048 4.68 0.096 Q 4.956 0.612 5.478 0.87 Q 6 1.128 6.672 1.128 Q 6.924 1.128 7.128 1.098 Q 7.332 1.068 7.488 1.02 L 7.692 1.812 Q 7.512 1.872 7.212 1.926 Q 6.912 1.98 6.54 1.98 Z M 4.08 -0.708 L 4.08 -0.708 Q 4.8 -0.708 5.334 -1.104 Q 5.868 -1.5 6.162 -2.232 Q 6.456 -2.964 6.456 -3.96 Q 6.456 -5.448 5.808 -6.288 Q 5.16 -7.128 4.08 -7.128 Q 3 -7.128 2.352 -6.282 Q 1.704 -5.436 1.704 -3.96 Q 1.704 -2.976 1.998 -2.244 Q 2.292 -1.512 2.826 -1.11 Q 3.36 -0.708 4.08 -0.708 Z " /></symbol><use href="#STIXTwoMathRegular_3675" x="232.26" y="-245.73" width="7.051" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4247" viewBox="0 -31.524 5.748 51.216"><path d="M 3.732 0 L 3.732 0 L 3.732 -2.076 L 0.216 -2.076 L 0.216 -2.748 L 3.564 -7.56 L 4.692 -7.56 L 4.692 -2.88 L 5.748 -2.88 L 5.748 -2.076 L 4.692 -2.076 L 4.692 0 Z M 3.732 -2.88 L 3.732 -2.88 L 3.732 -5.028 Q 3.732 -5.34 3.75 -5.766 Q 3.768 -6.192 3.78 -6.492 L 3.732 -6.492 Q 3.588 -6.216 3.426 -5.958 Q 3.264 -5.7 3.096 -5.412 L 1.272 -2.88 Z " /></symbol><use href="#STIXTwoMathRegular_4247" x="239.74" y="-245.73" width="5.269" height="46.948" fill="#1f2937" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3676" viewBox="0 -31.524 6.684 51.216"><path d="M 1.104 0 L 1.104 0 L 1.104 -7.884 L 3.636 -7.884 Q 4.452 -7.884 5.088 -7.668 Q 5.724 -7.452 6.084 -6.972 Q 6.444 -6.492 6.444 -5.676 Q 6.444 -4.728 5.952 -4.176 Q 5.46 -3.624 4.644 -3.432 L 6.684 0 L 5.52 0 L 3.588 -3.324 L 2.136 -3.324 L 2.136 0 Z M 2.136 -4.152 L 2.136 -4.152 L 3.48 -4.152 Q 4.416 -4.152 4.92 -4.524 Q 5.424 -4.896 5.424 -5.664 Q 5.424 -6.432 4.92 -6.744 Q 4.416 -7.056 3.48 -7.056 L 2.136 -7.056 Z " /></symbol><use href="#STIXTwoMathRegular_3676" x="234.06" y="-293.423" width="6.127" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4247" viewBox="0 -31.524 5.748 51.216"><path d="M 3.732 0 L 3.732 0 L 3.732 -2.076 L 0.216 -2.076 L 0.216 -2.748 L 3.564 -7.56 L 4.692 -7.56 L 4.692 -2.88 L 5.748 -2.88 L 5.748 -2.076 L 4.692 -2.076 L 4.692 0 Z M 3.732 -2.88 L 3.732 -2.88 L 3.732 -5.028 Q 3.732 -5.34 3.75 -5.766 Q 3.768 -6.192 3.78 -6.492 L 3.732 -6.492 Q 3.588 -6.216 3.426 -5.958 Q 3.264 -5.7 3.096 -5.412 L 1.272 -2.88 Z " /></symbol><use href="#STIXTwoMathRegular_4247" x="240.473" y="-293.423" width="5.269" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_2" viewBox="0 -31.524 0 51.216" /><use href="#STIXTwoMathRegular_2" x="246.061" y="-293.423" width="0" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4244" viewBox="0 -31.524 3.756 51.216"><path d="M 3.756 0 L 3.756 0 L 2.76 0 L 2.76 -6.348 L 1.212 -6.348 L 1.212 -6.996 Q 1.848 -7.092 2.256 -7.23 Q 2.664 -7.368 3 -7.56 L 3.756 -7.56 Z " /></symbol><use href="#STIXTwoMathRegular_4244" x="248.646" y="-293.423" width="3.443" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4246" viewBox="0 -31.524 5.472 51.216"><path d="M 2.892 0.144 L 2.892 0.144 Q 1.956 0.144 1.332 -0.186 Q 0.708 -0.516 0.324 -0.924 L 0.828 -1.584 Q 1.176 -1.236 1.656 -0.966 Q 2.136 -0.696 2.832 -0.696 Q 3.54 -0.696 3.996 -1.068 Q 4.452 -1.44 4.452 -2.064 Q 4.452 -2.508 4.218 -2.838 Q 3.984 -3.168 3.438 -3.354 Q 2.892 -3.54 1.956 -3.54 L 1.956 -4.296 Q 2.784 -4.296 3.27 -4.482 Q 3.756 -4.668 3.966 -4.986 Q 4.176 -5.304 4.176 -5.688 Q 4.176 -6.24 3.81 -6.558 Q 3.444 -6.876 2.832 -6.876 Q 2.328 -6.876 1.914 -6.666 Q 1.5 -6.456 1.152 -6.108 L 0.612 -6.756 Q 1.068 -7.164 1.62 -7.428 Q 2.172 -7.692 2.868 -7.692 Q 3.888 -7.692 4.542 -7.194 Q 5.196 -6.696 5.196 -5.772 Q 5.196 -5.088 4.806 -4.644 Q 4.416 -4.2 3.78 -3.984 L 3.78 -3.936 Q 4.488 -3.78 4.98 -3.288 Q 5.472 -2.796 5.472 -2.016 Q 5.472 -1.344 5.13 -0.858 Q 4.788 -0.372 4.2 -0.114 Q 3.612 0.144 2.892 0.144 Z " /></symbol><use href="#STIXTwoMathRegular_4246" x="254.234" y="-293.423" width="5.016" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4243" viewBox="0 -31.524 5.556 51.216"><path d="M 3.048 0.144 L 3.048 0.144 Q 1.884 0.144 1.218 -0.882 Q 0.552 -1.908 0.552 -3.804 Q 0.552 -5.712 1.218 -6.702 Q 1.884 -7.692 3.048 -7.692 Q 4.224 -7.692 4.89 -6.696 Q 5.556 -5.7 5.556 -3.804 Q 5.556 -1.908 4.89 -0.882 Q 4.224 0.144 3.048 0.144 Z M 3.048 -0.672 L 3.048 -0.672 Q 3.732 -0.672 4.152 -1.41 Q 4.572 -2.148 4.572 -3.804 Q 4.572 -5.46 4.152 -6.174 Q 3.732 -6.888 3.048 -6.888 Q 2.376 -6.888 1.95 -6.174 Q 1.524 -5.46 1.524 -3.804 Q 1.524 -2.148 1.95 -1.41 Q 2.376 -0.672 3.048 -0.672 Z " /></symbol><use href="#STIXTwoMathRegular_4243" x="259.822" y="-293.423" width="5.093" height="46.948" fill="#1f2937" /><use href="#STIXTwoMathRegular_2" x="265.41" y="-293.423" width="0" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_868" viewBox="0 -31.524 8.772 51.216"><path d="M 8.496 0 L 8.496 0 L 5.364 0 L 5.364 -0.864 Q 5.928 -1.32 6.318 -1.95 Q 6.708 -2.58 6.906 -3.282 Q 7.104 -3.984 7.104 -4.644 Q 7.104 -6 6.456 -6.762 Q 5.808 -7.524 4.704 -7.524 Q 3.564 -7.524 2.904 -6.75 Q 2.244 -5.976 2.244 -4.644 Q 2.244 -3.996 2.436 -3.282 Q 2.628 -2.568 3.018 -1.932 Q 3.408 -1.296 3.984 -0.852 L 3.984 0 L 0.816 0 L 0.564 -2.124 L 0.912 -2.124 Q 1.02 -1.716 1.122 -1.464 Q 1.224 -1.212 1.41 -1.092 Q 1.596 -0.972 1.932 -0.972 L 3.024 -0.972 L 3.024 -1.044 Q 2.688 -1.296 2.322 -1.626 Q 1.956 -1.956 1.644 -2.388 Q 1.332 -2.82 1.14 -3.39 Q 0.948 -3.96 0.948 -4.692 Q 0.948 -5.688 1.428 -6.438 Q 1.908 -7.188 2.76 -7.608 Q 3.612 -8.028 4.716 -8.028 Q 5.832 -8.028 6.66 -7.608 Q 7.488 -7.188 7.944 -6.438 Q 8.4 -5.688 8.4 -4.704 Q 8.4 -3.972 8.196 -3.402 Q 7.992 -2.832 7.674 -2.394 Q 7.356 -1.956 7.002 -1.626 Q 6.648 -1.296 6.336 -1.044 L 6.336 -0.972 L 7.344 -0.972 Q 7.704 -0.972 7.89 -1.092 Q 8.076 -1.212 8.19 -1.47 Q 8.304 -1.728 8.424 -2.124 L 8.772 -2.124 Z " /></symbol><use href="#STIXTwoMathRegular_868" x="267.995" y="-293.423" width="8.041" height="46.948" fill="#1f2937" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3662" viewBox="0 -31.524 6.924 51.216"><path d="M 1.104 0 L 1.104 0 L 1.104 -7.884 L 3.12 -7.884 Q 4.98 -7.884 5.952 -6.87 Q 6.924 -5.856 6.924 -3.972 Q 6.924 -2.088 5.958 -1.044 Q 4.992 0 3.168 0 Z M 2.136 -0.84 L 2.136 -0.84 L 3.048 -0.84 Q 4.464 -0.84 5.166 -1.662 Q 5.868 -2.484 5.868 -3.972 Q 5.868 -5.46 5.166 -6.252 Q 4.464 -7.044 3.048 -7.044 L 2.136 -7.044 Z " /></symbol><use href="#STIXTwoMathRegular_3662" x="234.06" y="-190.944" width="6.347" height="46.948" fill="#1f2937" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3675" viewBox="0 -31.524 7.692 51.216"><path d="M 6.54 1.98 L 6.54 1.98 Q 5.436 1.98 4.68 1.452 Q 3.924 0.924 3.576 0.108 Q 2.712 -0.012 2.052 -0.534 Q 1.392 -1.056 1.02 -1.932 Q 0.648 -2.808 0.648 -3.972 Q 0.648 -5.232 1.086 -6.138 Q 1.524 -7.044 2.298 -7.53 Q 3.072 -8.016 4.08 -8.016 Q 5.1 -8.016 5.874 -7.53 Q 6.648 -7.044 7.086 -6.138 Q 7.524 -5.232 7.524 -3.972 Q 7.524 -2.832 7.17 -1.974 Q 6.816 -1.116 6.174 -0.582 Q 5.532 -0.048 4.68 0.096 Q 4.956 0.612 5.478 0.87 Q 6 1.128 6.672 1.128 Q 6.924 1.128 7.128 1.098 Q 7.332 1.068 7.488 1.02 L 7.692 1.812 Q 7.512 1.872 7.212 1.926 Q 6.912 1.98 6.54 1.98 Z M 4.08 -0.708 L 4.08 -0.708 Q 4.8 -0.708 5.334 -1.104 Q 5.868 -1.5 6.162 -2.232 Q 6.456 -2.964 6.456 -3.96 Q 6.456 -5.448 5.808 -6.288 Q 5.16 -7.128 4.08 -7.128 Q 3 -7.128 2.352 -6.282 Q 1.704 -5.436 1.704 -3.96 Q 1.704 -2.976 1.998 -2.244 Q 2.292 -1.512 2.826 -1.11 Q 3.36 -0.708 4.08 -0.708 Z " /></symbol><use href="#STIXTwoMathRegular_3675" x="232.26" y="-123.33" width="7.051" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4246" viewBox="0 -31.524 5.472 51.216"><path d="M 2.892 0.144 L 2.892 0.144 Q 1.956 0.144 1.332 -0.186 Q 0.708 -0.516 0.324 -0.924 L 0.828 -1.584 Q 1.176 -1.236 1.656 -0.966 Q 2.136 -0.696 2.832 -0.696 Q 3.54 -0.696 3.996 -1.068 Q 4.452 -1.44 4.452 -2.064 Q 4.452 -2.508 4.218 -2.838 Q 3.984 -3.168 3.438 -3.354 Q 2.892 -3.54 1.956 -3.54 L 1.956 -4.296 Q 2.784 -4.296 3.27 -4.482 Q 3.756 -4.668 3.966 -4.986 Q 4.176 -5.304 4.176 -5.688 Q 4.176 -6.24 3.81 -6.558 Q 3.444 -6.876 2.832 -6.876 Q 2.328 -6.876 1.914 -6.666 Q 1.5 -6.456 1.152 -6.108 L 0.612 -6.756 Q 1.068 -7.164 1.62 -7.428 Q 2.172 -7.692 2.868 -7.692 Q 3.888 -7.692 4.542 -7.194 Q 5.196 -6.696 5.196 -5.772 Q 5.196 -5.088 4.806 -4.644 Q 4.416 -4.2 3.78 -3.984 L 3.78 -3.936 Q 4.488 -3.78 4.98 -3.288 Q 5.472 -2.796 5.472 -2.016 Q 5.472 -1.344 5.13 -0.858 Q 4.788 -0.372 4.2 -0.114 Q 3.612 0.144 2.892 0.144 Z " /></symbol><use href="#STIXTwoMathRegular_4246" x="239.74" y="-123.33" width="5.016" height="46.948" fill="#1f2937" /></g></g></g><g><g><g><symbol id="STIXTwoMathRegular_3680" viewBox="0 -31.524 6.324 51.216"><path d="M 2.58 0 L 2.58 0 L 0.012 -7.884 L 1.104 -7.884 L 2.4 -3.636 Q 2.604 -2.94 2.772 -2.334 Q 2.94 -1.728 3.168 -1.032 L 3.228 -1.032 Q 3.444 -1.728 3.618 -2.334 Q 3.792 -2.94 3.996 -3.636 L 5.28 -7.884 L 6.324 -7.884 L 3.768 0 Z " /></symbol><use href="#STIXTwoMathRegular_3680" x="87.523" y="-331.443" width="5.797" height="46.948" fill="#b91c1c" /><symbol id="STIXTwoMathRegular_3661" viewBox="0 -31.524 6.612 51.216"><path d="M 4.152 0.144 L 4.152 0.144 Q 3.156 0.144 2.358 -0.342 Q 1.56 -0.828 1.104 -1.74 Q 0.648 -2.652 0.648 -3.912 Q 0.648 -5.196 1.116 -6.114 Q 1.584 -7.032 2.382 -7.524 Q 3.18 -8.016 4.164 -8.016 Q 5.004 -8.016 5.544 -7.71 Q 6.084 -7.404 6.42 -7.044 L 5.856 -6.384 Q 5.16 -7.128 4.2 -7.128 Q 3.468 -7.128 2.904 -6.744 Q 2.34 -6.36 2.022 -5.646 Q 1.704 -4.932 1.704 -3.936 Q 1.704 -2.964 2.01 -2.25 Q 2.316 -1.536 2.874 -1.146 Q 3.432 -0.756 4.188 -0.756 Q 4.764 -0.756 5.22 -0.99 Q 5.676 -1.224 6.06 -1.632 L 6.612 -0.996 Q 6.132 -0.456 5.532 -0.156 Q 4.932 0.144 4.152 0.144 Z " /></symbol><use href="#STIXTwoMathRegular_3661" x="93.32" y="-331.443" width="6.061" height="46.948" fill="#b91c1c" /><use href="#STIXTwoMathRegular_3661" x="99.744" y="-331.443" width="6.061" height="46.948" fill="#b91c1c" /><symbol id="STIXTwoMathRegular_2" viewBox="0 -31.524 0 51.216" /><use href="#STIXTwoMathRegular_2" x="106.168" y="-331.443" width="0" height="46.948" fill="#b91c1c" /><symbol id="STIXTwoMathRegular_1202" viewBox="0 -31.524 7.896 51.216"><path d="M 7.896 -3.924 L 7.896 -3.924 L 0.744 -3.924 L 0.744 -4.74 L 7.896 -4.74 Z M 7.896 -1.476 L 7.896 -1.476 L 0.744 -1.476 L 0.744 -2.28 L 7.896 -2.28 Z " /></symbol><use href="#STIXTwoMathRegular_1202" x="108.753" y="-331.443" width="7.238" height="46.948" fill="#b91c1c" /><use href="#STIXTwoMathRegular_2" x="116.673" y="-331.443" width="0" height="46.948" fill="#b91c1c" /><symbol id="STIXTwoMathRegular_1196" viewBox="0 -31.524 7.896 51.216"><path d="M 7.896 -2.7 L 7.896 -2.7 L 4.752 -2.7 L 4.752 0.48 L 3.888 0.48 L 3.888 -2.7 L 0.744 -2.7 L 0.744 -3.516 L 3.888 -3.516 L 3.888 -6.696 L 4.752 -6.696 L 4.752 -3.516 L 7.896 -3.516 Z " /></symbol><use href="#STIXTwoMathRegular_1196" x="119.258" y="-331.443" width="7.238" height="46.948" fill="#b91c1c" /><symbol id="STIXTwoMathRegular_4248" viewBox="0 -31.524 5.508 51.216"><path d="M 2.868 0.144 L 2.868 0.144 Q 1.932 0.144 1.32 -0.18 Q 0.708 -0.504 0.3 -0.888 L 0.804 -1.548 Q 1.152 -1.212 1.614 -0.954 Q 2.076 -0.696 2.772 -0.696 Q 3.48 -0.696 3.978 -1.158 Q 4.476 -1.62 4.476 -2.4 Q 4.476 -3.18 4.026 -3.606 Q 3.576 -4.032 2.832 -4.032 Q 2.424 -4.032 2.13 -3.918 Q 1.836 -3.804 1.488 -3.576 L 0.936 -3.924 L 1.2 -7.56 L 5.112 -7.56 L 5.112 -6.684 L 2.088 -6.684 L 1.884 -4.488 Q 2.16 -4.632 2.436 -4.716 Q 2.712 -4.8 3.084 -4.8 Q 3.756 -4.8 4.302 -4.548 Q 4.848 -4.296 5.178 -3.774 Q 5.508 -3.252 5.508 -2.424 Q 5.508 -1.608 5.136 -1.032 Q 4.764 -0.456 4.158 -0.156 Q 3.552 0.144 2.868 0.144 Z " /></symbol><use href="#STIXTwoMathRegular_4248" x="127.178" y="-331.443" width="5.049" height="46.948" fill="#b91c1c" /><use href="#STIXTwoMathRegular_2" x="132.766" y="-331.443" width="0" height="46.948" fill="#b91c1c" /><use href="#STIXTwoMathRegular_3680" x="135.351" y="-331.443" width="5.797" height="46.948" fill="#b91c1c" /></g></g></g><circle cx="48.66" cy="-82.8" r="2.6999999999999997" style="stroke:#1f2937;fill:white;stroke-width:1.4;" /><g><g><g><symbol id="STIXTwoMathRegular_3693" viewBox="0 -31.524 2.1 51.216"><path d="M 0.948 0 L 0.948 0 L 0.948 -5.688 L 1.908 -5.688 L 1.908 0 Z M 1.44 -6.852 L 1.44 -6.852 Q 1.164 -6.852 0.972 -7.032 Q 0.78 -7.212 0.78 -7.476 Q 0.78 -7.752 0.972 -7.926 Q 1.164 -8.1 1.44 -8.1 Q 1.716 -8.1 1.908 -7.926 Q 2.1 -7.752 2.1 -7.476 Q 2.1 -7.212 1.908 -7.032 Q 1.716 -6.852 1.44 -6.852 Z " /></symbol><use href="#STIXTwoMathRegular_3693" x="24.614" y="-97.972" width="1.925" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3700" viewBox="0 -31.524 5.484 51.216"><path d="M 0.948 0 L 0.948 0 L 0.948 -5.688 L 1.74 -5.688 L 1.824 -4.872 L 1.86 -4.872 Q 2.268 -5.268 2.712 -5.544 Q 3.156 -5.82 3.78 -5.82 Q 4.632 -5.82 5.058 -5.256 Q 5.484 -4.692 5.484 -3.6 L 5.484 0 L 4.512 0 L 4.512 -3.48 Q 4.512 -4.272 4.266 -4.626 Q 4.02 -4.98 3.468 -4.98 Q 3.024 -4.98 2.676 -4.764 Q 2.328 -4.548 1.908 -4.116 L 1.908 0 Z " /></symbol><use href="#STIXTwoMathRegular_3700" x="27.243" y="-97.972" width="5.027" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3702" viewBox="0 -31.524 5.892 51.216"><path d="M 0.948 2.64 L 0.948 2.64 L 0.948 -5.688 L 1.74 -5.688 L 1.824 -5.028 L 1.86 -5.028 Q 2.244 -5.34 2.694 -5.58 Q 3.144 -5.82 3.72 -5.82 Q 4.392 -5.82 4.878 -5.466 Q 5.364 -5.112 5.628 -4.476 Q 5.892 -3.84 5.892 -2.988 Q 5.892 -1.992 5.55 -1.29 Q 5.208 -0.588 4.662 -0.222 Q 4.116 0.144 3.48 0.144 Q 3.084 0.144 2.694 -0.018 Q 2.304 -0.18 1.884 -0.528 L 1.908 0.48 L 1.908 2.64 Z M 3.3 -0.672 L 3.3 -0.672 Q 3.984 -0.672 4.44 -1.266 Q 4.896 -1.86 4.896 -2.976 Q 4.896 -3.876 4.548 -4.446 Q 4.2 -5.016 3.456 -5.016 Q 3.084 -5.016 2.73 -4.842 Q 2.376 -4.668 1.908 -4.236 L 1.908 -1.26 Q 2.292 -0.936 2.646 -0.804 Q 3 -0.672 3.3 -0.672 Z " /></symbol><use href="#STIXTwoMathRegular_3702" x="33.062" y="-97.972" width="5.401" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3707" viewBox="0 -31.524 5.376 51.216"><path d="M 2.58 0.144 L 2.58 0.144 Q 1.716 0.144 1.296 -0.432 Q 0.876 -1.008 0.876 -2.076 L 0.876 -5.688 L 1.836 -5.688 L 1.836 -2.208 Q 1.836 -1.428 2.088 -1.062 Q 2.34 -0.696 2.892 -0.696 Q 3.336 -0.696 3.672 -0.924 Q 4.008 -1.152 4.416 -1.656 L 4.416 -5.688 L 5.376 -5.688 L 5.376 0 L 4.572 0 L 4.5 -0.888 L 4.464 -0.888 Q 4.044 -0.396 3.606 -0.126 Q 3.168 0.144 2.58 0.144 Z " /></symbol><use href="#STIXTwoMathRegular_3707" x="38.969" y="-97.972" width="4.928" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3706" viewBox="0 -31.524 3.78 51.216"><path d="M 2.688 0.144 L 2.688 0.144 Q 1.848 0.144 1.482 -0.384 Q 1.116 -0.912 1.116 -1.764 L 1.116 -4.836 L 0.288 -4.836 L 0.288 -5.556 L 1.164 -5.616 L 1.284 -7.284 L 2.076 -7.284 L 2.076 -5.616 L 3.6 -5.616 L 3.6 -4.836 L 2.076 -4.836 L 2.076 -1.74 Q 2.076 -1.236 2.268 -0.942 Q 2.46 -0.648 2.916 -0.648 Q 3.108 -0.648 3.282 -0.696 Q 3.456 -0.744 3.588 -0.804 L 3.78 -0.072 Q 3.54 0.012 3.27 0.078 Q 3 0.144 2.688 0.144 Z " /></symbol><use href="#STIXTwoMathRegular_3706" x="44.766" y="-97.972" width="3.465" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3705" viewBox="0 -31.524 4.488 51.216"><path d="M 2.472 0.144 L 2.472 0.144 Q 1.824 0.144 1.272 -0.084 Q 0.72 -0.312 0.324 -0.648 L 0.792 -1.284 Q 1.176 -0.984 1.566 -0.798 Q 1.956 -0.612 2.436 -0.612 Q 3.012 -0.612 3.294 -0.87 Q 3.576 -1.128 3.576 -1.476 Q 3.576 -1.776 3.396 -1.974 Q 3.216 -2.172 2.922 -2.31 Q 2.628 -2.448 2.28 -2.568 Q 1.884 -2.724 1.494 -2.922 Q 1.104 -3.12 0.852 -3.432 Q 0.6 -3.744 0.6 -4.224 Q 0.6 -4.896 1.122 -5.358 Q 1.644 -5.82 2.52 -5.82 Q 3.12 -5.82 3.558 -5.628 Q 3.996 -5.436 4.308 -5.196 L 3.852 -4.572 Q 3.552 -4.788 3.24 -4.932 Q 2.928 -5.076 2.544 -5.076 Q 2.028 -5.076 1.776 -4.83 Q 1.524 -4.584 1.524 -4.272 Q 1.524 -3.996 1.698 -3.822 Q 1.872 -3.648 2.16 -3.528 Q 2.448 -3.408 2.772 -3.276 Q 3.156 -3.132 3.552 -2.946 Q 3.948 -2.76 4.218 -2.436 Q 4.488 -2.112 4.488 -1.572 Q 4.488 -0.864 3.96 -0.36 Q 3.432 0.144 2.472 0.144 Z " /></symbol><use href="#STIXTwoMathRegular_3705" x="48.363" y="-97.972" width="4.114" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_2" viewBox="0 -31.524 0 51.216" /><use href="#STIXTwoMathRegular_2" x="52.829" y="-97.972" width="0" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3659" viewBox="0 -31.524 6.648 51.216"><path d="M 0.048 0 L 0.048 0 L 2.772 -7.884 L 3.924 -7.884 L 6.648 0 L 5.556 0 L 4.8 -2.388 L 1.86 -2.388 L 1.092 0 Z M 2.124 -3.192 L 2.124 -3.192 L 4.548 -3.192 L 4.164 -4.392 Q 3.936 -5.052 3.744 -5.706 Q 3.552 -6.36 3.348 -7.044 L 3.3 -7.044 Q 3.108 -6.36 2.916 -5.706 Q 2.724 -5.052 2.508 -4.392 Z " /></symbol><use href="#STIXTwoMathRegular_3659" x="55.414" y="-97.972" width="6.094" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_1048" viewBox="0 -31.524 2.328 51.216"><path d="M 0.84 1.584 L 0.84 1.584 L 0.696 1.284 Q 0.924 1.188 1.152 1.038 Q 1.38 0.888 1.536 0.6 Q 1.692 0.312 1.692 -0.168 Q 1.5 -0.096 1.32 -0.096 Q 0.972 -0.096 0.816 -0.288 Q 0.66 -0.48 0.66 -0.744 Q 0.66 -1.032 0.852 -1.242 Q 1.044 -1.452 1.404 -1.452 Q 1.86 -1.452 2.094 -1.17 Q 2.328 -0.888 2.328 -0.396 Q 2.328 0.108 2.166 0.456 Q 2.004 0.804 1.764 1.02 Q 1.524 1.236 1.272 1.368 Q 1.02 1.5 0.84 1.584 Z " /></symbol><use href="#STIXTwoMathRegular_1048" x="61.53" y="-97.972" width="2.134" height="46.948" fill="#1f2937" /><use href="#STIXTwoMathRegular_2" x="64.225" y="-97.972" width="0" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3660" viewBox="0 -31.524 6.732 51.216"><path d="M 1.104 0 L 1.104 0 L 1.104 -7.884 L 3.492 -7.884 Q 4.32 -7.884 4.944 -7.692 Q 5.568 -7.5 5.916 -7.08 Q 6.264 -6.66 6.264 -5.988 Q 6.264 -5.364 5.958 -4.89 Q 5.652 -4.416 5.088 -4.236 L 5.088 -4.188 Q 5.808 -4.056 6.27 -3.588 Q 6.732 -3.12 6.732 -2.28 Q 6.732 -1.524 6.342 -1.02 Q 5.952 -0.516 5.268 -0.258 Q 4.584 0 3.684 0 Z M 2.136 -0.816 L 2.136 -0.816 L 3.528 -0.816 Q 4.56 -0.816 5.142 -1.182 Q 5.724 -1.548 5.724 -2.316 Q 5.724 -3.06 5.166 -3.402 Q 4.608 -3.744 3.528 -3.744 L 2.136 -3.744 Z M 2.136 -4.524 L 2.136 -4.524 L 3.324 -4.524 Q 4.368 -4.524 4.812 -4.878 Q 5.256 -5.232 5.256 -5.832 Q 5.256 -6.504 4.77 -6.786 Q 4.284 -7.068 3.372 -7.068 L 2.136 -7.068 Z " /></symbol><use href="#STIXTwoMathRegular_3660" x="66.81" y="-97.972" width="6.171" height="46.948" fill="#1f2937" /></g><g><symbol id="STIXTwoMathRegular_1064" viewBox="0 -31.524 3.924 51.216"><path d="M 0.54 -3.24 L 0.54 -3.24 Q 0.54 -5.244 1.41 -6.66 Q 2.28 -8.076 3.732 -8.832 L 3.924 -8.52 Q 2.616 -7.632 2.07 -6.354 Q 1.524 -5.076 1.524 -3.24 Q 1.524 -1.404 2.07 -0.126 Q 2.616 1.152 3.924 2.04 L 3.732 2.352 Q 2.28 1.596 1.41 0.18 Q 0.54 -1.236 0.54 -3.24 Z " /></symbol><use href="#STIXTwoMathRegular_1064" x="-0.45" y="-86.972" width="3.597" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3675" viewBox="0 -31.524 7.692 51.216"><path d="M 6.54 1.98 L 6.54 1.98 Q 5.436 1.98 4.68 1.452 Q 3.924 0.924 3.576 0.108 Q 2.712 -0.012 2.052 -0.534 Q 1.392 -1.056 1.02 -1.932 Q 0.648 -2.808 0.648 -3.972 Q 0.648 -5.232 1.086 -6.138 Q 1.524 -7.044 2.298 -7.53 Q 3.072 -8.016 4.08 -8.016 Q 5.1 -8.016 5.874 -7.53 Q 6.648 -7.044 7.086 -6.138 Q 7.524 -5.232 7.524 -3.972 Q 7.524 -2.832 7.17 -1.974 Q 6.816 -1.116 6.174 -0.582 Q 5.532 -0.048 4.68 0.096 Q 4.956 0.612 5.478 0.87 Q 6 1.128 6.672 1.128 Q 6.924 1.128 7.128 1.098 Q 7.332 1.068 7.488 1.02 L 7.692 1.812 Q 7.512 1.872 7.212 1.926 Q 6.912 1.98 6.54 1.98 Z M 4.08 -0.708 L 4.08 -0.708 Q 4.8 -0.708 5.334 -1.104 Q 5.868 -1.5 6.162 -2.232 Q 6.456 -2.964 6.456 -3.96 Q 6.456 -5.448 5.808 -6.288 Q 5.16 -7.128 4.08 -7.128 Q 3 -7.128 2.352 -6.282 Q 1.704 -5.436 1.704 -3.96 Q 1.704 -2.976 1.998 -2.244 Q 2.292 -1.512 2.826 -1.11 Q 3.36 -0.708 4.08 -0.708 Z " /></symbol><use href="#STIXTwoMathRegular_3675" x="3.477" y="-86.972" width="7.051" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_4244" viewBox="0 -31.524 3.756 51.216"><path d="M 3.756 0 L 3.756 0 L 2.76 0 L 2.76 -6.348 L 1.212 -6.348 L 1.212 -6.996 Q 1.848 -7.092 2.256 -7.23 Q 2.664 -7.368 3 -7.56 L 3.756 -7.56 Z " /></symbol><use href="#STIXTwoMathRegular_4244" x="10.957" y="-86.972" width="3.443" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_2" viewBox="0 -31.524 0 51.216" /><use href="#STIXTwoMathRegular_2" x="16.546" y="-86.972" width="0" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3692" viewBox="0 -31.524 5.484 51.216"><path d="M 0.948 0 L 0.948 0 L 0.948 -8.328 L 1.908 -8.328 L 1.908 -6.06 L 1.884 -4.884 Q 2.28 -5.268 2.718 -5.544 Q 3.156 -5.82 3.78 -5.82 Q 4.632 -5.82 5.058 -5.256 Q 5.484 -4.692 5.484 -3.6 L 5.484 0 L 4.512 0 L 4.512 -3.48 Q 4.512 -4.272 4.266 -4.626 Q 4.02 -4.98 3.468 -4.98 Q 3.024 -4.98 2.676 -4.764 Q 2.328 -4.548 1.908 -4.116 L 1.908 0 Z " /></symbol><use href="#STIXTwoMathRegular_3692" x="19.131" y="-86.972" width="5.027" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3685" viewBox="0 -31.524 5.028 51.216"><path d="M 2.244 0.144 L 2.244 0.144 Q 1.548 0.144 1.074 -0.282 Q 0.6 -0.708 0.6 -1.476 Q 0.6 -2.412 1.428 -2.91 Q 2.256 -3.408 4.068 -3.6 Q 4.068 -3.972 3.972 -4.296 Q 3.876 -4.62 3.618 -4.824 Q 3.36 -5.028 2.892 -5.028 Q 2.424 -5.028 1.992 -4.836 Q 1.56 -4.644 1.224 -4.428 L 0.84 -5.088 Q 1.236 -5.352 1.812 -5.586 Q 2.388 -5.82 3.06 -5.82 Q 4.092 -5.82 4.56 -5.19 Q 5.028 -4.56 5.028 -3.492 L 5.028 0 L 4.236 0 L 4.152 -0.684 L 4.128 -0.684 Q 3.72 -0.348 3.252 -0.102 Q 2.784 0.144 2.244 0.144 Z M 2.532 -0.636 L 2.532 -0.636 Q 2.94 -0.636 3.3 -0.834 Q 3.66 -1.032 4.068 -1.38 L 4.068 -2.964 Q 2.676 -2.796 2.106 -2.448 Q 1.536 -2.1 1.536 -1.536 Q 1.536 -1.068 1.83 -0.852 Q 2.124 -0.636 2.532 -0.636 Z " /></symbol><use href="#STIXTwoMathRegular_3685" x="24.928" y="-86.972" width="4.609" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3705" viewBox="0 -31.524 4.488 51.216"><path d="M 2.472 0.144 L 2.472 0.144 Q 1.824 0.144 1.272 -0.084 Q 0.72 -0.312 0.324 -0.648 L 0.792 -1.284 Q 1.176 -0.984 1.566 -0.798 Q 1.956 -0.612 2.436 -0.612 Q 3.012 -0.612 3.294 -0.87 Q 3.576 -1.128 3.576 -1.476 Q 3.576 -1.776 3.396 -1.974 Q 3.216 -2.172 2.922 -2.31 Q 2.628 -2.448 2.28 -2.568 Q 1.884 -2.724 1.494 -2.922 Q 1.104 -3.12 0.852 -3.432 Q 0.6 -3.744 0.6 -4.224 Q 0.6 -4.896 1.122 -5.358 Q 1.644 -5.82 2.52 -5.82 Q 3.12 -5.82 3.558 -5.628 Q 3.996 -5.436 4.308 -5.196 L 3.852 -4.572 Q 3.552 -4.788 3.24 -4.932 Q 2.928 -5.076 2.544 -5.076 Q 2.028 -5.076 1.776 -4.83 Q 1.524 -4.584 1.524 -4.272 Q 1.524 -3.996 1.698 -3.822 Q 1.872 -3.648 2.16 -3.528 Q 2.448 -3.408 2.772 -3.276 Q 3.156 -3.132 3.552 -2.946 Q 3.948 -2.76 4.218 -2.436 Q 4.488 -2.112 4.488 -1.572 Q 4.488 -0.864 3.96 -0.36 Q 3.432 0.144 2.472 0.144 Z " /></symbol><use href="#STIXTwoMathRegular_3705" x="30.296" y="-86.972" width="4.114" height="46.948" fill="#1f2937" /><use href="#STIXTwoMathRegular_2" x="34.761" y="-86.972" width="0" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3706" viewBox="0 -31.524 3.78 51.216"><path d="M 2.688 0.144 L 2.688 0.144 Q 1.848 0.144 1.482 -0.384 Q 1.116 -0.912 1.116 -1.764 L 1.116 -4.836 L 0.288 -4.836 L 0.288 -5.556 L 1.164 -5.616 L 1.284 -7.284 L 2.076 -7.284 L 2.076 -5.616 L 3.6 -5.616 L 3.6 -4.836 L 2.076 -4.836 L 2.076 -1.74 Q 2.076 -1.236 2.268 -0.942 Q 2.46 -0.648 2.916 -0.648 Q 3.108 -0.648 3.282 -0.696 Q 3.456 -0.744 3.588 -0.804 L 3.78 -0.072 Q 3.54 0.012 3.27 0.078 Q 3 0.144 2.688 0.144 Z " /></symbol><use href="#STIXTwoMathRegular_3706" x="37.346" y="-86.972" width="3.465" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3709" viewBox="0 -31.524 8.076 51.216"><path d="M 1.848 0 L 1.848 0 L 0.276 -5.688 L 1.26 -5.688 L 2.1 -2.4 Q 2.196 -1.992 2.274 -1.602 Q 2.352 -1.212 2.424 -0.816 L 2.472 -0.816 Q 2.568 -1.212 2.664 -1.608 Q 2.76 -2.004 2.856 -2.4 L 3.732 -5.688 L 4.656 -5.688 L 5.556 -2.4 Q 5.652 -1.992 5.748 -1.602 Q 5.844 -1.212 5.94 -0.816 L 5.988 -0.816 Q 6.084 -1.212 6.168 -1.602 Q 6.252 -1.992 6.336 -2.4 L 7.164 -5.688 L 8.076 -5.688 L 6.552 0 L 5.388 0 L 4.572 -3.048 Q 4.476 -3.456 4.386 -3.858 Q 4.296 -4.26 4.2 -4.692 L 4.152 -4.692 Q 4.056 -4.26 3.966 -3.852 Q 3.876 -3.444 3.756 -3.036 L 2.976 0 Z " /></symbol><use href="#STIXTwoMathRegular_3709" x="40.944" y="-86.972" width="7.403" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3701" viewBox="0 -31.524 5.772 51.216"><path d="M 3.144 0.144 L 3.144 0.144 Q 2.46 0.144 1.86 -0.21 Q 1.26 -0.564 0.894 -1.23 Q 0.528 -1.896 0.528 -2.844 Q 0.528 -3.792 0.894 -4.452 Q 1.26 -5.112 1.86 -5.466 Q 2.46 -5.82 3.144 -5.82 Q 3.84 -5.82 4.44 -5.466 Q 5.04 -5.112 5.406 -4.452 Q 5.772 -3.792 5.772 -2.844 Q 5.772 -1.896 5.406 -1.23 Q 5.04 -0.564 4.44 -0.21 Q 3.84 0.144 3.144 0.144 Z M 3.144 -0.66 L 3.144 -0.66 Q 3.876 -0.66 4.326 -1.26 Q 4.776 -1.86 4.776 -2.844 Q 4.776 -3.816 4.326 -4.416 Q 3.876 -5.016 3.144 -5.016 Q 2.424 -5.016 1.974 -4.416 Q 1.524 -3.816 1.524 -2.844 Q 1.524 -1.86 1.974 -1.26 Q 2.424 -0.66 3.144 -0.66 Z " /></symbol><use href="#STIXTwoMathRegular_3701" x="48.599" y="-86.972" width="5.291" height="46.948" fill="#1f2937" /><use href="#STIXTwoMathRegular_2" x="54.374" y="-86.972" width="0" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3689" viewBox="0 -31.524 5.328 51.216"><path d="M 3.252 0.144 L 3.252 0.144 Q 2.496 0.144 1.878 -0.21 Q 1.26 -0.564 0.894 -1.23 Q 0.528 -1.896 0.528 -2.82 Q 0.528 -3.756 0.888 -4.428 Q 1.248 -5.1 1.842 -5.46 Q 2.436 -5.82 3.132 -5.82 Q 4.14 -5.82 4.734 -5.1 Q 5.328 -4.38 5.328 -3.156 Q 5.328 -3 5.316 -2.862 Q 5.304 -2.724 5.28 -2.616 L 1.476 -2.616 Q 1.536 -1.704 2.04 -1.164 Q 2.544 -0.624 3.36 -0.624 Q 3.756 -0.624 4.104 -0.75 Q 4.452 -0.876 4.764 -1.08 L 5.1 -0.456 Q 4.728 -0.204 4.272 -0.03 Q 3.816 0.144 3.252 0.144 Z M 1.476 -3.3 L 1.476 -3.3 L 4.488 -3.3 Q 4.488 -4.152 4.122 -4.602 Q 3.756 -5.052 3.12 -5.052 Q 2.496 -5.052 2.034 -4.608 Q 1.572 -4.164 1.476 -3.3 Z " /></symbol><use href="#STIXTwoMathRegular_3689" x="56.959" y="-86.972" width="4.884" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3699" viewBox="0 -31.524 8.76 51.216"><path d="M 0.948 0 L 0.948 0 L 0.948 -5.688 L 1.74 -5.688 L 1.824 -4.86 L 1.86 -4.86 Q 2.244 -5.268 2.664 -5.544 Q 3.084 -5.82 3.672 -5.82 Q 4.272 -5.82 4.644 -5.52 Q 5.016 -5.22 5.172 -4.74 Q 5.64 -5.232 6.072 -5.526 Q 6.504 -5.82 7.092 -5.82 Q 7.896 -5.82 8.328 -5.256 Q 8.76 -4.692 8.76 -3.6 L 8.76 0 L 7.8 0 L 7.8 -3.48 Q 7.8 -4.98 6.792 -4.98 Q 6.432 -4.98 6.096 -4.782 Q 5.76 -4.584 5.34 -4.116 L 5.34 0 L 4.38 0 L 4.38 -3.48 Q 4.38 -4.98 3.372 -4.98 Q 3.036 -4.98 2.694 -4.794 Q 2.352 -4.608 1.908 -4.116 L 1.908 0 Z " /></symbol><use href="#STIXTwoMathRegular_3699" x="62.239" y="-86.972" width="8.03" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3693" viewBox="0 -31.524 2.1 51.216"><path d="M 0.948 0 L 0.948 0 L 0.948 -5.688 L 1.908 -5.688 L 1.908 0 Z M 1.44 -6.852 L 1.44 -6.852 Q 1.164 -6.852 0.972 -7.032 Q 0.78 -7.212 0.78 -7.476 Q 0.78 -7.752 0.972 -7.926 Q 1.164 -8.1 1.44 -8.1 Q 1.716 -8.1 1.908 -7.926 Q 2.1 -7.752 2.1 -7.476 Q 2.1 -7.212 1.908 -7.032 Q 1.716 -6.852 1.44 -6.852 Z " /></symbol><use href="#STIXTwoMathRegular_3693" x="71.073" y="-86.972" width="1.925" height="46.948" fill="#1f2937" /><use href="#STIXTwoMathRegular_3706" x="73.702" y="-86.972" width="3.465" height="46.948" fill="#1f2937" /><use href="#STIXTwoMathRegular_3706" x="77.299" y="-86.972" width="3.465" height="46.948" fill="#1f2937" /><use href="#STIXTwoMathRegular_3689" x="80.895" y="-86.972" width="4.884" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3704" viewBox="0 -31.524 4.068 51.216"><path d="M 0.948 0 L 0.948 0 L 0.948 -5.688 L 1.74 -5.688 L 1.824 -4.644 L 1.86 -4.644 Q 2.172 -5.208 2.58 -5.514 Q 2.988 -5.82 3.516 -5.82 Q 3.648 -5.82 3.792 -5.796 Q 3.936 -5.772 4.068 -5.712 L 3.888 -4.86 Q 3.732 -4.908 3.624 -4.932 Q 3.516 -4.956 3.384 -4.956 Q 2.988 -4.956 2.592 -4.668 Q 2.196 -4.38 1.908 -3.648 L 1.908 0 Z " /></symbol><use href="#STIXTwoMathRegular_3704" x="86.175" y="-86.972" width="3.729" height="46.948" fill="#1f2937" /><use href="#STIXTwoMathRegular_3705" x="89.871" y="-86.972" width="4.114" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_1065" viewBox="0 -31.524 3.744 51.216"><path d="M 3.744 -3.24 L 3.744 -3.24 Q 3.744 -1.236 2.874 0.18 Q 2.004 1.596 0.552 2.352 L 0.36 2.04 Q 1.68 1.152 2.22 -0.126 Q 2.76 -1.404 2.76 -3.24 Q 2.76 -5.076 2.22 -6.354 Q 1.68 -7.632 0.36 -8.52 L 0.552 -8.832 Q 2.004 -8.076 2.874 -6.66 Q 3.744 -5.244 3.744 -3.24 Z " /></symbol><use href="#STIXTwoMathRegular_1065" x="94.337" y="-86.972" width="3.432" height="46.948" fill="#1f2937" /></g></g></g><circle cx="279.06" cy="-133.20000000000002" r="2.6999999999999997" style="stroke:#1f2937;fill:white;stroke-width:1.4;" /><g><g><g><symbol id="STIXTwoMathRegular_3683" viewBox="0 -31.524 5.856 51.216"><path d="M 2.412 0 L 2.412 0 L 2.412 -3.048 L 0 -7.884 L 1.092 -7.884 L 2.136 -5.664 Q 2.328 -5.232 2.514 -4.812 Q 2.7 -4.392 2.904 -3.948 L 2.952 -3.948 Q 3.168 -4.392 3.372 -4.812 Q 3.576 -5.232 3.756 -5.664 L 4.8 -7.884 L 5.856 -7.884 L 3.444 -3.048 L 3.444 0 Z " /></symbol><use href="#STIXTwoMathRegular_3683" x="285.36" y="-159.127" width="5.368" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_2" viewBox="0 -31.524 0 51.216" /><use href="#STIXTwoMathRegular_2" x="290.717" y="-159.127" width="0" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_1202" viewBox="0 -31.524 7.896 51.216"><path d="M 7.896 -3.924 L 7.896 -3.924 L 0.744 -3.924 L 0.744 -4.74 L 7.896 -4.74 Z M 7.896 -1.476 L 7.896 -1.476 L 0.744 -1.476 L 0.744 -2.28 L 7.896 -2.28 Z " /></symbol><use href="#STIXTwoMathRegular_1202" x="293.302" y="-159.127" width="7.238" height="46.948" fill="#1f2937" /><use href="#STIXTwoMathRegular_2" x="301.222" y="-159.127" width="0" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_1064" viewBox="0 -31.524 3.924 51.216"><path d="M 0.54 -3.24 L 0.54 -3.24 Q 0.54 -5.244 1.41 -6.66 Q 2.28 -8.076 3.732 -8.832 L 3.924 -8.52 Q 2.616 -7.632 2.07 -6.354 Q 1.524 -5.076 1.524 -3.24 Q 1.524 -1.404 2.07 -0.126 Q 2.616 1.152 3.924 2.04 L 3.732 2.352 Q 2.28 1.596 1.41 0.18 Q 0.54 -1.236 0.54 -3.24 Z " /></symbol><use href="#STIXTwoMathRegular_1064" x="303.807" y="-159.127" width="3.597" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3659" viewBox="0 -31.524 6.648 51.216"><path d="M 0.048 0 L 0.048 0 L 2.772 -7.884 L 3.924 -7.884 L 6.648 0 L 5.556 0 L 4.8 -2.388 L 1.86 -2.388 L 1.092 0 Z M 2.124 -3.192 L 2.124 -3.192 L 4.548 -3.192 L 4.164 -4.392 Q 3.936 -5.052 3.744 -5.706 Q 3.552 -6.36 3.348 -7.044 L 3.3 -7.044 Q 3.108 -6.36 2.916 -5.706 Q 2.724 -5.052 2.508 -4.392 Z " /></symbol><use href="#STIXTwoMathRegular_3659" x="307.734" y="-159.127" width="6.094" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_3660" viewBox="0 -31.524 6.732 51.216"><path d="M 1.104 0 L 1.104 0 L 1.104 -7.884 L 3.492 -7.884 Q 4.32 -7.884 4.944 -7.692 Q 5.568 -7.5 5.916 -7.08 Q 6.264 -6.66 6.264 -5.988 Q 6.264 -5.364 5.958 -4.89 Q 5.652 -4.416 5.088 -4.236 L 5.088 -4.188 Q 5.808 -4.056 6.27 -3.588 Q 6.732 -3.12 6.732 -2.28 Q 6.732 -1.524 6.342 -1.02 Q 5.952 -0.516 5.268 -0.258 Q 4.584 0 3.684 0 Z M 2.136 -0.816 L 2.136 -0.816 L 3.528 -0.816 Q 4.56 -0.816 5.142 -1.182 Q 5.724 -1.548 5.724 -2.316 Q 5.724 -3.06 5.166 -3.402 Q 4.608 -3.744 3.528 -3.744 L 2.136 -3.744 Z M 2.136 -4.524 L 2.136 -4.524 L 3.324 -4.524 Q 4.368 -4.524 4.812 -4.878 Q 5.256 -5.232 5.256 -5.832 Q 5.256 -6.504 4.77 -6.786 Q 4.284 -7.068 3.372 -7.068 L 2.136 -7.068 Z " /></symbol><use href="#STIXTwoMathRegular_3660" x="313.85" y="-159.127" width="6.171" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_1065" viewBox="0 -31.524 3.744 51.216"><path d="M 3.744 -3.24 L 3.744 -3.24 Q 3.744 -1.236 2.874 0.18 Q 2.004 1.596 0.552 2.352 L 0.36 2.04 Q 1.68 1.152 2.22 -0.126 Q 2.76 -1.404 2.76 -3.24 Q 2.76 -5.076 2.22 -6.354 Q 1.68 -7.632 0.36 -8.52 L 0.552 -8.832 Q 2.004 -8.076 2.874 -6.66 Q 3.744 -5.244 3.744 -3.24 Z " /></symbol><use href="#STIXTwoMathRegular_1065" x="320.461" y="-159.127" width="3.432" height="46.948" fill="#1f2937" /><symbol id="STIXTwoMathRegular_1070" viewBox="0 -31.524 1.68 51.216"><path d="M 0.636 -6.06 L 0.636 -6.06 L 0.624 -8.472 L 1.68 -8.472 L 1.68 -8.256 L 1.092 -6.06 Z " /></symbol><use href="#STIXTwoMathRegular_1070" x="324.388" y="-159.127" width="1.54" height="46.948" fill="#1f2937" /></g></g></g><circle cx="142.26" cy="-223.20000000000002" r="2.6999999999999997" style="stroke:#1f2937;fill:#1f2937;stroke-width:1.4;" /><circle cx="142.26" cy="-108.0" r="2.6999999999999997" style="stroke:#1f2937;fill:#1f2937;stroke-width:1.4;" /><circle cx="221.46000000000004" cy="-133.20000000000002" r="2.6999999999999997" style="stroke:#1f2937;fill:#1f2937;stroke-width:1.4;" /></svg><figcaption>Standard TTL NAND: multi-emitter input (Q1), phase splitter (Q2), totem-pole output (Q4 on top, Q3 below). Build Q1 as two transistors with shared base and shared collector.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Inputs</th>
+<th>What happens</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>any input LOW</strong></td>
+<td>Q1's base current flows out through that emitter, so Q1 pulls Q2's base low. Q2 and Q3 are off; Q4 (via R2) and D conduct.</td>
+<td><strong>HIGH</strong> ≈ 5 − V<sub>BE4</sub> − V<sub>D</sub> ≈ 3.6 V when loaded (≈ 4 V lightly loaded)</td>
+</tr>
+<tr>
+<td><strong>all inputs HIGH</strong></td>
+<td>Q1's emitters are reverse-biased. R1's current flows through Q1's base–collector junction into Q2's base: Q2 and Q3 saturate. D keeps Q4 off.</td>
+<td><strong>LOW</strong> ≈ V<sub>CE(sat)</sub> ≈ 0.2 V</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Totem pole:</strong> Q4 actively pulls the output up and Q3 actively pulls it down, stacked one above the other. That gives fast switching both ways. The 130 Ω resistor and the diode stop both transistors conducting hard at once.</p>
+<p><strong>TTL NOR:</strong> each input gets its own Q1 + Q2 pair. The two Q2s sit <strong>in parallel</strong> (shared collector and emitter), so <strong>any</strong> HIGH input turns Q3 on and pulls the output LOW. The totem pole is the same.</p>
+<h2>Results (LTspice, 2N2222 transistors, 1N4148 diode, 100 kΩ load)</h2>
+<table>
+<thead>
+<tr>
+<th>A B</th>
+<th>00</th>
+<th>01</th>
+<th>10</th>
+<th>11</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAND V<sub>Y</sub></td>
+<td>3.99 V</td>
+<td>3.99 V</td>
+<td>3.99 V</td>
+<td><strong>0.01 V</strong></td>
+</tr>
+<tr>
+<td>NOR V<sub>Y</sub></td>
+<td><strong>3.99 V</strong></td>
+<td>0.01 V</td>
+<td>0.01 V</td>
+<td>0.01 V</td>
+</tr>
+</tbody>
+</table>
+
+<figure style="max-width:78%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="364.100937pt" height="210.365313pt" viewBox="0 0 364.100937 210.365313" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-31T07:17:18.394135</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 210.365313 
+L 364.100937 210.365313 
+L 364.100937 0 
+L 0 0 
+L 0 210.365313 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 33.260937 173.52 
+L 356.900937 173.52 
+L 356.900937 7.2 
+L 33.260937 7.2 
+L 33.260937 173.52 
+z
+" style="fill: none"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 47.971847 173.52 
+L 95.046756 173.52 
+L 95.046756 7.2 
+L 47.971847 7.2 
+z
+" clip-path="url(#p81b4c0bf20)" style="fill: #dcfce7; opacity: 0.6; stroke: #dcfce7; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 165.659119 173.52 
+L 342.190028 173.52 
+L 342.190028 7.2 
+L 165.659119 7.2 
+z
+" clip-path="url(#p81b4c0bf20)" style="fill: #dbeafe; opacity: 0.5; stroke: #dbeafe; stroke-linejoin: miter"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 47.971847 173.52 
+L 47.971847 7.2 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke: #e5e7eb; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="m0a83aa7ab0" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m0a83aa7ab0" x="47.971847" y="173.52" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <!-- 0 -->
+      <g transform="translate(45.191378 187.677813) scale(0.1 -0.1)">
+       <defs>
+        <path id="ArialMT-30" d="M 266 2259 
+Q 266 3072 433 3567 
+Q 600 4063 929 4331 
+Q 1259 4600 1759 4600 
+Q 2128 4600 2406 4451 
+Q 2684 4303 2865 4023 
+Q 3047 3744 3150 3342 
+Q 3253 2941 3253 2259 
+Q 3253 1453 3087 958 
+Q 2922 463 2592 192 
+Q 2263 -78 1759 -78 
+Q 1097 -78 719 397 
+Q 266 969 266 2259 
+z
+M 844 2259 
+Q 844 1131 1108 757 
+Q 1372 384 1759 384 
+Q 2147 384 2411 759 
+Q 2675 1134 2675 2259 
+Q 2675 3391 2411 3762 
+Q 2147 4134 1753 4134 
+Q 1366 4134 1134 3806 
+Q 844 3388 844 2259 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#ArialMT-30"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 106.815483 173.52 
+L 106.815483 7.2 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke: #e5e7eb; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m0a83aa7ab0" x="106.815483" y="173.52" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <!-- 1 -->
+      <g transform="translate(104.035014 187.677813) scale(0.1 -0.1)">
+       <defs>
+        <path id="ArialMT-31" d="M 2384 0 
+L 1822 0 
+L 1822 3584 
+Q 1619 3391 1289 3197 
+Q 959 3003 697 2906 
+L 697 3450 
+Q 1169 3672 1522 3987 
+Q 1875 4303 2022 4600 
+L 2384 4600 
+L 2384 0 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#ArialMT-31"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 165.659119 173.52 
+L 165.659119 7.2 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke: #e5e7eb; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m0a83aa7ab0" x="165.659119" y="173.52" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <!-- 2 -->
+      <g transform="translate(162.878651 187.677813) scale(0.1 -0.1)">
+       <defs>
+        <path id="ArialMT-32" d="M 3222 541 
+L 3222 0 
+L 194 0 
+Q 188 203 259 391 
+Q 375 700 629 1000 
+Q 884 1300 1366 1694 
+Q 2113 2306 2375 2664 
+Q 2638 3022 2638 3341 
+Q 2638 3675 2398 3904 
+Q 2159 4134 1775 4134 
+Q 1369 4134 1125 3890 
+Q 881 3647 878 3216 
+L 300 3275 
+Q 359 3922 746 4261 
+Q 1134 4600 1788 4600 
+Q 2447 4600 2831 4234 
+Q 3216 3869 3216 3328 
+Q 3216 3053 3103 2787 
+Q 2991 2522 2730 2228 
+Q 2469 1934 1863 1422 
+Q 1356 997 1212 845 
+Q 1069 694 975 541 
+L 3222 541 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#ArialMT-32"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 224.502756 173.52 
+L 224.502756 7.2 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke: #e5e7eb; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m0a83aa7ab0" x="224.502756" y="173.52" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <!-- 3 -->
+      <g transform="translate(221.722287 187.677813) scale(0.1 -0.1)">
+       <defs>
+        <path id="ArialMT-33" d="M 269 1209 
+L 831 1284 
+Q 928 806 1161 595 
+Q 1394 384 1728 384 
+Q 2125 384 2398 659 
+Q 2672 934 2672 1341 
+Q 2672 1728 2419 1979 
+Q 2166 2231 1775 2231 
+Q 1616 2231 1378 2169 
+L 1441 2663 
+Q 1497 2656 1531 2656 
+Q 1891 2656 2178 2843 
+Q 2466 3031 2466 3422 
+Q 2466 3731 2256 3934 
+Q 2047 4138 1716 4138 
+Q 1388 4138 1169 3931 
+Q 950 3725 888 3313 
+L 325 3413 
+Q 428 3978 793 4289 
+Q 1159 4600 1703 4600 
+Q 2078 4600 2393 4439 
+Q 2709 4278 2876 4000 
+Q 3044 3722 3044 3409 
+Q 3044 3113 2884 2869 
+Q 2725 2625 2413 2481 
+Q 2819 2388 3044 2092 
+Q 3269 1797 3269 1353 
+Q 3269 753 2831 336 
+Q 2394 -81 1725 -81 
+Q 1122 -81 723 278 
+Q 325 638 269 1209 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#ArialMT-33"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_9">
+      <path d="M 283.346392 173.52 
+L 283.346392 7.2 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke: #e5e7eb; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m0a83aa7ab0" x="283.346392" y="173.52" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <!-- 4 -->
+      <g transform="translate(280.565923 187.677813) scale(0.1 -0.1)">
+       <defs>
+        <path id="ArialMT-34" d="M 2069 0 
+L 2069 1097 
+L 81 1097 
+L 81 1613 
+L 2172 4581 
+L 2631 4581 
+L 2631 1613 
+L 3250 1613 
+L 3250 1097 
+L 2631 1097 
+L 2631 0 
+L 2069 0 
+z
+M 2069 1613 
+L 2069 3678 
+L 634 1613 
+L 2069 1613 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#ArialMT-34"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_11">
+      <path d="M 342.190028 173.52 
+L 342.190028 7.2 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke: #e5e7eb; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#m0a83aa7ab0" x="342.190028" y="173.52" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <!-- 5 -->
+      <g transform="translate(339.40956 187.677813) scale(0.1 -0.1)">
+       <defs>
+        <path id="ArialMT-35" d="M 266 1200 
+L 856 1250 
+Q 922 819 1161 601 
+Q 1400 384 1738 384 
+Q 2144 384 2425 690 
+Q 2706 997 2706 1503 
+Q 2706 1984 2436 2262 
+Q 2166 2541 1728 2541 
+Q 1456 2541 1237 2417 
+Q 1019 2294 894 2097 
+L 366 2166 
+L 809 4519 
+L 3088 4519 
+L 3088 3981 
+L 1259 3981 
+L 1013 2750 
+Q 1425 3038 1878 3038 
+Q 2478 3038 2890 2622 
+Q 3303 2206 3303 1553 
+Q 3303 931 2941 478 
+Q 2500 -78 1738 -78 
+Q 1113 -78 717 272 
+Q 322 622 266 1200 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#ArialMT-35"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_7">
+     <!-- $V_{A}$ (V) -->
+     <g transform="translate(181.030937 200.965313) scale(0.1 -0.1)">
+      <defs>
+       <path id="DejaVuSans-Oblique-56" d="M 1319 0 
+L 500 4666 
+L 1119 4666 
+L 1797 653 
+L 4063 4666 
+L 4750 4666 
+L 2053 0 
+L 1319 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-Oblique-41" d="M 2356 4666 
+L 3072 4666 
+L 3938 0 
+L 3278 0 
+L 3084 1197 
+L 984 1197 
+L 325 0 
+L -341 0 
+L 2356 4666 
+z
+M 2584 4044 
+L 1275 1722 
+L 2988 1722 
+L 2584 4044 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-20" transform="scale(0.015625)"/>
+       <path id="ArialMT-28" d="M 1497 -1347 
+Q 1031 -759 709 28 
+Q 388 816 388 1659 
+Q 388 2403 628 3084 
+Q 909 3875 1497 4659 
+L 1900 4659 
+Q 1522 4009 1400 3731 
+Q 1209 3300 1100 2831 
+Q 966 2247 966 1656 
+Q 966 153 1900 -1347 
+L 1497 -1347 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-56" d="M 1803 0 
+L 28 4581 
+L 684 4581 
+L 1875 1253 
+Q 2019 853 2116 503 
+Q 2222 878 2363 1253 
+L 3600 4581 
+L 4219 4581 
+L 2425 0 
+L 1803 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-29" d="M 791 -1347 
+L 388 -1347 
+Q 1322 153 1322 1656 
+Q 1322 2244 1188 2822 
+Q 1081 3291 891 3722 
+Q 769 4003 388 4659 
+L 791 4659 
+Q 1378 3875 1659 3084 
+Q 1900 2403 1900 1659 
+Q 1900 816 1576 28 
+Q 1253 -759 791 -1347 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#DejaVuSans-Oblique-56" transform="translate(0 0.09375)"/>
+      <use xlink:href="#DejaVuSans-Oblique-41" transform="translate(68.408203 -16.3125) scale(0.7)"/>
+      <use xlink:href="#ArialMT-20" transform="translate(119.02832 0.09375)"/>
+      <use xlink:href="#ArialMT-28" transform="translate(146.811523 0.09375)"/>
+      <use xlink:href="#ArialMT-56" transform="translate(180.112305 0.09375)"/>
+      <use xlink:href="#ArialMT-29" transform="translate(246.811523 0.09375)"/>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_13">
+      <path d="M 33.260937 166.270707 
+L 356.900937 166.270707 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke: #e5e7eb; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <defs>
+       <path id="m4b9af02eb9" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m4b9af02eb9" x="33.260937" y="166.270707" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <!-- 0 -->
+      <g transform="translate(20.7 169.849613) scale(0.1 -0.1)">
+       <use xlink:href="#ArialMT-30"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_15">
+      <path d="M 33.260937 128.296033 
+L 356.900937 128.296033 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke: #e5e7eb; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#m4b9af02eb9" x="33.260937" y="128.296033" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <!-- 1 -->
+      <g transform="translate(20.7 131.874939) scale(0.1 -0.1)">
+       <use xlink:href="#ArialMT-31"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_17">
+      <path d="M 33.260937 90.321359 
+L 356.900937 90.321359 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke: #e5e7eb; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_18">
+      <g>
+       <use xlink:href="#m4b9af02eb9" x="33.260937" y="90.321359" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <!-- 2 -->
+      <g transform="translate(20.7 93.900265) scale(0.1 -0.1)">
+       <use xlink:href="#ArialMT-32"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_19">
+      <path d="M 33.260937 52.346685 
+L 356.900937 52.346685 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke: #e5e7eb; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#m4b9af02eb9" x="33.260937" y="52.346685" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <!-- 3 -->
+      <g transform="translate(20.7 55.925591) scale(0.1 -0.1)">
+       <use xlink:href="#ArialMT-33"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_21">
+      <path d="M 33.260937 14.372011 
+L 356.900937 14.372011 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke: #e5e7eb; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_22">
+      <g>
+       <use xlink:href="#m4b9af02eb9" x="33.260937" y="14.372011" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <!-- 4 -->
+      <g transform="translate(20.7 17.950917) scale(0.1 -0.1)">
+       <use xlink:href="#ArialMT-34"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_13">
+     <!-- $V_{Y}$ (V) -->
+     <g transform="translate(14.5 104.11) rotate(-90) scale(0.1 -0.1)">
+      <defs>
+       <path id="DejaVuSans-Oblique-59" d="M 403 4666 
+L 1081 4666 
+L 1953 2747 
+L 3616 4666 
+L 4325 4666 
+L 2209 2222 
+L 1778 0 
+L 1147 0 
+L 1575 2222 
+L 403 4666 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#DejaVuSans-Oblique-56" transform="translate(0 0.09375)"/>
+      <use xlink:href="#DejaVuSans-Oblique-59" transform="translate(68.408203 -16.3125) scale(0.7)"/>
+      <use xlink:href="#ArialMT-20" transform="translate(113.901367 0.09375)"/>
+      <use xlink:href="#ArialMT-28" transform="translate(141.68457 0.09375)"/>
+      <use xlink:href="#ArialMT-56" transform="translate(174.985352 0.09375)"/>
+      <use xlink:href="#ArialMT-29" transform="translate(241.68457 0.09375)"/>
+     </g>
+    </g>
+   </g>
+   <g id="line2d_23">
+    <path d="M 47.971847 14.76 
+L 75.039919 14.846125 
+L 77.393665 15.101977 
+L 79.158974 15.565737 
+L 80.924283 16.325699 
+L 82.689592 17.338762 
+L 85.043338 18.961444 
+L 88.573956 21.739238 
+L 93.281447 25.778551 
+L 100.342683 32.180643 
+L 109.757665 41.036024 
+L 113.288283 44.574929 
+L 115.053592 46.634342 
+L 116.230465 48.28376 
+L 117.407337 50.27226 
+L 118.58421 52.646991 
+L 120.349519 56.836937 
+L 122.114828 61.584465 
+L 123.880137 66.964901 
+L 125.05701 71.225459 
+L 126.233883 76.541417 
+L 127.410756 83.642421 
+L 127.999192 96.837247 
+L 128.587628 121.206355 
+L 129.176065 150.303687 
+L 129.764501 161.457623 
+L 130.352937 162.408542 
+L 130.941374 162.932758 
+L 131.52981 165.96 
+L 179.193156 165.936645 
+L 342.190028 165.936645 
+L 342.190028 165.936645 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke: #1d4ed8; stroke-width: 2.1; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_24">
+    <path d="M 47.971847 14.76 
+L 76.216792 14.851 
+L 78.570538 15.118654 
+L 80.335847 15.597124 
+L 82.101156 16.371636 
+L 83.866465 17.39579 
+L 86.22021 19.028203 
+L 89.750828 21.814303 
+L 94.458319 25.859498 
+L 101.519556 32.266327 
+L 110.934538 41.126727 
+L 114.465156 44.677252 
+L 116.230465 46.757167 
+L 117.407337 48.430778 
+L 118.58421 50.450232 
+L 119.761083 52.855985 
+L 121.526392 57.081514 
+L 123.291701 61.857888 
+L 125.05701 67.286892 
+L 126.233883 71.613431 
+L 127.410756 77.045809 
+L 128.587628 84.350121 
+L 129.176065 100.480229 
+L 130.352937 155.477852 
+L 130.941374 161.680049 
+L 131.52981 162.511353 
+L 132.118247 163.004454 
+L 132.706683 165.959747 
+L 179.781592 165.936863 
+L 342.190028 165.936863 
+L 342.190028 165.936863 
+" clip-path="url(#p81b4c0bf20)" style="fill: none; stroke-dasharray: 7.77,3.36; stroke-dashoffset: 0; stroke: #b91c1c; stroke-width: 2.1"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 33.260937 173.52 
+L 33.260937 7.2 
+" style="fill: none; stroke: #9ca3af; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 33.260937 173.52 
+L 356.900937 173.52 
+" style="fill: none; stroke: #9ca3af; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_14">
+    <!-- valid LOW in -->
+    <g transform="translate(50.914028 88.801637) scale(0.085 -0.085)">
+     <defs>
+      <path id="ArialMT-76" d="M 1344 0 
+L 81 3319 
+L 675 3319 
+L 1388 1331 
+Q 1503 1009 1600 663 
+Q 1675 925 1809 1294 
+L 2547 3319 
+L 3125 3319 
+L 1869 0 
+L 1344 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-61" d="M 2588 409 
+Q 2275 144 1986 34 
+Q 1697 -75 1366 -75 
+Q 819 -75 525 192 
+Q 231 459 231 875 
+Q 231 1119 342 1320 
+Q 453 1522 633 1644 
+Q 813 1766 1038 1828 
+Q 1203 1872 1538 1913 
+Q 2219 1994 2541 2106 
+Q 2544 2222 2544 2253 
+Q 2544 2597 2384 2738 
+Q 2169 2928 1744 2928 
+Q 1347 2928 1158 2789 
+Q 969 2650 878 2297 
+L 328 2372 
+Q 403 2725 575 2942 
+Q 747 3159 1072 3276 
+Q 1397 3394 1825 3394 
+Q 2250 3394 2515 3294 
+Q 2781 3194 2906 3042 
+Q 3031 2891 3081 2659 
+Q 3109 2516 3109 2141 
+L 3109 1391 
+Q 3109 606 3145 398 
+Q 3181 191 3288 0 
+L 2700 0 
+Q 2613 175 2588 409 
+z
+M 2541 1666 
+Q 2234 1541 1622 1453 
+Q 1275 1403 1131 1340 
+Q 988 1278 909 1158 
+Q 831 1038 831 891 
+Q 831 666 1001 516 
+Q 1172 366 1500 366 
+Q 1825 366 2078 508 
+Q 2331 650 2450 897 
+Q 2541 1088 2541 1459 
+L 2541 1666 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-6c" d="M 409 0 
+L 409 4581 
+L 972 4581 
+L 972 0 
+L 409 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-69" d="M 425 3934 
+L 425 4581 
+L 988 4581 
+L 988 3934 
+L 425 3934 
+z
+M 425 0 
+L 425 3319 
+L 988 3319 
+L 988 0 
+L 425 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-64" d="M 2575 0 
+L 2575 419 
+Q 2259 -75 1647 -75 
+Q 1250 -75 917 144 
+Q 584 363 401 755 
+Q 219 1147 219 1656 
+Q 219 2153 384 2558 
+Q 550 2963 881 3178 
+Q 1213 3394 1622 3394 
+Q 1922 3394 2156 3267 
+Q 2391 3141 2538 2938 
+L 2538 4581 
+L 3097 4581 
+L 3097 0 
+L 2575 0 
+z
+M 797 1656 
+Q 797 1019 1065 703 
+Q 1334 388 1700 388 
+Q 2069 388 2326 689 
+Q 2584 991 2584 1609 
+Q 2584 2291 2321 2609 
+Q 2059 2928 1675 2928 
+Q 1300 2928 1048 2622 
+Q 797 2316 797 1656 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-4c" d="M 469 0 
+L 469 4581 
+L 1075 4581 
+L 1075 541 
+L 3331 541 
+L 3331 0 
+L 469 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-4f" d="M 309 2231 
+Q 309 3372 921 4017 
+Q 1534 4663 2503 4663 
+Q 3138 4663 3647 4359 
+Q 4156 4056 4423 3514 
+Q 4691 2972 4691 2284 
+Q 4691 1588 4409 1038 
+Q 4128 488 3612 205 
+Q 3097 -78 2500 -78 
+Q 1853 -78 1343 234 
+Q 834 547 571 1087 
+Q 309 1628 309 2231 
+z
+M 934 2222 
+Q 934 1394 1379 917 
+Q 1825 441 2497 441 
+Q 3181 441 3623 922 
+Q 4066 1403 4066 2288 
+Q 4066 2847 3877 3264 
+Q 3688 3681 3323 3911 
+Q 2959 4141 2506 4141 
+Q 1863 4141 1398 3698 
+Q 934 3256 934 2222 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-57" d="M 1294 0 
+L 78 4581 
+L 700 4581 
+L 1397 1578 
+Q 1509 1106 1591 641 
+Q 1766 1375 1797 1488 
+L 2669 4581 
+L 3400 4581 
+L 4056 2263 
+Q 4303 1400 4413 641 
+Q 4500 1075 4641 1638 
+L 5359 4581 
+L 5969 4581 
+L 4713 0 
+L 4128 0 
+L 3163 3491 
+Q 3041 3928 3019 4028 
+Q 2947 3713 2884 3491 
+L 1913 0 
+L 1294 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-6e" d="M 422 0 
+L 422 3319 
+L 928 3319 
+L 928 2847 
+Q 1294 3394 1984 3394 
+Q 2284 3394 2536 3286 
+Q 2788 3178 2913 3003 
+Q 3038 2828 3088 2588 
+Q 3119 2431 3119 2041 
+L 3119 0 
+L 2556 0 
+L 2556 2019 
+Q 2556 2363 2490 2533 
+Q 2425 2703 2258 2804 
+Q 2091 2906 1866 2906 
+Q 1506 2906 1245 2678 
+Q 984 2450 984 1813 
+L 984 0 
+L 422 0 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#ArialMT-76"/>
+     <use xlink:href="#ArialMT-61" x="50"/>
+     <use xlink:href="#ArialMT-6c" x="105.615234"/>
+     <use xlink:href="#ArialMT-69" x="127.832031"/>
+     <use xlink:href="#ArialMT-64" x="150.048828"/>
+     <use xlink:href="#ArialMT-20" x="205.664062"/>
+     <use xlink:href="#ArialMT-4c" x="233.447266"/>
+     <use xlink:href="#ArialMT-4f" x="289.0625"/>
+     <use xlink:href="#ArialMT-57" x="366.845703"/>
+     <use xlink:href="#ArialMT-20" x="461.230469"/>
+     <use xlink:href="#ArialMT-69" x="489.013672"/>
+     <use xlink:href="#ArialMT-6e" x="511.230469"/>
+    </g>
+    <!-- (&lt; 0.8 V) -->
+    <g transform="translate(50.914028 97.916294) scale(0.085 -0.085)">
+     <defs>
+      <path id="ArialMT-3c" d="M 350 2003 
+L 350 2528 
+L 3384 3809 
+L 3384 3250 
+L 978 2263 
+L 3384 1266 
+L 3384 706 
+L 350 2003 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-2e" d="M 581 0 
+L 581 641 
+L 1222 641 
+L 1222 0 
+L 581 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-38" d="M 1131 2484 
+Q 781 2613 612 2850 
+Q 444 3088 444 3419 
+Q 444 3919 803 4259 
+Q 1163 4600 1759 4600 
+Q 2359 4600 2725 4251 
+Q 3091 3903 3091 3403 
+Q 3091 3084 2923 2848 
+Q 2756 2613 2416 2484 
+Q 2838 2347 3058 2040 
+Q 3278 1734 3278 1309 
+Q 3278 722 2862 322 
+Q 2447 -78 1769 -78 
+Q 1091 -78 675 323 
+Q 259 725 259 1325 
+Q 259 1772 486 2073 
+Q 713 2375 1131 2484 
+z
+M 1019 3438 
+Q 1019 3113 1228 2906 
+Q 1438 2700 1772 2700 
+Q 2097 2700 2305 2904 
+Q 2513 3109 2513 3406 
+Q 2513 3716 2298 3927 
+Q 2084 4138 1766 4138 
+Q 1444 4138 1231 3931 
+Q 1019 3725 1019 3438 
+z
+M 838 1322 
+Q 838 1081 952 856 
+Q 1066 631 1291 507 
+Q 1516 384 1775 384 
+Q 2178 384 2440 643 
+Q 2703 903 2703 1303 
+Q 2703 1709 2433 1975 
+Q 2163 2241 1756 2241 
+Q 1359 2241 1098 1978 
+Q 838 1716 838 1322 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#ArialMT-28"/>
+     <use xlink:href="#ArialMT-3c" x="33.300781"/>
+     <use xlink:href="#ArialMT-20" x="91.699219"/>
+     <use xlink:href="#ArialMT-30" x="119.482422"/>
+     <use xlink:href="#ArialMT-2e" x="175.097656"/>
+     <use xlink:href="#ArialMT-38" x="202.880859"/>
+     <use xlink:href="#ArialMT-20" x="258.496094"/>
+     <use xlink:href="#ArialMT-56" x="286.279297"/>
+     <use xlink:href="#ArialMT-29" x="352.978516"/>
+    </g>
+   </g>
+   <g id="text_15">
+    <!-- valid HIGH in (&gt; 2.0 V) -->
+    <g transform="translate(212.734028 97.916294) scale(0.085 -0.085)">
+     <defs>
+      <path id="ArialMT-48" d="M 513 0 
+L 513 4581 
+L 1119 4581 
+L 1119 2700 
+L 3500 2700 
+L 3500 4581 
+L 4106 4581 
+L 4106 0 
+L 3500 0 
+L 3500 2159 
+L 1119 2159 
+L 1119 0 
+L 513 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-49" d="M 597 0 
+L 597 4581 
+L 1203 4581 
+L 1203 0 
+L 597 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-47" d="M 2638 1797 
+L 2638 2334 
+L 4578 2338 
+L 4578 638 
+Q 4131 281 3656 101 
+Q 3181 -78 2681 -78 
+Q 2006 -78 1454 211 
+Q 903 500 622 1047 
+Q 341 1594 341 2269 
+Q 341 2938 620 3517 
+Q 900 4097 1425 4378 
+Q 1950 4659 2634 4659 
+Q 3131 4659 3532 4498 
+Q 3934 4338 4162 4050 
+Q 4391 3763 4509 3300 
+L 3963 3150 
+Q 3859 3500 3706 3700 
+Q 3553 3900 3268 4020 
+Q 2984 4141 2638 4141 
+Q 2222 4141 1919 4014 
+Q 1616 3888 1430 3681 
+Q 1244 3475 1141 3228 
+Q 966 2803 966 2306 
+Q 966 1694 1177 1281 
+Q 1388 869 1791 669 
+Q 2194 469 2647 469 
+Q 3041 469 3416 620 
+Q 3791 772 3984 944 
+L 3984 1797 
+L 2638 1797 
+z
+" transform="scale(0.015625)"/>
+      <path id="ArialMT-3e" d="M 3384 2003 
+L 350 706 
+L 350 1266 
+L 2753 2263 
+L 350 3250 
+L 350 3809 
+L 3384 2528 
+L 3384 2003 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#ArialMT-76"/>
+     <use xlink:href="#ArialMT-61" x="50"/>
+     <use xlink:href="#ArialMT-6c" x="105.615234"/>
+     <use xlink:href="#ArialMT-69" x="127.832031"/>
+     <use xlink:href="#ArialMT-64" x="150.048828"/>
+     <use xlink:href="#ArialMT-20" x="205.664062"/>
+     <use xlink:href="#ArialMT-48" x="233.447266"/>
+     <use xlink:href="#ArialMT-49" x="305.664062"/>
+     <use xlink:href="#ArialMT-47" x="333.447266"/>
+     <use xlink:href="#ArialMT-48" x="411.230469"/>
+     <use xlink:href="#ArialMT-20" x="483.447266"/>
+     <use xlink:href="#ArialMT-69" x="511.230469"/>
+     <use xlink:href="#ArialMT-6e" x="533.447266"/>
+     <use xlink:href="#ArialMT-20" x="589.0625"/>
+     <use xlink:href="#ArialMT-28" x="616.845703"/>
+     <use xlink:href="#ArialMT-3e" x="650.146484"/>
+     <use xlink:href="#ArialMT-20" x="708.544922"/>
+     <use xlink:href="#ArialMT-32" x="736.328125"/>
+     <use xlink:href="#ArialMT-2e" x="791.943359"/>
+     <use xlink:href="#ArialMT-30" x="819.726562"/>
+     <use xlink:href="#ArialMT-20" x="875.341797"/>
+     <use xlink:href="#ArialMT-56" x="903.125"/>
+     <use xlink:href="#ArialMT-29" x="969.824219"/>
+    </g>
+   </g>
+   <g id="legend_1">
+    <g id="patch_7">
+     <path d="M 240.836094 38.181172 
+L 350.950938 38.181172 
+Q 352.650937 38.181172 352.650937 36.481172 
+L 352.650937 13.15 
+Q 352.650937 11.45 350.950938 11.45 
+L 240.836094 11.45 
+Q 239.136094 11.45 239.136094 13.15 
+L 239.136094 36.481172 
+Q 239.136094 38.181172 240.836094 38.181172 
+z
+" style="fill: #ffffff; opacity: 0.8; stroke: #cccccc; stroke-linejoin: miter"/>
+    </g>
+    <g id="line2d_25">
+     <path d="M 242.536094 17.984375 
+L 251.036094 17.984375 
+L 259.536094 17.984375 
+" style="fill: none; stroke: #1d4ed8; stroke-width: 2.1; stroke-linecap: square"/>
+    </g>
+    <g id="text_16">
+     <!-- NAND: A swept, B = 1 -->
+     <g transform="translate(266.336094 20.959375) scale(0.085 -0.085)">
+      <defs>
+       <path id="ArialMT-4e" d="M 488 0 
+L 488 4581 
+L 1109 4581 
+L 3516 984 
+L 3516 4581 
+L 4097 4581 
+L 4097 0 
+L 3475 0 
+L 1069 3600 
+L 1069 0 
+L 488 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-41" d="M -9 0 
+L 1750 4581 
+L 2403 4581 
+L 4278 0 
+L 3588 0 
+L 3053 1388 
+L 1138 1388 
+L 634 0 
+L -9 0 
+z
+M 1313 1881 
+L 2866 1881 
+L 2388 3150 
+Q 2169 3728 2063 4100 
+Q 1975 3659 1816 3225 
+L 1313 1881 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-44" d="M 494 0 
+L 494 4581 
+L 2072 4581 
+Q 2606 4581 2888 4516 
+Q 3281 4425 3559 4188 
+Q 3922 3881 4101 3404 
+Q 4281 2928 4281 2316 
+Q 4281 1794 4159 1391 
+Q 4038 988 3847 723 
+Q 3656 459 3429 307 
+Q 3203 156 2883 78 
+Q 2563 0 2147 0 
+L 494 0 
+z
+M 1100 541 
+L 2078 541 
+Q 2531 541 2789 625 
+Q 3047 709 3200 863 
+Q 3416 1078 3536 1442 
+Q 3656 1806 3656 2325 
+Q 3656 3044 3420 3430 
+Q 3184 3816 2847 3947 
+Q 2603 4041 2063 4041 
+L 1100 4041 
+L 1100 541 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-3a" d="M 578 2678 
+L 578 3319 
+L 1219 3319 
+L 1219 2678 
+L 578 2678 
+z
+M 578 0 
+L 578 641 
+L 1219 641 
+L 1219 0 
+L 578 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-73" d="M 197 991 
+L 753 1078 
+Q 800 744 1014 566 
+Q 1228 388 1613 388 
+Q 2000 388 2187 545 
+Q 2375 703 2375 916 
+Q 2375 1106 2209 1216 
+Q 2094 1291 1634 1406 
+Q 1016 1563 777 1677 
+Q 538 1791 414 1992 
+Q 291 2194 291 2438 
+Q 291 2659 392 2848 
+Q 494 3038 669 3163 
+Q 800 3259 1026 3326 
+Q 1253 3394 1513 3394 
+Q 1903 3394 2198 3281 
+Q 2494 3169 2634 2976 
+Q 2775 2784 2828 2463 
+L 2278 2388 
+Q 2241 2644 2061 2787 
+Q 1881 2931 1553 2931 
+Q 1166 2931 1000 2803 
+Q 834 2675 834 2503 
+Q 834 2394 903 2306 
+Q 972 2216 1119 2156 
+Q 1203 2125 1616 2013 
+Q 2213 1853 2448 1751 
+Q 2684 1650 2818 1456 
+Q 2953 1263 2953 975 
+Q 2953 694 2789 445 
+Q 2625 197 2315 61 
+Q 2006 -75 1616 -75 
+Q 969 -75 630 194 
+Q 291 463 197 991 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-77" d="M 1034 0 
+L 19 3319 
+L 600 3319 
+L 1128 1403 
+L 1325 691 
+Q 1338 744 1497 1375 
+L 2025 3319 
+L 2603 3319 
+L 3100 1394 
+L 3266 759 
+L 3456 1400 
+L 4025 3319 
+L 4572 3319 
+L 3534 0 
+L 2950 0 
+L 2422 1988 
+L 2294 2553 
+L 1622 0 
+L 1034 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-65" d="M 2694 1069 
+L 3275 997 
+Q 3138 488 2766 206 
+Q 2394 -75 1816 -75 
+Q 1088 -75 661 373 
+Q 234 822 234 1631 
+Q 234 2469 665 2931 
+Q 1097 3394 1784 3394 
+Q 2450 3394 2872 2941 
+Q 3294 2488 3294 1666 
+Q 3294 1616 3291 1516 
+L 816 1516 
+Q 847 969 1125 678 
+Q 1403 388 1819 388 
+Q 2128 388 2347 550 
+Q 2566 713 2694 1069 
+z
+M 847 1978 
+L 2700 1978 
+Q 2663 2397 2488 2606 
+Q 2219 2931 1791 2931 
+Q 1403 2931 1139 2672 
+Q 875 2413 847 1978 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-70" d="M 422 -1272 
+L 422 3319 
+L 934 3319 
+L 934 2888 
+Q 1116 3141 1344 3267 
+Q 1572 3394 1897 3394 
+Q 2322 3394 2647 3175 
+Q 2972 2956 3137 2557 
+Q 3303 2159 3303 1684 
+Q 3303 1175 3120 767 
+Q 2938 359 2589 142 
+Q 2241 -75 1856 -75 
+Q 1575 -75 1351 44 
+Q 1128 163 984 344 
+L 984 -1272 
+L 422 -1272 
+z
+M 931 1641 
+Q 931 1000 1190 694 
+Q 1450 388 1819 388 
+Q 2194 388 2461 705 
+Q 2728 1022 2728 1688 
+Q 2728 2322 2467 2637 
+Q 2206 2953 1844 2953 
+Q 1484 2953 1207 2617 
+Q 931 2281 931 1641 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-74" d="M 1650 503 
+L 1731 6 
+Q 1494 -44 1306 -44 
+Q 1000 -44 831 53 
+Q 663 150 594 308 
+Q 525 466 525 972 
+L 525 2881 
+L 113 2881 
+L 113 3319 
+L 525 3319 
+L 525 4141 
+L 1084 4478 
+L 1084 3319 
+L 1650 3319 
+L 1650 2881 
+L 1084 2881 
+L 1084 941 
+Q 1084 700 1114 631 
+Q 1144 563 1211 522 
+Q 1278 481 1403 481 
+Q 1497 481 1650 503 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-2c" d="M 569 0 
+L 569 641 
+L 1209 641 
+L 1209 0 
+Q 1209 -353 1084 -570 
+Q 959 -788 688 -906 
+L 531 -666 
+Q 709 -588 793 -436 
+Q 878 -284 888 0 
+L 569 0 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-42" d="M 469 0 
+L 469 4581 
+L 2188 4581 
+Q 2713 4581 3030 4442 
+Q 3347 4303 3526 4014 
+Q 3706 3725 3706 3409 
+Q 3706 3116 3547 2856 
+Q 3388 2597 3066 2438 
+Q 3481 2316 3704 2022 
+Q 3928 1728 3928 1328 
+Q 3928 1006 3792 729 
+Q 3656 453 3456 303 
+Q 3256 153 2954 76 
+Q 2653 0 2216 0 
+L 469 0 
+z
+M 1075 2656 
+L 2066 2656 
+Q 2469 2656 2644 2709 
+Q 2875 2778 2992 2937 
+Q 3109 3097 3109 3338 
+Q 3109 3566 3000 3739 
+Q 2891 3913 2687 3977 
+Q 2484 4041 1991 4041 
+L 1075 4041 
+L 1075 2656 
+z
+M 1075 541 
+L 2216 541 
+Q 2509 541 2628 563 
+Q 2838 600 2978 687 
+Q 3119 775 3209 942 
+Q 3300 1109 3300 1328 
+Q 3300 1584 3169 1773 
+Q 3038 1963 2805 2039 
+Q 2572 2116 2134 2116 
+L 1075 2116 
+L 1075 541 
+z
+" transform="scale(0.015625)"/>
+       <path id="ArialMT-3d" d="M 3381 2694 
+L 356 2694 
+L 356 3219 
+L 3381 3219 
+L 3381 2694 
+z
+M 3381 1303 
+L 356 1303 
+L 356 1828 
+L 3381 1828 
+L 3381 1303 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#ArialMT-4e"/>
+      <use xlink:href="#ArialMT-41" x="72.216797"/>
+      <use xlink:href="#ArialMT-4e" x="138.916016"/>
+      <use xlink:href="#ArialMT-44" x="211.132812"/>
+      <use xlink:href="#ArialMT-3a" x="283.349609"/>
+      <use xlink:href="#ArialMT-20" x="311.132812"/>
+      <use xlink:href="#ArialMT-41" x="333.416016"/>
+      <use xlink:href="#ArialMT-20" x="394.615234"/>
+      <use xlink:href="#ArialMT-73" x="422.398438"/>
+      <use xlink:href="#ArialMT-77" x="472.398438"/>
+      <use xlink:href="#ArialMT-65" x="544.615234"/>
+      <use xlink:href="#ArialMT-70" x="600.230469"/>
+      <use xlink:href="#ArialMT-74" x="655.845703"/>
+      <use xlink:href="#ArialMT-2c" x="683.628906"/>
+      <use xlink:href="#ArialMT-20" x="711.412109"/>
+      <use xlink:href="#ArialMT-42" x="739.195312"/>
+      <use xlink:href="#ArialMT-20" x="805.894531"/>
+      <use xlink:href="#ArialMT-3d" x="833.677734"/>
+      <use xlink:href="#ArialMT-20" x="892.076172"/>
+      <use xlink:href="#ArialMT-31" x="919.859375"/>
+     </g>
+    </g>
+    <g id="line2d_26">
+     <path d="M 242.536094 30.116797 
+L 251.036094 30.116797 
+L 259.536094 30.116797 
+" style="fill: none; stroke-dasharray: 7.77,3.36; stroke-dashoffset: 0; stroke: #b91c1c; stroke-width: 2.1"/>
+    </g>
+    <g id="text_17">
+     <!-- NOR: A swept, B = 0 -->
+     <g transform="translate(266.336094 33.091797) scale(0.085 -0.085)">
+      <defs>
+       <path id="ArialMT-52" d="M 503 0 
+L 503 4581 
+L 2534 4581 
+Q 3147 4581 3465 4457 
+Q 3784 4334 3975 4021 
+Q 4166 3709 4166 3331 
+Q 4166 2844 3850 2509 
+Q 3534 2175 2875 2084 
+Q 3116 1969 3241 1856 
+Q 3506 1613 3744 1247 
+L 4541 0 
+L 3778 0 
+L 3172 953 
+Q 2906 1366 2734 1584 
+Q 2563 1803 2427 1890 
+Q 2291 1978 2150 2013 
+Q 2047 2034 1813 2034 
+L 1109 2034 
+L 1109 0 
+L 503 0 
+z
+M 1109 2559 
+L 2413 2559 
+Q 2828 2559 3062 2645 
+Q 3297 2731 3419 2920 
+Q 3541 3109 3541 3331 
+Q 3541 3656 3305 3865 
+Q 3069 4075 2559 4075 
+L 1109 4075 
+L 1109 2559 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#ArialMT-4e"/>
+      <use xlink:href="#ArialMT-4f" x="72.216797"/>
+      <use xlink:href="#ArialMT-52" x="150"/>
+      <use xlink:href="#ArialMT-3a" x="222.216797"/>
+      <use xlink:href="#ArialMT-20" x="250"/>
+      <use xlink:href="#ArialMT-41" x="272.283203"/>
+      <use xlink:href="#ArialMT-20" x="333.482422"/>
+      <use xlink:href="#ArialMT-73" x="361.265625"/>
+      <use xlink:href="#ArialMT-77" x="411.265625"/>
+      <use xlink:href="#ArialMT-65" x="483.482422"/>
+      <use xlink:href="#ArialMT-70" x="539.097656"/>
+      <use xlink:href="#ArialMT-74" x="594.712891"/>
+      <use xlink:href="#ArialMT-2c" x="622.496094"/>
+      <use xlink:href="#ArialMT-20" x="650.279297"/>
+      <use xlink:href="#ArialMT-42" x="678.0625"/>
+      <use xlink:href="#ArialMT-20" x="744.761719"/>
+      <use xlink:href="#ArialMT-3d" x="772.544922"/>
+      <use xlink:href="#ArialMT-20" x="830.943359"/>
+      <use xlink:href="#ArialMT-30" x="858.726562"/>
+     </g>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p81b4c0bf20">
+   <rect x="33.260937" y="7.2" width="323.64" height="166.32"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Transfer characteristic: the output switches near 1.37 V (NAND) / 1.39 V (NOR), inside TTL's undefined band of 0.8–2.0 V.</figcaption></figure>
+
+<p><strong>Standard TTL levels (74 series):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V<sub>IL(max)</sub></td>
+<td>0.8 V</td>
+</tr>
+<tr>
+<td>V<sub>IH(min)</sub></td>
+<td>2.0 V</td>
+</tr>
+<tr>
+<td>V<sub>OL(max)</sub></td>
+<td>0.4 V</td>
+</tr>
+<tr>
+<td>V<sub>OH(min)</sub></td>
+<td>2.4 V</td>
+</tr>
+<tr>
+<td>noise margins</td>
+<td>NM<sub>L</sub> = 0.8 − 0.4 = <strong>0.4 V</strong>; NM<sub>H</sub> = 2.4 − 2.0 = <strong>0.4 V</strong></td>
+</tr>
+<tr>
+<td>fan-out</td>
+<td>10</td>
+</tr>
+<tr>
+<td>propagation delay</td>
+<td>≈ 10 ns per gate</td>
+</tr>
+</tbody>
+</table>
+<div class="box do">
+<div class="bh">Do it</div>
+<p><strong>LTspice</strong> (if done as simulation):</p>
+<ol>
+<li>Draw the circuit with two NPNs for Q1 (bases tied, collectors tied, one emitter per input). Q2–Q4 = 2N2222; D = 1N4148. VCC = 5 V.</li>
+<li>Inputs are DC sources of 0 or 5 V. Run <code>.op</code> for each of the four input pairs.</li>
+<li>For the VTC, hold B high (NAND) or low (NOR) and run <code>.dc VA 0 5 0.01</code>.</li>
+</ol>
+<p><strong>Breadboard:</strong> the same circuit with BC547s and a 5 V supply. Inputs to 0 V / 5 V through the switches; output to an LED through about 330 Ω, or to the DMM.</p>
+</div>
+<div class="box write">
+<div class="bh">Write in your record</div>
+<p><strong>Result:</strong> the TTL NAND gave a HIGH output (≈ 4 V) for any LOW input and a LOW output (≈ 0 V) only when both inputs were HIGH. The TTL NOR gave a HIGH output only for 00. Both switched at ≈ 1.4 V.</p>
+<p><strong>Theory for the record:</strong> transistor-transistor logic uses a multi-emitter input transistor that performs the AND function. A phase-splitter transistor drives a totem-pole output: an active pull-up transistor with a diode, and an active pull-down transistor. Any LOW input diverts Q1's base current, turning off the phase splitter and the pull-down, so the output is HIGH. With all inputs HIGH, current flows through Q1's base–collector junction into the phase splitter, saturating the pull-down, so the output is LOW. A NOR uses parallel phase splitters. TTL works from 5 V, with V<sub>IL</sub> ≤ 0.8 V, V<sub>IH</sub> ≥ 2.0 V, noise margin 0.4 V and fan-out 10. A floating input behaves as HIGH.</p>
+</div>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>(a) Why does a floating TTL input act as HIGH? (b) What would happen without the diode D? (c) Why can't two totem-pole outputs be wired together?</p>
+</div>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Opening question.</strong> A LOW input lets Q1's base current flow <strong>out through that emitter</strong> into the input source, which starves Q2. The output stage is a totem pole because Q4 and Q3 are stacked between VCC and ground. The noise margin is <strong>0.4 V</strong> each way.</p>
+<p><strong>Check 1.</strong> (a) With nothing pulling the emitter down, Q1's base–emitter junction has no path, just as if the input were HIGH. R1's current goes to Q2. (b) With the output LOW, Q4's base (Q2's collector at about 0.9 V) could still forward-bias Q4. Both Q4 and Q3 would conduct, wasting current and raising V<sub>OL</sub>. D adds the extra voltage drop that keeps Q4 off. (c) If one output is HIGH and the other LOW, Q4 of one and Q3 of the other form a low-resistance path from VCC to ground. A large current flows and can damage them. Use open-collector gates for wired logic.</p>
+</div></body></html>

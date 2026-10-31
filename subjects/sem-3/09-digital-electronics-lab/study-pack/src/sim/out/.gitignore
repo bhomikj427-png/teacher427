@@ -1,0 +1,4 @@
+# regenerable LTspice outputs (python sims.py); keep only .json/.npz
+*.raw
+*.log
+*.net
