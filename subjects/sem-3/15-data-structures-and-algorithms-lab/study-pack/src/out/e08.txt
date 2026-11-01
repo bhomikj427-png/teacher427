@@ -1,0 +1,5 @@
+Enter number of elements: 6
+Enter elements of the array:
+10 7 8 9 1 5
+Original Array: 10 7 8 9 1 5 
+Sorted Array using Quick Sort: 1 5 7 8 9 10

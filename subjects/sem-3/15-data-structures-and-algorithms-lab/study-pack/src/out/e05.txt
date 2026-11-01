@@ -1,0 +1,12 @@
+Enter rows and columns of first matrix: 2 2
+Enter rows and columns of second matrix: 2 2
+Enter elements of first matrix:
+1 2
+3 4
+Enter elements of second matrix:
+5 6
+7 8
+
+Resultant Matrix:
+19 22 
+43 50

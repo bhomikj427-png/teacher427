@@ -1,0 +1,13 @@
+Enter number of elements: 6
+Enter elements of the array:
+10 7 8 9 1 5
+Quick Sort     : 1 5 7 8 9 10 
+Bubble Sort    : 1 5 7 8 9 10 
+Selection Sort : 1 5 7 8 9 10 
+Insertion Sort : 1 5 7 8 9 10 
+
+Time to sort 10000 random numbers:
+Quick Sort     : 1 ms
+Bubble Sort    : 114 ms
+Selection Sort : 53 ms
+Insertion Sort : 37 ms

@@ -1,0 +1,93 @@
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 1
+Enter value to push: 10
+10 pushed into stack.
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 1
+Enter value to push: 20
+20 pushed into stack.
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 1
+Enter value to push: 30
+30 pushed into stack.
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 4
+Stack elements (top to bottom):
+30 20 10 
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 3
+Top element is 30
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 2
+30 popped from stack.
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 4
+Stack elements (top to bottom):
+20 10 
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 2
+20 popped from stack.
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 2
+10 popped from stack.
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 2
+Stack Underflow!
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 5
+Program terminated.

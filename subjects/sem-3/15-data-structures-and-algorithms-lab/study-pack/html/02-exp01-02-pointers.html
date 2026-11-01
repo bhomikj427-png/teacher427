@@ -1,0 +1,335 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>2 · Exp 1 + 2 — Pointers and pointer arithmetic</title>
+<style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2132 Data Structures & Algorithms Lab · Lab Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; } p:has(+ ul), p:has(+ ol), p:has(+ table) { break-after: avoid; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.do { background: #f0f9ff; border-color: #0284c7; } .do > .bh { color: #0369a1; }
+.write p { margin: 3pt 0; }
+.write { background: #fff7ed; border-color: #ea580c; } .write > .bh { color: #c2410c; }
+.do ol { margin: 3pt 0; padding-left: 18pt; } .do li { margin: 1.5pt 0; }
+pre { background: #f3f4f6; border-radius: 5px; padding: 5pt 8pt; font-size: 9.3pt; break-inside: avoid; white-space: pre-wrap; }
+pre code { background: none; padding: 0; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { border-top: 2px dashed #86efac; margin-top: 18pt; padding-top: 2pt; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+.code, .run, .err { margin: 8pt 0; border-radius: 6px; break-inside: auto; border: 1px solid #e5e7eb; }
+.code.short, .err { break-inside: avoid; }
+.code .ch, .run .ch, .err .ch { break-after: avoid; font: 600 8pt 'Segoe UI', Arial; color: #6b7280; padding: 3pt 8pt 0;
+  text-transform: uppercase; letter-spacing: .4pt; }
+.code pre, .run pre, .err pre { margin: 0; background: none; font-family: Consolas, monospace; font-size: 8.9pt;
+  line-height: 1.38; white-space: pre-wrap; break-inside: auto; }
+.code { background: #f8fafc; }
+.run { background: #111827; border-color: #111827; } .run pre { color: #e5e7eb; } .run .ch { color: #9ca3af; }
+.err { background: #fef2f2; border-color: #fecaca; } .err pre { color: #7f1d1d; font-size: 8.4pt; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code pre .hll { background-color: #ffffcc }
+.code pre { background: #f0f0f0; }
+.code pre .c { color: #60A0B0; font-style: italic } /* Comment */
+.code pre .err { border: 1px solid #F00 } /* Error */
+.code pre .k { color: #007020; font-weight: bold } /* Keyword */
+.code pre .o { color: #666 } /* Operator */
+.code pre .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code pre .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code pre .cp { color: #007020 } /* Comment.Preproc */
+.code pre .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code pre .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code pre .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code pre .gd { color: #A00000 } /* Generic.Deleted */
+.code pre .ge { font-style: italic } /* Generic.Emph */
+.code pre .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code pre .gr { color: #F00 } /* Generic.Error */
+.code pre .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code pre .gi { color: #00A000 } /* Generic.Inserted */
+.code pre .go { color: #888 } /* Generic.Output */
+.code pre .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code pre .gs { font-weight: bold } /* Generic.Strong */
+.code pre .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code pre .gt { color: #04D } /* Generic.Traceback */
+.code pre .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code pre .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code pre .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code pre .kp { color: #007020 } /* Keyword.Pseudo */
+.code pre .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code pre .kt { color: #902000 } /* Keyword.Type */
+.code pre .m { color: #40A070 } /* Literal.Number */
+.code pre .s { color: #4070A0 } /* Literal.String */
+.code pre .na { color: #4070A0 } /* Name.Attribute */
+.code pre .nb { color: #007020 } /* Name.Builtin */
+.code pre .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code pre .no { color: #60ADD5 } /* Name.Constant */
+.code pre .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code pre .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code pre .ne { color: #007020 } /* Name.Exception */
+.code pre .nf { color: #06287E } /* Name.Function */
+.code pre .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code pre .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code pre .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code pre .nv { color: #BB60D5 } /* Name.Variable */
+.code pre .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code pre .w { color: #BBB } /* Text.Whitespace */
+.code pre .mb { color: #40A070 } /* Literal.Number.Bin */
+.code pre .mf { color: #40A070 } /* Literal.Number.Float */
+.code pre .mh { color: #40A070 } /* Literal.Number.Hex */
+.code pre .mi { color: #40A070 } /* Literal.Number.Integer */
+.code pre .mo { color: #40A070 } /* Literal.Number.Oct */
+.code pre .sa { color: #4070A0 } /* Literal.String.Affix */
+.code pre .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code pre .sc { color: #4070A0 } /* Literal.String.Char */
+.code pre .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code pre .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code pre .s2 { color: #4070A0 } /* Literal.String.Double */
+.code pre .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code pre .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code pre .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code pre .sx { color: #C65D09 } /* Literal.String.Other */
+.code pre .sr { color: #235388 } /* Literal.String.Regex */
+.code pre .s1 { color: #4070A0 } /* Literal.String.Single */
+.code pre .ss { color: #517918 } /* Literal.String.Symbol */
+.code pre .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code pre .fm { color: #06287E } /* Name.Function.Magic */
+.code pre .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code pre .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code pre .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code pre .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code pre .il { color: #40A070 } /* Literal.Number.Integer.Long */
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+</style></head><body><h1>2 · Exp 1 + 2 — Pointers and pointer arithmetic</h1>
+<div class="sub">Manual Exp 1: "implement Pointers". Exp 2: "implement Pointer Arithmetic". Both have no user input, so they are the shortest programs in the lab.</div>
+
+<div class="map"><span class="n here">Address</span><span class="a">→</span><span class="n">Pointer variable</span><span class="a">→</span><span class="n">& and *</span><span class="a">→</span><span class="n">Pointer + 1</span><span class="a">→</span><span class="n">Arrays are pointers</span><span class="a">→</span><span class="n">(later) linked lists</span></div>
+
+<h2>2.1 The idea</h2>
+<p>Every variable lives in memory at a numbered location: its <strong>address</strong>. A <strong>pointer</strong> is a variable whose value <em>is</em> an address.</p>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p><code>int number = 25;</code> and <code>int *ptr = &amp;number;</code>. If you print <code>ptr</code>, do you see 25? If you print <code>*ptr</code>?</p>
+</div>
+
+<figure style="max-width:100%"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 170' width='560'><defs><marker id='a15803d' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#15803d'/></marker><marker id='a6b7280' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#6b7280'/></marker><marker id='ab91c1c' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b91c1c'/></marker><marker id='a1d4ed8' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1d4ed8'/></marker><marker id='a1f2937' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1f2937'/></marker><marker id='aa16207' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#a16207'/></marker></defs><text x='140' y='22' font-family='Consolas, monospace' font-size='13' fill='#1f2937' text-anchor='middle'>int number = 25;</text><rect x='80' y='40' width='120' height='50' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='140.0' y='72.2' font-family='Consolas, monospace' font-size='20' fill='#1f2937' text-anchor='middle' font-weight='700'>25</text><text x='140' y='110' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='middle' font-weight='700'>number</text><text x='140' y='128' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#6b7280' text-anchor='middle'>lives at address 0x61FF08</text><text x='420' y='22' font-family='Consolas, monospace' font-size='13' fill='#1f2937' text-anchor='middle'>int *ptr = &amp;number;</text><rect x='360' y='40' width='120' height='50' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='420.0' y='70.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>0x61FF08</text><text x='420' y='110' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='middle' font-weight='700'>ptr</text><text x='420' y='128' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#6b7280' text-anchor='middle'>stores an ADDRESS, not 25</text><path d='M360,65 C300,65 260,65 202,65' fill='none' stroke='#1d4ed8' stroke-width='2' marker-end='url(#a1d4ed8)'/><text x='280' y='56' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#1d4ed8' text-anchor='middle'>points to</text><text x='280' y='160' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#1d4ed8' text-anchor='middle'>*ptr  =  "go to the address in ptr, read what is there"  =  25</text></svg><figcaption>Exp 1's variables. The address 0x61FF08 is the manual's example; yours will differ on every run.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Read it as</th>
+<th>In Exp 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int *ptr;</code></td>
+<td>"ptr is a pointer to an int"</td>
+<td>declares the pointer</td>
+</tr>
+<tr>
+<td><code>&amp;number</code></td>
+<td>"address of number"</td>
+<td><code>ptr = &amp;number;</code></td>
+</tr>
+<tr>
+<td><code>*ptr</code></td>
+<td>"value at the address in ptr"</td>
+<td>prints 25</td>
+</tr>
+</tbody>
+</table>
+<div class="box trap">
+<div class="bh">`*` means two different things</div>
+<p>In a <strong>declaration</strong> (<code>int *ptr;</code>), <code>*</code> means "this is a pointer". In an <strong>expression</strong> (<code>cout &lt;&lt; *ptr;</code>), <code>*</code> means "go to that address" (dereference).</p>
+</div>
+<h2>2.2 Exp 1 program (manual's code was correct)</h2>
+
+<div class="code short"><div class="ch">e01_pointers.cpp</div><pre><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="p">;</span><span class="w">              </span><span class="c1">// ptr can hold the address of an int</span>
+
+<span class="w">    </span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">number</span><span class="p">;</span><span class="w">         </span><span class="c1">// &amp; = &quot;address of&quot;</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Value of number = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Address of number = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">number</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Pointer stores = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ptr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Value using pointer = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w">   </span><span class="c1">// * = &quot;value at&quot;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="run"><div class="ch">screen (real run)</div><pre>Value of number = 25
+Address of number = 0xbb8cdff8c4
+Pointer stores = 0xbb8cdff8c4
+Value using pointer = 25</pre></div>
+
+<p>Lines 2 and 3 of the output always match each other; the actual number changes on every run and every PC. The manual says so too ("memory address varies").</p>
+<h2>2.3 Exp 2: pointer arithmetic</h2>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p><code>ptr</code> points at <code>arr[0]</code>, which is at address …00. After <code>ptr++</code>, is the address …01 or …04? Why?</p>
+</div>
+<p><code>ptr + 1</code> doesn't add 1 byte. It moves to the <strong>next int</strong>, which is <code>sizeof(int)</code> = 4 bytes further. That only works because an array's elements sit <strong>side by side</strong> in memory.</p>
+
+<figure style="max-width:100%"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 205' width='600'><defs><marker id='a15803d' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#15803d'/></marker><marker id='a6b7280' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#6b7280'/></marker><marker id='ab91c1c' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b91c1c'/></marker><marker id='a1d4ed8' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1d4ed8'/></marker><marker id='a1f2937' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1f2937'/></marker><marker id='aa16207' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#a16207'/></marker></defs><rect x='70' y='60' width='92' height='40' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='116.0' y='85.76' font-family='Consolas, monospace' font-size='16' fill='#1f2937' text-anchor='middle'>10</text><text x='116.0' y='118' font-family='Consolas, monospace' font-size='11' fill='#6b7280' text-anchor='middle'>0x61FF00</text><text x='116.0' y='134' font-family='Consolas, monospace' font-size='11' fill='#6b7280' text-anchor='middle'>arr[0]</text><rect x='162' y='60' width='92' height='40' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='208.0' y='85.76' font-family='Consolas, monospace' font-size='16' fill='#1f2937' text-anchor='middle'>20</text><text x='208.0' y='118' font-family='Consolas, monospace' font-size='11' fill='#6b7280' text-anchor='middle'>0x61FF04</text><text x='208.0' y='134' font-family='Consolas, monospace' font-size='11' fill='#6b7280' text-anchor='middle'>arr[1]</text><rect x='254' y='60' width='92' height='40' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='300.0' y='85.76' font-family='Consolas, monospace' font-size='16' fill='#1f2937' text-anchor='middle'>30</text><text x='300.0' y='118' font-family='Consolas, monospace' font-size='11' fill='#6b7280' text-anchor='middle'>0x61FF08</text><text x='300.0' y='134' font-family='Consolas, monospace' font-size='11' fill='#6b7280' text-anchor='middle'>arr[2]</text><rect x='346' y='60' width='92' height='40' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='392.0' y='85.76' font-family='Consolas, monospace' font-size='16' fill='#1f2937' text-anchor='middle'>40</text><text x='392.0' y='118' font-family='Consolas, monospace' font-size='11' fill='#6b7280' text-anchor='middle'>0x61FF0C</text><text x='392.0' y='134' font-family='Consolas, monospace' font-size='11' fill='#6b7280' text-anchor='middle'>arr[3]</text><rect x='438' y='60' width='92' height='40' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='484.0' y='85.76' font-family='Consolas, monospace' font-size='16' fill='#1f2937' text-anchor='middle'>50</text><text x='484.0' y='118' font-family='Consolas, monospace' font-size='11' fill='#6b7280' text-anchor='middle'>0x61FF10</text><text x='484.0' y='134' font-family='Consolas, monospace' font-size='11' fill='#6b7280' text-anchor='middle'>arr[4]</text><text x='62' y='85' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='end' font-weight='700'>arr</text><line x1='116.0' y1='38' x2='116.0' y2='58' stroke='#1d4ed8' stroke-width='1.5' marker-end='url(#a1d4ed8)'/><text x='116.0' y='30' font-family='Consolas, monospace' font-size='12' fill='#1d4ed8' text-anchor='middle' font-weight='700'>ptr  (start)</text><line x1='208.0' y1='38' x2='208.0' y2='58' stroke='#15803d' stroke-width='1.5' marker-end='url(#a15803d)'/><text x='208.0' y='30' font-family='Consolas, monospace' font-size='12' fill='#15803d' text-anchor='middle' font-weight='700'>ptr++</text><line x1='116.0' y1='158' x2='116.0' y2='140' stroke='#a16207' stroke-width='1.5' marker-end='url(#aa16207)'/><text x='116.0' y='176' font-family='Consolas, monospace' font-size='12' fill='#a16207' text-anchor='middle' font-weight='700'>ptr--</text><line x1='300.0' y1='38' x2='300.0' y2='58' stroke='#b91c1c' stroke-width='1.5' marker-end='url(#ab91c1c)'/><text x='300.0' y='30' font-family='Consolas, monospace' font-size='12' fill='#b91c1c' text-anchor='middle' font-weight='700'>ptr = ptr + 2</text><text x='300' y='200' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#1f2937' text-anchor='middle'>+1 on an int pointer = +4 bytes (sizeof(int)), i.e. the NEXT element</text></svg><figcaption>The manual's Figure 1, redrawn: each move is one whole element.</figcaption></figure>
+
+
+<div class="code"><div class="ch">e02_pointer_arithmetic.cpp</div><pre><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">};</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">;</span><span class="w">                  </span><span class="c1">// array name = address of arr[0]</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Initial Address : &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ptr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Value : &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">ptr</span><span class="o">++</span><span class="p">;</span><span class="w">                           </span><span class="c1">// moves 1 int forward (4 bytes)</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">After Increment&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Address : &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ptr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Value : &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">ptr</span><span class="o">--</span><span class="p">;</span><span class="w">                           </span><span class="c1">// moves 1 int back</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">After Decrement&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Address : &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ptr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Value : &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ptr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">                   </span><span class="c1">// moves 2 ints forward (8 bytes)</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">After Adding 2&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Address : &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ptr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Value : &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="run"><div class="ch">screen (real run)</div><pre>Initial Address : 0x45c67ffa90
+Value : 10
+
+After Increment
+Address : 0x45c67ffa94
+Value : 20
+
+After Decrement
+Address : 0x45c67ffa90
+Value : 10
+
+After Adding 2
+Address : 0x45c67ffa98
+Value : 30</pre></div>
+
+<p>The real run shows exactly the pattern the manual predicts: …700 → …704 → …700 → …708, values 10 → 20 → 10 → 30.</p>
+<div class="box key">
+<div class="bh">Two facts the viva loves</div>
+<ul>
+<li><code>int *ptr = arr;</code> works because <strong>an array's name is the address of its first element</strong>: <code>arr</code> == <code>&amp;arr[0]</code>.</li>
+<li><code>*(ptr + i)</code> is the same as <code>arr[i]</code>. Square brackets are pointer arithmetic in disguise.</li>
+</ul>
+</div>
+<div class="box write">
+<div class="bh">Write in your record</div>
+<p><strong>Aim (Exp 1):</strong> To store the address of a variable in a pointer and access the variable through the pointer.</p>
+<p><strong>Algorithm:</strong> declare <code>int number = 25</code> → declare <code>int *ptr</code> → <code>ptr = &amp;number</code> → print number, <code>&amp;number</code>, <code>ptr</code>, <code>*ptr</code>.</p>
+<p><strong>Aim (Exp 2):</strong> To perform increment, decrement and addition on a pointer to an integer array.</p>
+<p><strong>Algorithm:</strong> <code>ptr = arr</code> → print → <code>ptr++</code> → print → <code>ptr--</code> → print → <code>ptr = ptr + 2</code> → print.</p>
+<p><strong>Complexity:</strong> time O(1), space O(1) for both.</p>
+<p><strong>Result (Exp 1):</strong> The pointer stored the address of <code>number</code> (same value as <code>&amp;number</code>), and <code>*ptr</code> gave 25.</p>
+<p><strong>Result (Exp 2):</strong> Each increment moved the pointer by 4 bytes (one int): values 10, 20, 10, 30 at addresses base, +4, base, +8.</p>
+</div>
+<h2>2.4 Viva questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a pointer?</td>
+<td>A variable that stores the memory address of another variable.</td>
+</tr>
+<tr>
+<td>What does <code>&amp;</code> do? <code>*</code>?</td>
+<td><code>&amp;x</code> gives x's address; <code>*p</code> gives the value stored at the address in p.</td>
+</tr>
+<tr>
+<td>Why does <code>ptr++</code> add 4, not 1?</td>
+<td>Pointer arithmetic moves in units of the pointed-to type; an int is 4 bytes here.</td>
+</tr>
+<tr>
+<td>What would <code>ptr++</code> add for a <code>char *</code>? A <code>double *</code>?</td>
+<td>1 byte; 8 bytes.</td>
+</tr>
+<tr>
+<td>What is a NULL pointer?</td>
+<td>A pointer that points nowhere (<code>ptr = NULL;</code>). Linked lists use it to mark the end.</td>
+</tr>
+<tr>
+<td>What happens if you dereference an uninitialised pointer?</td>
+<td>Undefined behaviour: it points to a random address, and the program may crash.</td>
+</tr>
+<tr>
+<td>Where are pointers used?</td>
+<td>Dynamic memory (<code>new</code>), linked lists, trees, graphs, passing by reference, arrays.</td>
+</tr>
+</tbody>
+</table>
+<div class="box check">
+<div class="bh">Check 2.1</div>
+<p><code>int a[4] = {5, 6, 7, 8}; int *p = a + 3;</code>. What is <code>*p</code>? What is <code>*(p - 2)</code>?</p>
+</div>
+<div class="box check">
+<div class="bh">Check 2.2</div>
+<p>Without looking, write the four lines of Exp 1 that declare <code>number</code>, declare <code>ptr</code>, assign it, and print the value through the pointer.</p>
+</div>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 2.1:</strong> <code>*p</code> = a[3] = <strong>8</strong>; <code>*(p − 2)</code> = a[1] = <strong>6</strong>.</p>
+<p><strong>Check 2.2:</strong> <code>int number = 25;</code> · <code>int *ptr;</code> · <code>ptr = &amp;number;</code> · <code>cout &lt;&lt; *ptr;</code>. If you wrote <code>ptr = number</code> (no <code>&amp;</code>), the compiler rejects it: you can't store an int in a pointer.</p>
+</div></body></html>

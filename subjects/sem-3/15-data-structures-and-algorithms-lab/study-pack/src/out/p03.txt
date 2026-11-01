@@ -1,0 +1,4 @@
+for loop: 10 20 30 40 50 
+backwards with while: 50 40 30 20 10 
+Enter 0 to stop: 4
+Enter 0 to stop: 0

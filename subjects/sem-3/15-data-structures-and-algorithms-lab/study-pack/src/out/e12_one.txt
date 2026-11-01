@@ -1,0 +1,36 @@
+
+1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 1
+Enter value to insert: 7
+7 inserted into list.
+
+1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 2
+7 deleted from list.
+
+1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 3
+List is empty.
+
+1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 2
+List is empty.
+
+1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 4
+Program terminated.

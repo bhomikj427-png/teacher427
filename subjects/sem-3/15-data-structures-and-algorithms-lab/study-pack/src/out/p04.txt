@@ -1,0 +1,5 @@
+square(7) = 49
+2 4 6 
+inside tryToChange: 99
+after tryToChange: 5
+after reallyChange: 99

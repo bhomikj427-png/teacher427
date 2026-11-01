@@ -1,0 +1,13 @@
+Enter number of rows and columns of matrix: 2 3
+Enter elements of matrix:
+1 2 3
+4 5 6
+
+Original Matrix:
+1 2 3 
+4 5 6 
+
+Transpose Matrix:
+1 4 
+2 5 
+3 6

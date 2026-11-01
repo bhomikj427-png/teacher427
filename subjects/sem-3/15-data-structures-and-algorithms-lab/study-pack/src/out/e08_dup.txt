@@ -1,0 +1,5 @@
+Enter number of elements: 8
+Enter elements of the array:
+4 4 1 9 0 4 -3 7
+Original Array: 4 4 1 9 0 4 -3 7 
+Sorted Array using Quick Sort: -3 0 1 4 4 4 7 9

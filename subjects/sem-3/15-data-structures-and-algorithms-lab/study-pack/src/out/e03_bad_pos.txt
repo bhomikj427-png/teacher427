@@ -1,0 +1,10 @@
+Enter number of elements: 3
+Enter array elements:
+1 2 3
+
+1. Insert at Beginning
+2. Insert at Any Position
+3. Insert at End
+Enter your choice: 2
+Enter Position: 7
+Invalid position.

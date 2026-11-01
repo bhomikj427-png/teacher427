@@ -33,3 +33,4 @@
   question → guess-first → theory → circuit → Do-it steps → simulated curves/tables → calculation → record block
   (result + 15-line theory) → traps → check, answers at the end. All 41 figures visually reviewed; label overlaps and one
   clipped label fixed. Revision set (24 questions, one per idea) = file 16.
+- `[2026-11-02]` This pack is now pages 2-84 of the merged `../_lab-ete-pack/Sem3-Lab-ETE-pack.pdf` (ED + DE + DSA, 222 pp.); the pack itself is unchanged.

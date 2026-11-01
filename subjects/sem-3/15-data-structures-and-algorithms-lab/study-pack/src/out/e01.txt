@@ -1,0 +1,4 @@
+Value of number = 25
+Address of number = 0xbb8cdff8c4
+Pointer stores = 0xbb8cdff8c4
+Value using pointer = 25

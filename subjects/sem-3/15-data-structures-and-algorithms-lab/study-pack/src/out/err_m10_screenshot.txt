@@ -1,0 +1,9 @@
+m10_screenshot.cpp:23:9: error: 'else' without a previous 'if'
+   23 |         else if (choice == 2)
+      |         ^~~~
+m10_screenshot.cpp:25:9: error: expected '}' before 'else'
+   25 |         else if (choice == 3)
+      |         ^~~~
+m10_screenshot.cpp:28:5: error: expected primary-expression before '}' token
+   28 |     } while (choice != 4);
+      |     ^

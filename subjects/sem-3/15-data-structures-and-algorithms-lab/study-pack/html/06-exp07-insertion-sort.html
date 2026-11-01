@@ -1,0 +1,426 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>6 · Exp 7 — Insertion sort (and its performance)</title>
+<style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2132 Data Structures & Algorithms Lab · Lab Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; } p:has(+ ul), p:has(+ ol), p:has(+ table) { break-after: avoid; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.do { background: #f0f9ff; border-color: #0284c7; } .do > .bh { color: #0369a1; }
+.write p { margin: 3pt 0; }
+.write { background: #fff7ed; border-color: #ea580c; } .write > .bh { color: #c2410c; }
+.do ol { margin: 3pt 0; padding-left: 18pt; } .do li { margin: 1.5pt 0; }
+pre { background: #f3f4f6; border-radius: 5px; padding: 5pt 8pt; font-size: 9.3pt; break-inside: avoid; white-space: pre-wrap; }
+pre code { background: none; padding: 0; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { border-top: 2px dashed #86efac; margin-top: 18pt; padding-top: 2pt; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+.code, .run, .err { margin: 8pt 0; border-radius: 6px; break-inside: auto; border: 1px solid #e5e7eb; }
+.code.short, .err { break-inside: avoid; }
+.code .ch, .run .ch, .err .ch { break-after: avoid; font: 600 8pt 'Segoe UI', Arial; color: #6b7280; padding: 3pt 8pt 0;
+  text-transform: uppercase; letter-spacing: .4pt; }
+.code pre, .run pre, .err pre { margin: 0; background: none; font-family: Consolas, monospace; font-size: 8.9pt;
+  line-height: 1.38; white-space: pre-wrap; break-inside: auto; }
+.code { background: #f8fafc; }
+.run { background: #111827; border-color: #111827; } .run pre { color: #e5e7eb; } .run .ch { color: #9ca3af; }
+.err { background: #fef2f2; border-color: #fecaca; } .err pre { color: #7f1d1d; font-size: 8.4pt; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code pre .hll { background-color: #ffffcc }
+.code pre { background: #f0f0f0; }
+.code pre .c { color: #60A0B0; font-style: italic } /* Comment */
+.code pre .err { border: 1px solid #F00 } /* Error */
+.code pre .k { color: #007020; font-weight: bold } /* Keyword */
+.code pre .o { color: #666 } /* Operator */
+.code pre .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code pre .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code pre .cp { color: #007020 } /* Comment.Preproc */
+.code pre .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code pre .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code pre .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code pre .gd { color: #A00000 } /* Generic.Deleted */
+.code pre .ge { font-style: italic } /* Generic.Emph */
+.code pre .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code pre .gr { color: #F00 } /* Generic.Error */
+.code pre .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code pre .gi { color: #00A000 } /* Generic.Inserted */
+.code pre .go { color: #888 } /* Generic.Output */
+.code pre .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code pre .gs { font-weight: bold } /* Generic.Strong */
+.code pre .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code pre .gt { color: #04D } /* Generic.Traceback */
+.code pre .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code pre .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code pre .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code pre .kp { color: #007020 } /* Keyword.Pseudo */
+.code pre .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code pre .kt { color: #902000 } /* Keyword.Type */
+.code pre .m { color: #40A070 } /* Literal.Number */
+.code pre .s { color: #4070A0 } /* Literal.String */
+.code pre .na { color: #4070A0 } /* Name.Attribute */
+.code pre .nb { color: #007020 } /* Name.Builtin */
+.code pre .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code pre .no { color: #60ADD5 } /* Name.Constant */
+.code pre .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code pre .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code pre .ne { color: #007020 } /* Name.Exception */
+.code pre .nf { color: #06287E } /* Name.Function */
+.code pre .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code pre .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code pre .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code pre .nv { color: #BB60D5 } /* Name.Variable */
+.code pre .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code pre .w { color: #BBB } /* Text.Whitespace */
+.code pre .mb { color: #40A070 } /* Literal.Number.Bin */
+.code pre .mf { color: #40A070 } /* Literal.Number.Float */
+.code pre .mh { color: #40A070 } /* Literal.Number.Hex */
+.code pre .mi { color: #40A070 } /* Literal.Number.Integer */
+.code pre .mo { color: #40A070 } /* Literal.Number.Oct */
+.code pre .sa { color: #4070A0 } /* Literal.String.Affix */
+.code pre .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code pre .sc { color: #4070A0 } /* Literal.String.Char */
+.code pre .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code pre .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code pre .s2 { color: #4070A0 } /* Literal.String.Double */
+.code pre .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code pre .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code pre .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code pre .sx { color: #C65D09 } /* Literal.String.Other */
+.code pre .sr { color: #235388 } /* Literal.String.Regex */
+.code pre .s1 { color: #4070A0 } /* Literal.String.Single */
+.code pre .ss { color: #517918 } /* Literal.String.Symbol */
+.code pre .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code pre .fm { color: #06287E } /* Name.Function.Magic */
+.code pre .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code pre .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code pre .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code pre .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code pre .il { color: #40A070 } /* Literal.Number.Integer.Long */
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+</style></head><body><h1>6 · Exp 7 — Insertion sort (and its performance)</h1>
+<div class="sub">You already know the core move from Exp 3's "insert into a sorted array". Insertion sort just does it for every element in turn.</div>
+
+<div class="map"><span class="n">Sorted part / unsorted part</span><span class="a">→</span><span class="n">Pick key</span><span class="a">→</span><span class="n here">Shift bigger ones right</span><span class="a">→</span><span class="n">Drop key in gap</span><span class="a">→</span><span class="n">Repeat</span></div>
+
+<h2>6.1 The idea</h2>
+<p>Like sorting playing cards in your hand: the left part is already sorted. Pick up the next card (the <strong>key</strong>), slide every bigger card one place right, and drop the key into the gap.</p>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p><code>5 2 4 6 1 3</code>. How many single-place shifts does insertion sort need in total? (Count them pass by pass.) And how many for the already-sorted <code>1 2 3 4 5 6</code>?</p>
+</div>
+
+<figure style="max-width:100%"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 316' width='560'><defs><marker id='a15803d' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#15803d'/></marker><marker id='a6b7280' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#6b7280'/></marker><marker id='ab91c1c' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b91c1c'/></marker><marker id='a1d4ed8' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1d4ed8'/></marker><marker id='a1f2937' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1f2937'/></marker><marker id='aa16207' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#a16207'/></marker></defs><text x='160' y='20' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#15803d' text-anchor='middle' font-weight='700'>sorted part</text><text x='330' y='20' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#6b7280' text-anchor='middle' font-weight='700'>unsorted part</text><text x='470' y='20' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#6b7280' text-anchor='middle' font-weight='700'>shifts</text><text x='120' y='56' font-family='Consolas, monospace' font-size='12' fill='#1f2937' text-anchor='end'>start</text><rect x='135' y='34' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='158.0' y='55.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>5</text><rect x='181' y='34' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='204.0' y='55.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>2</text><rect x='227' y='34' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='250.0' y='55.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>4</text><rect x='273' y='34' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='296.0' y='55.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>6</text><rect x='319' y='34' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='342.0' y='55.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>1</text><rect x='365' y='34' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='388.0' y='55.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>3</text><text x='480' y='56' font-family='Consolas, monospace' font-size='13' fill='#1f2937' text-anchor='middle'></text><text x='120' y='100' font-family='Consolas, monospace' font-size='12' fill='#1f2937' text-anchor='end'>pass 1  key=2</text><rect x='135' y='78' width='46' height='32' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='158.0' y='99.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>2</text><rect x='181' y='78' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='204.0' y='99.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>5</text><rect x='227' y='78' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='250.0' y='99.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>4</text><rect x='273' y='78' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='296.0' y='99.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>6</text><rect x='319' y='78' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='342.0' y='99.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>1</text><rect x='365' y='78' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='388.0' y='99.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>3</text><text x='480' y='100' font-family='Consolas, monospace' font-size='13' fill='#1f2937' text-anchor='middle'>1</text><text x='120' y='144' font-family='Consolas, monospace' font-size='12' fill='#1f2937' text-anchor='end'>pass 2  key=4</text><rect x='135' y='122' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='158.0' y='143.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>2</text><rect x='181' y='122' width='46' height='32' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='204.0' y='143.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>4</text><rect x='227' y='122' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='250.0' y='143.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>5</text><rect x='273' y='122' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='296.0' y='143.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>6</text><rect x='319' y='122' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='342.0' y='143.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>1</text><rect x='365' y='122' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='388.0' y='143.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>3</text><text x='480' y='144' font-family='Consolas, monospace' font-size='13' fill='#1f2937' text-anchor='middle'>1</text><text x='120' y='188' font-family='Consolas, monospace' font-size='12' fill='#1f2937' text-anchor='end'>pass 3  key=6</text><rect x='135' y='166' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='158.0' y='187.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>2</text><rect x='181' y='166' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='204.0' y='187.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>4</text><rect x='227' y='166' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='250.0' y='187.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>5</text><rect x='273' y='166' width='46' height='32' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='296.0' y='187.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>6</text><rect x='319' y='166' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='342.0' y='187.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>1</text><rect x='365' y='166' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='388.0' y='187.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>3</text><text x='480' y='188' font-family='Consolas, monospace' font-size='13' fill='#1f2937' text-anchor='middle'>0</text><text x='120' y='232' font-family='Consolas, monospace' font-size='12' fill='#1f2937' text-anchor='end'>pass 4  key=1</text><rect x='135' y='210' width='46' height='32' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='158.0' y='231.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>1</text><rect x='181' y='210' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='204.0' y='231.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>2</text><rect x='227' y='210' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='250.0' y='231.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>4</text><rect x='273' y='210' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='296.0' y='231.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>5</text><rect x='319' y='210' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='342.0' y='231.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>6</text><rect x='365' y='210' width='46' height='32' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='388.0' y='231.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>3</text><text x='480' y='232' font-family='Consolas, monospace' font-size='13' fill='#1f2937' text-anchor='middle'>4</text><text x='120' y='276' font-family='Consolas, monospace' font-size='12' fill='#1f2937' text-anchor='end'>pass 5  key=3</text><rect x='135' y='254' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='158.0' y='275.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>1</text><rect x='181' y='254' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='204.0' y='275.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>2</text><rect x='227' y='254' width='46' height='32' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='250.0' y='275.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>3</text><rect x='273' y='254' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='296.0' y='275.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>4</text><rect x='319' y='254' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='342.0' y='275.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>5</text><rect x='365' y='254' width='46' height='32' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='388.0' y='275.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>6</text><text x='480' y='276' font-family='Consolas, monospace' font-size='13' fill='#1f2937' text-anchor='middle'>3</text><text x='280' y='310' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#6b7280' text-anchor='middle'>yellow = where the key landed;  total shifts = 9</text></svg><figcaption>The manual's example, pass by pass. Green = sorted part; yellow = where the key landed.</figcaption></figure>
+
+<pre><code class="language-cpp">int key = arr[i];
+int j = i - 1;
+while (j &gt;= 0 &amp;&amp; arr[j] &gt; key)   // bigger than key? move it right
+{
+    arr[j + 1] = arr[j];
+    j--;
+}
+arr[j + 1] = key;                // j stopped one left of the gap
+</code></pre>
+<div class="box key">
+<div class="bh">Why `arr[j + 1] = key` and not `arr[j]`</div>
+<p>The loop stops when <code>arr[j]</code> is <strong>not</strong> bigger than the key (or j = −1). The gap is one to the right of that element, at j + 1.</p>
+<p>Why <code>j &gt;= 0</code> comes <strong>first</strong>: when the key is the smallest (key = 1 in pass 4), j reaches −1. <code>&amp;&amp;</code> stops at the first false, so <code>arr[-1]</code> is never read. Swap the order and the program reads outside the array.</p>
+</div>
+<h2>6.2 The program (corrected)</h2>
+<p>The manual's sort was correct. The only fix: <code>int arr[n]</code> (a size read at run time) isn't standard C++, and strict compilers reject it:</p>
+
+<div class="err"><div class="ch">g++ says</div><pre>m07_vla.cpp:25:9: error: ISO C++ forbids variable length array &#x27;arr&#x27; [-Wvla]
+   25 |     int arr[n];
+      |         ^~~</pre></div>
+
+<p>So the array is <code>int arr[100]</code> with a range check on n.</p>
+
+<div class="code"><div class="ch">e07_insertion_sort.cpp</div><pre><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+
+<span class="c1">// Function to perform Insertion Sort</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">insertionSort</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w">                    </span><span class="c1">// card picked up</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">// Shift elements greater than key one position to the right</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">key</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+<span class="w">            </span><span class="n">j</span><span class="o">--</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">key</span><span class="p">;</span><span class="w">                    </span><span class="c1">// drop the card in the gap</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Function to display the array</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">displayArray</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span><span class="w">                            </span><span class="c1">// FIX: was int arr[n] (not standard C++)</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter number of elements: &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;n must be between 1 and 100.&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter elements of the array:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Original Array: &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">displayArray</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">insertionSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Sorted Array: &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">displayArray</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="run"><div class="ch">screen (real run)</div><pre>Enter number of elements: 6
+Enter elements of the array:
+5 2 4 6 1 3
+Original Array: 5 2 4 6 1 3 
+Sorted Array: 1 2 3 4 5 6</pre></div>
+
+<p>Duplicates and negatives work too (the strict <code>&gt;</code> keeps equal elements in their original order, which is why the sort is <strong>stable</strong>):</p>
+
+<div class="run"><div class="ch">screen (real run)</div><pre>Enter number of elements: 7
+Enter elements of the array:
+3 -1 3 0 9 -1 2
+Original Array: 3 -1 3 0 9 -1 2 
+Sorted Array: -1 -1 0 2 3 3 9</pre></div>
+
+<h2>6.3 Performance analysis (the "analyse" half of the aim)</h2>
+<p>These counts come from the tested counting version (section 6.5):</p>
+<table>
+<thead>
+<tr>
+<th>Input (n = 6)</th>
+<th>Comparisons</th>
+<th>Shifts</th>
+<th>Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 2 3 4 5 6 (sorted)</td>
+<td>5 = n − 1</td>
+<td>0</td>
+<td><strong>best</strong>: O(n)</td>
+</tr>
+<tr>
+<td>5 2 4 6 1 3 (manual)</td>
+<td>12</td>
+<td>9</td>
+<td>average: O(n²)</td>
+</tr>
+<tr>
+<td>6 5 4 3 2 1 (reversed)</td>
+<td>15 = n(n−1)/2</td>
+<td>15</td>
+<td><strong>worst</strong>: O(n²)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Best case O(n):</strong> each key is compared once with its left neighbour, and stops.</li>
+<li><strong>Worst case O(n²):</strong> key i is compared with and shifted past all i elements before it: 1 + 2 + … + (n−1) = n(n−1)/2.</li>
+<li><strong>Space O(1):</strong> sorts inside the same array using only <code>key</code> and <code>j</code>. It's <strong>in-place</strong>.</li>
+</ul>
+<div class="box write">
+<div class="bh">Write in your record</div>
+<p><strong>Aim:</strong> To sort an integer array in ascending order using insertion sort and analyse its performance.</p>
+<p><strong>Algorithm:</strong> for i = 1 to n−1: key = arr[i], j = i−1; while j ≥ 0 and arr[j] &gt; key: arr[j+1] = arr[j], j−−; then arr[j+1] = key. Print the array.</p>
+<p><strong>Complexity:</strong> best O(n) (sorted input), average and worst O(n²) (reverse-sorted input: n(n−1)/2 comparisons); space O(1).</p>
+<p><strong>Result:</strong> 5 2 4 6 1 3 → 1 2 3 4 5 6 in 5 passes (9 shifts). Insertion sort is in-place, stable, and fast for small or nearly sorted data.</p>
+</div>
+<h2>6.4 Viva questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why does the outer loop start at i = 1?</td>
+<td>A single element (index 0) is already "sorted".</td>
+</tr>
+<tr>
+<td>Best, average, worst case?</td>
+<td>O(n), O(n²), O(n²).</td>
+</tr>
+<tr>
+<td>What input gives the best case? The worst?</td>
+<td>Already sorted; reverse sorted.</td>
+</tr>
+<tr>
+<td>Is it stable? In-place?</td>
+<td>Both yes: <code>&gt;</code> (not <code>&gt;=</code>) keeps equal keys in order; only O(1) extra memory.</td>
+</tr>
+<tr>
+<td>When is insertion sort a good choice?</td>
+<td>Small arrays, nearly-sorted data, or data arriving one item at a time ("online").</td>
+</tr>
+<tr>
+<td>Why save arr[i] in key?</td>
+<td>The first shift overwrites arr[i]; without the copy the value would be lost.</td>
+</tr>
+<tr>
+<td>How many passes for n elements?</td>
+<td>n − 1.</td>
+</tr>
+</tbody>
+</table>
+<h2>6.5 If the examiner changes the question</h2>
+<p>"Separate functions for input, sorting and display" is the program above (add an <code>inputArray</code> function if asked). The rest:</p>
+<p><strong>Descending order</strong> (one character changes):</p>
+
+<div class="code short"><pre><span class="c1">// Descending: the ONLY change is  arr[j] &gt; key  -&gt;  arr[j] &lt; key</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">insertionSortDesc</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">key</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+<span class="w">            </span><span class="n">j</span><span class="o">--</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">key</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Count comparisons and shifts.</strong> Used for the table in 6.3, and covers "compare performance for sorted, reverse-sorted and random arrays": run it on all three and print the counts.</p>
+
+<div class="code"><pre><span class="c1">// Counts comparisons (each arr[j] &gt; key test) and shifts (each arr[j+1] = arr[j])</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">insertionSortCount</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">&amp;</span><span class="n">comparisons</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">&amp;</span><span class="n">shifts</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">comparisons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">shifts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">comparisons</span><span class="o">++</span><span class="p">;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">key</span><span class="p">)</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+<span class="w">                </span><span class="n">shifts</span><span class="o">++</span><span class="p">;</span>
+<span class="w">                </span><span class="n">j</span><span class="o">--</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">key</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Call: <code>int c, s; insertionSortCount(arr, n, c, s); cout &lt;&lt; "Comparisons = " &lt;&lt; c &lt;&lt; ", Shifts = " &lt;&lt; s;</code></p>
+<p><strong>Floating-point numbers:</strong></p>
+
+<div class="code short"><pre><span class="c1">// Floating-point version: change the type of the array and of key - nothing else</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">insertionSortFloat</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">arr</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">                       </span><span class="c1">// j is an index: stays int</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">key</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+<span class="w">            </span><span class="n">j</span><span class="o">--</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">key</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Position of an element after sorting:</strong></p>
+
+<div class="code short"><pre><span class="c1">// After sorting, find where x ended up (1-based position, -1 if absent)</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">findPosition</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<div class="box check">
+<div class="bh">Check 6.1</div>
+<p>Sort <code>4 3 2 10 12 1 5 6</code> by hand, pass by pass. Write the array after each pass.</p>
+</div>
+<div class="box check">
+<div class="bh">Check 6.2</div>
+<p>Change one character in the while condition to sort in <strong>descending</strong> order. Which character, and what does it become?</p>
+</div>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 6.1:</strong> key 3 → <code>3 4 2 10 12 1 5 6</code>; key 2 → <code>2 3 4 10 12 1 5 6</code>; key 10 → no change; key 12 → no change; key 1 → <code>1 2 3 4 10 12 5 6</code>; key 5 → <code>1 2 3 4 5 10 12 6</code>; key 6 → <code>1 2 3 4 5 6 10 12</code>. Seven passes (n − 1).</p>
+<p><strong>Check 6.2:</strong> <code>arr[j] &gt; key</code> → <code>arr[j] &lt; key</code>: move <strong>smaller</strong> elements right, so bigger ones end up first.</p>
+</div></body></html>

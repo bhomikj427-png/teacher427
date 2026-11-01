@@ -1,0 +1,556 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>10 · Exp 11 — Singly linked list (insert, delete, traverse)</title>
+<style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2132 Data Structures & Algorithms Lab · Lab Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; } p:has(+ ul), p:has(+ ol), p:has(+ table) { break-after: avoid; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.do { background: #f0f9ff; border-color: #0284c7; } .do > .bh { color: #0369a1; }
+.write p { margin: 3pt 0; }
+.write { background: #fff7ed; border-color: #ea580c; } .write > .bh { color: #c2410c; }
+.do ol { margin: 3pt 0; padding-left: 18pt; } .do li { margin: 1.5pt 0; }
+pre { background: #f3f4f6; border-radius: 5px; padding: 5pt 8pt; font-size: 9.3pt; break-inside: avoid; white-space: pre-wrap; }
+pre code { background: none; padding: 0; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { border-top: 2px dashed #86efac; margin-top: 18pt; padding-top: 2pt; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+.code, .run, .err { margin: 8pt 0; border-radius: 6px; break-inside: auto; border: 1px solid #e5e7eb; }
+.code.short, .err { break-inside: avoid; }
+.code .ch, .run .ch, .err .ch { break-after: avoid; font: 600 8pt 'Segoe UI', Arial; color: #6b7280; padding: 3pt 8pt 0;
+  text-transform: uppercase; letter-spacing: .4pt; }
+.code pre, .run pre, .err pre { margin: 0; background: none; font-family: Consolas, monospace; font-size: 8.9pt;
+  line-height: 1.38; white-space: pre-wrap; break-inside: auto; }
+.code { background: #f8fafc; }
+.run { background: #111827; border-color: #111827; } .run pre { color: #e5e7eb; } .run .ch { color: #9ca3af; }
+.err { background: #fef2f2; border-color: #fecaca; } .err pre { color: #7f1d1d; font-size: 8.4pt; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code pre .hll { background-color: #ffffcc }
+.code pre { background: #f0f0f0; }
+.code pre .c { color: #60A0B0; font-style: italic } /* Comment */
+.code pre .err { border: 1px solid #F00 } /* Error */
+.code pre .k { color: #007020; font-weight: bold } /* Keyword */
+.code pre .o { color: #666 } /* Operator */
+.code pre .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code pre .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code pre .cp { color: #007020 } /* Comment.Preproc */
+.code pre .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code pre .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code pre .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code pre .gd { color: #A00000 } /* Generic.Deleted */
+.code pre .ge { font-style: italic } /* Generic.Emph */
+.code pre .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code pre .gr { color: #F00 } /* Generic.Error */
+.code pre .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code pre .gi { color: #00A000 } /* Generic.Inserted */
+.code pre .go { color: #888 } /* Generic.Output */
+.code pre .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code pre .gs { font-weight: bold } /* Generic.Strong */
+.code pre .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code pre .gt { color: #04D } /* Generic.Traceback */
+.code pre .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code pre .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code pre .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code pre .kp { color: #007020 } /* Keyword.Pseudo */
+.code pre .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code pre .kt { color: #902000 } /* Keyword.Type */
+.code pre .m { color: #40A070 } /* Literal.Number */
+.code pre .s { color: #4070A0 } /* Literal.String */
+.code pre .na { color: #4070A0 } /* Name.Attribute */
+.code pre .nb { color: #007020 } /* Name.Builtin */
+.code pre .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code pre .no { color: #60ADD5 } /* Name.Constant */
+.code pre .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code pre .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code pre .ne { color: #007020 } /* Name.Exception */
+.code pre .nf { color: #06287E } /* Name.Function */
+.code pre .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code pre .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code pre .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code pre .nv { color: #BB60D5 } /* Name.Variable */
+.code pre .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code pre .w { color: #BBB } /* Text.Whitespace */
+.code pre .mb { color: #40A070 } /* Literal.Number.Bin */
+.code pre .mf { color: #40A070 } /* Literal.Number.Float */
+.code pre .mh { color: #40A070 } /* Literal.Number.Hex */
+.code pre .mi { color: #40A070 } /* Literal.Number.Integer */
+.code pre .mo { color: #40A070 } /* Literal.Number.Oct */
+.code pre .sa { color: #4070A0 } /* Literal.String.Affix */
+.code pre .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code pre .sc { color: #4070A0 } /* Literal.String.Char */
+.code pre .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code pre .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code pre .s2 { color: #4070A0 } /* Literal.String.Double */
+.code pre .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code pre .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code pre .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code pre .sx { color: #C65D09 } /* Literal.String.Other */
+.code pre .sr { color: #235388 } /* Literal.String.Regex */
+.code pre .s1 { color: #4070A0 } /* Literal.String.Single */
+.code pre .ss { color: #517918 } /* Literal.String.Symbol */
+.code pre .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code pre .fm { color: #06287E } /* Name.Function.Magic */
+.code pre .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code pre .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code pre .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code pre .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code pre .il { color: #40A070 } /* Literal.Number.Integer.Long */
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+</style></head><body><h1>10 · Exp 11 — Singly linked list (insert, delete, traverse)</h1>
+<div class="sub">The pointers from Exp 1 finally pay off. New C++: struct, new / delete, and the arrow operator ->. Read 10.1 slowly; everything after builds on it.</div>
+
+<div class="map"><span class="n here">struct Node</span><span class="a">→</span><span class="n">new Node</span><span class="a">→</span><span class="n">head</span><span class="a">→</span><span class="n">insert at end</span><span class="a">→</span><span class="n">delete from beginning</span><span class="a">→</span><span class="n">traverse until NULL</span></div>
+
+<h2>10.1 New C++: struct, new, delete, -&gt;</h2>
+<p>A <strong>struct</strong> bundles several variables into one new type:</p>
+<pre><code class="language-cpp">struct Node
+{
+    int data;      // the value
+    Node *next;    // address of the next node (NULL if none)
+};
+</code></pre>
+<ul>
+<li><strong><code>new Node</code></strong> asks for memory for one Node <strong>while the program runs</strong> and gives back its <strong>address</strong>: <code>Node *newNode = new Node;</code></li>
+<li><strong><code>p-&gt;data</code></strong> means "the <code>data</code> field of the node that <code>p</code> points to". It is shorthand for <code>(*p).data</code>.</li>
+<li><strong><code>delete p;</code></strong> gives that node's memory back. Every <code>new</code> should have a matching <code>delete</code>.</li>
+<li><strong><code>NULL</code></strong> is the "points nowhere" address: the end of the list, or an empty list (<code>head == NULL</code>).</li>
+</ul>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>An array keeps its elements side by side. How does a linked list know where its second element is, if the nodes can be anywhere in memory?</p>
+</div>
+
+<figure style="max-width:100%"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 620 250' width='620'><defs><marker id='a15803d' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#15803d'/></marker><marker id='a6b7280' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#6b7280'/></marker><marker id='ab91c1c' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b91c1c'/></marker><marker id='a1d4ed8' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1d4ed8'/></marker><marker id='a1f2937' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1f2937'/></marker><marker id='aa16207' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#a16207'/></marker></defs><text x='20' y='22' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='start' font-weight='700'>HEAD → 10 → 20 → 30 → NULL</text><text x='40' y='64' font-family='Consolas, monospace' font-size='12' fill='#1f2937' text-anchor='middle' font-weight='700'>head</text><line x1='60' y1='60' x2='88' y2='60' stroke='#1d4ed8' stroke-width='2' marker-end='url(#a1d4ed8)'/><rect x='90' y='43' width='50' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='115.0' y='65.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>10</text><rect x='140' y='43' width='30' height='34' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><circle cx='155' cy='60' r='3' fill='#1f2937'/><line x1='155' y1='60' x2='218' y2='60' stroke='#1f2937' stroke-width='1.5' marker-end='url(#a1f2937)'/><rect x='220' y='43' width='50' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='245.0' y='65.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>20</text><rect x='270' y='43' width='30' height='34' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><circle cx='285' cy='60' r='3' fill='#1f2937'/><line x1='285' y1='60' x2='348' y2='60' stroke='#1f2937' stroke-width='1.5' marker-end='url(#a1f2937)'/><rect x='350' y='43' width='50' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='375.0' y='65.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>30</text><rect x='400' y='43' width='30' height='34' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><circle cx='415' cy='60' r='3' fill='#1f2937'/><line x1='415' y1='60' x2='470' y2='60' stroke='#1f2937' stroke-width='1.5' marker-end='url(#a1f2937)'/><text x='500' y='65' font-family='Consolas, monospace' font-size='13' fill='#b91c1c' text-anchor='middle' font-weight='700'>NULL</text><text x='115' y='95' font-family='Segoe UI, Arial, sans-serif' font-size='10' fill='#6b7280' text-anchor='middle'>data</text><text x='155' y='95' font-family='Segoe UI, Arial, sans-serif' font-size='10' fill='#6b7280' text-anchor='middle'>next</text><text x='20' y='130' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#1f2937' text-anchor='start'>Insert 40 at end: walk temp to the node whose next is NULL, then</text><text x='40' y='148' font-family='Consolas, monospace' font-size='12' fill='#15803d' text-anchor='start'>temp-&gt;next = newNode;</text><text x='20' y='182' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#1f2937' text-anchor='start'>Delete from beginning:</text><text x='40' y='200' font-family='Consolas, monospace' font-size='12' fill='#b91c1c' text-anchor='start'>temp = head;  head = head-&gt;next;  delete temp;</text><text x='20' y='232' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#6b7280' text-anchor='start'>Order matters: move head BEFORE delete, or the rest of the list is lost.</text></svg><figcaption>The manual's list after inserting 10, 20, 30. Each node stores the address of the next.</figcaption></figure>
+
+<p>The list is reached only through <strong><code>head</code></strong>, the address of the first node. Lose <code>head</code> and the whole list is lost.</p>
+<h2>10.2 The three operations</h2>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Steps</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>insert at end</strong></td>
+<td>make node (next = NULL) → if <code>head == NULL</code>, head = node → else walk <code>temp</code> until <code>temp-&gt;next == NULL</code>, then <code>temp-&gt;next = newNode</code></td>
+<td>O(n) (the walk)</td>
+</tr>
+<tr>
+<td><strong>delete from beginning</strong></td>
+<td>if empty → message → else <code>temp = head</code>, <code>head = head-&gt;next</code>, <code>delete temp</code></td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td><strong>traverse</strong></td>
+<td><code>temp = head</code>; while <code>temp != NULL</code>: print <code>temp-&gt;data</code>, <code>temp = temp-&gt;next</code></td>
+<td>O(n)</td>
+</tr>
+</tbody>
+</table>
+<div class="box trap">
+<div class="bh">The two classic linked-list bugs</div>
+<ol>
+<li><strong>Forgetting <code>temp = temp-&gt;next;</code></strong> in traverse: <code>temp</code> never moves, so the loop never ends. The manual's IMPLEMENTATION screenshot (page 9) has exactly this bug, and its insert never links the new node in. Its <strong>listing</strong> (page 6) is correct; use that.</li>
+<li><strong><code>delete head;</code> before moving head</strong>: the second node's address was inside the deleted node, so the rest of the list is lost. Always save the node in <code>temp</code>, move <code>head</code>, <em>then</em> <code>delete temp</code>.</li>
+</ol>
+</div>
+<h2>10.3 The program</h2>
+<p>The manual's listing was correct (one line was cut off at the page edge: <code>cout &lt;&lt; temp-&gt;data &lt;&lt; " deleted from list." &lt;&lt; endl;</code>).</p>
+
+<div class="code"><div class="ch">e11_singly_linked_list.cpp</div><pre><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">Node</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w">                           </span><span class="c1">// empty list</span>
+
+<span class="c1">// Insert at the end</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">insert</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">newNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="p">;</span><span class="w">                </span><span class="c1">// ask for memory for one node</span>
+<span class="w">    </span><span class="n">newNode</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="n">newNode</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w">           </span><span class="c1">// walk to the last node</span>
+<span class="w">            </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; inserted into list.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Delete from the beginning</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">deleteNode</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;List is empty.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; deleted from list.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span><span class="w">                   </span><span class="c1">// move head first...</span>
+<span class="w">        </span><span class="k">delete</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span><span class="w">                         </span><span class="c1">// ...then free the old first node</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">traverse</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;List is empty.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Linked List: &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span><span class="w">               </span><span class="c1">// without this line: infinite loop</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">choice</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">do</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">1. Insert&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;2. Delete&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;3. Traverse&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;4. Exit&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter your choice: &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">choice</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter value to insert: &quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">            </span><span class="n">insert</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">deleteNode</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">traverse</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Program terminated.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid choice!&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>The manual's Sample Inputs 1 and 2 in one run:</p>
+
+<div class="run"><div class="ch">screen (real run; menu shown once, it reprints before each choice)</div><pre>1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 1
+Enter value to insert: 10
+10 inserted into list.
+Enter your choice: 1
+Enter value to insert: 20
+20 inserted into list.
+Enter your choice: 1
+Enter value to insert: 30
+30 inserted into list.
+Enter your choice: 3
+Linked List: 10 20 30 
+Enter your choice: 2
+10 deleted from list.
+Enter your choice: 3
+Linked List: 20 30 
+Enter your choice: 4
+Program terminated.</pre></div>
+
+<p>Edge cases (delete and traverse on an empty list, delete the only node):</p>
+
+<div class="run"><div class="ch">screen (real run; menu shown once, it reprints before each choice)</div><pre>1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 2
+List is empty.
+Enter your choice: 3
+List is empty.
+Enter your choice: 1
+Enter value to insert: 5
+5 inserted into list.
+Enter your choice: 2
+5 deleted from list.
+Enter your choice: 3
+List is empty.
+Enter your choice: 4
+Program terminated.</pre></div>
+
+<div class="box write">
+<div class="bh">Write in your record</div>
+<p><strong>Aim:</strong> To implement a singly linked list and perform insertion, deletion and traversal.</p>
+<p><strong>Algorithm:</strong> head = NULL. <em>Insert (end):</em> create node (data = value, next = NULL); if head == NULL, head = node; else move temp to the last node (temp-&gt;next == NULL) and set temp-&gt;next = node. <em>Delete (beginning):</em> if head == NULL → "empty"; else temp = head, head = head-&gt;next, delete temp. <em>Traverse:</em> temp = head; while temp ≠ NULL print temp-&gt;data, temp = temp-&gt;next.</p>
+<p><strong>Complexity:</strong> insert at end O(n), delete at beginning O(1), traverse O(n); space O(n) for n nodes.</p>
+<p><strong>Result:</strong> Inserted 10, 20, 30 (list: 10 20 30); deleting from the beginning removed 10 (list: 20 30).</p>
+</div>
+<h2>10.4 Viva questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linked list vs. array?</td>
+<td>List: nodes anywhere in memory, size grows/shrinks, insert/delete by changing pointers, but no direct <code>a[i]</code> access (must walk) and an extra pointer per node. Array: contiguous, fixed size, O(1) indexing, O(n) insert/delete.</td>
+</tr>
+<tr>
+<td>What does the last node's next hold?</td>
+<td>NULL.</td>
+</tr>
+<tr>
+<td>What is head?</td>
+<td>A pointer to the first node; <code>head == NULL</code> means the list is empty.</td>
+</tr>
+<tr>
+<td>Why is insert at end O(n)?</td>
+<td>You must walk from head to the last node. (Keeping a <code>tail</code> pointer makes it O(1).)</td>
+</tr>
+<tr>
+<td>Why is delete at beginning O(1)?</td>
+<td>Only head changes; no walking.</td>
+</tr>
+<tr>
+<td>What is <code>-&gt;</code>?</td>
+<td>Access a field through a pointer: <code>p-&gt;data</code> = <code>(*p).data</code>.</td>
+</tr>
+<tr>
+<td>Why <code>delete temp</code>?</td>
+<td>Return the node's memory; otherwise it leaks.</td>
+</tr>
+<tr>
+<td>Can you traverse backwards?</td>
+<td>Not in a singly linked list (only next pointers). A doubly linked list adds <code>prev</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2>10.5 If the examiner changes the question</h2>
+<p>Insert at end and delete from beginning are the experiment. The rest (9 checks, all pass), each a function to add above <code>main()</code> and to the menu:</p>
+<p><strong>Insert at the beginning</strong> (O(1)):</p>
+
+<div class="code short"><pre><span class="kt">void</span><span class="w"> </span><span class="nf">insertBegin</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">newNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="p">;</span>
+<span class="w">    </span><span class="n">newNode</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="n">newNode</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span><span class="w">                    </span><span class="c1">// new node points to the old first node</span>
+<span class="w">    </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span><span class="w">                          </span><span class="c1">// and becomes the first node</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Delete from the end.</strong> Stop at the second-last node:</p>
+
+<div class="code"><pre><span class="kt">void</span><span class="w"> </span><span class="nf">deleteEnd</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;List is empty.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w">                  </span><span class="c1">// only one node</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">head</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; deleted from list.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">delete</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">        </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w">         </span><span class="c1">// stop at the SECOND-last node</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; deleted from list.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">delete</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<span class="w">    </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w">                       </span><span class="c1">// it is now the last node</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Search</strong> (returns the position) and <strong>count nodes</strong>:</p>
+
+<div class="code short"><pre><span class="kt">int</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w">                          </span><span class="c1">// 1-based position, -1 if absent</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">key</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">pos</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">pos</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="code short"><pre><span class="kt">int</span><span class="w"> </span><span class="nf">countNodes</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Display in reverse</strong> (recursion: the deepest call prints first):</p>
+
+<div class="code short"><pre><span class="c1">// Recursion: first print the REST of the list in reverse, then this node</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">displayReverse</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="n">displayReverse</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// call it as:  displayReverse(head);</span>
+</pre></div>
+
+<p><strong>Insert at a position:</strong></p>
+
+<div class="code"><pre><span class="kt">void</span><span class="w"> </span><span class="nf">insertAtPos</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w">         </span><span class="c1">// pos 1 = new first node</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid position.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">insertBegin</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w">   </span><span class="c1">// go to node pos-1</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid position.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">newNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="p">;</span>
+<span class="w">    </span><span class="n">newNode</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="n">newNode</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span><span class="w">              </span><span class="c1">// 1) new node points ahead</span>
+<span class="w">    </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span><span class="w">                    </span><span class="c1">// 2) then link it in (order matters!)</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Delete at a position:</strong></p>
+
+<div class="code"><pre><span class="kt">void</span><span class="w"> </span><span class="nf">deleteAtPos</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">pos</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid position.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">del</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">del</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">        </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w">   </span><span class="c1">// go to node pos-1</span>
+<span class="w">            </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid position.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">del</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">del</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span><span class="w">              </span><span class="c1">// bypass the node</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">del</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; deleted from list.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">delete</span><span class="w"> </span><span class="n">del</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<div class="box check">
+<div class="bh">Check 10.1</div>
+<p>For inserting a new node after node <code>temp</code>, these two lines come in some order: <code>temp-&gt;next = newNode;</code> and <code>newNode-&gt;next = temp-&gt;next;</code>. Which must come first, and what happens if you swap them?</p>
+</div>
+<div class="box check">
+<div class="bh">Check 10.2</div>
+<p>List: head → 4 → 8 → NULL. Trace <code>deleteNode()</code> then <code>insert(5)</code>. Draw the list after each.</p>
+</div>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 10.1:</strong> <code>newNode-&gt;next = temp-&gt;next;</code> <strong>first</strong>. If <code>temp-&gt;next = newNode;</code> runs first, the old <code>temp-&gt;next</code> address is overwritten, so <code>newNode-&gt;next</code> would point to newNode itself and the rest of the list is lost.</p>
+<p><strong>Check 10.2:</strong> delete: temp = (4), head = (8), delete temp → head → 8 → NULL. insert(5): walk to 8 (next is NULL), link → head → 8 → 5 → NULL.</p>
+</div></body></html>

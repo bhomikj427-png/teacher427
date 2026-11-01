@@ -1,0 +1,484 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>4 · Exp 4 — Delete from an array (beginning, any position, end)</title>
+<style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2132 Data Structures & Algorithms Lab · Lab Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; } p:has(+ ul), p:has(+ ol), p:has(+ table) { break-after: avoid; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.do { background: #f0f9ff; border-color: #0284c7; } .do > .bh { color: #0369a1; }
+.write p { margin: 3pt 0; }
+.write { background: #fff7ed; border-color: #ea580c; } .write > .bh { color: #c2410c; }
+.do ol { margin: 3pt 0; padding-left: 18pt; } .do li { margin: 1.5pt 0; }
+pre { background: #f3f4f6; border-radius: 5px; padding: 5pt 8pt; font-size: 9.3pt; break-inside: avoid; white-space: pre-wrap; }
+pre code { background: none; padding: 0; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { border-top: 2px dashed #86efac; margin-top: 18pt; padding-top: 2pt; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+.code, .run, .err { margin: 8pt 0; border-radius: 6px; break-inside: auto; border: 1px solid #e5e7eb; }
+.code.short, .err { break-inside: avoid; }
+.code .ch, .run .ch, .err .ch { break-after: avoid; font: 600 8pt 'Segoe UI', Arial; color: #6b7280; padding: 3pt 8pt 0;
+  text-transform: uppercase; letter-spacing: .4pt; }
+.code pre, .run pre, .err pre { margin: 0; background: none; font-family: Consolas, monospace; font-size: 8.9pt;
+  line-height: 1.38; white-space: pre-wrap; break-inside: auto; }
+.code { background: #f8fafc; }
+.run { background: #111827; border-color: #111827; } .run pre { color: #e5e7eb; } .run .ch { color: #9ca3af; }
+.err { background: #fef2f2; border-color: #fecaca; } .err pre { color: #7f1d1d; font-size: 8.4pt; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code pre .hll { background-color: #ffffcc }
+.code pre { background: #f0f0f0; }
+.code pre .c { color: #60A0B0; font-style: italic } /* Comment */
+.code pre .err { border: 1px solid #F00 } /* Error */
+.code pre .k { color: #007020; font-weight: bold } /* Keyword */
+.code pre .o { color: #666 } /* Operator */
+.code pre .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code pre .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code pre .cp { color: #007020 } /* Comment.Preproc */
+.code pre .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code pre .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code pre .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code pre .gd { color: #A00000 } /* Generic.Deleted */
+.code pre .ge { font-style: italic } /* Generic.Emph */
+.code pre .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code pre .gr { color: #F00 } /* Generic.Error */
+.code pre .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code pre .gi { color: #00A000 } /* Generic.Inserted */
+.code pre .go { color: #888 } /* Generic.Output */
+.code pre .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code pre .gs { font-weight: bold } /* Generic.Strong */
+.code pre .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code pre .gt { color: #04D } /* Generic.Traceback */
+.code pre .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code pre .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code pre .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code pre .kp { color: #007020 } /* Keyword.Pseudo */
+.code pre .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code pre .kt { color: #902000 } /* Keyword.Type */
+.code pre .m { color: #40A070 } /* Literal.Number */
+.code pre .s { color: #4070A0 } /* Literal.String */
+.code pre .na { color: #4070A0 } /* Name.Attribute */
+.code pre .nb { color: #007020 } /* Name.Builtin */
+.code pre .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code pre .no { color: #60ADD5 } /* Name.Constant */
+.code pre .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code pre .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code pre .ne { color: #007020 } /* Name.Exception */
+.code pre .nf { color: #06287E } /* Name.Function */
+.code pre .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code pre .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code pre .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code pre .nv { color: #BB60D5 } /* Name.Variable */
+.code pre .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code pre .w { color: #BBB } /* Text.Whitespace */
+.code pre .mb { color: #40A070 } /* Literal.Number.Bin */
+.code pre .mf { color: #40A070 } /* Literal.Number.Float */
+.code pre .mh { color: #40A070 } /* Literal.Number.Hex */
+.code pre .mi { color: #40A070 } /* Literal.Number.Integer */
+.code pre .mo { color: #40A070 } /* Literal.Number.Oct */
+.code pre .sa { color: #4070A0 } /* Literal.String.Affix */
+.code pre .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code pre .sc { color: #4070A0 } /* Literal.String.Char */
+.code pre .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code pre .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code pre .s2 { color: #4070A0 } /* Literal.String.Double */
+.code pre .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code pre .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code pre .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code pre .sx { color: #C65D09 } /* Literal.String.Other */
+.code pre .sr { color: #235388 } /* Literal.String.Regex */
+.code pre .s1 { color: #4070A0 } /* Literal.String.Single */
+.code pre .ss { color: #517918 } /* Literal.String.Symbol */
+.code pre .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code pre .fm { color: #06287E } /* Name.Function.Magic */
+.code pre .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code pre .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code pre .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code pre .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code pre .il { color: #40A070 } /* Literal.Number.Integer.Long */
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+</style></head><body><h1>4 · Exp 4 — Delete from an array (beginning, any position, end)</h1>
+<div class="sub">The mirror image of Exp 3: close the gap by shifting <b>left</b>, then n = n − 1.</div>
+
+<div class="map"><span class="n">Pick the element</span><span class="a">→</span><span class="n here">Shift the rest left</span><span class="a">→</span><span class="n">n = n − 1</span><span class="a">→</span><span class="n">print 0..n−1</span></div>
+
+<h2>4.1 The idea</h2>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>In Exp 3 the shift loop had to run from the <strong>end</strong> backwards. For deletion (shift left), which end must the loop start from, and why?</p>
+</div>
+
+<figure style="max-width:100%"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 620 185' width='620'><defs><marker id='a15803d' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#15803d'/></marker><marker id='a6b7280' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#6b7280'/></marker><marker id='ab91c1c' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b91c1c'/></marker><marker id='a1d4ed8' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1d4ed8'/></marker><marker id='a1f2937' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1f2937'/></marker><marker id='aa16207' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#a16207'/></marker></defs><text x='20' y='22' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='start' font-weight='700'>Delete position 3 (index 2), n = 5</text><rect x='110' y='50' width='46' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='133.0' y='72.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>10</text><text x='133.0' y='98' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[0]</text><rect x='156' y='50' width='46' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='179.0' y='72.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>20</text><text x='179.0' y='98' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[1]</text><rect x='202' y='50' width='46' height='34' rx='3' fill='#fee2e2' stroke='#1f2937' stroke-width='1.4'/><text x='225.0' y='72.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>30</text><text x='225.0' y='98' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[2]</text><rect x='248' y='50' width='46' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='271.0' y='72.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>40</text><text x='271.0' y='98' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[3]</text><rect x='294' y='50' width='46' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='317.0' y='72.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>50</text><text x='317.0' y='98' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[4]</text><text x='100' y='72.0' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#1f2937' text-anchor='end' font-weight='700'>before</text><path d='M271,50 C271,28 225,28 225,48' fill='none' stroke='#1d4ed8' stroke-width='1.5' marker-end='url(#a1d4ed8)'/><text x='248.0' y='30' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#1d4ed8' text-anchor='middle' font-weight='700'>1</text><path d='M317,50 C317,28 271,28 271,48' fill='none' stroke='#1d4ed8' stroke-width='1.5' marker-end='url(#a1d4ed8)'/><text x='294.0' y='30' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#1d4ed8' text-anchor='middle' font-weight='700'>2</text><text x='370' y='64' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#1d4ed8' text-anchor='start'>shift left, starting just</text><text x='370' y='78' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#1d4ed8' text-anchor='start'>AFTER the deleted one</text><rect x='110' y='125' width='46' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='133.0' y='147.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>10</text><text x='133.0' y='173' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[0]</text><rect x='156' y='125' width='46' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='179.0' y='147.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>20</text><text x='179.0' y='173' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[1]</text><rect x='202' y='125' width='46' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='225.0' y='147.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>40</text><text x='225.0' y='173' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[2]</text><rect x='248' y='125' width='46' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='271.0' y='147.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>50</text><text x='271.0' y='173' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[3]</text><rect x='294' y='125' width='46' height='34' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='317.0' y='147.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>50</text><text x='317.0' y='173' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[4]</text><text x='100' y='147.0' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#1f2937' text-anchor='end' font-weight='700'>after</text><text x='370' y='140' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#15803d' text-anchor='start' font-weight='700'>n = n - 1 (now 4): the old copy</text><text x='370' y='154' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#15803d' text-anchor='start'>in [4] is simply never printed</text></svg><figcaption>Delete position 3: shift from just after the gap, moving forwards.</figcaption></figure>
+
+<p>When shifting <strong>left</strong>, start right after the deleted element and move <strong>forward</strong>: <code>arr[i] = arr[i+1]</code> for i = pos−1 … n−2. Going the other way would copy 50 over 40 before 40 has moved. <strong>Rule of thumb: always copy the element that is about to be overwritten first.</strong></p>
+<p>The last element is never erased; after <code>n--</code> the program simply never prints index n. That's why delete-at-end is just <code>n--</code>: O(1), no shifting.</p>
+<h2>4.2 The manual's bug</h2>
+<p>The PROGRAM listing (manual page 9) asks <strong>"Enter value:"</strong> in all three branches and reads a number it never uses. Deleting needs only a <em>position</em>. With the manual's own Sample Input 1 (<code>5</code>, <code>10 20 30 40 50</code>, <code>1</code>) that listing stops at "Enter value:" and waits for input the sample never gives. The IMPLEMENTATION screenshot (page 11) has no such line. This pack uses the screenshot's logic, plus a position check, and prints which element was deleted.</p>
+<h2>4.3 The program (corrected)</h2>
+
+<div class="code"><div class="ch">e04_array_delete.cpp</div><pre><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">choice</span><span class="p">;</span><span class="w">            </span><span class="c1">// FIX: no &quot;value&quot; - deletion needs no value</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter number of elements: &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter array elements:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">                              </span><span class="c1">// FIX: nothing to delete</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Array is empty. Deletion not possible.&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">1. Delete at Beginning&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">2. Delete at Any Position&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">3. Delete at End&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Enter your choice: &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">choice</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Deleted element: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w">      </span><span class="c1">// shift left, first element first</span>
+<span class="w">            </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span>
+<span class="w">        </span><span class="n">n</span><span class="o">--</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter Position: &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">pos</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w">              </span><span class="c1">// FIX: positions 1..n are valid</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid position.&quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Deleted element: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span>
+<span class="w">        </span><span class="n">n</span><span class="o">--</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Deleted element: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span>
+<span class="w">        </span><span class="n">n</span><span class="o">--</span><span class="p">;</span><span class="w">                                 </span><span class="c1">// just forget the last one</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid choice.&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Updated Array:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>The manual's three sample inputs:</p>
+
+<div class="run"><div class="ch">screen (real run)</div><pre>Enter number of elements: 5
+Enter array elements:
+10 20 30 40 50
+
+1. Delete at Beginning
+2. Delete at Any Position
+3. Delete at End
+Enter your choice: 1
+Deleted element: 10
+Updated Array:
+20 30 40 50</pre></div>
+
+
+<div class="run"><div class="ch">screen (real run)</div><pre>Enter number of elements: 5
+Enter array elements:
+10 20 30 40 50
+
+1. Delete at Beginning
+2. Delete at Any Position
+3. Delete at End
+Enter your choice: 2
+Enter Position: 3
+Deleted element: 30
+Updated Array:
+10 20 40 50</pre></div>
+
+
+<div class="run"><div class="ch">screen (real run)</div><pre>Enter number of elements: 5
+Enter array elements:
+10 20 30 40 50
+
+1. Delete at Beginning
+2. Delete at Any Position
+3. Delete at End
+Enter your choice: 3
+Deleted element: 50
+Updated Array:
+10 20 30 40</pre></div>
+
+<p>A bad position is refused:</p>
+
+<div class="run"><div class="ch">screen (real run)</div><pre>Enter number of elements: 5
+Enter array elements:
+10 20 30 40 50
+
+1. Delete at Beginning
+2. Delete at Any Position
+3. Delete at End
+Enter your choice: 2
+Enter Position: 6
+Invalid position.</pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th>Loop</th>
+<th>Then</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Beginning</td>
+<td><code>for (i = 0; i &lt; n-1; i++) arr[i] = arr[i+1];</code></td>
+<td><code>n--</code></td>
+</tr>
+<tr>
+<td>Position</td>
+<td><code>for (i = pos-1; i &lt; n-1; i++) arr[i] = arr[i+1];</code></td>
+<td><code>n--</code></td>
+</tr>
+<tr>
+<td>End</td>
+<td>(none)</td>
+<td><code>n--</code></td>
+</tr>
+</tbody>
+</table>
+<p>Valid deletion positions are <strong>1 to n</strong> (not n+1: there's nothing there to delete). With n = 0 there's nothing to delete at all: <strong>underflow</strong>.</p>
+<div class="box write">
+<div class="bh">Write in your record</div>
+<p><strong>Aim:</strong> To delete an element from an array at the beginning, at a given position, and at the end.</p>
+<p><strong>Algorithm:</strong> read n and the elements → read choice → <em>beginning:</em> shift elements 1…n−1 one place left → <em>position:</em> check 1 ≤ pos ≤ n, shift elements after pos−1 one place left → <em>end:</em> nothing to shift → <code>n--</code> → print.</p>
+<p><strong>Complexity:</strong> beginning O(n), position O(n) (worst case), end O(1). Space O(1).</p>
+<p><strong>Result:</strong> 10 20 30 40 50 became 20 30 40 50 (beginning), 10 20 40 50 (position 3, deleted 30), 10 20 30 40 (end).</p>
+</div>
+<h2>4.4 Viva questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why does deletion at the end need no shifting?</td>
+<td>Reducing n hides the last element; no gap is created.</td>
+</tr>
+<tr>
+<td>Is the deleted value really erased from memory?</td>
+<td>No. It stays in the slot until overwritten; the program just stops counting it.</td>
+</tr>
+<tr>
+<td>What is underflow here?</td>
+<td>Trying to delete from an empty array (n = 0).</td>
+</tr>
+<tr>
+<td>Insertion shifts from the end, deletion from the front. Why?</td>
+<td>So no element is overwritten before it has been copied.</td>
+</tr>
+<tr>
+<td>Time complexity of deleting a value you first have to search for?</td>
+<td>O(n): the search is O(n) and the shift is O(n), so O(n) overall.</td>
+</tr>
+</tbody>
+</table>
+<h2>4.5 If the examiner changes the question</h2>
+<p>Beginning, position and end are the experiment itself. The other two items:</p>
+<p><strong>Delete a given value</strong> (search, then shift):</p>
+
+<div class="code"><pre><span class="c1">// Search for value; if found, delete it (first occurrence) and shift left</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">deleteByValue</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w">          </span><span class="c1">// linear search</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; not found in array&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pos</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Menu-driven insertion and deletion on one array.</strong> A full program combining Exp 3 and Exp 4, with a repeating menu (the <code>do … while</code> pattern from Exp 10):</p>
+
+<div class="code"><div class="ch">e04b_array_menu.cpp</div><pre><span class="c1">// Exp 4 assignment: menu-driven insertion AND deletion on one array</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">display</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Array is empty.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Array: &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">insertAt</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w">            </span><span class="c1">// pos is 1-based</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Array is full.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid position.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">pos</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">--</span><span class="p">)</span>
+<span class="w">            </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span>
+<span class="w">        </span><span class="n">arr</span><span class="p">[</span><span class="n">pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">        </span><span class="n">n</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">deleteAt</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">pos</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Array is empty.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid position.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Deleted element: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span>
+<span class="w">        </span><span class="n">n</span><span class="o">--</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">choice</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">1. Insert  2. Delete  3. Display  4. Exit&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter your choice: &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">choice</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter position and value: &quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">            </span><span class="n">insertAt</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter position: &quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">pos</span><span class="p">;</span>
+<span class="w">            </span><span class="n">deleteAt</span><span class="p">(</span><span class="n">pos</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">            </span><span class="n">display</span><span class="p">();</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid choice!&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="run"><div class="ch">screen (real run; menu shown once, it reprints before each choice)</div><pre>1. Insert  2. Delete  3. Display  4. Exit
+Enter your choice: 1
+Enter position and value: 1 10
+Enter your choice: 1
+Enter position and value: 2 30
+Enter your choice: 1
+Enter position and value: 2 20
+Enter your choice: 3
+Array: 10 20 30 
+Enter your choice: 2
+Enter position: 1
+Deleted element: 10
+Enter your choice: 3
+Array: 20 30 
+Enter your choice: 2
+Enter position: 5
+Invalid position.
+Enter your choice: 4</pre></div>
+
+<div class="box check">
+<div class="bh">Check 4.1</div>
+<p><code>arr</code> = <code>7 3 9 1</code>, n = 4. Delete position 2. Write the assignments the loop performs, the final n, and the printed array.</p>
+</div>
+<div class="box check">
+<div class="bh">Check 4.2</div>
+<p>Someone writes the position loop as <code>for (i = pos-1; i &lt; n; i++) arr[i] = arr[i+1];</code>. What goes wrong?</p>
+</div>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 4.1:</strong> i = 1: <code>arr[1] = arr[2]</code> (9); i = 2: <code>arr[2] = arr[3]</code> (1); stop at i = 3. n = 3 → <strong>7 9 1</strong>.</p>
+<p><strong>Check 4.2:</strong> On the last pass (i = n−1) it reads <code>arr[n]</code>, one past the data: junk (or past the end of the array if n = 100). The result still prints correctly, because n−1 elements are printed, but it reads memory it shouldn't. The correct bound is <code>i &lt; n-1</code>.</p>
+</div></body></html>

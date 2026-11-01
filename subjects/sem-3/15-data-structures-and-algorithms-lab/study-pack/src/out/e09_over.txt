@@ -1,0 +1,62 @@
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 1
+Enter value to push: 1
+1 pushed into stack.
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 1
+Enter value to push: 2
+2 pushed into stack.
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 1
+Enter value to push: 3
+3 pushed into stack.
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 1
+Enter value to push: 4
+4 pushed into stack.
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 1
+Enter value to push: 5
+5 pushed into stack.
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 1
+Enter value to push: 6
+Stack Overflow!
+
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 5
+Program terminated.

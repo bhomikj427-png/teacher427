@@ -1,0 +1,469 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>5 · Exp 5 + 6 — Matrix multiplication and transpose (modular programming)</title>
+<style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2132 Data Structures & Algorithms Lab · Lab Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; } p:has(+ ul), p:has(+ ol), p:has(+ table) { break-after: avoid; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.do { background: #f0f9ff; border-color: #0284c7; } .do > .bh { color: #0369a1; }
+.write p { margin: 3pt 0; }
+.write { background: #fff7ed; border-color: #ea580c; } .write > .bh { color: #c2410c; }
+.do ol { margin: 3pt 0; padding-left: 18pt; } .do li { margin: 1.5pt 0; }
+pre { background: #f3f4f6; border-radius: 5px; padding: 5pt 8pt; font-size: 9.3pt; break-inside: avoid; white-space: pre-wrap; }
+pre code { background: none; padding: 0; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { border-top: 2px dashed #86efac; margin-top: 18pt; padding-top: 2pt; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+.code, .run, .err { margin: 8pt 0; border-radius: 6px; break-inside: auto; border: 1px solid #e5e7eb; }
+.code.short, .err { break-inside: avoid; }
+.code .ch, .run .ch, .err .ch { break-after: avoid; font: 600 8pt 'Segoe UI', Arial; color: #6b7280; padding: 3pt 8pt 0;
+  text-transform: uppercase; letter-spacing: .4pt; }
+.code pre, .run pre, .err pre { margin: 0; background: none; font-family: Consolas, monospace; font-size: 8.9pt;
+  line-height: 1.38; white-space: pre-wrap; break-inside: auto; }
+.code { background: #f8fafc; }
+.run { background: #111827; border-color: #111827; } .run pre { color: #e5e7eb; } .run .ch { color: #9ca3af; }
+.err { background: #fef2f2; border-color: #fecaca; } .err pre { color: #7f1d1d; font-size: 8.4pt; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code pre .hll { background-color: #ffffcc }
+.code pre { background: #f0f0f0; }
+.code pre .c { color: #60A0B0; font-style: italic } /* Comment */
+.code pre .err { border: 1px solid #F00 } /* Error */
+.code pre .k { color: #007020; font-weight: bold } /* Keyword */
+.code pre .o { color: #666 } /* Operator */
+.code pre .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code pre .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code pre .cp { color: #007020 } /* Comment.Preproc */
+.code pre .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code pre .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code pre .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code pre .gd { color: #A00000 } /* Generic.Deleted */
+.code pre .ge { font-style: italic } /* Generic.Emph */
+.code pre .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code pre .gr { color: #F00 } /* Generic.Error */
+.code pre .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code pre .gi { color: #00A000 } /* Generic.Inserted */
+.code pre .go { color: #888 } /* Generic.Output */
+.code pre .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code pre .gs { font-weight: bold } /* Generic.Strong */
+.code pre .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code pre .gt { color: #04D } /* Generic.Traceback */
+.code pre .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code pre .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code pre .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code pre .kp { color: #007020 } /* Keyword.Pseudo */
+.code pre .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code pre .kt { color: #902000 } /* Keyword.Type */
+.code pre .m { color: #40A070 } /* Literal.Number */
+.code pre .s { color: #4070A0 } /* Literal.String */
+.code pre .na { color: #4070A0 } /* Name.Attribute */
+.code pre .nb { color: #007020 } /* Name.Builtin */
+.code pre .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code pre .no { color: #60ADD5 } /* Name.Constant */
+.code pre .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code pre .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code pre .ne { color: #007020 } /* Name.Exception */
+.code pre .nf { color: #06287E } /* Name.Function */
+.code pre .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code pre .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code pre .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code pre .nv { color: #BB60D5 } /* Name.Variable */
+.code pre .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code pre .w { color: #BBB } /* Text.Whitespace */
+.code pre .mb { color: #40A070 } /* Literal.Number.Bin */
+.code pre .mf { color: #40A070 } /* Literal.Number.Float */
+.code pre .mh { color: #40A070 } /* Literal.Number.Hex */
+.code pre .mi { color: #40A070 } /* Literal.Number.Integer */
+.code pre .mo { color: #40A070 } /* Literal.Number.Oct */
+.code pre .sa { color: #4070A0 } /* Literal.String.Affix */
+.code pre .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code pre .sc { color: #4070A0 } /* Literal.String.Char */
+.code pre .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code pre .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code pre .s2 { color: #4070A0 } /* Literal.String.Double */
+.code pre .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code pre .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code pre .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code pre .sx { color: #C65D09 } /* Literal.String.Other */
+.code pre .sr { color: #235388 } /* Literal.String.Regex */
+.code pre .s1 { color: #4070A0 } /* Literal.String.Single */
+.code pre .ss { color: #517918 } /* Literal.String.Symbol */
+.code pre .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code pre .fm { color: #06287E } /* Name.Function.Magic */
+.code pre .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code pre .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code pre .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code pre .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code pre .il { color: #40A070 } /* Literal.Number.Integer.Long */
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+</style></head><body><h1>5 · Exp 5 + 6 — Matrix multiplication and transpose (modular programming)</h1>
+<div class="sub">Two experiments, one pattern: three functions (input, operate, display) plus a main() that calls them. New C++ here: 2-D arrays and passing them to functions.</div>
+
+<div class="map"><span class="n here">2-D array</span><span class="a">→</span><span class="n">Pass to a function</span><span class="a">→</span><span class="n">inputMatrix</span><span class="a">→</span><span class="n">multiply / transpose</span><span class="a">→</span><span class="n">displayMatrix</span></div>
+
+<h2>5.1 New C++: 2-D arrays</h2>
+<p><code>int A[10][10];</code> is a grid of 10 rows × 10 columns; <code>A[i][j]</code> is row i, column j (both from 0). Like <code>arr[100]</code>, the size is the <strong>maximum</strong>: the user's 2 × 3 matrix uses only the top-left corner.</p>
+<p>Walking a grid takes <strong>two nested loops</strong>: the outer loop picks the row, the inner loop walks along it.</p>
+<pre><code class="language-cpp">for (int i = 0; i &lt; rows; i++)
+    for (int j = 0; j &lt; cols; j++)
+        cin &gt;&gt; A[i][j];
+</code></pre>
+<div class="box trap">
+<div class="bh">Why the parameter is `int matrix[][10]`</div>
+<p>When passing a 2-D array, the <strong>number of columns must be written</strong> and must match the declaration (<code>[10]</code>). Only the first size may be left empty. <code>int matrix[][]</code> doesn't compile.</p>
+</div>
+<p><strong>Modular programming</strong> means splitting the program into functions that each do one job: <code>inputMatrix()</code>, <code>multiplyMatrix()</code> / <code>transposeMatrix()</code>, <code>displayMatrix()</code>, with <code>main()</code> only reading sizes and calling them. The manual asks for exactly this structure, so use these exact function names.</p>
+<h2>5.2 Exp 5: multiplication</h2>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>A is 2 × <strong>3</strong> and B is <strong>3</strong> × 2. Can you multiply A × B? What order is the answer? Can you multiply B × A?</p>
+</div>
+
+<figure style="max-width:100%"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 700 190' width='700'><defs><marker id='a15803d' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#15803d'/></marker><marker id='a6b7280' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#6b7280'/></marker><marker id='ab91c1c' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b91c1c'/></marker><marker id='a1d4ed8' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1d4ed8'/></marker><marker id='a1f2937' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1f2937'/></marker><marker id='aa16207' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#a16207'/></marker></defs><rect x='30' y='40' width='40' height='40' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='50.0' y='65.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>1</text><rect x='70' y='40' width='40' height='40' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='90.0' y='65.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>2</text><rect x='30' y='80' width='40' height='40' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='50.0' y='105.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>3</text><rect x='70' y='80' width='40' height='40' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='90.0' y='105.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>4</text><text x='70.0' y='30' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='middle' font-weight='700'>A (2 x 2)</text><text x='130' y='85' font-family='Segoe UI, Arial, sans-serif' font-size='20' fill='#1f2937' text-anchor='middle'>x</text><rect x='160' y='40' width='40' height='40' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='180.0' y='65.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>5</text><rect x='200' y='40' width='40' height='40' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='220.0' y='65.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>6</text><rect x='160' y='80' width='40' height='40' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='180.0' y='105.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>7</text><rect x='200' y='80' width='40' height='40' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='220.0' y='105.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>8</text><text x='200.0' y='30' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='middle' font-weight='700'>B (2 x 2)</text><text x='262' y='85' font-family='Segoe UI, Arial, sans-serif' font-size='20' fill='#1f2937' text-anchor='middle'>=</text><rect x='290' y='40' width='40' height='40' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='310.0' y='65.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>19</text><rect x='330' y='40' width='40' height='40' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='350.0' y='65.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>22</text><rect x='290' y='80' width='40' height='40' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='310.0' y='105.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>43</text><rect x='330' y='80' width='40' height='40' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='350.0' y='105.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>50</text><text x='330.0' y='30' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='middle' font-weight='700'>C (2 x 2)</text><text x='390' y='62' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#1f2937' text-anchor='start' font-weight='700'>C[0][1] = row 0 of A · column 1 of B</text><text x='390' y='84' font-family='Consolas, monospace' font-size='12' fill='#1f2937' text-anchor='start'>= A[0][0]·B[0][1] + A[0][1]·B[1][1]</text><text x='390' y='104' font-family='Consolas, monospace' font-size='12' fill='#1f2937' text-anchor='start'>= 1·6 + 2·8 = 6 + 16 = 22</text><text x='390' y='128' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#6b7280' text-anchor='start'>k walks along the row AND</text><text x='390' y='142' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#6b7280' text-anchor='start'>down the column together</text><text x='350' y='180' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#1d4ed8' text-anchor='middle'>Rule: (m x n) times (n x p) gives (m x p). The two inner numbers must match: c1 == r2.</text></svg><figcaption>Each answer cell is one row of A "dotted" with one column of B.</figcaption></figure>
+
+<div class="eq">C[i][j] = A[i][0]·B[0][j] + A[i][1]·B[1][j] + … + A[i][c1−1]·B[c1−1][j]</div>
+
+<p>That sum is the <strong>third loop</strong> (k). Three nested loops: i over rows of A, j over columns of B, k along the shared dimension. Hence <strong>O(n³)</strong> for n × n matrices.</p>
+
+<div class="code"><div class="ch">e05_matrix_multiply.cpp</div><pre><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+
+<span class="c1">// Function to input matrix elements</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">inputMatrix</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">matrix</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">cols</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">rows</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cols</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="c1">// Function to multiply two matrices: C = A x B</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">multiplyMatrix</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">A</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">B</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">C</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">r1</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">c1</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">c2</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">r1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w">              </span><span class="c1">// each row of A</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">c2</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w">          </span><span class="c1">// each column of B</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">c1</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="o">++</span><span class="p">)</span><span class="w">      </span><span class="c1">// walk along row i and column j</span>
+<span class="w">                </span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Function to display matrix</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">displayMatrix</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">matrix</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">cols</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">rows</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cols</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">r1</span><span class="p">,</span><span class="w"> </span><span class="n">c1</span><span class="p">,</span><span class="w"> </span><span class="n">r2</span><span class="p">,</span><span class="w"> </span><span class="n">c2</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter rows and columns of first matrix: &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">r1</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">c1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter rows and columns of second matrix: &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">r2</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">c2</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// FIX: arrays are 10 x 10, so larger sizes would overflow</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">c1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">r2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">c2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">r1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">c1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">r2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">c2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Sizes must be between 1 and 10.&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Check multiplication condition</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">c1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">r2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Matrix multiplication not possible.&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter elements of first matrix:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">inputMatrix</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">r1</span><span class="p">,</span><span class="w"> </span><span class="n">c1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter elements of second matrix:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">inputMatrix</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">r2</span><span class="p">,</span><span class="w"> </span><span class="n">c2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">multiplyMatrix</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">r1</span><span class="p">,</span><span class="w"> </span><span class="n">c1</span><span class="p">,</span><span class="w"> </span><span class="n">c2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Resultant Matrix:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">displayMatrix</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">r1</span><span class="p">,</span><span class="w"> </span><span class="n">c2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>The manual's sample (2 × 2), and a non-square case worked by hand (row 1 of the answer: 1·7 + 2·9 + 3·11 = 58):</p>
+
+<div class="run"><div class="ch">screen (real run)</div><pre>Enter rows and columns of first matrix: 2 2
+Enter rows and columns of second matrix: 2 2
+Enter elements of first matrix:
+1 2
+3 4
+Enter elements of second matrix:
+5 6
+7 8
+
+Resultant Matrix:
+19 22 
+43 50</pre></div>
+
+
+<div class="run"><div class="ch">screen (real run)</div><pre>Enter rows and columns of first matrix: 2 3
+Enter rows and columns of second matrix: 3 2
+Enter elements of first matrix:
+1 2 3
+4 5 6
+Enter elements of second matrix:
+7 8
+9 10
+11 12
+
+Resultant Matrix:
+58 64 
+139 154</pre></div>
+
+
+<div class="run"><div class="ch">screen (real run)</div><pre>Enter rows and columns of first matrix: 2 3
+Enter rows and columns of second matrix: 2 3
+Matrix multiplication not possible.</pre></div>
+
+<div class="box trap">
+<div class="bh">The line people forget</div>
+<p><code>C[i][j] = 0;</code> before the k-loop. Without it, C starts with garbage and the sum is wrong. It must sit <strong>inside</strong> the j-loop, so each cell starts from 0.</p>
+</div>
+<h2>5.3 Exp 6: transpose</h2>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>A is 2 × 3. What is the order of its transpose, and where does A[0][2] go?</p>
+</div>
+
+<figure style="max-width:100%"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 200' width='560'><defs><marker id='a15803d' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#15803d'/></marker><marker id='a6b7280' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#6b7280'/></marker><marker id='ab91c1c' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b91c1c'/></marker><marker id='a1d4ed8' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1d4ed8'/></marker><marker id='a1f2937' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1f2937'/></marker><marker id='aa16207' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#a16207'/></marker></defs><rect x='40' y='50' width='42' height='42' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='61.0' y='76.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>1</text><rect x='82' y='50' width='42' height='42' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='103.0' y='76.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>2</text><rect x='124' y='50' width='42' height='42' rx='3' fill='#fee2e2' stroke='#1f2937' stroke-width='1.4'/><text x='145.0' y='76.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>3</text><rect x='40' y='92' width='42' height='42' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='61.0' y='118.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>4</text><rect x='82' y='92' width='42' height='42' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='103.0' y='118.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>5</text><rect x='124' y='92' width='42' height='42' rx='3' fill='#fee2e2' stroke='#1f2937' stroke-width='1.4'/><text x='145.0' y='118.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>6</text><text x='103' y='38' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='middle' font-weight='700'>A  (2 x 3)</text><rect x='330' y='40' width='42' height='42' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='351.0' y='66.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>1</text><rect x='372' y='40' width='42' height='42' rx='3' fill='#fde68a' stroke='#1f2937' stroke-width='1.4'/><text x='393.0' y='66.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>4</text><rect x='330' y='82' width='42' height='42' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='351.0' y='108.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>2</text><rect x='372' y='82' width='42' height='42' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='393.0' y='108.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>5</text><rect x='330' y='124' width='42' height='42' rx='3' fill='#fee2e2' stroke='#1f2937' stroke-width='1.4'/><text x='351.0' y='150.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>3</text><rect x='372' y='124' width='42' height='42' rx='3' fill='#fee2e2' stroke='#1f2937' stroke-width='1.4'/><text x='393.0' y='150.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>6</text><text x='372' y='28' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='middle' font-weight='700'>T  (3 x 2)</text><line x1='200' y1='90' x2='315' y2='90' stroke='#1d4ed8' stroke-width='2' marker-end='url(#a1d4ed8)'/><text x='258' y='80' font-family='Consolas, monospace' font-size='12' fill='#1d4ed8' text-anchor='middle'>T[j][i] = A[i][j]</text><text x='280' y='190' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#1f2937' text-anchor='middle'>Column j of A becomes row j of T  (each colour = one column of A → one row of T)</text></svg><figcaption>Rows become columns: T[j][i] = A[i][j].</figcaption></figure>
+
+
+<div class="code"><div class="ch">e06_matrix_transpose.cpp</div><pre><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+
+<span class="c1">// Function to input matrix elements</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">inputMatrix</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">matrix</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">cols</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">rows</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cols</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="c1">// Function to find transpose of matrix</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">transposeMatrix</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">A</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">T</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">cols</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">rows</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cols</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="n">T</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span><span class="w">               </span><span class="c1">// row i becomes column i</span>
+<span class="p">}</span>
+
+<span class="c1">// Function to display matrix</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">displayMatrix</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">matrix</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">cols</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">rows</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cols</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="n">T</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter number of rows and columns of matrix: &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">rows</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">cols</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rows</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cols</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">rows</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cols</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w">   </span><span class="c1">// FIX: array is 10 x 10</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Sizes must be between 1 and 10.&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter elements of matrix:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">inputMatrix</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">transposeMatrix</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Original Matrix:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">displayMatrix</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Transpose Matrix:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">displayMatrix</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">);</span><span class="w">            </span><span class="c1">// rows and columns swap</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="run"><div class="ch">screen (real run)</div><pre>Enter number of rows and columns of matrix: 2 3
+Enter elements of matrix:
+1 2 3
+4 5 6
+
+Original Matrix:
+1 2 3 
+4 5 6 
+
+Transpose Matrix:
+1 4 
+2 5 
+3 6</pre></div>
+
+<p>Note the call <code>displayMatrix(T, cols, rows)</code>: the transpose has the sizes <strong>swapped</strong>. Passing <code>(T, rows, cols)</code> prints the wrong shape.</p>
+<div class="box write">
+<div class="bh">Write in your record — Exp 5</div>
+<p><strong>Aim:</strong> To multiply two matrices using separate functions for input, multiplication and display.</p>
+<p><strong>Algorithm:</strong> read r1, c1, r2, c2 → if c1 ≠ r2, print "not possible" and stop → <code>inputMatrix(A)</code>, <code>inputMatrix(B)</code> → <code>multiplyMatrix</code>: for each i, j set C[i][j] = 0, then for k = 0…c1−1 add A[i][k]·B[k][j] → <code>displayMatrix(C, r1, c2)</code>.</p>
+<p><strong>Complexity:</strong> time O(r1·c1·c2), i.e. O(n³) for square matrices; space O(r1·c2) for C.</p>
+<p><strong>Result:</strong> [[1,2],[3,4]] × [[5,6],[7,8]] = [[19,22],[43,50]].</p>
+</div>
+<div class="box write">
+<div class="bh">Write in your record — Exp 6</div>
+<p><strong>Aim:</strong> To find the transpose of a matrix using separate functions for input, transpose and display.</p>
+<p><strong>Algorithm:</strong> read rows, cols → <code>inputMatrix(A)</code> → <code>transposeMatrix</code>: for each i, j set T[j][i] = A[i][j] → display A (rows × cols) and T (cols × rows).</p>
+<p><strong>Complexity:</strong> time O(m·n); space O(m·n) for T.</p>
+<p><strong>Result:</strong> [[1,2,3],[4,5,6]] (2 × 3) → [[1,4],[2,5],[3,6]] (3 × 2).</p>
+</div>
+<h2>5.4 Viva questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Condition for A × B?</td>
+<td>Columns of A = rows of B (c1 == r2). Result is r1 × c2.</td>
+</tr>
+<tr>
+<td>Is A × B = B × A?</td>
+<td>Generally no; matrix multiplication isn't commutative (B × A may not even be defined).</td>
+</tr>
+<tr>
+<td>Why three loops?</td>
+<td>Two pick the answer cell (i, j); the third (k) adds up the row·column products.</td>
+</tr>
+<tr>
+<td>Why <code>int matrix[][10]</code>?</td>
+<td>The compiler needs the column count to find <code>matrix[i][j]</code> in memory (row i starts i·10 elements in).</td>
+</tr>
+<tr>
+<td>Advantage of modular programming?</td>
+<td>Each function is small and testable; <code>inputMatrix</code> is reused for A and B; easier to debug and modify.</td>
+</tr>
+<tr>
+<td>Can a square matrix be transposed in place?</td>
+<td>Yes: swap A[i][j] with A[j][i] for j &gt; i only (the upper triangle). A rectangular one can't, because its shape changes.</td>
+</tr>
+<tr>
+<td>What is a symmetric matrix?</td>
+<td>A square matrix equal to its transpose (A[i][j] = A[j][i]).</td>
+</tr>
+</tbody>
+</table>
+<h2>5.5 If the examiner changes the question</h2>
+<p>"Multiply two 3 × 3 matrices", "check whether they can be multiplied" and "transpose of a 3 × 3" are all the programs above (type 3 3 as the sizes). The new ones:</p>
+<p><strong>Add / subtract</strong> (same order needed: r1 == r2 and c1 == c2, checked in main):</p>
+
+<div class="code short"><pre><span class="c1">// Both matrices must have the SAME order (rows x cols)</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">addMatrix</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">A</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">B</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">S</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">cols</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">rows</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cols</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="code short"><pre><span class="kt">void</span><span class="w"> </span><span class="nf">subtractMatrix</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">A</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">B</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">D</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">cols</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">rows</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cols</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Symmetric or not:</strong></p>
+
+<div class="code short"><pre><span class="c1">// Symmetric = square AND A[i][j] == A[j][i] everywhere (A equals its transpose)</span>
+<span class="kt">bool</span><span class="w"> </span><span class="nf">isSymmetric</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">A</span><span class="p">[][</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">cols</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rows</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">cols</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">rows</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cols</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>In <code>main</code>: <code>if (isSymmetric(A, rows, cols)) cout &lt;&lt; "Symmetric"; else cout &lt;&lt; "Not symmetric";</code></p>
+<div class="box check">
+<div class="bh">Check 5.1</div>
+<p>A = [[2, 0], [1, 3]], B = [[1, 4], [5, 2]]. Compute C = A × B by hand, cell by cell.</p>
+</div>
+<div class="box check">
+<div class="bh">Check 5.2</div>
+<p>In <code>multiplyMatrix</code>, someone writes <code>for (int k = 0; k &lt; c2; k++)</code>. For 2 × 3 times 3 × 2 matrices, what goes wrong?</p>
+</div>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 5.1:</strong> C[0][0] = 2·1 + 0·5 = 2; C[0][1] = 2·4 + 0·2 = 8; C[1][0] = 1·1 + 3·5 = 16; C[1][1] = 1·4 + 3·2 = 10 → <strong>[[2, 8], [16, 10]]</strong>.</p>
+<p><strong>Check 5.2:</strong> k runs only to 1 (c2 = 2) instead of 2, so the third product A[i][2]·B[2][j] is never added and every cell is wrong. k must run over the <strong>shared</strong> size, c1 (= r2).</p>
+</div></body></html>

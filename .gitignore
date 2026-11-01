@@ -23,3 +23,6 @@ tmp/
 
 # Generated study website (rebuild with python site/build.py)
 site/public/
+
+# Compiled C++ test binaries (rebuild with the lab pack's verify.py)
+*.exe

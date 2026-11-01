@@ -1,0 +1,673 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>9 · Exp 10 — Queue using an array (enqueue, dequeue)</title>
+<style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2132 Data Structures & Algorithms Lab · Lab Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; } p:has(+ ul), p:has(+ ol), p:has(+ table) { break-after: avoid; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.do { background: #f0f9ff; border-color: #0284c7; } .do > .bh { color: #0369a1; }
+.write p { margin: 3pt 0; }
+.write { background: #fff7ed; border-color: #ea580c; } .write > .bh { color: #c2410c; }
+.do ol { margin: 3pt 0; padding-left: 18pt; } .do li { margin: 1.5pt 0; }
+pre { background: #f3f4f6; border-radius: 5px; padding: 5pt 8pt; font-size: 9.3pt; break-inside: avoid; white-space: pre-wrap; }
+pre code { background: none; padding: 0; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { border-top: 2px dashed #86efac; margin-top: 18pt; padding-top: 2pt; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+.code, .run, .err { margin: 8pt 0; border-radius: 6px; break-inside: auto; border: 1px solid #e5e7eb; }
+.code.short, .err { break-inside: avoid; }
+.code .ch, .run .ch, .err .ch { break-after: avoid; font: 600 8pt 'Segoe UI', Arial; color: #6b7280; padding: 3pt 8pt 0;
+  text-transform: uppercase; letter-spacing: .4pt; }
+.code pre, .run pre, .err pre { margin: 0; background: none; font-family: Consolas, monospace; font-size: 8.9pt;
+  line-height: 1.38; white-space: pre-wrap; break-inside: auto; }
+.code { background: #f8fafc; }
+.run { background: #111827; border-color: #111827; } .run pre { color: #e5e7eb; } .run .ch { color: #9ca3af; }
+.err { background: #fef2f2; border-color: #fecaca; } .err pre { color: #7f1d1d; font-size: 8.4pt; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code pre .hll { background-color: #ffffcc }
+.code pre { background: #f0f0f0; }
+.code pre .c { color: #60A0B0; font-style: italic } /* Comment */
+.code pre .err { border: 1px solid #F00 } /* Error */
+.code pre .k { color: #007020; font-weight: bold } /* Keyword */
+.code pre .o { color: #666 } /* Operator */
+.code pre .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code pre .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code pre .cp { color: #007020 } /* Comment.Preproc */
+.code pre .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code pre .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code pre .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code pre .gd { color: #A00000 } /* Generic.Deleted */
+.code pre .ge { font-style: italic } /* Generic.Emph */
+.code pre .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code pre .gr { color: #F00 } /* Generic.Error */
+.code pre .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code pre .gi { color: #00A000 } /* Generic.Inserted */
+.code pre .go { color: #888 } /* Generic.Output */
+.code pre .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code pre .gs { font-weight: bold } /* Generic.Strong */
+.code pre .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code pre .gt { color: #04D } /* Generic.Traceback */
+.code pre .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code pre .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code pre .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code pre .kp { color: #007020 } /* Keyword.Pseudo */
+.code pre .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code pre .kt { color: #902000 } /* Keyword.Type */
+.code pre .m { color: #40A070 } /* Literal.Number */
+.code pre .s { color: #4070A0 } /* Literal.String */
+.code pre .na { color: #4070A0 } /* Name.Attribute */
+.code pre .nb { color: #007020 } /* Name.Builtin */
+.code pre .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code pre .no { color: #60ADD5 } /* Name.Constant */
+.code pre .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code pre .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code pre .ne { color: #007020 } /* Name.Exception */
+.code pre .nf { color: #06287E } /* Name.Function */
+.code pre .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code pre .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code pre .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code pre .nv { color: #BB60D5 } /* Name.Variable */
+.code pre .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code pre .w { color: #BBB } /* Text.Whitespace */
+.code pre .mb { color: #40A070 } /* Literal.Number.Bin */
+.code pre .mf { color: #40A070 } /* Literal.Number.Float */
+.code pre .mh { color: #40A070 } /* Literal.Number.Hex */
+.code pre .mi { color: #40A070 } /* Literal.Number.Integer */
+.code pre .mo { color: #40A070 } /* Literal.Number.Oct */
+.code pre .sa { color: #4070A0 } /* Literal.String.Affix */
+.code pre .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code pre .sc { color: #4070A0 } /* Literal.String.Char */
+.code pre .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code pre .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code pre .s2 { color: #4070A0 } /* Literal.String.Double */
+.code pre .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code pre .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code pre .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code pre .sx { color: #C65D09 } /* Literal.String.Other */
+.code pre .sr { color: #235388 } /* Literal.String.Regex */
+.code pre .s1 { color: #4070A0 } /* Literal.String.Single */
+.code pre .ss { color: #517918 } /* Literal.String.Symbol */
+.code pre .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code pre .fm { color: #06287E } /* Name.Function.Magic */
+.code pre .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code pre .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code pre .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code pre .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code pre .il { color: #40A070 } /* Literal.Number.Integer.Long */
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+</style></head><body><h1>9 · Exp 10 — Queue using an array (enqueue, dequeue)</h1>
+<div class="sub">A queue is a line at a ticket counter: join at the back (rear), leave from the front. Two indexes, front and rear, do all the work.</div>
+
+<div class="map"><span class="n here">Two ends</span><span class="a">→</span><span class="n">enqueue: rear++</span><span class="a">→</span><span class="n">dequeue: front++</span><span class="a">→</span><span class="n">FIFO</span><span class="a">→</span><span class="n">linear-queue flaw</span><span class="a">→</span><span class="n">circular queue</span></div>
+
+<h2>9.1 The idea</h2>
+<p>A <strong>queue</strong> inserts at the <strong>rear</strong> and removes from the <strong>front</strong>: <strong>FIFO</strong> (First In, First Out). <code>front</code> and <code>rear</code> both start at <strong>−1</strong> (empty).</p>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>MAX = 5. Enqueue 1, 2, 3, 4, 5, dequeue twice, then enqueue 6. There are 2 empty slots. Does the program accept 6?</p>
+</div>
+
+<figure style="max-width:100%"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 620 236' width='620'><defs><marker id='a15803d' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#15803d'/></marker><marker id='a6b7280' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#6b7280'/></marker><marker id='ab91c1c' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b91c1c'/></marker><marker id='a1d4ed8' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1d4ed8'/></marker><marker id='a1f2937' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1f2937'/></marker><marker id='aa16207' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#a16207'/></marker></defs><text x='20' y='20' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='start' font-weight='700'>After enqueue 10, 20, 30 (MAX = 5)</text><rect x='120' y='50' width='56' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='148.0' y='72.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>10</text><text x='148.0' y='98' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[0]</text><rect x='176' y='50' width='56' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='204.0' y='72.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>20</text><text x='204.0' y='98' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[1]</text><rect x='232' y='50' width='56' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='260.0' y='72.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>30</text><text x='260.0' y='98' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[2]</text><rect x='288' y='50' width='56' height='34' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='316.0' y='98' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[3]</text><rect x='344' y='50' width='56' height='34' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='372.0' y='98' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[4]</text><line x1='148' y1='132' x2='148' y2='104' stroke='#15803d' stroke-width='2' marker-end='url(#a15803d)'/><text x='148' y='148' font-family='Consolas, monospace' font-size='12' fill='#15803d' text-anchor='middle' font-weight='700'>front = 0</text><line x1='260' y1='132' x2='260' y2='104' stroke='#b91c1c' stroke-width='2' marker-end='url(#ab91c1c)'/><text x='260' y='148' font-family='Consolas, monospace' font-size='12' fill='#b91c1c' text-anchor='middle' font-weight='700'>rear = 2</text><text x='420' y='62' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#b91c1c' text-anchor='start'>enqueue → at rear</text><text x='420' y='80' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#15803d' text-anchor='start'>dequeue → from front</text><text x='20' y='178' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='start' font-weight='700'>After 1 dequeue:</text><rect x='120' y='186' width='56' height='34' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><rect x='176' y='186' width='56' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='204.0' y='208.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>20</text><rect x='232' y='186' width='56' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='260.0' y='208.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>30</text><rect x='288' y='186' width='56' height='34' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><rect x='344' y='186' width='56' height='34' rx='3' fill='#f3f4f6' stroke='#1f2937' stroke-width='1.4'/><text x='420' y='202' font-family='Consolas, monospace' font-size='12' fill='#1f2937' text-anchor='start'>front = 1, rear = 2</text><text x='420' y='220' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#6b7280' text-anchor='start'>slot [0] is never reused</text></svg><figcaption>The manual's example: enqueue 10, 20, 30, then one dequeue.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Check first</th>
+<th>Then</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>enqueue(v)</strong></td>
+<td><code>rear == MAX-1</code> → Overflow</td>
+<td>if <code>front == -1</code> set <code>front = 0</code>; <code>rear++</code>; <code>queueArr[rear] = v</code></td>
+</tr>
+<tr>
+<td><strong>dequeue()</strong></td>
+<td><code>front == -1</code> → Underflow</td>
+<td>print <code>queueArr[front]</code>; if <code>front == rear</code> (last one) reset both to −1, else <code>front++</code></td>
+</tr>
+<tr>
+<td><strong>display()</strong></td>
+<td><code>front == -1</code> → empty</td>
+<td>print <code>queueArr[front]</code> … <code>queueArr[rear]</code></td>
+</tr>
+</tbody>
+</table>
+<div class="box key">
+<div class="bh">Why reset to −1 when the last element leaves</div>
+<p>After dequeuing the only element, front would pass rear, which is confusing. Resetting both to −1 means "empty" is always <code>front == -1</code>, and the next enqueue starts again from index 0.</p>
+</div>
+<h2>9.2 The program (corrected)</h2>
+<p>The manual's <strong>listing</strong> (page 5) is right; its <strong>screenshot</strong> (page 9) doesn't compile. In the screenshot, <code>enqueue(value);</code> sits after the <code>if</code>'s closing brace, so the next <code>else</code> has no <code>if</code>; choice 3 prints "Program terminated" instead of displaying; and there's a bare <code>else</code> with no statement:</p>
+
+<div class="err"><div class="ch">g++ says</div><pre>m10_screenshot.cpp:23:9: error: &#x27;else&#x27; without a previous &#x27;if&#x27;
+   23 |         else if (choice == 2)
+      |         ^~~~
+m10_screenshot.cpp:25:9: error: expected &#x27;}&#x27; before &#x27;else&#x27;
+   25 |         else if (choice == 3)
+      |         ^~~~
+m10_screenshot.cpp:28:5: error: expected primary-expression before &#x27;}&#x27; token
+   28 |     } while (choice != 4);
+      |     ^</pre></div>
+
+<p>Two more fixes: the array is renamed from <code>queue</code> to <code>queueArr</code> (with <code>#include &lt;bits/stdc++.h&gt;</code>, <code>queue</code> clashes with the library's <code>std::queue</code>), and the dead <code>|| front &gt; rear</code> test is dropped (after the reset rule it can never be true).</p>
+
+<div class="code"><div class="ch">e10_queue.cpp</div><pre><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+
+<span class="cp">#define MAX 5</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">queueArr</span><span class="p">[</span><span class="n">MAX</span><span class="p">];</span><span class="w">         </span><span class="c1">// FIX: renamed from &quot;queue&quot; - clashes with std::queue</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">front</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">rear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">enqueue</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rear</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MAX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Queue Overflow!&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">front</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w">                     </span><span class="c1">// first element</span>
+<span class="w">            </span><span class="n">front</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="n">rear</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="n">queueArr</span><span class="p">[</span><span class="n">rear</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; inserted into queue.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">dequeue</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">front</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Queue Underflow!&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">queueArr</span><span class="p">[</span><span class="n">front</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; deleted from queue.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">front</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rear</span><span class="p">)</span><span class="w">                   </span><span class="c1">// that was the last element</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">front</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">            </span><span class="n">rear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">front</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">display</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">front</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Queue is empty.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Queue elements are:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">front</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">rear</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">queueArr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">choice</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">do</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">1. Enqueue&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;2. Dequeue&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;3. Display&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;4. Exit&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter your choice: &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">choice</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter value to enqueue: &quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">            </span><span class="n">enqueue</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">dequeue</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">display</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Program terminated.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid choice!&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>The manual's Sample Inputs 1 and 2 in one run:</p>
+
+<div class="run"><div class="ch">screen (real run; menu shown once, it reprints before each choice)</div><pre>1. Enqueue
+2. Dequeue
+3. Display
+4. Exit
+Enter your choice: 1
+Enter value to enqueue: 10
+10 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 20
+20 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 30
+30 inserted into queue.
+Enter your choice: 3
+Queue elements are:
+10 20 30 
+Enter your choice: 2
+10 deleted from queue.
+Enter your choice: 3
+Queue elements are:
+20 30 
+Enter your choice: 4
+Program terminated.</pre></div>
+
+<h2>9.3 The linear queue's flaw (a favourite viva question)</h2>
+
+<figure style="max-width:100%"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 620 150' width='620'><defs><marker id='a15803d' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#15803d'/></marker><marker id='a6b7280' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#6b7280'/></marker><marker id='ab91c1c' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b91c1c'/></marker><marker id='a1d4ed8' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1d4ed8'/></marker><marker id='a1f2937' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1f2937'/></marker><marker id='aa16207' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#a16207'/></marker></defs><text x='20' y='20' font-family='Segoe UI, Arial, sans-serif' font-size='13' fill='#1f2937' text-anchor='start' font-weight='700'>Linear queue flaw: enqueue 1..5, dequeue twice, enqueue 7</text><rect x='120' y='40' width='56' height='34' rx='3' fill='#fee2e2' stroke='#1f2937' stroke-width='1.4'/><text x='148.0' y='88' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[0]</text><rect x='176' y='40' width='56' height='34' rx='3' fill='#fee2e2' stroke='#1f2937' stroke-width='1.4'/><text x='204.0' y='88' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[1]</text><rect x='232' y='40' width='56' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='260.0' y='62.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>3</text><text x='260.0' y='88' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[2]</text><rect x='288' y='40' width='56' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='316.0' y='62.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>4</text><text x='316.0' y='88' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[3]</text><rect x='344' y='40' width='56' height='34' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='372.0' y='62.04' font-family='Consolas, monospace' font-size='14' fill='#1f2937' text-anchor='middle'>5</text><text x='372.0' y='88' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[4]</text><text x='176' y='112' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#b91c1c' text-anchor='middle'>2 free slots ...</text><text x='372' y='112' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#b91c1c' text-anchor='middle'>... but rear == MAX-1</text><text x='310' y='138' font-family='Segoe UI, Arial, sans-serif' font-size='12' fill='#1f2937' text-anchor='middle'>so the program prints "Queue Overflow!" (verified run). The circular queue fixes this.</text></svg><figcaption>Slots freed by dequeue are never reused, because rear only moves forward.</figcaption></figure>
+
+
+<div class="run"><div class="ch">screen (real run; menu shown once, it reprints before each choice)</div><pre>1. Enqueue
+2. Dequeue
+3. Display
+4. Exit
+Enter your choice: 2
+Queue Underflow!
+Enter your choice: 1
+Enter value to enqueue: 1
+1 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 2
+2 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 3
+3 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 4
+4 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 5
+5 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 6
+Queue Overflow!
+Enter your choice: 2
+1 deleted from queue.
+Enter your choice: 2
+2 deleted from queue.
+Enter your choice: 1
+Enter value to enqueue: 7
+Queue Overflow!
+Enter your choice: 3
+Queue elements are:
+3 4 5 
+Enter your choice: 4
+Program terminated.</pre></div>
+
+<p>Underflow on the empty queue; then 1–5 fill it; 6 overflows (correct, it's full); two dequeues free slots 0 and 1, <strong>yet 7 still overflows</strong>, because rear is still MAX−1. The fix is the <strong>circular queue</strong> (9.5).</p>
+<div class="box write">
+<div class="bh">Write in your record</div>
+<p><strong>Aim:</strong> To implement a queue using an array and perform enqueue, dequeue and display operations.</p>
+<p><strong>Algorithm:</strong> front = rear = −1. <em>Enqueue:</em> if rear == MAX−1 → overflow; else (if front == −1, front = 0), rear++, queue[rear] = value. <em>Dequeue:</em> if front == −1 → underflow; else print queue[front]; if front == rear, front = rear = −1, else front++. <em>Display:</em> print queue[front…rear].</p>
+<p><strong>Complexity:</strong> enqueue O(1), dequeue O(1), display O(n); space O(MAX).</p>
+<p><strong>Result:</strong> Enqueued 10, 20, 30 (display 10 20 30); dequeue removed 10 (display 20 30), confirming FIFO. Overflow and underflow were detected.</p>
+</div>
+<h2>9.4 Viva questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is FIFO?</td>
+<td>First In, First Out: elements leave in the order they arrived.</td>
+</tr>
+<tr>
+<td>Where is insertion / deletion done?</td>
+<td>Insertion at the rear, deletion at the front.</td>
+</tr>
+<tr>
+<td>Overflow / underflow conditions?</td>
+<td>rear == MAX−1 / front == −1.</td>
+</tr>
+<tr>
+<td>Drawback of a linear array queue?</td>
+<td>Freed slots at the front are never reused, so it can report overflow while slots are empty.</td>
+</tr>
+<tr>
+<td>How does a circular queue fix it?</td>
+<td>Indexes wrap: <code>rear = (rear + 1) % MAX</code>, so slot 0 is reused after slot MAX−1.</td>
+</tr>
+<tr>
+<td>Applications?</td>
+<td>CPU and printer scheduling, keyboard buffers, network packets, breadth-first search.</td>
+</tr>
+<tr>
+<td>Why are enqueue and dequeue O(1)?</td>
+<td>Each touches one index; nothing is shifted (unlike array deletion in Exp 4).</td>
+</tr>
+</tbody>
+</table>
+<h2>9.5 If the examiner changes the question</h2>
+<p><strong>Circular queue</strong> (full program). The only changes from Exp 10: wrap with <code>% MAX</code>, and "full" becomes <code>(rear + 1) % MAX == front</code>.</p>
+
+<figure style="max-width:100%"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 270' width='560'><defs><marker id='a15803d' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#15803d'/></marker><marker id='a6b7280' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#6b7280'/></marker><marker id='ab91c1c' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b91c1c'/></marker><marker id='a1d4ed8' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1d4ed8'/></marker><marker id='a1f2937' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1f2937'/></marker><marker id='aa16207' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#a16207'/></marker></defs><rect x='118.0' y='37.0' width='44' height='36' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='140.0' y='60.4' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>6</text><text x='140.0' y='21.0' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[0]</text><rect x='198.83980388508803' y='95.73355547812947' width='44' height='36' rx='3' fill='#dcfce7' stroke='#1f2937' stroke-width='1.4'/><text x='220.83980388508803' y='119.13355547812948' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>7</text><text x='256.97995150430387' y='105.99090969188147' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[1]</text><rect x='167.9617464448602' y='190.76644452187054' width='44' height='36' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='189.9617464448602' y='214.16644452187055' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>3</text><text x='212.2975860319742' y='243.50909030811852' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[2]</text><rect x='68.03825355513979' y='190.76644452187054' width='44' height='36' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='90.03825355513979' y='214.16644452187055' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>4</text><text x='67.70241396802582' y='243.50909030811852' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[3]</text><rect x='37.16019611491194' y='95.73355547812949' width='44' height='36' rx='3' fill='#eff6ff' stroke='#1f2937' stroke-width='1.4'/><text x='59.16019611491194' y='119.1335554781295' font-family='Consolas, monospace' font-size='15' fill='#1f2937' text-anchor='middle'>5</text><text x='23.020048495696102' y='105.99090969188148' font-family='Consolas, monospace' font-size='10' fill='#6b7280' text-anchor='middle'>[4]</text><path d='M170,110 A40,40 0 1,1 110,110' fill='none' stroke='#1d4ed8' stroke-width='1.5' marker-end='url(#a1d4ed8)'/><text x='140' y='145' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#1d4ed8' text-anchor='middle'>wraps</text><text x='300' y='50' font-family='Consolas, monospace' font-size='12' fill='#15803d' text-anchor='start'>front = 2 (value 3)</text><text x='300' y='70' font-family='Consolas, monospace' font-size='12' fill='#b91c1c' text-anchor='start'>rear  = 1 (value 7)</text><text x='300' y='105' font-family='Consolas, monospace' font-size='13' fill='#1f2937' text-anchor='start' font-weight='700'>rear = (rear + 1) % MAX</text><text x='300' y='125' font-family='Consolas, monospace' font-size='12' fill='#1f2937' text-anchor='start'>4 → (4+1) % 5 = 0</text><text x='300' y='160' font-family='Consolas, monospace' font-size='12' fill='#1f2937' text-anchor='start'>full when (rear+1) % MAX == front</text><text x='300' y='185' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#6b7280' text-anchor='start'>green = new values stored in the</text><text x='300' y='199' font-family='Segoe UI, Arial, sans-serif' font-size='11' fill='#6b7280' text-anchor='start'>slots the linear queue wasted</text></svg><figcaption>After enqueue 1–5, dequeue 1 and 2, enqueue 6 and 7: the new values reuse slots 0 and 1.</figcaption></figure>
+
+
+<div class="code"><div class="ch">e10b_circular_queue.cpp</div><pre><span class="c1">// Exp 10 assignment: Circular Queue using an array.</span>
+<span class="c1">// Same as the linear queue, except rear and front wrap around with  % MAX.</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+
+<span class="cp">#define MAX 5</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">cq</span><span class="p">[</span><span class="n">MAX</span><span class="p">];</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">front</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="n">rear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="nf">isEmpty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">front</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="kt">bool</span><span class="w"> </span><span class="nf">isFull</span><span class="p">()</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">rear</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">MAX</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">front</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// next slot after rear is front</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">enqueue</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isFull</span><span class="p">())</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Queue Overflow!&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isEmpty</span><span class="p">())</span>
+<span class="w">        </span><span class="n">front</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">rear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">rear</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">MAX</span><span class="p">;</span><span class="w">                 </span><span class="c1">// 4 -&gt; 0 : wrap around</span>
+<span class="w">    </span><span class="n">cq</span><span class="p">[</span><span class="n">rear</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; inserted into queue.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">dequeue</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isEmpty</span><span class="p">())</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Queue Underflow!&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">cq</span><span class="p">[</span><span class="n">front</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; deleted from queue.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">front</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rear</span><span class="p">)</span><span class="w">                       </span><span class="c1">// last element removed</span>
+<span class="w">        </span><span class="n">front</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">front</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">front</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">MAX</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">display</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isEmpty</span><span class="p">())</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Queue is empty.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Queue elements are:&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">front</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">cq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rear</span><span class="p">)</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">MAX</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">choice</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">1. Enqueue&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;2. Dequeue&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;3. Display&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;4. Exit&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter your choice: &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">choice</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Enter value to enqueue: &quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">            </span><span class="n">enqueue</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">            </span><span class="n">dequeue</span><span class="p">();</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">            </span><span class="n">display</span><span class="p">();</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Program terminated.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid choice!&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">choice</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>The same sequence that defeated the linear queue. 6 and 7 are now accepted:</p>
+
+<div class="run"><div class="ch">screen (real run; menu shown once, it reprints before each choice)</div><pre>1. Enqueue
+2. Dequeue
+3. Display
+4. Exit
+Enter your choice: 1
+Enter value to enqueue: 1
+1 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 2
+2 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 3
+3 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 4
+4 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 5
+5 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 6
+Queue Overflow!
+Enter your choice: 2
+1 deleted from queue.
+Enter your choice: 2
+2 deleted from queue.
+Enter your choice: 1
+Enter value to enqueue: 6
+6 inserted into queue.
+Enter your choice: 1
+Enter value to enqueue: 7
+7 inserted into queue.
+Enter your choice: 3
+Queue elements are:
+3 4 5 6 7 
+Enter your choice: 1
+Enter value to enqueue: 8
+Queue Overflow!
+Enter your choice: 4
+Program terminated.</pre></div>
+
+<p><strong>Linear vs. circular queue</strong> ("WAP to compare"): run both programs on the input above. The linear one reports overflow with free slots; the circular one stores 6 and 7. Both are O(1) per operation.</p>
+<p><strong>Peek, isEmpty / isFull, show front and rear</strong> (add to Exp 10's program and to the menu):</p>
+
+<div class="code short"><pre><span class="kt">void</span><span class="w"> </span><span class="nf">peek</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">front</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Queue is empty.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Front element is &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">queueArr</span><span class="p">[</span><span class="n">front</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w">   </span><span class="c1">// look, don&#39;t remove</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="code short"><pre><span class="kt">bool</span><span class="w"> </span><span class="nf">isEmpty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">front</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="kt">bool</span><span class="w"> </span><span class="nf">isFull</span><span class="p">()</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">rear</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MAX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</pre></div>
+
+
+<div class="code short"><pre><span class="kt">void</span><span class="w"> </span><span class="nf">showFrontRear</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">front</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Queue is empty.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Front = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">queueArr</span><span class="p">[</span><span class="n">front</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, Rear = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">queueArr</span><span class="p">[</span><span class="n">rear</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Reverse the queue</strong> (swap the two ends, move inwards):</p>
+
+<div class="code short"><pre><span class="c1">// Reverse the elements between front and rear: swap the two ends, move inwards</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">reverseQueue</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">front</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">front</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rear</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">j</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queueArr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">        </span><span class="n">queueArr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queueArr</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+<span class="w">        </span><span class="n">queueArr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="w">        </span><span class="n">i</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="n">j</span><span class="o">--</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Queue using a linked list</strong> (read chapter 10 first; no MAX, so no overflow):</p>
+
+<div class="code"><pre><span class="c1">// Queue using a linked list: no fixed size, so no overflow.</span>
+<span class="c1">// Enqueue at the rear end of the list, dequeue from the front end.</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">QNode</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="w">    </span><span class="n">QNode</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="n">QNode</span><span class="w"> </span><span class="o">*</span><span class="n">qFront</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">qRear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">enqueueLL</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">QNode</span><span class="w"> </span><span class="o">*</span><span class="n">newNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">QNode</span><span class="p">;</span>
+<span class="w">    </span><span class="n">newNode</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="n">newNode</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">qRear</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w">                       </span><span class="c1">// empty queue</span>
+<span class="w">        </span><span class="n">qFront</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qRear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">qRear</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="w">        </span><span class="n">qRear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">dequeueLL</span><span class="p">()</span><span class="w">                              </span><span class="c1">// returns -1 if empty</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">qFront</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Queue Underflow!&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">QNode</span><span class="w"> </span><span class="o">*</span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qFront</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
+<span class="w">    </span><span class="n">qFront</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qFront</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">qFront</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w">                      </span><span class="c1">// queue became empty</span>
+<span class="w">        </span><span class="n">qRear</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="k">delete</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Queue for CPU scheduling (FCFS).</strong> Processes are served in arrival order. Tested: bursts 24, 3, 3 give waiting times 0, 24, 27, average 17.</p>
+
+<div class="code short"><pre><span class="c1">// CPU scheduling (First Come First Served): processes wait in a queue in arrival order.</span>
+<span class="c1">// Waiting time of a process = sum of burst times of everyone before it.</span>
+<span class="kt">float</span><span class="w"> </span><span class="nf">fcfs</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">burst</span><span class="p">[],</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">waiting</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">totalWait</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Process</span><span class="se">\t</span><span class="s">Burst</span><span class="se">\t</span><span class="s">Waiting</span><span class="se">\t</span><span class="s">Turnaround&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w">     </span><span class="c1">// \t = tab</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w">              </span><span class="c1">// dequeue in FIFO order</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">turnaround</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">waiting</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">burst</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;P&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">burst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">waiting</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">turnaround</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">        </span><span class="n">totalWait</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">waiting</span><span class="p">;</span>
+<span class="w">        </span><span class="n">waiting</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">burst</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Average waiting time = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">totalWait</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">totalWait</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<div class="box check">
+<div class="bh">Check 9.1</div>
+<p>MAX = 4, linear queue. enqueue 5, enqueue 6, dequeue, dequeue, enqueue 7. What are front and rear after each step?</p>
+</div>
+<div class="box check">
+<div class="bh">Check 9.2</div>
+<p>Circular queue, MAX = 4, front = 2, rear = 3. Enqueue 9: which index is it stored at? Is the queue full now?</p>
+</div>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 9.1:</strong> enqueue 5 → front 0, rear 0. enqueue 6 → 0, 1. dequeue (5) → 1, 1. dequeue (6): front == rear → reset → −1, −1. enqueue 7 → 0, 0.</p>
+<p><strong>Check 9.2:</strong> rear = (3 + 1) % 4 = <strong>0</strong>, so 9 goes to index 0. Full? (0 + 1) % 4 = 1 ≠ front (2), so <strong>not full</strong>: index 1 is still free.</p>
+</div></body></html>

@@ -29,3 +29,4 @@
   (19 IC pin diagrams, 2 K-maps, NAND/NOR logic, counter timing, 1010 state diagram, TTL circuit + VTC), visually reviewed.
   One self-error caught in review and fixed before release: 7485 behaviour with wrong cascade inputs (all-0 cascade with
   A = B lights A>B and A<B, per the function table).
+- `[2026-11-02]` Merge done (the end goal noted above): this pack is pages 85-131 of `../_lab-ete-pack/Sem3-Lab-ETE-pack.pdf` (ED + DE + DSA, 222 pp.); the pack itself is unchanged.

@@ -15,3 +15,4 @@ schemdraw>=0.19,<1
 # --- Content sourcing (subject-research-protocol.md §2) ---
 # NPTEL/YouTube lecture caption puller — tools/fetch_transcripts.py
 yt-dlp>=2026.6,<2027
+pygments==2.19.2

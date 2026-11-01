@@ -1,0 +1,267 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>ECE2132 Data Structures & Algorithms Lab — Start here</title>
+<style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2132 Data Structures & Algorithms Lab · Lab Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; } p:has(+ ul), p:has(+ ol), p:has(+ table) { break-after: avoid; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.do { background: #f0f9ff; border-color: #0284c7; } .do > .bh { color: #0369a1; }
+.write p { margin: 3pt 0; }
+.write { background: #fff7ed; border-color: #ea580c; } .write > .bh { color: #c2410c; }
+.do ol { margin: 3pt 0; padding-left: 18pt; } .do li { margin: 1.5pt 0; }
+pre { background: #f3f4f6; border-radius: 5px; padding: 5pt 8pt; font-size: 9.3pt; break-inside: avoid; white-space: pre-wrap; }
+pre code { background: none; padding: 0; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { border-top: 2px dashed #86efac; margin-top: 18pt; padding-top: 2pt; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+.code, .run, .err { margin: 8pt 0; border-radius: 6px; break-inside: auto; border: 1px solid #e5e7eb; }
+.code.short, .err { break-inside: avoid; }
+.code .ch, .run .ch, .err .ch { break-after: avoid; font: 600 8pt 'Segoe UI', Arial; color: #6b7280; padding: 3pt 8pt 0;
+  text-transform: uppercase; letter-spacing: .4pt; }
+.code pre, .run pre, .err pre { margin: 0; background: none; font-family: Consolas, monospace; font-size: 8.9pt;
+  line-height: 1.38; white-space: pre-wrap; break-inside: auto; }
+.code { background: #f8fafc; }
+.run { background: #111827; border-color: #111827; } .run pre { color: #e5e7eb; } .run .ch { color: #9ca3af; }
+.err { background: #fef2f2; border-color: #fecaca; } .err pre { color: #7f1d1d; font-size: 8.4pt; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code pre .hll { background-color: #ffffcc }
+.code pre { background: #f0f0f0; }
+.code pre .c { color: #60A0B0; font-style: italic } /* Comment */
+.code pre .err { border: 1px solid #F00 } /* Error */
+.code pre .k { color: #007020; font-weight: bold } /* Keyword */
+.code pre .o { color: #666 } /* Operator */
+.code pre .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code pre .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code pre .cp { color: #007020 } /* Comment.Preproc */
+.code pre .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code pre .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code pre .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code pre .gd { color: #A00000 } /* Generic.Deleted */
+.code pre .ge { font-style: italic } /* Generic.Emph */
+.code pre .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code pre .gr { color: #F00 } /* Generic.Error */
+.code pre .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code pre .gi { color: #00A000 } /* Generic.Inserted */
+.code pre .go { color: #888 } /* Generic.Output */
+.code pre .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code pre .gs { font-weight: bold } /* Generic.Strong */
+.code pre .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code pre .gt { color: #04D } /* Generic.Traceback */
+.code pre .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code pre .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code pre .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code pre .kp { color: #007020 } /* Keyword.Pseudo */
+.code pre .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code pre .kt { color: #902000 } /* Keyword.Type */
+.code pre .m { color: #40A070 } /* Literal.Number */
+.code pre .s { color: #4070A0 } /* Literal.String */
+.code pre .na { color: #4070A0 } /* Name.Attribute */
+.code pre .nb { color: #007020 } /* Name.Builtin */
+.code pre .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code pre .no { color: #60ADD5 } /* Name.Constant */
+.code pre .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code pre .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code pre .ne { color: #007020 } /* Name.Exception */
+.code pre .nf { color: #06287E } /* Name.Function */
+.code pre .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code pre .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code pre .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code pre .nv { color: #BB60D5 } /* Name.Variable */
+.code pre .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code pre .w { color: #BBB } /* Text.Whitespace */
+.code pre .mb { color: #40A070 } /* Literal.Number.Bin */
+.code pre .mf { color: #40A070 } /* Literal.Number.Float */
+.code pre .mh { color: #40A070 } /* Literal.Number.Hex */
+.code pre .mi { color: #40A070 } /* Literal.Number.Integer */
+.code pre .mo { color: #40A070 } /* Literal.Number.Oct */
+.code pre .sa { color: #4070A0 } /* Literal.String.Affix */
+.code pre .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code pre .sc { color: #4070A0 } /* Literal.String.Char */
+.code pre .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code pre .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code pre .s2 { color: #4070A0 } /* Literal.String.Double */
+.code pre .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code pre .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code pre .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code pre .sx { color: #C65D09 } /* Literal.String.Other */
+.code pre .sr { color: #235388 } /* Literal.String.Regex */
+.code pre .s1 { color: #4070A0 } /* Literal.String.Single */
+.code pre .ss { color: #517918 } /* Literal.String.Symbol */
+.code pre .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code pre .fm { color: #06287E } /* Name.Function.Magic */
+.code pre .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code pre .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code pre .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code pre .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code pre .il { color: #40A070 } /* Literal.Number.Integer.Long */
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+</style></head><body><h1>ECE2132 Data Structures &amp; Algorithms Lab — Start here</h1>
+<div class="sub">Built from the 9 manual files you uploaded (Exp 1–8, 10–12; AY 2026-27). Every program in this pack was compiled with g++ in strict mode and run on the manual's own sample inputs. The output boxes are copied from those real runs.</div>
+
+<div class="map"><span class="n here">C++ from zero</span><span class="a">→</span><span class="n">Pointers (1–2)</span><span class="a">→</span><span class="n">Arrays (3–4)</span><span class="a">→</span><span class="n">Matrices (5–6)</span><span class="a">→</span><span class="n">Sorting (7–8)</span><span class="a">→</span><span class="n">Stack (9)</span><span class="a">→</span><span class="n">Queue (10)</span><span class="a">→</span><span class="n">Linked lists (11–12)</span><span class="a">→</span><span class="n">Exam day</span></div>
+
+<h2>What the lab exam asks of you</h2>
+<p>You will be given one experiment (possibly with a small change, like the manual's ASSIGNMENT lines). To score, you need four things:</p>
+<ol>
+<li><strong>Write the record part</strong>: aim, short algorithm, time/space complexity, result.</li>
+<li><strong>Type the program</strong> from memory, compile it, and fix your own typos from the compiler's messages.</li>
+<li><strong>Run it</strong> on a sample input and show the right output.</li>
+<li><strong>Answer viva questions</strong>: why this line, what happens if…, what is the complexity.</li>
+</ol>
+<p>Each experiment chapter gives you those four, in that order.</p>
+<h2>How to use each chapter</h2>
+<div class="box key">
+<div class="bh">The one rule</div>
+<p><strong>Guess before you read.</strong> Each chapter opens with a question box. Answer it in your head or on paper <em>before</em> reading on, even if you're unsure. A wrong guess still helps: the right answer sticks better after you've tried. Then type the program yourself, without looking. Re-reading feels like studying but doesn't make you able to type it from scratch.</p>
+</div>
+<ul>
+<li><strong>Code boxes</strong> (light grey) contain the corrected program. Type it yourself; don't copy-paste.</li>
+<li><strong>Screen boxes</strong> (black) show what the program printed in a real run, with the typed input included.</li>
+<li><strong>Red boxes</strong> show real compiler errors from the manual's broken versions, so you learn to read them.</li>
+<li><strong>Check</strong> questions close each chapter. Answers are at the end of that chapter.</li>
+<li><strong>"If the examiner changes the question"</strong> sections hold the manual's ASSIGNMENT variants. Each one is tested.</li>
+</ul>
+<h2>Manual errors found (and fixed in this pack)</h2>
+<p>The manual's listings are images, and many experiments print the code twice (a PROGRAM listing and an IMPLEMENTATION screenshot) that <strong>don't match</strong>. Everything below was checked by compiling and running it.</p>
+<table>
+<thead>
+<tr>
+<th>Exp</th>
+<th>Problem in the manual</th>
+<th>Effect</th>
+<th>Fix in this pack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>RESULT paragraph copied from Exp 1</td>
+<td>Wrong result statement</td>
+<td>Own result written</td>
+</tr>
+<tr>
+<td>3</td>
+<td>No check on position or free space</td>
+<td>Position 0 or 50 corrupts memory</td>
+<td>Position 1…n+1 checked</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Every option asks "Enter value:" and reads a number it never uses (listing only; the screenshot is right)</td>
+<td>With the manual's own sample input, the program waits forever for a value</td>
+<td>Prompt removed; deleted element printed</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Algorithm step 5 says "insertion menu"</td>
+<td>Text slip</td>
+<td>—</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Algorithm step 7 is a stray deletion line; explanation table rows are shifted by one</td>
+<td>Text slips</td>
+<td>Correct table in chapter</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Fig. 3 caption "A[i][j] to T[i][j]"</td>
+<td>Should be T[j][i]</td>
+<td>—</td>
+</tr>
+<tr>
+<td>7, 8</td>
+<td><code>int arr[n];</code> with <code>n</code> read at run time</td>
+<td>Not standard C++. Visual Studio refuses it; g++ only allows it as an extension</td>
+<td><code>int arr[100];</code> + range check</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Aim and explanation promise Bubble, Selection, Insertion, <code>copyArray()</code> and <code>clock()</code> timing, but the code has only Quick Sort</td>
+<td>Half the experiment is missing</td>
+<td>Full comparison program added</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Heading "Characteristics of Insertion Sort" over quick sort points</td>
+<td>Text slip</td>
+<td>—</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Figure captions say "…Operation on <strong>Stack</strong>"</td>
+<td>Copied from a stack experiment</td>
+<td>—</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Screenshot copy: <code>enqueue(value);</code> outside its <code>if</code>, choice 3 prints "Program terminated", bare <code>else</code></td>
+<td>Doesn't compile</td>
+<td>Listing version used, braces fixed</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Array named <code>queue</code></td>
+<td>Clashes with <code>std::queue</code> if <code>&lt;bits/stdc++.h&gt;</code> is included</td>
+<td>Renamed <code>queueArr</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Screenshot copy: traverse never moves <code>temp</code> (infinite loop), insert never links the node, menu text corrupted</td>
+<td>Broken</td>
+<td>Listing version used (it is correct)</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Listing: <code>insert(intvalue)</code>, menu strings without closing quotes, <code>delete temp;</code> outside the block where <code>temp</code> exists, <code>main</code> cut off</td>
+<td>Doesn't compile</td>
+<td>Fixed and completed</td>
+</tr>
+</tbody>
+</table>
+<div class="box note">
+<div class="bh">Experiment 9 is missing</div>
+<p>No "Exp 9" file was uploaded. Exp 10's figure captions read "Enqueue Operation on Stack", so Exp 9 is almost certainly <strong>Stack using arrays</strong>. Chapter 8 of this pack covers it, written in the same style as the Queue experiment. It is <strong>not</strong> from your manual; check with a classmate whether Exp 9 really is Stack.</p>
+</div>
+<h2>The compiler on your laptop</h2>
+<p>To practise at home you need a C++ compiler. One is now installed on this laptop: <strong>g++ 16.2 (WinLibs MinGW)</strong>. Chapter 1 shows how to use it. In the lab you'll use whichever editor is there (VS Code, Code::Blocks or Dev-C++). The programs in this pack run the same on all three.</p></body></html>

@@ -1,0 +1,14 @@
+Initial Address : 0x45c67ffa90
+Value : 10
+
+After Increment
+Address : 0x45c67ffa94
+Value : 20
+
+After Decrement
+Address : 0x45c67ffa90
+Value : 10
+
+After Adding 2
+Address : 0x45c67ffa98
+Value : 30

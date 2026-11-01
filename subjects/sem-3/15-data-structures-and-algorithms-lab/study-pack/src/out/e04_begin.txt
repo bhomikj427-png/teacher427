@@ -1,0 +1,11 @@
+Enter number of elements: 5
+Enter array elements:
+10 20 30 40 50
+
+1. Delete at Beginning
+2. Delete at Any Position
+3. Delete at End
+Enter your choice: 1
+Deleted element: 10
+Updated Array:
+20 30 40 50

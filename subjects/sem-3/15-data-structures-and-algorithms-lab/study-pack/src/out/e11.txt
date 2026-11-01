@@ -1,0 +1,52 @@
+
+1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 1
+Enter value to insert: 10
+10 inserted into list.
+
+1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 1
+Enter value to insert: 20
+20 inserted into list.
+
+1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 1
+Enter value to insert: 30
+30 inserted into list.
+
+1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 3
+Linked List: 10 20 30 
+
+1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 2
+10 deleted from list.
+
+1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 3
+Linked List: 20 30 
+
+1. Insert
+2. Delete
+3. Traverse
+4. Exit
+Enter your choice: 4
+Program terminated.

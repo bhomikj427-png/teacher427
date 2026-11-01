@@ -1,0 +1,18 @@
+m12_listing.cpp:62:17: error: missing terminating " character
+   62 |     {   cout << "\n1. Insert
+      |                 ^
+m12_listing.cpp:13:6: error: variable or field 'insert' declared void
+   13 | void insert(intvalue)
+      |      ^~~~~~
+m12_listing.cpp:13:13: error: 'intvalue' was not declared in this scope
+   13 | void insert(intvalue)
+      |             ^~~~~~~~
+m12_listing.cpp:46:15: error: unused variable 'temp' [-Werror=unused-variable]
+   46 |     {   Node* temp = head;
+      |               ^~~~
+m12_listing.cpp:55:16: error: 'temp' was not declared in this scope; did you mean 'tm'?
+   55 |     }   delete temp;
+      |                ^~~~
+m12_listing.cpp:62:14: error: no match for 'operator<<' (operand types are 'std::ostream' {aka 'std::basic_ostream<char>'} and 'std::ostream' {aka 'std::basic_ostream<char>'})
+   62 |     {   cout << "\n1. Insert
+      |         ~~~~ ^~

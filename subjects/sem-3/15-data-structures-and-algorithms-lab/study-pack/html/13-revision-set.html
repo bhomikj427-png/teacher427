@@ -1,0 +1,208 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>13 · Revision set (the spaced re-test)</title>
+<style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2132 Data Structures & Algorithms Lab · Lab Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; } p:has(+ ul), p:has(+ ol), p:has(+ table) { break-after: avoid; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.do { background: #f0f9ff; border-color: #0284c7; } .do > .bh { color: #0369a1; }
+.write p { margin: 3pt 0; }
+.write { background: #fff7ed; border-color: #ea580c; } .write > .bh { color: #c2410c; }
+.do ol { margin: 3pt 0; padding-left: 18pt; } .do li { margin: 1.5pt 0; }
+pre { background: #f3f4f6; border-radius: 5px; padding: 5pt 8pt; font-size: 9.3pt; break-inside: avoid; white-space: pre-wrap; }
+pre code { background: none; padding: 0; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { border-top: 2px dashed #86efac; margin-top: 18pt; padding-top: 2pt; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+.code, .run, .err { margin: 8pt 0; border-radius: 6px; break-inside: auto; border: 1px solid #e5e7eb; }
+.code.short, .err { break-inside: avoid; }
+.code .ch, .run .ch, .err .ch { break-after: avoid; font: 600 8pt 'Segoe UI', Arial; color: #6b7280; padding: 3pt 8pt 0;
+  text-transform: uppercase; letter-spacing: .4pt; }
+.code pre, .run pre, .err pre { margin: 0; background: none; font-family: Consolas, monospace; font-size: 8.9pt;
+  line-height: 1.38; white-space: pre-wrap; break-inside: auto; }
+.code { background: #f8fafc; }
+.run { background: #111827; border-color: #111827; } .run pre { color: #e5e7eb; } .run .ch { color: #9ca3af; }
+.err { background: #fef2f2; border-color: #fecaca; } .err pre { color: #7f1d1d; font-size: 8.4pt; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code pre .hll { background-color: #ffffcc }
+.code pre { background: #f0f0f0; }
+.code pre .c { color: #60A0B0; font-style: italic } /* Comment */
+.code pre .err { border: 1px solid #F00 } /* Error */
+.code pre .k { color: #007020; font-weight: bold } /* Keyword */
+.code pre .o { color: #666 } /* Operator */
+.code pre .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code pre .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code pre .cp { color: #007020 } /* Comment.Preproc */
+.code pre .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code pre .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code pre .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code pre .gd { color: #A00000 } /* Generic.Deleted */
+.code pre .ge { font-style: italic } /* Generic.Emph */
+.code pre .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code pre .gr { color: #F00 } /* Generic.Error */
+.code pre .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code pre .gi { color: #00A000 } /* Generic.Inserted */
+.code pre .go { color: #888 } /* Generic.Output */
+.code pre .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code pre .gs { font-weight: bold } /* Generic.Strong */
+.code pre .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code pre .gt { color: #04D } /* Generic.Traceback */
+.code pre .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code pre .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code pre .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code pre .kp { color: #007020 } /* Keyword.Pseudo */
+.code pre .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code pre .kt { color: #902000 } /* Keyword.Type */
+.code pre .m { color: #40A070 } /* Literal.Number */
+.code pre .s { color: #4070A0 } /* Literal.String */
+.code pre .na { color: #4070A0 } /* Name.Attribute */
+.code pre .nb { color: #007020 } /* Name.Builtin */
+.code pre .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code pre .no { color: #60ADD5 } /* Name.Constant */
+.code pre .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code pre .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code pre .ne { color: #007020 } /* Name.Exception */
+.code pre .nf { color: #06287E } /* Name.Function */
+.code pre .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code pre .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code pre .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code pre .nv { color: #BB60D5 } /* Name.Variable */
+.code pre .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code pre .w { color: #BBB } /* Text.Whitespace */
+.code pre .mb { color: #40A070 } /* Literal.Number.Bin */
+.code pre .mf { color: #40A070 } /* Literal.Number.Float */
+.code pre .mh { color: #40A070 } /* Literal.Number.Hex */
+.code pre .mi { color: #40A070 } /* Literal.Number.Integer */
+.code pre .mo { color: #40A070 } /* Literal.Number.Oct */
+.code pre .sa { color: #4070A0 } /* Literal.String.Affix */
+.code pre .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code pre .sc { color: #4070A0 } /* Literal.String.Char */
+.code pre .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code pre .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code pre .s2 { color: #4070A0 } /* Literal.String.Double */
+.code pre .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code pre .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code pre .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code pre .sx { color: #C65D09 } /* Literal.String.Other */
+.code pre .sr { color: #235388 } /* Literal.String.Regex */
+.code pre .s1 { color: #4070A0 } /* Literal.String.Single */
+.code pre .ss { color: #517918 } /* Literal.String.Symbol */
+.code pre .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code pre .fm { color: #06287E } /* Name.Function.Magic */
+.code pre .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code pre .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code pre .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code pre .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code pre .il { color: #40A070 } /* Literal.Number.Integer.Long */
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+</style></head><body><h1>13 · Revision set (the spaced re-test)</h1>
+<div class="sub">One question per key idea. Do this on paper, without the pack, a day or more after finishing the chapters, and again two or three days later. Typing the programs from memory is the real test.</div>
+
+<div class="box key">
+<div class="bh">How to use it</div>
+<p>Answer everything first, then mark with the answers at the end. Anything you missed: re-read that chapter section, then <strong>type that program from scratch</strong> the same day. Don't just re-read: being able to type it without looking is what earns marks.</p>
+</div>
+<h2>Part A — type from memory (the actual exam skill)</h2>
+<p>Close the pack, open your editor, and type each program until it compiles and gives the expected output (chapter 12.2). Time yourself; aim for under 15 minutes each.</p>
+<ol>
+<li>Exp 3 (insert, all three cases)</li>
+<li>Exp 4 (delete, all three cases)</li>
+<li>Exp 5 (matrix multiply with the three functions)</li>
+<li>Exp 7 (insertion sort)</li>
+<li>Exp 8 (quick sort with partition)</li>
+<li>Exp 10 (queue with menu)</li>
+<li>Exp 11 (singly linked list with menu)</li>
+<li>Exp 12 (circular linked list with menu)</li>
+</ol>
+<h2>Part B — short questions</h2>
+<ol>
+<li><code>int x = 9; int *p = &amp;x; *p = 4;</code>. What is x now?</li>
+<li><code>int a[5]</code>; <code>int *p = a;</code>. Write the address of <code>a[3]</code> using p, and its value.</li>
+<li>Insert at position 2 in <code>3 6 9</code> (n = 3), value 4. Final array?</li>
+<li>Why does the insertion shift loop run from the end, but the deletion shift loop from the front?</li>
+<li>Valid positions for insertion in an n-element array? For deletion?</li>
+<li>A is 3 × 2, B is 2 × 4. Is A × B possible? Order of the result? Number of multiplications?</li>
+<li>Transpose of a 4 × 1 matrix: what order?</li>
+<li>Insertion sort on <code>3 1 2</code>: write the array after each pass.</li>
+<li>Best-case input for insertion sort, and its time complexity?</li>
+<li>Partition <code>7 2 9 4</code> with the last element as pivot. Final array and returned index?</li>
+<li>Which input makes this program's quick sort O(n²)?</li>
+<li>Why does <code>swapElements</code> take <code>int &amp;a, int &amp;b</code>?</li>
+<li>Linear queue, MAX = 3: enqueue 1, 2, 3, dequeue, enqueue 4. What happens, and why?</li>
+<li>Circular queue condition for "full"?</li>
+<li>Stack: push 1, 2, 3, pop, push 4, pop, pop. Which values come out?</li>
+<li>In a singly linked list, how do you know you're at the last node? In a circular one?</li>
+<li>What goes wrong if traverse forgets <code>temp = temp-&gt;next;</code>?</li>
+<li>In delete-from-beginning, what goes wrong with <code>delete head; head = head-&gt;next;</code>?</li>
+<li>Why is delete-from-beginning O(1) in a singly list but O(n) in the circular list (as programmed)?</li>
+<li>Why is <code>int arr[n];</code> (n read with cin) a problem?</li>
+<li>What does <code>p-&gt;data</code> mean, written another way?</li>
+<li>Give the stability (stable or not) of insertion sort and of quick sort.</li>
+</ol>
+<div class="answers">
+<h2>Answers</h2>
+<ol>
+<li><strong>4</strong>: <code>*p = 4</code> writes through the pointer into x.</li>
+<li>Address <code>p + 3</code>; value <code>*(p + 3)</code> (same as <code>a[3]</code>).</li>
+<li><strong>3 4 6 9</strong>.</li>
+<li>In each direction, the element about to be overwritten must be copied first: shifting right, the last element moves first; shifting left, the one just after the gap moves first.</li>
+<li>Insertion: 1 … n+1. Deletion: 1 … n.</li>
+<li>Yes (2 = 2). Result 3 × 4. Multiplications: 3 · 4 · 2 = <strong>24</strong>.</li>
+<li><strong>1 × 4</strong>.</li>
+<li>Pass 1 (key 1): <code>1 3 2</code>. Pass 2 (key 2): <code>1 2 3</code>.</li>
+<li>An already sorted array: <strong>O(n)</strong> (n − 1 comparisons).</li>
+<li>pivot 4, i = −1. j = 0: 7 no. j = 1: 2 &lt; 4 → i = 0, swap(arr[0], arr[1]) → <code>2 7 9 4</code>. j = 2: 9 no. Final swap(arr[1], arr[3]) → <strong><code>2 4 9 7</code></strong>, returns <strong>1</strong>.</li>
+<li>An already sorted (or reverse-sorted) array: the last-element pivot is always the largest (or smallest).</li>
+<li>So the function swaps the real array elements, not copies.</li>
+<li><strong>Overflow</strong> on enqueue 4: rear is still MAX − 1 even though slot 0 was freed. This is the linear-queue flaw.</li>
+<li><code>(rear + 1) % MAX == front</code>.</li>
+<li><strong>3, 4, 2</strong> (LIFO); 1 remains.</li>
+<li>Singly: <code>temp-&gt;next == NULL</code>. Circular: <code>temp-&gt;next == head</code>.</li>
+<li><code>temp</code> never moves, so the loop never ends (infinite loop).</li>
+<li>After <code>delete head</code>, reading <code>head-&gt;next</code> uses freed memory; the rest of the list is lost or the program crashes. Save <code>temp = head</code>, move head, then delete temp.</li>
+<li>In the circular list the last node must be re-pointed to the new head, and finding it means walking the whole list.</li>
+<li>It's a variable-length array: not standard C++. Visual Studio rejects it and strict g++ errors on it. Use a fixed maximum like <code>int arr[100]</code>.</li>
+<li><code>(*p).data</code>.</li>
+<li>Insertion sort: <strong>stable</strong>. Quick sort: <strong>not stable</strong>.</li>
+</ol>
+</div></body></html>

@@ -1,0 +1,12 @@
+Enter number of elements: 5
+Enter array elements:
+10 20 30 40 50
+
+1. Insert at Beginning
+2. Insert at Any Position
+3. Insert at End
+Enter your choice: 1
+Enter value: 5
+
+Updated Array:
+5 10 20 30 40 50
