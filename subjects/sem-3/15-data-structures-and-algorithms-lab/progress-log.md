@@ -89,3 +89,5 @@
   stripped), Result + real output. 26 Mermaid flowcharts (menu programs split into a menu chart + one chart per
   operation); rendered with HTML labels after plain labels printed `&gt;` literally; 0 render errors; pages reviewed.
   Source: `study-pack/src/record/` (`to-write.md` + `build_record.py`).
+- `[2026-11-02]` Learner: "rewrite theory, its too big, write atleast 50% less" (to-write file). Rewriting the 12 Theory sections of `study-pack/src/record/to-write.md` to <= 50% of their word count; keep definition + key rule + complexity.
+- `[2026-11-02]` Theory sections rewritten: 1409 -> 570 words (40% of original; every experiment 29-48%). Rebuilt `ECE2132-DSA-Lab-to-write.pdf` (54 pp., 0 flowchart errors).

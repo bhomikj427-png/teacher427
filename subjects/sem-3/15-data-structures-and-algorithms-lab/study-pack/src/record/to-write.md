@@ -23,7 +23,7 @@
 To write a program in C++ to implement pointers: store the address of a variable in a pointer and access the variable through the pointer.
 
 ### Theory
-A pointer is a variable that stores the memory address of another variable. The address-of operator `&` gives the address of a variable, and the dereference operator `*` gives the value stored at the address held in a pointer. If `ptr = &number`, then `ptr` holds the address of `number`, and `*ptr` gives the value of `number`. Pointers are the basis of dynamic memory allocation, passing arguments by reference, and linked structures such as linked lists, trees and graphs. Time complexity O(1), space complexity O(1).
+A pointer is a variable that stores the address of another variable. `&` gives a variable's address; `*` gives the value at the address a pointer holds. If `ptr = &number`, then `*ptr` equals `number`. Time and space: O(1).
 
 ### Algorithm
 1. Start.
@@ -60,7 +60,7 @@ The program was executed successfully. The pointer stored the address of `number
 To write a program in C++ to implement pointer arithmetic by performing increment, decrement and addition operations on a pointer.
 
 ### Theory
-Arithmetic on a pointer moves it in units of the data type it points to, not in bytes. For an `int` pointer (4-byte int), `ptr++` moves to the next element (address + 4), `ptr--` moves back one element, and `ptr + 2` moves two elements forward (address + 8). This works because array elements are stored in contiguous memory. The array name is the address of its first element (`arr == &arr[0]`), and `*(ptr + i)` is equivalent to `arr[i]`. Pointer arithmetic is used for array traversal and in dynamic data structures. Time complexity O(1), space complexity O(1).
+Pointer arithmetic moves a pointer by whole elements, not bytes: for an `int` pointer, `ptr++` moves to the next element (+4 bytes), `ptr--` back one, `ptr + 2` forward two. It works because array elements are contiguous, and `arr` is the address of `arr[0]`. Time and space: O(1).
 
 ### Algorithm
 1. Start.
@@ -102,15 +102,7 @@ The program was executed successfully. Each increment moved the pointer by 4 byt
 To write a program in C++ to insert an element into an array at the beginning, at any specified position, and at the end.
 
 ### Theory
-An array stores elements in contiguous memory locations, so a gap must be created before a new element can be inserted. To create the gap, elements are shifted one place to the right, starting from the last element so that no value is overwritten before it is moved.
-
-- **Beginning:** all n elements shift right; the new element goes to index 0. O(n).
-
-- **Any position (1 to n+1):** elements from index pos−1 onward shift right; the new element goes to index pos−1. O(n).
-
-- **End:** the new element goes to index n; no shifting. O(1).
-
-After insertion, the number of elements n increases by 1. Insertion is not possible when the array is full (overflow). Space complexity O(1).
+Array elements are contiguous, so before inserting, a gap is made by shifting elements one place right, starting from the last. Beginning: shift all, O(n). Any position: shift from index pos−1 onward, O(n). End: no shift, O(1). Then n = n + 1. A full array cannot take more (overflow).
 
 ### Algorithm
 1. Start.
@@ -155,15 +147,7 @@ The program was executed successfully. For 10 20 30 40 50: inserting 5 at the be
 To write a program in C++ to delete an element from an array at the beginning, at any specified position, and at the end.
 
 ### Theory
-Deleting an element from an array leaves a gap, which is closed by shifting the following elements one place to the left, starting just after the deleted element.
-
-- **Beginning:** elements 1 … n−1 shift left. O(n).
-
-- **Any position (1 to n):** elements after index pos−1 shift left. O(n).
-
-- **End:** no shifting; only n is reduced. O(1).
-
-After deletion, n decreases by 1. Deletion from an empty array is not possible (underflow). Space complexity O(1).
+Deleting leaves a gap, which is closed by shifting the following elements one place left. Beginning: O(n). Any position: O(n). End: no shift, O(1). Then n = n − 1. Deleting from an empty array is underflow.
 
 ### Algorithm
 1. Start.
@@ -208,11 +192,7 @@ The program was executed successfully. For 10 20 30 40 50: deleting at the begin
 To write a program in C++ to implement matrix multiplication using modular programming, with separate functions for input, multiplication and display.
 
 ### Theory
-A matrix of order m × n has m rows and n columns. Two matrices A (r1 × c1) and B (r2 × c2) can be multiplied only if c1 = r2; the product C = A × B has order r1 × c2. Each element is the sum of products of a row of A with a column of B:
-
-$$C[i][j] = Σ_{k=0}^{c1−1} A[i][k] × B[k][j]$$
-
-This needs three nested loops, so the time complexity is O(r1 × c1 × c2), i.e. O(n³) for n × n matrices; the result needs O(r1 × c2) space. In modular programming the program is divided into functions that each do one task: `inputMatrix()`, `multiplyMatrix()`, `displayMatrix()`, with `main()` controlling execution. This makes the program easier to understand, debug and reuse.
+A (r1 × c1) and B (r2 × c2) can be multiplied only if c1 = r2. The result is r1 × c2, with C[i][j] = Σ A[i][k] × B[k][j]. Three nested loops give O(n³) time. Modular programming splits the work into `inputMatrix()`, `multiplyMatrix()` and `displayMatrix()`, called from `main()`.
 
 ### Algorithm
 1. Start.
@@ -258,11 +238,7 @@ The program was executed successfully. [[1, 2], [3, 4]] × [[5, 6], [7, 8]] = [[
 To write a program in C++ to find the transpose of a matrix using modular programming, with separate functions for input, transpose and display.
 
 ### Theory
-The transpose of a matrix is obtained by interchanging its rows and columns. If A has order m × n, its transpose T has order n × m, and
-
-$$T[j][i] = A[i][j]$$
-
-so row i of A becomes column i of T. Every element is visited once, so the time complexity is O(m × n); storing the transpose in a separate matrix needs O(m × n) space. The program is modular: `inputMatrix()`, `transposeMatrix()` and `displayMatrix()`, with `main()` calling them. The transpose is displayed with its rows and columns interchanged (cols × rows).
+The transpose swaps rows and columns: an m × n matrix A gives an n × m matrix T with T[j][i] = A[i][j]. Time and space: O(m × n). Separate functions: `inputMatrix()`, `transposeMatrix()`, `displayMatrix()`.
 
 ### Algorithm
 1. Start.
@@ -303,15 +279,7 @@ The program was executed successfully. The 2 × 3 matrix [[1, 2, 3], [4, 5, 6]] 
 To write a program in C++ to sort an array of integers in ascending order using insertion sort and analyse its performance.
 
 ### Theory
-Insertion sort divides the array into a sorted part (initially the first element) and an unsorted part. In each pass the next element is taken as the **key**; elements of the sorted part greater than the key are shifted one place right, and the key is inserted into the gap. After n − 1 passes the array is sorted.
-
-- **Best case** (already sorted): n − 1 comparisons, **O(n)**.
-
-- **Average case** (random order): about n²/4 comparisons/shifts, **O(n²)**.
-
-- **Worst case** (reverse sorted): n(n − 1)/2 comparisons/shifts, **O(n²)**.
-
-- **Space:** O(1). It is in-place, stable, comparison-based, and efficient for small or nearly sorted data.
+Insertion sort keeps a sorted left part. Each pass takes the next element as the key, shifts larger sorted elements one place right, and inserts the key into the gap (n − 1 passes). Best case O(n) (already sorted); average and worst O(n²) (reverse sorted). Space O(1); in-place and stable.
 
 ### Algorithm
 1. Start.
@@ -352,22 +320,7 @@ The program was executed successfully. The array 5 2 4 6 1 3 was sorted to 1 2 3
 To write a program in C++ to sort an array of integers using quick sort and compare its performance with other sorting techniques (bubble sort, selection sort, insertion sort).
 
 ### Theory
-Quick sort uses **divide and conquer**. A **pivot** is chosen (here the last element). **Partitioning** places all elements smaller than the pivot on its left and the rest on its right, so the pivot reaches its final sorted position. Quick sort is then applied recursively to the left and right sub-arrays, until each has zero or one element.
-
-- **Best / average case: O(n log n).** The pivot splits the array into roughly equal parts, giving about log n levels of O(n) work each.
-
-- **Worst case: O(n²).** The pivot is always the smallest or largest element, e.g. already sorted input with the last-element pivot.
-
-- **Space:** O(log n) on average for the recursion (O(n) in the worst case). It is in-place but not stable.
-
-| Algorithm | Best | Average | Worst | Space |
-|---|---|---|---|---|
-| Quick sort | O(n log n) | O(n log n) | O(n²) | O(log n) |
-| Bubble sort | O(n) | O(n²) | O(n²) | O(1) |
-| Selection sort | O(n²) | O(n²) | O(n²) | O(1) |
-| Insertion sort | O(n) | O(n²) | O(n²) | O(1) |
-
-For a fair comparison, each algorithm sorts its own copy of the same input, and execution time is measured with `clock()`.
+Quick sort (divide and conquer) picks a pivot (the last element) and partitions the array: smaller elements go to the left, larger to the right, and the pivot lands in its final position. Both sides are then sorted recursively. Best/average O(n log n), worst O(n²) (sorted input), space O(log n). Bubble, selection and insertion sort are O(n²); execution times are compared using `clock()`.
 
 ### Algorithm
 1. Start.
@@ -431,7 +384,7 @@ No Exp 9 file was uploaded. Exp 10's figures say "Operation on Stack", so Exp 9 
 To write a program in C++ to implement a stack using an array with push, pop, peek and display operations.
 
 ### Theory
-A stack is a linear data structure in which insertion (**push**) and deletion (**pop**) take place at one end, called the **top**. It follows **LIFO** (Last In, First Out). In an array implementation, `top = −1` means the stack is empty. Push increments top and stores the element; pop returns the element at top and decrements top. **Overflow** occurs on push when top = MAX − 1; **underflow** occurs on pop when top = −1. Push, pop and peek are O(1); display is O(n); space O(MAX). Applications: function calls and recursion, undo, expression evaluation, bracket matching, backtracking.
+A stack inserts (push) and deletes (pop) at one end, the top: LIFO (Last In, First Out). top = −1 means empty. Overflow: push when top = MAX − 1. Underflow: pop when top = −1. Push, pop and peek are O(1).
 
 ### Algorithm
 1. Start. Declare `stackArr[MAX]`, top = −1.
@@ -498,7 +451,7 @@ The program was executed successfully. 10, 20 and 30 were pushed and popped in t
 To write a program in C++ to implement a queue using an array and perform enqueue and dequeue operations.
 
 ### Theory
-A queue is a linear data structure in which insertion (**enqueue**) takes place at the **rear** and deletion (**dequeue**) at the **front**. It follows **FIFO** (First In, First Out). In an array implementation, front = rear = −1 means the queue is empty. Enqueue: on the first element set front = 0, then increment rear and store. Dequeue: remove the element at front; if it was the last element (front = rear), reset both to −1, else increment front. **Overflow:** rear = MAX − 1. **Underflow:** front = −1. Enqueue and dequeue are O(1), display is O(n), space O(MAX). In a linear queue, slots freed by dequeue are not reused; a circular queue removes this limitation. Applications: CPU and printer scheduling, buffering, breadth-first search.
+A queue inserts at the rear (enqueue) and deletes from the front (dequeue): FIFO (First In, First Out). front = rear = −1 means empty. Overflow: rear = MAX − 1. Underflow: front = −1. Enqueue and dequeue are O(1). In a linear queue, slots freed at the front are not reused.
 
 ### Algorithm
 1. Start. Declare `queueArr[MAX]`, front = −1, rear = −1.
@@ -568,15 +521,7 @@ The program was executed successfully. 10, 20 and 30 were enqueued (display: 10 
 To write a program in C++ to implement a singly linked list and perform insertion, deletion and traversal operations.
 
 ### Theory
-A linked list is a linear data structure whose elements (**nodes**) need not be in contiguous memory. Each node of a singly linked list has a **data** field and a **next** pointer holding the address of the next node; the last node's next is **NULL**. The first node is accessed through the **head** pointer (head = NULL means the list is empty). Nodes are created at run time with `new` and freed with `delete`, so the list grows and shrinks dynamically.
-
-- **Insertion at end:** traverse to the last node and link the new node. O(n).
-
-- **Deletion at beginning:** move head to the second node and free the first. O(1).
-
-- **Traversal:** visit nodes from head until NULL. O(n).
-
-Space O(n). Traversal is only in the forward direction.
+A singly linked list is a chain of nodes, each holding data and a `next` pointer. `head` points to the first node, and the last node points to NULL. Nodes are created with `new` and freed with `delete`. Insert at end O(n), delete at beginning O(1), traversal O(n).
 
 ### Algorithm
 1. Start. Define `struct Node { int data; Node *next; }`; head = NULL.
@@ -644,15 +589,7 @@ The program was executed successfully. Inserting 10, 20 and 30 gave the list 10 
 To write a program in C++ to implement a circular linked list and perform insertion, deletion and traversal operations.
 
 ### Theory
-A circular linked list is a linked list in which the last node points back to the first node (head) instead of NULL, so the nodes form a circle. A single node points to itself. The last node is identified by `temp->next == head`. Traversal starts at head and stops when it returns to head, so a `do-while` loop is used (the stop condition is already true at the start).
-
-- **Insertion at end:** find the last node, link it to the new node, and point the new node to head. O(n).
-
-- **Deletion at beginning:** find the last node, move head to the next node, and point the last node to the new head. O(n). A single node is deleted by setting head = NULL.
-
-- **Traversal:** O(n).
-
-Space O(n). Types: circular singly and circular doubly linked lists. Applications: round-robin scheduling, multiplayer turns, repeating playlists.
+In a circular linked list the last node points back to head instead of NULL (a single node points to itself). The last node is the one with `next == head`, and traversal uses a do-while loop until it returns to head. Insert at end O(n), delete at beginning O(n) (the last node must be re-linked), traversal O(n).
 
 ### Algorithm
 1. Start. Define `struct Node { int data; Node *next; }`; head = NULL.
