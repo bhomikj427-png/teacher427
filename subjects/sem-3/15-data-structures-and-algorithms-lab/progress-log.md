@@ -79,3 +79,13 @@
   to 'queue' is ambiguous") and compiles with `<iostream>` alone.
 - `[2026-11-02]` Next: merge ED (08) + DE (09) + DSA (15) packs into one PDF.
 - `[2026-11-02]` Merged ED (83 pp.) + DE (47 pp.) + DSA (91 pp.) packs with a contents page and nested bookmarks: `../_lab-ete-pack/Sem3-Lab-ETE-pack.pdf`, 222 pp. (ED p.2, DE p.85, DSA p.132; script `../_lab-ete-pack/merge.py`). `.gitignore` now excludes `*.exe` (compiled test binaries, 122 MB). Research queue: ECE2132 row added.
+- `[2026-11-02]` Learner request: "make me a 'to-write' file with only aim, a summary of theory, algorithm, program, flow
+  chart and result for all experiments, a combined file". Read as the DSA lab (program + flowchart exist only there).
+  Building `study-pack/src/record/` -> `study-pack/pdf/ECE2132-DSA-Lab-to-write.pdf`: one page-started section per
+  experiment, programs = the verified files in `src/code/` (pack-internal "FIX" comments stripped), outputs = verify.py
+  runs, flowcharts = Mermaid 10.9.1 (the project's pinned CDN version).
+- `[2026-11-02]` Built `study-pack/pdf/ECE2132-DSA-Lab-to-write.pdf`, 54 pp., bookmarked per experiment: Exp 1-12 (9
+  flagged probable), each = Aim, Theory (summary), Algorithm, Flowchart, Program (verified code, "FIX" comments
+  stripped), Result + real output. 26 Mermaid flowcharts (menu programs split into a menu chart + one chart per
+  operation); rendered with HTML labels after plain labels printed `&gt;` literally; 0 render errors; pages reviewed.
+  Source: `study-pack/src/record/` (`to-write.md` + `build_record.py`).
