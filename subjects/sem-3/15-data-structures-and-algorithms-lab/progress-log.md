@@ -91,3 +91,5 @@
   Source: `study-pack/src/record/` (`to-write.md` + `build_record.py`).
 - `[2026-11-02]` Learner: "rewrite theory, its too big, write atleast 50% less" (to-write file). Rewriting the 12 Theory sections of `study-pack/src/record/to-write.md` to <= 50% of their word count; keep definition + key rule + complexity.
 - `[2026-11-02]` Theory sections rewritten: 1409 -> 570 words (40% of original; every experiment 29-48%). Rebuilt `ECE2132-DSA-Lab-to-write.pdf` (54 pp., 0 flowchart errors).
+- `[2026-11-02]` Learner: "one more pdf, to-print, flowchart, result and program". Building `study-pack/pdf/ECE2132-DSA-Lab-to-print.pdf` from the same `to-write.md` with Aim/Theory/Algorithm removed (one source, so the two files cannot drift).
+- `[2026-11-02]` Built `study-pack/pdf/ECE2132-DSA-Lab-to-print.pdf`, 43 pp.: Flowchart, Program, Result (+ real output) for Exp 1-12; checked 12/12/12 sections, 0 Aim/Theory/Algorithm left, 0 flowchart errors. Print-friendly: output boxes white with a border (to-print only). `build_record.py` now builds both files from `to-write.md`.

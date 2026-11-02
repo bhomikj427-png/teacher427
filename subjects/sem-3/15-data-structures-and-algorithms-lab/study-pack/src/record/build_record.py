@@ -1,4 +1,6 @@
-"""Build the DSA lab "to-write" file (record write-up): to-write.md -> ../../pdf/ECE2132-DSA-Lab-to-write.pdf
+"""Build the DSA lab record files from to-write.md:
+  ../../pdf/ECE2132-DSA-Lab-to-write.pdf  (aim, theory, algorithm, flowchart, program, result)
+  ../../pdf/ECE2132-DSA-Lab-to-print.pdf  (flowchart, program, result only - same source, sections removed)
 
 Run:  python build_record.py      (after ../verify.py, which produces the outputs quoted here)
 Reuses ../build.py's renderer. Extra syntax: ```mermaid ... ``` blocks become flowcharts (Mermaid 10.9.1, CDN).
@@ -15,8 +17,27 @@ sys.path.insert(0, str(HERE.parent))
 import build  # noqa: E402
 
 MERMAID = "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"
-OUT_HTML = build.HTML / "to-write.html"
-OUT_PDF = build.PDF / "ECE2132-DSA-Lab-to-write.pdf"
+KINDS = {
+    "write": ("to-write", "ECE2132 DSA Lab · To-write (record)"),
+    "print": ("to-print", "ECE2132 DSA Lab · To-print (record)"),
+}
+
+
+PRINT_CSS = """
+.run { background: #fff; border: 1px solid #6b7280; } .run pre { color: #111827; } .run .ch { color: #4b5563; }
+.code { background: #fff; border-color: #9ca3af; } pre { background: #fff; }
+"""
+
+
+def to_print(text):
+    """Keep only Flowchart, Program and Result in each experiment."""
+    text = re.sub(r"### Aim\n.*?(?=### Flowchart)", "", text, flags=re.S)
+    text = text.replace("# ECE2132 Data Structures & Algorithms Lab — To-write (record)",
+                        "# ECE2132 Data Structures & Algorithms Lab — To-print (record)")
+    text = re.sub(r'<div class="sub">For each experiment:.*?</div>',
+                  '<div class="sub">For each experiment: Flowchart · Program · Result (with the real output). '
+                  'Aim, theory and algorithm are in the to-write file.</div>', text, flags=re.S)
+    return text
 
 _orig_src = build._src
 
@@ -41,8 +62,13 @@ pre.mermaid svg { max-height: 235mm; max-width: 100%; height: auto; }
 """
 
 
-def main():
+def main(kind):
+    stem, footer = KINDS[kind]
+    OUT_HTML = build.HTML / f"{stem}.html"
+    OUT_PDF = build.PDF / f"ECE2132-DSA-Lab-{stem}.pdf"
     text = (HERE / "to-write.md").read_text(encoding="utf-8")
+    if kind == "print":
+        text = to_print(text)
     flows = []
 
     def keep(m):
@@ -54,12 +80,12 @@ def main():
     body = build.render(text)
     for k, f in enumerate(flows):
         body = body.replace(f"<p>MERMAIDTOKEN{k}X</p>", f).replace(f"MERMAIDTOKEN{k}X", f)
-    page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>DSA Lab to-write</title>
-<style>{build.CSS}{EXTRA_CSS}</style>
+    page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>DSA Lab {stem}</title>
+<style>{build.CSS}{EXTRA_CSS}{PRINT_CSS if kind == "print" else ""}</style>
 <script src="{MERMAID}"></script>
 <script>mermaid.initialize({{ startOnLoad: true, theme: 'neutral', flowchart: {{ useMaxWidth: true, htmlLabels: true }},
   themeVariables: {{ fontSize: '13px' }} }});</script></head><body>{body}</body></html>"""
-    page = page.replace(build.PACK, "ECE2132 DSA Lab · To-write (record)")
+    page = page.replace(build.PACK, footer)
     OUT_HTML.write_text(page, encoding="utf-8")
     subprocess.run([build.CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
                     "--virtual-time-budget=20000", f"--print-to-pdf={OUT_PDF}", OUT_HTML.as_uri()],
@@ -82,4 +108,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    for k in KINDS:
+        main(k)
