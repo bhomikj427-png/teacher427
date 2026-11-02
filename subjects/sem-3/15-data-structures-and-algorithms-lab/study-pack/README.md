@@ -1,7 +1,8 @@
 # ECE2132 Data Structures & Algorithms Lab — lab pack
 
 - **Read:** `pdf/ECE2132-DSA-Lab-pack.pdf` (91 pp., bookmarked) or the per-chapter PDFs in `pdf/`.
-- **Record write-up:** `pdf/ECE2132-DSA-Lab-to-write.pdf` (aim, theory, algorithm, flowchart, program, result per experiment); and `pdf/ECE2132-DSA-Lab-to-print.pdf` (flowchart, program, result only); both rebuilt with `cd src/record && python build_record.py`.
+- **Record write-up:** `pdf/ECE2132-DSA-Lab-to-write.pdf` (aim, theory, algorithm, flowchart, program, result per experiment); rebuilt with `cd src/record && python build_record.py`.
+- **Cut-and-paste sheet:** `pdf/ECE2132-DSA-Lab-to-print.pdf` (manual flowcharts + programs + outputs as dashed cut-out pieces, packed); rebuild with `cd src/record && python pack_print.py`.
 - **Edit:** `src/content/*.md` (text), `src/figures.py` (SVG figures), `src/code/*.cpp` (programs),
   `src/code/variants/t_*.cpp` (assignment functions + their tests). PDFs and `src/out/` are generated.
 - **Rebuild:** `cd src && python verify.py && python build.py` (verify.py must print ALL PASS).

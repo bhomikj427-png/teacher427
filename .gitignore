@@ -26,3 +26,6 @@ site/public/
 
 # Compiled C++ test binaries (rebuild with the lab pack's verify.py)
 *.exe
+
+# Temporary renders for the DSA to-print sheet
+_print_tmp/

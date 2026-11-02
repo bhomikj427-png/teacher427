@@ -1,6 +1,6 @@
 """Build the DSA lab record files from to-write.md:
   ../../pdf/ECE2132-DSA-Lab-to-write.pdf  (aim, theory, algorithm, flowchart, program, result)
-  ../../pdf/ECE2132-DSA-Lab-to-print.pdf  (flowchart, program, result only - same source, sections removed)
+  (the to-print file is built by pack_print.py: manual flowcharts + programs + outputs as cut-out pieces)
 
 Run:  python build_record.py      (after ../verify.py, which produces the outputs quoted here)
 Reuses ../build.py's renderer. Extra syntax: ```mermaid ... ``` blocks become flowcharts (Mermaid 10.9.1, CDN).
@@ -19,7 +19,6 @@ import build  # noqa: E402
 MERMAID = "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"
 KINDS = {
     "write": ("to-write", "ECE2132 DSA Lab · To-write (record)"),
-    "print": ("to-print", "ECE2132 DSA Lab · To-print (record)"),
 }
 
 
