@@ -44,3 +44,11 @@ formula identities derivation-verified. Stage-2 derivations sound, but several *
 specifics remain `uncertain`** (flagged, not pinned — see `CHANGELOG`). `settled` now means *checked*,
 not *recalled*. **Caveats:** exam-targeting unconfirmed until PYQs/PPTs land in `exam-pack/` (then
 rebuild `exam-map` + re-weight depth); Si nᵢ `contested` (teach the spread). Learner-activated → depth-first.
+
+> **[2026-11-13] Scope delta — the learner's course is ECE2106 Electronic Devices & Circuits (2025-26), not ECE2101.**
+> Evidence: syllabus slide (S2) of the professor's deck `exam-pack/slides-U1-U2-semiconductor-physics-to-pn-junction.pptx`.
+> Same five units and the same six textbooks as above, **plus "Feedback topologies: voltage series, current series,
+> voltage shunt, current shunt, the effect of feedback on gain, bandwidth etc." and "Oscillators: review of the basic
+> concept, Barkhausen criterion, RC oscillators & LC oscillators."** The `stage-2✓` above covers the ECE2101 scope
+> only. U6/U7 (+ the deck-taught extras listed in `progress-log.md` 2026-11-13) still need researching. Live status:
+> `../research-engine/research-queue.md`.

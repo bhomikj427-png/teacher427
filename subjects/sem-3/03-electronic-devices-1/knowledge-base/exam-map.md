@@ -15,6 +15,17 @@
 
 → **U3 weight raised from Med toward High** for the coming exam on this evidence. The rest of the table stays a hypothesis.
 
+### 2026-11-13: professor's deck set (21 files; index `../exam-pack/README.md`)
+
+Decks show **what was taught**, not marks. There is still no PYQ, so no weightage is promoted from this. What the decks change:
+
+| Finding | Effect on this map | Conf |
+|---|---|---|
+| Syllabus slide = **ECE2106 Electronic Devices & Circuits**: adds **U6 Feedback topologies** (V-series, I-series, V-shunt, I-shunt; effect on gain, bandwidth) and **U7 Oscillators** (Barkhausen, RC, LC) | Two units missing from the table below and from the KB. Decks: `slides-U6-feedback-amplifiers`, `slides-U7-oscillators-RC-LC`, `slides-U7-crystal-oscillators` | `settled` (printed syllabus) |
+| U5 taught far past "construction + characteristics": CB/CE configurations, d.c. load line, **3 bias circuits + stability factor + bias compensation, h-parameter CE analysis**, multistage/Darlington; a 15-page h-parameter numerical set was circulated | **U5 weight Med → High (hypothesis)**; add numericals: stability factor S, h-parameter A_i/A_v/Z_i/Z_o (exact vs approx.) | `likely` |
+| U2 taught via the Boylestad sequence (load line → series/parallel → rectifiers → clippers/clampers/multipliers) + special diodes (LED, tunnel, photodiode) | Special diodes are examinable from the decks, though not named in the syllabus text | `likely` |
+| U3/U4: a 31-question solved JFET + D/E-MOSFET numerical sheet was circulated; FinFET (2 decks) and CMOS logic gates taught | Pattern 6 confirmed (Shockley/bias/load line); add E-MOSFET K = I_D(on)/(V_GS(on) − V_T)²; FinFET short-answer | `likely` |
+
 ## Inferred topic weightage (HYPOTHESIS — replace with PYQ evidence)
 
 | Unit | Topic | Inferred weight | Likely question types | Conf |
