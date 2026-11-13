@@ -220,3 +220,8 @@
   carried from the verified v1 (one re-expression: A9 case II V_AB read along the bottom path, same −2 V). v1 PDF
   untouched. Pages 1, 7, 8, 21 visually reviewed. Where we stopped: learner reviews the v2 demo; decide whether v2
   extends to the rest of the assignment.
+- `[2026-11-13]` Learner request: the two book PDFs moved from `../_inbox/_unsorted/` into `books/`:
+  `file_17265317748jBDU.pdf` → `books/Alexander-Sadiku-Fundamentals-of-Electric-Circuits-5e.pdf`;
+  `circuit-theory-and-networks-fourth-edition-wbut-2014-…_compress.pdf` →
+  `books/Ghosh-Chakraborty-Circuit-Theory-and-Networks-4e-WBUT-2014.pdf`. Paths updated in
+  `assignment-theorems/src/crops.py` and `assignment-theorems/README.md`.

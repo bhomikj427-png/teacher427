@@ -8,10 +8,10 @@ from pathlib import Path
 import pymupdf
 
 HERE = Path(__file__).resolve().parent
-INBOX = HERE.parents[2] / "_inbox" / "_unsorted"
+INBOX = HERE.parents[2] / "13-circuits-and-systems" / "books"
 BOOKS = {
-    "ck": INBOX / "circuit-theory-and-networks-fourth-edition-wbut-2014-9789339214265-9339214269_compress.pdf",
-    "sd": INBOX / "file_17265317748jBDU.pdf",
+    "ck": INBOX / "Ghosh-Chakraborty-Circuit-Theory-and-Networks-4e-WBUT-2014.pdf",
+    "sd": INBOX / "Alexander-Sadiku-Fundamentals-of-Electric-Circuits-5e.pdf",
 }
 CROPS = {
     "ck5_1": ("ck", 248, (72, 180, 312, 255)),
