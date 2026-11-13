@@ -123,6 +123,6 @@ instead of it.
 - **One MTE only.** Pattern claims are `likely`; a second year's paper would settle them.
 - **Course code:** decks say `ECE 2105`, paper and KB say `ECE2102`, syllabus text identical.
   `uncertain` — learner to confirm against their registration/handout.
-- **Missing decks** for counters/registers/FSM/logic families/memories (see §2 gap).
+- **Missing decks** for counters/registers/FSM/logic families/memories (see §2 gap). `[2026-11-13]` **Mostly closed:** decks 09–15 arrived (registers, counters, FSM, state reduction, ASM, logic families, PLDs) + practice set 2 (flip-flop timing + synchronous counter design). Still missing: memories. Index: `../exam-pack/README.md`. Practice set 2's six Qs (latch/FF timing diagrams, counter design with T/D FFs) show the ETE-side question forms for U3. They are **`likely`** ETE material, but there is no ETE paper to confirm it.
 - **2026 exam dates** not supplied — `../../research-engine/exam-calendar.md` still empty. The 2025
   MTE fell on **25 September**; if 2026 tracks it, the MTE is roughly two weeks out.

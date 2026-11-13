@@ -138,3 +138,12 @@
   answer outline mapped to stops, and a connects-to page. Load test passed (worst page 74 words,
   budget 75; ≤1 figure per page). Awaiting the learner's verdict before scaling to other chapters.
   **No teaching event.**
+- [2026-11-13] Inbox triage (no teaching): `_inbox/_unsorted/OneDrive_1_11-13-2026.zip` (9 files) unzipped. **8 filed** into `exam-pack/`:
+  the professor's decks 9–15, which continue the 1–8 set (`slides-09-registers-shift-registers`, `slides-10-counters`, `slides-11-fsm-sequential-circuit-design`,
+  `slides-12-state-reduction`, `slides-13-asm-charts`, `slides-14-logic-families`, `slides-15-plds`), plus `practice-set-02-flipflops-counters.png`
+  (6 Qs: D-FF from SR/JK/T, D/JK latch timing, JK negative-edge waveforms with CLR/PR, 2-bit sync up counter, 2-bit sync down with TFF,
+  3-bit sync down with DFF). **1 dropped:** `MTE PPR.pdf`, same MD5 as the filed `PYQ-MTE-2025-09-25.pdf`. KB grep found every deck topic
+  already covered in `03`/`04`/`05` (+ stage-2). Closes the "missing decks" gap in `exam-map.md` §6, except memories. Index written to `exam-pack/README.md`.
+- [2026-11-13] `exam-pack/slides-merged-01-05.pdf` (232 pp.) deleted under the learner's rule "exact same page for page → remove". It was
+  compared with decks 01–05 in order: 232/232 pages have identical text, identical embedded images (MD5) and identical rendered pixels.
+  Restorable from git history.
