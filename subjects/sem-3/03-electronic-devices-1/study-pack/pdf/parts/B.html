@@ -1,0 +1,295 @@
+<!-- ============================================================ PART B -->
+<section class="part">
+  <div class="part-no">Part B · Unit 2</div>
+  <h1>The PN junction and diode circuits</h1>
+  <p class="lead">Put p-type and n-type silicon in contact and you get a one-way valve for current: the diode. B1–B3 explain the device.
+    B4–B8 are the circuits, where most of the numerical marks are. B9 covers the special diodes from the slides.</p>
+  <div class="fig">{{ sub_map(["B1 Junction,\nV_bi", "B2 I–V\nequation", "B3 Models,\nr_d, C", "B4 Load line,\nDC circuits", "B5 Rectifiers"]) }}</div>
+  <div class="fig">{{ sub_map(["B6 Clippers", "B7 Clampers,\nmultipliers", "B8 Zener,\nSchottky", "B9 LED, tunnel,\nphotodiode"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › The junction</div>
+  <h2>B1 · Junction formation, depletion region, built-in voltage</h2>
+  <div class="q"><span class="src">Professor's Unit 1–2 deck · slides 77–78 · Examples</span>
+    For an abrupt silicon pn junction, the built-in voltage is V<sub>bi</sub> = 0.85 V. Let W<sub>0</sub> and W<sub>1</sub> denote the depletion
+    widths for V<sub>a</sub> = 0 V and V<sub>a</sub> = 0.6 V, respectively. What is W<sub>1</sub>/W<sub>0</sub>? Repeat for a reverse bias of 2 V.</div>
+  <div class="guess">Guess first: does forward bias make the depletion region wider or narrower?</div>
+  <div class="terms"><b>Abrupt junction:</b> the doping switches from p to n in one step. ·
+    <b>Ion:</b> a dopant atom that has lost its carrier; it is charged but fixed in the crystal. ·
+    <b>Bias:</b> a DC voltage applied across the device.</div>
+  <div class="fig tall">{{ junction() }}</div>
+  <p><b>Formation.</b> At the moment of contact, holes diffuse from p to n and electrons from n to p (A5), and they recombine.
+    They leave behind fixed ions: negative acceptor ions on the p side, positive donor ions on the n side. This strip with no free carriers
+    is the <b>depletion region</b> (or space-charge region). The ions create a field pointing from n to p that pushes carriers back.
+    Diffusion stops when this drift exactly cancels it. The voltage across the region at that balance is the <b>built-in voltage</b>:</p>
+  <p class="eq">V<sub>bi</sub> = V<sub>T</sub> ln(N<sub>A</sub>N<sub>D</sub> / n<sub>i</sub>²)</p>
+  <p>V<sub>bi</sub> is about 0.6–0.9 V in Si. A voltmeter reads zero across an unconnected diode, because the metal contacts add equal and opposite steps.</p>
+  <p><b>Width.</b> Solving Poisson's equation (A6) in the depletion region gives a triangular field and</p>
+  <p class="eq">W = √[ (2ε/q)(1/N<sub>A</sub> + 1/N<sub>D</sub>)(V<sub>bi</sub> − V<sub>a</sub>) ] &nbsp;&nbsp;&nbsp; N<sub>A</sub>x<sub>p</sub> = N<sub>D</sub>x<sub>n</sub></p>
+  <p>V<sub>a</sub> is the applied voltage, positive for forward bias. The region reaches further into the <b>lightly</b> doped side, since both sides must hold equal charge.</p>
+  <p><b>Bias.</b> <b>Forward bias</b> (p positive) lowers the barrier to V<sub>bi</sub> − V<sub>a</sub>: the region narrows and majority carriers pour across.
+    <b>Reverse bias</b> (p negative) raises the barrier: the region widens and only a tiny current of thermally generated minority carriers flows.</p>
+  <div class="ans"><b>Answer.</b> W ∝ √(V<sub>bi</sub> − V<sub>a</sub>). Forward 0.6 V: W<sub>1</sub>/W<sub>0</sub> = √(0.25/0.85) = <b>0.54</b>, the region shrinks.
+    Reverse 2 V (V<sub>a</sub> = −2): W<sub>2</sub>/W<sub>0</sub> = √(2.85/0.85) = <b>1.83</b>, it expands.</div>
+  <div class="check"><b>Check B1.</b> (a) Find V<sub>bi</sub> for N<sub>A</sub> = 10¹⁷, N<sub>D</sub> = 10¹⁶ cm⁻³, n<sub>i</sub> = 10¹⁰, V<sub>T</sub> = 25.9 mV.
+    (b) In that junction, which side holds more of the depletion region? (c) What two currents balance at equilibrium?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › The junction</div>
+  <h2>B2 · The diode I–V characteristic</h2>
+  <div class="q"><span class="src">Practice · equation from slides 79–83</span>
+    A diode has I<sub>s</sub> = 1 pA and η = 1 at 300 K. Find its current at V<sub>D</sub> = 0.6 V. What happens to the current if V<sub>D</sub> rises by 60 mV?</div>
+  <div class="guess">Guess first.</div>
+  <div class="fig small">{{ diode_iv() }}</div>
+  <p><b>Shockley equation.</b> Lowering the barrier lets exponentially more carriers cross, so</p>
+  <p class="eq">I<sub>D</sub> = I<sub>s</sub>(e<sup>V<sub>D</sub>/ηV<sub>T</sub></sup> − 1) &nbsp;&nbsp;&nbsp; V<sub>T</sub> = kT/q = T/11600 ≈ 26 mV at 300 K</p>
+  <table class="data">
+    <tr><th>Symbol</th><th>Meaning</th></tr>
+    <tr><td>I<sub>s</sub></td><td><b>Reverse saturation current.</b> The small current of minority carriers in reverse bias: nA for Si, μA for Ge. Proportional to n<sub>i</sub>².</td></tr>
+    <tr><td>η</td><td><b>Ideality factor</b>, between 1 and 2. The slides use η = 1 for Ge and 2 for Si. Take η = 1 unless told otherwise.</td></tr>
+    <tr><td>Knee (cut-in) voltage</td><td>Where the current becomes noticeable: about <b>0.7 V for Si, 0.3 V for Ge</b>, 1.2 V for GaAs.</td></tr>
+  </table>
+  <p><b>Three regions.</b> Forward (V<sub>D</sub> ≫ V<sub>T</sub>): the −1 is negligible and I<sub>D</sub> ≈ I<sub>s</sub>e<sup>V<sub>D</sub>/ηV<sub>T</sub></sup>.
+    Reverse: the exponential dies and I<sub>D</sub> ≈ −I<sub>s</sub>, flat. Breakdown: at a large reverse voltage the current rises sharply (B8).</p>
+  <p><b>Temperature.</b> I<sub>s</sub> about doubles for every 10 °C rise: I<sub>s2</sub> = I<sub>s1</sub> · 2<sup>(T₂ − T₁)/10</sup> (slide 81).
+    At a fixed current the forward voltage falls about 2 mV per °C, so the whole forward curve shifts left when the diode heats up.</p>
+  <div class="ans"><b>Answer.</b> I<sub>D</sub> = 10⁻¹² × (e<sup>0.6/0.0259</sup> − 1) = 10⁻¹² × 1.2 × 10¹⁰ = <b>12 mA</b>.
+    Adding 60 mV multiplies the current by e<sup>0.06/0.0259</sup> ≈ <b>10</b>. Every 60 mV is a factor of ten, which is why the curve looks like a wall at 0.7 V.</div>
+  <div class="check"><b>Check B2.</b> (a) A diode has I<sub>s</sub> = 10 nA at 25 °C. Find I<sub>s</sub> at 55 °C. (b) Why is the reverse current almost independent of the reverse voltage?
+    (c) Which leaks more in reverse, Si or Ge, and why?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › The junction</div>
+  <h2>B3 · Diode resistances, equivalent circuits, capacitances, switching</h2>
+  <div class="q"><span class="src">Practice · definitions from slides 84–100</span>
+    A diode carries 2 mA at 0.7 V. Find its static (DC) resistance and its dynamic (AC) resistance at that point. Take η = 1.</div>
+  <div class="guess">Guess first: which of the two is larger?</div>
+  <div class="terms"><b>Q-point:</b> the DC operating point (V<sub>D</sub>, I<sub>D</sub>) where the diode sits with no signal. ·
+    <b>Small signal:</b> an AC wiggle small enough that the curve looks straight around the Q-point.</div>
+  <p><b>Static resistance</b> is just the ratio at the point: R<sub>D</sub> = V<sub>D</sub>/I<sub>D</sub>. It is large in reverse and at the knee, small higher up.</p>
+  <p><b>Dynamic resistance</b> is the slope seen by a small AC signal riding on the DC point. Differentiating the Shockley equation:</p>
+  <p class="eq">r<sub>d</sub> = dV<sub>D</sub>/dI<sub>D</sub> = ηV<sub>T</sub>/I<sub>D</sub> ≈ 26 mV / I<sub>D</sub></p>
+  <p><b>Average AC resistance</b> r<sub>av</sub> = ΔV<sub>D</sub>/ΔI<sub>D</sub> between two points is used for large swings.</p>
+  <div class="fig small">{{ diode_models() }}</div>
+  <p><b>Equivalent circuits.</b> Replace the curve with straight lines. The <b>simplified model</b> (a closed switch in series with 0.7 V when on, an open switch when off)
+    is the one used in every circuit question unless the question says "ideal".</p>
+  <table class="data">
+    <tr><th>Capacitance</th><th>When</th><th>Formula</th><th>Cause</th></tr>
+    <tr><td><b>Transition</b> (depletion) C<sub>T</sub></td><td>reverse bias</td><td>C<sub>T</sub> = εA/W</td><td>The depletion region is an insulator between two conducting plates. More reverse voltage → wider W → smaller C<sub>T</sub>. A varactor uses this.</td></tr>
+    <tr><td><b>Diffusion</b> (storage) C<sub>D</sub></td><td>forward bias</td><td>C<sub>D</sub> = τI<sub>D</sub>/ηV<sub>T</sub></td><td>Injected minority carriers are stored near the junction; the stored charge grows with current. Much larger than C<sub>T</sub>.</td></tr>
+  </table>
+  <p><b>Switching.</b> A conducting diode cannot turn off at once. When the voltage reverses, the stored minority carriers keep a large reverse current flowing for the
+    <b>storage time t<sub>s</sub></b>, then it decays over the <b>transition time t<sub>t</sub></b>. Their sum is the
+    <b>reverse recovery time t<sub>rr</sub> = t<sub>s</sub> + t<sub>t</sub></b>, from nanoseconds to a few microseconds. It limits the highest usable frequency.</p>
+  <div class="ans"><b>Answer.</b> R<sub>D</sub> = 0.7 V / 2 mA = <b>350 Ω</b>. r<sub>d</sub> = 26 mV / 2 mA = <b>13 Ω</b>. The curve is steep at that point, so a small change in voltage gives a large change in current.</div>
+  <div class="check"><b>Check B3.</b> (a) Find r<sub>d</sub> at I<sub>D</sub> = 0.5 mA and at 5 mA. (b) Which capacitance matters in reverse bias, and how does it change as the reverse voltage grows?
+    (c) What physically causes the reverse recovery time?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Diode circuits</div>
+  <h2>B4 · Load line and DC diode circuits</h2>
+  <div class="q"><span class="src">Professor's deck L08 · slide 4 · Example</span>
+    For the given diode configuration and diode characteristics, determine: V<sub>DQ</sub>, I<sub>DQ</sub> and V<sub>R</sub>. (E = 10 V, R = 0.5 kΩ, silicon diode.)</div>
+  <div class="guess">Guess first: roughly how much of the 10 V lands on the resistor?</div>
+  <div class="two">{{ ckt_load_line() }}<div class="fig">{{ load_line() }}</div></div>
+  <p><b>Load line.</b> The diode and the resistor carry the same current, and KVL gives E = V<sub>D</sub> + I<sub>D</sub>R. Rearranged,
+    I<sub>D</sub> = (E − V<sub>D</sub>)/R is a straight line on the diode's own axes. Find its two ends: V<sub>D</sub> = 0 gives I<sub>D</sub> = E/R; I<sub>D</sub> = 0 gives V<sub>D</sub> = E.
+    The circuit must sit on the line and on the diode curve at once, so the answer is where they cross: the <b>Q-point</b>.</p>
+  <div class="ans"><b>Answer.</b> Ends: E/R = 10/0.5 k = 20 mA and E = 10 V. The crossing reads <b>V<sub>DQ</sub> ≈ 0.78 V, I<sub>DQ</sub> ≈ 18.5 mA</b>.
+    V<sub>R</sub> = I<sub>DQ</sub>R = 18.5 mA × 0.5 kΩ = <b>9.25 V</b> (check: E − V<sub>DQ</sub> = 9.22 V, the same within reading error).</div>
+  <div class="warn"><b>Slip in the slide.</b> Slide 5 writes V<sub>R</sub> = (18.5 mA)(1 K) = 18.5 V. R is 0.5 kΩ, and 18.5 V cannot come out of a 10 V source. Use 9.25 V.</div>
+  <p><b>Without the graph: the three-step method.</b> Used for every other circuit on these slides.</p>
+  <ol class="steps">
+    <li><b>Decide the state.</b> Mentally remove the diode. If the voltage that appears across the gap would push current in the direction of the arrow and is more than 0.7 V (Si), the diode is ON. Otherwise it is OFF.</li>
+    <li><b>Substitute.</b> ON → a 0.7 V drop (0.3 V for Ge, 0 for ideal). OFF → an open circuit, I = 0.</li>
+    <li><b>Solve</b> with KVL and Ohm's law.</li>
+  </ol>
+  <div class="fig">{{ ckt_two_source() }}</div>
+  <p><b>Worked (deck L08, slide 14):</b> determine I, V<sub>1</sub>, V<sub>2</sub> and V<sub>o</sub>. The sources total 15 V around the loop and push current along the arrow, so the diode is ON.
+    I = (10 + 5 − 0.7)/(4.7 k + 2.2 k) = <b>2.07 mA</b>. V<sub>1</sub> = IR<sub>1</sub> = <b>9.74 V</b>. V<sub>2</sub> = IR<sub>2</sub> = <b>4.56 V</b>.
+    V<sub>o</sub> = V<sub>2</sub> + E<sub>2</sub> = 4.56 − 5 = <b>−0.44 V</b>.</p>
+  <p><b>Rules for combinations.</b> Diodes in series: the drops add (Si + red LED = 0.7 + 1.8 V). A reversed diode anywhere in a series path opens the path.
+    Diodes in parallel: the voltage across the pair is one drop, 0.7 V, and identical diodes share the current equally.</p>
+  <div class="check"><b>Check B4.</b> All from deck L08. (a) Slide 9: E = 8 V, a Si diode and R = 2.2 kΩ in series. Find V<sub>D</sub>, V<sub>R</sub>, I<sub>D</sub>. Then reverse the diode and repeat.
+    (b) Slide 12: +12 V feeds a Si diode, then a red LED (1.8 V), then 680 Ω to ground. V<sub>o</sub> is across the resistor. Find V<sub>o</sub> and I<sub>D</sub>.
+    (c) Slide 15: 10 V feeds 0.33 kΩ, then two Si diodes in parallel to ground. Find V<sub>o</sub> (across the diodes), I<sub>1</sub> (through the resistor) and the current in each diode.
+    (d) Slide 18: a 20 V source feeds Si diode D<sub>1</sub> in series; then R<sub>1</sub> = 3.3 kΩ sits in parallel with Si diode D<sub>2</sub>; then R<sub>2</sub> = 5.6 kΩ returns to the source.
+    Find I<sub>1</sub> (in R<sub>1</sub>), I<sub>2</sub> (in R<sub>2</sub>) and I<sub>D2</sub>.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Diode circuits</div>
+  <h2>B5 · Rectifiers</h2>
+  <div class="q"><span class="src">Professor's deck L09 · slide 9 · Example</span>
+    Sketch dc output v<sub>o</sub> and determine the dc level of the output. Repeat if the ideal diode is replaced by silicon diode.
+    (Input: sine wave of 20 V peak. The diode points toward the source, with R = 2 kΩ across the output.)</div>
+  <div class="guess">Guess first: which half-cycle reaches the output, and with what sign?</div>
+  <div class="terms"><b>Rectifier:</b> a circuit that turns AC into one-direction (pulsating DC) voltage. ·
+    <b>V<sub>m</sub>:</b> the peak of the input sine. V<sub>rms</sub> = V<sub>m</sub>/√2. ·
+    <b>V<sub>dc</sub>:</b> the average of the output over one period, which is what a DC voltmeter reads.</div>
+  <div class="two">{{ ckt_hw() }}<div class="fig">{{ rect_waves() }}</div></div>
+  <p><b>Half-wave.</b> One diode. It conducts on one half-cycle and blocks the other. Averaging one half-sine over a full period:
+    V<sub>dc</sub> = V<sub>m</sub>/π = <b>0.318 V<sub>m</sub></b>. With a real Si diode the peak is lower: V<sub>dc</sub> ≈ 0.318(V<sub>m</sub> − 0.7).</p>
+  <p><b>PIV (peak inverse voltage)</b> is the largest reverse voltage the diode must survive while blocking. Its rating must exceed this. Half-wave: PIV = V<sub>m</sub>.</p>
+  <div class="two">{{ bridge_fig() }}{{ ckt_ct() }}</div>
+  <p><b>Full-wave bridge</b> (left). Four diodes. On the positive half D<sub>1</sub> and D<sub>3</sub> conduct; on the negative half D<sub>2</sub> and D<sub>4</sub>.
+    Either way, current goes through R in the same direction, so both halves are used: V<sub>dc</sub> = 2V<sub>m</sub>/π = <b>0.636 V<sub>m</sub></b>.
+    Two diodes are in the path, so with Si diodes V<sub>dc</sub> ≈ 0.636(V<sub>m</sub> − 1.4).</p>
+  <p><b>Centre-tapped full-wave</b> (right). Two diodes and a transformer whose secondary has a middle tap. Each half of the secondary feeds R through its own diode on alternate half-cycles.
+    V<sub>m</sub> here is the peak from the tap to one end. The off diode sees both halves, so PIV = 2V<sub>m</sub>.</p>
+  <table class="data">
+    <tr><th></th><th>Half-wave</th><th>Centre-tapped</th><th>Bridge</th></tr>
+    <tr><td>Diodes</td><td>1</td><td>2</td><td>4</td></tr>
+    <tr><td>V<sub>dc</sub> (ideal)</td><td>0.318 V<sub>m</sub></td><td>0.636 V<sub>m</sub></td><td>0.636 V<sub>m</sub></td></tr>
+    <tr><td>V<sub>dc</sub> (Si diodes)</td><td>0.318(V<sub>m</sub> − 0.7)</td><td>0.636(V<sub>m</sub> − 0.7)</td><td>0.636(V<sub>m</sub> − 1.4)</td></tr>
+    <tr><td>V<sub>rms</sub> of output</td><td>V<sub>m</sub>/2</td><td>V<sub>m</sub>/√2</td><td>V<sub>m</sub>/√2</td></tr>
+    <tr><td>PIV per diode</td><td>V<sub>m</sub></td><td>2V<sub>m</sub></td><td>V<sub>m</sub></td></tr>
+    <tr><td>Ripple factor r</td><td>1.21</td><td>0.482</td><td>0.482</td></tr>
+    <tr><td>Max efficiency η</td><td>40.6%</td><td>81.2%</td><td>81.2%</td></tr>
+    <tr><td>Ripple frequency</td><td>f</td><td>2f</td><td>2f</td></tr>
+  </table>
+  <p><b>Ripple factor</b> measures how much AC is left in the output: r = (rms of the AC part)/V<sub>dc</sub> = √[(V<sub>rms</sub>/V<sub>dc</sub>)² − 1]. Smaller is better.
+    <b>Efficiency</b> is DC power delivered over AC power drawn: η = (V<sub>dc</sub>/V<sub>rms</sub>)² for ideal diodes.
+    A capacitor across R (a <b>filter</b>) holds the voltage up between peaks and cuts the ripple.</p>
+  <div class="ans"><b>Answer.</b> The diode points toward the source, so it conducts only when v<sub>i</sub> is negative: the output is the negative half-cycles.
+    Ideal: V<sub>dc</sub> = −0.318 × 20 = <b>−6.36 V</b>. Silicon: V<sub>dc</sub> = −0.318 × (20 − 0.7) = <b>−6.14 V</b>. PIV = 20 V.</div>
+  <div class="check"><b>Check B5.</b> (a) Derive the ripple factor 1.21 of a half-wave rectifier from V<sub>rms</sub> = V<sub>m</sub>/2 and V<sub>dc</sub> = V<sub>m</sub>/π.
+    (b) A bridge rectifier with Si diodes is fed 12 V rms. Find V<sub>m</sub>, V<sub>dc</sub> and the PIV. (c) Why is a bridge usually preferred over the centre-tapped circuit? Give two reasons.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Diode circuits</div>
+  <h2>B6 · Clippers</h2>
+  <div class="q"><span class="src">Professor's deck L10 · slide 3 · Example</span>
+    Determine the output waveform for the network. (Series clipper: a 5 V battery, then an ideal diode, then R. Input: sine wave of 20 V peak.)</div>
+  <div class="guess">Guess first: sketch v<sub>o</sub> for one cycle.</div>
+  <div class="terms"><b>Clipper (limiter):</b> a circuit that removes part of a waveform and passes the rest unchanged. ·
+    <b>Transition voltage:</b> the input value at which the diode changes state.</div>
+  {{ clip_series() }}
+  <p><b>Series clipper:</b> the diode is in series with the output, so the output exists only while the diode conducts. A battery in series shifts the level at which it starts.</p>
+  <ol class="steps">
+    <li><b>Find the transition voltage.</b> Set the ideal diode at the edge of conduction (i<sub>d</sub> = 0, v<sub>d</sub> = 0) and write KVL. Here v<sub>i</sub> + 5 = 0, so the diode switches at v<sub>i</sub> = −5 V.</li>
+    <li><b>Diode ON</b> (v<sub>i</sub> &gt; −5 V): KVL gives v<sub>o</sub> = v<sub>i</sub> + 5.</li>
+    <li><b>Diode OFF</b> (v<sub>i</sub> &lt; −5 V): no current, so v<sub>o</sub> = 0.</li>
+  </ol>
+  <div class="ans"><b>Answer.</b> The output is the input lifted by 5 V while v<sub>i</sub> &gt; −5 V, and zero otherwise. Its peak is 20 + 5 = <b>25 V</b>.</div>
+  {{ clip_parallel() }}
+  <p><b>Parallel clipper:</b> the diode is across the output. While it is OFF the output simply follows the input. While it is ON it pins the output to the battery level.
+    <b>Worked (deck L10, slide 6):</b> triangular input of 16 V peak, ideal diode with its anode on a 4 V battery. The diode conducts whenever v<sub>i</sub> &lt; 4 V and holds v<sub>o</sub> = 4 V.
+    Above 4 V it is off and v<sub>o</sub> = v<sub>i</sub>. With a silicon diode (slide 7) the pinned level becomes 4 − 0.7 = <b>3.3 V</b>.</p>
+  <p>Two such branches facing opposite ways clip both peaks, which squares up a sine wave.</p>
+  <div class="check"><b>Check B6.</b> (a) In the series clipper above, reverse the battery. Find the new transition voltage and the peak of v<sub>o</sub>.
+    (b) In the parallel clipper, turn the diode around (cathode on the battery). Describe v<sub>o</sub>. (c) In which clipper type does the output follow the input while the diode is off?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Diode circuits</div>
+  <h2>B7 · Clampers and voltage multipliers</h2>
+  <div class="q"><span class="src">Professor's deck L10 · slide 13 · Example</span>
+    Determine v<sub>o</sub> for the network. (Square wave input, +10 V and −20 V, f = 1000 Hz. C = 0.1 μF, R = 100 kΩ, ideal diode in series with a 5 V battery.)</div>
+  <div class="guess">Guess first: the input swings 30 V in total. What total swing will the output have?</div>
+  <div class="terms"><b>Clamper:</b> a capacitor, a diode and a resistor that shift a whole waveform up or down without changing its shape. ·
+    <b>Time constant τ = RC:</b> a capacitor needs about 5τ to charge or discharge fully.</div>
+  {{ clamper() }}
+  <p><b>How it works.</b> On one half-cycle the diode conducts and charges C quickly to a fixed voltage. On the other half-cycle the diode is off, and C can only discharge through the large R.
+    If 5τ is much longer than the half-period, C holds its voltage and acts like a battery in series with the input. That battery is the shift.</p>
+  <ol class="steps">
+    <li><b>Start with the half-cycle that turns the diode ON.</b> Here that is v<sub>i</sub> = −20 V. With the diode a short, the output is pinned to the battery: v<sub>o</sub> = <b>5 V</b>.</li>
+    <li><b>Find V<sub>C</sub></b> from KVL in that state: −20 + V<sub>C</sub> − 5 = 0, so V<sub>C</sub> = 25 V.</li>
+    <li><b>Other half-cycle</b>, diode OFF, C keeps 25 V: v<sub>o</sub> = v<sub>i</sub> + V<sub>C</sub> = 10 + 25 = <b>35 V</b>.</li>
+    <li><b>Check the swing.</b> Output swing = input swing: 35 − 5 = 30 V. ✓</li>
+  </ol>
+  <div class="ans"><b>Answer.</b> v<sub>o</sub> is a square wave between <b>5 V and 35 V</b>. The hold condition is met: τ = RC = 100 kΩ × 0.1 μF = 10 ms, so 5τ = 50 ms,
+    which is 100 times the half-period T/2 = 0.5 ms.</div>
+  <div class="two">{{ doubler() }}<div>
+    <p><b>Voltage multipliers</b> chain clampers and peak detectors to give a DC output of several times the input peak.</p>
+    <p><b>Half-wave doubler.</b> Positive half: D<sub>1</sub> conducts and charges C<sub>1</sub> to V<sub>m</sub>. Negative half: the source and C<sub>1</sub> add in series,
+      D<sub>2</sub> conducts, and C<sub>2</sub> charges to <b>2V<sub>m</sub></b> (top plate negative). Each diode must stand PIV = 2V<sub>m</sub>.</p>
+    <p>Adding more diode–capacitor sections gives a <b>tripler</b> (3V<sub>m</sub>) and a <b>quadrupler</b> (4V<sub>m</sub>). They suit high-voltage, low-current loads.</p></div></div>
+  <div class="check"><b>Check B7.</b> (a) In the example, remove the 5 V battery (diode straight to ground). Find the two output levels.
+    (b) What goes wrong if R is made 100 Ω? (c) What DC voltage does a quadrupler give from a 10 V peak input, ideally?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Breakdown</div>
+  <h2>B8 · Breakdown, the Zener regulator, the Schottky diode</h2>
+  <div class="q"><span class="src">Practice · Zener regulator, fixed V<sub>i</sub> and R</span>
+    In the regulator shown, V<sub>i</sub> = 16 V, R = 1 kΩ, V<sub>Z</sub> = 10 V. Find V<sub>L</sub>, I<sub>L</sub>, I<sub>Z</sub> and P<sub>Z</sub> for (a) R<sub>L</sub> = 1.2 kΩ and (b) R<sub>L</sub> = 3 kΩ.</div>
+  <div class="guess">Guess first: in which case is the Zener actually regulating?</div>
+  <div class="two"><div class="fig">{{ zener_iv() }}</div>{{ zener_reg() }}</div>
+  <p><b>Breakdown</b> is the sharp rise of reverse current at a certain reverse voltage. It does not destroy the diode if the current is limited. Two mechanisms:</p>
+  <table class="data">
+    <tr><th></th><th>Zener breakdown</th><th>Avalanche breakdown</th></tr>
+    <tr><td>Doping</td><td>heavy on both sides</td><td>light</td></tr>
+    <tr><td>Depletion region</td><td>very thin, so the field is enormous</td><td>wide</td></tr>
+    <tr><td>Mechanism</td><td>the field pulls electrons straight out of their bonds (tunnelling)</td><td>carriers gain enough speed to knock other electrons out of bonds; each new carrier does the same (multiplication)</td></tr>
+    <tr><td>Breakdown voltage</td><td>below about 5 V</td><td>above about 6 V</td></tr>
+    <tr><td>As temperature rises</td><td>breakdown voltage falls (negative coefficient)</td><td>breakdown voltage rises (positive coefficient)</td></tr>
+  </table>
+  <p><b>Zener diode.</b> A diode built to work in breakdown. There its voltage stays almost fixed at V<sub>Z</sub> over a wide range of current, so it is used as a voltage reference.</p>
+  <ol class="steps">
+    <li><b>Test the state.</b> Remove the Zener and find the voltage across R<sub>L</sub>: V = V<sub>i</sub>R<sub>L</sub>/(R + R<sub>L</sub>). If V ≥ V<sub>Z</sub> the Zener is ON. If not, it is OFF and acts as an open circuit.</li>
+    <li><b>If ON:</b> V<sub>L</sub> = V<sub>Z</sub>. I<sub>R</sub> = (V<sub>i</sub> − V<sub>Z</sub>)/R. I<sub>L</sub> = V<sub>Z</sub>/R<sub>L</sub>. I<sub>Z</sub> = I<sub>R</sub> − I<sub>L</sub>. P<sub>Z</sub> = V<sub>Z</sub>I<sub>Z</sub>, which must stay below the rating P<sub>ZM</sub>.</li>
+  </ol>
+  <div class="ans"><b>Answer.</b> (a) V = 16 × 1.2/2.2 = 8.73 V &lt; 10 V, so the Zener is <b>OFF</b>: V<sub>L</sub> = 8.73 V, I<sub>Z</sub> = 0, P<sub>Z</sub> = 0. No regulation.
+    (b) V = 16 × 3/4 = 12 V ≥ 10 V, so it is <b>ON</b>: V<sub>L</sub> = <b>10 V</b>, I<sub>R</sub> = 6/1 k = 6 mA, I<sub>L</sub> = 10/3 k = <b>3.33 mA</b>,
+    I<sub>Z</sub> = 6 − 3.33 = <b>2.67 mA</b>, P<sub>Z</sub> = <b>26.7 mW</b>. The smallest load that keeps it on is R<sub>L,min</sub> = RV<sub>Z</sub>/(V<sub>i</sub> − V<sub>Z</sub>) = 1.67 kΩ.</div>
+  <p><b>Schottky diode.</b> A junction between a metal and n-type silicon instead of p and n. Only majority carriers (electrons) take part, so there is no stored minority charge and almost no reverse recovery time: it switches very fast.
+    Its forward drop is low, about 0.2–0.4 V. The price is a larger reverse leakage and a lower breakdown voltage. Used in high-frequency rectifiers and fast logic.</p>
+  <div class="check"><b>Check B8.</b> (a) A 4.7 V Zener and a 12 V Zener heat up. Which one's voltage falls, and why? (b) In the example, V<sub>i</sub> rises to 20 V with R<sub>L</sub> = 3 kΩ. Find I<sub>Z</sub>.
+    (c) Why can a Schottky diode switch faster than a pn diode?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Special diodes (taught on the slides)</div>
+  <h2>B9 · LED, photodiode, tunnel diode</h2>
+  <div class="q"><span class="src">Practice · from the deck "LED, Tunnel, Photo"</span>
+    Draw the V–I characteristic of a tunnel diode and explain the negative-resistance region.</div>
+  <div class="guess">Guess first: what would "negative resistance" have to mean on an I–V graph?</div>
+  <div class="fig">{{ special_symbols() }}</div>
+  <table class="data">
+    <tr><th>Device</th><th>Bias</th><th>What happens</th><th>Key facts</th></tr>
+    <tr><td><b>LED</b></td><td>forward</td><td>Electrons and holes recombine at the junction and each recombination releases a photon.</td>
+      <td>Needs a direct-gap material (GaAs, GaAsP, GaN), not Si. The colour is set by the gap: λ(μm) = 1.24/E<sub>g</sub>(eV). Forward drop 1.8–3.3 V. Always used with a series resistor.</td></tr>
+    <tr><td><b>Photodiode</b></td><td>reverse</td><td>Light falling on the depletion region generates electron–hole pairs, which the field sweeps out as extra reverse current.</td>
+      <td>Current is proportional to light intensity. The small current with no light is the <b>dark current</b>. A <b>PIN</b> photodiode has an undoped (intrinsic) layer between p and n that widens the depletion region: more light absorbed, less capacitance, faster.</td></tr>
+    <tr><td><b>Tunnel (Esaki) diode</b></td><td>small forward</td><td>Doping is about 1000 times heavier than normal, so the depletion region is only about 10 nm thick. Electrons pass straight through the barrier (tunnelling).</td>
+      <td>Shows negative resistance. Very fast. Used in microwave oscillators and fast switches.</td></tr>
+  </table>
+  <div class="two"><div class="fig">{{ tunnel_iv() }}</div><div>
+    <div class="ans"><b>Answer.</b> As the forward voltage rises from zero, filled states on the n side line up with empty states on the p side and tunnel current rises to the
+      <b>peak I<sub>p</sub></b> at V<sub>p</sub>. Raising the voltage further pulls those states out of line, so fewer electrons can tunnel and the current <b>falls</b> to the
+      <b>valley I<sub>v</sub></b> at V<sub>v</sub>. Between peak and valley the current falls while the voltage rises, so dI/dV is negative: negative resistance.
+      Beyond the valley, ordinary diode current takes over and rises again.</div></div></div>
+  <div class="check"><b>Check B9.</b> (a) Why can't silicon make a useful LED? (b) A red LED material has E<sub>g</sub> = 1.9 eV. Find the wavelength. (c) Which of the three devices works in reverse bias, and what carries its current?</div>
+</section>
+
+<section class="answers">
+  <h3>Answers: Part B Checks</h3>
+  <ol>
+    <li><b>B1.</b> (a) V<sub>bi</sub> = 0.0259 × ln(10³³/10²⁰) = 0.0259 × 29.9 = 0.774 V. (b) The n side: it is more lightly doped, so it needs more width to hold the same charge.
+      (c) Diffusion of majority carriers across the junction and drift of minority carriers back, driven by the built-in field.</li>
+    <li><b>B2.</b> (a) 30 °C is three doublings: 10 × 2³ = 80 nA. (b) It is made of minority carriers generated by heat; their supply depends on temperature, not on the voltage.
+      (c) Ge. Its smaller gap gives a far larger n<sub>i</sub>, and I<sub>s</sub> ∝ n<sub>i</sub>².</li>
+    <li><b>B3.</b> (a) 26 mV/0.5 mA = 52 Ω; 26 mV/5 mA = 5.2 Ω. (b) Transition capacitance C<sub>T</sub> = εA/W; it falls, because W widens.
+      (c) Minority carriers stored near the junction during conduction must be removed before the diode can block.</li>
+    <li><b>B4.</b> (a) Forward: V<sub>D</sub> = 0.7 V, V<sub>R</sub> = 7.3 V, I<sub>D</sub> = 7.3/2.2 k = 3.32 mA. Reversed: I<sub>D</sub> = 0, V<sub>R</sub> = 0, V<sub>D</sub> = 8 V (all the source voltage sits across the open diode).
+      (b) V<sub>o</sub> = 12 − 0.7 − 1.8 = 9.5 V; I<sub>D</sub> = 9.5/680 = 13.97 mA. (c) V<sub>o</sub> = 0.7 V; I<sub>1</sub> = (10 − 0.7)/0.33 k = 28.18 mA; each diode carries 14.09 mA.
+      (d) R<sub>1</sub> has D<sub>2</sub>'s 0.7 V across it: I<sub>1</sub> = 0.7/3.3 k = 0.212 mA. KVL round the loop: I<sub>2</sub> = (20 − 0.7 − 0.7)/5.6 k = 3.32 mA. I<sub>D2</sub> = I<sub>2</sub> − I<sub>1</sub> = 3.11 mA.</li>
+    <li><b>B5.</b> (a) V<sub>rms</sub>/V<sub>dc</sub> = (V<sub>m</sub>/2)/(V<sub>m</sub>/π) = π/2 = 1.571; r = √(1.571² − 1) = 1.21.
+      (b) V<sub>m</sub> = 12√2 = 17.0 V; V<sub>dc</sub> = 0.636 × (17.0 − 1.4) = 9.92 V; PIV ≈ 17 V.
+      (c) No centre-tapped transformer is needed, and each diode needs only half the PIV rating (V<sub>m</sub> instead of 2V<sub>m</sub>).</li>
+    <li><b>B6.</b> (a) KVL at the edge: v<sub>i</sub> − 5 = 0, so the diode switches at +5 V. ON for v<sub>i</sub> &gt; 5 V with v<sub>o</sub> = v<sub>i</sub> − 5; peak 15 V.
+      (b) The diode now conducts when v<sub>i</sub> &gt; 4 V and pins v<sub>o</sub> = 4 V; below 4 V, v<sub>o</sub> = v<sub>i</sub>. The top is clipped at 4 V. (c) The parallel clipper.</li>
+    <li><b>B7.</b> (a) Diode ON at −20 V pins v<sub>o</sub> = 0 and V<sub>C</sub> = 20 V; other half v<sub>o</sub> = 10 + 20 = 30 V. Levels 0 V and 30 V.
+      (b) τ = 100 Ω × 0.1 μF = 10 μs, far shorter than 0.5 ms. C discharges within each half-cycle, so the level droops and the wave shape is distorted. (c) 40 V.</li>
+    <li><b>B8.</b> (a) The 4.7 V one. Below about 5 V the mechanism is Zener breakdown, which has a negative temperature coefficient. The 12 V diode is avalanche and its voltage rises.
+      (b) I<sub>R</sub> = (20 − 10)/1 k = 10 mA; I<sub>L</sub> = 3.33 mA; I<sub>Z</sub> = 6.67 mA. (c) Its current is carried by majority carriers only, so no minority charge is stored and nothing has to be cleared at turn-off.</li>
+    <li><b>B9.</b> (a) Si has an indirect gap: recombination goes through traps and gives heat, not light. (b) λ = 1.24/1.9 = 0.653 μm = 653 nm (red).
+      (c) The photodiode. Electron–hole pairs generated by light in the depletion region.</li>
+  </ol>
+</section>

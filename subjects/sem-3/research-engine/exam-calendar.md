@@ -19,6 +19,8 @@ Per-subject deviations (a subject whose paper falls outside the common window): 
   September 2026"). Exact date `uncertain`. Implies the sem-3 MTE window is **mid/late Sept 2026** —
   `likely` for the other subjects too, but not recorded as their date until confirmed.
 
+- `[2026-11-13]` **ECE2106 Electronic Devices & Circuits — ETE in about 2 days** (learner-stated 2026-11-13: "more like 2 days"; so ≈ 2026-11-15). Exact date and the rest of the ETE timetable still not given. Study budget stated: 20–24 hours.
+
 ## How dates change scheduling (the rule, evidence-aligned)
 
 - **Normal mode (no date near):** expanding intervals as usual (successive relearning,

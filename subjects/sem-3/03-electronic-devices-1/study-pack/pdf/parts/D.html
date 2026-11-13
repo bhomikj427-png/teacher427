@@ -1,0 +1,182 @@
+<!-- ============================================================ PART D -->
+<section class="part">
+  <div class="part-no">Part D · Unit 4</div>
+  <h1>The MOSFET</h1>
+  <p class="lead">The JFET controls its channel with a reverse-biased junction. The MOSFET replaces that junction with a metal plate on a thin layer of glass.
+    The idea is the same (a gate voltage sets the channel current), the equations are almost the same, and it is the transistor inside every digital chip.</p>
+  <div class="fig">{{ sub_map(["D1 Structure,\ntypes", "D2 Regions,\nequations", "D3 Biasing", "D4 Small signal:\nCS, CD, CG", "D5 Switch,\nCMOS logic", "D6 FinFET"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Device</div>
+  <h2>D1 · Structure and types</h2>
+  <div class="q"><span class="src">Practice · MOSFET deck slides 4–18</span>
+    With V<sub>GS</sub> = 0, an enhancement MOSFET carries no drain current but a depletion MOSFET does. Explain why.</div>
+  <div class="guess">Guess first: what would have to exist between source and drain for current to flow?</div>
+  <div class="terms"><b>Oxide:</b> a very thin insulating layer of SiO₂ under the gate. ·
+    <b>Substrate (body):</b> the p-type silicon the device is built in, normally tied to the source. ·
+    <b>n⁺:</b> heavily doped n-type.</div>
+  <div class="fig">{{ mos_struct() }}</div>
+  <p><b>Structure (n-channel enhancement, "nMOS").</b> Two n⁺ regions, source and drain, sit in a p-type substrate. Over the gap between them lies the oxide, and on top of it the gate electrode.
+    Metal–Oxide–Semiconductor gives the name. The gate, oxide and substrate form a capacitor.</p>
+  <p><b>Operation.</b> With V<sub>GS</sub> = 0 the path from drain to source is n–p–n: two diodes back to back, so no current. A positive gate voltage pushes holes away from the surface and attracts electrons.
+    When V<sub>GS</sub> reaches the <b>threshold voltage V<sub>T</sub></b> (also written V<sub>GS(th)</sub>), enough electrons gather under the oxide to form an n-type <b>inversion layer</b>: the channel.
+    More gate voltage means more electrons and more current. The channel is <i>enhanced</i> by the gate, hence "enhancement type".</p>
+  <table class="data">
+    <tr><th></th><th>Enhancement MOSFET (E-MOSFET)</th><th>Depletion MOSFET (D-MOSFET)</th></tr>
+    <tr><td>Channel at V<sub>GS</sub> = 0</td><td>none; device is OFF ("normally off")</td><td>built in during manufacture; device is ON ("normally on")</td></tr>
+    <tr><td>n-channel control</td><td>V<sub>GS</sub> &gt; V<sub>T</sub> (positive) turns it on</td><td>negative V<sub>GS</sub> depletes the channel; positive V<sub>GS</sub> enhances it</td></tr>
+    <tr><td>Equation in saturation</td><td>I<sub>D</sub> = K(V<sub>GS</sub> − V<sub>T</sub>)²</td><td>Shockley, as for a JFET: I<sub>D</sub> = I<sub>DSS</sub>(1 − V<sub>GS</sub>/V<sub>GS(off)</sub>)², valid for positive V<sub>GS</sub> too</td></tr>
+    <tr><td>Symbol</td><td>broken channel line</td><td>solid channel line</td></tr>
+  </table>
+  <p><b>p-channel (pMOS):</b> n-type substrate, p⁺ source and drain, holes carry the current, and every voltage is reversed (V<sub>T</sub> is negative; it turns on when V<sub>GS</sub> &lt; V<sub>T</sub>).</p>
+  <p><b>Compared with a JFET:</b> the gate is insulated, so I<sub>G</sub> is practically zero and the input resistance is even higher (10¹⁰–10¹⁵ Ω). The thin oxide is easily destroyed by static charge, so MOSFETs need careful handling.</p>
+  <div class="ans"><b>Answer.</b> Current needs a continuous channel of one type between source and drain. An enhancement MOSFET has none at V<sub>GS</sub> = 0, only two back-to-back junctions,
+    so it stays off until V<sub>GS</sub> exceeds V<sub>T</sub> and induces a channel. A depletion MOSFET is made with a channel already in place, so I<sub>D</sub> = I<sub>DSS</sub> flows at V<sub>GS</sub> = 0.</div>
+  <div class="check"><b>Check D1.</b> (a) What does each letter of MOS stand for, and what does each layer do? (b) What is the inversion layer? (c) Why is the gate current of a MOSFET essentially zero?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Device</div>
+  <h2>D2 · Regions of operation and the current equations</h2>
+  <div class="q"><span class="src">Professor's numericals sheet · Q30</span>
+    The data sheet for an E-MOSFET gives I<sub>D(on)</sub> = 500 mA at V<sub>GS</sub> = 10 V and V<sub>GS(th)</sub> = 1 V. Determine the drain current for V<sub>GS</sub> = 5 V.</div>
+  <div class="guess">Guess first: V<sub>GS</sub> is halved. Is the current halved?</div>
+  <div class="fig">{{ mos_curves() }}</div>
+  <table class="data">
+    <tr><th>Region</th><th>Test (n-channel)</th><th>Drain current</th><th>Acts as</th></tr>
+    <tr><td><b>Cutoff</b></td><td>V<sub>GS</sub> ≤ V<sub>T</sub></td><td>I<sub>D</sub> = 0</td><td>open switch</td></tr>
+    <tr><td><b>Triode</b> (ohmic, linear)</td><td>V<sub>GS</sub> &gt; V<sub>T</sub> and V<sub>DS</sub> &lt; V<sub>GS</sub> − V<sub>T</sub></td><td>I<sub>D</sub> = K[2(V<sub>GS</sub> − V<sub>T</sub>)V<sub>DS</sub> − V<sub>DS</sub>²]</td><td>resistor set by V<sub>GS</sub>; closed switch</td></tr>
+    <tr><td><b>Saturation</b> (active)</td><td>V<sub>GS</sub> &gt; V<sub>T</sub> and V<sub>DS</sub> ≥ V<sub>GS</sub> − V<sub>T</sub></td><td>I<sub>D</sub> = K(V<sub>GS</sub> − V<sub>T</sub>)²</td><td>current source set by V<sub>GS</sub>; amplifier</td></tr>
+  </table>
+  <p><b>The region test is the first step of every MOSFET problem.</b> V<sub>GS</sub> − V<sub>T</sub> is called the <b>overdrive voltage</b>. In saturation the channel is pinched off at the drain end, exactly as in the JFET,
+    so I<sub>D</sub> no longer depends on V<sub>DS</sub>.</p>
+  <p><b>The constant K</b> (A/V²) is found from one data-sheet point: K = I<sub>D(on)</sub>/(V<sub>GS(on)</sub> − V<sub>T</sub>)². In terms of the device, K = ½μ<sub>n</sub>C<sub>ox</sub>(W/L):
+    carrier mobility, oxide capacitance per unit area, and the width-to-length ratio of the channel. Sedra &amp; Smith write k<sub>n</sub> = μ<sub>n</sub>C<sub>ox</sub>(W/L) = 2K, so their saturation equation reads
+    I<sub>D</sub> = ½k<sub>n</sub>(V<sub>GS</sub> − V<sub>T</sub>)². Same physics, different letter.</p>
+  <p><b>Channel-length modulation.</b> The real curves tilt up slightly in saturation: I<sub>D</sub> = K(V<sub>GS</sub> − V<sub>T</sub>)²(1 + λV<sub>DS</sub>). This gives the output resistance r<sub>o</sub> = 1/(λI<sub>D</sub>).</p>
+  <div class="ans"><b>Answer.</b> K = 500 mA/(10 − 1)² = 500/81 = <b>6.17 mA/V²</b>. At V<sub>GS</sub> = 5 V: I<sub>D</sub> = 6.17 × (5 − 1)² = <b>98.8 mA</b> (the sheet prints 98.7).
+    Halving V<sub>GS</sub> cut the current by five, because the law is a square of (V<sub>GS</sub> − V<sub>T</sub>).</div>
+  <div class="check"><b>Check D2.</b> (a) Sheet Q26: For a certain D-MOSFET, I<sub>DSS</sub> = 10 mA and V<sub>GS(off)</sub> = −8 V. (i) Is this an n-channel or a p-channel? (ii) Calculate I<sub>D</sub> at V<sub>GS</sub> = −3 V. (iii) Calculate I<sub>D</sub> at V<sub>GS</sub> = +3 V.
+    (b) An nMOS has K = 1 mA/V² and V<sub>T</sub> = 1 V, with V<sub>GS</sub> = 3 V. Name the region and find I<sub>D</sub> for V<sub>DS</sub> = 1 V and for V<sub>DS</sub> = 4 V.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Circuits</div>
+  <h2>D3 · Biasing the MOSFET</h2>
+  <div class="q"><span class="src">Practice · circuits from the "MOSFET biasing" deck, slides 10–16</span>
+    For circuit (a), the E-MOSFET has K = 0.5 mA/V² and V<sub>T</sub> = 2 V. Find I<sub>D</sub>, V<sub>GS</sub> and V<sub>DS</sub>, and confirm the region.</div>
+  <div class="guess">Guess first: what is the gate voltage?</div>
+  <div class="fig">{{ mos_bias_three() }}</div>
+  <p>As with the JFET, <b>I<sub>G</sub> = 0</b> and I<sub>S</sub> = I<sub>D</sub>. An n-channel E-MOSFET needs a <b>positive</b> V<sub>GS</sub> above V<sub>T</sub>.</p>
+  <table class="data">
+    <tr><th>Circuit</th><th>Gate-source loop</th><th>Notes</th></tr>
+    <tr><td><b>Gate (fixed) bias</b></td><td>V<sub>GS</sub> = V<sub>GG</sub></td><td>An external source fixes V<sub>GS</sub>. Simple but the Q-point moves if K or V<sub>T</sub> change.</td></tr>
+    <tr><td><b>Voltage divider</b> (a)</td><td>V<sub>G</sub> = V<sub>DD</sub>R<sub>2</sub>/(R<sub>1</sub> + R<sub>2</sub>); V<sub>GS</sub> = V<sub>G</sub> − I<sub>D</sub>R<sub>S</sub></td><td>Good stability; the usual choice.</td></tr>
+    <tr><td><b>Drain-to-gate feedback</b> (b)</td><td>no drop in R<sub>G</sub>, so <b>V<sub>GS</sub> = V<sub>DS</sub></b> = V<sub>DD</sub> − I<sub>D</sub>R<sub>D</sub></td><td>Self-stabilising, and always in saturation because V<sub>DS</sub> = V<sub>GS</sub> &gt; V<sub>GS</sub> − V<sub>T</sub>.</td></tr>
+    <tr><td><b>Self-bias</b></td><td>V<sub>GS</sub> = −I<sub>D</sub>R<sub>S</sub> (negative)</td><td>Works only for a depletion MOSFET. A negative V<sub>GS</sub> can never turn on an n-channel enhancement device.</td></tr>
+  </table>
+  <ol class="steps">
+    <li>Write V<sub>GS</sub> from the gate-source loop, in terms of I<sub>D</sub>.</li>
+    <li>Substitute into I<sub>D</sub> = K(V<sub>GS</sub> − V<sub>T</sub>)² and solve the quadratic. Keep the root that gives V<sub>GS</sub> &gt; V<sub>T</sub>.</li>
+    <li>V<sub>DS</sub> = V<sub>DD</sub> − I<sub>D</sub>(R<sub>D</sub> + R<sub>S</sub>). Check V<sub>DS</sub> ≥ V<sub>GS</sub> − V<sub>T</sub>.</li>
+  </ol>
+  <p><b>DC load line</b> (slide 16): V<sub>DS</sub> = V<sub>DD</sub> − I<sub>D</sub>R<sub>D</sub>. Ends at (0, V<sub>DD</sub>/R<sub>D</sub>) and (V<sub>DD</sub>, 0). The Q-point is where it crosses the drain curve for the biased V<sub>GS</sub>.</p>
+  <div class="ans"><b>Answer.</b> V<sub>G</sub> = 20 × 3/(7 + 3) = 6 V. V<sub>GS</sub> = 6 − I<sub>D</sub> (mA, kΩ). I<sub>D</sub> = 0.5(6 − I<sub>D</sub> − 2)² = 0.5(4 − I<sub>D</sub>)², which gives I<sub>D</sub>² − 10I<sub>D</sub> + 16 = 0, so I<sub>D</sub> = 2 or 8 mA.
+    8 mA would make V<sub>GS</sub> = −2 V, below V<sub>T</sub>: reject. <b>I<sub>D</sub> = 2 mA, V<sub>GS</sub> = 4 V</b>, V<sub>DS</sub> = 20 − 2(3 + 1) = <b>12 V</b>. Region: 12 ≥ 4 − 2 = 2 V, saturation ✓.</div>
+  <div class="check"><b>Check D3.</b> (a) Solve circuit (b) with the same MOSFET (K = 0.5 mA/V², V<sub>T</sub> = 2 V). (b) Sheet Q28: a D-MOSFET with V<sub>GS(off)</sub> = −8 V and I<sub>DSS</sub> = 12 mA has its gate at 0 V,
+    V<sub>DD</sub> = +18 V and R<sub>D</sub> = 620 Ω. Determine V<sub>DS</sub>. (c) Why does self-bias fail for an enhancement MOSFET?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Circuits</div>
+  <h2>D4 · Small-signal analysis: CS, CD and CG amplifiers</h2>
+  <div class="q"><span class="src">Practice · syllabus line "MOSFET small-signal analysis, common source, common gate, and common drain amplifier configurations"</span>
+    The MOSFET of D3 (K = 0.5 mA/V², V<sub>T</sub> = 2 V) is biased at V<sub>GS</sub> = 4 V, I<sub>D</sub> = 2 mA. Find g<sub>m</sub>, and the voltage gain of a common-source stage with R<sub>D</sub> = 3 kΩ. Neglect r<sub>o</sub>.</div>
+  <div class="guess">Guess first.</div>
+  <div class="fig">{{ mos_ss_table() }}</div>
+  <p><b>Model.</b> The same as the JFET's (C5): a current source g<sub>m</sub>v<sub>gs</sub> from drain to source, in parallel with r<sub>o</sub>, and an open-circuit gate. Differentiating I<sub>D</sub> = K(V<sub>GS</sub> − V<sub>T</sub>)²:</p>
+  <p class="eq">g<sub>m</sub> = 2K(V<sub>GS</sub> − V<sub>T</sub>) = 2√(K·I<sub>D</sub>) = 2I<sub>D</sub>/(V<sub>GS</sub> − V<sub>T</sub>)</p>
+  <table class="data">
+    <tr><th></th><th>Common source</th><th>Common drain (source follower)</th><th>Common gate</th></tr>
+    <tr><td>Signal in · out</td><td>gate · drain</td><td>gate · source</td><td>source · drain</td></tr>
+    <tr><td>A<sub>v</sub></td><td>−g<sub>m</sub>(R<sub>D</sub> ∥ r<sub>o</sub>)<br>with R<sub>S</sub> unbypassed: −g<sub>m</sub>R<sub>D</sub>/(1 + g<sub>m</sub>R<sub>S</sub>)</td><td>g<sub>m</sub>R<sub>S</sub>/(1 + g<sub>m</sub>R<sub>S</sub>) ≈ 1</td><td>+g<sub>m</sub>R<sub>D</sub></td></tr>
+    <tr><td>Phase</td><td>180°</td><td>0°</td><td>0°</td></tr>
+    <tr><td>R<sub>in</sub></td><td>very high (bias resistors only)</td><td>very high</td><td>1/g<sub>m</sub> (low)</td></tr>
+    <tr><td>R<sub>out</sub></td><td>R<sub>D</sub> ∥ r<sub>o</sub></td><td>R<sub>S</sub> ∥ 1/g<sub>m</sub> (low)</td><td>R<sub>D</sub></td></tr>
+    <tr><td>Role</td><td>the main voltage-gain stage</td><td>buffer: drives low-resistance loads</td><td>current buffer; wide bandwidth</td></tr>
+  </table>
+  <p>"Common" names the terminal shared by input and output, the one at AC ground.</p>
+  <div class="ans"><b>Answer.</b> g<sub>m</sub> = 2K(V<sub>GS</sub> − V<sub>T</sub>) = 2 × 0.5 × (4 − 2) = <b>2 mS</b> (check: 2√(0.5 × 2) = 2 mS). A<sub>v</sub> = −g<sub>m</sub>R<sub>D</sub> = −2 mS × 3 kΩ = <b>−6</b>.</div>
+  <div class="check"><b>Check D4.</b> With the same g<sub>m</sub> = 2 mS: (a) find the input resistance of a common-gate stage; (b) find the gain of a source follower with R<sub>S</sub> = 1 kΩ;
+    (c) the bias current is raised from 2 mA to 8 mA. What is the new g<sub>m</sub>?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Applications</div>
+  <h2>D5 · The MOSFET as a switch and CMOS logic gates</h2>
+  <div class="q"><span class="src">Professor's deck "MOSFET biasing and digital circuit" · slide 9 · "Complex Logic Gates in CMOS: Example"</span>
+    Implement f = (a·(b + c))′ as a single CMOS gate. How many transistors does it need?</div>
+  <div class="guess">Guess first: sketch the nMOS part, the network that must connect the output to ground when a·(b + c) = 1.</div>
+  <div class="terms"><b>Logic 1 / 0:</b> V<sub>DD</sub> / 0 V. · <b>Pull-up network:</b> transistors between V<sub>DD</sub> and the output. · <b>Pull-down network:</b> transistors between the output and ground.</div>
+  <p><b>Switch.</b> Drive the gate fully on or fully off and the MOSFET is a switch: <b>cutoff</b> = open; <b>triode</b> with a large V<sub>GS</sub> = closed, with a small on-resistance
+    r<sub>DS(on)</sub> ≈ 1/[2K(V<sub>GS</sub> − V<sub>T</sub>)]. It needs no gate current to stay on, which is why it suits digital circuits.</p>
+  <p><b>nMOS and pMOS are complementary switches.</b> An nMOS closes when its gate is 1; a pMOS closes when its gate is 0. An nMOS passes a strong 0 but a weak 1 (the output stops at V<sub>DD</sub> − V<sub>T</sub>);
+    a pMOS passes a strong 1 but a weak 0. So CMOS uses pMOS to pull up to V<sub>DD</sub> and nMOS to pull down to ground.</p>
+  <div class="two">{{ cmos_inv() }}<div class="fig">{{ cmos_vtc() }}</div></div>
+  <p><b>CMOS inverter.</b> One pMOS on top, one nMOS below, gates joined. Input 0: pMOS on, nMOS off, output = V<sub>DD</sub>. Input 1: nMOS on, pMOS off, output = 0.
+    In either steady state one transistor is off, so no current flows from V<sub>DD</sub> to ground: <b>static power is nearly zero</b>. Power is used only while switching. The output swings the full 0 to V<sub>DD</sub>.</p>
+  <div class="fig">{{ cmos_gates() }}</div>
+  <p><b>Rules for any CMOS gate.</b> The pull-down network of nMOS implements the function <i>before</i> the final inversion: transistors in <b>series = AND</b>, in <b>parallel = OR</b>.
+    The pull-up network of pMOS is its <b>dual</b>: every series becomes parallel and every parallel becomes series. Each input drives one nMOS and one pMOS, so a gate with n inputs uses 2n transistors.
+    A CMOS gate always inverts: NAND and NOR are natural, AND needs a NAND followed by an inverter.</p>
+  <div class="ans"><b>Answer.</b> Pull-down (nMOS): a in series with (b parallel c). Pull-up (pMOS), the dual: a in parallel with (b in series with c).
+    Three inputs, so <b>6 transistors</b>: 3 nMOS + 3 pMOS (right-hand circuit above). For every one of the 8 input combinations exactly one network conducts.</div>
+  <div class="check"><b>Check D5.</b> (a) In a 2-input CMOS NOR, which transistors are in series and which in parallel? (b) Why does a CMOS inverter draw almost no current when its input is steady?
+    (c) An nMOS with V<sub>T</sub> = 1 V and its gate at V<sub>DD</sub> = 5 V passes a logic 1. What voltage comes out? (d) Find r<sub>DS(on)</sub> for K = 0.5 mA/V², V<sub>GS</sub> = 10 V, V<sub>T</sub> = 2 V.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Beyond the planar MOSFET (taught on the slides)</div>
+  <h2>D6 · FinFET</h2>
+  <div class="q"><span class="src">Practice · from the two FinFET decks</span>
+    What problems appear when a planar MOSFET is scaled down, and how does a FinFET overcome them?</div>
+  <div class="guess">Guess first: when the channel gets very short, what else besides the gate can influence it?</div>
+  <div class="fig small">{{ finfet_fig() }}</div>
+  <p><b>The problem: short-channel effects.</b> As the channel length shrinks to tens of nanometres, the drain sits so close to the source that the drain's field reaches into the channel and the gate loses control. The results:
+    the threshold voltage shifts (falls) with channel length and drain voltage; the <b>subthreshold slope</b> degrades, so the device no longer turns off sharply; the off-state leakage current I<sub>OFF</sub> rises. Standby power goes up and performance stops improving.</p>
+  <p><b>The fix: wrap the gate around the channel.</b> In a FinFET (Fin Field-Effect Transistor) the channel is a thin vertical <b>fin</b> of silicon standing on the substrate, and the gate covers it on three sides.
+    Current flows along the two side walls and the top of the fin. With the gate on three sides, it controls the whole thin body, so the drain cannot take over.</p>
+  <table class="data">
+    <tr><th></th><th>Planar MOSFET</th><th>FinFET</th></tr>
+    <tr><td>Gate</td><td>on one side of the channel (top)</td><td>wraps three sides of a raised fin</td></tr>
+    <tr><td>Control of channel</td><td>weakens at short lengths</td><td>strong: short-channel effects suppressed</td></tr>
+    <tr><td>Leakage, standby power</td><td>high at small sizes</td><td>low</td></tr>
+    <tr><td>Speed, drive current per area</td><td>lower</td><td>higher; works at lower supply voltage</td></tr>
+    <tr><td>Channel doping</td><td>needed</td><td>optional, because the body is thin and fully controlled</td></tr>
+    <tr><td>Width</td><td>any value</td><td>set by fin height; made larger only by adding whole fins</td></tr>
+    <tr><td>Fabrication</td><td>simpler, cheaper</td><td>complex and costly; more parasitic capacitance; heat is harder to remove</td></tr>
+  </table>
+  <p><b>Types:</b> <b>shorted-gate (SG)</b>, where the gates on both sides are joined and act as one, and <b>independent-gate (IG)</b>, where the two side gates are driven separately so one can adjust the threshold.
+    Fins must be spaced correctly: too close and neighbouring fins interfere, too far and area is wasted.</p>
+  <div class="ans"><b>Answer.</b> Scaling a planar MOSFET brings short-channel effects: threshold shift, a worse subthreshold slope and a higher off current, because the drain starts to control the channel.
+    A FinFET raises the channel into a thin fin and wraps the gate around three sides. The gate regains control, so leakage falls, switching is faster and scaling can continue.</div>
+  <div class="check"><b>Check D6.</b> (a) Name three short-channel effects. (b) On how many sides does the gate touch the channel in a planar MOSFET and in a FinFET? (c) Give two disadvantages of FinFETs.</div>
+</section>
+
+<section class="answers">
+  <h3>Answers: Part D Checks</h3>
+  <ol>
+    <li><b>D1.</b> (a) Metal: the gate electrode. Oxide: the SiO₂ insulator. Semiconductor: the silicon in which the channel forms. (b) A thin layer of electrons at the surface of the p-type substrate, attracted by a positive gate; it is n-type, so it joins source to drain.
+      (c) The oxide is an insulator, so only a capacitor-charging current can flow, none in steady state.</li>
+    <li><b>D2.</b> (a) (i) n-channel: V<sub>GS(off)</sub> is negative. (ii) I<sub>D</sub> = 10(1 − 3/8)² = 3.91 mA. (iii) I<sub>D</sub> = 10(1 + 3/8)² = 18.9 mA, larger than I<sub>DSS</sub> because positive V<sub>GS</sub> enhances the channel.
+      (b) Overdrive = 2 V. V<sub>DS</sub> = 1 V &lt; 2 V: triode, I<sub>D</sub> = 1 × [2(2)(1) − 1²] = 3 mA. V<sub>DS</sub> = 4 V ≥ 2 V: saturation, I<sub>D</sub> = 1 × 2² = 4 mA.</li>
+    <li><b>D3.</b> (a) V<sub>GS</sub> = V<sub>DS</sub> = 12 − 4I<sub>D</sub>. I<sub>D</sub> = 0.5(10 − 4I<sub>D</sub>)² gives 8I<sub>D</sub>² − 41I<sub>D</sub> + 50 = 0, so I<sub>D</sub> = 2 mA or 3.125 mA. The second gives V<sub>GS</sub> = −0.5 V: reject.
+      I<sub>D</sub> = 2 mA, V<sub>GS</sub> = V<sub>DS</sub> = 4 V. (b) V<sub>GS</sub> = 0, so I<sub>D</sub> = I<sub>DSS</sub> = 12 mA. V<sub>DS</sub> = 18 − 12 mA × 0.62 kΩ = 10.56 V (the sheet prints 10.6 V).
+      (c) Self-bias makes V<sub>GS</sub> = −I<sub>D</sub>R<sub>S</sub>, which is negative; an n-channel enhancement device needs V<sub>GS</sub> &gt; V<sub>T</sub> &gt; 0, so it never turns on.</li>
+    <li><b>D4.</b> (a) R<sub>in</sub> = 1/g<sub>m</sub> = 500 Ω. (b) A<sub>v</sub> = 2/(1 + 2) = 0.667. (c) g<sub>m</sub> = 2√(K·I<sub>D</sub>) = 2√(0.5 × 8) = 4 mS: four times the current gives twice the g<sub>m</sub>.</li>
+    <li><b>D5.</b> (a) The two pMOS are in series (pull-up); the two nMOS are in parallel (pull-down). (b) One of its two transistors is always off, so there is no path from V<sub>DD</sub> to ground.
+      (c) V<sub>DD</sub> − V<sub>T</sub> = 4 V, a weak 1. (d) r<sub>DS(on)</sub> = 1/[2 × 0.5 mA/V² × 8 V] = 125 Ω.</li>
+    <li><b>D6.</b> (a) Threshold-voltage shift, degraded subthreshold slope, increased off (leakage) current. (b) One; three. (c) Complex, costly fabrication; width only in whole-fin steps; higher parasitic capacitance; self-heating (any two).</li>
+  </ol>
+</section>

@@ -1,0 +1,225 @@
+<!-- ============================================================ PART E -->
+<section class="part">
+  <div class="part-no">Part E · Unit 5</div>
+  <h1>The BJT and its amplifiers</h1>
+  <p class="lead">The FETs of Parts C and D use one junction or an oxide to control a channel with a voltage. The bipolar junction transistor (BJT) is two pn junctions back to back, and a small
+    <i>current</i> into the middle layer controls a large current through the device. The slides spend the most lectures on this unit: biasing, stability and h-parameters carry the numericals.</p>
+  <div class="fig">{{ sub_map(["E1 Structure,\noperation", "E2 CB, CE, CC:\nα, β, γ", "E3 Load line,\nfixed bias", "E4 Bias circuits,\nstability S"]) }}</div>
+  <div class="fig">{{ sub_map(["E5 h-parameter\nanalysis", "E6 Multistage,\nDarlington", "E7 BJT vs\nMOSFET"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › Device</div>
+  <h2>E1 · Construction and operation</h2>
+  <div class="q"><span class="src">Practice · decks L20–L21</span>
+    Why is the base of a transistor made very thin and lightly doped, while the emitter is heavily doped?</div>
+  <div class="guess">Guess first: what should happen to electrons that the emitter sends into the base?</div>
+  <div class="terms"><b>Emitter (E):</b> the layer that supplies (emits) the carriers. · <b>Base (B):</b> the thin middle layer that controls them. · <b>Collector (C):</b> the layer that collects them.</div>
+  <div class="fig">{{ bjt_struct() }}</div>
+  <div class="two"><div>
+    <p><b>Construction.</b> Three layers, n–p–n or p–n–p, so two junctions: emitter–base (EB) and collector–base (CB). It looks like two diodes back to back, but the base is so thin that the two junctions interact.
+      "Bipolar" because both electrons and holes take part.</p>
+    <p><b>Operation (npn, active region).</b> The EB junction is forward biased, so the emitter injects electrons into the base. The base is thin and has few holes, so only about 1% of those electrons recombine there; that needs a small base current I<sub>B</sub>.
+      The other 99% diffuse across the base and are swept into the collector by the field of the reverse-biased CB junction. That is I<sub>C</sub>.</p></div>{{ bjt_symbols() }}</div>
+  <p class="eq">I<sub>E</sub> = I<sub>C</sub> + I<sub>B</sub></p>
+  <p>The base current sets how much charge the base can pass, so a small I<sub>B</sub> controls a large I<sub>C</sub>: the BJT is a <b>current-controlled</b> device. For pnp, swap n and p, reverse all voltages and currents; holes are the main carriers.</p>
+  <table class="data">
+    <tr><th>Region</th><th>EB junction</th><th>CB junction</th><th>Behaviour · use</th></tr>
+    <tr><td><b>Active</b></td><td>forward</td><td>reverse</td><td>I<sub>C</sub> = βI<sub>B</sub>, V<sub>BE</sub> ≈ 0.7 V (Si). Amplifier.</td></tr>
+    <tr><td><b>Saturation</b></td><td>forward</td><td>forward</td><td>I<sub>C</sub> is limited by the external circuit, less than βI<sub>B</sub>. V<sub>CE(sat)</sub> ≈ 0.2 V. Closed switch.</td></tr>
+    <tr><td><b>Cutoff</b></td><td>reverse</td><td>reverse</td><td>I<sub>C</sub> ≈ 0. Open switch.</td></tr>
+  </table>
+  <div class="ans"><b>Answer.</b> The goal is for almost every carrier from the emitter to reach the collector. A thin, lightly doped base has few holes and gives the electrons little time to meet one, so very few recombine:
+    I<sub>B</sub> is small and the current gain I<sub>C</sub>/I<sub>B</sub> is large. The emitter is heavily doped so that the forward EB current is almost entirely electrons injected into the base, not holes injected back into the emitter.
+    The collector is the largest region because it dissipates the most heat.</div>
+  <div class="check"><b>Check E1.</b> (a) State the bias of each junction in the active region. (b) I<sub>E</sub> = 5 mA and I<sub>B</sub> = 50 μA. Find I<sub>C</sub>. (c) Which regions are used when the transistor works as a switch?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › Device</div>
+  <h2>E2 · The three connections and the gains α, β, γ</h2>
+  <div class="q"><span class="src">Practice · decks L22–L25</span>
+    A transistor has β = 100 and I<sub>CBO</sub> = 20 nA. Find α and I<sub>CEO</sub>.</div>
+  <div class="guess">Guess first: is α slightly below 1 or slightly above?</div>
+  <p>A transistor has three terminals but an amplifier needs two input and two output wires, so one terminal is shared ("common") between input and output. That gives three connections.</p>
+  <table class="data">
+    <tr><th></th><th>Common base (CB)</th><th>Common emitter (CE)</th><th>Common collector (CC), emitter follower</th></tr>
+    <tr><td>Input · output terminal</td><td>emitter · collector</td><td>base · collector</td><td>base · emitter</td></tr>
+    <tr><td>Current gain</td><td><b>α</b> = I<sub>C</sub>/I<sub>E</sub>, just under 1 (0.95–0.995)</td><td><b>β</b> = I<sub>C</sub>/I<sub>B</sub>, 50–400</td><td><b>γ</b> = I<sub>E</sub>/I<sub>B</sub> = 1 + β</td></tr>
+    <tr><td>Voltage gain</td><td>high</td><td>high</td><td>just under 1</td></tr>
+    <tr><td>Input resistance</td><td>very low (tens of Ω)</td><td>medium (about 1 kΩ)</td><td>very high</td></tr>
+    <tr><td>Output resistance</td><td>very high</td><td>medium to high (tens of kΩ)</td><td>very low</td></tr>
+    <tr><td>Phase shift</td><td>0°</td><td>180°</td><td>0°</td></tr>
+    <tr><td>Used for</td><td>high-frequency stages; matching a low-resistance source</td><td>general amplification: the only one with both current and voltage gain, so the highest power gain</td><td>buffer; impedance matching</td></tr>
+  </table>
+  <p><b>Relations.</b> Substitute I<sub>E</sub> = I<sub>C</sub> + I<sub>B</sub> into the definitions:</p>
+  <p class="eq">β = α/(1 − α) &nbsp;&nbsp;&nbsp; α = β/(1 + β) &nbsp;&nbsp;&nbsp; γ = 1 + β = 1/(1 − α)</p>
+  <p><b>Leakage currents.</b> The reverse-biased CB junction leaks a small current of minority carriers. <b>I<sub>CBO</sub></b> (also I<sub>CO</sub>) is the collector-to-base current with the emitter open.
+    In CE the transistor amplifies its own leakage: <b>I<sub>CEO</sub> = (1 + β)I<sub>CBO</sub></b> is the collector current with the base open. Complete expressions:</p>
+  <p class="eq">I<sub>C</sub> = αI<sub>E</sub> + I<sub>CBO</sub> &nbsp;&nbsp;&nbsp; I<sub>C</sub> = βI<sub>B</sub> + (1 + β)I<sub>CBO</sub></p>
+  <p><b>Characteristics.</b> Input curves (I<sub>B</sub> against V<sub>BE</sub> in CE, I<sub>E</sub> against V<sub>BE</sub> in CB) look like a forward diode. Output curves are I<sub>C</sub> against V<sub>CE</sub> (or V<sub>CB</sub>), one per input current, nearly flat in the active region (figure in E3).</p>
+  <div class="ans"><b>Answer.</b> α = β/(1 + β) = 100/101 = <b>0.990</b>. I<sub>CEO</sub> = (1 + β)I<sub>CBO</sub> = 101 × 20 nA = <b>2.02 μA</b>.</div>
+  <div class="check"><b>Check E2.</b> (a) α = 0.98. Find β and γ. (b) Derive β = α/(1 − α). (c) Which connection would you use to drive an 8 Ω loudspeaker from a high-resistance stage, and why?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › Circuits</div>
+  <h2>E3 · DC load line, Q-point and fixed bias</h2>
+  <div class="q"><span class="src">Professor's deck L26–27 · slide 15 · fixed-bias example (circuit (a) in E4: V<sub>CC</sub> = 12 V, R<sub>B</sub> = 240 kΩ, R<sub>C</sub> = 2.2 kΩ, β = 50)</span>
+    For the fixed-bias circuit, find I<sub>B</sub>, I<sub>C</sub> and V<sub>CE</sub> at the operating point, and the saturation current.</div>
+  <div class="guess">Guess first: which loop gives I<sub>B</sub> directly?</div>
+  <div class="terms"><b>Operating (Q) point:</b> the DC values (V<sub>CE</sub>, I<sub>C</sub>) with no signal applied. · <b>DC analysis:</b> every capacitor is an open circuit.</div>
+  <div class="fig">{{ bjt_out_curves() }}</div>
+  <p><b>Fixed bias</b> has one resistor R<sub>B</sub> from V<sub>CC</sub> to the base. Two loops:</p>
+  <ol class="steps">
+    <li><b>Base–emitter loop:</b> V<sub>CC</sub> = I<sub>B</sub>R<sub>B</sub> + V<sub>BE</sub>, so I<sub>B</sub> = (V<sub>CC</sub> − 0.7)/R<sub>B</sub>.</li>
+    <li><b>Active region:</b> I<sub>C</sub> = βI<sub>B</sub>.</li>
+    <li><b>Collector–emitter loop:</b> V<sub>CE</sub> = V<sub>CC</sub> − I<sub>C</sub>R<sub>C</sub>.</li>
+  </ol>
+  <p><b>Load line.</b> Step 3 is a straight line on the output curves. Its ends: I<sub>C</sub> = 0 gives V<sub>CE</sub> = V<sub>CC</sub> (cutoff); V<sub>CE</sub> = 0 gives I<sub>C(sat)</sub> = V<sub>CC</sub>/R<sub>C</sub> (saturation).
+    The Q-point is where the line crosses the curve for the actual I<sub>B</sub>. For the largest undistorted output swing, place Q near the middle of the line.</p>
+  <p><b>Moving the Q-point</b> (slides 20–22): a larger I<sub>B</sub> slides Q up the line toward saturation. A larger R<sub>C</sub> lowers the top end, so the line gets flatter. A lower V<sub>CC</sub> shifts the whole line inward, parallel to itself.</p>
+  <div class="ans"><b>Answer.</b> I<sub>B</sub> = (12 − 0.7)/240 k = <b>47.08 μA</b>. I<sub>C</sub> = 50 × 47.08 μA = <b>2.35 mA</b>. V<sub>CE</sub> = 12 − 2.35 mA × 2.2 kΩ = <b>6.82 V</b>.
+    I<sub>C(sat)</sub> = 12/2.2 k = <b>5.45 mA</b>. Q sits near the middle of the line: a good place for an amplifier.</div>
+  <div class="check"><b>Check E3.</b> In the same circuit: (a) the transistor is replaced by one with β = 100. Find the new I<sub>C</sub> and V<sub>CE</sub>. What has happened? (b) Give the two end points of the load line if R<sub>C</sub> is changed to 4 kΩ.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › Circuits</div>
+  <h2>E4 · Bias stabilisation, stability factor, the three bias circuits</h2>
+  <div class="q"><span class="src">Professor's deck L26–27 · slide 27 · emitter-bias example (circuit (b): V<sub>CC</sub> = 20 V, R<sub>B</sub> = 430 kΩ, R<sub>C</sub> = 2 kΩ, R<sub>E</sub> = 1 kΩ, β = 50)</span>
+    For the emitter-stabilised circuit, find I<sub>B</sub>, I<sub>C</sub> and V<sub>CE</sub>. Then find its stability factor S and compare with the fixed-bias circuit (a).</div>
+  <div class="guess">Guess first: Check E3 showed fixed bias is ruined by a change in β. What could R<sub>E</sub> do about it?</div>
+  <div class="fig">{{ bjt_bias_three() }}</div>
+  <p><b>Why stabilise.</b> Three things shift the Q-point as the transistor warms up or is replaced: <b>I<sub>CO</sub></b> (= I<sub>CBO</sub>) doubles for every 10 °C rise; <b>V<sub>BE</sub></b> falls about 2.5 mV per °C; <b>β</b> rises with temperature and varies widely between transistors of the same type.
+    All three raise I<sub>C</sub>. More I<sub>C</sub> means more heat, which raises I<sub>C</sub> again: <b>thermal runaway</b>.</p>
+  <p><b>Stability factor.</b> It measures how much I<sub>C</sub> changes when the leakage I<sub>CO</sub> changes, with β and V<sub>BE</sub> held constant. Smaller is better; the ideal is 1.</p>
+  <p class="eq">S = ∂I<sub>C</sub>/∂I<sub>CO</sub> &nbsp;&nbsp;&nbsp; general result: S = (1 + β) / (1 − β·dI<sub>B</sub>/dI<sub>C</sub>)</p>
+  <p>The general result comes from differentiating I<sub>C</sub> = βI<sub>B</sub> + (1 + β)I<sub>CO</sub> with respect to I<sub>C</sub>. Two more factors are defined the same way: S′ = ∂I<sub>C</sub>/∂V<sub>BE</sub> and S″ = ∂I<sub>C</sub>/∂β.</p>
+  <table class="data">
+    <tr><th>Circuit</th><th>Base current</th><th>dI<sub>B</sub>/dI<sub>C</sub></th><th>Stability factor S</th></tr>
+    <tr><td><b>(a) Fixed bias</b></td><td>I<sub>B</sub> = (V<sub>CC</sub> − V<sub>BE</sub>)/R<sub>B</sub></td><td>0</td><td>1 + β (worst)</td></tr>
+    <tr><td><b>(b) Emitter bias</b></td><td>I<sub>B</sub> = (V<sub>CC</sub> − V<sub>BE</sub>)/(R<sub>B</sub> + (β + 1)R<sub>E</sub>)</td><td>−R<sub>E</sub>/(R<sub>B</sub> + R<sub>E</sub>)</td><td>(1 + β)(1 + R<sub>B</sub>/R<sub>E</sub>) / (1 + β + R<sub>B</sub>/R<sub>E</sub>)</td></tr>
+    <tr><td><b>(c) Voltage divider</b></td><td>I<sub>B</sub> = (E<sub>Th</sub> − V<sub>BE</sub>)/(R<sub>Th</sub> + (β + 1)R<sub>E</sub>)</td><td>−R<sub>E</sub>/(R<sub>Th</sub> + R<sub>E</sub>)</td><td>same formula with R<sub>B</sub> → R<sub>Th</sub> (best: R<sub>Th</sub> is small)</td></tr>
+    <tr><td>Collector-to-base feedback</td><td>I<sub>B</sub> = (V<sub>CC</sub> − V<sub>BE</sub>)/(R<sub>B</sub> + (β + 1)R<sub>C</sub>)</td><td>−R<sub>C</sub>/(R<sub>B</sub> + R<sub>C</sub>)</td><td>(1 + β) / (1 + βR<sub>C</sub>/(R<sub>B</sub> + R<sub>C</sub>))</td></tr>
+  </table>
+  <p><b>How R<sub>E</sub> stabilises.</b> If I<sub>C</sub> rises, the drop across R<sub>E</sub> rises, which raises the emitter voltage and leaves less voltage to drive the base. I<sub>B</sub> falls and pulls I<sub>C</sub> back. This is negative feedback (Part F).
+    In every circuit with R<sub>E</sub>: V<sub>CE</sub> = V<sub>CC</sub> − I<sub>C</sub>R<sub>C</sub> − I<sub>E</sub>R<sub>E</sub> ≈ V<sub>CC</sub> − I<sub>C</sub>(R<sub>C</sub> + R<sub>E</sub>), and I<sub>C(sat)</sub> = V<sub>CC</sub>/(R<sub>C</sub> + R<sub>E</sub>).</p>
+  <div class="ans"><b>Answer.</b> I<sub>B</sub> = (20 − 0.7)/(430 k + 51 × 1 k) = 19.3/481 k = <b>40.1 μA</b>. I<sub>C</sub> = 50 × 40.1 μA = <b>2.01 mA</b>. I<sub>E</sub> = 51 × 40.1 μA = 2.05 mA.
+    V<sub>CE</sub> = 20 − 2.01 × 2 − 2.05 × 1 = <b>13.94 V</b> (13.97 V if I<sub>E</sub> ≈ I<sub>C</sub> is used). R<sub>B</sub>/R<sub>E</sub> = 430, so S = 51 × 431/(51 + 430) = <b>45.7</b>.
+    The fixed-bias circuit has S = 1 + β = <b>51</b>. R<sub>E</sub> helps only a little here, because R<sub>B</sub> is so much larger than R<sub>E</sub>.</div>
+  <p><b>Voltage-divider bias, worked</b> (circuit (c), β = 100). <b>Exact:</b> replace R<sub>1</sub>, R<sub>2</sub> and V<sub>CC</sub> by their Thévenin equivalent as seen from the base:
+    E<sub>Th</sub> = V<sub>CC</sub>R<sub>2</sub>/(R<sub>1</sub> + R<sub>2</sub>) = 22 × 3.9/42.9 = 2.0 V, R<sub>Th</sub> = R<sub>1</sub> ∥ R<sub>2</sub> = 3.55 kΩ.
+    I<sub>B</sub> = (2.0 − 0.7)/(3.55 k + 101 × 1.5 k) = <b>8.38 μA</b>, I<sub>C</sub> = <b>0.84 mA</b>, V<sub>CE</sub> = 22 − 0.838 × 10 − 0.846 × 1.5 = <b>12.35 V</b>. S = 101 × (1 + 2.36)/(101 + 2.36) = <b>3.29</b>.
+    <b>Approximate</b> (valid when βR<sub>E</sub> ≥ 10R<sub>2</sub>; here 150 k ≥ 39 k ✓): ignore I<sub>B</sub>, so V<sub>B</sub> = E<sub>Th</sub> = 2.0 V, V<sub>E</sub> = V<sub>B</sub> − 0.7 = 1.3 V, I<sub>C</sub> ≈ I<sub>E</sub> = 1.3/1.5 k = 0.87 mA.
+    β does not appear at all in the approximate answer: that is why this circuit is called β-independent.</p>
+  <p><b>Bias compensation</b> uses a temperature-sensitive part to cancel the drift instead of feedback. <b>Diode compensation:</b> a forward-biased diode of the same material in the base circuit; its drop falls with temperature exactly as V<sub>BE</sub> does, so the two cancel.
+    <b>Thermistor</b> (resistance falls as temperature rises) placed in the lower divider arm: as it heats, the base voltage drops and holds I<sub>C</sub> down. <b>Sensistor</b> (resistance rises with temperature) placed in the upper arm or in the emitter does the same.</p>
+  <div class="check"><b>Check E4.</b> (a) Why is S = 1 + β for fixed bias? (b) In circuit (b), R<sub>B</sub> is replaced by a divider with R<sub>Th</sub> = 10 kΩ. Find the new S (β = 50, R<sub>E</sub> = 1 kΩ). (c) Name the three quantities whose drift moves the Q-point, and the direction each moves I<sub>C</sub> as temperature rises.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › Amplifier analysis</div>
+  <h2>E5 · h-parameters and CE amplifier analysis</h2>
+  <div class="q"><span class="src">Professor's h-parameter numericals (book pp. 131–145) · Problem 9</span>
+    A CE amplifier is driven by a voltage source of internal resistance R<sub>s</sub> = 800 Ω. The load impedance is a resistance of 2 kΩ. The h-parameters are h<sub>ie</sub> = 1.1 k, h<sub>fe</sub> = 50,
+    h<sub>oe</sub> = 25 μmho, h<sub>re</sub> = 2.5 × 10⁻⁴. Compute the current gain A<sub>i</sub>, input resistance R<sub>i</sub>, voltage gain A<sub>v</sub>, output resistance R<sub>o</sub>
+    and output terminal resistance R<sub>ot</sub>. Also calculate power gain A<sub>p</sub>. Using (a) exact analysis (b) approximate analysis. Compute % error in A<sub>i</sub>.</div>
+  <div class="guess">Guess first: β is about 50. Will the current gain into a real load be exactly 50, more, or less?</div>
+  <div class="terms"><b>Two-port network:</b> a box with an input pair and an output pair of terminals. · <b>Small-signal quantities</b> (lower case: i<sub>b</sub>, v<sub>ce</sub>): the AC parts only. · <b>mho (℧) = siemens:</b> unit of conductance, 1/Ω.</div>
+  <div class="fig">{{ h_model() }}</div>
+  <p><b>Definition.</b> For small signals the transistor is treated as a two-port and described by two equations (CE shown):</p>
+  <p class="eq">v<sub>be</sub> = h<sub>ie</sub>i<sub>b</sub> + h<sub>re</sub>v<sub>ce</sub> &nbsp;&nbsp;&nbsp;&nbsp; i<sub>c</sub> = h<sub>fe</sub>i<sub>b</sub> + h<sub>oe</sub>v<sub>ce</sub></p>
+  <table class="data">
+    <tr><th>Parameter</th><th>Name</th><th>Measured with</th><th>Unit</th><th>Typical (CE)</th></tr>
+    <tr><td>h<sub>ie</sub> = v<sub>be</sub>/i<sub>b</sub></td><td>input resistance</td><td>output shorted (v<sub>ce</sub> = 0)</td><td>Ω</td><td>1.1 kΩ</td></tr>
+    <tr><td>h<sub>re</sub> = v<sub>be</sub>/v<sub>ce</sub></td><td>reverse voltage ratio</td><td>input open (i<sub>b</sub> = 0)</td><td>none</td><td>2.5 × 10⁻⁴</td></tr>
+    <tr><td>h<sub>fe</sub> = i<sub>c</sub>/i<sub>b</sub></td><td>forward current gain (≈ β)</td><td>output shorted</td><td>none</td><td>50</td></tr>
+    <tr><td>h<sub>oe</sub> = i<sub>c</sub>/v<sub>ce</sub></td><td>output admittance</td><td>input open</td><td>siemens</td><td>25 μS</td></tr>
+  </table>
+  <p>They are called <b>hybrid</b> parameters because their units are mixed. The second subscript names the connection: e, b or c (h<sub>ib</sub>, h<sub>fc</sub>, …). The same four formulas below work for all three connections with the matching set.</p>
+  <table class="data">
+    <tr><th>Quantity</th><th>Exact formula</th><th>Approximate (h<sub>oe</sub>R<sub>L</sub> &lt; 0.1: drop h<sub>oe</sub>, h<sub>re</sub>)</th></tr>
+    <tr><td>Current gain A<sub>i</sub> = i<sub>L</sub>/i<sub>b</sub></td><td>−h<sub>fe</sub>/(1 + h<sub>oe</sub>R<sub>L</sub>)</td><td>−h<sub>fe</sub></td></tr>
+    <tr><td>Input resistance R<sub>i</sub></td><td>h<sub>ie</sub> + h<sub>re</sub>A<sub>i</sub>R<sub>L</sub></td><td>h<sub>ie</sub></td></tr>
+    <tr><td>Voltage gain A<sub>v</sub> = v<sub>o</sub>/v<sub>i</sub></td><td>A<sub>i</sub>R<sub>L</sub>/R<sub>i</sub></td><td>−h<sub>fe</sub>R<sub>L</sub>/h<sub>ie</sub></td></tr>
+    <tr><td>Output admittance Y<sub>o</sub> (R<sub>o</sub> = 1/Y<sub>o</sub>)</td><td>h<sub>oe</sub> − h<sub>fe</sub>h<sub>re</sub>/(h<sub>ie</sub> + R<sub>s</sub>)</td><td>0, so R<sub>o</sub> → ∞</td></tr>
+    <tr><td>Gain from the source, A<sub>vs</sub> = v<sub>o</sub>/v<sub>s</sub></td><td colspan="2">A<sub>v</sub>R<sub>i</sub>/(R<sub>i</sub> + R<sub>s</sub>) &nbsp;·&nbsp; power gain A<sub>p</sub> = A<sub>i</sub>A<sub>v</sub> &nbsp;·&nbsp; R<sub>ot</sub> = R<sub>o</sub> ∥ R<sub>L</sub></td></tr>
+  </table>
+  <p>Always in this order: A<sub>i</sub> → R<sub>i</sub> → A<sub>v</sub> → Y<sub>o</sub>, because each uses the one before. The minus signs are the CE phase reversal.</p>
+  <div class="ans"><b>Answer.</b> <b>(a) Exact.</b> A<sub>i</sub> = −50/(1 + 25 × 10⁻⁶ × 2000) = −50/1.05 = <b>−47.6</b>.
+    R<sub>i</sub> = 1100 + (2.5 × 10⁻⁴)(−47.6)(2000) = 1100 − 23.8 = <b>1076.2 Ω</b>. A<sub>v</sub> = (−47.6)(2000)/1076.2 = <b>−88.5</b>.
+    A<sub>vs</sub> = −88.5 × 1076.2/(1076.2 + 800) = <b>−50.75</b>. Y<sub>o</sub> = 25 × 10⁻⁶ − (50)(2.5 × 10⁻⁴)/(1100 + 800) = 25 μS − 6.58 μS = <b>18.42 μS</b>, so R<sub>o</sub> = <b>54.28 kΩ</b>.
+    R<sub>ot</sub> = 54.28 k ∥ 2 k = <b>1.93 kΩ</b>. A<sub>p</sub> = A<sub>i</sub>A<sub>v</sub> = (−47.6)(−88.5) = <b>4214</b> (the book rounds earlier and prints 4210.6).
+    <b>(b) Approximate</b> (h<sub>oe</sub>R<sub>L</sub> = 0.05 &lt; 0.1 ✓). A<sub>i</sub> = −50, R<sub>i</sub> = 1100 Ω, A<sub>v</sub> = −50 × 2000/1100 = −90.9. Error in A<sub>i</sub> = (50 − 47.6)/47.6 = <b>5%</b>.</div>
+  <div class="check"><b>Check E5.</b> (a) Why are they called hybrid parameters? (b) Which h-parameter is closest to β? (c) For h<sub>ie</sub> = 1 kΩ, h<sub>fe</sub> = 100, R<sub>L</sub> = 1 kΩ, use the approximate model to find A<sub>i</sub>, R<sub>i</sub> and A<sub>v</sub>.
+    (d) What condition allows the approximate model?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › Amplifier analysis (taught on the slides)</div>
+  <h2>E6 · Multistage amplifiers and the Darlington pair</h2>
+  <div class="q"><span class="src">Practice · deck "Multi-Stage Amplifier"</span>
+    Two amplifier stages with voltage gains 40 and 60 are cascaded. Find the overall gain as a number and in dB.</div>
+  <div class="guess">Guess first: do the gains add or multiply?</div>
+  <div class="fig small">{{ two_stage() }}</div>
+  <p><b>Cascading.</b> When one stage cannot give enough gain, the output of one stage feeds the input of the next. The overall gain is the product of the stage gains, where each stage's gain is found <i>with the next stage connected as its load</i>
+    (the input resistance of stage 2 loads stage 1). In decibels, A<sub>v</sub>(dB) = 20 log<sub>10</sub>|A<sub>v</sub>|, and the stage values add.</p>
+  <table class="data">
+    <tr><th>Coupling</th><th>How</th><th>For · against</th></tr>
+    <tr><td><b>RC coupling</b></td><td>a capacitor between stages</td><td>cheap, small, good in the audio range; the capacitor blocks DC so each stage is biased separately. Gain falls at low frequency.</td></tr>
+    <tr><td><b>Transformer coupling</b></td><td>a transformer between stages</td><td>matches impedances, so maximum power transfer; bulky, costly, poor frequency response.</td></tr>
+    <tr><td><b>Direct coupling</b></td><td>a wire</td><td>amplifies down to DC; the bias of one stage disturbs the next, and drift is amplified.</td></tr>
+  </table>
+  <div class="two">{{ darlington() }}<div>
+    <p><b>Darlington pair.</b> The emitter current of Q<sub>1</sub> is the base current of Q<sub>2</sub>, and the collectors are joined. The pair behaves as one "super-β" transistor.</p>
+    <p>I<sub>E1</sub> = (1 + β<sub>1</sub>)I<sub>B</sub>, and I<sub>E2</sub> = (1 + β<sub>2</sub>)I<sub>E1</sub> = (1 + β<sub>1</sub>)(1 + β<sub>2</sub>)I<sub>B</sub>, so</p>
+    <p class="eq">β<sub>D</sub> = β<sub>1</sub>β<sub>2</sub> + β<sub>1</sub> + β<sub>2</sub> ≈ β<sub>1</sub>β<sub>2</sub></p>
+    <p>Two base–emitter drops in series: V<sub>BE</sub> ≈ 1.4 V. Very high input resistance. Used as an emitter follower to drive heavy loads. DC bias with R<sub>B</sub> and R<sub>E</sub>:
+      I<sub>B</sub> = (V<sub>CC</sub> − V<sub>BE</sub>)/(R<sub>B</sub> + β<sub>D</sub>R<sub>E</sub>).</p></div></div>
+  <div class="ans"><b>Answer.</b> A<sub>v</sub> = 40 × 60 = <b>2400</b>. In dB: 20 log 40 + 20 log 60 = 32.0 + 35.6 = <b>67.6 dB</b> (= 20 log 2400).</div>
+  <div class="check"><b>Check E6.</b> (a) Two transistors with β = 100 each form a Darlington pair. Find β<sub>D</sub> exactly. (b) Why is the gain of stage 1 lower once stage 2 is connected? (c) Which coupling can amplify a DC signal?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › Comparison (syllabus: "comparison with MOSFETs")</div>
+  <h2>E7 · BJT compared with MOSFET</h2>
+  <div class="q"><span class="src">Practice · syllabus line "BJT characteristics and comparison with MOSFETs"</span>
+    Compare the BJT and the MOSFET.</div>
+  <div class="guess">Guess first: write five rows from memory before reading the table.</div>
+  <table class="data">
+    <tr><th>Point</th><th>BJT</th><th>MOSFET</th></tr>
+    <tr><td>Controlled by</td><td>base <b>current</b> (current-controlled)</td><td>gate <b>voltage</b> (voltage-controlled)</td></tr>
+    <tr><td>Carriers</td><td>both electrons and holes (bipolar)</td><td>one type only (unipolar)</td></tr>
+    <tr><td>Terminals</td><td>emitter, base, collector</td><td>source, gate, drain (and body)</td></tr>
+    <tr><td>Input resistance</td><td>low to medium (about 1 kΩ in CE); draws input current</td><td>extremely high (10¹⁰ Ω and above); draws no DC input current</td></tr>
+    <tr><td>Transfer law</td><td>exponential: I<sub>C</sub> ∝ e<sup>V<sub>BE</sub>/V<sub>T</sub></sup></td><td>square law: I<sub>D</sub> = K(V<sub>GS</sub> − V<sub>T</sub>)²</td></tr>
+    <tr><td>Transconductance</td><td>high: g<sub>m</sub> = I<sub>C</sub>/V<sub>T</sub> (38 mS at 1 mA)</td><td>lower at the same current: g<sub>m</sub> = 2√(K·I<sub>D</sub>)</td></tr>
+    <tr><td>Voltage gain per stage</td><td>higher</td><td>lower</td></tr>
+    <tr><td>Temperature</td><td>I<sub>C</sub> rises with temperature: risk of thermal runaway</td><td>I<sub>D</sub> falls with temperature (mobility drops): self-limiting</td></tr>
+    <tr><td>Switching</td><td>slowed by stored minority charge in saturation</td><td>no stored minority charge; limited by gate capacitance</td></tr>
+    <tr><td>Power in logic</td><td>draws base current continuously</td><td>CMOS draws almost nothing when not switching</td></tr>
+    <tr><td>Size · density</td><td>larger; fewer per chip</td><td>very small, simpler to fabricate: millions to billions per chip</td></tr>
+    <tr><td>Noise</td><td>more</td><td>less</td></tr>
+    <tr><td>Handling</td><td>robust</td><td>gate oxide is damaged by static charge</td></tr>
+    <tr><td>Best at</td><td>high-gain, high-frequency analog and discrete amplifiers</td><td>digital ICs, switches, high-input-impedance stages</td></tr>
+  </table>
+  <div class="check"><b>Check E7.</b> (a) Give two reasons MOSFETs replaced BJTs in digital ICs. (b) Which device gives more voltage gain per stage, and which parameter explains it? (c) Why is a MOSFET thermally more stable?</div>
+</section>
+
+<section class="answers">
+  <h3>Answers: Part E Checks</h3>
+  <ol>
+    <li><b>E1.</b> (a) Emitter–base forward, collector–base reverse. (b) I<sub>C</sub> = I<sub>E</sub> − I<sub>B</sub> = 5 − 0.05 = 4.95 mA. (c) Cutoff (open) and saturation (closed).</li>
+    <li><b>E2.</b> (a) β = 0.98/0.02 = 49; γ = 50. (b) β = I<sub>C</sub>/I<sub>B</sub> = I<sub>C</sub>/(I<sub>E</sub> − I<sub>C</sub>); divide top and bottom by I<sub>E</sub>: β = α/(1 − α).
+      (c) Common collector (emitter follower): high input resistance, very low output resistance, so it can drive a low-resistance load without loading the stage before it.</li>
+    <li><b>E3.</b> (a) I<sub>B</sub> is unchanged at 47.08 μA, so βI<sub>B</sub> = 4.71 mA and V<sub>CE</sub> = 12 − 4.71 × 2.2 = 1.64 V. The Q-point has moved most of the way to saturation, only because β changed: fixed bias is not stable.
+      (b) (V<sub>CE</sub>, I<sub>C</sub>) = (12 V, 0) and (0, 3 mA).</li>
+    <li><b>E4.</b> (a) I<sub>B</sub> does not depend on I<sub>C</sub>, so dI<sub>B</sub>/dI<sub>C</sub> = 0 and S = (1 + β)/1. (b) R<sub>Th</sub>/R<sub>E</sub> = 10: S = 51 × 11/(51 + 10) = 9.2.
+      (c) I<sub>CO</sub> doubles per 10 °C; V<sub>BE</sub> falls about 2.5 mV/°C; β rises. All three increase I<sub>C</sub>.</li>
+    <li><b>E5.</b> (a) Their units differ: an impedance, an admittance and two pure ratios. (b) h<sub>fe</sub>. (c) A<sub>i</sub> = −100, R<sub>i</sub> = 1 kΩ, A<sub>v</sub> = −100 × 1 k/1 k = −100. (d) h<sub>oe</sub>R<sub>L</sub> &lt; 0.1.</li>
+    <li><b>E6.</b> (a) 100 × 100 + 100 + 100 = 10 200. (b) The input resistance of stage 2 appears in parallel with stage 1's collector resistor, lowering its effective load. (c) Direct coupling.</li>
+    <li><b>E7.</b> (a) Almost zero static power in CMOS, and much smaller size, so far higher density (also simpler fabrication). (b) The BJT; its transconductance g<sub>m</sub> = I<sub>C</sub>/V<sub>T</sub> is higher at the same current.
+      (c) Its current falls as temperature rises, because mobility falls, so a hot spot carries less current instead of more.</li>
+  </ol>
+</section>

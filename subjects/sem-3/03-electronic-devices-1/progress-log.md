@@ -43,3 +43,17 @@
   `Mosfet biasing and digital circuit.pptx` deleted as duplicates. The MOSFET deck has the same text as filed
   `slides-U4-mosfet-biasing-and-digital-circuits.pptx`; 15/21 images are identical and the 6 that differ (slides 10–12, 15) are
   re-renders of the same equations, checked side by side. Filed copy kept.
+- [2026-11-13] Learner request (stated): "make me the ete combined study ready pdf, lets start only with one subject edc". Answers to
+  the three scoping questions: format = "v1 pdf format for now" (the `04-digital-electronics/study-pack/pdf/DE-v1.pdf` build: A4,
+  Q → guess → figure → answer → Check); scope = all 7 ECE2106 units, equal depth; time = "more like 2 days, take 20-24 hours" (ETE
+  ≈ 2026-11-15, exact date not given). Learner level: zero in ED (stated 2026-10-31, lab-pack request). Building
+  `study-pack/pdf/EDC-ETE-v1.pdf`. U1–U5 facts from the `stage-2✓` KB; **U6 Feedback, U7 Oscillators and the deck extras are
+  not in the KB** → pack built for them on learner request without stage-2 research (same exception shape as ECE2104/MEE2003
+  packs), every formula checked by derivation/numerical simulation in `verify.py`. **No teaching event.**
+- [2026-11-13] `study-pack/pdf/EDC-ETE-v1.pdf` **partly built: Parts A–E (Units 1–5)**: A semiconductor physics (A1–A6), B pn junction + diode circuits
+  (B1–B9), C JFET (C1–C5), D MOSFET (D1–D6), E BJT (E1–E7). Each concept = Q (professor's deck/numerical sheet where one exists, else "practice")
+  → guess → figure → teaching → answer → Check; Check answers end each Part. `verify.py` passes (177 checks). Deck slip flagged in the PDF: L08 slide 5
+  prints V_R = 18.5 V (R is 0.5 kΩ → 9.25 V). Source = `parts/*.html` + `figs*.py` + `build.py`.
+  **Not built yet (session hit its usage limit):** Part F feedback, Part G oscillators, mock paper, formula sheet. Their figures are already drawn in
+  `figs3.py` and their numbers are already in `verify.py`. Parts A–D pages were viewed; **Part E pages have not been viewed after the build.**
+  **Where we stopped:** write `parts/F.html`, `parts/G.html`, `parts/H.html` (mock + formula sheet), view Part E–H pages, then README + commit. **No teaching event.**

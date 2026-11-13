@@ -1,0 +1,155 @@
+<!-- ============================================================ PART C -->
+<section class="part">
+  <div class="part-no">Part C · Unit 3</div>
+  <h1>The JFET</h1>
+  <p class="lead">A diode has two terminals and no control. A transistor adds a third terminal that controls the current between the other two.
+    The JFET is the simplest one to understand: a reverse-biased pn junction (Part B) squeezes a channel of doped silicon (Part A).</p>
+  <div class="fig">{{ sub_map(["C1 Structure,\noperation", "C2 Curves,\nShockley eqn", "C3 g_m, r_d, μ\n(8-mark item)", "C4 Biasing", "C5 Amplifiers"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Device</div>
+  <h2>C1 · Construction and operation</h2>
+  <div class="q"><span class="src">Practice · JFET deck slides 5–16</span>
+    Why is a JFET called a voltage-controlled device, and why is its input resistance so high?</div>
+  <div class="guess">Guess first: the gate junction is reverse biased. How much gate current flows?</div>
+  <div class="terms"><b>Channel:</b> the strip of n-type silicon that current flows through. ·
+    <b>Source, Drain:</b> the two ends of the channel; carriers enter at the source and leave at the drain. ·
+    <b>Gate:</b> the p regions on both sides of the channel, joined together.</div>
+  <div class="fig">{{ jfet_struct() }}</div>
+  <p><b>Construction (n-channel).</b> A bar of n-type silicon with a contact at each end (source and drain). Two heavily doped p regions are diffused into its sides and wired together as the gate.
+    Each p region forms a pn junction with the channel, and every junction has a depletion region (B1).</p>
+  <p><b>Operation.</b> The gate is always <b>reverse biased</b> (V<sub>GS</sub> ≤ 0 for n-channel). Making V<sub>GS</sub> more negative widens the depletion regions (B1), which narrows the channel and raises its resistance, so the drain current I<sub>D</sub> falls.
+    At V<sub>GS</sub> = <b>V<sub>GS(off)</sub></b> the depletion regions meet, the channel is closed and I<sub>D</sub> = 0.</p>
+  <p><b>Pinch-off.</b> With V<sub>GS</sub> = 0, raise V<sub>DS</sub>. The drain end of the channel is more positive than the source end, so the reverse bias, and the depletion region, is widest near the drain.
+    At V<sub>DS</sub> = <b>V<sub>P</sub></b>, the <b>pinch-off voltage</b>, the regions almost touch at the drain end. Beyond this the current stops rising and stays at <b>I<sub>DSS</sub></b>:
+    the drain-to-source saturation current, which is the largest current the JFET can carry. Numerically V<sub>P</sub> = |V<sub>GS(off)</sub>|.</p>
+  <p><b>p-channel:</b> swap n and p, reverse every voltage and current direction; holes carry the current.</p>
+  <div class="ans"><b>Answer.</b> The drain current is set by the gate <b>voltage</b> V<sub>GS</sub> through the width of the depletion regions; no gate current is needed.
+    The gate junction is reverse biased, so only a leakage current of nanoamps flows (I<sub>G</sub> ≈ 0). Input resistance = V<sub>GS</sub>/I<sub>G</sub> is therefore very high, 10⁸–10¹² Ω.
+    Also, only one type of carrier takes part (electrons in an n-channel device), so the JFET is a <b>unipolar</b> device.</div>
+  <div class="check"><b>Check C1.</b> (a) What two things does making V<sub>GS</sub> more negative do inside the device? (b) Define I<sub>DSS</sub> and V<sub>GS(off)</sub>.
+    (c) Why is the depletion region wider at the drain end than at the source end?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Device</div>
+  <h2>C2 · Characteristics and Shockley's equation</h2>
+  <div class="q"><span class="src">Professor's JFET numericals sheet · Q2</span>
+    A JFET has the following parameters: I<sub>DSS</sub> = 32 mA; V<sub>GS(off)</sub> = −8 V; V<sub>GS</sub> = −4.5 V. Find the value of drain current.</div>
+  <div class="guess">Guess first: V<sub>GS</sub> is a little over halfway to cutoff. Is I<sub>D</sub> more or less than half of I<sub>DSS</sub>?</div>
+  <div class="fig">{{ jfet_curves() }}</div>
+  <p><b>Drain curves</b> (right): I<sub>D</sub> against V<sub>DS</sub>, one curve per V<sub>GS</sub>. Four regions:</p>
+  <table class="data">
+    <tr><th>Region</th><th>Condition (n-channel)</th><th>Behaviour</th></tr>
+    <tr><td><b>Ohmic</b></td><td>V<sub>DS</sub> &lt; V<sub>GS</sub> − V<sub>GS(off)</sub></td><td>I<sub>D</sub> rises with V<sub>DS</sub>. The channel is a resistor whose value is set by V<sub>GS</sub> (a voltage-variable resistor).</td></tr>
+    <tr><td><b>Saturation</b> (pinch-off, active)</td><td>V<sub>DS</sub> ≥ V<sub>GS</sub> − V<sub>GS(off)</sub></td><td>I<sub>D</sub> is constant, set only by V<sub>GS</sub>. Amplifiers work here.</td></tr>
+    <tr><td><b>Cutoff</b></td><td>V<sub>GS</sub> ≤ V<sub>GS(off)</sub></td><td>I<sub>D</sub> = 0.</td></tr>
+    <tr><td><b>Breakdown</b></td><td>V<sub>DS</sub> too large</td><td>The gate junction avalanches; I<sub>D</sub> shoots up.</td></tr>
+  </table>
+  <p><b>Transfer curve</b> (left): I<sub>D</sub> against V<sub>GS</sub> in saturation. It is a parabola, given by <b>Shockley's equation</b>:</p>
+  <p class="eq">I<sub>D</sub> = I<sub>DSS</sub>(1 − V<sub>GS</sub>/V<sub>GS(off)</sub>)²</p>
+  <p>Quick points for sketching it: V<sub>GS</sub> = 0 → I<sub>DSS</sub>. V<sub>GS</sub> = V<sub>GS(off)</sub>/2 → I<sub>DSS</sub>/4. V<sub>GS</sub> = V<sub>GS(off)</sub> → 0.
+    Keep the signs: for an n-channel JFET both V<sub>GS</sub> and V<sub>GS(off)</sub> are negative, so the ratio is positive.</p>
+  <div class="ans"><b>Answer.</b> I<sub>D</sub> = 32 × (1 − (−4.5)/(−8))² = 32 × (0.4375)² = <b>6.12 mA</b>. That is under a fifth of I<sub>DSS</sub>: the square makes the current fall quickly.</div>
+  <div class="check"><b>Check C2.</b> From the same sheet. (a) Q3: A JFET has a drain current of 5 mA. If I<sub>DSS</sub> = 10 mA and V<sub>GS(off)</sub> = −6 V, find the value of (i) V<sub>GS</sub> and (ii) V<sub>P</sub>.
+    (b) Q5: V<sub>GS</sub> = −2 V, V<sub>GS(off)</sub> = −6 V, I<sub>DSS</sub> = 3 mA. Determine the drain current.
+    (c) Q4: V<sub>GS(off)</sub> = −4 V, I<sub>DSS</sub> = 12 mA, R<sub>D</sub> = 560 Ω, gate tied to source (V<sub>GS</sub> = 0). Determine the minimum V<sub>DD</sub> that puts the device in the constant-current region.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Device · flagged "8 marks"</div>
+  <h2>C3 · The characteristic parameters: g<sub>m</sub>, r<sub>d</sub>, g<sub>d</sub>, μ</h2>
+  <div class="q"><span class="src">Professor's JFET deck · slides 30–31 "Characteristics parameters of JFET" · a classmate's relay says 8 marks</span>
+    Define the characteristic parameters of a JFET and derive the relation among them.</div>
+  <div class="guess">Guess first: I<sub>D</sub> depends on two voltages. How many independent slopes can you define?</div>
+  <table class="data">
+    <tr><th>Parameter</th><th>Definition</th><th>Held constant</th><th>Meaning · unit</th></tr>
+    <tr><td><b>Transconductance</b> (mutual conductance) g<sub>m</sub></td><td>g<sub>m</sub> = ΔI<sub>D</sub>/ΔV<sub>GS</sub></td><td>V<sub>DS</sub></td><td>How strongly the gate voltage controls the drain current. Slope of the transfer curve. Siemens (mS, μS; also written mho).</td></tr>
+    <tr><td><b>Drain resistance</b> r<sub>d</sub></td><td>r<sub>d</sub> = ΔV<sub>DS</sub>/ΔI<sub>D</sub></td><td>V<sub>GS</sub></td><td>AC resistance of the channel in saturation. Inverse slope of a drain curve. Tens of kΩ to MΩ.</td></tr>
+    <tr><td><b>Drain conductance</b> g<sub>d</sub></td><td>g<sub>d</sub> = ΔI<sub>D</sub>/ΔV<sub>DS</sub> = 1/r<sub>d</sub></td><td>V<sub>GS</sub></td><td>Slope of a drain curve. Siemens.</td></tr>
+    <tr><td><b>Amplification factor</b> μ</td><td>μ = −ΔV<sub>DS</sub>/ΔV<sub>GS</sub></td><td>I<sub>D</sub></td><td>How many volts of V<sub>DS</sub> are needed to undo 1 V of V<sub>GS</sub>. No unit.</td></tr>
+  </table>
+  <div class="ans"><b>Derivation of μ = g<sub>m</sub> r<sub>d</sub>.</b> I<sub>D</sub> is a function of V<sub>GS</sub> and V<sub>DS</sub>. For small changes (Taylor's theorem, first-order terms):
+    <p class="eq">ΔI<sub>D</sub> = (∂I<sub>D</sub>/∂V<sub>GS</sub>)ΔV<sub>GS</sub> + (∂I<sub>D</sub>/∂V<sub>DS</sub>)ΔV<sub>DS</sub> = g<sub>m</sub>ΔV<sub>GS</sub> + ΔV<sub>DS</sub>/r<sub>d</sub></p>
+    Hold I<sub>D</sub> constant, so ΔI<sub>D</sub> = 0: g<sub>m</sub>ΔV<sub>GS</sub> = −ΔV<sub>DS</sub>/r<sub>d</sub>. Therefore −ΔV<sub>DS</sub>/ΔV<sub>GS</sub> = g<sub>m</sub>r<sub>d</sub>, and by definition the left side is μ:
+    <p class="eq">μ = g<sub>m</sub> × r<sub>d</sub></p></div>
+  <p><b>g<sub>m</sub> from Shockley's equation.</b> Differentiate I<sub>D</sub> = I<sub>DSS</sub>(1 − V<sub>GS</sub>/V<sub>GS(off)</sub>)² with respect to V<sub>GS</sub>:</p>
+  <p class="eq">g<sub>m</sub> = g<sub>m0</sub>(1 − V<sub>GS</sub>/V<sub>GS(off)</sub>) &nbsp;&nbsp;&nbsp; g<sub>m0</sub> = 2I<sub>DSS</sub>/|V<sub>GS(off)</sub>| &nbsp;&nbsp;&nbsp; g<sub>m</sub> = g<sub>m0</sub>√(I<sub>D</sub>/I<sub>DSS</sub>)</p>
+  <p>g<sub>m0</sub> is the value at V<sub>GS</sub> = 0, the largest g<sub>m</sub> the device has. g<sub>m</sub> falls in a straight line to zero at cutoff.
+    Example: I<sub>DSS</sub> = 8 mA, V<sub>GS(off)</sub> = −4 V gives g<sub>m0</sub> = 4 mS; at V<sub>GS</sub> = −2 V, g<sub>m</sub> = 2 mS. With r<sub>d</sub> = 50 kΩ, μ = 2 mS × 50 kΩ = 100.</p>
+  <div class="check"><b>Check C3.</b> From the sheet. (a) Q7: When V<sub>GS</sub> of a JFET changes from −3.1 V to −3 V, the drain current changes from 1 mA to 1.3 mA. What is the value of transconductance?
+    (b) Q8: A JFET has a value of g<sub>m0</sub> = 4000 μS. Determine the value of g<sub>m</sub> at V<sub>GS</sub> = −3 V. Given that V<sub>GS(off)</sub> = −8 V.
+    (c) Write μ = g<sub>m</sub>r<sub>d</sub> starting from ΔI<sub>D</sub> = 0, from memory.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Circuits</div>
+  <h2>C4 · Biasing the JFET</h2>
+  <div class="q"><span class="src">Professor's JFET numericals sheet · Q17</span>
+    Determine I<sub>D</sub> and V<sub>GS</sub> for the JFET with voltage-divider bias in Fig. 9, given that V<sub>D</sub> = 7 V.</div>
+  <div class="guess">Guess first: which single resistor lets you find I<sub>D</sub> straight away?</div>
+  <div class="terms"><b>Biasing:</b> choosing the DC voltages and resistors so the transistor sits at a wanted Q-point (I<sub>D</sub>, V<sub>DS</sub>) in saturation. ·
+    <b>V<sub>G</sub>, V<sub>S</sub>, V<sub>D</sub>:</b> voltages from each terminal to ground. V<sub>GS</sub> = V<sub>G</sub> − V<sub>S</sub>.</div>
+  <div class="two">{{ jfet_divider() }}{{ jfet_self_bias() }}</div>
+  <p>Two facts make every JFET bias problem short: <b>I<sub>G</sub> = 0</b>, so no current and no voltage drop in the gate resistor, and <b>I<sub>S</sub> = I<sub>D</sub></b>.</p>
+  <table class="data">
+    <tr><th>Circuit</th><th>Gate-source loop</th><th>Notes</th></tr>
+    <tr><td><b>Fixed bias</b></td><td>V<sub>GS</sub> = −V<sub>GG</sub></td><td>A separate negative supply sets V<sub>GS</sub> directly. Then Shockley gives I<sub>D</sub>. Needs two supplies.</td></tr>
+    <tr><td><b>Self-bias</b> (right)</td><td>V<sub>G</sub> = 0, V<sub>S</sub> = I<sub>D</sub>R<sub>S</sub>, so <b>V<sub>GS</sub> = −I<sub>D</sub>R<sub>S</sub></b></td><td>The drop across R<sub>S</sub> makes the source positive, which is the same as making the gate negative. One supply. If I<sub>D</sub> rises, V<sub>GS</sub> gets more negative and pulls it back: self-correcting.</td></tr>
+    <tr><td><b>Voltage divider</b> (left)</td><td>V<sub>G</sub> = V<sub>DD</sub>R<sub>2</sub>/(R<sub>1</sub> + R<sub>2</sub>), <b>V<sub>GS</sub> = V<sub>G</sub> − I<sub>D</sub>R<sub>S</sub></b></td><td>Most stable Q-point. V<sub>GS</sub> must still come out negative.</td></tr>
+  </table>
+  <p>In every case the drain loop gives V<sub>DS</sub> = V<sub>DD</sub> − I<sub>D</sub>(R<sub>D</sub> + R<sub>S</sub>).</p>
+  <p><b>Worked self-bias</b> (right-hand circuit, I<sub>DSS</sub> = 8 mA, V<sub>GS(off)</sub> = −4 V). Put V<sub>GS</sub> = −I<sub>D</sub>R<sub>S</sub> = −I<sub>D</sub> (mA, kΩ) into Shockley:
+    I<sub>D</sub> = 8(1 − I<sub>D</sub>/4)², which rearranges to I<sub>D</sub>² − 10I<sub>D</sub> + 16 = 0, so I<sub>D</sub> = 2 mA or 8 mA. Reject 8 mA: it would need V<sub>GS</sub> = −8 V, beyond cutoff.
+    So <b>I<sub>D</sub> = 2 mA, V<sub>GS</sub> = −2 V</b>, V<sub>DS</sub> = 20 − 2(3.3 + 1) = <b>11.4 V</b>. Saturation check: 11.4 ≥ V<sub>GS</sub> − V<sub>GS(off)</sub> = 2 V ✓.</p>
+  <div class="ans"><b>Answer (Q17).</b> V<sub>D</sub> is given, so use R<sub>D</sub>: I<sub>D</sub> = (V<sub>DD</sub> − V<sub>D</sub>)/R<sub>D</sub> = (12 − 7)/3.3 k = <b>1.52 mA</b>.
+    V<sub>S</sub> = I<sub>D</sub>R<sub>S</sub> = 1.52 mA × 1.8 kΩ = 2.73 V. V<sub>G</sub> = 12 × 1/(6.8 + 1) = 1.54 V. V<sub>GS</sub> = 1.54 − 2.73 = <b>−1.19 V</b> (the sheet rounds to −1.2 V).</div>
+  <div class="check"><b>Check C4.</b> From the sheet. (a) Q18: In an n-channel JFET biased by potential divider method, it is desired to set the operating point at I<sub>D</sub> = 2.5 mA and V<sub>DS</sub> = 8 V.
+    If V<sub>DD</sub> = 30 V, R<sub>1</sub> = 1 MΩ and R<sub>2</sub> = 500 kΩ, find the value of R<sub>S</sub>. The parameters of JFET are I<sub>DSS</sub> = 10 mA and V<sub>GS(off)</sub> = −5 V.
+    (b) Q19: a JFET amplifier has V<sub>DD</sub> = 20 V and R<sub>D</sub> = 500 Ω (no R<sub>S</sub>). Give the two end points of its d.c. load line.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Circuits</div>
+  <h2>C5 · Small-signal model and JFET amplifiers</h2>
+  <div class="q"><span class="src">Practice · JFET deck slides 35–44</span>
+    A common-source JFET amplifier has g<sub>m</sub> = 2 mS, r<sub>d</sub> = 50 kΩ and R<sub>D</sub> = 2.2 kΩ, with the source resistor fully bypassed. Find the voltage gain.</div>
+  <div class="guess">Guess first: will the output be in phase with the input or inverted?</div>
+  <div class="terms"><b>Coupling capacitor (C<sub>1</sub>, C<sub>2</sub>):</b> passes the AC signal, blocks DC, so the bias is not disturbed. ·
+    <b>Bypass capacitor (C<sub>S</sub>):</b> shorts R<sub>S</sub> for AC so it does not reduce the gain. ·
+    <b>AC equivalent circuit:</b> capacitors and DC supplies replaced by short circuits.</div>
+  <div class="two">{{ fet_cs_amp() }}{{ fet_small_signal() }}</div>
+  <p><b>Small-signal model</b> (right). For small AC signals around the Q-point, the JFET is a voltage-controlled current source g<sub>m</sub>v<sub>gs</sub> in parallel with r<sub>d</sub>. The gate is an open circuit.</p>
+  <table class="data">
+    <tr><th></th><th>Common source (CS)</th><th>Common drain (CD), source follower</th><th>Common gate (CG)</th></tr>
+    <tr><td>Input · output</td><td>gate · drain</td><td>gate · source</td><td>source · drain</td></tr>
+    <tr><td>Voltage gain A<sub>v</sub></td><td>−g<sub>m</sub>(r<sub>d</sub> ∥ R<sub>D</sub>)<br>unbypassed R<sub>S</sub>: −g<sub>m</sub>R<sub>D</sub>/(1 + g<sub>m</sub>R<sub>S</sub>)</td><td>g<sub>m</sub>R<sub>S</sub>/(1 + g<sub>m</sub>R<sub>S</sub>), just under 1</td><td>+g<sub>m</sub>(r<sub>d</sub> ∥ R<sub>D</sub>) ≈ g<sub>m</sub>R<sub>D</sub></td></tr>
+    <tr><td>Phase</td><td>inverted (180°)</td><td>in phase</td><td>in phase</td></tr>
+    <tr><td>Input impedance Z<sub>i</sub></td><td>R<sub>G</sub> (very high)</td><td>R<sub>G</sub> (very high)</td><td>R<sub>S</sub> ∥ 1/g<sub>m</sub> (low)</td></tr>
+    <tr><td>Output impedance Z<sub>o</sub></td><td>r<sub>d</sub> ∥ R<sub>D</sub> ≈ R<sub>D</sub></td><td>R<sub>S</sub> ∥ 1/g<sub>m</sub> (low)</td><td>≈ R<sub>D</sub></td></tr>
+    <tr><td>Used as</td><td>voltage amplifier</td><td>buffer between a high-resistance source and a low-resistance load</td><td>high-frequency amplifier; matches a low-impedance source</td></tr>
+  </table>
+  <p><b>Why CS inverts:</b> a rise in v<sub>gs</sub> raises i<sub>d</sub>, which drops more voltage across R<sub>D</sub>, so the drain voltage falls.</p>
+  <p><b>Applications of the JFET:</b> low-noise, high-input-impedance amplifier (first stage of instruments and receivers), buffer, voltage-variable resistor (ohmic region), analog switch and chopper, constant-current source (V<sub>GS</sub> = 0 gives I<sub>DSS</sub>).</p>
+  <div class="ans"><b>Answer.</b> r<sub>d</sub> ∥ R<sub>D</sub> = (50 × 2.2)/(52.2) = 2.107 kΩ. A<sub>v</sub> = −g<sub>m</sub>(r<sub>d</sub> ∥ R<sub>D</sub>) = −2 mS × 2.107 kΩ = <b>−4.21</b>. The minus sign means the output is inverted.</div>
+  <div class="check"><b>Check C5.</b> (a) A source follower has g<sub>m</sub> = 2 mS and R<sub>S</sub> = 1 kΩ. Find A<sub>v</sub> and Z<sub>o</sub>. (b) What happens to the CS gain if the bypass capacitor C<sub>S</sub> is removed, and why?
+    (c) Which configuration would you place between a 1 MΩ sensor and a 1 kΩ load?</div>
+</section>
+
+<section class="answers">
+  <h3>Answers: Part C Checks</h3>
+  <ol>
+    <li><b>C1.</b> (a) Widens the gate depletion regions and so narrows the channel; channel resistance rises and I<sub>D</sub> falls.
+      (b) I<sub>DSS</sub>: the drain current in saturation with V<sub>GS</sub> = 0, the maximum. V<sub>GS(off)</sub>: the gate-source voltage at which I<sub>D</sub> becomes zero.
+      (c) The channel voltage rises from source to drain, so the gate junction is more reverse biased near the drain.</li>
+    <li><b>C2.</b> (a) 5 = 10(1 + V<sub>GS</sub>/6)², so 1 + V<sub>GS</sub>/6 = √0.5 = 0.707 and V<sub>GS</sub> = −1.76 V. V<sub>P</sub> = |V<sub>GS(off)</sub>| = 6 V.
+      (b) I<sub>D</sub> = 3(1 − 2/6)² = 3 × 0.444 = 1.33 mA. (c) Constant-current needs V<sub>DS</sub> ≥ V<sub>P</sub> = 4 V, with I<sub>D</sub> = I<sub>DSS</sub> = 12 mA.
+      V<sub>DD</sub> = V<sub>DS</sub> + I<sub>D</sub>R<sub>D</sub> = 4 + 12 mA × 560 Ω = 10.72 V.</li>
+    <li><b>C3.</b> (a) g<sub>m</sub> = ΔI<sub>D</sub>/ΔV<sub>GS</sub> = 0.3 mA/0.1 V = 3 mS = 3000 μS. (b) g<sub>m</sub> = 4000 × (1 − 3/8) = 2500 μS. (c) See the green box.</li>
+    <li><b>C4.</b> (a) Shockley: 2.5 = 10(1 + V<sub>GS</sub>/5)² gives 1 + V<sub>GS</sub>/5 = 0.5, V<sub>GS</sub> = −2.5 V. V<sub>G</sub> = 30 × 500/1500 = 10 V.
+      V<sub>S</sub> = V<sub>G</sub> − V<sub>GS</sub> = 12.5 V. R<sub>S</sub> = 12.5 V/2.5 mA = 5 kΩ. (b) I<sub>D</sub> = 0: V<sub>DS</sub> = V<sub>DD</sub> = 20 V. V<sub>DS</sub> = 0: I<sub>D</sub> = V<sub>DD</sub>/R<sub>D</sub> = 40 mA.</li>
+    <li><b>C5.</b> (a) A<sub>v</sub> = 2/(1 + 2) = 0.667; Z<sub>o</sub> = 1 kΩ ∥ 500 Ω = 333 Ω. (b) It falls to −g<sub>m</sub>R<sub>D</sub>/(1 + g<sub>m</sub>R<sub>S</sub>): the signal current now flows through R<sub>S</sub>,
+      and the voltage it develops there subtracts from v<sub>gs</sub> (negative feedback, Part F). (c) Common drain: very high Z<sub>i</sub>, low Z<sub>o</sub>.</li>
+  </ol>
+</section>

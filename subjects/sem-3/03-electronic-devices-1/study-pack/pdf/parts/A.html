@@ -1,0 +1,186 @@
+<!-- ============================================================ PART A -->
+<section class="part">
+  <div class="part-no">Part A · Unit 1</div>
+  <h1>Semiconductor physics</h1>
+  <p class="lead">Every device in this course is made of doped silicon. This part answers three things: what carries current in silicon,
+    how many carriers there are, and what makes them move. Parts B to E reuse all three.</p>
+  <div class="fig">{{ sub_map(["A1 Bands,\nelectrons, holes", "A2 Doping,\nn·p = nᵢ²", "A3 Fermi\nlevel", "A4 Drift,\nconductivity", "A5 Diffusion,\nEinstein", "A6 Continuity,\nPoisson"]) }}</div>
+  <table class="data">
+    <tr><th>Constant</th><th>Value</th><th>Constant</th><th>Value</th></tr>
+    <tr><td>Electron charge q</td><td>1.6 × 10⁻¹⁹ C</td><td>Thermal voltage V<sub>T</sub> = kT/q</td><td>≈ 26 mV at 300 K (25.9 mV)</td></tr>
+    <tr><td>Boltzmann constant k</td><td>1.38 × 10⁻²³ J/K = 8.62 × 10⁻⁵ eV/K</td><td>Band gap E<sub>g</sub></td><td>Si 1.12 eV · Ge 0.67 eV · GaAs 1.42 eV</td></tr>
+    <tr><td>Si atoms per cm³</td><td>5 × 10²²</td><td>n<sub>i</sub> of Si at 300 K</td><td>≈ 10¹⁰ cm⁻³ (slides) · 1.5 × 10¹⁰ in many books</td></tr>
+  </table>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › Materials</div>
+  <h2>A1 · Energy bands, electrons and holes</h2>
+  <div class="q"><span class="src">Practice · built on slides 19–24 of the Unit 1 deck</span>
+    Using energy bands, explain why heating lowers the resistance of a semiconductor but raises the resistance of a metal.</div>
+  <div class="guess">Guess first, on paper.</div>
+  <div class="terms"><b>Valence electron:</b> an outer electron that forms bonds. Si has 4. ·
+    <b>Covalent bond:</b> two neighbouring atoms share a pair of valence electrons. ·
+    <b>eV:</b> the energy one electron gains crossing 1 volt, 1.6 × 10⁻¹⁹ J.</div>
+  <div class="fig small">{{ bands() }}</div>
+  <p><b>Bands.</b> In a crystal the allowed electron energies form bands. The <b>valence band</b> holds the electrons locked in bonds.
+    The <b>conduction band</b> holds electrons that are free to move. Between them is the <b>band gap E<sub>g</sub></b>, where no states exist.</p>
+  <p><b>Electron–hole pairs.</b> At 0 K every Si bond is full and silicon is an insulator. At room temperature, heat breaks a few bonds.
+    Each broken bond gives one free <b>electron</b> (in the conduction band) and leaves one <b>hole</b>, a missing electron that behaves as a
+    mobile charge of +q. Pure silicon therefore always has equal numbers: n = p = <b>n<sub>i</sub></b>, the <b>intrinsic concentration</b>.</p>
+  <p><b>Size of n<sub>i</sub>.</b> About 10¹⁰ per cm³ in Si at 300 K, against 5 × 10²² atoms per cm³, so only one bond in 10¹² is broken.
+    n<sub>i</sub> rises steeply with temperature: n<sub>i</sub>² ∝ T³·e<sup>−E<sub>g</sub>/kT</sup>. In Si it roughly doubles every 10 °C (slide 37).
+    A smaller gap means a larger n<sub>i</sub>, so Ge (0.67 eV) is leakier than Si (1.12 eV).</p>
+  <div class="ans"><b>Answer.</b> Semiconductor: heating breaks more bonds, so the number of carriers rises exponentially. That outweighs the extra
+    scattering, so resistance falls (negative temperature coefficient). Metal: the bands overlap, so the number of free electrons is fixed.
+    Heat only makes the atoms vibrate more, which scatters the electrons more, so resistance rises (positive temperature coefficient).</div>
+  <div class="check"><b>Check A1.</b> (a) What are the two carriers in a semiconductor, and what is each physically? (b) Why is n = p in pure silicon?
+    (c) Which has the larger n<sub>i</sub> at 300 K, Si or Ge, and why?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › Materials</div>
+  <h2>A2 · Doping and the mass-action law</h2>
+  <div class="q"><span class="src">Practice · numbers follow the slides' n<sub>i</sub> = 10¹⁰ cm⁻³</span>
+    Silicon is doped with N<sub>D</sub> = 10¹⁶ donor atoms per cm³. At 300 K, find the electron and hole concentrations.</div>
+  <div class="guess">Guess first: will there be more holes or fewer holes than in pure silicon?</div>
+  <div class="terms"><b>Doping:</b> adding a tiny, controlled amount of another element. ·
+    <b>Donor:</b> an atom with 5 valence electrons (P, As, Sb); the fifth is given away as a free electron. ·
+    <b>Acceptor:</b> an atom with 3 valence electrons (B, Al, Ga); the missing bond is a hole.</div>
+  <div class="fig small">{{ doping_bands() }}</div>
+  <p><b>Extrinsic silicon.</b> Doped silicon is called <b>extrinsic</b>. Donors make it <b>n-type</b>: electrons are the <b>majority</b> carriers
+    and holes the <b>minority</b>. Acceptors make it <b>p-type</b>, with the roles swapped. At room temperature every dopant atom is ionised, so</p>
+  <p class="eq">n-type: n ≈ N<sub>D</sub> &nbsp;&nbsp;·&nbsp;&nbsp; p-type: p ≈ N<sub>A</sub></p>
+  <p><b>Mass-action law.</b> In equilibrium the product of the two concentrations is fixed by temperature alone, doped or not:</p>
+  <p class="eq">n · p = n<sub>i</sub>²</p>
+  <p>Adding electrons makes holes rarer, because a hole now meets an electron and recombines sooner.
+    <b>Charge neutrality</b> still holds: the crystal is neutral because each free electron left behind a fixed positive donor ion
+    (n + N<sub>A</sub> = p + N<sub>D</sub>). If both dopants are present, the larger one wins: n ≈ N<sub>D</sub> − N<sub>A</sub> (a <b>compensated</b> semiconductor).</p>
+  <div class="ans"><b>Answer.</b> n ≈ N<sub>D</sub> = <b>10¹⁶ cm⁻³</b>. p = n<sub>i</sub>²/n = (10¹⁰)²/10¹⁶ = <b>10⁴ cm⁻³</b>.
+    Holes dropped from 10¹⁰ to 10⁴. With n<sub>i</sub> = 1.5 × 10¹⁰ the same steps give p = 2.25 × 10⁴ cm⁻³.</div>
+  <div class="check"><b>Check A2.</b> (a) Silicon has N<sub>A</sub> = 5 × 10¹⁷ cm⁻³ of boron. Name its type and find p and n (n<sub>i</sub> = 10¹⁰).
+    (b) A doped bar has billions of extra free electrons. Why is it still electrically neutral?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › Carrier statistics</div>
+  <h2>A3 · The Fermi level</h2>
+  <div class="q"><span class="src">Practice · derivation on slide 38 of the Unit 1 deck</span>
+    Show that the Fermi level of an intrinsic semiconductor lies at the middle of the forbidden gap.</div>
+  <div class="guess">Guess first: which way does E<sub>F</sub> move when donors are added?</div>
+  <div class="terms"><b>State:</b> a slot an electron may occupy at a given energy. ·
+    <b>f(E):</b> the probability that a state at energy E is occupied. ·
+    <b>N<sub>C</sub>, N<sub>V</sub>:</b> effective number of states at the conduction-band and valence-band edges.</div>
+  <div class="fig small">{{ fermi_plot() }}</div>
+  <p><b>Fermi–Dirac function.</b> Electrons fill states from the bottom up. The probability that a state at energy E is filled is</p>
+  <p class="eq">f(E) = 1 / (1 + e<sup>(E − E<sub>F</sub>)/kT</sup>)</p>
+  <p><b>E<sub>F</sub></b>, the <b>Fermi level</b>, is the energy where f = ½. Well above E<sub>F</sub> states are almost empty; well below, almost full.
+    Counting the filled conduction-band states and the empty valence-band states gives</p>
+  <p class="eq">n = N<sub>C</sub> e<sup>−(E<sub>C</sub> − E<sub>F</sub>)/kT</sup> &nbsp;&nbsp;&nbsp; p = N<sub>V</sub> e<sup>−(E<sub>F</sub> − E<sub>V</sub>)/kT</sup></p>
+  <p>So E<sub>F</sub> is a gauge. Close to E<sub>C</sub> means many electrons (n-type). Close to E<sub>V</sub> means many holes (p-type).
+    For n-type material, E<sub>F</sub> − E<sub>i</sub> = kT ln(N<sub>D</sub>/n<sub>i</sub>), where E<sub>i</sub> is the intrinsic (mid-gap) level.
+    At very high temperature n<sub>i</sub> catches up with the doping and E<sub>F</sub> drifts back to mid-gap.</p>
+  <div class="ans"><b>Answer.</b> Intrinsic means n = p:
+    N<sub>C</sub> e<sup>−(E<sub>C</sub> − E<sub>F</sub>)/kT</sup> = N<sub>V</sub> e<sup>−(E<sub>F</sub> − E<sub>V</sub>)/kT</sup>.
+    Take N<sub>C</sub> = N<sub>V</sub>. Then the exponents are equal: E<sub>C</sub> − E<sub>F</sub> = E<sub>F</sub> − E<sub>V</sub>, so
+    <b>E<sub>F</sub> = (E<sub>C</sub> + E<sub>V</sub>)/2</b>. Without that assumption an extra term appears,
+    E<sub>F</sub> = (E<sub>C</sub> + E<sub>V</sub>)/2 + (kT/2) ln(N<sub>V</sub>/N<sub>C</sub>), which is only a few meV.</div>
+  <div class="check"><b>Check A3.</b> (a) What is f(E<sub>F</sub>) at 300 K and at 600 K? (b) For N<sub>D</sub> = 10¹⁶ cm⁻³ and n<sub>i</sub> = 10¹⁰,
+    how far is E<sub>F</sub> above mid-gap? (c) Find f(E) for a state 0.1 eV above E<sub>F</sub> at 300 K.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › Carrier transport</div>
+  <h2>A4 · Drift, mobility, conductivity, sheet resistance</h2>
+  <div class="q"><span class="src">Professor's Unit 1 deck · slide 51 · Example</span>
+    (a) Calculate the conductivity and resistivity of intrinsic silicon at T = 300 K. (b) How would σ change if the temperature increases by 10 °C?
+    Given: μ<sub>n</sub> = 1500 cm²/V-s, μ<sub>p</sub> = 450 cm²/V-s at 300 K.</div>
+  <div class="guess">Guess first: bigger or smaller than 1 Ω·cm?</div>
+  <div class="terms"><b>Electric field E:</b> volts per cm; the force per unit charge. ·
+    <b>Current density J:</b> current per unit cross-section area, A/cm². ·
+    <b>Scattering:</b> a carrier colliding with a vibrating atom or an ion and losing its direction.</div>
+  <div class="fig small">{{ drift_diff() }}</div>
+  <p><b>Drift.</b> A field accelerates carriers, and scattering keeps stopping them, so they settle at an average <b>drift velocity</b>
+    v<sub>d</sub> = μE. <b>Mobility μ</b> (cm²/V·s) measures how easily a carrier moves. Electrons are faster than holes
+    (Si: μ<sub>n</sub> ≈ 1350–1500, μ<sub>p</sub> ≈ 450–480). Mobility falls when temperature or doping rises, because both add scattering.
+    At very high fields v<sub>d</sub> stops rising (<b>velocity saturation</b>, about 10⁷ cm/s in Si).</p>
+  <p>Both carriers add to the current, since holes move with the field and electrons against it but carry opposite charge:</p>
+  <p class="eq">J<sub>drift</sub> = q(nμ<sub>n</sub> + pμ<sub>p</sub>)E = σE &nbsp;&nbsp;&nbsp; σ = q(nμ<sub>n</sub> + pμ<sub>p</sub>) &nbsp;&nbsp;&nbsp; ρ = 1/σ</p>
+  <div class="ans"><b>Answer.</b> (a) n = p = n<sub>i</sub> = 10¹⁰. σ = q n<sub>i</sub>(μ<sub>n</sub> + μ<sub>p</sub>) = 1.6 × 10⁻¹⁹ × 10¹⁰ × 1950 =
+    <b>3.12 × 10⁻⁶ (Ω·cm)⁻¹</b>, so ρ = 1/σ = <b>3.2 × 10⁵ Ω·cm</b>. (b) n<sub>i</sub> doubles for a 10 °C rise while the mobilities barely change,
+    so <b>σ doubles</b>. Slide 52 then dopes the same silicon with N<sub>D</sub> = 5 × 10¹⁷ cm⁻³: σ = 32 (Ω·cm)⁻¹, ten million times larger.
+    One donor per 10⁵ atoms does that.</div>
+  <div class="fig small">{{ sheet_res() }}</div>
+  <p><b>Sheet resistance.</b> IC resistors are thin doped layers of fixed thickness t. Group ρ/t into one number, the
+    <b>sheet resistance R<sub>s</sub> = ρ/t</b>, in ohms per square (Ω/□). Then R = R<sub>s</sub> × L/W. A square of any size has resistance R<sub>s</sub>;
+    a strip 10 squares long has 10 R<sub>s</sub>.</p>
+  <div class="check"><b>Check A4.</b> n-type Si has N<sub>D</sub> = 10¹⁶ cm⁻³ and μ<sub>n</sub> = 1350 cm²/V·s. Find (a) σ and ρ,
+    (b) the drift velocity in a field of 100 V/cm, (c) the sheet resistance of a layer 1 μm thick, (d) the resistance of a strip with L/W = 10.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › Carrier transport</div>
+  <h2>A5 · Diffusion, the Einstein relation, total current</h2>
+  <div class="q"><span class="src">Practice</span>
+    In a silicon bar the electron concentration falls by 10¹⁸ cm⁻³ over every cm of length. Take μ<sub>n</sub> = 1350 cm²/V·s at 300 K.
+    Find the diffusion coefficient and the electron diffusion current density.</div>
+  <div class="guess">Guess first: no voltage is applied. Can a current still flow?</div>
+  <p><b>Diffusion.</b> Carriers move randomly because of heat. If one side is more crowded, more carriers wander out of it than into it,
+    so there is a net flow from high concentration to low. No field is needed. The flow is proportional to the slope of the concentration
+    (the <b>gradient</b>, dn/dx), and the constant is the <b>diffusion coefficient D</b> (cm²/s):</p>
+  <p class="eq">J<sub>n,diff</sub> = +qD<sub>n</sub> dn/dx &nbsp;&nbsp;&nbsp; J<sub>p,diff</sub> = −qD<sub>p</sub> dp/dx</p>
+  <p>The signs differ because electrons carry −q: electrons moving in +x make a current in −x.</p>
+  <p><b>Einstein relation.</b> Drift and diffusion are both limited by the same scattering, so D and μ are tied together:</p>
+  <p class="eq">D<sub>n</sub>/μ<sub>n</sub> = D<sub>p</sub>/μ<sub>p</sub> = kT/q = V<sub>T</sub> ≈ 26 mV at 300 K</p>
+  <p><b>Total current.</b> Each carrier can drift and diffuse at once:</p>
+  <p class="eq">J<sub>n</sub> = qnμ<sub>n</sub>E + qD<sub>n</sub> dn/dx &nbsp;&nbsp;&nbsp; J<sub>p</sub> = qpμ<sub>p</sub>E − qD<sub>p</sub> dp/dx &nbsp;&nbsp;&nbsp; J = J<sub>n</sub> + J<sub>p</sub></p>
+  <p>In equilibrium J<sub>n</sub> = 0 and J<sub>p</sub> = 0 separately: wherever a gradient exists, a built-in field sets up a drift that cancels the
+    diffusion exactly. That balance is what happens inside a pn junction (Part B).</p>
+  <div class="ans"><b>Answer.</b> D<sub>n</sub> = μ<sub>n</sub>V<sub>T</sub> = 1350 × 0.0259 = <b>34.9 cm²/s</b>.
+    |J| = qD<sub>n</sub>|dn/dx| = 1.6 × 10⁻¹⁹ × 34.9 × 10¹⁸ = <b>5.59 A/cm²</b>. Electrons flow toward the emptier end; the current points the other way.</div>
+  <div class="check"><b>Check A5.</b> (a) Find D<sub>p</sub> for μ<sub>p</sub> = 480 cm²/V·s at 300 K. (b) Name the cause of drift current and the cause of
+    diffusion current in one phrase each. (c) Write the total hole current density.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › Carrier dynamics</div>
+  <h2>A6 · Generation, recombination, continuity and Poisson equations</h2>
+  <div class="q"><span class="src">Practice · syllabus line "Generation and recombination of carriers; Poisson and continuity equation"</span>
+    Write the continuity equation for electrons and state what each term means.</div>
+  <div class="guess">Guess first: list every way the number of electrons in a small box can change.</div>
+  <div class="fig small">{{ gr_fig() }}</div>
+  <p><b>Generation (G)</b> creates an electron–hole pair: heat or light lifts an electron across the gap.
+    <b>Recombination (R)</b> destroys a pair: an electron drops into a hole. In equilibrium G = R, which is what holds n·p at n<sub>i</sub>².
+    Direct (band-to-band) recombination releases light and dominates in GaAs, which is why LEDs use it.
+    In Si and Ge the electron usually drops in two steps through a <b>trap</b>, an impurity or defect level near mid-gap (indirect, or
+    Shockley–Read–Hall, recombination), and the energy becomes heat.</p>
+  <p><b>Lifetime τ.</b> Extra (excess) minority carriers Δp do not vanish at once. They recombine at a rate Δp/τ, so they decay as
+    Δp(t) = Δp(0)e<sup>−t/τ</sup>. τ is the <b>minority-carrier lifetime</b>. It sets how fast a diode can switch off (B3).</p>
+  <p><b>Continuity equation.</b> It is bookkeeping for a thin slice of material: carriers inside change only because more flow in than out, or because of net recombination.</p>
+  <p class="eq">∂n/∂t = (1/q) ∂J<sub>n</sub>/∂x − (R − G) &nbsp;&nbsp;&nbsp;&nbsp; ∂p/∂t = −(1/q) ∂J<sub>p</sub>/∂x − (R − G)</p>
+  <p><b>Poisson equation.</b> It links charge to field: wherever there is net charge, the field changes with position.</p>
+  <p class="eq">dE/dx = ρ/ε = (q/ε)(p − n + N<sub>D</sub> − N<sub>A</sub>) &nbsp;&nbsp;&nbsp; and &nbsp;&nbsp;&nbsp; E = −dV/dx</p>
+  <p>ρ here is charge density (C/cm³) and ε the permittivity of silicon (11.7 ε<sub>0</sub>). In neutral material ρ = 0 and the field is constant.
+    In a depletion region ρ ≠ 0, so the field ramps. B1 uses exactly this.</p>
+  <div class="ans"><b>Answer.</b> ∂n/∂t = (1/q) ∂J<sub>n</sub>/∂x − (R − G). Left side: the rate of change of electron concentration at a point.
+    First term: the net flow of electrons into the slice (current in minus current out). Second term: the net loss by recombination over generation.
+    For holes the flow term changes sign because the charge is +q.</div>
+  <div class="check"><b>Check A6.</b> (a) Why does recombination in silicon mostly go through traps? (b) Excess holes have τ = 1 μs.
+    What fraction is left after 3 μs? (c) In which region of a device is the charge density ρ not zero?</div>
+</section>
+
+<section class="answers">
+  <h3>Answers: Part A Checks</h3>
+  <ol>
+    <li><b>A1.</b> (a) Free electrons in the conduction band, and holes: missing bond electrons in the valence band that act as +q charges.
+      (b) Each broken bond makes exactly one of each. (c) Ge. Its gap is smaller (0.67 eV against 1.12 eV), so heat breaks more bonds.</li>
+    <li><b>A2.</b> (a) p-type. p ≈ 5 × 10¹⁷ cm⁻³, n = 10²⁰/(5 × 10¹⁷) = 200 cm⁻³. (b) Every free electron left behind a fixed donor ion of charge +q.</li>
+    <li><b>A3.</b> (a) ½ at both. (b) kT ln(10¹⁶/10¹⁰) = 0.0259 × 13.8 = 0.357 eV. (c) 1/(1 + e<sup>0.1/0.0259</sup>) = 1/(1 + 47.7) ≈ 0.0205, about 2%.</li>
+    <li><b>A4.</b> (a) σ = 1.6 × 10⁻¹⁹ × 10¹⁶ × 1350 = 2.16 (Ω·cm)⁻¹; ρ = 0.462 Ω·cm. (b) v<sub>d</sub> = μE = 1.35 × 10⁵ cm/s.
+      (c) R<sub>s</sub> = ρ/t = 0.462/10⁻⁴ cm = 4620 Ω/□. (d) R = 10 × 4620 = 46.2 kΩ.</li>
+    <li><b>A5.</b> (a) D<sub>p</sub> = 480 × 0.0259 = 12.4 cm²/s. (b) Drift: an electric field. Diffusion: a concentration gradient.
+      (c) J<sub>p</sub> = qpμ<sub>p</sub>E − qD<sub>p</sub> dp/dx.</li>
+    <li><b>A6.</b> (a) Si has an indirect gap, so a direct drop is unlikely; a mid-gap trap lets the electron fall in two easy steps.
+      (b) e⁻³ ≈ 0.05, so 5%. (c) The depletion (space-charge) region.</li>
+  </ol>
+</section>
