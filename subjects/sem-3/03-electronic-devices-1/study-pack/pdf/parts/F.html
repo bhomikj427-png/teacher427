@@ -1,0 +1,102 @@
+<!-- ============================================================ PART F -->
+<section class="part">
+  <div class="part-no">Part F · Unit 6</div>
+  <h1>Feedback amplifiers</h1>
+  <p class="lead">You have already met feedback twice without the name: the source resistor in C5 and the emitter resistor in E4 both sent part of the output back to oppose the input.
+    This part gives the general theory: one formula for the gain, four ways to connect it, and what each does to the amplifier.</p>
+  <div class="fig">{{ sub_map(["F1 Concept,\nA_f = A/(1 + βA)", "F2 Four\ntopologies", "F3 Effects:\ngain, BW, Z"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 6 › Concept</div>
+  <h2>F1 · The feedback concept and the gain with feedback</h2>
+  <div class="q"><span class="src">Professor's feedback deck · slide 32 "Stabilization of Gain" (table for β = 0.01)</span>
+    An amplifier has a feedback factor β = 0.01. Find the gain with feedback when the open-loop gain is 1000, and again when it is 10 000. What do you notice?</div>
+  <div class="guess">Guess first: the open-loop gain grows ten times. Does the gain with feedback grow ten times?</div>
+  <div class="terms"><b>Open-loop gain A:</b> the gain of the amplifier alone, with no feedback. ·
+    <b>Feedback factor β:</b> the fraction of the output that is returned to the input. (Not the transistor's β.) ·
+    <b>Closed-loop gain A<sub>f</sub>:</b> the gain of the whole circuit with feedback connected.</div>
+  <div class="fig">{{ fb_block() }}</div>
+  <p><b>Feedback</b> means taking part of the output and returning it to the input. In <b>negative</b> feedback the returned signal opposes the input (it is subtracted). In <b>positive</b> feedback it aids the input (Part G).</p>
+  <p><b>Derivation.</b> The feedback network returns V<sub>f</sub> = βV<sub>o</sub>. The amplifier sees only the difference V<sub>i</sub> = V<sub>s</sub> − V<sub>f</sub> and multiplies it by A:</p>
+  <p class="eq">V<sub>o</sub> = A(V<sub>s</sub> − βV<sub>o</sub>) &nbsp; ⟹ &nbsp; V<sub>o</sub>(1 + βA) = AV<sub>s</sub> &nbsp; ⟹ &nbsp; A<sub>f</sub> = V<sub>o</sub>/V<sub>s</sub> = A / (1 + βA)</p>
+  <table class="data">
+    <tr><th>Name</th><th>Expression</th><th>Meaning</th></tr>
+    <tr><td><b>Loop gain</b></td><td>βA</td><td>the gain once round the loop: through the amplifier and back through the feedback network</td></tr>
+    <tr><td><b>Amount of feedback</b> (desensitivity) D</td><td>1 + βA</td><td>the factor by which the gain is reduced; every other quantity improves by this same factor</td></tr>
+    <tr><td>Feedback in dB</td><td>20 log(1 + βA)</td><td></td></tr>
+  </table>
+  <p><b>The key result.</b> If βA ≫ 1, then A<sub>f</sub> ≈ A/(βA) = <b>1/β</b>. The gain no longer depends on the amplifier at all, only on the feedback network, which is made of stable resistors.</p>
+  <p><b>The four basic amplifiers</b> (slides 2–6), named by what they take in and give out:
+    <b>voltage</b> amplifier (V in, V out; wants high R<sub>i</sub>, low R<sub>o</sub>), <b>current</b> amplifier (I in, I out; low R<sub>i</sub>, high R<sub>o</sub>),
+    <b>transconductance</b> amplifier (V in, I out; high R<sub>i</sub>, high R<sub>o</sub>), <b>transresistance</b> amplifier (I in, V out; low R<sub>i</sub>, low R<sub>o</sub>). F2 pairs one feedback connection with each.</p>
+  <div class="ans"><b>Answer.</b> A = 1000: A<sub>f</sub> = 1000/(1 + 0.01 × 1000) = 1000/11 = <b>90.9</b>. A = 10 000: A<sub>f</sub> = 10 000/101 = <b>99.0</b>.
+    The amplifier's own gain changed by 900%, but the gain with feedback changed by only 9%, and both values are close to 1/β = 100. Feedback trades gain for stability.</div>
+  <div class="warn"><b>Slip in the slide.</b> The table on slide 32 prints 98.3 for A = 5000. The formula gives 5000/51 = 98.0. (Its other entries, 90.9, 99.0 and 99.5, are correct.)</div>
+  <div class="check"><b>Check F1.</b> (a) Derive A<sub>f</sub> = A/(1 + βA) from the block diagram, from memory. (b) A = 20 000 and β = 0.01. Find A<sub>f</sub>. (c) What is the gain of a negative-feedback amplifier when βA ≫ 1, and why is that useful?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 6 › Topologies</div>
+  <h2>F2 · The four feedback topologies</h2>
+  <div class="q"><span class="src">Practice · feedback deck slides 16–27, 41–45</span>
+    A CE amplifier has an unbypassed emitter resistor R<sub>E</sub>. Identify the feedback topology and say what it does to the input and output resistance.</div>
+  <div class="guess">Guess first: is the voltage across R<sub>E</sub> proportional to the output voltage or to the output current?</div>
+  <div class="terms"><b>Sampling:</b> how the feedback network senses the output: its voltage (connected across the load) or its current (connected in series with the load). ·
+    <b>Mixing:</b> how the feedback signal is combined with the input: as a voltage in series, or as a current in parallel (shunt).</div>
+  <div class="fig">{{ fb_topologies() }}</div>
+  <p>Two choices at the output and two at the input give four topologies. The name is "what is sampled" – "how it is mixed".</p>
+  <table class="data">
+    <tr><th></th><th>Voltage-series</th><th>Voltage-shunt</th><th>Current-series</th><th>Current-shunt</th></tr>
+    <tr><td>Samples · mixes</td><td>V<sub>o</sub> · series voltage</td><td>V<sub>o</sub> · shunt current</td><td>I<sub>o</sub> · series voltage</td><td>I<sub>o</sub> · shunt current</td></tr>
+    <tr><td>Amplifier type it makes better</td><td>voltage</td><td>transresistance</td><td>transconductance</td><td>current</td></tr>
+    <tr><td>A (without feedback)</td><td>V<sub>o</sub>/V<sub>i</sub></td><td>V<sub>o</sub>/I<sub>i</sub> (Ω)</td><td>I<sub>o</sub>/V<sub>i</sub> (S)</td><td>I<sub>o</sub>/I<sub>i</sub></td></tr>
+    <tr><td>β</td><td>V<sub>f</sub>/V<sub>o</sub></td><td>I<sub>f</sub>/V<sub>o</sub> (S)</td><td>V<sub>f</sub>/I<sub>o</sub> (Ω)</td><td>I<sub>f</sub>/I<sub>o</sub></td></tr>
+    <tr><td>Input impedance Z<sub>if</sub></td><td>Z<sub>i</sub>(1 + βA) ↑</td><td>Z<sub>i</sub>/(1 + βA) ↓</td><td>Z<sub>i</sub>(1 + βA) ↑</td><td>Z<sub>i</sub>/(1 + βA) ↓</td></tr>
+    <tr><td>Output impedance Z<sub>of</sub></td><td>Z<sub>o</sub>/(1 + βA) ↓</td><td>Z<sub>o</sub>/(1 + βA) ↓</td><td>Z<sub>o</sub>(1 + βA) ↑</td><td>Z<sub>o</sub>(1 + βA) ↑</td></tr>
+    <tr><td>Example circuit</td><td>emitter follower, source follower; FET stage with an output divider R<sub>1</sub>–R<sub>2</sub></td><td>resistor from collector back to base; inverting op-amp</td><td>CE stage with unbypassed R<sub>E</sub></td><td>two-stage amplifier with feedback from the second emitter to the first base</td></tr>
+  </table>
+  <p><b>Two rules cover the whole table</b> (slide 40). A <b>series</b> connection at a port <b>raises</b> the resistance there by (1 + βA). A <b>shunt</b> connection <b>lowers</b> it by (1 + βA).
+    At the output, voltage sampling is the shunt connection (so Z<sub>o</sub> falls) and current sampling is the series connection (so Z<sub>o</sub> rises). In every case A<sub>f</sub> = A/(1 + βA), with A and β in the units of that row.</p>
+  <p><b>Why it makes sense.</b> Voltage sampling fights any change in the output voltage, so the output behaves like a better voltage source: lower Z<sub>o</sub>. Current sampling holds the output current steady, like a better current source: higher Z<sub>o</sub>.</p>
+  <div class="ans"><b>Answer.</b> The voltage across R<sub>E</sub> is V<sub>f</sub> = I<sub>o</sub>R<sub>E</sub>, proportional to the output <b>current</b>, and it sits in series with the input (V<sub>be</sub> = V<sub>s</sub> − V<sub>f</sub>).
+    So it is <b>current-series</b> feedback, with β = V<sub>f</sub>/I<sub>o</sub> = −R<sub>E</sub>. Both the input and the output resistance are <b>raised</b> by (1 + βA).
+    With heavy feedback the voltage gain becomes about −R<sub>C</sub>/R<sub>E</sub>, set by two resistors.</div>
+  <div class="check"><b>Check F2.</b> (a) Which topology gives high input impedance and low output impedance? (b) Which topology lowers both impedances? (c) In an emitter follower, what fraction of the output is fed back, and which topology is it?
+    (d) State the two rules for the effect on impedance.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 6 › Effects</div>
+  <h2>F3 · What negative feedback does: gain stability, bandwidth, distortion, impedance</h2>
+  <div class="q"><span class="src">Practice · feedback deck slides 28–40</span>
+    An amplifier has A = 1000, upper cutoff frequency f<sub>H</sub> = 20 kHz, Z<sub>i</sub> = 2 kΩ, Z<sub>o</sub> = 20 kΩ and 10% distortion. Voltage-series feedback with β = 0.1 is applied.
+    Find A<sub>f</sub>, the new f<sub>H</sub>, Z<sub>if</sub>, Z<sub>of</sub> and the distortion.</div>
+  <div class="guess">Guess first: one number, 1 + βA, appears in every answer. What is it here?</div>
+  <div class="fig small">{{ fb_bw() }}</div>
+  <table class="data">
+    <tr><th>Effect</th><th>Formula</th><th>Why</th></tr>
+    <tr><td><b>Gain is reduced</b></td><td>A<sub>f</sub> = A/(1 + βA)</td><td>the price paid for everything below</td></tr>
+    <tr><td><b>Gain is stabilised</b></td><td>dA<sub>f</sub>/A<sub>f</sub> = (1/(1 + βA)) · dA/A</td><td>a change in A (temperature, ageing, a new transistor) is reduced by (1 + βA) before it shows in A<sub>f</sub></td></tr>
+    <tr><td><b>Bandwidth is widened</b></td><td>f<sub>Hf</sub> = f<sub>H</sub>(1 + βA), &nbsp; f<sub>Lf</sub> = f<sub>L</sub>/(1 + βA)</td><td>where A starts to fall, the feedback falls with it, so A<sub>f</sub> holds up longer. Gain × bandwidth stays constant.</td></tr>
+    <tr><td><b>Distortion and noise are reduced</b></td><td>D<sub>f</sub> = D/(1 + βA)</td><td>distortion created inside the loop is fed back inverted and partly cancels itself</td></tr>
+    <tr><td><b>Impedances are modified</b></td><td>× or ÷ (1 + βA), per F2</td><td>chosen by the topology</td></tr>
+  </table>
+  <p><b>Disadvantages.</b> The gain is lower, so more stages may be needed. And if phase shifts inside the amplifier add up to 180° at some frequency, the feedback there becomes positive and the amplifier can oscillate. Part G makes that happen on purpose.</p>
+  <div class="ans"><b>Answer.</b> 1 + βA = 1 + 0.1 × 1000 = <b>101</b>. A<sub>f</sub> = 1000/101 = <b>9.90</b>. f<sub>Hf</sub> = 20 kHz × 101 = <b>2.02 MHz</b>.
+    Voltage-series: Z<sub>if</sub> = 2 k × 101 = <b>202 kΩ</b>, Z<sub>of</sub> = 20 k/101 = <b>198 Ω</b>. Distortion = 10%/101 = <b>0.099%</b>.
+    Check: gain × bandwidth is 1000 × 20 kHz = 20 MHz before and 9.90 × 2.02 MHz = 20 MHz after.</div>
+  <div class="check"><b>Check F3.</b> For the same amplifier: (a) its open-loop gain drops by 10% as it warms up. By what percentage does A<sub>f</sub> change? (b) its lower cutoff is f<sub>L</sub> = 100 Hz. Find f<sub>Lf</sub>.
+    (c) List four advantages and one disadvantage of negative feedback.</div>
+</section>
+
+<section class="answers">
+  <h3>Answers: Part F Checks</h3>
+  <ol>
+    <li><b>F1.</b> (a) V<sub>i</sub> = V<sub>s</sub> − βV<sub>o</sub>; V<sub>o</sub> = AV<sub>i</sub> = A(V<sub>s</sub> − βV<sub>o</sub>); collect V<sub>o</sub>: V<sub>o</sub>(1 + βA) = AV<sub>s</sub>; A<sub>f</sub> = A/(1 + βA).
+      (b) 20 000/201 = 99.5. (c) A<sub>f</sub> ≈ 1/β: the gain depends only on the feedback network (stable resistors), not on the transistor.</li>
+    <li><b>F2.</b> (a) Voltage-series. (b) Voltage-shunt. (c) All of it: V<sub>f</sub> = V<sub>o</sub>, so β = 1; voltage-series. (d) Series connection raises the resistance at that port by (1 + βA); shunt connection lowers it by (1 + βA).</li>
+    <li><b>F3.</b> (a) About 10%/101 ≈ 0.1% (exactly: A = 900 gives A<sub>f</sub> = 900/91 = 9.89, a fall of 0.11%). (b) 100/101 = 0.99 Hz.
+      (c) Stable gain, wider bandwidth, less distortion and noise, input and output impedances that can be raised or lowered as needed. Disadvantage: reduced gain (and possible instability).</li>
+  </ol>
+</section>

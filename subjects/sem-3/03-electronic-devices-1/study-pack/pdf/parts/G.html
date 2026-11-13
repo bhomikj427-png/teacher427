@@ -1,0 +1,140 @@
+<!-- ============================================================ PART G -->
+<section class="part">
+  <div class="part-no">Part G · Unit 7</div>
+  <h1>Oscillators</h1>
+  <p class="lead">Part F subtracted the fed-back signal from the input. Add it instead, with exactly the right size and timing, and the amplifier no longer needs an input:
+    it keeps itself going and produces a steady wave from the DC supply alone. That circuit is an oscillator.</p>
+  <div class="fig">{{ sub_map(["G1 Barkhausen\ncriterion", "G2 RC\nphase-shift", "G3 Wien\nbridge", "G4 LC: Hartley,\nColpitts", "G5 Crystal"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 7 › Principle</div>
+  <h2>G1 · The oscillator principle and the Barkhausen criterion</h2>
+  <div class="q"><span class="src">Practice · syllabus line "Review of the basic concept, Barkhausen criterion"</span>
+    State the Barkhausen criterion for sustained oscillations.</div>
+  <div class="guess">Guess first: in A<sub>f</sub> = A/(1 − βA), what value of βA makes the gain infinite?</div>
+  <div class="terms"><b>Oscillator:</b> a circuit that produces a repetitive output signal with no input signal; it converts DC power into AC. ·
+    <b>Positive feedback:</b> the returned signal is in phase with the input and adds to it.</div>
+  <div class="fig small">{{ osc_block() }}</div>
+  <p><b>From amplifier to oscillator.</b> With positive feedback the signs in F1 flip: A<sub>f</sub> = A/(1 − βA). When βA = 1 the denominator is zero and the gain is infinite, which means a finite output with zero input.
+    Follow a signal once round the loop: it is amplified by A, scaled by β, and arrives back where it started. If it arrives with the same size and the same phase, it sustains itself for ever.</p>
+  <div class="ans"><b>Answer: the Barkhausen criterion.</b> A circuit gives sustained sinusoidal oscillations at the frequency where both of these hold:
+    <ol class="steps">
+      <li>the <b>magnitude of the loop gain is unity</b>: |βA| = 1;</li>
+      <li>the <b>total phase shift round the loop is 0° or 360°</b>, so the feedback is positive.</li>
+    </ol>
+    If |βA| &lt; 1 the oscillations die away. If |βA| &gt; 1 they grow until the amplifier clips.</div>
+  <p><b>Starting up.</b> No input is needed: the random noise present in every circuit contains all frequencies. The feedback network is frequency-selective, so only one frequency meets the phase condition; that component is amplified round and round.
+    In practice |βA| is made slightly greater than 1 so the oscillation builds up, and the amplifier's own non-linearity then brings it back to exactly 1.</p>
+  <table class="data">
+    <tr><th>Type</th><th>Feedback network</th><th>Frequency range (slides)</th><th>Examples</th></tr>
+    <tr><td><b>RC</b></td><td>resistors and capacitors</td><td>a few Hz up to about 1 MHz (audio)</td><td>phase-shift, Wien bridge</td></tr>
+    <tr><td><b>LC</b></td><td>a resonant inductor–capacitor "tank"</td><td>100 kHz to 100 MHz (radio)</td><td>Hartley, Colpitts</td></tr>
+    <tr><td><b>Crystal</b></td><td>a quartz crystal</td><td>10 kHz to 30 MHz, very stable</td><td>clock oscillators</td></tr>
+    <tr><td><b>Relaxation</b></td><td>an RC timing circuit and a switching device</td><td>—</td><td>square, triangular and sawtooth generators (non-sinusoidal)</td></tr>
+  </table>
+  <div class="check"><b>Check G1.</b> (a) Where does the signal that starts an oscillator come from? (b) What happens if the loop gain is 0.9? If it is 1.5? (c) An inverting amplifier contributes 180°. How much phase shift must the feedback network add?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 7 › RC oscillators</div>
+  <h2>G2 · The RC phase-shift oscillator</h2>
+  <div class="q"><span class="src">Professor's oscillator deck · design example</span>
+    Design a phase-shift oscillator for a frequency of 800 Hz. The capacitors are to be 10 nF.</div>
+  <div class="guess">Guess first: one RC section can shift the phase by less than 90°. How many sections are needed for 180°?</div>
+  <div class="fig">{{ phase_shift_osc() }}</div>
+  <p><b>How it works.</b> The amplifier is inverting, so it supplies 180°. The feedback network is three identical RC sections in a chain. Each section shifts the phase by less than 90°, so at least three are needed to reach 180°.
+    The three together give exactly 180° at only one frequency, and the total round the loop is then 360°:</p>
+  <p class="eq">f<sub>0</sub> = 1 / (2πRC√6) &nbsp;&nbsp;&nbsp;&nbsp; β = 1/29 at f<sub>0</sub> &nbsp;&nbsp;&nbsp;&nbsp; so the amplifier gain must be |A| ≥ 29</p>
+  <p>At f<sub>0</sub> the network passes only 1/29 of its input, so the amplifier must make up a factor of 29 for |βA| = 1. With an op-amp inverting amplifier of gain R<sub>f</sub>/R, this means <b>R<sub>f</sub> = 29R</b>.
+    The third R of the network is the op-amp's own input resistor, since the inverting input is a virtual ground.</p>
+  <p><b>Transistor versions.</b> With a FET amplifier the same f<sub>0</sub> holds and g<sub>m</sub>R<sub>L</sub> must be at least 29. With a BJT the low input resistance loads the network:
+    f<sub>0</sub> = 1/(2πRC√(6 + 4R<sub>C</sub>/R)) and h<sub>fe</sub> ≥ 23 + 29(R/R<sub>C</sub>) + 4(R<sub>C</sub>/R).</p>
+  <p>Good for fixed audio frequencies. To change the frequency all three R or all three C must be changed together, so it is not used where tuning is needed.</p>
+  <div class="ans"><b>Answer.</b> R = 1/(2πf<sub>0</sub>C√6) = 1/(2π × 800 × 10 × 10⁻⁹ × 2.449) = <b>8.12 kΩ</b>. Use the standard value 8.2 kΩ.
+    Then R<sub>f</sub> = 29R = 29 × 8.2 kΩ = <b>238 kΩ</b> (the deck's value). With 8.2 kΩ the actual frequency is 792 Hz.</div>
+  <div class="check"><b>Check G2.</b> (a) Why does a phase-shift oscillator use three RC sections and not two? (b) R = 10 kΩ and C = 0.01 μF. Find f<sub>0</sub> and the feedback resistor R<sub>f</sub>. (c) What is β of the network at f<sub>0</sub>?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 7 › RC oscillators</div>
+  <h2>G3 · The Wien-bridge oscillator</h2>
+  <div class="q"><span class="src">Practice · oscillator deck, Wien-bridge slides</span>
+    A Wien-bridge oscillator uses R = 10 kΩ and C = 10 nF. Find the frequency of oscillation. If R<sub>1</sub> = 10 kΩ, what should R<sub>2</sub> be?</div>
+  <div class="guess">Guess first: this amplifier is non-inverting. How much phase shift may the feedback network add?</div>
+  <div class="fig">{{ wien_osc() }}</div>
+  <p><b>How it works.</b> The feedback network is a <b>lead-lag circuit</b>: a series RC arm from the output to the + input, and a parallel RC arm from the + input to ground. At low frequency the series capacitor blocks the signal; at high frequency the parallel capacitor shorts it.
+    In between, at one frequency, the output of the network is largest and exactly in phase with its input:</p>
+  <p class="eq">f<sub>0</sub> = 1 / (2πRC) &nbsp;&nbsp;&nbsp;&nbsp; β = 1/3 at f<sub>0</sub>, phase shift 0°</p>
+  <p>The network gives 0°, so the amplifier must be <b>non-inverting</b>, with gain exactly 3 to make |βA| = 1. The non-inverting gain is 1 + R<sub>2</sub>/R<sub>1</sub>, so</p>
+  <p class="eq">1 + R<sub>2</sub>/R<sub>1</sub> = 3 &nbsp; ⟹ &nbsp; R<sub>2</sub> = 2R<sub>1</sub></p>
+  <p>To start, R<sub>2</sub>/R<sub>1</sub> is made slightly more than 2 (the deck says so). The two RC arms plus R<sub>1</sub> and R<sub>2</sub> form the four arms of a bridge, hence the name.
+    It gives a clean sine wave, and the frequency is tuned easily by varying the two capacitors (or the two resistors) together. It is the standard audio-frequency oscillator.</p>
+  <div class="ans"><b>Answer.</b> f<sub>0</sub> = 1/(2π × 10 × 10³ × 10 × 10⁻⁹) = <b>1.59 kHz</b>. R<sub>2</sub> = 2R<sub>1</sub> = <b>20 kΩ</b> (slightly more, to start).</div>
+  <table class="data">
+    <tr><th></th><th>RC phase-shift</th><th>Wien bridge</th></tr>
+    <tr><td>Amplifier</td><td>inverting (180°)</td><td>non-inverting (0°)</td></tr>
+    <tr><td>Feedback network</td><td>three RC sections, 180°</td><td>lead-lag network, 0°</td></tr>
+    <tr><td>Frequency</td><td>1/(2πRC√6)</td><td>1/(2πRC)</td></tr>
+    <tr><td>β at f<sub>0</sub> · gain needed</td><td>1/29 · 29</td><td>1/3 · 3</td></tr>
+    <tr><td>Tuning</td><td>awkward (three parts)</td><td>easy (two ganged parts)</td></tr>
+  </table>
+  <div class="check"><b>Check G3.</b> (a) What must the gain of the amplifier in a Wien-bridge oscillator be, and why? (b) To double the frequency, what do you do to C? (c) Why is the amplifier non-inverting here but inverting in the phase-shift oscillator?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 7 › LC oscillators</div>
+  <h2>G4 · LC oscillators: Hartley and Colpitts</h2>
+  <div class="q"><span class="src">Practice · syllabus line "RC oscillators &amp; LC oscillators"</span>
+    A Colpitts oscillator has C<sub>1</sub> = C<sub>2</sub> = 200 pF and L = 1 mH. Find the frequency of oscillation.</div>
+  <div class="guess">Guess first: the two capacitors are in series round the tank. Is their combined value more or less than 200 pF?</div>
+  <div class="terms"><b>Tank circuit:</b> an inductor and a capacitor connected in a loop. Energy swings back and forth between them at the <b>resonant frequency</b> f<sub>0</sub> = 1/(2π√(LC)).</div>
+  <div class="fig">{{ lc_tanks() }}</div>
+  <p><b>Principle.</b> A tank on its own would ring at f<sub>0</sub> and die away because of its resistance. The amplifier feeds in just enough energy each cycle to replace the loss.
+    Part of the tank voltage is tapped off and returned to the amplifier input. With the tap grounded, the two ends of the tank are 180° apart, which with an inverting amplifier makes the loop total 360°. The two classic circuits differ only in where the tap is.</p>
+  <table class="data">
+    <tr><th></th><th>Hartley</th><th>Colpitts</th></tr>
+    <tr><td>Tapped element</td><td>the inductor: two coils L<sub>1</sub>, L<sub>2</sub> (or one tapped coil)</td><td>the capacitor: C<sub>1</sub>, C<sub>2</sub> in series</td></tr>
+    <tr><td>Equivalent value</td><td>L<sub>eq</sub> = L<sub>1</sub> + L<sub>2</sub> (+ 2M if the coils are coupled)</td><td>C<sub>eq</sub> = C<sub>1</sub>C<sub>2</sub>/(C<sub>1</sub> + C<sub>2</sub>)</td></tr>
+    <tr><td>Frequency</td><td>f<sub>0</sub> = 1/(2π√(L<sub>eq</sub>C))</td><td>f<sub>0</sub> = 1/(2π√(LC<sub>eq</sub>))</td></tr>
+    <tr><td>Feedback fraction</td><td>set by the ratio of the two inductances</td><td>set by the ratio of the two capacitances</td></tr>
+    <tr><td>Tuning · notes</td><td>one variable capacitor tunes it: easy</td><td>better frequency stability; preferred at high frequencies</td></tr>
+  </table>
+  <p>To remember which is which: <b>C</b>olpitts splits the <b>C</b>apacitor. In both, the amplifier gain must at least make up for the tap ratio so that |βA| = 1.</p>
+  <div class="ans"><b>Answer.</b> C<sub>eq</sub> = (200 × 200)/(200 + 200) = <b>100 pF</b>. f<sub>0</sub> = 1/(2π√(1 × 10⁻³ × 100 × 10⁻¹²)) = <b>503 kHz</b>.</div>
+  <div class="check"><b>Check G4.</b> (a) A Hartley oscillator has L<sub>1</sub> = L<sub>2</sub> = 1 mH (no coupling) and C = 100 pF. Find f<sub>0</sub>. (b) Why are LC oscillators not used at audio frequencies? (c) How does a Colpitts oscillator differ from a Hartley?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 7 › Crystal oscillators</div>
+  <h2>G5 · The crystal oscillator</h2>
+  <div class="q"><span class="src">Practice · deck "crystal" (3 slides)</span>
+    A quartz crystal has L<sub>s</sub> = 1 H, C<sub>s</sub> = 0.01 pF, R<sub>s</sub> = 1 kΩ and C<sub>p</sub> = 10 pF. Find its series resonant frequency, how far above it the parallel resonance lies, and its Q.</div>
+  <div class="guess">Guess first: an ordinary LC tank has a Q of about 100. Will the crystal's be similar?</div>
+  <div class="terms"><b>Piezoelectric effect:</b> squeezing a quartz crystal produces a voltage across it. <b>Inverse piezoelectric effect:</b> applying a voltage makes it change shape. ·
+    <b>Q (quality factor):</b> how sharply a resonant circuit selects one frequency; Q = ω<sub>s</sub>L/R.</div>
+  {{ crystal_fig() }}
+  <p><b>How it works.</b> A thin slice of quartz is mounted between two metal plates. An alternating voltage makes it vibrate (inverse piezoelectric effect), and it vibrates strongly only at its natural mechanical frequency, which is fixed by its cut and thickness.
+    The vibration in turn produces a voltage. Electrically the crystal therefore behaves as a resonant circuit: a series branch R<sub>s</sub>–L<sub>s</sub>–C<sub>s</sub> (a low resistance, a very large inductance and a very small capacitance, representing the vibrating quartz), in parallel with C<sub>p</sub>, the capacitance of the plates and holder.</p>
+  <p class="eq">series resonance: f<sub>s</sub> = 1/(2π√(L<sub>s</sub>C<sub>s</sub>)) &nbsp;&nbsp;&nbsp;&nbsp; parallel resonance: f<sub>p</sub> = f<sub>s</sub>√(1 + C<sub>s</sub>/C<sub>p</sub>)</p>
+  <p>At f<sub>s</sub> the branch impedance is lowest (just R<sub>s</sub>). At f<sub>p</sub>, slightly higher, the impedance is very large. Because C<sub>s</sub> ≪ C<sub>p</sub> the two are extremely close, and between them the crystal looks inductive.
+    In an oscillator the crystal replaces the tank (or the inductor of a Colpitts circuit).</p>
+  <p><b>Why it is used.</b> The Q of a crystal is 10⁴ to 10⁶, against about 100 for an LC tank, so the frequency hardly moves with temperature, supply voltage or ageing. Crystal oscillators set the clock of watches, computers and transmitters.
+    The frequency is fixed by the crystal and cannot be tuned over a range.</p>
+  <div class="ans"><b>Answer.</b> f<sub>s</sub> = 1/(2π√(1 × 0.01 × 10⁻¹²)) = <b>1.592 MHz</b>. f<sub>p</sub> = f<sub>s</sub>√(1 + 0.01/10) = f<sub>s</sub> × 1.0005, which is <b>795 Hz</b> above f<sub>s</sub>.
+    Q = 2πf<sub>s</sub>L<sub>s</sub>/R<sub>s</sub> = (2π × 1.592 × 10⁶ × 1)/1000 = <b>10 000</b>.</div>
+  <div class="check"><b>Check G5.</b> (a) State the piezoelectric effect and its inverse. (b) Draw the electrical equivalent circuit of a crystal from memory and name what each element represents. (c) Why is a crystal oscillator more stable than an LC oscillator?</div>
+</section>
+
+<section class="answers">
+  <h3>Answers: Part G Checks</h3>
+  <ol>
+    <li><b>G1.</b> (a) From electrical noise in the circuit; the component at the right frequency is amplified round the loop. (b) 0.9: the oscillation dies out. 1.5: it grows until the amplifier saturates, giving a clipped, distorted wave.
+      (c) Another 180°, to make 360° in total.</li>
+    <li><b>G2.</b> (a) One RC section gives less than 90°, so two give less than 180°; three are the fewest that can reach 180°. (b) f<sub>0</sub> = 1/(2π × 10⁴ × 10⁻⁸ × 2.449) = 650 Hz; R<sub>f</sub> = 29 × 10 kΩ = 290 kΩ. (c) 1/29.</li>
+    <li><b>G3.</b> (a) 3, because the lead-lag network returns one third of the output at f<sub>0</sub>, and 3 × 1/3 = 1. (b) Halve both capacitors. (c) The Wien network adds 0° at f<sub>0</sub>, so the amplifier must add 0°; the phase-shift network adds 180°, so the amplifier must add the other 180°.</li>
+    <li><b>G4.</b> (a) L<sub>eq</sub> = 2 mH; f<sub>0</sub> = 1/(2π√(2 × 10⁻³ × 10⁻¹⁰)) = 356 kHz. (b) Low frequencies would need very large, heavy and costly inductors and capacitors. (c) It taps the capacitor (two capacitors, one inductor) instead of the inductor.</li>
+    <li><b>G5.</b> (a) Mechanical stress on the crystal produces a voltage; an applied voltage produces mechanical deformation (vibration). (b) R<sub>s</sub>, L<sub>s</sub>, C<sub>s</sub> in series (friction loss, vibrating mass, stiffness of the quartz), all in parallel with C<sub>p</sub> (plates and holder).
+      (c) Its Q is far higher (10⁴–10⁶), so its resonant frequency is very sharply defined and barely changes with temperature or supply voltage.</li>
+  </ol>
+</section>

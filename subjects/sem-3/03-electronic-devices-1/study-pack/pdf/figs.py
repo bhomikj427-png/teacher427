@@ -102,7 +102,8 @@ def flow_map():
 
 def sub_map(items, color=ACC):
     n = len(items)
-    fig, ax = _canvas(min(9.6, 1.62 * n), 0.9, (-0.05, 2.0 * n - 0.3), (-0.05, 0.95))
+    m = max(n, 5)
+    fig, ax = _canvas(min(9.6, 1.62 * m), 0.9, (-0.05, 2.0 * m - 0.3), (-0.05, 0.95))
     for i, t in enumerate(items):
         _box(ax, i * 2.0, 0, 1.7, 0.85, t, fc="#e8eefe", ec=color, fs=8.0, r=0.12)
         if i:

@@ -1,0 +1,129 @@
+<!-- ============================================================ MOCK PAPER -->
+<section class="part">
+  <div class="part-no">Mock paper</div>
+  <h1>Mock end-term paper</h1>
+  <p class="lead">Closed book, on paper. Allow 3 hours. Then mark it with the key that follows and redo anything you missed.</p>
+  <p class="fine">No ECE 2106 end-term paper or blueprint has been seen, so the real format is unknown. This paper copies the layout of the one official blueprint in hand for this session
+    (MAS2001, July–Nov 2026): Part A 10 × 2 marks, Part B 6 × 6 marks, Part C 2 × 8 marks, Part D 1 × 8 marks, total 80. Questions marked "sheet" are from the professor's numerical sheets and were not used earlier in this pack.</p>
+</section>
+
+<section class="concept mock">
+  <h3>Part A · 10 × 2 = 20 marks</h3>
+  <ol>
+    <li>Define mobility and give its unit.</li>
+    <li>State the mass-action law.</li>
+    <li>Give two reasons why silicon is preferred over germanium for diodes and transistors.</li>
+    <li>Define peak inverse voltage. What is the PIV of each diode in a bridge rectifier?</li>
+    <li>Give two differences between Zener breakdown and avalanche breakdown.</li>
+    <li>Define pinch-off voltage of a JFET.</li>
+    <li>When a reverse gate voltage of 15 V is applied to a JFET, the gate current is 10⁻³ μA. Find the resistance between gate and source. <span class="src">sheet Q6</span></li>
+    <li>Why is an enhancement MOSFET called a "normally-off" device?</li>
+    <li>Write the relation between α and β. Find β when α = 0.99.</li>
+    <li>State the Barkhausen criterion.</li>
+  </ol>
+  <h3>Part B · 6 × 6 = 36 marks</h3>
+  <ol start="11">
+    <li>Derive the expression for the conductivity of a semiconductor. Find the resistivity of intrinsic germanium at 300 K, given n<sub>i</sub> = 2.5 × 10¹³ cm⁻³, μ<sub>n</sub> = 3800 cm²/V·s and μ<sub>p</sub> = 1800 cm²/V·s.</li>
+    <li>Draw the circuit of a centre-tapped full-wave rectifier and explain its working with waveforms. Its transformer secondary is 9 V–0–9 V rms and the load is 1 kΩ. With ideal diodes, find V<sub>dc</sub>, I<sub>dc</sub> and the PIV of each diode.</li>
+    <li>A D-MOSFET amplifier has V<sub>DD</sub> = +15 V, R<sub>D</sub> = 620 Ω, the gate returned to ground through R<sub>G</sub> = 10 MΩ (so V<sub>GS</sub> = 0), the source grounded, and a load R<sub>L</sub> = 8.2 kΩ coupled to the drain through a capacitor.
+      The D-MOSFET has I<sub>DSS</sub> = 12 mA and g<sub>m</sub> = 3.2 mS. Determine (i) d.c. drain-to-source voltage V<sub>DS</sub> and (ii) a.c. output voltage. Given v<sub>in</sub> = 500 mV. <span class="src">sheet Q29</span></li>
+    <li>A voltage-divider bias circuit has V<sub>CC</sub> = 16 V, R<sub>1</sub> = 62 kΩ, R<sub>2</sub> = 9.1 kΩ, R<sub>C</sub> = 3.9 kΩ, R<sub>E</sub> = 0.68 kΩ and β = 150. Using the approximate method find V<sub>B</sub>, I<sub>C</sub> and V<sub>CE</sub>. Then find the stability factor S.</li>
+    <li>In a single stage amplifier the h-parameters are h<sub>ic</sub> = 1.1 k, h<sub>rc</sub> = 1, h<sub>fc</sub> = −51, h<sub>oc</sub> = 25 μA/V. Calculate A<sub>I</sub>, A<sub>V</sub>, A<sub>VS</sub>, R<sub>i</sub> and R<sub>o</sub> for the CC configuration with R<sub>S</sub> = R<sub>L</sub> = 10 k. <span class="src">sheet (h-parameters) Problem 3</span></li>
+    <li>Draw the block diagram of a negative-feedback amplifier and derive its gain. An amplifier has a gain of 60 dB and an output impedance of 10 kΩ. Voltage-series feedback with β = 0.05 is applied. Find the gain with feedback (as a number and in dB) and the new output impedance.</li>
+  </ol>
+  <h3>Part C · 2 × 8 = 16 marks</h3>
+  <ol start="17">
+    <li>Define the four characteristic parameters of a JFET, stating what is held constant in each. Derive μ = g<sub>m</sub>r<sub>d</sub>. Starting from Shockley's equation, show that g<sub>m</sub> = g<sub>m0</sub>(1 − V<sub>GS</sub>/V<sub>GS(off)</sub>).</li>
+    <li>With a circuit diagram, explain the RC phase-shift oscillator and state the conditions for oscillation. Design one for 1 kHz using capacitors of 0.01 μF.</li>
+  </ol>
+  <h3>Part D · 1 × 8 = 8 marks</h3>
+  <ol start="19">
+    <li>(a) An E-MOSFET is biased by a voltage divider: V<sub>DD</sub> = 24 V, R<sub>1</sub> = 100 kΩ (top), R<sub>2</sub> = 15 kΩ (bottom), R<sub>D</sub> = 470 Ω, source grounded.
+      The data sheet for this particular MOSFET gives I<sub>D(on)</sub> = 500 mA at V<sub>GS</sub> = 10 V and V<sub>GS(th)</sub> = 1 V. Determine V<sub>GS</sub> and V<sub>DS</sub>. <span class="src">sheet Q31</span>
+      (b) Draw a two-input CMOS NAND gate and explain its operation with a truth table.</li>
+  </ol>
+</section>
+
+<section class="answers">
+  <h3>Key: mock paper</h3>
+  <ol>
+    <li>Drift velocity per unit electric field, μ = v<sub>d</sub>/E; cm²/V·s. (A4)</li>
+    <li>In equilibrium n·p = n<sub>i</sub>², whatever the doping. (A2)</li>
+    <li>Larger band gap, so far smaller reverse leakage current; works at higher temperature (about 150 °C against 75 °C); higher PIV; cheap and forms a good oxide (any two). (A1, B2)</li>
+    <li>The largest reverse voltage across a diode while it is not conducting. Bridge: V<sub>m</sub>. (B5)</li>
+    <li>Zener: heavy doping, thin depletion region, field pulls electrons from bonds, below about 5 V, negative temperature coefficient. Avalanche: light doping, wide region, carrier multiplication by collision, above about 6 V, positive coefficient. (B8)</li>
+    <li>The drain-to-source voltage, at V<sub>GS</sub> = 0, at which the channel pinches off and I<sub>D</sub> levels off at I<sub>DSS</sub>. Equal in magnitude to V<sub>GS(off)</sub>. (C1)</li>
+    <li>R<sub>GS</sub> = V<sub>GS</sub>/I<sub>G</sub> = 15 V/10⁻⁹ A = 1.5 × 10¹⁰ Ω = 15 000 MΩ.</li>
+    <li>It has no channel at V<sub>GS</sub> = 0, so no drain current flows until V<sub>GS</sub> exceeds V<sub>T</sub>. (D1)</li>
+    <li>β = α/(1 − α); β = 0.99/0.01 = 99. (E2)</li>
+    <li>|βA| = 1 and total loop phase shift 0° or 360°. (G1)</li>
+    <li>J = q(nμ<sub>n</sub> + pμ<sub>p</sub>)E = σE (A4). σ = 1.6 × 10⁻¹⁹ × 2.5 × 10¹³ × (3800 + 1800) = 0.0224 (Ω·cm)⁻¹; ρ = 1/σ = 44.6 Ω·cm.</li>
+    <li>Circuit and working: B5. V<sub>m</sub> = 9√2 = 12.73 V (tap to one end). V<sub>dc</sub> = 0.636V<sub>m</sub> = 8.10 V. I<sub>dc</sub> = 8.10 V/1 kΩ = 8.10 mA. PIV = 2V<sub>m</sub> = 25.5 V.</li>
+    <li>(i) Zero-biased, so I<sub>D</sub> = I<sub>DSS</sub> = 12 mA. V<sub>DS</sub> = 15 − 12 mA × 0.62 kΩ = 7.56 V. (ii) AC drain load R<sub>AC</sub> = R<sub>D</sub> ∥ R<sub>L</sub> = 620 ∥ 8200 = 576 Ω.
+      v<sub>out</sub> = g<sub>m</sub>R<sub>AC</sub>v<sub>in</sub> = 3.2 mS × 576 Ω × 500 mV = 922 mV (inverted).</li>
+    <li>βR<sub>E</sub> = 102 kΩ ≥ 10R<sub>2</sub> = 91 kΩ, so the approximation holds. V<sub>B</sub> = 16 × 9.1/71.1 = 2.05 V. V<sub>E</sub> = 1.35 V. I<sub>C</sub> ≈ I<sub>E</sub> = 1.35/0.68 k = 1.98 mA.
+      V<sub>CE</sub> = 16 − 1.98 × (3.9 + 0.68) = 6.92 V. R<sub>Th</sub> = 62 ∥ 9.1 = 7.94 kΩ, R<sub>Th</sub>/R<sub>E</sub> = 11.7; S = 151 × 12.7/(151 + 11.7) = 11.8. (E4)</li>
+    <li>Same four formulas as E5 with the CC set. A<sub>I</sub> = −h<sub>fc</sub>/(1 + h<sub>oc</sub>R<sub>L</sub>) = 51/1.25 = 40.8. R<sub>i</sub> = h<sub>ic</sub> + h<sub>rc</sub>A<sub>I</sub>R<sub>L</sub> = 1.1 k + 408 k = 409.1 kΩ.
+      A<sub>V</sub> = A<sub>I</sub>R<sub>L</sub>/R<sub>i</sub> = 0.997. Y<sub>o</sub> = h<sub>oc</sub> − h<sub>fc</sub>h<sub>rc</sub>/(h<sub>ic</sub> + R<sub>S</sub>) = 25 μS + 51/11.1 k = 4.62 mS, so R<sub>o</sub> = 216 Ω.
+      A<sub>VS</sub> = A<sub>V</sub>R<sub>i</sub>/(R<sub>i</sub> + R<sub>S</sub>) = 0.974. An emitter follower: gain just under 1, very high R<sub>i</sub>, low R<sub>o</sub>.</li>
+    <li>Diagram and derivation: F1. 60 dB means A = 1000. 1 + βA = 51. A<sub>f</sub> = 1000/51 = 19.6 = 25.8 dB. Z<sub>of</sub> = 10 k/51 = 196 Ω.</li>
+    <li>C3 in full. For the last part: dI<sub>D</sub>/dV<sub>GS</sub> = 2I<sub>DSS</sub>(1 − V<sub>GS</sub>/V<sub>GS(off)</sub>)(−1/V<sub>GS(off)</sub>) = g<sub>m0</sub>(1 − V<sub>GS</sub>/V<sub>GS(off)</sub>) with g<sub>m0</sub> = −2I<sub>DSS</sub>/V<sub>GS(off)</sub> = 2I<sub>DSS</sub>/|V<sub>GS(off)</sub>|.</li>
+    <li>Circuit and explanation: G2. Conditions: three RC sections give 180° at f<sub>0</sub> = 1/(2πRC√6), the inverting amplifier gives the other 180°, and |A| ≥ 29.
+      Design: R = 1/(2π × 1000 × 0.01 × 10⁻⁶ × 2.449) = 6.50 kΩ; R<sub>f</sub> = 29R = 188 kΩ.</li>
+    <li>(a) V<sub>GS</sub> = V<sub>G</sub> = 24 × 15/115 = 3.13 V. K = 500 mA/(10 − 1)² = 6.17 mA/V². I<sub>D</sub> = 6.17 × (3.13 − 1)² = 28.0 mA. V<sub>DS</sub> = 24 − 28.0 mA × 470 Ω = 10.8 V
+      (saturation: 10.8 ≥ 2.13 ✓). (b) D5: two pMOS in parallel from V<sub>DD</sub> to the output, two nMOS in series from the output to ground. Output is 0 only when both inputs are 1 (both nMOS on, both pMOS off); otherwise at least one pMOS pulls it to 1.</li>
+  </ol>
+</section>
+
+<!-- ============================================================ FORMULA SHEET -->
+<section class="part">
+  <div class="part-no">Formula sheet</div>
+  <h1>Everything to recall</h1>
+  <p class="lead">Cover the right column, write each formula from the cue, then uncover. Any row you miss, go back to the section named.</p>
+</section>
+
+<section class="concept">
+  <table class="recall">
+    <tr><th>Cue</th><th>Recall</th></tr>
+    <tr><td>A2 · Mass action, majority carriers</td><td>n·p = n<sub>i</sub>² · n-type: n ≈ N<sub>D</sub>, p = n<sub>i</sub>²/N<sub>D</sub></td></tr>
+    <tr><td>A3 · Fermi function, intrinsic E<sub>F</sub></td><td>f(E) = 1/(1 + e<sup>(E − E<sub>F</sub>)/kT</sup>) · E<sub>F</sub> = (E<sub>C</sub> + E<sub>V</sub>)/2 · n = N<sub>C</sub>e<sup>−(E<sub>C</sub> − E<sub>F</sub>)/kT</sup></td></tr>
+    <tr><td>A4 · Drift</td><td>v<sub>d</sub> = μE · σ = q(nμ<sub>n</sub> + pμ<sub>p</sub>) · ρ = 1/σ · R<sub>s</sub> = ρ/t, R = R<sub>s</sub>L/W</td></tr>
+    <tr><td>A5 · Diffusion, Einstein</td><td>J<sub>n</sub> = qnμ<sub>n</sub>E + qD<sub>n</sub>dn/dx · J<sub>p</sub> = qpμ<sub>p</sub>E − qD<sub>p</sub>dp/dx · D/μ = kT/q = V<sub>T</sub> ≈ 26 mV</td></tr>
+    <tr><td>A6 · Continuity, Poisson</td><td>∂n/∂t = (1/q)∂J<sub>n</sub>/∂x − (R − G) · dE/dx = ρ/ε</td></tr>
+    <tr><td>B1 · Junction</td><td>V<sub>bi</sub> = V<sub>T</sub> ln(N<sub>A</sub>N<sub>D</sub>/n<sub>i</sub>²) · W ∝ √(V<sub>bi</sub> − V<sub>a</sub>)</td></tr>
+    <tr><td>B2 · Diode equation</td><td>I<sub>D</sub> = I<sub>s</sub>(e<sup>V<sub>D</sub>/ηV<sub>T</sub></sup> − 1) · I<sub>s</sub> doubles per 10 °C · knee 0.7 V Si, 0.3 V Ge</td></tr>
+    <tr><td>B3 · Resistances, capacitances</td><td>R<sub>D</sub> = V<sub>D</sub>/I<sub>D</sub> · r<sub>d</sub> = 26 mV/I<sub>D</sub> · C<sub>T</sub> = εA/W · C<sub>D</sub> = τI<sub>D</sub>/ηV<sub>T</sub> · t<sub>rr</sub> = t<sub>s</sub> + t<sub>t</sub></td></tr>
+    <tr><td>B5 · Rectifiers</td><td>HW: 0.318V<sub>m</sub>, PIV V<sub>m</sub>, r = 1.21, η = 40.6% · FW: 0.636V<sub>m</sub>, r = 0.482, η = 81.2%, PIV V<sub>m</sub> (bridge), 2V<sub>m</sub> (centre tap)</td></tr>
+    <tr><td>B7 · Clamper</td><td>start with the half-cycle that turns the diode on; 5RC ≫ T/2; output swing = input swing</td></tr>
+    <tr><td>B8 · Zener regulator</td><td>on if V<sub>i</sub>R<sub>L</sub>/(R + R<sub>L</sub>) ≥ V<sub>Z</sub> · I<sub>Z</sub> = (V<sub>i</sub> − V<sub>Z</sub>)/R − V<sub>Z</sub>/R<sub>L</sub></td></tr>
+    <tr><td>C2 · Shockley (JFET, D-MOSFET)</td><td>I<sub>D</sub> = I<sub>DSS</sub>(1 − V<sub>GS</sub>/V<sub>GS(off)</sub>)² · saturation if V<sub>DS</sub> ≥ V<sub>GS</sub> − V<sub>GS(off)</sub></td></tr>
+    <tr><td>C3 · JFET parameters</td><td>g<sub>m</sub> = ΔI<sub>D</sub>/ΔV<sub>GS</sub> · r<sub>d</sub> = ΔV<sub>DS</sub>/ΔI<sub>D</sub> · μ = g<sub>m</sub>r<sub>d</sub> · g<sub>m</sub> = g<sub>m0</sub>(1 − V<sub>GS</sub>/V<sub>GS(off)</sub>), g<sub>m0</sub> = 2I<sub>DSS</sub>/|V<sub>GS(off)</sub>|</td></tr>
+    <tr><td>C4 · JFET bias</td><td>self: V<sub>GS</sub> = −I<sub>D</sub>R<sub>S</sub> · divider: V<sub>GS</sub> = V<sub>G</sub> − I<sub>D</sub>R<sub>S</sub> · V<sub>DS</sub> = V<sub>DD</sub> − I<sub>D</sub>(R<sub>D</sub> + R<sub>S</sub>)</td></tr>
+    <tr><td>C5, D4 · FET amplifiers</td><td>CS: −g<sub>m</sub>(r<sub>d</sub> ∥ R<sub>D</sub>) · CD: g<sub>m</sub>R<sub>S</sub>/(1 + g<sub>m</sub>R<sub>S</sub>), Z<sub>o</sub> = R<sub>S</sub> ∥ 1/g<sub>m</sub> · CG: +g<sub>m</sub>R<sub>D</sub>, R<sub>in</sub> = 1/g<sub>m</sub></td></tr>
+    <tr><td>D2 · E-MOSFET</td><td>sat: I<sub>D</sub> = K(V<sub>GS</sub> − V<sub>T</sub>)² if V<sub>DS</sub> ≥ V<sub>GS</sub> − V<sub>T</sub> · triode: K[2(V<sub>GS</sub> − V<sub>T</sub>)V<sub>DS</sub> − V<sub>DS</sub>²] · K = I<sub>D(on)</sub>/(V<sub>GS(on)</sub> − V<sub>T</sub>)²</td></tr>
+    <tr><td>D4 · MOSFET g<sub>m</sub></td><td>g<sub>m</sub> = 2K(V<sub>GS</sub> − V<sub>T</sub>) = 2√(K·I<sub>D</sub>)</td></tr>
+    <tr><td>D5 · CMOS</td><td>nMOS pull-down: series = AND, parallel = OR; pMOS pull-up is the dual; 2n transistors for n inputs; output inverted</td></tr>
+    <tr><td>E2 · BJT currents</td><td>I<sub>E</sub> = I<sub>C</sub> + I<sub>B</sub> · β = α/(1 − α) · α = β/(1 + β) · I<sub>CEO</sub> = (1 + β)I<sub>CBO</sub></td></tr>
+    <tr><td>E3, E4 · BJT bias</td><td>fixed: I<sub>B</sub> = (V<sub>CC</sub> − 0.7)/R<sub>B</sub> · emitter: I<sub>B</sub> = (V<sub>CC</sub> − 0.7)/(R<sub>B</sub> + (β + 1)R<sub>E</sub>) · divider: E<sub>Th</sub> = V<sub>CC</sub>R<sub>2</sub>/(R<sub>1</sub> + R<sub>2</sub>), R<sub>Th</sub> = R<sub>1</sub> ∥ R<sub>2</sub></td></tr>
+    <tr><td>E4 · Stability factor</td><td>S = ∂I<sub>C</sub>/∂I<sub>CO</sub> = (1 + β)/(1 − β dI<sub>B</sub>/dI<sub>C</sub>) · fixed: 1 + β · with R<sub>E</sub>: (1 + β)(1 + R<sub>B</sub>/R<sub>E</sub>)/(1 + β + R<sub>B</sub>/R<sub>E</sub>)</td></tr>
+    <tr><td>E5 · h-parameter analysis</td><td>A<sub>i</sub> = −h<sub>f</sub>/(1 + h<sub>o</sub>R<sub>L</sub>) · R<sub>i</sub> = h<sub>i</sub> + h<sub>r</sub>A<sub>i</sub>R<sub>L</sub> · A<sub>v</sub> = A<sub>i</sub>R<sub>L</sub>/R<sub>i</sub> · Y<sub>o</sub> = h<sub>o</sub> − h<sub>f</sub>h<sub>r</sub>/(h<sub>i</sub> + R<sub>s</sub>)</td></tr>
+    <tr><td>E6 · Darlington</td><td>β<sub>D</sub> ≈ β<sub>1</sub>β<sub>2</sub> · V<sub>BE</sub> ≈ 1.4 V · cascade: A<sub>v</sub> = A<sub>v1</sub>A<sub>v2</sub>, dB add</td></tr>
+    <tr><td>F1, F3 · Feedback</td><td>A<sub>f</sub> = A/(1 + βA) ≈ 1/β · bandwidth × (1 + βA) · distortion ÷ (1 + βA) · dA<sub>f</sub>/A<sub>f</sub> = (dA/A)/(1 + βA)</td></tr>
+    <tr><td>F2 · Impedances</td><td>series connection: × (1 + βA) · shunt connection: ÷ (1 + βA) · voltage-series: Z<sub>i</sub> ↑ Z<sub>o</sub> ↓</td></tr>
+    <tr><td>G1 · Barkhausen</td><td>|βA| = 1 · loop phase 0° or 360°</td></tr>
+    <tr><td>G2, G3 · RC oscillators</td><td>phase-shift: f = 1/(2πRC√6), gain 29, R<sub>f</sub> = 29R · Wien: f = 1/(2πRC), gain 3, R<sub>2</sub> = 2R<sub>1</sub></td></tr>
+    <tr><td>G4, G5 · LC and crystal</td><td>f = 1/(2π√(LC)) · Hartley L<sub>eq</sub> = L<sub>1</sub> + L<sub>2</sub> · Colpitts C<sub>eq</sub> = C<sub>1</sub>C<sub>2</sub>/(C<sub>1</sub> + C<sub>2</sub>) · crystal f<sub>s</sub> = 1/(2π√(L<sub>s</sub>C<sub>s</sub>))</td></tr>
+  </table>
+</section>
+
+<section class="sources">
+  <h3>Sources</h3>
+  <ul>
+    <li><b>Scope and questions:</b> the professor's ECE 2106 decks and numerical sheets in <code>exam-pack/</code> (Unit 1–2 deck; L08–L10 diode decks; LED/tunnel/photo; JFET; MOSFET; MOSFET biasing and digital circuit; two FinFET decks; L20–L27 BJT decks; multistage; feedback; oscillator; crystal; JFET/MOSFET numericals sheet; h-parameter problems pp. 131–145).</li>
+    <li><b>Facts:</b> Units 1–5 from the subject knowledge base, built on Boylestad &amp; Nashelsky, <i>Electronic Devices and Circuit Theory</i>; Sedra &amp; Smith, <i>Microelectronic Circuits</i>; Streetman &amp; Banerjee; Neamen.
+      Units 6–7 (feedback, oscillators), special diodes, FinFET and h-parameters are not in that knowledge base yet; their formulas here are the standard textbook results, each re-derived or simulated numerically in <code>verify.py</code>
+      (the RC ladder gives 1/29 at 180°; the Wien network gives 1/3 at 0°; the h-parameter results are re-solved from the two defining equations).</li>
+    <li><b>Slips flagged in the slides:</b> L08 slide 5 (V<sub>R</sub> = 18.5 V should be 9.25 V); feedback slide 32 (98.3 should be 98.0).</li>
+    <li><b>All figures</b> are generated for this pack (schemdraw, matplotlib); none are copied from the slides.</li>
+  </ul>
+</section>

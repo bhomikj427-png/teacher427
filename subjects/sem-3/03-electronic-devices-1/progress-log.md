@@ -5,13 +5,11 @@
 > See `../../README.md`.
 
 ## Session resume
-- Last session: — (no teaching session yet)
-- Where we stopped: subject scaffolded 2026-07-05 (engine audit) — KB was already `stage-2✓`
-  (TEACH-READY, queue 2026-06-24); curriculum/profile/log created so activation needs no
-  mid-boot improvisation. **No teaching yet; learner level undiagnosed.**
-- Next up: **Session 1** — diagnostic (drift-vs-diffusion, depletion region, diode I-V probes),
-  then open U1 via the loop at the placed level.
+- Last session: 2026-11-13/14 — no teaching; inbox triage (21 professor files) + built `study-pack/pdf/EDC-ETE-v1.pdf` (63 pp., all 7 ECE2106 units).
+- Where we stopped: pack delivered; learner has not worked any Check. ETE stated as about 2026-11-15.
+- Next up: start-of-session recall, then the mock paper (in the PDF) as the diagnostic; teach from the misses.
 - Due for review today: nothing yet (no items mastered).
+- Open: U6 Feedback, U7 Oscillators and the deck extras are in the pack but not in `knowledge-base/` (no stage-2 research).
 
 ## Mastery ledger
 *(empty — nothing mastered to criterion yet)*
@@ -57,3 +55,9 @@
   **Not built yet (session hit its usage limit):** Part F feedback, Part G oscillators, mock paper, formula sheet. Their figures are already drawn in
   `figs3.py` and their numbers are already in `verify.py`. Parts A–D pages were viewed; **Part E pages have not been viewed after the build.**
   **Where we stopped:** write `parts/F.html`, `parts/G.html`, `parts/H.html` (mock + formula sheet), view Part E–H pages, then README + commit. **No teaching event.**
+- [2026-11-14] `study-pack/pdf/EDC-ETE-v1.pdf` **complete: 63 pages, A4.** Added Part F feedback (F1 gain with feedback, F2 four topologies, F3 effects),
+  Part G oscillators (G1 Barkhausen, G2 RC phase-shift, G3 Wien bridge, G4 Hartley/Colpitts, G5 crystal), a mock paper (19 Qs, 80 marks, laid out on the
+  MAS2001 blueprint because no ECE2106 blueprint exists; 5 unused professor-sheet items: Q6, Q29, Q31, h-parameter Problem 3) with key, a formula sheet and
+  sources. `verify.py` passes (211 checks). Second deck slip flagged in the PDF: feedback slide 32 prints 98.3 for A = 5000 (formula gives 98.0).
+  All pages viewed after the final build. `study-pack/README.md` written. **No teaching event; mastery ledger and review queue unchanged.**
+  **Where we stopped:** pack delivered; learner has not worked any Check. Open: U6/U7 + deck extras still absent from `knowledge-base/` (pack-only).
