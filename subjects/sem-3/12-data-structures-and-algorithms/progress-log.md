@@ -76,3 +76,7 @@
   B 4c/4/4/3, C 2 + 5c). New numbers throughout. Every answer verified by execution: `5 15`, circular
   queue full, `AB+C*DE/-` = 16, BST 60 25 75 10 40 90 35 70 with delete 25 → successor 35, linked-stack
   and BankAccount programs. Blueprint headers added to 01–05. Full pack re-check: 18 programs, 0 problems.
+- [2026-11-13] Inbox triage (no teaching): `Complete_DSA_Practice_Question_Booklet.pdf` → `exam-pack/PRACTICE-DSA-question-booklet.pdf`
+  (26 pp., ~41 numbered Qs + repeated drill items). Sections: functions/classes/objects/constructors, stacks/queues/pointers, linked lists,
+  infix/prefix/postfix, sorting (merge/quick/heap), trees (AVL ×39 mentions, BST), graphs (BFS, DFS, Dijkstra, Prim). Covers topics past the
+  MTE pack, so it is ETE practice evidence.

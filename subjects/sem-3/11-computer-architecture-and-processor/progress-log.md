@@ -369,3 +369,9 @@
   (Mano 9-1 + 9-5) · Q1 masking (4-18 family) and Q5 direct-vs-indirect are the only non-assignment
   forms. **No U3 question at all.** Updates follow: `exam-map.md` §4b, `question-bank.md`, exam-pack
   README, `exam-calendar.md`. No teaching event.
+- [2026-11-13] Inbox triage (no teaching): **two 8086 decks received**, closing the top "missing" item in `exam-pack/README.md`.
+  `8086 Microprocessor - Architecture, Addressing Modes and Instructions.pdf` → `exam-pack/slides-unit7-8086-architecture-addressing-modes-instructions.pdf`
+  (85 pp., image-only, pages rotated; titled "UNIT-1 THE 8086 MICROPROCESSORS"). `8086 Microprocessor - Assembler Directive and Programming.pdf`
+  → `exam-pack/slides-unit7-8086-assembler-directives-and-programming.pdf` (36 pp., text: data-definition directives, ASSUME, MACRO/ENDM,
+  location counter, modular linking; programs: direct addressing, swap, 8/16-bit add/sub, 8-bit multiply, 16÷8 division).
+  KB `07-8086-microprocessor.md` was built textbook-primary; a delta diagnosis against these decks is due before teaching U7.

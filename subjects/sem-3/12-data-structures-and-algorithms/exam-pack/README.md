@@ -17,6 +17,7 @@ Material for **Data Structures and Algorithms [ECE2104]**. Routed here from `../
 | `slides-08-queue-pointers.pptx` | 27 | queue, FIFO, circular queue, pointers (`&`, `*`) | 6 items incl. array queue + circular queue programs |
 | `ASSIGNMENT-A1-ECE2104-2026-08.pdf` | 50 marks | **Assignment 1** (CWS), due 27-08-2026. 23 Q: A 9×1 / B 5×2 / C 5×3 / D 4×4. Arrays, loops, classes/constructors, access specifiers, stack (array, trace, infix→postfix, postfix eval), queue, **singly linked list**, call by value/reference | first professor-set questions |
 | `slides-08-queue-pointers-COPY.pptx` | 27 | **duplicate of deck 8**, identical slide text | kept, not deleted. Safe to remove |
+| `PRACTICE-DSA-question-booklet.pdf` | 26 pp. | **Practice question booklet** (added 2026-11-13): classes/objects/constructors, stacks/queues/pointers, linked lists, infix/prefix/postfix, sorting (merge/quick/heap), trees (BST, AVL), graphs (BFS, DFS, Dijkstra, Prim) | runs past the MTE pack, so it is ETE practice |
 
 Most slides are image-heavy. Only the text layer was read at triage (`unzip`), so figures and code
 screenshots are not yet captured.

@@ -39,3 +39,7 @@
   multistage/Darlington, CMOS logic gates. → The `stage-2✓` stamp covers the ECE2101 scope only; the ECE2106 delta is open
   (noted in `course-info.md` and `../research-engine/research-queue.md`). `knowledge-base/exam-map.md` gains an
   evidence block listing the decks per unit.
+- [2026-11-13] Inbox triage, second drop: `crystal.pptx` (same MD5 as filed `slides-U7-crystal-oscillators.pptx`) and
+  `Mosfet biasing and digital circuit.pptx` deleted as duplicates. The MOSFET deck has the same text as filed
+  `slides-U4-mosfet-biasing-and-digital-circuits.pptx`; 15/21 images are identical and the 6 that differ (slides 10–12, 15) are
+  re-renders of the same equations, checked side by side. Filed copy kept.

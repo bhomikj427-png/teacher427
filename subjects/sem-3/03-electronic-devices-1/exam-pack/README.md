@@ -47,3 +47,4 @@ No PYQs (MTE/ETE) and no course hand-out yet. When they arrive, rebuild `../know
 
 ## Duplicates removed
 - 2026-11-13: `jfet numericals (1).pdf`, byte-identical (MD5) to the kept numericals sheet.
+- 2026-11-13 (second drop): `crystal.pptx`, byte-identical to `slides-U7-crystal-oscillators.pptx`; `Mosfet biasing and digital circuit.pptx`, same text as `slides-U4-…-digital-circuits.pptx` with 6 equation images re-rendered (same content, checked side by side).

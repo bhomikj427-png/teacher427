@@ -14,3 +14,8 @@ question patterns).
 for that) — they do **not** set facts (answer keys/notes can be wrong; content is verified against
 the prescribed textbooks). Empty folder = the engine proceeds syllabus-driven and flags the
 exam-targeting as unconfirmed.
+
+## What's here
+| File | Type | Covers |
+|---|---|---|
+| `BLUEPRINT-MAS2001-July-Nov-2026.jpeg` + `.md` transcription | **official question blueprint** (added 2026-11-13) | 5 content rows × Parts A/B/C/D, 80 marks; derived marks A 2 / B 6 / C 8 / D 8. Analysis: `../knowledge-base/exam-map.md` |

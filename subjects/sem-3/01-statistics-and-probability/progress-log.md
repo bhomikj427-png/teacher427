@@ -43,3 +43,8 @@
   prerequisite math available but complex notation overloads — logged as the dominant delivery
   constraint. Goal = depth (no exam date/material). KB pre-existing (Stage-1, units 01–04). Began
   opening U1; no concept mastered yet.
+- [2026-11-13] Inbox triage (no teaching): `WhatsApp Image 2026-11-12 at 3.53.24 PM.jpeg` → `exam-pack/BLUEPRINT-MAS2001-July-Nov-2026.jpeg`,
+  plus a typed transcription `exam-pack/BLUEPRINT-MAS2001-July-Nov-2026.md`. **First exam evidence for this subject.** Official question
+  blueprint for MAS2001, July–Nov 2026: 5 content rows × Parts A/B/C/D, weightage 10/20/22/10/18 = 80. The marks per part
+  are not printed; solved uniquely from the rows as A = 2, B = 6, C = 8, D = 8 (all five rows check). `knowledge-base/exam-map.md`
+  priority section rewritten from it.
