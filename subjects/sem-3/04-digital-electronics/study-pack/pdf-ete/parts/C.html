@@ -1,0 +1,304 @@
+<!-- ============================================================ PART C -->
+<section class="part">
+  <div class="part-no">Part C · Unit 3</div>
+  <h1>Sequential logic</h1>
+  <p class="lead">Every circuit in Parts A and B forgets its inputs the moment they change. A <b>sequential</b> circuit has memory: its output depends on the present inputs and on what happened before.
+    Memory comes from feeding a gate's output back to its own input. This part builds the 1-bit memory (latch, then flip-flop), then rows of them (registers, counters).</p>
+  <div class="fig">{{ sub_map(["C1 Latches", "C2 Flip-flops", "C3 Excitation,\nconversion", "C4 Waveforms", "C5–C6 Shift\nregisters", "C7–C8\nCounters", "C9 Timing"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Memory element</div>
+  <h2>C1 · Latches</h2>
+  <div class="q"><span class="src">Practice · deck 08 slides 6–21</span>
+    Draw an SR latch using NOR gates and give its output for every input combination. Why is S = R = 1 not allowed?</div>
+  <div class="guess">Guess first: with S = R = 0, the circuit below can sit with Q = 0 or with Q = 1. What decides which?</div>
+  <div class="terms"><b>Latch:</b> a circuit with two stable states that stores one bit. · <b>Set:</b> make Q = 1. · <b>Reset:</b> make Q = 0. · <b>Q':</b> the second output, normally the complement of Q.</div>
+  <div class="two">
+    <div class="fig">{{ sr_latch() }}</div>
+    <table class="data tt">
+      <tr><th>S R</th><th>Q</th><th>Action</th></tr>
+      <tr><td>0 0</td><td>unchanged</td><td>hold (memory)</td></tr>
+      <tr><td>0 1</td><td>0</td><td>reset</td></tr>
+      <tr><td>1 0</td><td>1</td><td>set</td></tr>
+      <tr><td>1 1</td><td>Q = Q' = 0</td><td>not allowed</td></tr>
+    </table>
+  </div>
+  <p><b>How it remembers.</b> A NOR output is 0 if any input is 1. Put S = 1: the lower gate is forced to Q' = 0, so both inputs of the upper gate are 0 and Q = 1. Now return S to 0: Q = 1 is fed back into the lower gate and keeps Q' = 0.
+    The loop holds the value that was set last. That is one bit of memory.</p>
+  <table class="data">
+    <tr><th>Latch</th><th>What it adds</th></tr>
+    <tr><td><b>NAND SR latch</b></td><td>The same circuit with NAND gates. Its inputs are active-low: S' = 0 sets, R' = 0 resets, 11 holds, 00 is the forbidden case (Q = Q' = 1).</td></tr>
+    <tr><td><b>Gated SR latch</b></td><td>An enable input EN in front of S and R. The latch can change only while EN = 1; with EN = 0 it holds.</td></tr>
+    <tr><td><b>D latch</b></td><td>A gated SR latch with S = D and R = D'. S and R can never both be 1, so the forbidden case is gone. While EN = 1, Q follows D (the latch is "transparent"). When EN goes to 0, Q keeps the last value.</td></tr>
+  </table>
+  <div class="ans"><b>Answer.</b> Circuit and table above. With S = R = 1 both outputs are forced to 0, so Q and Q' are no longer complements.
+    Worse, if S and R then return to 0 together, both gates try to go to 1 at once and the final state depends on which gate is faster: it is unpredictable.</div>
+  <div class="check"><b>Check C1.</b> (a) A NAND latch has S' = 0, R' = 1. What is Q? (b) A D latch has EN = 1 the whole time while D changes 0 → 1 → 0 → 1. How many times does Q change? (c) What must a circuit have in order to store a bit?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Memory element · asked in the 2025 mid-term</div>
+  <h2>C2 · Flip-flops</h2>
+  <div class="q"><span class="src">MUJ mid-term, 25 Sep 2025 · Q3 · 2 marks</span>
+    What excitation input should be applied to a T-FF to make output toggle?</div>
+  <div class="guess">Guess first: look at the two Q rows below. Which one would you want driving the next stage of a circuit, and why?</div>
+  <div class="terms"><b>Clock (CLK):</b> a square wave that tells every memory element when to update. · <b>Edge:</b> the instant the clock changes: positive (rising, 0 → 1) or negative (falling, 1 → 0). ·
+    <b>Flip-flop:</b> a 1-bit memory that updates only at a clock edge. A latch is level-triggered: it is open for as long as its enable is 1. · <b>Toggle:</b> change to the opposite value.</div>
+  <div class="fig">{{ latch_vs_ff() }}</div>
+  <p><b>Latch against flip-flop</b> (same D, same clock). The latch follows D during the whole shaded time, including the short glitch. The flip-flop samples D only at each rising edge (↑) and ignores everything in between.
+    In a synchronous system every flip-flop changes at the same instant, so signals are steady when they are read. That is why flip-flops, not latches, are used.</p>
+  <div class="fig">{{ ff_symbols() }}</div>
+  <table class="data tt">
+    <tr><th>J K</th><th>Q⁺ (JK)</th><th></th><th>D</th><th>Q⁺ (D)</th><th></th><th>T</th><th>Q⁺ (T)</th></tr>
+    <tr><td>0 0</td><td>Q (hold)</td><td></td><td>0</td><td>0</td><td></td><td>0</td><td>Q (hold)</td></tr>
+    <tr><td>0 1</td><td>0 (reset)</td><td></td><td>1</td><td>1</td><td></td><td>1</td><td>Q' (toggle)</td></tr>
+    <tr><td>1 0</td><td>1 (set)</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>1 1</td><td>Q' (toggle)</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  </table>
+  <p>These are the <b>characteristic tables</b>: given the inputs and the present Q, they give the next state Q⁺. The JK flip-flop is an SR flip-flop whose forbidden case 11 has been given a use (toggle). The SR flip-flop has the C1 table, applied at the clock edge.
+    A T flip-flop is a JK with J = K = T. A D flip-flop is a JK with J = D, K = D'.</p>
+  <p><b>Race-around.</b> In a <b>level</b>-triggered JK with J = K = 1, Q toggles, the new Q is fed back, and it toggles again, for as long as the clock stays 1. The final value is unknown.</p>
+  <div class="fig">{{ ms_jk() }}</div>
+  <p><b>Cure 1: master–slave JK</b> (above). The master takes the inputs while CLK = 1; the slave copies the master when CLK = 0. They are never open together, so Q changes once per clock pulse.</p>
+  <p><b>Cure 2: edge triggering.</b> The flip-flop responds only during the edge itself.</p>
+  <p><b>Asynchronous inputs.</b> Most flip-flops also have PRESET (force Q = 1) and CLEAR (force Q = 0). They act at once, without waiting for the clock, and are usually active-low.</p>
+  <div class="ans"><b>Answer.</b> <b>T = 1.</b> The T flip-flop's rule is Q⁺ = T ⊕ Q: with T = 1 the output complements at every active clock edge, with T = 0 it holds.</div>
+  <div class="check"><b>Check C2.</b> (a) A JK flip-flop has J = K = 1 and Q = 0. What is Q after three clock edges? (b) A T flip-flop with T = 1 is clocked at 1 kHz. What is the frequency at Q?
+    (c) What is the race-around condition, and name two ways to remove it. (d) CLEAR is active-low and is taken to 0 between clock edges. When does Q change?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Memory element</div>
+  <h2>C3 · Excitation tables and flip-flop conversion</h2>
+  <div class="q"><span class="src">Professor's practice set 2 · Q1</span>
+    Design a D flip-flop, using SR, JK &amp; T flip-flop and suitable logic gates.</div>
+  <div class="guess">Guess first: a D flip-flop must go to Q⁺ = D. For a T flip-flop, when exactly must it toggle?</div>
+  <div class="terms"><b>Excitation table:</b> the characteristic table read backwards. It answers: "to make Q go from this value to that value, what must the inputs be?" It is the table used in every design problem from here on.</div>
+  <table class="data tt">
+    <tr><th>Q → Q⁺</th><th>S R</th><th>J K</th><th>D</th><th>T</th><th>Why (JK)</th></tr>
+    <tr><td>0 → 0</td><td>0 X</td><td>0 X</td><td>0</td><td>0</td><td>hold (00) or reset (01)</td></tr>
+    <tr><td>0 → 1</td><td>1 0</td><td>1 X</td><td>1</td><td>1</td><td>set (10) or toggle (11)</td></tr>
+    <tr><td>1 → 0</td><td>0 1</td><td>X 1</td><td>0</td><td>1</td><td>reset (01) or toggle (11)</td></tr>
+    <tr><td>1 → 1</td><td>X 0</td><td>X 0</td><td>1</td><td>0</td><td>hold (00) or set (10)</td></tr>
+  </table>
+  <p>The X's are don't-cares, and they are why JK flip-flops usually give the simplest logic. D = Q⁺ always. T = 1 exactly when Q must change.</p>
+  <p><b>Conversion procedure.</b> (1) Write the characteristic table of the flip-flop you <b>want</b>: its inputs and Q, giving Q⁺. (2) Beside each row write the excitation of the flip-flop you <b>have</b> for that Q → Q⁺.
+    (3) K-map each input of the flip-flop you have, as a function of the wanted inputs and Q.</p>
+  <div class="ans"><b>Answer.</b> Wanted: D flip-flop, so Q⁺ = D.
+    <table class="data tt mono">
+      <tr><th>D Q</th><th>Q⁺</th><th>S R</th><th>J K</th><th>T</th></tr>
+      <tr><td>0 0</td><td>0</td><td>0 X</td><td>0 X</td><td>0</td></tr>
+      <tr><td>0 1</td><td>0</td><td>0 1</td><td>X 1</td><td>1</td></tr>
+      <tr><td>1 0</td><td>1</td><td>1 0</td><td>1 X</td><td>1</td></tr>
+      <tr><td>1 1</td><td>1</td><td>X 0</td><td>X 0</td><td>0</td></tr>
+    </table>
+    <b>From SR:</b> S = D, R = D' (one inverter). <b>From JK:</b> J = D, K = D' (one inverter). <b>From T:</b> T = D ⊕ Q (one XOR gate fed by D and the flip-flop's own output).</div>
+  <table class="data">
+    <tr><th>Have → want</th><th>Input logic</th><th>Have → want</th><th>Input logic</th></tr>
+    <tr><td>SR → JK</td><td>S = JQ', R = KQ</td><td>D → JK</td><td>D = JQ' + K'Q</td></tr>
+    <tr><td>D → SR</td><td>D = S + R'Q</td><td>D → T</td><td>D = T ⊕ Q</td></tr>
+    <tr><td>JK → T</td><td>J = K = T</td><td>T → JK</td><td>T = JQ' + KQ</td></tr>
+  </table>
+  <div class="check"><b>Check C3.</b> (a) Give the JK excitation for Q going 1 → 0 and explain the X. (b) Derive the SR → JK conversion (S = JQ', R = KQ) from the tables. (c) Which single gate turns a D flip-flop into a T flip-flop?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Memory element · asked in the 2025 mid-term</div>
+  <h2>C4 · Drawing flip-flop waveforms</h2>
+  <div class="q"><span class="src">Form of MUJ mid-term, 25 Sep 2025 · Q7 · 4 marks. The paper's own waveform is missing from our copy; this J, K waveform is a practice one.</span>
+    Draw the output waveform for the following input waveform, assuming the flip-flop (JK) to be positive edge triggered and the output Q is initially at logic zero.
+    <div class="fig">{{ jk_wave(show_q=False) }}</div></div>
+  <div class="guess">Guess first: at how many instants can Q change in this picture?</div>
+  <p><b>Procedure.</b></p>
+  <ol class="steps">
+    <li>Mark every <b>active</b> edge with a dotted line: rising edges for positive-edge triggering, falling edges for negative.</li>
+    <li>Start Q at the given initial value.</li>
+    <li>At each marked edge read the inputs <b>just before</b> the edge and apply the characteristic table (C2).</li>
+    <li>Between edges Q is flat, whatever the inputs do.</li>
+    <li>If there are PRESET or CLEAR inputs, they override at once, in the middle of a cycle if necessary.</li>
+  </ol>
+  <div class="ans"><b>Answer.</b>
+    <table class="data tt mono">
+      <tr><th>rising edge</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>
+      <tr><td>J K just before</td><td>1 0</td><td>0 1</td><td>1 1</td><td>1 0</td><td>0 1</td><td>0 0</td></tr>
+      <tr><td>action</td><td>set</td><td>reset</td><td>toggle</td><td>set</td><td>reset</td><td>hold</td></tr>
+      <tr><td>Q after</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+    </table>
+    <div class="fig">{{ jk_wave() }}</div>
+    Write the edge-by-edge table beside the drawing in the exam: it shows the method even if a line is drawn slightly off.</div>
+  <div class="check"><b>Check C4.</b> (a) Redo the question for a <b>negative</b>-edge-triggered JK flip-flop: give Q after each of the six falling edges.
+    (b) A negative-edge T flip-flop starts at Q = 0. At six successive falling edges T is 1, 0, 0, 1, 1, 0. Give Q after each edge.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Registers</div>
+  <h2>C5 · Registers and shift registers</h2>
+  <div class="q"><span class="src">Professor's deck 09 · slide 24 (figure redrawn)</span>
+    The initial contents of the 4-bit serial-in-parallel-out right-shift register shown in the figure is 0 1 1 0. Find out the contents of the shift register for upcoming three clock cycles.
+    <div class="fig">{{ sipo_xor() }}</div></div>
+  <div class="guess">Guess first: which bit is lost at each clock, and what replaces it at the left?</div>
+  <div class="terms"><b>Register:</b> n flip-flops sharing one clock, storing an n-bit word. · <b>Shift register:</b> a register in which each flip-flop's Q feeds the next flip-flop's D, so the word moves one place per clock.</div>
+  <div class="fig">{{ chain(4, "shift") }}</div>
+  <table class="data">
+    <tr><th>Type</th><th>Data in</th><th>Data out</th><th>Use</th></tr>
+    <tr><td>SISO (serial in, serial out)</td><td>one bit per clock</td><td>one bit per clock</td><td>delay line: n clocks of delay</td></tr>
+    <tr><td>SIPO (serial in, parallel out)</td><td>one bit per clock</td><td>all Q at once</td><td>serial → parallel (a receiver)</td></tr>
+    <tr><td>PISO (parallel in, serial out)</td><td>all bits loaded at once</td><td>one bit per clock</td><td>parallel → serial (a transmitter)</td></tr>
+    <tr><td>PIPO (parallel in, parallel out)</td><td>all at once</td><td>all at once</td><td>storage register</td></tr>
+  </table>
+  <p><b>SIPO loading 1011</b> (deck 09 slide 12), first bit sent = the rightmost bit of the word, register starting at 0000: after clock 1 the register holds 1000, then 1100, then 0110, then <b>1011</b>.
+    Serial loading takes n clocks. A <b>universal shift register</b> (74194) has a 4:1 MUX in front of each D to choose hold, shift right, shift left or parallel load.
+    Shifting a binary number one place towards the most significant end multiplies it by 2; the other way divides it by 2.</p>
+  <div class="ans"><b>Answer.</b> The serial input is Q<sub>2</sub> ⊕ Q<sub>3</sub>, taken before the clock edge. Everything else moves one place right.
+    <table class="data tt mono">
+      <tr><th>clock</th><th>Q<sub>2</sub> ⊕ Q<sub>3</sub> before</th><th>Q<sub>0</sub> Q<sub>1</sub> Q<sub>2</sub> Q<sub>3</sub> after</th></tr>
+      <tr><td>start</td><td>–</td><td>0 1 1 0</td></tr>
+      <tr><td>1</td><td>1 ⊕ 0 = 1</td><td>1 0 1 1</td></tr>
+      <tr><td>2</td><td>1 ⊕ 1 = 0</td><td>0 1 0 1</td></tr>
+      <tr><td>3</td><td>0 ⊕ 1 = 1</td><td>1 0 1 0</td></tr>
+    </table>
+    A shift register with XOR feedback like this is a pseudo-random sequence generator (D6).</div>
+  <div class="check"><b>Check C5.</b> (a) Continue the answer's register for two more clocks. (b) A 4-bit SISO register holds 0000. Bits 1, 1, 0, 1 enter on clocks 1 to 4. On which clock does the first 1 reach the serial output?
+    (c) Which register type does a serial transmitter need?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Shift-register counters</div>
+  <h2>C6 · Ring and Johnson counters</h2>
+  <div class="q"><span class="src">Professor's deck 09 · slides 16–23</span>
+    Draw a 4-bit Johnson counter. Give its count sequence and modulus, and compare it with a ring counter.</div>
+  <div class="guess">Guess first: 4 flip-flops have 16 possible states. How many does this counter visit?</div>
+  <div class="terms"><b>Modulus (MOD):</b> the number of states a counter goes through before it repeats. · <b>Shift-register counter:</b> a shift register whose output is fed back to its own input.</div>
+  <div class="fig">{{ chain(4, "johnson") }}</div>
+  <div class="two top">
+    <table class="data tt mono">
+      <tr><th>clk</th><th>Q0 Q1 Q2 Q3</th><th>decode</th></tr>
+      <tr><td>0</td><td>0 0 0 0</td><td>Q0'Q3'</td></tr><tr><td>1</td><td>1 0 0 0</td><td>Q0Q1'</td></tr>
+      <tr><td>2</td><td>1 1 0 0</td><td>Q1Q2'</td></tr><tr><td>3</td><td>1 1 1 0</td><td>Q2Q3'</td></tr>
+      <tr><td>4</td><td>1 1 1 1</td><td>Q0Q3</td></tr><tr><td>5</td><td>0 1 1 1</td><td>Q0'Q1</td></tr>
+      <tr><td>6</td><td>0 0 1 1</td><td>Q1'Q2</td></tr><tr><td>7</td><td>0 0 0 1</td><td>Q2'Q3</td></tr>
+    </table>
+    <div>
+      <p><b>Ring counter:</b> feed Q3 straight back to D0. Preset it to 1000 and the single 1 circulates: 1000 → 0100 → 0010 → 0001 → 1000. n flip-flops give <b>MOD-n</b>. Each Q marks one state, so no decoder is needed.</p>
+      <p><b>Johnson (twisted-ring) counter:</b> feed <b>Q3'</b> back. The register fills with 1s, then empties: n flip-flops give <b>MOD-2n</b>. Each state is picked out by one 2-input AND gate (left table).</p>
+      <p><b>Lock-out.</b> The Johnson counter uses 8 of the 16 states. If it ever lands in one of the other 8 (for example 0100) it circulates among those and never returns. Real designs start it with a reset, or add self-correcting logic.</p>
+    </div>
+  </div>
+  <div class="fig">{{ johnson_waves() }}</div>
+  <div class="ans"><b>Answer.</b> Circuit above; sequence in the table: 8 states, <b>MOD-8</b>. Each Q is a square wave at one-eighth of the clock frequency, shifted one clock from its neighbour.
+    Ring: n states from n flip-flops, no decoding. Johnson: 2n states from n flip-flops, 2-input decoding. Both waste states compared with a binary counter (2ⁿ states).</div>
+  <div class="check"><b>Check C6.</b> (a) How many flip-flops does a MOD-10 Johnson counter need? A MOD-10 ring counter? A MOD-10 binary counter? (b) Give the decode term for state 0011 of the 4-bit Johnson counter.
+    (c) A 4-bit ring counter is started at 0000 by mistake. What does it do?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Counters</div>
+  <h2>C7 · Asynchronous (ripple) counters</h2>
+  <div class="q"><span class="src">Professor's deck 10 · slides 12–13</span>
+    Design an asynchronous decade counter.</div>
+  <div class="guess">Guess first: a decade counter has 10 states. How many flip-flops, and how do you stop it going on to 10, 11, … 15?</div>
+  <div class="terms"><b>Counter:</b> a circuit that steps through a fixed sequence of states, one step per clock pulse. · <b>Asynchronous (ripple):</b> only the first flip-flop gets the clock; each of the others is clocked by the output of the one before.</div>
+  <div class="fig">{{ ripple_counter() }}</div>
+  <div class="fig">{{ ripple_waves() }}</div>
+  <p><b>How it counts.</b> Every flip-flop is set to toggle (T = 1, or J = K = 1). FF0 toggles on every falling clock edge. FF1 toggles whenever Q0 falls, FF2 whenever Q1 falls. Reading Q2Q1Q0 gives 0, 1, 2, … 7, 0: an <b>up</b> counter.
+    Each Q is a square wave at half the frequency of the one before, so the counter is also a frequency divider.
+    Clock each stage from <b>Q'</b> instead and it counts <b>down</b>. (With positive-edge flip-flops the rule swaps: Q' for up, Q for down.)</p>
+  <p><b>The flaw: ripple delay.</b> Each stage waits for the one before. After the 4th edge (011 → 100) the outputs pass through 010 and 000 before settling (shaded). The worst settling time is n·t<sub>pd</sub>, where t<sub>pd</sub> is one flip-flop's delay.
+    Anything reading the outputs sees these false states for a moment, and the clock period must be longer than n·t<sub>pd</sub>.</p>
+  <p><b>MOD less than 2ⁿ.</b> Use the smallest n with 2ⁿ ≥ MOD. Let the counter run normally, detect the first unwanted state with a NAND gate, and use that to drive the asynchronous CLEAR of every flip-flop.</p>
+  <p><b>Cascading</b> (deck 10 slides 16–17). Clock a second counter from the last output of the first: MOD-M followed by MOD-N gives MOD-(M × N). A MOD-4 and a MOD-8 counter make MOD-32.</p>
+  <div class="ans"><b>Answer.</b> 2³ = 8 &lt; 10 ≤ 16 = 2⁴, so <b>4 flip-flops</b> Q3 Q2 Q1 Q0, all toggling, each clocked by the Q before it (negative edge).
+    The first unwanted state is 10 = <b>1010</b>, the first state in which Q3 and Q1 are both 1. A 2-input NAND on Q3 and Q1 drives all the active-low CLEAR inputs.
+    The count goes 0000 … 1001, shows 1010 for a few nanoseconds, and is cleared to 0000.</div>
+  <div class="check"><b>Check C7.</b> (a) A 4-bit ripple counter uses flip-flops with t<sub>pd</sub> = 25 ns. What is its worst settling time and the highest usable clock frequency?
+    (b) Deck 10 slide 14: which outputs go to the NAND gate of a MOD-7 asynchronous up counter? Of a MOD-12 counter? (c) How many flip-flops does a MOD-60 counter need?
+    (d) A 10 kHz clock drives a MOD-10 counter. What is the frequency of its last output?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Counters · asked in the 2025 mid-term</div>
+  <h2>C8 · Designing synchronous counters</h2>
+  <div class="q"><span class="src">MUJ mid-term, 25 Sep 2025 · Q8 · 8 marks</span>
+    Design a synchronous counter that counts clock pulses from 0-7 using negative edge triggered T flipflop.</div>
+  <div class="guess">Guess first: in the count 011 → 100 all three bits change. What do the lower bits look like every time the top bit has to change?</div>
+  <div class="terms"><b>Synchronous counter:</b> every flip-flop gets the same clock, so all outputs change together. Gates on the flip-flop inputs decide which ones change. No ripple delay and no false states.</div>
+  <p><b>Design procedure</b> (the same for every counter, and for every state machine in Part D):</p>
+  <ol class="steps">
+    <li>Number of flip-flops: smallest n with 2ⁿ ≥ number of states.</li>
+    <li>State table: each present state and the next state.</li>
+    <li>For each flip-flop, fill in its inputs from the excitation table (C3), row by row.</li>
+    <li>K-map each input as a function of the present state. Unused states are don't-cares.</li>
+    <li>Draw the circuit: common clock, gates from step 4.</li>
+    <li>If there are unused states, check that each one leads back into the count (self-starting).</li>
+  </ol>
+  <div class="ans"><b>Answer.</b> 8 states → 3 flip-flops. T excitation: T = 1 where the bit changes, 0 where it stays.
+    <table class="data tt mono">
+      <tr><th>present Q2 Q1 Q0</th><th>next Q2 Q1 Q0</th><th>T2 T1 T0</th></tr>
+      <tr><td>0 0 0</td><td>0 0 1</td><td>0 0 1</td></tr><tr><td>0 0 1</td><td>0 1 0</td><td>0 1 1</td></tr>
+      <tr><td>0 1 0</td><td>0 1 1</td><td>0 0 1</td></tr><tr><td>0 1 1</td><td>1 0 0</td><td>1 1 1</td></tr>
+      <tr><td>1 0 0</td><td>1 0 1</td><td>0 0 1</td></tr><tr><td>1 0 1</td><td>1 1 0</td><td>0 1 1</td></tr>
+      <tr><td>1 1 0</td><td>1 1 1</td><td>0 0 1</td></tr><tr><td>1 1 1</td><td>0 0 0</td><td>1 1 1</td></tr>
+    </table>
+    T0 is 1 in every row. T1 is 1 exactly when Q0 = 1. T2 is 1 exactly when Q1 = Q0 = 1 (K-maps confirm it):
+    <p class="eq">T0 = 1 &nbsp;&nbsp;&nbsp; T1 = Q0 &nbsp;&nbsp;&nbsp; T2 = Q1·Q0</p>
+    <div class="fig">{{ counter_T() }}</div>
+    The bubble on each clock input shows negative-edge triggering. All 8 states are used, so there is nothing to check for lock-out.</div>
+  <p><b>A counter in any code: 3-bit Gray-code counter with JK flip-flops</b> (deck 10 slides 35–37). Sequence 000, 001, 011, 010, 110, 111, 101, 100. The same six steps, with the JK excitation table, give</p>
+  <p class="eq">J2 = Q1Q0' · K2 = Q1'Q0' &nbsp;&nbsp; J1 = Q2'Q0 · K1 = Q2Q0 &nbsp;&nbsp; J0 = (Q2 ⊕ Q1)' · K0 = Q2 ⊕ Q1</p>
+  <table class="data">
+    <tr><th>Counter</th><th>Flip-flop</th><th>Input equations (each one verified by simulation)</th></tr>
+    <tr><td>3-bit down</td><td>T</td><td>T0 = 1, T1 = Q0', T2 = Q1'Q0'</td></tr>
+    <tr><td>Decade (0–9) up</td><td>T</td><td>T0 = 1, T1 = Q3'Q0, T2 = Q1Q0, T3 = Q2Q1Q0 + Q3Q0 (deck 10 slide 26)</td></tr>
+    <tr><td>MOD-6 (0–5) up</td><td>JK</td><td>J0 = K0 = 1 · J1 = Q2'Q0, K1 = Q0 · J2 = Q1Q0, K2 = Q0. Unused states 6 and 7 go to 7 and 0: self-starting.</td></tr>
+    <tr><td>2-bit up/down, X = 0 up, X = 1 down</td><td>D</td><td>D0 = Q0', D1 = Q1 ⊕ Q0 ⊕ X (deck 10 slide 31)</td></tr>
+    <tr><td>3-bit up/down, Up = 1 up</td><td>T</td><td>T0 = 1, T1 = Q0·Up + Q0'·Up', T2 = Q1Q0·Up + Q1'Q0'·Up' (deck 10 slide 33)</td></tr>
+  </table>
+  <table class="data">
+    <tr><th></th><th>Asynchronous (ripple)</th><th>Synchronous</th></tr>
+    <tr><td>Clock</td><td>only to the first flip-flop</td><td>to every flip-flop</td></tr>
+    <tr><td>Delay after an edge</td><td>n·t<sub>pd</sub>, grows with n</td><td>one t<sub>pd</sub></td></tr>
+    <tr><td>False states (glitches)</td><td>yes</td><td>no</td></tr>
+    <tr><td>Hardware</td><td>simplest</td><td>extra gates</td></tr>
+    <tr><td>Sequence</td><td>binary up or down only</td><td>any sequence</td></tr>
+  </table>
+  <div class="check"><b>Check C8.</b> (a) Professor's practice set 2, Q5: design a 2-bit synchronous down counter using T flip-flops. (b) Practice set 2, Q6: design a 3-bit synchronous down counter using D flip-flops.
+    (c) Why do unused states have to be checked in a MOD-6 counter but not in the answer above?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 3 › Timing analysis</div>
+  <h2>C9 · Timing analysis of sequential circuits</h2>
+  <div class="q"><span class="src">Practice</span>
+    A synchronous circuit has flip-flop delay t<sub>pd</sub> = 8 ns, setup time t<sub>su</sub> = 3 ns, hold time t<sub>h</sub> = 2 ns, and combinational delays of 12 ns on the longest path and 1 ns on the shortest. Find the maximum clock frequency and check the hold time.</div>
+  <div class="guess">Guess first: the data leaves one flip-flop at a clock edge. By when must it have arrived at the next flip-flop?</div>
+  <div class="fig">{{ setup_hold() }}</div>
+  <div class="terms"><b>Setup time t<sub>su</sub>:</b> D must be steady for this long <b>before</b> the clock edge. · <b>Hold time t<sub>h</sub>:</b> D must stay steady for this long <b>after</b> the edge. ·
+    <b>Propagation delay t<sub>pd</sub>:</b> time from the clock edge until Q is valid. · <b>Metastability:</b> if setup or hold is broken, the output can hang between 0 and 1 for an unpredictable time.</div>
+  <div class="fig">{{ timing_path() }}</div>
+  <p><b>Setup condition (longest path).</b> Data launched at one edge must pass through the flip-flop and the slowest logic and still arrive one setup time before the next edge:</p>
+  <p class="eq">T<sub>clk</sub> ≥ t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub> &nbsp;&nbsp;&nbsp; f<sub>max</sub> = 1/T<sub>clk,min</sub></p>
+  <p><b>Hold condition (shortest path).</b> The new data must not arrive while the next flip-flop is still holding the old value: t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub>.
+    The clock period is not in this inequality, so <b>slowing the clock cannot fix a hold violation</b>; extra delay must be added to the short path.</p>
+  <div class="ans"><b>Answer.</b> T<sub>min</sub> = 8 + 12 + 3 = 23 ns, so f<sub>max</sub> = 1/23 ns = <b>43.5 MHz</b>. Hold: 8 + 1 = 9 ns ≥ 2 ns, so <b>hold is met</b>.</div>
+  <div class="check"><b>Check C9.</b> (a) The same circuit gains 4 ns of logic on its longest path. Find the new f<sub>max</sub>. Does the hold check change? (b) A synchronous counter has t<sub>pd</sub> = 10 ns, one AND gate of 5 ns between flip-flops, and t<sub>su</sub> = 5 ns. Find f<sub>max</sub>.</div>
+</section>
+
+<section class="answers">
+  <h3>Answers: Part C Checks</h3>
+  <ol>
+    <li><b>C1.</b> (a) Q = 1 (S' = 0 is the active set input). (b) Three times: it is transparent, so every change of D passes through. (c) Feedback: an output connected back to an input so the circuit can hold its own state.</li>
+    <li><b>C2.</b> (a) It toggles three times: 0 → 1 → 0 → 1, so Q = 1. (b) 500 Hz: two clock edges make one cycle of Q. (c) A level-triggered JK with J = K = 1 toggles again and again while the clock is high. Master–slave construction, or edge triggering.
+      (d) At once, when CLEAR goes to 0. It does not wait for a clock edge.</li>
+    <li><b>C3.</b> (a) J K = X 1. K = 1 is needed; with J = 0 it is a reset and with J = 1 a toggle, and both take Q to 0. (b) Rows (J K Q → Q⁺, then S R): 000 → 0, 0X; 001 → 1, X0; 010 → 0, 0X; 011 → 0, 01; 100 → 1, 10; 101 → 1, X0; 110 → 1, 10; 111 → 0, 01.
+      K-maps give S = JQ', R = KQ. (c) One XOR gate: D = T ⊕ Q.</li>
+    <li><b>C4.</b> (a) J K just before the falling edges: 10, 01, 11, 10, 01, 00, so Q = 1, 0, 1, 1, 0, 0. The values match the positive-edge case here, but every change comes half a clock period later.
+      (b) Q = 1, 1, 1, 0, 1, 1.</li>
+    <li><b>C5.</b> (a) From 1010: Q<sub>2</sub> ⊕ Q<sub>3</sub> = 1 → 1101. Then 0 ⊕ 1 = 1 → 1110. (b) Clock 4: the first bit needs four clocks to reach the last flip-flop. (c) PISO: load the word in parallel, send it out one bit per clock.</li>
+    <li><b>C6.</b> (a) Johnson: 2n = 10, so 5. Ring: 10. Binary: 4. (b) Q1'Q2. (c) It stays at 0000 for ever: there is no 1 to circulate. That is its lock-out state.</li>
+    <li><b>C7.</b> (a) 4 × 25 = 100 ns; f<sub>max</sub> = 1/100 ns = 10 MHz. (b) MOD-7: clear at 7 = 111, so Q2, Q1, Q0. MOD-12: clear at 12 = 1100, so Q3, Q2. (c) 2⁵ = 32 &lt; 60 ≤ 64, so 6. (d) 10 kHz/10 = 1 kHz.</li>
+    <li><b>C8.</b> (a) States 11 → 10 → 01 → 00 → 11. Q0 changes every time: T0 = 1. Q1 changes when Q0 = 0: T1 = Q0'. (b) D = next state. D0 = Q0'. D1 = Q1'Q0' + Q1Q0 = Q1 ⊙ Q0. D2 = Q2Q1 + Q2Q0 + Q2'Q1'Q0'.
+      (c) A MOD-6 counter with 3 flip-flops has two unused states (6, 7) that were treated as don't-cares, so where they lead is whatever the K-maps happened to give. The 0–7 counter uses all 8 states.</li>
+    <li><b>C9.</b> (a) T = 8 + 16 + 3 = 27 ns, f<sub>max</sub> = 37.0 MHz. Hold is unchanged: it depends on the shortest path. (b) T = 10 + 5 + 5 = 20 ns, f<sub>max</sub> = 50 MHz.</li>
+  </ol>
+</section>

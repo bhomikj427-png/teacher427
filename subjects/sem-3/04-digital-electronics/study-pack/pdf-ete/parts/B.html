@@ -1,0 +1,252 @@
+<!-- ============================================================ PART B -->
+<section class="part">
+  <div class="part-no">Part B · Unit 2</div>
+  <h1>MSI devices</h1>
+  <p class="lead">Part A built circuits gate by gate. Some circuits are needed so often that they are sold as single chips with tens of gates inside (MSI, medium-scale integration).
+    Each one is still a combinational circuit, so each has a truth table and gate equations from Part A. The new skill is using a block to build a function without drawing its gates.</p>
+  <div class="fig">{{ sub_map(["B1 MUX", "B2 Decoder,\nDEMUX", "B3 Encoder", "B4 7-segment\ndisplay", "B5 Comparator", "B6 Parity", "B7–B8\nShifter, ALU"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Multiplexer · asked in the 2025 mid-term</div>
+  <h2>B1 · The multiplexer (MUX)</h2>
+  <div class="q"><span class="src">MUJ mid-term, 25 Sep 2025 · Q5 · 4 marks</span>
+    Implement the following function using single 8:1 Multiplexer. F(P, Q, R, S) = Σm(0, 1, 3, 4, 8, 9, 10, 11, 13, 15)</div>
+  <div class="guess">Guess first: an 8:1 MUX has 3 select lines but the function has 4 variables. Where does the fourth variable go?</div>
+  <div class="terms"><b>Multiplexer:</b> a switch with many data inputs I<sub>0</sub>, I<sub>1</sub>, … and one output. · <b>Select lines:</b> a binary number that picks which data input reaches the output.
+    A 2ⁿ:1 MUX has n select lines. 4:1 MUX: Y = S<sub>1</sub>'S<sub>0</sub>'I<sub>0</sub> + S<sub>1</sub>'S<sub>0</sub>I<sub>1</sub> + S<sub>1</sub>S<sub>0</sub>'I<sub>2</sub> + S<sub>1</sub>S<sub>0</sub>I<sub>3</sub>.</div>
+  <div class="two w31">
+    <div>
+      <p><b>A MUX is a truth table in hardware.</b> Put the variables on the select lines, and each data input becomes one row of the table.</p>
+      <ul class="tight">
+        <li><b>n variables, 2ⁿ:1 MUX:</b> all variables on the selects; each I<sub>j</sub> is the constant 0 or 1 from row j.</li>
+        <li><b>n variables, 2ⁿ⁻¹:1 MUX:</b> put n − 1 variables on the selects. Each select code now covers two rows, the last variable = 0 and = 1. Compare F in those two rows with the last variable:</li>
+      </ul>
+      <table class="data tt mono">
+        <tr><th>F when S = 0, S = 1</th><th>connect</th></tr>
+        <tr><td>0, 0</td><td>0</td></tr><tr><td>1, 1</td><td>1</td></tr><tr><td>0, 1</td><td>S</td></tr><tr><td>1, 0</td><td>S'</td></tr>
+      </table>
+    </div>
+    <div class="fig">{{ mux_fig(["P", "Q", "R"], ["1", "S", "S'", "0", "1", "1", "S", "S"]) }}</div>
+  </div>
+  <div class="ans"><b>Answer.</b> P, Q, R go to the select lines (P = most significant). Pair the minterms:
+    <table class="data tt mono">
+      <tr><th>input</th><th>I<sub>0</sub></th><th>I<sub>1</sub></th><th>I<sub>2</sub></th><th>I<sub>3</sub></th><th>I<sub>4</sub></th><th>I<sub>5</sub></th><th>I<sub>6</sub></th><th>I<sub>7</sub></th></tr>
+      <tr><td>minterms (S = 0, S = 1)</td><td>0, 1</td><td>2, 3</td><td>4, 5</td><td>6, 7</td><td>8, 9</td><td>10, 11</td><td>12, 13</td><td>14, 15</td></tr>
+      <tr><td>F in those rows</td><td>1, 1</td><td>0, 1</td><td>1, 0</td><td>0, 0</td><td>1, 1</td><td>1, 1</td><td>0, 1</td><td>0, 1</td></tr>
+      <tr><td><b>connect</b></td><td><b>1</b></td><td><b>S</b></td><td><b>S'</b></td><td><b>0</b></td><td><b>1</b></td><td><b>1</b></td><td><b>S</b></td><td><b>S</b></td></tr>
+    </table>
+    One inverter makes S'. The figure above is the finished circuit.</div>
+  <div class="two">
+    <div class="fig">{{ mux_tree() }}</div>
+    <p><b>MUX tree.</b> Small MUXes build a larger one. Left: a 4:1 MUX from three 2:1 MUXes. S<sub>0</sub> picks within each pair, S<sub>1</sub> picks the pair.
+      The same way, an 8:1 MUX is two 4:1 MUXes (selects S<sub>1</sub>S<sub>0</sub>) followed by one 2:1 MUX (select S<sub>2</sub>) (deck 04 slides 26–29).</p>
+  </div>
+  <div class="check"><b>Check B1.</b> (a) Professor's practice set 1, Q3: implement F(a, b, c, d) = Σm(0, 1, 3, 5, 7, 9, 15) using an 8:1 multiplexer.
+    (b) Deck 04 slide 16: implement F(x, y, z) = Σm(1, 2, 6, 7) using a 4:1 MUX.
+    (c) Practice set 1, Q5: implement F(A, B, C, D) = Σm(0, 2, 7, 8, 9, 11, 13, 14, 15) using only 4:1 multiplexers. Take D as the input variable.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Decoder · asked in the 2025 mid-term</div>
+  <h2>B2 · Decoder and demultiplexer</h2>
+  <div class="q"><span class="src">MUJ mid-term, 25 Sep 2025 · Q6 · 4 marks</span>
+    Design Full Adder using suitable decoder.</div>
+  <div class="guess">Guess first: a full adder has 3 inputs. How many outputs must the decoder have, and what is each output in the language of A2?</div>
+  <div class="terms"><b>Decoder (n to 2ⁿ):</b> n inputs, 2ⁿ outputs; exactly one output is active, the one whose number equals the input code. Output j is therefore <b>minterm m<sub>j</sub></b>. ·
+    <b>Enable:</b> an extra input that switches every output off when inactive. · <b>Active-low output:</b> the selected output goes to 0 and the others stay at 1 (drawn with a bubble).</div>
+  <div class="fig">{{ decoder_fig() }}</div>
+  <p><b>Any function = decoder + one OR gate per output.</b> The decoder already makes every minterm, so OR together the minterms in the function's Σm list.
+    If the decoder outputs are active-low (as on the 74138 chip), each output is m<sub>j</sub>', so use a <b>NAND</b> gate instead: NAND(m<sub>1</sub>', m<sub>2</sub>') = m<sub>1</sub> + m<sub>2</sub>.</p>
+  <div class="two">
+    <div class="fig">{{ demux_fig() }}</div>
+    <div>
+      <p><b>Demultiplexer:</b> the reverse of a MUX. One data input D is routed to the output chosen by the select lines; the others stay 0.</p>
+      <p><b>A decoder with an enable is a demultiplexer:</b> use the code inputs as selects and feed the data into the enable.</p>
+      <p><b>Bigger decoders from smaller ones</b> (deck 05 slide 14): a 4:16 decoder is two 3:8 decoders. The lower three bits go to both; the top bit enables one decoder directly and the other through an inverter.</p>
+    </div>
+  </div>
+  <div class="ans"><b>Answer.</b> Use a <b>3:8 decoder</b> with inputs A, B, C<sub>in</sub> (A = most significant). From the full-adder table (A6):
+    S = Σm(1, 2, 4, 7) and C<sub>out</sub> = Σm(3, 5, 6, 7). OR decoder outputs 1, 2, 4, 7 for S, and outputs 3, 5, 6, 7 for C<sub>out</sub> (figure above). Two 4-input OR gates; with an active-low decoder, two 4-input NAND gates.</div>
+  <div class="check"><b>Check B2.</b> (a) Professor's practice set 1, Q7: realize Y = ΠM(0, 3, 5, 6, 7) with a decoder and one NOR gate.
+    (b) Deck 05 slide 20: realize F(X, Y, Z) = Σm(1, 2, 5, 7) with a 3:8 decoder whose outputs are active-low. (c) How many 3:8 decoders, and what else, make a 4:16 decoder?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Encoder</div>
+  <h2>B3 · Encoder and priority encoder</h2>
+  <div class="q"><span class="src">Practice · deck 05 slides 36–43</span>
+    Design a 4-to-2 priority encoder with a valid output.</div>
+  <div class="guess">Guess first: a plain encoder assumes only one input is 1. What should happen if two are 1 at once?</div>
+  <div class="terms"><b>Encoder (2ⁿ to n):</b> the reverse of a decoder. One of its 2ⁿ inputs is active and the output is that input's number in binary. ·
+    <b>Priority encoder:</b> if several inputs are active, it outputs the number of the highest-numbered one. · <b>Valid (V):</b> an extra output that is 1 when at least one input is active.</div>
+  <div class="two">
+    <table class="data tt mono">
+      <tr><th>w<sub>3</sub> w<sub>2</sub> w<sub>1</sub> w<sub>0</sub></th><th>y<sub>1</sub> y<sub>0</sub></th><th>V</th></tr>
+      <tr><td>0 0 0 0</td><td>X X</td><td>0</td></tr>
+      <tr><td>0 0 0 1</td><td>0 0</td><td>1</td></tr>
+      <tr><td>0 0 1 X</td><td>0 1</td><td>1</td></tr>
+      <tr><td>0 1 X X</td><td>1 0</td><td>1</td></tr>
+      <tr><td>1 X X X</td><td>1 1</td><td>1</td></tr>
+    </table>
+    <div>
+      <p><b>Reading the table.</b> X on the input side means "whatever this is": once w<sub>3</sub> = 1 the lower inputs are ignored. Each row with X's stands for several rows of the full 16-row table.</p>
+      <p><b>Plain 4-to-2 encoder</b> (one input at a time): y<sub>1</sub> = w<sub>2</sub> + w<sub>3</sub>, y<sub>0</sub> = w<sub>1</sub> + w<sub>3</sub>. Two problems: w<sub>1</sub> and w<sub>2</sub> together give 11, which is wrong; and "no input" gives 00, the same as w<sub>0</sub>. Priority and V fix both.</p>
+    </div>
+  </div>
+  <div class="ans"><b>Answer.</b> From the table (K-map with the all-zero row as a don't-care):
+    <p class="eq">y<sub>1</sub> = w<sub>3</sub> + w<sub>2</sub> &nbsp;&nbsp;&nbsp; y<sub>0</sub> = w<sub>3</sub> + w<sub>2</sub>'w<sub>1</sub> &nbsp;&nbsp;&nbsp; V = w<sub>3</sub> + w<sub>2</sub> + w<sub>1</sub> + w<sub>0</sub></p>
+    The w<sub>2</sub>' in y<sub>0</sub> is the priority: w<sub>1</sub> counts only if w<sub>2</sub> is not active.</div>
+  <p><b>Used for:</b> keyboard encoding (decimal-to-BCD encoder, 10 keys to 4 bits) and interrupt handling, where the highest-priority request must win.</p>
+  <div class="check"><b>Check B3.</b> (a) The inputs are w<sub>3</sub>w<sub>2</sub>w<sub>1</sub>w<sub>0</sub> = 0110. Give y<sub>1</sub>y<sub>0</sub> and V. (b) Write y<sub>0</sub> for a plain 8-to-3 encoder with inputs w<sub>0</sub>…w<sub>7</sub>. (c) Why is V needed?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Display</div>
+  <h2>B4 · BCD to 7-segment decoder/driver and multiplexed display</h2>
+  <div class="q"><span class="src">Professor's practice set 1 · Q10</span>
+    Design a BCD to 7-segment decoder circuit for a common anode display.</div>
+  <div class="guess">Guess first: in a common-anode display all the LED anodes are tied to +5 V. Does a segment light on a 1 or on a 0?</div>
+  <div class="terms"><b>7-segment display:</b> seven LED bars named a to g. · <b>Common cathode:</b> all cathodes grounded; a segment lights when its line is 1. ·
+    <b>Common anode:</b> all anodes at +V; a segment lights when its line is <b>0</b>. · <b>Driver:</b> an output stage that can supply the 10–20 mA an LED needs (through a current-limiting resistor).</div>
+  <div class="fig">{{ seven_seg() }}</div>
+  <p><b>Design.</b> Inputs A B C D are the BCD digit (A = most significant). For each segment list the digits that light it, and use the six unused codes 10–15 as don't-cares. Lit = 1 gives the equations below.</p>
+  <div class="two w13">
+    <div class="fig">{{ km("ABCD", [0,2,6,8], [10,11,12,13,14,15], ["B'D'", "CD'"], cs=38, title="segment e") }}</div>
+    <table class="data">
+      <tr><th>Seg.</th><th>Lit for digits</th><th>Minimal SOP (lit = 1)</th></tr>
+      <tr><td>a</td><td>0 2 3 5 6 7 8 9</td><td>A + C + BD + B'D'</td></tr>
+      <tr><td>b</td><td>0 1 2 3 4 7 8 9</td><td>B' + C'D' + CD</td></tr>
+      <tr><td>c</td><td>all except 2</td><td>B + C' + D</td></tr>
+      <tr><td>d</td><td>0 2 3 5 6 8 9</td><td>A + B'D' + B'C + CD' + BC'D</td></tr>
+      <tr><td>e</td><td>0 2 6 8</td><td>B'D' + CD'</td></tr>
+      <tr><td>f</td><td>0 4 5 6 8 9</td><td>A + C'D' + BC' + BD'</td></tr>
+      <tr><td>g</td><td>2 3 4 5 6 8 9</td><td>A + B'C + BC' + CD'</td></tr>
+    </table>
+  </div>
+  <p class="fine">Digit shapes used: 6 with the top bar (a) lit and 9 with the bottom bar (d) lit. Some chips draw 6 and 9 without those bars, which changes a and d.</p>
+  <div class="ans"><b>Answer.</b> Truth table: the ten digit rows with the segments listed above; codes 10–15 are don't-cares. The equations above light a segment with a 1 (common cathode).
+    For a <b>common anode</b> display each output must be <b>0</b> to light its segment, so the decoder drives the complements a', b', … g' (add an inverter on each output, or minimise the 0s instead).
+    Example: e' = (B'D' + CD')' = D + BC'. The anodes go to +5 V and each segment has a series resistor.</div>
+  <div class="fig">{{ mux_display() }}</div>
+  <p><b>Multiplexed display.</b> With several digits, one decoder is shared. The segment lines of all digits are wired together, and the digits are enabled one at a time, each with its own BCD value, faster than the eye can follow (each digit refreshed more than about 50 times a second).
+    N digits need 7 + N lines instead of 7N, and one decoder instead of N.</p>
+  <div class="check"><b>Check B4.</b> (a) Which segments are lit for the digit 4? (b) For a common-anode display, write the active-low expression for segment c. (c) How many lines does a 6-digit display need with and without multiplexing?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Comparator</div>
+  <h2>B5 · Magnitude comparator</h2>
+  <div class="q"><span class="src">Professor's deck 06 · slides 3–6</span>
+    Design a 2-bit magnitude comparator: outputs G (A &gt; B), E (A = B), L (A &lt; B) for A = A<sub>1</sub>A<sub>0</sub> and B = B<sub>1</sub>B<sub>0</sub>.</div>
+  <div class="guess">Guess first: to compare 5234 with 5199 by hand, which digit do you look at first, and when do you stop?</div>
+  <div class="fig">{{ comparator_flow() }}</div>
+  <p><b>One bit.</b> G = AB' (A is 1, B is 0). L = A'B. E = (A ⊕ B)' = A ⊙ B. Write x<sub>i</sub> = A<sub>i</sub> ⊙ B<sub>i</sub> for "bit i is equal".</p>
+  <p><b>More bits.</b> Compare from the most significant bit down. The first position where the bits differ decides; lower bits matter only while all higher bits are equal.</p>
+  <table class="data">
+    <tr><th></th><th>2-bit</th><th>4-bit (the 7485 chip)</th></tr>
+    <tr><td>E (A = B)</td><td>x<sub>1</sub>x<sub>0</sub></td><td>x<sub>3</sub>x<sub>2</sub>x<sub>1</sub>x<sub>0</sub></td></tr>
+    <tr><td>G (A &gt; B)</td><td>A<sub>1</sub>B<sub>1</sub>' + x<sub>1</sub>A<sub>0</sub>B<sub>0</sub>'</td><td>A<sub>3</sub>B<sub>3</sub>' + x<sub>3</sub>A<sub>2</sub>B<sub>2</sub>' + x<sub>3</sub>x<sub>2</sub>A<sub>1</sub>B<sub>1</sub>' + x<sub>3</sub>x<sub>2</sub>x<sub>1</sub>A<sub>0</sub>B<sub>0</sub>'</td></tr>
+    <tr><td>L (A &lt; B)</td><td>A<sub>1</sub>'B<sub>1</sub> + x<sub>1</sub>A<sub>0</sub>'B<sub>0</sub></td><td>same with A' and B swapped in; or L = (G + E)'</td></tr>
+  </table>
+  <div class="ans"><b>Answer.</b> A 16-row truth table (4 inputs) and one K-map per output give
+    <p class="eq">G = A<sub>1</sub>B<sub>1</sub>' + A<sub>0</sub>B<sub>1</sub>'B<sub>0</sub>' + A<sub>1</sub>A<sub>0</sub>B<sub>0</sub>'</p>
+    <p class="eq">L = A<sub>1</sub>'B<sub>1</sub> + A<sub>1</sub>'A<sub>0</sub>'B<sub>0</sub> + A<sub>0</sub>'B<sub>1</sub>B<sub>0</sub> &nbsp;&nbsp; E = (A<sub>1</sub> ⊙ B<sub>1</sub>)(A<sub>0</sub> ⊙ B<sub>0</sub>)</p>
+    These are the table's 2-bit formulas multiplied out.</div>
+  <p><b>Cascading.</b> The 7485 has three cascade inputs (A&gt;B, A=B, A&lt;B) that carry the result from the lower 4 bits. For 8 bits, the outputs of the low-order chip feed the cascade inputs of the high-order chip.
+    <b>Uses:</b> address decoding, and control systems that compare a measured value with a set value.</p>
+  <div class="check"><b>Check B5.</b> (a) A = 0101, B = 0100. At which bit is the comparison decided, and which output is 1? (b) Write E for a 1-bit comparator using only AND, OR, NOT. (c) Why can L be made from G and E with one gate?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Parity · asked in the 2025 mid-term</div>
+  <h2>B6 · Parity generator and checker</h2>
+  <div class="q"><span class="src">MUJ mid-term, 25 Sep 2025 · Q2 · 2 marks</span>
+    The four-bit binary sequence 1011 is applied to an even parity generator circuit. What will be the output?</div>
+  <div class="guess">Guess first: count the 1s in 1011. Is the count already even?</div>
+  <div class="terms"><b>Parity bit:</b> one extra bit sent with a data word so the receiver can detect an error. · <b>Even parity:</b> the parity bit makes the <b>total</b> number of 1s (data + parity) even. · <b>Odd parity:</b> it makes the total odd.</div>
+  <div class="fig">{{ parity_fig() }}</div>
+  <p><b>Generator.</b> XOR of several bits is 1 exactly when an odd number of them are 1. So the even-parity bit is the XOR of all the data bits: if the count is odd, P = 1 makes it even. The odd-parity bit is the complement (XNOR).
+    For three bits (deck 06 slide 13): P<sub>even</sub> = X ⊕ Y ⊕ Z, P<sub>odd</sub> = (X ⊕ Y ⊕ Z)'.</p>
+  <p><b>Checker.</b> The receiver XORs all received bits including the parity bit. With even parity the result E should be 0; E = 1 means an error.
+    A single parity bit detects any <b>odd</b> number of wrong bits. It misses two wrong bits, and it cannot say which bit is wrong.</p>
+  <div class="ans"><b>Answer.</b> 1011 has three 1s (odd). P = 1 ⊕ 0 ⊕ 1 ⊕ 1 = <b>1</b>. The word sent is 1011 with parity bit 1, which has four 1s.</div>
+  <div class="check"><b>Check B6.</b> (a) What is the <b>odd</b> parity bit for 1011? (b) A receiver using even parity gets data 1001 and parity bit 1. Is there an error?
+    (c) Professor's practice set 1, Q9: describe the logic diagram of a 4-bit odd/even parity generator.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › Shifter</div>
+  <h2>B7 · Shifts and the barrel shifter</h2>
+  <div class="q"><span class="src">Professor's deck 07 · slides 2–4</span>
+    For the word 110110 give the result of (i) logical shift left by 2, (ii) circular shift left by 2, (iii) arithmetic shift right by 1.</div>
+  <div class="guess">Guess first: 110110 is a negative number in 2's complement. After a right shift, what should the new leftmost bit be to keep it negative?</div>
+  <div class="fig">{{ shift_types() }}</div>
+  <table class="data">
+    <tr><th>Shift</th><th>What fills the empty places</th><th>Meaning</th></tr>
+    <tr><td><b>Logical</b></td><td>0</td><td>left by 1 = × 2, right by 1 = ÷ 2, for unsigned numbers</td></tr>
+    <tr><td><b>Circular</b> (rotate)</td><td>the bits that fell off the other end</td><td>no bit is lost</td></tr>
+    <tr><td><b>Arithmetic</b></td><td>right shift: a copy of the sign bit (leftmost bit). Left shift: 0</td><td>÷ 2 that keeps the sign of a 2's-complement number</td></tr>
+  </table>
+  <div class="two w31">
+    <div>
+      <p><b>Barrel shifter.</b> A shift register (C5) moves one place per clock. A barrel shifter is <b>combinational</b>: it shifts by any number of places in one step, using multiplexers.
+        For a 4-bit rotate-left, each output bit has a 4:1 MUX and the shift amount S<sub>1</sub>S<sub>0</sub> goes to every select:</p>
+      <table class="data tt mono">
+        <tr><th>S<sub>1</sub>S<sub>0</sub></th><th>Y<sub>3</sub> Y<sub>2</sub> Y<sub>1</sub> Y<sub>0</sub></th></tr>
+        <tr><td>00</td><td>D<sub>3</sub> D<sub>2</sub> D<sub>1</sub> D<sub>0</sub></td></tr>
+        <tr><td>01</td><td>D<sub>2</sub> D<sub>1</sub> D<sub>0</sub> D<sub>3</sub></td></tr>
+        <tr><td>10</td><td>D<sub>1</sub> D<sub>0</sub> D<sub>3</sub> D<sub>2</sub></td></tr>
+        <tr><td>11</td><td>D<sub>0</sub> D<sub>3</sub> D<sub>2</sub> D<sub>1</sub></td></tr>
+      </table>
+      <p>An n-bit barrel shifter needs n MUXes of size n:1 (or log₂n rows of 2:1 MUXes that shift by 1, 2, 4, …).</p>
+    </div>
+    <div class="fig">{{ mux_fig(["S1", "S0"], ["D0", "D3", "D2", "D1"], out="Y0", title="the MUX for Y0") }}</div>
+  </div>
+  <div class="ans"><b>Answer.</b> (i) 011000. (ii) 011011: the two bits 11 that leave the left end come back in at the right. (iii) 111011: the sign bit 1 is copied into the empty place.</div>
+  <div class="check"><b>Check B7.</b> (a) Arithmetic shift right by 1 of 1001. What numbers are these in 2's complement? (b) How many 8:1 MUXes does an 8-bit barrel shifter need? (c) Circular shift right by 1 of 110110.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 2 › ALU</div>
+  <h2>B8 · Arithmetic logic unit (ALU)</h2>
+  <div class="q"><span class="src">Professor's deck 07 · slides 9–10</span>
+    Design an arithmetic circuit with inputs A and B. The circuit generates the following four arithmetic operations: addition, subtraction, increment and decrement.</div>
+  <div class="guess">Guess first: an adder computes A + (something) + carry-in. What "something" and carry-in give A − 1?</div>
+  <div class="terms"><b>ALU:</b> the block of a processor that does the arithmetic (add, subtract, increment, decrement) and the logic (AND, OR, XOR, NOT) on two words. <b>Select lines</b> choose the operation.</div>
+  <p><b>The idea.</b> Keep one parallel adder (A7) and change what is fed to its B input. Call that input Y. Two select lines choose Y, and the first carry-in C<sub>in</sub> is a third control:</p>
+  <p class="eq">Y<sub>i</sub> = B<sub>i</sub>S<sub>0</sub> + B<sub>i</sub>'S<sub>1</sub> &nbsp;&nbsp;&nbsp; F = A + Y + C<sub>in</sub></p>
+  <table class="data tt">
+    <tr><th>S<sub>1</sub> S<sub>0</sub></th><th>Y</th><th>C<sub>in</sub> = 0</th><th>C<sub>in</sub> = 1</th></tr>
+    <tr><td>0 0</td><td>all 0s</td><td>F = A (transfer)</td><td><b>F = A + 1 (increment)</b></td></tr>
+    <tr><td>0 1</td><td>B</td><td><b>F = A + B (add)</b></td><td>F = A + B + 1</td></tr>
+    <tr><td>1 0</td><td>B'</td><td>F = A + B'</td><td><b>F = A + B' + 1 = A − B (subtract)</b></td></tr>
+    <tr><td>1 1</td><td>all 1s</td><td><b>F = A − 1 (decrement)</b></td><td>F = A (transfer)</td></tr>
+  </table>
+  <p>All 1s is −1 in 2's complement, which is why adding it decrements. Each stage is one full adder with inputs A<sub>i</sub>, Y<sub>i</sub>, C<sub>i</sub>, plus two AND gates and one OR gate for Y<sub>i</sub>.</p>
+  <div class="fig">{{ alu_fig() }}</div>
+  <p><b>Full ALU.</b> A logic unit computes AND, OR, XOR and NOT of the same bits, and a MUX on each bit picks the arithmetic or the logic result. The ALU also outputs status flags: carry, zero, sign, overflow.</p>
+  <div class="ans"><b>Answer.</b> The table above, with the four asked operations in bold: add (S<sub>1</sub>S<sub>0</sub> = 01, C<sub>in</sub> = 0), subtract (10, 1), increment (00, 1), decrement (11, 0).
+    Logic diagram of the first two stages: two full adders in a ripple chain; stage i has inputs A<sub>i</sub> and Y<sub>i</sub> = B<sub>i</sub>S<sub>0</sub> + B<sub>i</sub>'S<sub>1</sub>; C<sub>in</sub> enters stage 0 and its carry-out feeds stage 1.</div>
+  <div class="check"><b>Check B8.</b> (a) A = 0110, B = 0011, S<sub>1</sub>S<sub>0</sub> = 10, C<sub>in</sub> = 1. Find F. (b) A = 0110, S<sub>1</sub>S<sub>0</sub> = 11, C<sub>in</sub> = 0. Find F by adding. (c) Name the four status flags.</div>
+</section>
+
+<section class="answers">
+  <h3>Answers: Part B Checks</h3>
+  <ol>
+    <li><b>B1.</b> (a) Selects a, b, c. I<sub>0</sub> = 1 (rows 0, 1), I<sub>1</sub> = d (2, 3), I<sub>2</sub> = d (4, 5), I<sub>3</sub> = d (6, 7), I<sub>4</sub> = d (8, 9), I<sub>5</sub> = 0, I<sub>6</sub> = 0, I<sub>7</sub> = d (14, 15).
+      (b) Selects x, y. I<sub>0</sub> = z, I<sub>1</sub> = z', I<sub>2</sub> = 0, I<sub>3</sub> = 1.
+      (c) Three 4:1 MUXes. MUX 1 (A = 0 half) and MUX 2 (A = 1 half) both use B, C as selects. MUX 1 inputs: D', D', 0, D (rows 0–1, 2–3, 4–5, 6–7). MUX 2 inputs: 1, D, D, 1 (rows 8–9, 10–11, 12–13, 14–15).
+      MUX 3 uses A on its low select line with the other select grounded: I<sub>0</sub> = MUX 1 output, I<sub>1</sub> = MUX 2 output.</li>
+    <li><b>B2.</b> (a) Y = ΠM(0, 3, 5, 6, 7) means Y is 0 for rows 0, 3, 5, 6, 7. With a 3:8 decoder (active-high outputs), NOR outputs 0, 3, 5, 6, 7: the NOR is 0 whenever one of them is active. (Equivalently Y = Σm(1, 2, 4).)
+      (b) A 4-input NAND on outputs 1, 2, 5, 7. (c) Two 3:8 decoders with enables, plus one inverter for the top bit.</li>
+    <li><b>B3.</b> (a) w<sub>2</sub> is the highest active input: y<sub>1</sub>y<sub>0</sub> = 10, V = 1. (b) y<sub>0</sub> = w<sub>1</sub> + w<sub>3</sub> + w<sub>5</sub> + w<sub>7</sub> (the odd-numbered inputs).
+      (c) Output 00 could mean "input 0 is active" or "nothing is active". V tells them apart.</li>
+    <li><b>B4.</b> (a) b, c, f, g. (b) c = B + C' + D, so c' = B'CD'. It is 0 (segment lit) for every digit except 2 (0010). (c) 7 + 6 = 13 lines with multiplexing; 7 × 6 = 42 without.</li>
+    <li><b>B5.</b> (a) Bits 3, 2, 1 are equal; bit 0 decides (1 against 0), so G (A &gt; B) = 1. (b) E = AB + A'B'. (c) Exactly one of G, E, L is 1 at any time, so L = (G + E)': one NOR gate.</li>
+    <li><b>B6.</b> (a) 0: the count of 1s is already odd. (b) 1001 with parity 1 has three 1s, which is odd, so E = 1: error. (c) Three XOR gates in a tree: (A ⊕ B) and (C ⊕ D), then XOR the two results: that is the even-parity bit.
+      An inverter on it (or an XNOR as the last gate) gives the odd-parity bit.</li>
+    <li><b>B7.</b> (a) 1100. 1001 = −7 and 1100 = −4: division by 2, rounded down. (b) Eight. (c) 011011.</li>
+    <li><b>B8.</b> (a) Subtract: Y = B' = 1100. 0110 + 1100 + 1 = 1 0011, so F = 0011 (6 − 3 = 3). (b) Y = 1111. 0110 + 1111 = 1 0101, so F = 0101 (6 − 1 = 5). (c) Carry, zero, sign, overflow.</li>
+  </ol>
+</section>

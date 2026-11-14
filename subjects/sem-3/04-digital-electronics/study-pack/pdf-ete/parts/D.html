@@ -1,0 +1,232 @@
+<!-- ============================================================ PART D -->
+<section class="part">
+  <div class="part-no">Part D · Unit 4</div>
+  <h1>State machines</h1>
+  <p class="lead">A counter (C8) is a circuit that walks through a fixed list of states. Add an input that decides which state comes next and an output, and you have a <b>finite state machine</b> (FSM): the general form of every synchronous circuit.
+    The design steps are the six steps of C8 with two more in front: turning words into a state diagram, and removing states that are not needed.</p>
+  <div class="fig">{{ sub_map(["D1 Moore /\nMealy", "D2 Design\nprocedure", "D3 State\nreduction", "D4 ASM\ncharts", "D5 Timing\nissues", "D6 Generators", "D7 Async\ncircuits"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Model</div>
+  <h2>D1 · The two models: Moore and Mealy</h2>
+  <div class="q"><span class="src">Practice · deck 11 slides 35–36</span>
+    Differentiate between Mealy and Moore sequential circuits.</div>
+  <div class="guess">Guess first: in the two block diagrams below, find the one wire that is different.</div>
+  <div class="terms"><b>State:</b> what the circuit remembers about its past inputs, stored in its flip-flops. n flip-flops give up to 2ⁿ states. ·
+    <b>Next-state logic:</b> combinational logic that works out the state to go to. · <b>Output logic:</b> combinational logic that produces the output z.</div>
+  <div class="two">
+    <div class="fig">{{ fsm_block(False) }}</div>
+    <div class="fig">{{ fsm_block(True) }}</div>
+  </div>
+  <table class="data">
+    <tr><th></th><th>Moore</th><th>Mealy</th></tr>
+    <tr><td>Output depends on</td><td>present state only</td><td>present state <b>and</b> present input</td></tr>
+    <tr><td>In a state diagram</td><td>output written inside the state circle (S/z)</td><td>output written on the arrow (x/z)</td></tr>
+    <tr><td>Output changes</td><td>only after a clock edge; steady for the whole cycle</td><td>as soon as the input changes; can show a false pulse</td></tr>
+    <tr><td>Number of states</td><td>usually one more</td><td>fewer</td></tr>
+    <tr><td>Response</td><td>one clock later</td><td>in the same clock cycle</td></tr>
+  </table>
+  <div class="ans"><b>Answer.</b> The table above. In one line: a Moore output is a function of the state, a Mealy output is a function of the state and the input.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Design</div>
+  <h2>D2 · Designing a synchronous FSM: the 1101 sequence detector</h2>
+  <div class="q"><span class="src">Professor's deck 11 · slides 7–25</span>
+    Design a sequence recognizer for 1101. The output is 1 each time the sequence occurs in the input, and overlap is allowed (1101101 contains it twice).</div>
+  <div class="guess">Guess first: after receiving 110, what does the machine need to remember? What about after 1101, if the next pattern may reuse the last 1?</div>
+  <p><b>Procedure</b> (deck 11 slide 3): specification → state diagram → state table → state reduction (D3) → <b>state assignment</b> (give each state a binary code) → choose flip-flops, excitation table → K-maps → circuit.</p>
+  <p><b>Step 1, states.</b> Give each state a meaning: how much of the pattern has arrived so far. A = nothing useful yet, B = "1", C = "11", D = "110". The label on each arrow is input/output.</p>
+  <div class="fig">{{ mealy_1101() }}</div>
+  <p>From D, a 1 completes 1101, so the output is 1. That last 1 can be the first 1 of a new pattern, so the arrow goes to B, not A (this is the overlap). From C, another 1 stays in C: "two or more 1s".</p>
+  <div class="two top">
+    <table class="data tt mono">
+      <tr><th>Present</th><th>Next, z (x = 0)</th><th>Next, z (x = 1)</th></tr>
+      <tr><td>A = 00</td><td>A, 0</td><td>B, 0</td></tr>
+      <tr><td>B = 01</td><td>A, 0</td><td>C, 0</td></tr>
+      <tr><td>C = 11</td><td>D, 0</td><td>C, 0</td></tr>
+      <tr><td>D = 10</td><td>A, 0</td><td>B, <b>1</b></td></tr>
+    </table>
+    <div>
+      <p><b>Steps 2–3.</b> 4 states → 2 flip-flops Y<sub>1</sub>Y<sub>2</sub>. The deck tries two assignments. With D flip-flops, D = next state, so the K-maps are read straight from the table.</p>
+      <p><b>Gray order</b> (A 00, B 01, C 11, D 10):<br>
+        D<sub>1</sub> = Y<sub>1</sub>Y<sub>2</sub> + XY<sub>2</sub> · D<sub>2</sub> = X · Z = XY<sub>1</sub>Y<sub>2</sub>'</p>
+      <p><b>Counting order</b> (A 00, B 01, C 10, D 11):<br>
+        D<sub>1</sub> = Y<sub>1</sub>Y<sub>2</sub>' + XY<sub>1</sub>'Y<sub>2</sub> · D<sub>2</sub> = XY<sub>1</sub>'Y<sub>2</sub>' + X'Y<sub>1</sub>Y<sub>2</sub>' + XY<sub>1</sub>Y<sub>2</sub> · Z = XY<sub>1</sub>Y<sub>2</sub></p>
+    </div>
+  </div>
+  <p><b>The state assignment changes the cost, not the behaviour.</b> The Gray assignment needs far fewer gates here, so the deck completes the design with it.</p>
+  <div class="ans"><b>Answer (Mealy).</b> State diagram and table above. Two D flip-flops with D<sub>1</sub> = Y<sub>1</sub>Y<sub>2</sub> + XY<sub>2</sub>, D<sub>2</sub> = X, and output Z = XY<sub>1</sub>Y<sub>2</sub>'. A reset input puts the flip-flops at 00 (state A).
+    Check with input 1101101: Z = 0001001, a 1 as each 1101 completes.</div>
+  <p><b>Moore version</b> (deck 11 slides 40–42). The output must belong to a state, so add a state E = "1101 just seen" with output 1. E behaves like B (it also means "a 1 has arrived"), but gives a different output.</p>
+  <div class="fig">{{ moore_1101() }}</div>
+  <p>Five states need 3 flip-flops. With codes A 000, B 001, C 010, D 011, E 100 and D flip-flops (codes 101–111 as don't-cares):
+    D<sub>2</sub> = Y<sub>1</sub>Y<sub>0</sub>X · D<sub>1</sub> = Y<sub>2</sub>X + Y<sub>1</sub>Y<sub>0</sub>' + Y<sub>1</sub>'Y<sub>0</sub>X · D<sub>0</sub> = Y<sub>1</sub>Y<sub>0</sub>'X' + Y<sub>2</sub>'Y<sub>1</sub>'Y<sub>0</sub>'X · z = Y<sub>2</sub>.
+    The Moore output appears one clock after the last bit, and cannot glitch.</p>
+  <div class="check"><b>Check D2.</b> (a) Deck 11 slide 43, practice question 1: design a Moore circuit that detects 1011 (overlap allowed). Give the meaning of each state and the state table.
+    (b) For a <b>non-overlapping</b> 1101 Mealy detector, which one arrow of the diagram above changes? (c) Deck 11 slide 37: how many states does a 111 detector need as a Mealy machine, and as a Moore machine?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › State reduction</div>
+  <h2>D3 · State reduction</h2>
+  <div class="q"><span class="src">Professor's deck 12 · slides 10 and 16</span>
+    Find the equivalent states of the machine below and give the reduced state table.
+    <table class="data tt mono">
+      <tr><th>Present</th><th>Next/z (x = 0)</th><th>Next/z (x = 1)</th></tr>
+      <tr><td>A</td><td>C/1</td><td>B/0</td></tr><tr><td>B</td><td>C/1</td><td>E/0</td></tr><tr><td>C</td><td>B/1</td><td>E/0</td></tr>
+      <tr><td>D</td><td>D/0</td><td>B/1</td></tr><tr><td>E</td><td>E/0</td><td>A/1</td></tr>
+    </table></div>
+  <div class="guess">Guess first: which rows give the same outputs? Only those can possibly be merged.</div>
+  <div class="terms"><b>Equivalent states:</b> two states are equivalent if, for every input, they give the same output <b>and</b> go to equivalent next states. No input sequence can tell them apart, so they can be merged into one.
+    Fewer states can mean fewer flip-flops and simpler logic.</div>
+  <p><b>Method 1: partitioning.</b> Keep splitting the set of states until nothing splits.</p>
+  <ul class="tight">
+    <li>P₀ = (ABCDE).</li>
+    <li>P₁, split by outputs: A, B, C give (1, 0); D, E give (0, 1). → (ABC)(DE).</li>
+    <li>P₂, split by the block each next state falls in. On x = 1: A → B, which is in block (ABC), but B → E and C → E, in block (DE). So A separates: (A)(BC). On x = 1: D → B but E → A; they were in one block in P₁, so (DE) stays for now. → (A)(BC)(DE).</li>
+    <li>P₃: on x = 1, D → B, in block (BC), but E → A, in block (A). D and E separate. → (A)(BC)(D)(E).</li>
+    <li>P₄ = P₃: B and C go to C, B (same block) and E, E. Stop.</li>
+  </ul>
+  <div class="two">
+    <div class="fig">{{ implication_chart() }}</div>
+    <div>
+      <p><b>Method 2: implication table.</b> One cell for each pair of states.</p>
+      <ol class="steps">
+        <li>Cross out (×) every pair whose outputs differ.</li>
+        <li>In each remaining cell write the pairs of next states that would have to be equivalent.</li>
+        <li>Cross out any cell that depends on a crossed-out pair. Repeat until nothing changes.</li>
+        <li>The cells left uncrossed are the equivalent pairs.</li>
+      </ol>
+      <p>Here A–B needs B–E, which is crossed out, so A–B goes. D–E needs A–B, so it goes too. B–C needs only C–B (itself) and E–E, so it survives.</p>
+    </div>
+  </div>
+  <div class="ans"><b>Answer.</b> B ≡ C. The states are (A)(BC)(D)(E): <b>5 states become 4</b>, so 2 flip-flops are enough instead of 3. Replace C by B everywhere:
+    <table class="data tt mono">
+      <tr><th>Present</th><th>x = 0</th><th>x = 1</th></tr>
+      <tr><td>A</td><td>B/1</td><td>B/0</td></tr><tr><td>B</td><td>B/1</td><td>E/0</td></tr><tr><td>D</td><td>D/0</td><td>B/1</td></tr><tr><td>E</td><td>E/0</td><td>A/1</td></tr>
+    </table></div>
+  <p><b>Incompletely specified machines</b> (deck 12 slides 19–26). When some next states or outputs are don't-cares, equivalence is replaced by <b>compatibility</b>: two states are compatible if their specified outputs never conflict and their next states are compatible.
+    Compatibility is not transitive (A–B and B–C compatible does not make A–C compatible), so states are grouped into <b>maximal compatibles</b> with a <b>merger diagram</b> (states as dots, a line joining each compatible pair; a fully connected group is a compatible).
+    The reduced machine uses a set of compatibles that covers every state and is closed: the next states of each chosen group fall inside one chosen group.</p>
+  <div class="check"><b>Check D3.</b> Deck 12 slide 17: reduce this 8-state machine by partitioning.
+    <table class="data tt mono">
+      <tr><th>Present</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th></tr>
+      <tr><td>Next/z, x = 0</td><td>E/0</td><td>A/1</td><td>C/0</td><td>B/0</td><td>D/1</td><td>C/0</td><td>H/1</td><td>C/1</td></tr>
+      <tr><td>Next/z, x = 1</td><td>D/0</td><td>F/0</td><td>A/1</td><td>A/0</td><td>C/0</td><td>D/1</td><td>G/1</td><td>B/1</td></tr>
+    </table></div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › ASM</div>
+  <h2>D4 · Algorithmic state machine (ASM) charts</h2>
+  <div class="q"><span class="src">Practice · deck 13 slides 3–8 (the deck draws the chart for a 1010 detector)</span>
+    Name the three elements of an ASM chart and draw the ASM chart of the Mealy 1101 detector of D2.</div>
+  <div class="guess">Guess first: in a flowchart of the machine, which shape should take exactly one clock period?</div>
+  <div class="two asm">
+    <div class="fig tall">{{ asm_1101() }}</div>
+    <div>
+      <div class="terms"><b>ASM chart:</b> a flowchart that describes a state machine. Unlike an ordinary flowchart it carries timing: each state box lasts one clock period.</div>
+      <p><b>Three elements.</b></p>
+      <ul class="tight">
+        <li><b>State box</b> (rectangle): one state. Its name is written beside or inside it, and any Moore output is listed inside. One entry, one exit.</li>
+        <li><b>Decision box</b> (diamond): tests an input and has an exit for 0 and an exit for 1.</li>
+        <li><b>Conditional output box</b> (oval): an output that is produced only on that path. It always follows a decision box. This is a Mealy output.</li>
+      </ul>
+      <p><b>ASM block:</b> one state box together with the decision and conditional boxes reached from it before the next state box. Everything in one block happens in the same clock period.</p>
+      <p><b>From state diagram to ASM chart.</b> Each circle becomes a state box. Its outgoing arrows become a decision box on the input. An output written inside a circle (Moore) goes inside the state box; an output written on an arrow (Mealy) becomes an oval on that exit.</p>
+      <p><b>From ASM chart to circuit.</b> Read off the state table (each path from one state box to the next is one row), then continue with the D2 steps.</p>
+      <p class="fine">The deck's other charts: MOD-6 counter, D and JK flip-flops, serial adder (two states: carry 0 and carry 1), 2-bit up and up/down counters.</p>
+    </div>
+  </div>
+  <div class="ans"><b>Answer.</b> State box, decision box, conditional output box. Chart on the left: four state boxes A–D, one decision on x after each, and a single oval (z = 1) on the x = 1 exit of D, the only place where the Mealy output is 1.</div>
+  <div class="check"><b>Check D4.</b> (a) In the Moore 1101 detector, where is z = 1 written in the ASM chart? (b) How many state boxes does the ASM chart of a MOD-6 counter have? (c) Why can a conditional output box never follow a state box directly?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Timing issues</div>
+  <h2>D5 · Timing issues in synchronous circuits</h2>
+  <div class="q"><span class="src">Practice</span>
+    A push-button signal is connected straight into a 100 MHz synchronous system. What can go wrong, and how is it fixed?</div>
+  <div class="guess">Guess first: the button is pressed at a random moment. What does C9 say about a D input that changes right at a clock edge?</div>
+  <ul class="tight">
+    <li><b>Clock skew.</b> The clock reaches different flip-flops at slightly different times. If the receiving flip-flop gets its clock late, the new data may arrive before it has finished holding the old value: skew eats into the <b>hold</b> margin, and a slower clock cannot fix that.
+      Skew the other way eats into the setup margin. Fix: route the clock carefully so every flip-flop gets it together.</li>
+    <li><b>Output glitches.</b> A Mealy output, or any output decoded from several state bits, can show a short false pulse while the inputs or state bits are changing. If that matters, take the output from a flip-flop (Moore style).</li>
+    <li><b>Asynchronous inputs and metastability.</b> An input that is not timed by the clock will sometimes change inside a setup/hold window (C9). The flip-flop may then hang between 0 and 1.
+      Fix: a <b>synchronizer</b>, two D flip-flops in series on the system clock. The second flip-flop gives the first a whole clock period to settle. Failure becomes extremely rare, though never impossible.</li>
+  </ul>
+  <div class="ans"><b>Answer.</b> The button can change inside a setup/hold window, so a flip-flop can go metastable and different flip-flops can read different values. A mechanical button also bounces: it makes several pulses per press.
+    Fix: debounce the switch (an SR latch across a two-way switch, or an RC filter with a Schmitt trigger), then pass it through a two-flip-flop synchronizer before any logic uses it.</div>
+  <div class="check"><b>Check D5.</b> (a) Which violation can be cured by lowering the clock frequency: setup or hold? (b) Why are Moore outputs free of glitches when Mealy outputs are not?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Synchronous applications</div>
+  <h2>D6 · Pulse-train generator, pseudo-random sequence generator, clock generation</h2>
+  <div class="q"><span class="src">Practice</span>
+    A 3-bit shift register has its input fed by D<sub>1</sub> = Q<sub>2</sub> ⊕ Q<sub>3</sub> and starts at Q<sub>1</sub>Q<sub>2</sub>Q<sub>3</sub> = 100. List its states and find the length of the sequence.</div>
+  <div class="guess">Guess first: 3 flip-flops have 8 states. Can this circuit ever reach 000 from 100? What happens if it starts at 000?</div>
+  <div class="fig">{{ chain(3, "lfsr") }}</div>
+  <p><b>Pseudo-random binary sequence (PRBS) generator.</b> A shift register whose input is the XOR of chosen outputs ("taps"); it is called a linear-feedback shift register (LFSR).
+    With the right taps it passes through all <b>2ⁿ − 1</b> non-zero states before repeating (a maximal-length sequence). The state 000 is a lock-out: 0 ⊕ 0 = 0 for ever, so it must never start there.
+    The output looks random but repeats exactly. Uses: test patterns, scrambling data, spread-spectrum codes.</p>
+  <div class="ans"><b>Answer.</b> 100 → 010 → 101 → 110 → 111 → 011 → 001 → 100. <b>Seven states = 2³ − 1</b>, the maximal length. The output at Q<sub>3</sub> is 0 0 1 0 1 1 1, repeating.</div>
+  <p><b>Pulse-train generator.</b> A circuit that puts out a fixed bit pattern again and again, one bit per clock. Two ways to build it: (1) a shift register connected as a ring and loaded with the pattern (C6); (2) a MOD-N counter followed by logic that gives the wanted bit for each count
+    (the counter's state table with one extra output column, minimised by K-map). The pattern length is the number of states.</p>
+  <p><b>Clock generation.</b> To get a slower clock from an existing one, divide it: a MOD-N counter gives f/N, and k toggle flip-flops give f/2ᵏ (C7). To make a clock in the first place needs an oscillator:</p>
+  <table class="data">
+    <tr><th>Multivibrator</th><th>Stable states</th><th>Output</th></tr>
+    <tr><td>Astable</td><td>none</td><td>free-running square wave: a clock</td></tr>
+    <tr><td>Monostable</td><td>one</td><td>one pulse of fixed width per trigger (timing, debouncing)</td></tr>
+    <tr><td>Bistable</td><td>two</td><td>a latch or flip-flop</td></tr>
+  </table>
+  <div class="fig">{{ astable_555() }}</div>
+  <p><b>555 timer as an astable.</b> The capacitor charges through R₁ + R₂ up to ⅔V<sub>CC</sub>, then discharges through R₂ down to ⅓V<sub>CC</sub>, and repeats.
+    f = 1.44/((R₁ + 2R₂)C); duty cycle = (R₁ + R₂)/(R₁ + 2R₂). Example: R₁ = 1 kΩ, R₂ = 10 kΩ, C = 10 nF gives f = 6.86 kHz, duty 52%. As a monostable, the pulse width is 1.1RC.</p>
+  <div class="fig">{{ ring_osc() }}</div>
+  <p><b>Ring oscillator.</b> An <b>odd</b> number N of inverters in a loop has no stable state and oscillates at f = 1/(2N·t<sub>pd</sub>). Five inverters of 2 ns each give 50 MHz. Its frequency drifts with temperature and supply voltage, so a system clock uses a <b>crystal oscillator</b> instead.</p>
+  <div class="check"><b>Check D6.</b> (a) What is the sequence length of a maximal-length 5-bit LFSR? (b) Why must a ring oscillator have an odd number of inverters? (c) Which counter gives a 1 Hz signal from a 50 Hz clock?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 4 › Asynchronous circuits</div>
+  <h2>D7 · Asynchronous circuits: races and hazards</h2>
+  <div class="q"><span class="src">Practice · Anna University EC6302, Nov/Dec 2021, Q15(b), 13 marks</span>
+    What is the objective of state assignment in a asynchronous circuit? Give the hazard free realization for the Boolean function f(A, B, C, D) = ΠM(0, 2, 6, 7, 8, 10, 12).</div>
+  <div class="guess">Guess first: with no clock, two state bits are told to change "at the same time". What decides which one changes first?</div>
+  <div class="terms"><b>Asynchronous sequential circuit:</b> one with no clock. Its state is held in feedback loops, and it reacts as soon as an input changes. ·
+    <b>Stable state:</b> next state = present state, so nothing further changes. · <b>Fundamental mode:</b> the operating rule: change only one input at a time, and only after the circuit has settled.</div>
+  <p><b>Design outline.</b> Word description → primitive flow table (one stable state per row) → merge rows → state assignment → excitation equations → circuit. A flow table is a state table with the stable states circled.</p>
+  <p><b>Races.</b> If one transition needs two state variables to change, they cannot change at exactly the same instant; gate delays decide the order. In a <b>non-critical race</b> every order ends in the same stable state.
+    In a <b>critical race</b> the final state depends on the order: the circuit is wrong some of the time.</p>
+  <p><b>Hazards.</b> A hazard is a momentary wrong output caused by unequal gate delays. <b>Static-1 hazard:</b> the output should stay 1 but dips to 0, because one product term switches off before the next one switches on. Static-0 is the opposite; a dynamic hazard is an output that should change once but bounces.
+    In an asynchronous circuit such a pulse can be taken as a real input change, so hazards must be designed out.</p>
+  <div class="two">
+    <div class="fig">{{ hazard_kmap() }}</div>
+    <div class="fig">{{ glitch() }}<div class="prov">static-1 hazard: term 1 turns off before term 2 turns on, so F dips</div></div>
+  </div>
+  <p><b>The cure.</b> On the K-map, every pair of <b>adjacent 1s</b> must lie inside <b>one common group</b>. Wherever two neighbouring 1s are in different groups only, add a group that covers both (it is a redundant, consensus term).</p>
+  <div class="ans"><b>Answer.</b> <b>Objective of state assignment:</b> give codes that differ in only <b>one bit</b> to states that have a transition between them, so that only one state variable changes at a time and no critical race can occur.<br>
+    <b>Hazard-free realization:</b> ΠM(0, 2, 6, 7, 8, 10, 12) means the 1s are Σm(1, 3, 4, 5, 9, 11, 13, 14, 15). Minimal cover: f = B'D + C'D + A'BC' + ABC.
+    Two adjacent pairs are not inside a common group: cells 11 and 15, and cells 13 and 15. One more group, AD (cells 9, 11, 13, 15), covers both.
+    <p class="eq">f = B'D + C'D + A'BC' + ABC + AD</p></div>
+  <div class="check"><b>Check D7.</b> (a) F = AB + A'C. Which input change can cause a static-1 hazard, and which extra term removes it? (b) What is the difference between a critical and a non-critical race? (c) State the fundamental-mode rule.</div>
+</section>
+
+<section class="answers">
+  <h3>Answers: Part D Checks</h3>
+  <ol>
+    <li><b>D2.</b> (a) Five states. S0: nothing useful; S1: "1"; S2: "10"; S3: "101"; S4: "1011", output 1. Table (next state for x = 0, x = 1; output): S0 → S0, S1; 0 · S1 → S2, S1; 0 · S2 → S0, S3; 0 · S3 → S2, S4; 0 · S4 → S2, S1; 1.
+      From S4 a 1 goes to S1 and a 0 goes to S2, because the final "1" of 1011 can start a new pattern.
+      (b) The arrow D —1/1→ B becomes D —1/1→ A: after a match the machine starts from nothing. (c) Mealy 3 (nothing, "1", "11"); Moore 4 (one more state to hold the output).</li>
+    <li><b>D3.</b> P₁ by outputs: (AD)(BE)(CF)(GH). P₂: on x = 1, G → G but H → B, which are in different blocks, so G and H separate. A and D go to E, B (same block) and D, A (same block); B and E go to A, D and F, C; C and F go to C, C and A, D. → (AD)(BE)(CF)(G)(H).
+      P₃ = P₂. <b>8 states become 5</b>: A ≡ D, B ≡ E, C ≡ F.</li>
+    <li><b>D4.</b> (a) Inside the state box of E, because a Moore output belongs to the state. (b) Six, one per count. (c) A conditional output depends on an input, so an input must be tested first, and that is a decision box.</li>
+    <li><b>D5.</b> (a) Setup: a longer period gives the data more time to arrive. Hold does not involve the period. (b) A Moore output depends only on flip-flop outputs, which change once per clock edge. A Mealy output also depends directly on the input, which can change at any time.</li>
+    <li><b>D6.</b> (a) 2⁵ − 1 = 31. (b) With an even number the loop is consistent (like a latch) and sits in a stable state. (c) A MOD-50 counter.</li>
+    <li><b>D7.</b> (a) With B = C = 1, changing A hands the output from AB to A'C; the output can dip. Add the consensus term BC: F = AB + A'C + BC. (b) Critical: the final stable state depends on which variable changes first. Non-critical: every order ends in the same state.
+      (c) Only one input changes at a time, and not until the circuit has reached a stable state.</li>
+  </ol>
+</section>

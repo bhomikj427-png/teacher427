@@ -1,0 +1,230 @@
+<!-- ============================================================ PART E -->
+<section class="part">
+  <div class="part-no">Part E · Unit 5</div>
+  <h1>Logic families, memories and programmable devices</h1>
+  <p class="lead">Parts A–D treated a gate as an ideal box. A real gate is a transistor circuit with real voltages, currents and delays. A <b>logic family</b> is a set of chips built with the same basic gate circuit, so they share those numbers.
+    This part gives the yardsticks for comparing families, the three families in the syllabus (TTL, ECL, CMOS), and then two ways of buying logic in bulk: memories and programmable logic devices.</p>
+  <div class="fig">{{ sub_map(["E1 Yardsticks", "E2 TTL NAND", "E3 Tristate", "E4 ECL", "E5 CMOS,\ninterfacing", "E6 Memories", "E7 PLDs"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › Specifications</div>
+  <h2>E1 · The yardsticks: noise margin, fan-out, delay, power</h2>
+  <div class="q"><span class="src">Practice · deck 14 slides 4–12</span>
+    Define noise margin and fan-out. For standard TTL (V<sub>OH(min)</sub> = 2.4 V, V<sub>OL(max)</sub> = 0.4 V, V<sub>IH(min)</sub> = 2.0 V, V<sub>IL(max)</sub> = 0.8 V; I<sub>OH</sub> = 400 μA, I<sub>OL</sub> = 16 mA, I<sub>IH</sub> = 40 μA, I<sub>IL</sub> = 1.6 mA) calculate both.</div>
+  <div class="guess">Guess first: a gate promises its HIGH output is at least 2.4 V, and accepts anything above 2.0 V as HIGH. Why the gap?</div>
+  <div class="terms"><b>V<sub>OH(min)</sub>, V<sub>OL(max)</sub>:</b> the worst HIGH and LOW voltages a gate output is guaranteed to give. · <b>V<sub>IH(min)</sub>, V<sub>IL(max)</sub>:</b> the lowest voltage an input is guaranteed to read as HIGH, and the highest it reads as LOW. ·
+    <b>I<sub>OH</sub>, I<sub>OL</sub>:</b> the current an output can supply when HIGH and sink when LOW. · <b>I<sub>IH</sub>, I<sub>IL</sub>:</b> the current one input takes in each state.</div>
+  <div class="fig">{{ noise_bands() }}</div>
+  <p><b>Noise margin</b> (noise immunity): the largest noise voltage that can be added to a signal between one gate's output and the next gate's input without changing how it is read.</p>
+  <p class="eq">NM<sub>H</sub> = V<sub>OH(min)</sub> − V<sub>IH(min)</sub> &nbsp;&nbsp;&nbsp; NM<sub>L</sub> = V<sub>IL(max)</sub> − V<sub>OL(max)</sub></p>
+  <div class="fig">{{ fanout_fig() }}</div>
+  <p><b>Fan-out:</b> the number of gate inputs that one output can drive and still keep its levels. It is limited by current in both states: fan-out = the smaller of I<sub>OL</sub>/I<sub>IL</sub> and I<sub>OH</sub>/I<sub>IH</sub>. <b>Fan-in:</b> the number of inputs a gate has.</p>
+  <table class="data">
+    <tr><th>Yardstick</th><th>Definition</th></tr>
+    <tr><td>Propagation delay t<sub>p</sub></td><td>Time from an input change to the output change, measured between the 50% points. t<sub>PHL</sub> (output going HIGH → LOW) and t<sub>PLH</sub> differ; t<sub>p</sub> is their average. Smaller = faster.</td></tr>
+    <tr><td>Rise time, fall time</td><td>Time for the output to go from 10% to 90% of its swing, and from 90% to 10%.</td></tr>
+    <tr><td>Power dissipation</td><td>Supply voltage × average supply current. Static: with no switching. Dynamic: extra power used at each transition, so it grows with frequency.</td></tr>
+    <tr><td>Speed–power product</td><td>t<sub>p</sub> × power per gate, in joules: the energy per switching event. A figure of merit; smaller is better.</td></tr>
+    <tr><td>Integration level</td><td>Gates per chip: SSI under 12, MSI 12–99, LSI 100–9999, VLSI 10 000 and above.</td></tr>
+  </table>
+  <div class="ans"><b>Answer.</b> Definitions above. NM<sub>H</sub> = 2.4 − 2.0 = <b>0.4 V</b>; NM<sub>L</sub> = 0.8 − 0.4 = <b>0.4 V</b>.
+    Fan-out: LOW state 16 mA/1.6 mA = 10; HIGH state 400 μA/40 μA = 10; so fan-out = <b>10</b>. With t<sub>p</sub> ≈ 10 ns and 10 mW per gate, the speed–power product is 100 pJ.</div>
+  <div class="check"><b>Check E1.</b> (a) A family has I<sub>OL</sub> = 8 mA, I<sub>IL</sub> = 0.4 mA, I<sub>OH</sub> = 400 μA, I<sub>IH</sub> = 20 μA. Find its fan-out.
+    (b) A gate has V<sub>OH(min)</sub> = 4.4 V, V<sub>IH(min)</sub> = 3.5 V, V<sub>IL(max)</sub> = 1.5 V, V<sub>OL(max)</sub> = 0.1 V. Find both noise margins. (c) t<sub>PHL</sub> = 8 ns and t<sub>PLH</sub> = 12 ns. What is t<sub>p</sub>?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › TTL</div>
+  <h2>E2 · The TTL NAND gate</h2>
+  <div class="q"><span class="src">Practice · deck 14 slides 24–25 (syllabus item "TTL NAND gate")</span>
+    Draw the circuit of a standard TTL NAND gate with totem-pole output and explain its operation. Why must two totem-pole outputs not be connected together?</div>
+  <div class="guess">Guess first: the output stage has one transistor to pull the output up and one to pull it down. What happens if both conduct at once?</div>
+  <div class="terms"><b>TTL (transistor–transistor logic):</b> the family built from bipolar transistors (BJTs), supply +5 V. A BJT used as a switch is either OFF (no current) or saturated (fully ON).</div>
+  <div class="fig">{{ ttl_nand() }}</div>
+  <ul class="tight">
+    <li><b>Q1</b>, the input transistor with one emitter per input, does the AND.</li>
+    <li><b>Any input LOW:</b> Q1's base current flows out through that emitter, so Q2 gets no base current and is OFF. Then Q4 is OFF, and Q3 gets base current through its resistor, turns ON, and pulls the output <b>HIGH</b> through the diode.</li>
+    <li><b>All inputs HIGH:</b> Q1's base current now flows through its collector into Q2. Q2 turns ON and drives Q4 into saturation: the output is <b>LOW</b>. Q2's collector is now low, and the diode makes sure Q3 stays OFF.</li>
+    <li><b>Totem-pole output</b> (Q3 stacked on Q4): one transistor actively pulls up and one actively pulls down, so the output resistance is low in both states and switching is fast.</li>
+  </ul>
+  <p><b>Other facts.</b> An unconnected TTL input behaves as HIGH (no emitter current flows) but picks up noise, so tie unused inputs to a fixed level.
+    Sub-families trade speed against power: 74 (standard), 74L (low power), 74H (high speed), 74S (Schottky: a clamp diode stops the transistors saturating, so they switch off faster), 74LS (low-power Schottky, the common one), 74AS, 74ALS.</p>
+  <div class="ans"><b>Answer.</b> Circuit and operation above: output = (A·B)'. If two totem-pole outputs are joined and one tries to go HIGH while the other is LOW, Q3 of one gate and Q4 of the other form a path from +5 V to ground through a very small resistance.
+    A large current flows and can damage the gates, and the output voltage is not a valid level. Lines shared by several outputs use <b>open-collector</b> outputs (no Q3; an external pull-up resistor; outputs joined together give a wired-AND) or <b>tristate</b> outputs (E3).</div>
+  <div class="check"><b>Check E2.</b> (a) Which transistors are ON when the output is LOW? (b) What logic level does a floating TTL input act as? (c) What does the "S" in 74LS stand for, and what does it improve?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › TTL</div>
+  <h2>E3 · Tristate TTL</h2>
+  <div class="q"><span class="src">Practice · deck 05 slides 44–48 (tri-state devices)</span>
+    What is tristate logic? Explain how the third state is obtained in a TTL gate, and give one use.</div>
+  <div class="guess">Guess first: how can an output be neither 0 nor 1?</div>
+  <div class="fig">{{ tristate_bus() }}</div>
+  <p><b>The third state is high impedance (Hi-Z).</b> When the enable input is inactive the output is electrically disconnected: it neither pulls up nor pulls down. Many outputs can then share one wire (a <b>bus</b>), as long as only one is enabled at a time.</p>
+  <p><b>Circuit.</b> Start from the totem-pole gate of E2 and add an enable input. When the gate is disabled, the enable line (1) pulls an extra emitter of Q1 LOW, which turns Q2 and Q4 OFF, and (2) through a diode pulls the base of Q3 LOW, which turns Q3 OFF.
+    <b>Both output transistors are OFF</b>, so the output floats. When enabled, the diode is reverse biased and the gate works normally.</p>
+  <table class="data tt">
+    <tr><th>EN</th><th>IN</th><th>OUT (tristate buffer)</th></tr>
+    <tr><td>0</td><td>X</td><td>Hi-Z</td></tr><tr><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td></tr>
+  </table>
+  <div class="ans"><b>Answer.</b> Logic with three output states: 0, 1 and high impedance. It is obtained by turning both totem-pole transistors off. Use: several devices sharing a data bus.
+    Compared with open-collector it keeps the fast active pull-up. Drawback: if two enables are active together the outputs fight (bus contention), so the enables must be decoded so that only one is active.</div>
+  <div class="check"><b>Check E3.</b> (a) Three tristate buffers drive one line. How many may be enabled at once? (b) What is the state of the line if none is enabled?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › ECL</div>
+  <h2>E4 · Emitter-coupled logic (ECL) and the family comparison</h2>
+  <div class="q"><span class="src">Practice (syllabus item "ECL"; comparison table as in deck 14 slide 14)</span>
+    Why is ECL the fastest logic family? Compare TTL, ECL and CMOS.</div>
+  <div class="guess">Guess first: a saturated transistor has extra charge stored in it. What must happen to that charge before it can switch off?</div>
+  <div class="two">
+    <div class="fig">{{ ecl_gate() }}</div>
+    <div>
+      <p><b>A current switch.</b> R<sub>E</sub> sets an almost constant current. It flows through whichever transistor has the higher base voltage: Q1 (the input) or Q2 (held at a fixed reference V<sub>BB</sub>).
+        The current is <b>steered</b> from one side to the other, never switched off, and neither transistor ever <b>saturates</b>.</p>
+      <p><b>Why it is fast (about 1 ns).</b> A saturated transistor must first get rid of stored charge before it turns off (storage delay). ECL transistors never saturate, and the voltage swing is small, so there is little to charge and discharge.</p>
+      <p><b>Costs.</b> The current always flows, so power is the highest of any family. The swing is small (logic 1 ≈ −0.8 V, logic 0 ≈ −1.7 V), so the noise margin is small. It uses a negative supply (V<sub>EE</sub> = −5.2 V). Each gate gives both OR and NOR outputs.</p>
+    </div>
+  </div>
+  <table class="data">
+    <tr><th></th><th>TTL (74 / 74LS)</th><th>ECL</th><th>CMOS (74HC)</th></tr>
+    <tr><td>Switching device</td><td>BJT, saturating</td><td>BJT, non-saturating</td><td>MOSFET pairs (n and p)</td></tr>
+    <tr><td>Propagation delay</td><td>about 10 ns</td><td><b>about 1 ns, fastest</b></td><td>about 10 ns</td></tr>
+    <tr><td>Static power per gate</td><td>mW (10 mW; LS 2 mW)</td><td><b>highest</b> (tens of mW)</td><td><b>almost zero</b></td></tr>
+    <tr><td>Noise margin</td><td>0.4 V</td><td>smallest (about 0.15 V)</td><td><b>largest</b> (about 30% of V<sub>DD</sub>)</td></tr>
+    <tr><td>Fan-out</td><td>10</td><td>25</td><td>50 or more</td></tr>
+    <tr><td>Supply</td><td>+5 V</td><td>−5.2 V</td><td>2–6 V (4000 series: 3–15 V)</td></tr>
+    <tr><td>Basic gate</td><td>NAND</td><td>OR/NOR</td><td>inverter, NAND, NOR</td></tr>
+  </table>
+  <p class="fine">The figures are typical textbook values; data sheets vary with the series.</p>
+  <div class="ans"><b>Answer.</b> ECL transistors work as a current switch and never saturate, so there is no storage delay, and the logic swing is small. Comparison: the table above.</div>
+  <div class="check"><b>Check E4.</b> (a) Which family would you choose for a battery-powered device, and why? (b) An ECL gate has V<sub>OH(min)</sub> = −0.98 V and V<sub>IH(min)</sub> = −1.105 V. Find NM<sub>H</sub>. (c) Which two outputs does an ECL gate provide?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › CMOS</div>
+  <h2>E5 · CMOS gates and interfacing</h2>
+  <div class="q"><span class="src">Practice · deck 14 slides 19–22</span>
+    Draw a CMOS inverter and a 2-input CMOS NAND gate and explain their operation. Why does CMOS use almost no static power?</div>
+  <div class="guess">Guess first: in the inverter below, is there any input value for which both transistors are ON?</div>
+  <div class="terms"><b>nMOS transistor:</b> a switch that is ON when its gate is HIGH; it connects the output to ground. · <b>pMOS transistor:</b> ON when its gate is LOW; it connects the output to V<sub>DD</sub>. ·
+    <b>CMOS (complementary MOS):</b> every gate uses both kinds, arranged so that one network is ON exactly when the other is OFF.</div>
+  <div class="two">
+    <div class="fig">{{ commons("CMOS_Inverter.svg", 170) }}<div class="prov">CMOS inverter · Wikimedia Commons, public domain</div></div>
+    <div class="fig">{{ commons("CMOS_NAND.svg", 190) }}<div class="prov">CMOS NAND · Wikimedia Commons, CC BY-SA 3.0</div></div>
+  </div>
+  <p><b>Inverter.</b> Input LOW: the pMOS is ON, the nMOS is OFF, the output is pulled to V<sub>DD</sub>. Input HIGH: the nMOS is ON, the pMOS is OFF, the output is pulled to ground.</p>
+  <p><b>NAND.</b> Two nMOS in <b>series</b> to ground: the output is LOW only if both inputs are 1. Two pMOS in <b>parallel</b> to V<sub>DD</sub>: either input at 0 pulls the output HIGH. A NOR gate is the reverse: nMOS in parallel, pMOS in series. An n-input gate uses 2n transistors.</p>
+  <table class="data tt mono">
+    <tr><th>A B</th><th>nMOS (series)</th><th>pMOS (parallel)</th><th>Out</th></tr>
+    <tr><td>0 0</td><td>both OFF</td><td>both ON</td><td>1</td></tr>
+    <tr><td>0 1 / 1 0</td><td>one OFF: path open</td><td>one ON</td><td>1</td></tr>
+    <tr><td>1 1</td><td>both ON</td><td>both OFF</td><td>0</td></tr>
+  </table>
+  <p><b>Characteristics.</b> Static power almost zero. <b>Dynamic power P = C·V<sub>DD</sub>²·f</b>: each transition charges or discharges the load capacitance C, so power rises with frequency. Output swings the full range 0 to V<sub>DD</sub>, so the noise margin is large.
+    The input is a capacitor that takes almost no current, so fan-out is very high. Wide supply range, small transistors, high packing density. Weak points: the thin gate oxide is damaged by static electricity, and speed falls with large capacitive loads.
+    <b>Handling:</b> store in conductive foam, ground yourself, and <b>never leave an input unconnected</b>: a floating input drifts and can turn both networks partly ON.</p>
+  <p><b>Interfacing: check voltage levels and currents in both states.</b></p>
+  <table class="data">
+    <tr><th>Driving</th><th>Problem</th><th>Fix</th></tr>
+    <tr><td>TTL → CMOS (both at 5 V)</td><td>TTL's HIGH may be only 2.4 V; a 74HC input needs about 3.5 V.</td><td>A <b>pull-up resistor</b> from the TTL output to +5 V, or use 74HCT (CMOS with TTL input levels).</td></tr>
+    <tr><td>CMOS → TTL</td><td>Voltages are fine. In the LOW state the CMOS output must sink TTL's I<sub>IL</sub> = 1.6 mA per input; 4000-series outputs cannot.</td><td>A CMOS <b>buffer</b> (4049, 4050), or drive low-power (LS) TTL. 74HC can drive a few TTL loads directly.</td></tr>
+    <tr><td>Different supply voltages</td><td>Levels do not match.</td><td>A level shifter, or an open-collector output with a pull-up to the other supply.</td></tr>
+  </table>
+  <div class="ans"><b>Answer.</b> Circuits and operation above. In either steady state one of the two networks is OFF, so there is no path from V<sub>DD</sub> to ground and no current flows. Power is used only while switching.</div>
+  <div class="check"><b>Check E5.</b> (a) In a 2-input CMOS NOR gate, which transistors are in series? (b) The clock frequency is doubled and V<sub>DD</sub> is halved. By what factor does the dynamic power change? (c) How many transistors are in a 3-input CMOS NAND gate?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › Memories</div>
+  <h2>E6 · Semiconductor memories</h2>
+  <div class="q"><span class="src">Practice (syllabus item "memory elements"; the decks have no memory slides)</span>
+    Differentiate static and dynamic RAM. A memory is specified as 1K × 8: how many address lines and data lines does it have? How is a 4K × 8 memory built from 1K × 8 chips?</div>
+  <div class="guess">Guess first: to pick one of 1024 words, how many bits must the address have?</div>
+  <div class="terms"><b>Memory cell:</b> stores one bit. · <b>Word:</b> a group of bits read or written together. · <b>Address:</b> the number that selects one word. ·
+    <b>RAM:</b> read-and-write memory; loses its contents without power (volatile). · <b>ROM:</b> read-only memory; keeps its contents without power.</div>
+  <div class="fig">{{ memory_org() }}</div>
+  <p><b>Organisation.</b> A memory of 2ᵏ words × m bits has k address lines and m data lines. A decoder (B2) turns the address into one active <b>word line</b>; the cells of that word connect to the <b>bit lines</b>. Control inputs: chip select (CS) and read/write.</p>
+  <div class="two">
+    <div class="fig">{{ commons("SRAM_Cell_(6_Transistors).svg", 300) }}<div class="prov">6-transistor SRAM cell · Wikimedia Commons, public domain</div></div>
+    <div class="fig">{{ dram_cell() }}<div class="prov">1-transistor DRAM cell</div></div>
+  </div>
+  <table class="data">
+    <tr><th></th><th>Static RAM (SRAM)</th><th>Dynamic RAM (DRAM)</th></tr>
+    <tr><td>Cell</td><td>6 transistors: a latch (two cross-coupled inverters, C1) and two access transistors</td><td>1 transistor and 1 capacitor</td></tr>
+    <tr><td>Bit stored as</td><td>the state of the latch</td><td>charge on the capacitor</td></tr>
+    <tr><td>Refresh</td><td>not needed while powered</td><td><b>needed</b> every few milliseconds, because the charge leaks; reading also destroys the charge, so it is rewritten</td></tr>
+    <tr><td>Speed · density · cost per bit</td><td>faster · lower · higher</td><td>slower · higher · lower</td></tr>
+    <tr><td>Used for</td><td>cache memory</td><td>main memory</td></tr>
+  </table>
+  <table class="data">
+    <tr><th>ROM type</th><th>Written</th><th>Erased</th></tr>
+    <tr><td>Mask ROM</td><td>at manufacture</td><td>never</td></tr>
+    <tr><td>PROM</td><td>once, by the user (fuses are blown)</td><td>never</td></tr>
+    <tr><td>EPROM</td><td>in a programmer</td><td>by ultraviolet light through a window, the whole chip</td></tr>
+    <tr><td>EEPROM, Flash</td><td>electrically, in the circuit</td><td>electrically (Flash: a block at a time)</td></tr>
+  </table>
+  <div class="fig">{{ mem_decode() }}</div>
+  <div class="ans"><b>Answer.</b> SRAM against DRAM: the table above. 1K × 8: 1K = 1024 = 2¹⁰ words, so <b>10 address lines</b> and <b>8 data lines</b> (8192 bits).
+    4K × 8 needs 4096/1024 = <b>4 chips</b> and 12 address lines. A<sub>9</sub>–A<sub>0</sub> go to every chip; A<sub>11</sub>A<sub>10</sub> go to a 2:4 decoder whose outputs drive the four chip-select inputs, so each chip answers to its own block of 1024 addresses (figure above).</div>
+  <div class="check"><b>Check E6.</b> (a) How many address lines does a 16K × 4 memory have, and how many such chips make a 64K × 8 memory? (b) Give the difference between EPROM and EEPROM in one line. (c) Why does DRAM need refreshing but SRAM does not?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 5 › PLDs</div>
+  <h2>E7 · Programmable logic devices</h2>
+  <div class="q"><span class="src">Professor's deck 15 · slides 31–34</span>
+    Implement the following two Boolean functions with a PLA: F<sub>1</sub>(A, B, C) = Σ(0, 1, 2, 4), F<sub>2</sub>(A, B, C) = Σ(0, 5, 6, 7).</div>
+  <div class="guess">Guess first: every SOP is a layer of ANDs feeding a layer of ORs. Which layer would you make programmable?</div>
+  <div class="terms"><b>PLD:</b> one chip containing an array of AND gates feeding an array of OR gates, with connections the user can program, so it replaces many fixed-function chips. ·
+    <b>Product term:</b> the output of one AND gate. In PLD diagrams a gate's many inputs are drawn as one line, and × marks a programmed connection.</div>
+  <div class="fig">{{ pld_arrays() }}</div>
+  <table class="data">
+    <tr><th></th><th>AND array</th><th>OR array</th><th>Notes</th></tr>
+    <tr><td><b>PROM</b></td><td>fixed: a decoder that makes all 2ⁿ minterms</td><td>programmable</td><td>Stores the truth table directly; no minimisation needed. Size doubles with every extra input.</td></tr>
+    <tr><td><b>PAL</b></td><td>programmable</td><td>fixed</td><td>Each output has its own fixed number of product terms, which cannot be shared. Faster and cheaper than a PLA.</td></tr>
+    <tr><td><b>PLA</b></td><td>programmable</td><td>programmable</td><td>Most flexible: product terms can be <b>shared</b> between outputs. An XOR on each output can invert it.</td></tr>
+  </table>
+  <p><b>PROM</b> (deck 15 slides 19–22): an 8 × 4 ROM has 3 address inputs and 4 outputs. Each output is the OR of the minterms marked for it. For a function given as Σm, mark exactly those minterms.</p>
+  <p><b>PLA design.</b> A PLA has a limited number of AND gates, so the aim is the fewest <b>distinct</b> product terms. Minimise each function <b>and its complement</b>, and choose the forms that share the most terms; the output XOR supplies the complement when needed.</p>
+  <div class="two">
+    <div class="fig">{{ km("ABC", [0,1,2,4], [], ["(B' + C')", "(A' + C')", "(A' + B')"], pos=True, cs=40, split=1, title="F1: group the 0s → F1'") }}</div>
+    <div class="fig">{{ km("ABC", [0,5,6,7], [], ["AB", "AC", "A'B'C'"], cs=40, split=1, title="F2: group the 1s") }}</div>
+  </div>
+  <div class="ans"><b>Answer.</b> F<sub>1</sub> directly is A'B' + A'C' + B'C', three terms shared with nothing. Its complement (group the 0s: cells 3, 5, 6, 7) is F<sub>1</sub>' = AB + AC + BC.
+    F<sub>2</sub> = AB + AC + A'B'C'. Two terms are common, so use F<sub>1</sub> = (AB + AC + BC)' with the output inverted: <b>4 product terms</b> instead of 6.
+    <table class="data tt mono">
+      <tr><th>Product term</th><th>A B C</th><th>F<sub>1</sub></th><th>F<sub>2</sub></th></tr>
+      <tr><td>AB</td><td>1 1 –</td><td>1</td><td>1</td></tr>
+      <tr><td>AC</td><td>1 – 1</td><td>1</td><td>1</td></tr>
+      <tr><td>BC</td><td>– 1 1</td><td>1</td><td>–</td></tr>
+      <tr><td>A'B'C'</td><td>0 0 0</td><td>–</td><td>1</td></tr>
+      <tr><td>output</td><td></td><td>C (complemented)</td><td>T (true)</td></tr>
+    </table>
+    This <b>PLA programming table</b> is the answer the exam wants: 1 = variable connected, 0 = its complement connected, – = not connected.</div>
+  <p><b>PAL design</b> (deck 15 slides 25–27). Each output section has a fixed number of AND gates, say three. For w = ABC' + A'B'CD', x = A + BCD, y = A'B + CD + B'D', z = ABC' + A'B'CD' + AC'D' + A'B'C'D:
+    z needs four terms, but its first two are w. Feed w back as an input and write <b>z = w + AC'D' + A'B'C'D</b>, which fits in three.</p>
+  <p><b>Larger devices.</b> SPLD (simple PLD): PROM, PAL, PLA, GAL (an erasable PAL), about 200 gates. CPLD: several PAL-like blocks on one chip joined by programmable wiring. FPGA: thousands of small look-up tables (tiny memories that hold truth tables) with programmable wiring, the largest capacity.
+    All are described in a hardware description language (Verilog or VHDL).</p>
+  <div class="warn"><b>Slip in the slides.</b> Deck 15 slide 28 writes F<sub>2</sub>(A, B, C) = m(4–7, 10–11) and F<sub>3</sub>(A, B, C) = m(4–7, 9–15). Three variables have only minterms 0–7, so these must be functions of four variables (A, B, C, D).</div>
+  <div class="check"><b>Check E7.</b> (a) Deck 15 slide 37: F<sub>1</sub>(A, B, C) = Σ(1, 2, 4, 6), F<sub>2</sub> = Σ(0, 1, 6, 7), F<sub>3</sub> = Σ(1, 2, 3, 5, 7). What size PROM implements them, and which minterms are connected to each output?
+    (b) Give the minimal SOP of each of those three functions (the product terms a PAL would need). (c) What size ROM stores the product of two 4-bit numbers? (d) State the difference between a PAL and a PLA.</div>
+</section>
+
+<section class="answers">
+  <h3>Answers: Part E Checks</h3>
+  <ol>
+    <li><b>E1.</b> (a) LOW: 8/0.4 = 20. HIGH: 400/20 = 20. Fan-out = 20. (b) NM<sub>H</sub> = 4.4 − 3.5 = 0.9 V. NM<sub>L</sub> = 1.5 − 0.1 = 1.4 V. (c) (8 + 12)/2 = 10 ns.</li>
+    <li><b>E2.</b> (a) Q2 and Q4 (Q3 is OFF). (b) HIGH. (c) Schottky: a Schottky diode keeps the transistor out of saturation, which removes the storage delay, so the gate is faster.</li>
+    <li><b>E3.</b> (a) One. (b) High impedance: the line floats at no defined level, so a pull-up resistor is normally added.</li>
+    <li><b>E4.</b> (a) CMOS: its static power is almost zero. (b) NM<sub>H</sub> = −0.98 − (−1.105) = 0.125 V. (c) OR and NOR.</li>
+    <li><b>E5.</b> (a) The two pMOS (pull-up); the two nMOS are in parallel. (b) P ∝ V<sub>DD</sub>²f: (½)² × 2 = ½. The power halves. (c) 6: three pMOS in parallel, three nMOS in series.</li>
+    <li><b>E6.</b> (a) 16K = 2¹⁴, so 14 address lines. 64K/16K = 4 for the words, × 8/4 = 2 for the width: 8 chips. (b) EPROM is erased by ultraviolet light, the whole chip, out of the circuit; EEPROM is erased electrically, in the circuit, a byte at a time.
+      (c) A DRAM bit is charge on a capacitor, and it leaks away. An SRAM bit is held by a latch, which restores itself as long as power is on.</li>
+    <li><b>E7.</b> (a) 3 inputs and 3 outputs: an 8 × 3 PROM (2³ words of 3 bits). F<sub>1</sub>: minterms 1, 2, 4, 6. F<sub>2</sub>: 0, 1, 6, 7. F<sub>3</sub>: 1, 2, 3, 5, 7. (b) F<sub>1</sub> = A'B'C + BC' + AC'. F<sub>2</sub> = A'B' + AB. F<sub>3</sub> = C + A'B.
+      (c) 8 address inputs and 8 output bits: 2⁸ × 8 = 256 × 8. (d) PAL: programmable AND array, fixed OR array. PLA: both arrays programmable, so product terms can be shared.</li>
+  </ol>
+</section>

@@ -1,0 +1,255 @@
+<!-- ============================================================ PART A -->
+<section class="part">
+  <div class="part-no">Part A · Unit 1</div>
+  <h1>Combinational logic design</h1>
+  <p class="lead">A digital signal has two values, written 0 and 1. A <b>combinational</b> circuit is one whose output depends only on its present inputs.
+    This part builds the tools to describe such a circuit (Boolean algebra), shrink it (K-map), build it from one kind of gate (NAND or NOR), and then uses them on the first real circuits: adders.</p>
+  <div class="fig">{{ sub_map(["A1 Boolean\nalgebra", "A2 Canonical\nforms", "A3 K-map", "A4 POS,\n5 variables", "A5 NAND /\nNOR", "A6–A8\nAdders"]) }}</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › Boolean algebra</div>
+  <h2>A1 · Gates and the laws of Boolean algebra</h2>
+  <div class="q"><span class="src">Professor's deck 01 · slide 18 "Algebraic manipulation"</span>
+    Simplify F = x'yz + x'yz' + xz.</div>
+  <div class="guess">Guess first: which two terms differ in only one variable?</div>
+  <div class="terms"><b>Variable:</b> a letter that is 0 or 1. · <b>Complement</b> x': 1 when x is 0, and 0 when x is 1. ·
+    <b>Literal:</b> a variable or its complement (x and x' are two literals). · <b>Gate:</b> a circuit that performs one logic operation.</div>
+  <div class="fig">{{ gates_row() }}</div>
+  <p><b>Three basic operations.</b> AND (A·B, written AB) is 1 only when both inputs are 1. OR (A + B) is 1 when at least one input is 1. NOT (A') inverts.
+    NAND and NOR are AND and OR followed by NOT. XOR (A ⊕ B = A'B + AB') is 1 when the inputs differ; XNOR (A ⊙ B) is 1 when they are equal.
+    A function of n variables has a <b>truth table</b> of 2ⁿ rows, one per input combination.</p>
+  <table class="data">
+    <tr><th>Law</th><th>OR form</th><th>AND form</th></tr>
+    <tr><td>Identity, null</td><td>X + 0 = X · X + 1 = 1</td><td>X·1 = X · X·0 = 0</td></tr>
+    <tr><td>Idempotent, complement</td><td>X + X = X · X + X' = 1</td><td>X·X = X · X·X' = 0</td></tr>
+    <tr><td>Involution</td><td colspan="2">(X')' = X</td></tr>
+    <tr><td>Distributive</td><td>X + YZ = (X + Y)(X + Z)</td><td>X(Y + Z) = XY + XZ</td></tr>
+    <tr><td>Absorption</td><td>X + XY = X · X + X'Y = X + Y</td><td>X(X + Y) = X</td></tr>
+    <tr><td><b>De Morgan</b></td><td>(X + Y)' = X'·Y'</td><td>(X·Y)' = X' + Y'</td></tr>
+    <tr><td>Consensus</td><td colspan="2">XY + X'Z + YZ = XY + X'Z (the term YZ is redundant)</td></tr>
+  </table>
+  <p><b>Duality.</b> Swap + with · and 0 with 1 in any law and you get another true law. That is why the table has two columns.
+    <b>De Morgan in words:</b> break the bar, change the sign.</p>
+  <div class="ans"><b>Answer.</b> The first two terms differ only in z. F = x'y(z + z') + xz = x'y·1 + xz = <b>x'y + xz</b>. Three 3-input ANDs became two 2-input ANDs.</div>
+  <div class="check"><b>Check A1.</b> (a) Deck 01 slide 19: prove x'y'z' + x'yz' + xyz' = x'z' + yz'. (b) Simplify A + A'B. (c) Use De Morgan to write the complement of A + B'C with no bar over more than one variable.
+    (d) Deck 01 slide 9: a function F depends on n variables. How many rows does its truth table have?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › Boolean algebra</div>
+  <h2>A2 · Minterms, maxterms and canonical forms</h2>
+  <div class="q"><span class="src">Professor's deck 01 · slides 27–29</span>
+    f<sub>1</sub>(a, b, c) is 1 for the input rows 001, 010, 100 and 110. Write it as a sum of minterms (Σm) and as a product of maxterms (ΠM).</div>
+  <div class="guess">Guess first: Σm lists the rows where the function is 1. Which rows does ΠM list?</div>
+  <div class="terms"><b>Minterm</b> m<sub>j</sub>: an AND of all the variables that is 1 for exactly one row, row j. A variable is complemented where the row has a 0. ·
+    <b>Maxterm</b> M<sub>j</sub>: an OR of all the variables that is 0 for exactly one row. A variable is complemented where the row has a 1. So M<sub>j</sub> = m<sub>j</sub>'.</div>
+  <table class="data tt mono">
+    <tr><th>row j</th><th>a b c</th><th>minterm m<sub>j</sub></th><th>maxterm M<sub>j</sub></th><th>f<sub>1</sub></th></tr>
+    <tr><td>0</td><td>0 0 0</td><td>a'b'c'</td><td>a + b + c</td><td>0</td></tr>
+    <tr><td>1</td><td>0 0 1</td><td>a'b'c</td><td>a + b + c'</td><td><b>1</b></td></tr>
+    <tr><td>2</td><td>0 1 0</td><td>a'bc'</td><td>a + b' + c</td><td><b>1</b></td></tr>
+    <tr><td>3</td><td>0 1 1</td><td>a'bc</td><td>a + b' + c'</td><td>0</td></tr>
+    <tr><td>4</td><td>1 0 0</td><td>ab'c'</td><td>a' + b + c</td><td><b>1</b></td></tr>
+    <tr><td>5</td><td>1 0 1</td><td>ab'c</td><td>a' + b + c'</td><td>0</td></tr>
+    <tr><td>6</td><td>1 1 0</td><td>abc'</td><td>a' + b' + c</td><td><b>1</b></td></tr>
+    <tr><td>7</td><td>1 1 1</td><td>abc</td><td>a' + b' + c'</td><td>0</td></tr>
+  </table>
+  <p><b>Canonical SOP</b> (sum of products): OR together the minterms of the rows where F = 1. <b>Canonical POS</b> (product of sums): AND together the maxterms of the rows where F = 0.
+    Both are unique for a function. To convert one to the other, swap Σ and Π and list the <b>missing</b> row numbers.</p>
+  <p><b>Standard form</b> is SOP or POS in which terms may have fewer literals (a'b'c + bc' + ac'). To make it canonical, multiply each short term by (x + x') for every missing variable x, then remove repeats:
+    bc' = (a + a')bc' = abc' + a'bc'.</p>
+  <div class="ans"><b>Answer.</b> f<sub>1</sub> = Σm(1, 2, 4, 6) = a'b'c + a'bc' + ab'c' + abc'. The rows left out are 0, 3, 5, 7, so
+    f<sub>1</sub> = ΠM(0, 3, 5, 7) = (a + b + c)(a + b' + c')(a' + b + c')(a' + b' + c').</div>
+  <div class="warn"><b>Slip in the slides.</b> Deck 01 slide 31 expands the same function and its last line prints the term a'bc. It should be a'bc' (row 2). a'bc is row 3, where f<sub>1</sub> = 0.</div>
+  <div class="check"><b>Check A2.</b> (a) F(A, B, C) = Σm(0, 2, 5). Write it as ΠM. (b) Write minterm m<sub>5</sub> and maxterm M<sub>5</sub> for variables (A, B, C).
+    (c) Expand f = a'b'c + bc' + ac' into minterms and give the Σm list.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › K-map · asked in the 2025 mid-term</div>
+  <h2>A3 · The Karnaugh map</h2>
+  <div class="q"><span class="src">MUJ mid-term, 25 Sep 2025 · Q4 · 4 marks</span>
+    Minimize the following Boolean function using K-Map method to obtain a simplified expression. Also draw the logic circuit using basic gates.
+    F(a, b, c, d) = Σm(0, 4, 5, 7–9, 15) + Σd(1, 3, 6, 14)</div>
+  <div class="guess">Guess first: a don't-care can be read as 0 or 1. When would you choose 1?</div>
+  <div class="terms"><b>K-map:</b> the truth table redrawn as a grid, ordered 00, 01, 11, 10 so that neighbouring cells differ in exactly one variable. ·
+    <b>Don't-care (X):</b> an input combination that never occurs, or whose output does not matter. ·
+    <b>Prime implicant:</b> a group that cannot be made any larger. · <b>Essential prime implicant:</b> a prime implicant that covers some 1 no other prime implicant covers.</div>
+  <div class="two">
+    <div class="fig">{{ km("abcd", [0,4,5,7,8,9,15], [1,3,6,14], ["b'c'", "bc", "a'c'"]) }}</div>
+    <div>
+      <p><b>Why grouping works.</b> Two neighbouring 1s differ in one variable x, so their sum is (rest)(x + x') = rest. The variable that changes inside a group drops out.</p>
+      <p><b>Rules for groups</b> (deck 02 slides 4–10):</p>
+      <ul class="tight">
+        <li>Only 1s (and X's you choose to use), never a 0.</li>
+        <li>Rectangles of 1, 2, 4, 8 … cells. No diagonals.</li>
+        <li>The map <b>wraps around</b>: left edge touches right edge, top touches bottom.</li>
+        <li>Make each group as large as possible, and use as few groups as possible.</li>
+        <li>Every 1 must be in at least one group. Groups may overlap.</li>
+      </ul>
+      <p>A group of 2ᵏ cells removes k variables. In a 4-variable map: 8 cells → 1 literal, 4 cells → 2 literals, 2 cells → 3 literals.</p>
+    </div>
+  </div>
+  <p><b>Procedure.</b> (1) Put a 1 in each minterm cell, X in each don't-care cell (the small number in each cell is its minterm number). (2) Find the essential prime implicants first. (3) Cover the remaining 1s with the fewest, largest groups.
+    (4) Read each group: keep only the variables that stay the same across it; write the variable if it stays 1, its complement if it stays 0.
+    <b>Use an X only when it makes a group of 1s bigger.</b> An X never needs to be covered.</p>
+  <div class="ans"><b>Answer.</b> Top row and bottom row join by wrap-around: cells 0, 1, 8, 9 → <b>b'c'</b> (X at 1 used). Cells 6, 7, 14, 15 → <b>bc</b> (X at 6 and 14 used).
+    The 1s left are 4 and 5: cells 0, 1, 4, 5 → <b>a'c'</b>. X at 3 is not needed, so it is read as 0.
+    <p class="eq">F = b'c' + bc + a'c'</p>
+    Cells 4, 5, 6, 7 (a'b) cover 4 and 5 equally well, so F = b'c' + bc + a'b is also minimal. Circuit: three 2-input AND gates into one 3-input OR gate, with inverters for a', b', c' (figure below).
+    <div class="fig">{{ two_level([["b'", "c'"], ["b", "c"], ["a'", "c'"]], width=82) }}</div></div>
+  <div class="check"><b>Check A3.</b> (a) Deck 02 slide 69: minimise F(a, b, c, d) = Σm(0, 2, 6, 8, 12, 13, 15) + d(3, 4, 9). (b) Deck 02 slide 27: minimise F(a, b, c) = Σm(2, 3, 6, 7).
+    The slide first circles two pairs and marks it "Wrong!!". What is wrong with two pairs? (c) How many literals does a group of 4 leave in a 4-variable map?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › K-map</div>
+  <h2>A4 · Product-of-sums from the map, and five variables</h2>
+  <div class="q"><span class="src">Professor's deck 02 · slide 63 "PoS optimization from SoP"</span>
+    F(W, X, Y, Z) = Σm(0, 1, 2, 5, 8, 9, 10). Find the minimal SOP and the minimal POS. "Which one is the minimal one?"</div>
+  <div class="guess">Guess first: to get a product of sums, which cells do you group?</div>
+  <div class="two">
+    <div class="fig">{{ km("WXYZ", [0,1,2,5,8,9,10], [], ["X'Y'", "X'Z'", "W'Y'Z"], title="SOP: group the 1s") }}</div>
+    <div class="fig">{{ km("WXYZ", [0,1,2,5,8,9,10], [], ["(W' + X')", "(Y' + Z')", "(X' + Z)"], pos=True, title="POS: group the 0s") }}</div>
+  </div>
+  <p><b>POS method.</b> Group the <b>0s</b> with the same rules. Each group gives one <b>sum</b> term, read the opposite way round: a variable that stays 0 across the group is written plain, one that stays 1 is written complemented.
+    AND the sum terms together. (Reason: grouping the 0s gives F' as a sum of products; complementing it with De Morgan gives F as a product of sums.)</p>
+  <div class="ans"><b>Answer.</b> SOP: F = X'Y' + X'Z' + W'Y'Z (7 literals). POS: the 0s group as WX (cells 12–15), YZ (cells 3, 7, 11, 15) and XZ' (cells 4, 6, 12, 14), so
+    F = (W' + X')(Y' + Z')(X' + Z) (6 literals). Both need three gates plus one output gate; <b>the POS form is one literal cheaper</b>. Always work out both when the question asks for "minimal".</div>
+  <p><b>Five variables.</b> Draw two 4-variable maps, one for the first variable = 0 (minterms 0–15) and one for it = 1 (minterms 16–31). Cells in the <b>same position</b> on the two maps are also neighbours.</p>
+  <div class="fig">{{ km5("abcde", [5,7,13,15,21,23,29,31], [], ["ce"]) }}</div>
+  <p>Deck 02 slides 58–61: F(a, b, c, d, e) = Σm(5, 7, 13, 15, 21, 23, 29, 31). The same block of four appears in both maps, so a drops out as well: <b>F = ce</b>.</p>
+  <div class="check"><b>Check A4.</b> (a) Deck 02 slide 64: F(W, X, Y, Z) = ΠM(0, 2, 3, 4, 5, 6). Find the minimal SOP.
+    (b) Professor's practice set 1, Q1: minimise F(v, w, x, y, z) = Σm(0, 2, 5, 8, 10, 13, 15, 17, 19, 21, 26, 28, 29, 30, 31) + Σd(7, 12, 14, 23, 24).</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › Universal gates · asked in the 2025 mid-term</div>
+  <h2>A5 · Building everything from NAND or from NOR</h2>
+  <div class="q"><span class="src">MUJ mid-term, 25 Sep 2025 · Q1 · 2 marks</span>
+    Optimized the following expression and implement using 2-input NOR gate. F = P'Q' + P'</div>
+  <div class="guess">Guess first: can the answer still depend on Q?</div>
+  <div class="terms"><b>Universal gate:</b> a gate type that can build NOT, AND and OR on its own, and therefore any circuit. NAND and NOR are both universal.</div>
+  <div class="fig">{{ universal_nand() }}</div>
+  <p><b>Proof for NAND</b> (above): tie the inputs together for NOT; follow a NAND with that inverter for AND; invert both inputs first for OR, because (X'·Y')' = X + Y by De Morgan. NOR is the dual: NOT = NOR with inputs tied, OR = NOR + inverter, AND = NOR of the inverted inputs.</p>
+  <table class="data">
+    <tr><th>To build with</th><th>Start from</th><th>Then</th><th>Why it works</th></tr>
+    <tr><td><b>NAND only</b></td><td>minimal <b>SOP</b></td><td>replace every AND and the OR by NAND (two-level NAND–NAND)</td><td>((AB)'·(CD)')' = AB + CD</td></tr>
+    <tr><td><b>NOR only</b></td><td>minimal <b>POS</b></td><td>replace every OR and the AND by NOR (two-level NOR–NOR)</td><td>((A + B)' + (C + D)')' = (A + B)(C + D)</td></tr>
+  </table>
+  <p>A term that is a single literal goes straight into the output gate, but <b>complemented</b> (for F = A + BC with NAND: the output NAND gets A' and (BC)').</p>
+  <div class="two">
+    <div class="fig">{{ two_level([["b'", "c'"], ["b", "c"], ["a'", "c'"]], "Nand", "Nand", width=80) }}<div class="prov">A3's answer F = b'c' + bc + a'c' with NAND gates only</div></div>
+    <div class="fig">{{ xor_nand() }}<div class="prov">XOR from four NAND gates (deck 01 slide 47)</div></div>
+  </div>
+  <div class="ans"><b>Answer.</b> F = P'Q' + P' = P'(Q' + 1) = <b>P'</b> (absorption). Q drops out. A NOR gate with both inputs tied to P gives (P + P)' = P':
+    <div class="fig">{{ nor_inverter() }}</div></div>
+  <div class="check"><b>Check A5.</b> (a) Professor's practice set 1, Q2: minimise F(w, x, y, z) = Σm(0, 1, 3, 5, 7, 10, 11) + d(2, 6, 13) and realise it using NAND gates only.
+    (b) How many 2-input NOR gates realise F = (A + B)(C + D)? (c) Build a 2-input AND from NOR gates only.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › Arithmetic circuits</div>
+  <h2>A6 · Half adder, full adder, subtractors</h2>
+  <div class="q"><span class="src">Practice · deck 03 slides 4–12</span>
+    Design a full adder. Give its truth table and the minimal expressions for sum and carry, and show how it is built from two half adders.</div>
+  <div class="guess">Guess first: 1 + 1 + 1 in binary. Which bit is the sum and which is the carry?</div>
+  <div class="terms"><b>Half adder:</b> adds two bits A and B. · <b>Full adder:</b> adds three bits: A, B and the carry-in from the column to the right. · <b>Carry:</b> the bit passed to the next more significant column.</div>
+  <div class="two">
+    <div class="fig">{{ half_adder() }}<div class="prov">half adder: 0 + 0 = 00, 0 + 1 = 01, 1 + 0 = 01, 1 + 1 = 10</div></div>
+    <table class="data tt mono">
+      <tr><th>A B C<sub>in</sub></th><th>C<sub>out</sub> S</th></tr>
+      <tr><td>0 0 0</td><td>0 0</td></tr><tr><td>0 0 1</td><td>0 1</td></tr><tr><td>0 1 0</td><td>0 1</td></tr><tr><td>0 1 1</td><td>1 0</td></tr>
+      <tr><td>1 0 0</td><td>0 1</td></tr><tr><td>1 0 1</td><td>1 0</td></tr><tr><td>1 1 0</td><td>1 0</td></tr><tr><td>1 1 1</td><td>1 1</td></tr>
+    </table>
+  </div>
+  <p><b>Reading the full-adder table.</b> S is 1 when an odd number of inputs are 1: S = Σm(1, 2, 4, 7). C<sub>out</sub> is 1 when two or more inputs are 1: C<sub>out</sub> = Σm(3, 5, 6, 7), and its K-map gives three pairs.</p>
+  <p class="eq">S = A ⊕ B ⊕ C<sub>in</sub> &nbsp;&nbsp;&nbsp; C<sub>out</sub> = AB + BC<sub>in</sub> + AC<sub>in</sub> = AB + C<sub>in</sub>(A ⊕ B)</p>
+  <div class="fig">{{ full_adder_2ha() }}</div>
+  <p><b>Subtractors</b> work the same way with a <b>borrow</b>. The difference bit is the same XOR; only the borrow logic changes (A is complemented in it).</p>
+  <table class="data">
+    <tr><th></th><th>Difference</th><th>Borrow out</th></tr>
+    <tr><td>Half subtractor (A − B)</td><td>D = A ⊕ B</td><td>B<sub>out</sub> = A'B</td></tr>
+    <tr><td>Full subtractor (A − B − B<sub>in</sub>)</td><td>D = A ⊕ B ⊕ B<sub>in</sub></td><td>B<sub>out</sub> = A'B + A'B<sub>in</sub> + BB<sub>in</sub> = A'B + B<sub>in</sub>(A ⊕ B)'</td></tr>
+  </table>
+  <div class="ans"><b>Answer.</b> Truth table above. S = A ⊕ B ⊕ C<sub>in</sub>, C<sub>out</sub> = AB + BC<sub>in</sub> + AC<sub>in</sub>.
+    Two half adders: the first adds A and B; the second adds that sum to C<sub>in</sub> and gives S. Either half adder may produce a carry, never both, so one OR gate combines them into C<sub>out</sub>.</div>
+  <div class="check"><b>Check A6.</b> (a) Give S and C<sub>out</sub> of a full adder for A = 1, B = 0, C<sub>in</sub> = 1. (b) Write the truth table of a half subtractor and read D and B<sub>out</sub> from it.
+    (c) What is the one difference between the full-adder carry and the full-subtractor borrow expressions?</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › Arithmetic circuits</div>
+  <h2>A7 · Parallel adder, carry look-ahead, adder–subtractor</h2>
+  <div class="q"><span class="src">Professor's deck 03 · slides 18–19</span>
+    Add A = 1011 (eleven) and B = 1110 (fourteen) in a 4-bit ripple-carry adder, showing every carry. If each gate has delay T, what is the delay of an n-bit ripple-carry adder?</div>
+  <div class="guess">Guess first: which output bit is the last one to become correct?</div>
+  <div class="fig">{{ ripple_adder() }}</div>
+  <p><b>Parallel (ripple-carry) adder.</b> One full adder per bit; each carry-out feeds the next carry-in. All bits of A and B arrive together, but the carry has to <b>ripple</b> from the right end to the left end, so the top bits settle last.</p>
+<p><b>Carry look-ahead (CLA)</b> removes the wait. For each bit define</p>
+      <p class="eq">G<sub>i</sub> = A<sub>i</sub>B<sub>i</sub> (generate) &nbsp; P<sub>i</sub> = A<sub>i</sub> ⊕ B<sub>i</sub> (propagate)</p>
+      <p>A stage produces a carry if it generates one, or if it passes on the one coming in: C<sub>i+1</sub> = G<sub>i</sub> + P<sub>i</sub>C<sub>i</sub>. Substituting each carry into the next:</p>
+      <p>C<sub>1</sub> = G<sub>0</sub> + P<sub>0</sub>C<sub>0</sub><br>C<sub>2</sub> = G<sub>1</sub> + P<sub>1</sub>G<sub>0</sub> + P<sub>1</sub>P<sub>0</sub>C<sub>0</sub><br>
+        C<sub>3</sub> = G<sub>2</sub> + P<sub>2</sub>G<sub>1</sub> + P<sub>2</sub>P<sub>1</sub>G<sub>0</sub> + P<sub>2</sub>P<sub>1</sub>P<sub>0</sub>C<sub>0</sub></p>
+      <p>Every carry is now a two-level AND–OR of the inputs and C<sub>0</sub>, so all carries are ready together, and S<sub>i</sub> = P<sub>i</sub> ⊕ C<sub>i</sub>. The price is more and wider gates.</p>
+  <div class="fig">{{ cla_delay() }}</div>
+  <p><b>Adder–subtractor.</b> In 2's complement, A − B = A + B' + 1. Put an XOR on each B input, controlled by a mode line M, and use M as the first carry-in:</p>
+  <div class="fig">{{ ripple_adder(True) }}</div>
+  <p>M = 0: each XOR passes B unchanged and C<sub>0</sub> = 0, so the circuit adds. M = 1: each XOR gives B' and C<sub>0</sub> = 1, so it computes A + B' + 1 = A − B.
+    For unsigned numbers, a final carry of 1 after subtraction means the result is positive (discard the carry); a final carry of 0 means it is negative and is in 2's-complement form.</p>
+  <div class="ans"><b>Answer.</b> Bit 0: 1 + 0 + 0 → S<sub>0</sub> = 1, C<sub>1</sub> = 0. Bit 1: 1 + 1 + 0 → S<sub>1</sub> = 0, C<sub>2</sub> = 1. Bit 2: 0 + 1 + 1 → S<sub>2</sub> = 0, C<sub>3</sub> = 1.
+    Bit 3: 1 + 1 + 1 → S<sub>3</sub> = 1, C<sub>out</sub> = 1. Result <b>1 1001</b> = 25 ✓.
+    Delay, counting as the deck does (one gate delay T for the first XOR level, then two gate levels per carry stage): the last carry needs 2n·T and the total is <b>(2n + 1)T</b>. For n = 4 that is 9T.</div>
+  <div class="check"><b>Check A7.</b> (a) For A = 1011 and B = 1110 with C<sub>0</sub> = 0, write G<sub>3</sub>…G<sub>0</sub> and P<sub>3</sub>…P<sub>0</sub>, then find C<sub>1</sub> to C<sub>4</sub> from C<sub>i+1</sub> = G<sub>i</sub> + P<sub>i</sub>C<sub>i</sub>.
+    (b) What is the delay of an 8-bit ripple-carry adder by the (2n + 1)T rule? (c) Do 0110 − 0011 the way the adder–subtractor does it, and state the final carry.</div>
+</section>
+
+<section class="concept">
+  <div class="path">Unit 1 › Arithmetic circuits</div>
+  <h2>A8 · Serial adder and BCD adder</h2>
+  <div class="q"><span class="src">Professor's deck 09 · slides 25–26 "An application: serial addition"</span>
+    A serial adder holds A = 0100 and B = 0111 in two shift registers. Trace the four clock pulses and give the final contents of register A.</div>
+  <div class="guess">Guess first: a serial adder has only one full adder. Where does it keep the carry between bits?</div>
+  <div class="terms"><b>Shift register:</b> a row of storage cells that moves its contents one place per clock pulse (built in C5). Here it only needs to hand out one bit per clock, least significant bit first. ·
+    <b>BCD:</b> binary-coded decimal. Each decimal digit 0–9 is stored as its own 4-bit number, so 1010 to 1111 are not valid digits.</div>
+  <div class="fig">{{ serial_adder() }}</div>
+  <p><b>Serial adder.</b> One full adder is reused for every bit position. On each clock the two registers present their lowest bits, the sum bit shifts back into the top of A, and a flip-flop stores the carry for the next clock.
+    It needs 1 full adder and 1 flip-flop for any word length, but takes n clocks. A parallel adder needs n full adders and takes one step.</p>
+  <table class="data tt mono">
+    <tr><th>clock</th><th>bits added (A, B, carry)</th><th>S</th><th>new carry</th><th>register A after</th></tr>
+    <tr><td>start</td><td>–</td><td>–</td><td>0</td><td>0100</td></tr>
+    <tr><td>1</td><td>0 + 1 + 0</td><td>1</td><td>0</td><td>1010</td></tr>
+    <tr><td>2</td><td>0 + 1 + 0</td><td>1</td><td>0</td><td>1101</td></tr>
+    <tr><td>3</td><td>1 + 1 + 0</td><td>0</td><td>1</td><td>0110</td></tr>
+    <tr><td>4</td><td>0 + 0 + 1</td><td>1</td><td>0</td><td>1011</td></tr>
+  </table>
+  <p><b>BCD adder.</b> Add two BCD digits with an ordinary 4-bit adder. If the result is more than 9, it is not a valid digit and the decimal carry has been missed.
+    Adding <b>6</b> (0110) fixes both, because a 4-bit adder rolls over at 16 and a decimal digit should roll over at 10: 16 − 10 = 6.</p>
+  <div class="fig">{{ bcd_adder() }}</div>
+  <p>Correction is needed when the first adder gives a carry K (sum 16–19) or its sum is 10–15. The K-map of "Z ≥ 10" gives Z<sub>3</sub>Z<sub>2</sub> + Z<sub>3</sub>Z<sub>1</sub>, so
+    <b>Y = K + Z<sub>3</sub>Z<sub>2</sub> + Z<sub>3</sub>Z<sub>1</sub></b>. Example: 8 + 7 → 1000 + 0111 = 1111 (15), Y = 1, add 0110 → 1 0101: carry 1, digit 5, which reads 15 ✓.</p>
+  <div class="ans"><b>Answer.</b> The table above: after four clocks register A holds <b>1011</b> (4 + 7 = 11) and the carry flip-flop holds 0.</div>
+  <div class="check"><b>Check A8.</b> (a) Add the BCD digits 6 and 5 the way the BCD adder does: first sum, Y, corrected sum. (b) Add 9 + 9 the same way. (c) How many full adders and how many clock pulses does a serial adder need for 8-bit numbers?</div>
+</section>
+
+<section class="answers">
+  <h3>Answers: Part A Checks</h3>
+  <ol>
+    <li><b>A1.</b> (a) Repeat the middle term (X + X = X): x'y'z' + x'yz' + x'yz' + xyz' = x'z'(y' + y) + yz'(x' + x) = x'z' + yz'. (b) A + A'B = (A + A')(A + B) = A + B.
+      (c) (A + B'C)' = A'·(B'C)' = A'(B + C'). (d) 2ⁿ rows.</li>
+    <li><b>A2.</b> (a) ΠM(1, 3, 4, 6, 7). (b) m<sub>5</sub> = AB'C (row 101); M<sub>5</sub> = A' + B + C'. (c) a'b'c + (a + a')bc' + a(b + b')c' = a'b'c + abc' + a'bc' + ab'c' = Σm(1, 2, 4, 6).</li>
+    <li><b>A3.</b> (a) F = a'd' + c'd' + abd (cells 0, 2, 4, 6 with X at 4; cells 0, 4, 8, 12; cells 13, 15). ac' in place of c'd' is equally minimal. X at 3 is not used.
+      (b) F = b: all four 1s form one group of four. Two pairs give ab + a'b, which still simplifies, so the groups were not as large as possible. (c) 2 literals.</li>
+    <li><b>A4.</b> (a) The 1s are Σm(1, 7, 8–15): F = W + XYZ + X'Y'Z. (b) F = xz + wz' + v'x'z' + vw'z. Groups: xz (cells 5, 7, 13, 15, 21, 23, 29, 31), wz' (8, 10, 12, 14, 24, 26, 28, 30),
+      v'x'z' (0, 2, 8, 10), vw'z (17, 19, 21, 23). For a universal-gate circuit use NAND–NAND: four first-level NAND gates and one 4-input output NAND.</li>
+    <li><b>A5.</b> (a) F = w'x' + w'z + x'y. NAND–NAND: three 2-input NAND gates (inputs w', x' · w', z · x', y) into one 3-input NAND. (b) Three: one for each sum and one output gate.
+      (c) AB = (A' + B')'. Two NOR gates with tied inputs make A' and B'; a third NOR gives (A' + B')' = AB.</li>
+    <li><b>A6.</b> (a) S = 0, C<sub>out</sub> = 1 (1 + 0 + 1 = 10). (b) A B → D B<sub>out</sub>: 00 → 0 0, 01 → 1 1, 10 → 1 0, 11 → 0 0. So D = A ⊕ B, B<sub>out</sub> = A'B.
+      (c) A is replaced by A' in the borrow: AB + BC + AC becomes A'B + BB<sub>in</sub> + A'B<sub>in</sub>.</li>
+    <li><b>A7.</b> (a) G = A·B = 1010, P = A ⊕ B = 0101 (bits 3…0). C<sub>1</sub> = G<sub>0</sub> + P<sub>0</sub>C<sub>0</sub> = 0. C<sub>2</sub> = G<sub>1</sub> + P<sub>1</sub>C<sub>1</sub> = 1. C<sub>3</sub> = G<sub>2</sub> + P<sub>2</sub>C<sub>2</sub> = 0 + 1·1 = 1.
+      C<sub>4</sub> = G<sub>3</sub> + P<sub>3</sub>C<sub>3</sub> = 1. Same carries as the ripple adder. (b) (2 × 8 + 1)T = 17T. (c) B' = 1100. 0110 + 1100 + 1 = 1 0011. Final carry 1, so the result is positive: 0011 (6 − 3 = 3).</li>
+    <li><b>A8.</b> (a) 0110 + 0101 = 1011 (11). Z<sub>3</sub>Z<sub>1</sub> = 1 so Y = 1. 1011 + 0110 = 1 0001: carry 1, digit 1, which reads 11. (b) 1001 + 1001 = 1 0010: K = 1 so Y = 1. 0010 + 0110 = 1000 with carry 1: reads 18.
+      (c) 1 full adder (plus one carry flip-flop), 8 clock pulses.</li>
+  </ol>
+</section>

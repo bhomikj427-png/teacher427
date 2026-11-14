@@ -1,0 +1,139 @@
+<!-- ============================================================ MOCK PAPER -->
+<section class="part">
+  <div class="part-no">Mock paper</div>
+  <h1>Mock end-term paper</h1>
+  <p class="lead">Closed book, on paper. Allow 3 hours. Then mark it with the key that follows and redo anything you missed.</p>
+  <p class="fine">No Digital Electronics end-term paper or blueprint has been seen, so the real format is unknown. This paper copies the layout of the one official blueprint in hand for this session
+    (MAS2001, July–Nov 2026): Part A 10 × 2 marks, Part B 6 × 6 marks, Part C 2 × 8 marks, Part D 1 × 8 marks, total 80. Questions with a source tag are the professor's own and were not used earlier in this pack.</p>
+</section>
+
+<section class="concept mock">
+  <h3>Part A · 10 × 2 = 20 marks</h3>
+  <ol>
+    <li>State De Morgan's two theorems.</li>
+    <li>Convert F(A, B, C) = Σm(1, 3, 6) to product-of-maxterms form.</li>
+    <li>Why is the NAND gate called a universal gate?</li>
+    <li>How many select lines does a 16:1 multiplexer have? How many 4:1 multiplexers build it as a tree?</li>
+    <li>Find the odd parity bit for the data word 1101001.</li>
+    <li>Give two differences between a latch and a flip-flop.</li>
+    <li>How many flip-flops does a MOD-12 counter need, and how many states are left unused?</li>
+    <li>Give two differences between a Mealy machine and a Moore machine.</li>
+    <li>A gate has V<sub>OH(min)</sub> = 2.7 V, V<sub>IH(min)</sub> = 2.0 V, V<sub>IL(max)</sub> = 0.8 V, V<sub>OL(max)</sub> = 0.5 V. Find its noise margins.</li>
+    <li>Differentiate PAL and PLA.</li>
+  </ol>
+  <h3>Part B · 6 × 6 = 36 marks</h3>
+  <ol start="11">
+    <li>Design a combinational circuit having 4 inputs that will produce an output '1' when two consecutive input bits are 1 and produce '0' for other cases. <span class="src">practice set 1, Q4</span></li>
+    <li>Implement the following Boolean function using 8:1 multiplexer: F(P, Q, R, S) = Σm(0, 2, 5, 9, 11, 12, 14, 15). <span class="src">practice set 1, Q6</span></li>
+    <li>Implement the following function using suitable decoder: F(a, b, c, d) = Σm(0, 1, 2, 5, 6, 8, 9, 15). <span class="src">practice set 1, Q8</span></li>
+    <li>Design 2-bit synchronous up counter. <span class="src">practice set 2, Q4</span> Use JK flip-flops and show the state table, the excitation table and the circuit equations.</li>
+    <li>Reduce the following state table by partitioning and give the equivalent states. <span class="src">deck 12, slide 18</span>
+      <table class="data tt mono">
+        <tr><th>Present</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th></tr>
+        <tr><td>Next/z, x = 0</td><td>D/0</td><td>C/1</td><td>C/1</td><td>D/0</td><td>C/1</td><td>D/0</td><td>G/0</td><td>B/1</td></tr>
+        <tr><td>Next/z, x = 1</td><td>D/0</td><td>D/0</td><td>D/0</td><td>B/0</td><td>F/0</td><td>D/0</td><td>G/0</td><td>D/0</td></tr>
+      </table></li>
+    <li>Draw the circuit of a two-input TTL NAND gate with totem-pole output and explain its operation. A TTL family has I<sub>OL</sub> = 8 mA, I<sub>IL</sub> = 0.4 mA, I<sub>OH</sub> = 0.4 mA, I<sub>IH</sub> = 20 μA: find its fan-out.</li>
+  </ol>
+  <h3>Part C · 2 × 8 = 16 marks</h3>
+  <ol start="17">
+    <li>Design a Moore circuit to detect a sequence: if the input x = 1011 then output z = 1, otherwise z = 0. <span class="src">deck 11, slide 43, Q1</span> Allow overlap, use D flip-flops, and give the state diagram, state table and flip-flop input equations.</li>
+    <li>Realize the following functions using PAL: F<sub>1</sub>(A, B, C, D) = Σm(1, 4–7, 10–13), F<sub>2</sub> = Σm(4–7, 10–11), F<sub>3</sub> = Σm(4–7, 9–15). <span class="src">deck 15, slide 28; all three taken as functions of A, B, C, D</span>
+      The PAL has three product terms per output. Give the minimal expressions and the PAL programming table.</li>
+  </ol>
+  <h3>Part D · 1 × 8 = 8 marks</h3>
+  <ol start="19">
+    <li>(a) Design a MOD-6 synchronous up counter (0 to 5) using JK flip-flops, and check whether it is self-starting. (b) An asynchronous MOD-6 counter is wanted instead. State how many flip-flops it needs, which outputs feed the reset gate, and one disadvantage compared with the synchronous design.</li>
+  </ol>
+</section>
+
+<section class="answers">
+  <h3>Key: mock paper</h3>
+  <ol>
+    <li>(X + Y)' = X'·Y' and (X·Y)' = X' + Y'. The complement of a sum is the product of the complements, and the reverse. (A1)</li>
+    <li>ΠM lists the rows left out: F = ΠM(0, 2, 4, 5, 7). (A2)</li>
+    <li>NOT, AND and OR can each be built from NAND gates alone, so any logic function can. (A5)</li>
+    <li>4 select lines (2⁴ = 16). Five 4:1 MUXes: four in the first level and one to choose among them. (B1)</li>
+    <li>1101001 has four 1s (even), so the odd parity bit is 1. (B6)</li>
+    <li>A latch is level-triggered and is transparent while its enable is active; a flip-flop is edge-triggered and changes only at a clock edge. A latch needs no clock and can pass input glitches; a flip-flop samples its input once per clock cycle. (C1, C2)</li>
+    <li>2³ = 8 &lt; 12 ≤ 16, so 4 flip-flops; 16 − 12 = 4 unused states. (C7)</li>
+    <li>Mealy: output depends on state and input, written on the arrows, changes as soon as the input changes, fewer states. Moore: output depends on the state only, written in the circles, changes only at a clock edge, usually one more state (any two). (D1)</li>
+    <li>NM<sub>H</sub> = 2.7 − 2.0 = 0.7 V. NM<sub>L</sub> = 0.8 − 0.5 = 0.3 V. (E1)</li>
+    <li>PAL: programmable AND array, fixed OR array; product terms cannot be shared; faster and cheaper. PLA: both arrays programmable; terms shared between outputs; more flexible. (E7)</li>
+    <li>Inputs A, B, C, D in order. F = 1 when A = B = 1 or B = C = 1 or C = D = 1: minterms 3, 6, 7, 11, 12, 13, 14, 15. The K-map gives three groups of four:
+      F = AB + BC + CD. Three 2-input AND gates and one 3-input OR gate (or NAND–NAND). Factored: F = B(A + C) + CD.</li>
+    <li>P, Q, R on the select lines. Pairs (S = 0, S = 1): rows 0, 1 → 1, 0 → I<sub>0</sub> = S'. Rows 2, 3 → 1, 0 → I<sub>1</sub> = S'. Rows 4, 5 → 0, 1 → I<sub>2</sub> = S. Rows 6, 7 → I<sub>3</sub> = 0. Rows 8, 9 → 0, 1 → I<sub>4</sub> = S.
+      Rows 10, 11 → I<sub>5</sub> = S. Rows 12, 13 → 1, 0 → I<sub>6</sub> = S'. Rows 14, 15 → I<sub>7</sub> = 1. (B1)</li>
+    <li>Four variables need a 4:16 decoder (two 3:8 decoders, with a enabling one directly and the other through an inverter). F = OR of decoder outputs 0, 1, 2, 5, 6, 8, 9, 15: one 8-input OR gate, or an 8-input NAND if the outputs are active-low. (B2)</li>
+    <li>States 00 → 01 → 10 → 11 → 00. Excitation (J1 K1, J0 K0): 00: 0X, 1X · 01: 1X, X1 · 10: X0, 1X · 11: X1, X1. K-maps: J0 = K0 = 1, J1 = K1 = Q0.
+      Both flip-flops share the clock; FF0 toggles every pulse, FF1 toggles when Q0 = 1. (With T flip-flops: T0 = 1, T1 = Q0. With D: D0 = Q0', D1 = Q1 ⊕ Q0.) (C8)</li>
+    <li>P₁ by outputs: (ADFG)(BCEH). P₂: on x = 1, D → B (other block) while A, F, G stay in their block, so D separates: (AFG)(BCEH)(D).
+      P₃: A and F go to D; G goes to G, so G separates. On x = 1, E → F while B, C, H → D, so E separates: (AF)(BCH)(D)(E)(G). P₄ = P₃. Equivalent states: A ≡ F and B ≡ C ≡ H; 8 states become 5. (D3)</li>
+    <li>Circuit and operation: E2. Fan-out: LOW state 8/0.4 = 20; HIGH state 400 μA/20 μA = 20; fan-out = 20. (E1)</li>
+    <li>States: S0 nothing, S1 "1", S2 "10", S3 "101", S4 "1011" (z = 1). Table (next for x = 0, x = 1): S0 → S0, S1 · S1 → S2, S1 · S2 → S0, S3 · S3 → S2, S4 · S4 → S2, S1.
+      Codes Y<sub>2</sub>Y<sub>1</sub>Y<sub>0</sub>: S0 000, S1 001, S2 010, S3 011, S4 100; codes 101–111 are don't-cares. D flip-flops:
+      D<sub>2</sub> = Y<sub>1</sub>Y<sub>0</sub>X · D<sub>1</sub> = Y<sub>0</sub>X' + Y<sub>1</sub>Y<sub>0</sub>'X + Y<sub>2</sub>X' · D<sub>0</sub> = Y<sub>1</sub>'X + Y<sub>0</sub>'X · z = Y<sub>2</sub>. (D2)</li>
+    <li>K-maps give F<sub>1</sub> = A'B + BC' + AB'C + A'C'D (four terms), F<sub>2</sub> = A'B + AB'C, F<sub>3</sub> = B + AC + AD.
+      F<sub>1</sub> does not fit in three terms, but two of its terms are F<sub>2</sub>: feed F<sub>2</sub> back and write F<sub>1</sub> = F<sub>2</sub> + BC' + A'C'D.
+      Programming table (columns A B C D F<sub>2</sub>; 1 = connected, 0 = complement connected, – = not connected). F<sub>2</sub>: A'B = 0 1 – – –; AB'C = 1 0 1 – –. F<sub>1</sub>: F<sub>2</sub> = – – – – 1; BC' = – 1 0 – –; A'C'D = 0 – 0 1 –. F<sub>3</sub>: B = – 1 – – –; AC = 1 – 1 – –; AD = 1 – – 1 –. (E7)</li>
+    <li>(a) 3 flip-flops; states 6 and 7 are don't-cares. From the state table and the JK excitation table: J0 = K0 = 1 · J1 = Q2'Q0, K1 = Q0 · J2 = Q1Q0, K2 = Q0.
+      Self-start check: from 110, only FF0 toggles → 111. From 111: FF0 toggles to 0, FF1 resets (J1 = 0, K1 = 1), FF2 toggles to 0 → 000. Both unused states return to the count, so it is self-starting. (C8)
+      (b) 3 flip-flops; clear at 6 = 110, so Q2 and Q1 feed the NAND gate. Disadvantage: ripple delay of up to 3t<sub>pd</sub> and false states (including a brief 110) on the outputs. (C7)</li>
+  </ol>
+</section>
+
+<!-- ============================================================ FORMULA SHEET -->
+<section class="part">
+  <div class="part-no">Formula sheet</div>
+  <h1>Everything to recall</h1>
+  <p class="lead">Cover the right column, write each line from the cue, then uncover. Any row you miss, go back to the section named.</p>
+</section>
+
+<section class="concept">
+  <table class="recall">
+    <tr><th>Cue</th><th>Recall</th></tr>
+    <tr><td>A1 · Laws</td><td>X + XY = X · X + X'Y = X + Y · X + YZ = (X + Y)(X + Z) · (X + Y)' = X'Y' · (XY)' = X' + Y' · XY + X'Z + YZ = XY + X'Z</td></tr>
+    <tr><td>A2 · Canonical forms</td><td>Σm lists the 1-rows, ΠM lists the 0-rows · M<sub>j</sub> = m<sub>j</sub>' · minterm: 0 → complemented; maxterm: 1 → complemented</td></tr>
+    <tr><td>A3, A4 · K-map</td><td>groups of 1, 2, 4, 8; wrap around; largest and fewest; X only to enlarge a group · POS: group the 0s, read each term inverted · 5 variables: two maps, same position is adjacent</td></tr>
+    <tr><td>A5 · Universal gates</td><td>SOP → NAND–NAND · POS → NOR–NOR · inverter = gate with inputs tied · XOR = 4 NAND</td></tr>
+    <tr><td>A6 · Adders</td><td>HA: S = A ⊕ B, C = AB · FA: S = A ⊕ B ⊕ C<sub>in</sub>, C<sub>out</sub> = AB + C<sub>in</sub>(A ⊕ B) · FS: D = A ⊕ B ⊕ B<sub>in</sub>, B<sub>out</sub> = A'B + B<sub>in</sub>(A ⊕ B)'</td></tr>
+    <tr><td>A7 · Parallel adders</td><td>ripple delay (2n + 1)T · G<sub>i</sub> = A<sub>i</sub>B<sub>i</sub>, P<sub>i</sub> = A<sub>i</sub> ⊕ B<sub>i</sub>, C<sub>i+1</sub> = G<sub>i</sub> + P<sub>i</sub>C<sub>i</sub> · subtract: A + B' + 1 (XOR with M, C<sub>0</sub> = M)</td></tr>
+    <tr><td>A8 · BCD adder</td><td>add 0110 when Y = K + Z<sub>3</sub>Z<sub>2</sub> + Z<sub>3</sub>Z<sub>1</sub> = 1 · serial adder: 1 FA + 1 carry flip-flop, n clocks</td></tr>
+    <tr><td>B1 · MUX</td><td>2ⁿ:1 has n selects · n variables on a 2ⁿ⁻¹:1 MUX: inputs are 0, 1, x, x' from each pair of rows</td></tr>
+    <tr><td>B2 · Decoder</td><td>output j = m<sub>j</sub> · function = OR of its minterm outputs (NAND if active-low) · decoder + enable = DEMUX</td></tr>
+    <tr><td>B3 · Priority encoder 4:2</td><td>y<sub>1</sub> = w<sub>3</sub> + w<sub>2</sub> · y<sub>0</sub> = w<sub>3</sub> + w<sub>2</sub>'w<sub>1</sub> · V = w<sub>3</sub> + w<sub>2</sub> + w<sub>1</sub> + w<sub>0</sub></td></tr>
+    <tr><td>B4 · 7-segment</td><td>common cathode: lit by 1 · common anode: lit by 0 (complement the outputs) · codes 10–15 are don't-cares · multiplexed: 7 + N lines</td></tr>
+    <tr><td>B5 · Comparator</td><td>1-bit: G = AB', L = A'B, E = A ⊙ B · 2-bit: G = A<sub>1</sub>B<sub>1</sub>' + x<sub>1</sub>A<sub>0</sub>B<sub>0</sub>', E = x<sub>1</sub>x<sub>0</sub></td></tr>
+    <tr><td>B6 · Parity</td><td>even parity bit = XOR of the data bits · odd = its complement · checker: XOR of everything received</td></tr>
+    <tr><td>B7, B8 · Shifter, ALU</td><td>logical: fill 0 · circular: wrap · arithmetic right: copy the sign bit · ALU: Y = BS<sub>0</sub> + B'S<sub>1</sub>, F = A + Y + C<sub>in</sub></td></tr>
+    <tr><td>C1 · SR latch (NOR)</td><td>00 hold · 01 reset · 10 set · 11 not allowed · D latch: transparent while EN = 1</td></tr>
+    <tr><td>C2 · Characteristic equations</td><td>SR: Q⁺ = S + R'Q (SR = 0) · D: Q⁺ = D · JK: Q⁺ = JQ' + K'Q · T: Q⁺ = T ⊕ Q</td></tr>
+    <tr><td>C3 · Excitation</td><td>0→0: JK 0X, SR 0X, T 0 · 0→1: JK 1X, SR 10, T 1 · 1→0: JK X1, SR 01, T 1 · 1→1: JK X0, SR X0, T 0 · D = Q⁺</td></tr>
+    <tr><td>C5, C6 · Shift registers</td><td>SISO, SIPO, PISO, PIPO · ring: MOD-n, feed back Q · Johnson: MOD-2n, feed back Q'</td></tr>
+    <tr><td>C7 · Ripple counter</td><td>n flip-flops: MOD-2ⁿ · settle time n·t<sub>pd</sub> · MOD-N: NAND of the 1-bits of N → CLEAR · MOD-M then MOD-N = MOD-MN</td></tr>
+    <tr><td>C8 · Synchronous counter</td><td>state table → excitation → K-maps → circuit → check unused states · 3-bit up: T0 = 1, T1 = Q0, T2 = Q1Q0</td></tr>
+    <tr><td>C9 · Timing</td><td>T<sub>clk</sub> ≥ t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub> · hold: t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub></td></tr>
+    <tr><td>D1, D2 · FSM</td><td>Moore: z = f(state) · Mealy: z = f(state, input) · diagram → table → reduce → assign → excitation → K-maps</td></tr>
+    <tr><td>D3 · State reduction</td><td>equivalent = same outputs and equivalent next states · partition by outputs, then by next-state blocks · implication table</td></tr>
+    <tr><td>D4 · ASM</td><td>state box (one clock) · decision box · conditional output box (Mealy output)</td></tr>
+    <tr><td>D6 · Generators</td><td>LFSR maximal length 2ⁿ − 1, never start at 0 · 555 astable f = 1.44/((R₁ + 2R₂)C) · ring oscillator f = 1/(2N·t<sub>pd</sub>), N odd</td></tr>
+    <tr><td>D7 · Asynchronous</td><td>critical race: result depends on order · adjacent codes for adjacent states · hazard cure: every adjacent pair of 1s in one group</td></tr>
+    <tr><td>E1 · Yardsticks</td><td>NM<sub>H</sub> = V<sub>OH(min)</sub> − V<sub>IH(min)</sub> · NM<sub>L</sub> = V<sub>IL(max)</sub> − V<sub>OL(max)</sub> · fan-out = min(I<sub>OL</sub>/I<sub>IL</sub>, I<sub>OH</sub>/I<sub>IH</sub>) · TTL: 0.4 V, 10</td></tr>
+    <tr><td>E2–E5 · Families</td><td>TTL: totem pole, never tie outputs · tristate: 0, 1, Hi-Z · ECL: non-saturating, fastest, most power · CMOS: P = CV<sub>DD</sub>²f, NAND = nMOS series + pMOS parallel</td></tr>
+    <tr><td>E6 · Memory</td><td>2ᵏ words × m bits: k address lines, m data lines · SRAM: latch, 6 transistors · DRAM: 1 transistor + capacitor, refresh</td></tr>
+    <tr><td>E7 · PLDs</td><td>PROM: AND fixed, OR programmable · PAL: AND programmable, OR fixed · PLA: both programmable, shared terms</td></tr>
+  </table>
+</section>
+
+<section class="sources">
+  <h3>Sources</h3>
+  <ul>
+    <li><b>Scope and questions:</b> the professor's material in <code>exam-pack/</code>: decks 01–15 (Boolean algebra, K-map, adders, MUX/DEMUX, decoder/encoder, comparator/parity, shifter/ALU, flip-flops, registers, counters, FSM design, state reduction, ASM charts, logic families, PLDs),
+      the MUJ mid-term paper of 25 Sep 2025 (all eight questions are worked: Q1 A5, Q2 B6, Q3 C2, Q4 A3, Q5 B1, Q6 B2, Q7 C4, Q8 C8), and practice sets 1 and 2. Topics with no professor question are labelled "practice". D7's question is from an Anna University paper (EC6302, Nov/Dec 2021).</li>
+    <li><b>Facts:</b> the subject knowledge base (<code>knowledge-base/</code>, both stages), built on A. Anand Kumar, <i>Fundamentals of Digital Circuits</i>; R. P. Jain, <i>Modern Digital Electronics</i>; Brown &amp; Vranesic, <i>Fundamentals of Digital Logic with Verilog Design</i>; Mano &amp; Ciletti, <i>Digital Design</i>.
+      The family comparison figures in E4 are typical textbook values, not data-sheet values.</li>
+    <li><b>Checking:</b> <code>verify.py</code> recomputes every minimised expression with a Quine–McCluskey minimiser, every MUX, decoder and PLA table by truth-table comparison, every counter and sequence detector by simulation, every state reduction by partitioning, and every number.</li>
+    <li><b>Slips flagged in the slides:</b> deck 01 slide 31 (a'bc should be a'bc'); deck 15 slide 28 (F<sub>2</sub> and F<sub>3</sub> are written as functions of three variables but list minterms above 7).</li>
+    <li><b>Figures:</b> generated for this pack (schemdraw, matplotlib), except four circuit drawings from Wikimedia Commons, credited under each: the 7400 TTL NAND, the CMOS inverter, the CMOS NAND and the 6-transistor SRAM cell.</li>
+  </ul>
+</section>

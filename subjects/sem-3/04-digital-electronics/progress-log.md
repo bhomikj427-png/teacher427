@@ -5,14 +5,11 @@
 > See `../../README.md`.
 
 ## Session resume
-- Last session: 2026-10-17 — no teaching; built `study-pack/pdf/DE-v1.pdf` (ETE half + MTE recap)
-- Where we stopped: subject scaffolded 2026-07-05 (engine audit) — KB was already `stage-2✓`
-  (TEACH-READY, queue 2026-06-27); curriculum/profile/log created so activation needs no
-  mid-boot improvisation. **No teaching yet; learner level undiagnosed.**
-- Next up: **Session 1** — diagnostic (K-map probe, memory-boundary probe, latch-race probe),
-  then open U1 via the loop at the placed level (U0 number-systems prereq: verify by retrieval,
-  teach only gaps).
+- Last session: 2026-11-14 — no teaching; built `study-pack/pdf-ete/DE-ETE-v1.pdf` (61 pp., all 5 units, EDC-ETE-v1 format).
+- Where we stopped: pack delivered; learner has not worked any Check. **No teaching yet; learner level undiagnosed.**
+- Next up: start-of-session recall, then the mock paper (in the PDF) as the diagnostic; teach from the misses.
 - Due for review today: nothing yet (no items mastered).
+- Open: ETE date and format not given; no memory deck from the professor (E6 is built from the KB).
 
 ## Mastery ledger
 *(empty — nothing mastered to criterion yet)*
@@ -147,3 +144,22 @@
 - [2026-11-13] `exam-pack/slides-merged-01-05.pdf` (232 pp.) deleted under the learner's rule "exact same page for page → remove". It was
   compared with decks 01–05 in order: 232/232 pages have identical text, identical embedded images (MD5) and identical rendered pixels.
   Restorable from git history.
+- [2026-11-14] Learner request (stated): "lets do digital electronics ete study-ready pdf, make it the same as the last one which was
+  electronic devices". Building `study-pack/pdf-ete/DE-ETE-v1.pdf` in the EDC-ETE-v1 format (parts/*.html + figs*.py + verify.py + build.py;
+  Q sourced → guess → figure → teaching → answer → Check; Check answers end each Part; mock paper + key; formula sheet). Scope = all 5
+  syllabus units, from zero. Questions from the professor's decks 01–15, the 2025 MTE paper and the two practice sets where they have one,
+  else labelled "practice". Facts from the `stage-2✓` KB. **No teaching event.**
+- [2026-11-14] `study-pack/pdf-ete/DE-ETE-v1.pdf` **built: 61 pages, A4.** Part A Unit 1 (A1 Boolean algebra, A2 canonical forms, A3 K-map, A4 POS + 5 variables,
+  A5 NAND/NOR, A6 half/full adder + subtractors, A7 ripple/CLA/adder-subtractor, A8 serial + BCD adder), Part B Unit 2 (B1 MUX, B2 decoder/DEMUX, B3 encoder,
+  B4 7-segment + multiplexed display, B5 comparator, B6 parity, B7 shifts + barrel shifter, B8 ALU), Part C Unit 3 (C1 latches, C2 flip-flops, C3 excitation +
+  conversion, C4 waveforms, C5 shift registers, C6 ring/Johnson, C7 ripple counters, C8 synchronous counter design, C9 timing), Part D Unit 4 (D1 Moore/Mealy,
+  D2 1101 detector, D3 state reduction, D4 ASM, D5 timing issues, D6 generators, D7 asynchronous), Part E Unit 5 (E1 yardsticks, E2 TTL NAND, E3 tristate,
+  E4 ECL + comparison, E5 CMOS + interfacing, E6 memories, E7 PLDs), mock paper (19 Qs, 80 marks, on the MAS2001 blueprint because no DE blueprint exists; uses
+  practice set 1 Q4/Q6/Q8, practice set 2 Q4, deck 11 slide 43 Q1, deck 12 slide 18, deck 15 slide 28) with key, formula sheet, sources.
+  **Question sources:** all 8 questions of the 2025 MTE (Q1 A5, Q2 B6, Q3 C2, Q4 A3, Q5 B1, Q6 B2, Q7 C4, Q8 C8), decks 01–15, practice sets 1–2; the rest
+  labelled "practice". MTE Q7's waveform image is missing from the filed PDF, so C4 uses a practice waveform in the same form (stated in the PDF).
+  `verify.py` passes (192 checks). **Deck slips flagged in the PDF:** deck 01 slide 31 (a'bc should be a'bc'); deck 15 slide 28 (F2, F3 written as 3-variable
+  functions with minterms above 7). Not flagged because the slide image could not be read with certainty: deck 13 slide 8's 1010-detector equations.
+  Reuses the DE-v1 ETE-half figures (`study-pack/pdf/figs.py`) and 4 Wikimedia Commons drawings. All 61 pages viewed after the final build.
+  `study-pack/pdf-ete/README.md` written. **No teaching event; mastery ledger and review queue unchanged.**
+  **Where we stopped:** pack delivered; learner has not worked any Check.
