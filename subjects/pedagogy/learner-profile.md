@@ -16,5 +16,10 @@
 - [stated 2026-11-15] Part B: include all notable teachers, graded honestly (strong / moderate /
   thin / debunked) rather than excluding weak-evidence ones.
 
+- [stated 2026-11-15] Values the misconceptions file highly ("love the misconception file make
+  sure that gets the attention it deserves") → every sprint writes misconceptions in full (why it's
+  tempting, correction, exposing question) and hunts new ones; in the study pack they become the
+  Traps sections and a dedicated myth-busting thread.
+
 ## Known misconceptions
 - (none recorded yet)

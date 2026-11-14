@@ -1,7 +1,7 @@
 # Pedagogy — Knowledge Base Map (Layer 2)
 
 > Built per `../../../subject-research-protocol.md`. Work runs in sprints (`../sprints.md`).
-> **Stage status: `stage-1`** (map pass S1 done 2026-11-15; Stage-1 writing begins at S2).
+> **Stage status: `stage-1`** (S1 map pass done; S2 wrote A1 + A2, 2026-11-15).
 > Teaching gate = `stage-2✓` (no exception). Delivery once complete = study pack
 > (`study-pack-format.md` v1.2).
 
@@ -24,8 +24,8 @@
 ## 1. Part A — units
 | Unit | Content | Anchor sources (IDs → `sources.md`) |
 |---|---|---|
-| A1 | Studying vs learning; performance vs learning; fluency illusions; storage vs retrieval strength | SB15 (+ Bjork & Bjork 1992 → add S2) |
-| A2 | Memory architecture: working memory (~4 chunks), long-term memory, memory systems, encoding → consolidation (sleep) → retrieval, forgetting | C01, Sq04, MD15 |
+| A1 | Studying vs learning; performance vs learning; fluency illusions; storage vs retrieval strength | SB15, BB92, BB11, RK06, KB11, PR18, KoB08 — **written S2** (`A1-studying-vs-learning.md`) |
+| A2 | Memory architecture: working memory (~4 chunks), long-term memory, memory systems, encoding → consolidation (sleep) → retrieval, forgetting | C01, B00, Sq04, MLH13, RB13, W04, TT73, MD15 — **written S2** (`A2-memory-architecture.md`) |
 | A3 | **Kinds of information** (the hub) — see §3 decision | K02, KCP12, G85, G08, S10, Sq04, BC82 |
 | A4 | **Bridge: kind of information → method** | KCP12, D13, FM16 |
 | A5 | Schemas, chunking, novice vs expert, transfer | CS73, CFG81, BC02, BC82 |

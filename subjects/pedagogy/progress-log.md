@@ -2,10 +2,10 @@
 
 ## Session resume
 - Last session: 2026-11-15
-- Where we stopped: S1 map pass done (stage-1); next = S2 (A1 + A2) — start from sprints.md "Current hand-off"
-- Recap: S0 scaffold + roster; S1 map pass — 21 verified anchor sources, Sung claims J1–J22,
-  misconceptions M1–M17, A3 spine decided, prereq graph + threshold concepts
-- Next up: S2 — say "S2"; read only the hand-off's "Read at start" list
+- Where we stopped: S2 done (A1 + A2 written); next = S3 (A3 kinds of information) — start from sprints.md "Current hand-off"
+- Recap: S0 scaffold + roster; S1 map pass; S2 wrote A1 (studying vs learning) + A2 (memory
+  architecture), 32 sources, misconceptions upgraded to full entries (14 written, M18–M25 new)
+- Next up: S3 — say "S3"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -42,7 +42,23 @@
 - [2026-11-15] S1 done-when checked: prereq graph covers A1–A8 + B tiers ✓; ≥1 tier-1 source per
   unit ✓ (A1 SB15 … A8 P08); Sung inventory 22 ≥ 15 ✓. sprints.md: session-entry step + persistent
   Verify backlog added; S1 ticked; hand-off for S2 written.
+- [2026-11-15] Learner feedback on S1: "love the misconception file make sure that gets the
+  attention it deserves." → misconceptions made a first-class sprint output: sprints.md protocol
+  step 9 rewritten (full entry format + hunt quota + status ladder), misconceptions.md restructured
+  (index + full entries), learner-profile preference added.
+- [2026-11-15] S2 (A1 studying vs learning + A2 memory architecture) started. Session entry: tree
+  clean; other subjects' review queues swept — no dated items due.
+- [2026-11-15] S2: verified A1 sources (BB92, RK06, KB11, PR18, KoB08 at abstract level; BB11 at full
+  text from Bjork Lab PDF) → wrote A1-studying-vs-learning.md.
+- [2026-11-15] S2: verified A2 sources (B00, RB13, TT73, MLH13, W04; Squire vol 82(3) confirmed) →
+  wrote A2-memory-architecture.md; priming→neocortex flagged uncertain.
+- [2026-11-15] S2: misconceptions.md restructured (index + full entries); M1–M4, M11, M16 written;
+  new M18–M25 written (A1 +4, A2 +4 — hunt quota met).
+- [2026-11-15] S2 done-when checked: learning/performance ✓, SS/RS ✓, fluency illusions ✓, WM
+  limits ✓, encoding→consolidation→retrieval ✓, forgetting curve + replication ✓, no `seed` owned
+  by A1/A2 ✓. sprints.md ticked, backlog updated, S3 hand-off written.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
 - [2026-11-15] S1 map pass done · 21 anchors verified · Sung inventory J1–J22 · A3 spine decided · stage-1 · next: S2 (A1+A2)
+- [2026-11-15] S2 done · A1 + A2 written · sources 32 · misconceptions full-entry format, M18–M25 new · next: S3 (A3 hub)
