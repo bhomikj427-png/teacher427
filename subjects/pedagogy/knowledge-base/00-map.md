@@ -1,7 +1,7 @@
 # Pedagogy — Knowledge Base Map (Layer 2)
 
 > Built per `../../../subject-research-protocol.md`. Work runs in sprints (`../sprints.md`).
-> **Stage status: `stage-1`** (S1 map pass; S2 A1 + A2; S3 A3; S4 A4 + A5 — 2026-11-15).
+> **Stage status: `stage-1`** (S1 map pass; S2 A1 + A2; S3 A3; S4 A4 + A5; S5 A6 + A7 — 2026-11-15).
 > Teaching gate = `stage-2✓` (no exception). Delivery once complete = study pack
 > (`study-pack-format.md` v1.2).
 
@@ -29,8 +29,8 @@
 | A3 | **Kinds of information** (the hub) — see §3 decision | K02 [full], G84 [full], CRK22 [full], KCP12, A82, FP67, KMS10, G08, S10, CKS17, Sq04, BC82 — **written S3** (`A3-kinds-of-information.md`) |
 | A4 | **Bridge: kind of information → method** | KCP12, CRK22, D13, ATS17, C06, BR19, Bi18, KACS03, CKS17, KSC06, SK21, MHO14 — **written S4** (`A4-type-to-method.md`) |
 | A5 | Schemas, chunking, novice vs expert, transfer | CS73, CFG81, BC02, GH80, MHO14, CKS17 — **written S4** (`A5-schemas-expertise-transfer.md`) |
-| A6 | Depth of processing & generative learning (Justin Sung's terrain): levels of processing, generation, elaboration, concept maps, advance organizers, pretesting | CL72, FM16, NA06, Sch17, RKK09 |
-| A7 | Metacognition & self-regulated learning; calibration | Z02 (+ Dunlosky & Rawson 2012 → add S5) |
+| A6 | Depth of processing & generative learning (Justin Sung's terrain): levels of processing, generation, elaboration, concept maps, advance organizers, pretesting | CL72, Be07 [full], CW14 [full], FM16, Sch17, KB11, KHB09, RKK09, SCA24 [full], LAA80 — **written S5** (`A6-depth-and-generation.md`) |
+| A7 | Metacognition & self-regulated learning; calibration | BDK13, RT11, DR12, RDS13, Z02, DB08, KoB08 — **written S5** (`A7-metacognition.md`) |
 | A8 | Myths | P08 (+ research/06 seeds → re-verify S6) |
 
 ## 2. Prerequisite graph

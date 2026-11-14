@@ -68,7 +68,7 @@
 | S2 | A1 studying vs learning + A2 memory architecture | 00-map, sources, misconceptions | `A1-studying-vs-learning.md`, `A2-memory-architecture.md` | learning/performance, storage/retrieval strength, fluency illusions, WM limits, encoding→consolidation→retrieval, forgetting curve (replication) all sourced | **done 2026-11-15** |
 | S3 | **A3 taxonomy of information** (the hub) | 00-map, sources, A1, A2 | `A3-kinds-of-information.md` | each type defined with an example, brain system, and how it fails; declarative/procedural, Krathwohl 4, Gagné 5, primary/secondary, element interactivity, SOLO, perceptual, motor reconciled into one table | **done 2026-11-15** |
 | S4 | A4 bridge (type → method) + A5 schemas/expertise/transfer | 00-map, sources, A3 | `A4-type-to-method.md`, `A5-schemas-expertise-transfer.md` | bridge table: every A3 type → best-evidenced methods + grade; KLI framework checked; transfer near/far honest | **done 2026-11-15** |
-| S5 | A6 depth/generative learning + A7 metacognition | 00-map, sources, A3, A4, justin-sung-claims | `A6-depth-and-generation.md`, `A7-metacognition.md`; Sung claims touched here marked | levels of processing, generation, elaboration, concept maps (meta), advance organizers, pretesting; calibration + SRL sourced | |
+| S5 | A6 depth/generative learning + A7 metacognition | 00-map, sources, A3, A4, justin-sung-claims | `A6-depth-and-generation.md`, `A7-metacognition.md`; Sung claims touched here marked | levels of processing, generation, elaboration, concept maps (meta), advance organizers, pretesting; calibration + SRL sourced | **done 2026-11-15** |
 | S6 | A8 myths + Part A integration | all A files, misconceptions | `A8-myths.md`; cross-link pass; Part A README | every A file links to A3 types; no orphan claims | Part A stage-1 |
 | S7 | B1 historical teachers | roster §1, A3, A4 | `B1-historical.md` | each roster §1 entry written to protocol step 8 or dropped with reason | |
 | S8 | B2 mid-century method-builders + B3 classroom legends | roster §2–3, A3, A4 | `B2-method-builders.md`, `B3-classroom-legends.md` | same; Feynman-technique attribution sourced | |
@@ -99,11 +99,11 @@ Read at start: <exact file list = Sy Inputs>
 
 | Item | Raised | Close in |
 |---|---|---|
-| Schroeder et al. 2017 vol/pages; Nesbit & Adesope 2006 overall pooled ES + subgroup g values at full text | S1 | S5 |
+| Nesbit & Adesope 2006 pooled ES + whether 0.82/0.37 is an NA06 subgroup (Sch17 closed S5: 30(2) 431–455; g 0.58, construct 0.72, study 0.43) | S1 | S11 (part-closed S5) |
 | Barnett & Ceci 2002 exact dimension list (3 content + 6 context?) | S1 | S11 (not closed in S4) |
 | Dunlosky et al. 2013 moderate-utility list at full text | S1 | S11 (not closed in S4) |
-| Zimmerman 2002 exact phase labels | S1 | S5 |
-| Dunlosky & Rawson 2012 → add to canon | S1 | S5 |
+| Zimmerman 2002 exact phase labels + sub-processes (Bath PDF host dead in S5) | S1 | S11 |
+| S5 closed: DR12 + RDS13 added to canon ✓ (numbers still open, rows below) | — | — |
 | BB92 chapter editors/pages (from recall) | S2 | S11 |
 | RK06 one-week 61% vs 40% (press release) → paper's table | S2 | S11 |
 | PR18 effect sizes 0.40 / 0.28 / 0.58 at full text | S2 | S11 |
@@ -122,32 +122,43 @@ Read at start: <exact file list = Sy Inputs>
 | SK21 vol/pages + how the bias-adjusted g = 0.87 was computed; fidelity moderator | S4 | S11 |
 | GH80/83 solution percentages (10 / 30 / 75–92 / 52%) at full text | S4 | S11 |
 | MHO14 vol/pages | S4 | S11 |
-| Rawson et al. 2013 successive relearning → add to canon (A4 row 1 grade is seed-level) | S4 | S5 |
+| DR12 numbers (overconfidence → early stopping → retention) — abstract elided by publisher | S5 | S11 |
+| RDS13 course-exam / long-term retention numbers (≈40% month-later claim is secondary) | S5 | S11 |
+| DB08 mean ES 0.69 + moderators at full text | S5 | S11 |
+| RT11 cue-only vs cue-target JOL split (0.70 vs 0.03 via Tekin & Roediger 2021) | S5 | S11 |
+| Morris, Bransford & Franks 1977 transfer-appropriate processing — read primary | S5 | S11 |
+| Pan & Carpenter 2023 prequestion review (answer-must-follow condition) | S5 | S11 |
+| LAA80 third author spelling (Ackerson/Ackerman) + any numeric ES; Stone 1982 vs 1983 | S5 | S11 |
 | Engine-seeded misconceptions M14 (learning pyramid), M15 (2σ), M17 (minimal guidance) → re-verify at primary source | S1 | S6 / S9b / S4 |
 
 ## Current hand-off
 
 ```
-Sprint: S4 — A4 kind → method bridge + A5 schemas/expertise/transfer — done (2026-11-15)
-Written: knowledge-base/A4-type-to-method.md (13-method evidence table with S/M/T grades and
-  boundaries; A3 row → first choice / also / avoid; 3 cross-cutting rules: expertise changes the
-  method, guidance-first vs productive failure reconciled by prerequisites, difficulty only within
-  reach; encoding-vs-retrieval framed as "both, by row") · A5-schemas-expertise-transfer.md (chess
-  chunks; novice surface vs expert structure; transfer taxonomy, analogy noticing bottleneck, schema
-  induction from compared analogs; deliberate practice sized by domain) · misconceptions M6/M8/M9/M17
-  written + new M31–M36 (36 total, 30 written) · sources +9 (47 total) · 00-map · CHANGELOG ·
-  Sung claims file (A4 §4 pointers)
-Verified this sprint: abstract level for all 9 new sources (no full text this sprint); several
-  S3-backlog items NOT closed → re-targeted to S11 (marked in backlog)
-Open (carried): Verify backlog — S5 row: Rawson 2013; plus S11 rows
-Decisions made: method grades S/M/T fixed in A4 §1 — Part B grades must cite these; productive
-  failure vs explicit instruction treated as compatible (prerequisites + instruction afterwards);
-  engine notes for S12: ROUTE for all A3 rows; teach-back names the deep principle
-Next sprint: S5 — A6 depth & generative learning + A7 metacognition. First action: Dunlosky &
-  Rawson 2012 (overconfidence / judgments of learning) + Rawson et al. 2013 successive relearning;
-  then A6: generation effect (Slamecka & Graf 1978; Bertsch 2007 meta), ICAP (Chi & Wylie 2014),
-  advance organizers (Ausubel; Luiten 1980 meta), Justin Sung J2/J3/J9–J14
-Read at start: sprints.md, knowledge-base/00-map.md, knowledge-base/sources.md,
-  knowledge-base/misconceptions.md, knowledge-base/A3-kinds-of-information.md,
-  knowledge-base/A4-type-to-method.md, knowledge-base/justin-sung-claims.md
+Sprint: S5 — A6 depth & generative learning + A7 metacognition — done (2026-11-15)
+Written: knowledge-base/A6-depth-and-generation.md (levels of processing + transfer-appropriate
+  caveat; generation effect Be07 d = .40 with moderators — nonwords .05, > 1 day .64; generative
+  learning + ICAP table with the authors' own three overrides; concept maps construct 0.72 / study
+  0.43 but < retrieval; pretesting specific g = 0.54 vs general 0.04; advance organizers small/old;
+  §7 "encoding vs retrieval = both are generation, prompt by A3 row") ·
+  A7-metacognition.md (monitoring vs control; why monitoring fails; delayed-JOL g = 0.93; criterion
+  stopping via successive relearning; Zimmerman cycle; calibration table) · misconceptions M10, M12
+  written + new M37–M44 (44 total, 40 written; seeds left: M5, M13, M14, M15) · sources +10 (57) ·
+  A4 §1 updated (pretesting → S for asked items; RDS13; mapping split) · 00-map · CHANGELOG ·
+  Sung claims file (S5 pointers)
+Verified this sprint: full text — Be07, CW14, SCA24; abstract — KHB09, RT11, BDK13, Sch17 (ERIC),
+  LAA80 (ERIC); bib only — DR12, RDS13, DB08 (publisher-elided abstracts)
+Open (carried): Verify backlog S11 rows added this sprint (DR12, RDS13, DB08, RT11 split, Morris
+  1977, Pan & Carpenter 2023, LAA80, Z02, NA06)
+Decisions made: retrieval and "encoding" methods are treated as one family (generation) whose
+  prompt is chosen by A3 row — S10 audits Sung's J4/J6 against A6 §7; ICAP overrides mean arbitrary
+  facts get retrieval, not elaboration; S12 engine candidates: prequestions aimed at the lesson's
+  key points (A6 §8), calibration feedback on CHECKs (A7 §7, `uncertain`)
+Next sprint: S6 — A8 myths + Part A integration. First action: Pashler et al. 2008 (P08) at full
+  text for learning styles (M5); then learning pyramid (M14: trace to NTL/Dale's cone critiques,
+  e.g. Letrud & Hernes 2016), Feynman-technique attribution (M13), and re-verify engine
+  research/06 myth seeds at primary source; then the cross-link pass (every A file → A3 rows) and
+  a Part A README
+Read at start: sprints.md, knowledge-base/00-map.md, knowledge-base/misconceptions.md (index +
+  seeds section), knowledge-base/sources.md, then each A file's headings only (grep "^## ") for
+  the cross-link pass; ../../research/06-excluded-and-contested.md for myth seeds (seed only — re-verify)
 ```

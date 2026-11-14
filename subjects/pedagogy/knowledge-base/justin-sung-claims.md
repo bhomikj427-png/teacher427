@@ -47,6 +47,11 @@
   prompts) and encoding/organization methods a role in rows 2, 3, 5; evidence points to "both, by
   row", not encoding *over* retrieval. J5 (load is necessary) must be read against expertise
   reversal + BB11 limit. J18 (rereading/highlighting D-tier) matches D13 *low*.
+- **A6 §9 / A7 §8 (S5):** J14 — prequestions help the asked items (g = 0.54) but not the rest
+  (g = 0.04; SCA24); advance organizers small/old (LAA80). J11 — constructing maps g = 0.72 vs
+  studying 0.43 (Sch17), still below retrieval (KB11). J9/J12 — generation (Be07) + ICAP
+  constructive (CW14); boundary: arbitrary content. J19 — ICAP passive = inert. J3 — feelings
+  during study are poor monitors (BDK13, KoB08); delayed retrieval attempts are good ones (RT11).
 
 ## Leads carried to S10
 - **Learning-Sciences-PhD response video:** not found in two searches (2026-11-15). Next: search

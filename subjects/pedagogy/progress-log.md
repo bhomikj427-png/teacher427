@@ -2,10 +2,11 @@
 
 ## Session resume
 - Last session: 2026-11-15
-- Where we stopped: S4 done (A4 + A5 written); next = S5 (A6 + A7) — start from sprints.md "Current hand-off"
-- Recap: S0–S4 done: map pass; A1 studying vs learning; A2 memory; A3 kinds-of-information hub;
-  A4 type→method bridge; A5 schemas/expertise/transfer; 47 sources; misconceptions M1–M36 (30 written)
-- Next up: S5 — say "S5"; read only the hand-off's "Read at start" list
+- Where we stopped: S5 done (A6 + A7 written); next = S6 (A8 myths + Part A integration) — start from sprints.md "Current hand-off"
+- Recap: S0–S5 done: map pass; A1 studying vs learning; A2 memory; A3 kinds-of-information hub;
+  A4 type→method bridge; A5 schemas/expertise/transfer; A6 depth & generation; A7 metacognition;
+  57 sources; misconceptions M1–M44 (40 written)
+- Next up: S6 — say "S6"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -75,6 +76,19 @@
 - [2026-11-15] S4 done-when checked: bridge table covers every A3 row with grade ✓; KLI framework
   used as spine ✓ (KCP12 original table still S11); transfer near/far written with honest
   uncertainty ✓. Five S3 backlog items not closed → re-targeted to S11 in the backlog.
+- [2026-11-15] Learner: "pedagogy, do as much and as many sprints as u can without making dumb mistakes because of context". S5 (A6 depth/generation + A7 metacognition) started; tree clean; other subjects' reviews swept earlier today.
+- [2026-11-15] S5: verified Be07 (full text), CW14 (full text), SCA24 (full text), KHB09 + RT11 + BDK13
+  (Europe PMC abstracts), Sch17 (ERIC abstract; bib closed: 30(2) 431–455) → sources.md. Correction:
+  concept-map construct/study g = 0.72/0.43 (Sch17), not 0.82/0.37. DR12, RDS13, DB08 bib only
+  (abstracts elided by publisher); Zimmerman PDF host dead → backlog S11.
+- [2026-11-15] S5: wrote knowledge-base/A6-depth-and-generation.md; misconceptions M10, M12 written +
+  new M37–M40.
+- [2026-11-15] S5: advance organizers sourced (LAA80 + Stone via ERIC abstracts) → A6 §5; A4 §1 updated
+  (RDS13; pretesting M → S for asked items; mapping split).
+- [2026-11-15] S5 done-when checked: levels of processing ✓ (CL72), generation ✓ (Be07 full), elaboration ✓
+  (A4/Bi18 + D13 pending full text), concept maps meta ✓ (Sch17), advance organizers ✓ (LAA80, small/old),
+  pretesting ✓ (SCA24 full), calibration ✓ (RT11, DR12), SRL ✓ (Z02, DB08 — sizes uncertain); no seed owned
+  by A6/A7 ✓; new misconceptions A6 +4, A7 +4 ✓. sprints.md ticked, backlog updated, S6 hand-off written.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
@@ -82,3 +96,4 @@
 - [2026-11-15] S2 done · A1 + A2 written · sources 32 · misconceptions full-entry format, M18–M25 new · next: S3 (A3 hub)
 - [2026-11-15] S3 done · A3 hub table written · K02/G84/CRK22 at full text · M26–M30 new · next: S4 (A4 + A5)
 - [2026-11-15] S4 done · A4 bridge + A5 written · sources 47 · M31–M36 new · next: S5 (A6 + A7)
+- [2026-11-15] S5 done · A6 depth & generation + A7 metacognition written · sources 57 · Sch17 numbers corrected · M37–M44 new · next: S6 (A8 + Part A integration)

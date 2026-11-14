@@ -19,9 +19,9 @@
 | M7 | One best study method works for all material | A3, A4 | written |
 | M8 | Experts just have better memories / are smarter | A5 | written |
 | M9 | If you learned it, you can use it anywhere | A5 | written |
-| M10 | Wrong guesses before studying hurt learning | A6 | seed |
+| M10 | Wrong guesses before studying hurt learning | A6 | written |
 | M11 | Retrieval practice only checks memory; it doesn't build understanding | A1, A6 | written |
-| M12 | Mind maps always beat linear notes | A6 | seed |
+| M12 | Mind maps always beat linear notes | A6 | written |
 | M13 | The "Feynman Technique" was Feynman's method | A8, B3 | seed |
 | M14 | The learning pyramid ("10% of what we read…") | A8 | seed |
 | M15 | One-to-one tutoring reliably gives a 2-sigma gain | B2 | seed |
@@ -46,6 +46,14 @@
 | M34 | 10,000 hours of practice makes anyone an expert | A5 | written |
 | M35 | Once you've seen an example, you'll recognise when to use it | A5 | written |
 | M36 | Experts follow the same steps as novices, just faster | A5 | written |
+| M37 | Active learning means being busy: highlighting, copying, rewriting notes | A6 | written |
+| M38 | Pre-reading or "priming" a chapter makes all of it stick better | A6 | written |
+| M39 | Deeper processing always helps, whatever the material and the test | A6 | written |
+| M40 | Studying a good mind map someone else made is as useful as making your own | A6 | written |
+| M41 | Rating how well I know it right after studying tells me what I'll remember | A7 | written |
+| M42 | Getting an item right once means I can stop studying it | A7 | written |
+| M43 | Metacognition means reflecting a lot; more reflection = better learning | A7 | written |
+| M44 | Being able to manage your own studying is a trait you have or don't | A7 | written |
 
 ---
 
@@ -299,8 +307,96 @@
 - **Exposing question:** "How does the expert *describe* the problem before solving it?"
 - **Unit:** A5 §2. Status: written.
 
+### M10 — Wrong guesses before studying hurt learning
+- **Why it feels true:** "errorless learning" intuition — a wrong answer might get stored and
+  compete with the right one.
+- **Correction:** guessing wrongly and then seeing the answer beat simply reading the answer for
+  the same time (KHB09, six experiments; RKK09 with a science text). Prequestions improve learning
+  of the asked items, g = 0.54 (SCA24, k = 97). Condition: the correct answer must follow.
+- **Exposing question:** "After your wrong guess, did you see the right answer — and did you
+  remember it better because you'd been wrong?"
+- **Unit:** A6 §5. Status: written.
+
+### M12 — Mind maps always beat linear notes
+- **Why it feels true:** maps look organized and show the big picture at a glance.
+- **Correction:** *constructing* a concept map helps (g = 0.72), *studying* a given one less
+  (g = 0.43) (Sch17), mostly against weak comparisons such as reading. Retrieval practice beat
+  map construction even on inference questions (KB11). The benefit comes from generating the
+  links, not from the map format.
+- **Exposing question:** "Could you redraw the map from memory, with the reasons on each link?"
+- **Unit:** A6 §4. Status: written.
+
+### M37 — Active learning means being busy: highlighting, copying, rewriting notes
+- **Why it feels true:** your hands are moving and the page changes, so it feels like work.
+- **Correction:** in ICAP these are *active* (manipulating), which integrates information into
+  what you already know but generates nothing new. *Constructive* activities (explaining, comparing,
+  asking, mapping) go beyond the material and predict more learning (CW14). Highlighting is rated
+  low utility (D13).
+- **Exposing question:** "Did you produce anything that wasn't already on the page?"
+- **Unit:** A6 §3. Status: written.
+
+### M38 — Pre-reading or "priming" a chapter makes all of it stick better
+- **Why it feels true:** after a preview the chapter feels familiar, and familiarity feels like a head start.
+- **Correction:** prequestions help the specific items asked (g = 0.54) but have essentially no
+  effect on the rest of the material (g = 0.04, k = 91; SCA24). The attention they create is
+  targeted. Familiarity from skimming is fluency (A1), not learning.
+- **Exposing question:** "Which questions did your pre-study ask — and were those the ones you improved on?"
+- **Unit:** A6 §5. Status: written.
+
+### M39 — Deeper processing always helps, whatever the material and the test
+- **Why it feels true:** "deep" sounds better than "shallow" in every case.
+- **Correction:** processing helps when it matches what the test needs (transfer-appropriate
+  processing, `uncertain` at source). Explaining *why* gave no benefit for arbitrary rules (English
+  articles, Wylie 2011 in CW14). Learners with no relevant schema cannot infer (CW14). Shallow tests
+  show no difference between modes (CW14). Generating nonwords gave d = .05 (Be07).
+- **Exposing question:** "Is there a reason behind this fact that you could actually work out?"
+- **Unit:** A6 §1, §3. Status: written.
+
+### M40 — Studying a good mind map someone else made is as useful as making your own
+- **Why it feels true:** the finished map holds all the same links, organized better than yours would be.
+- **Correction:** constructing g = 0.72 vs studying a given map g = 0.43 (Sch17). The gain comes
+  from deciding the links yourself (generation, Be07; ICAP constructive, CW14). A given map is
+  mainly a passive or active resource.
+- **Exposing question:** "Which links in the map did *you* have to work out?"
+- **Unit:** A6 §4. Status: written.
+
+### M41 — Rating how well I know it right after studying tells me what I'll remember
+- **Why it feels true:** right after study the answer is vivid; it really is known *now*.
+- **Correction:** immediate judgments read working memory and current retrieval strength.
+  Judging after a delay, by attempting recall, is far more accurate at separating known from
+  unknown items (relative accuracy g = 0.93, RT11). Overconfident judgments lead to stopping too
+  early (DR12).
+- **Exposing question:** "If you close the book and wait ten minutes, can you still produce it?"
+- **Unit:** A7 §3. Status: written.
+
+### M42 — Getting an item right once means I can stop studying it
+- **Why it feels true:** a correct answer is proof — of something.
+- **Correction:** one correct recall in a session shows current retrieval strength (A1 §3).
+  Successive relearning — criterion recall repeated in later sessions — is what improved course
+  exams and long-term retention (RDS13).
+- **Exposing question:** "Did you get it right on a *different day* than you studied it?"
+- **Unit:** A7 §4. Status: written.
+
+### M43 — Metacognition means reflecting a lot; more reflection = better learning
+- **Why it feels true:** "thinking about your thinking" sounds like general reflection, and reflecting feels responsible.
+- **Correction:** what the evidence supports is specific: accurate *monitoring* (delayed,
+  retrieval-based judgments, RT11) feeding *control* decisions (what to restudy, when to stop;
+  DR12), inside a plan → do → judge cycle (Z02). General reflection with no test and no changed
+  decision does not fix the cues that mislead monitoring (BDK13).
+- **Exposing question:** "What did your reflection make you *do differently* in the next session?"
+- **Unit:** A7 §1, §5. Status: written.
+
+### M44 — Being able to manage your own studying is a trait you have or don't
+- **Why it feels true:** some classmates seem naturally organized and self-aware.
+- **Correction:** self-regulation is a set of learnable steps (forethought, performance,
+  self-reflection; Z02), and school training programmes improve achievement (DB08; size
+  `uncertain` until full text). Calibration improves with a concrete procedure (delayed
+  self-tests, RT11).
+- **Exposing question:** "Which of the three phases did you actually do this week?"
+- **Unit:** A7 §5. Status: written (correction size `uncertain`).
+
 ---
 
 ## Seeds awaiting their unit (full entries written in that unit's sprint)
-- **M5** learning styles → A8 (P08) · **M10** wrong pretest guesses → A6 (RKK09) · **M12** mind maps → A6 (NA06, Sch17) · **M13**
+- **M5** learning styles → A8 (P08) · **M13**
   Feynman Technique → A8/B3 · **M14** learning pyramid → A8 · **M15** 2-sigma → B2/B4b.
