@@ -1,14 +1,14 @@
-# Study-pack format — v1.3
+# Study-pack format — v1.2
 
 > **The one format for every study pack** (PDF or `.md`, any subject). Loaded by reference from
 > `CLAUDE.md`. A pack is built to this file, **not copied from another pack**. If this file and an
 > existing pack disagree, this file wins.
 >
-> **Reference: exactly two files, frozen** in `study-pack-reference/`: `00-START-HERE.pdf` and
-> `01-elements-and-sources.pdf` (with their two `.md` sources), copied from the Circuits & Systems pack
-> on 2026-11-14. They show what a finished start page and a finished topic file look like. **Nothing
-> else is a reference**: not the rest of that pack, not files added to it later, not any other pack.
-> Where the two files differ from the rules below (§8), the rules win.
+> **Reference: exactly three files, frozen** in `study-pack-reference/` (each with its `.md` source),
+> copied from the Circuits & Systems pack on 2026-11-14: `00-START-HERE` (the start page),
+> `01-elements-and-sources` (a theory topic) and `05-superposition` (a numerical topic built on real
+> questions). **Nothing else is a reference**: not the rest of that pack, not files added to it later,
+> not any other pack. Where the three files differ from the rules below (§8), the rules win.
 >
 > **This file regulates itself** (§9): every format change the learner states is written here, in the
 > rule it changes, the same session.
@@ -93,7 +93,7 @@ ideas are never merged to save space.
   reports only misses.
 - **Slips in the professor's material** are flagged in a note box where they occur, with the corrected
   version used in the pack.
-- **Page look:** the two reference files': A4, one accent colour, coloured boxes for question / guess /
+- **Page look:** the reference files': A4, one accent colour, coloured boxes for question / guess /
   check / trap / note, generous white space, footer with pack name and page number.
 
 ## 7. Building and checking
@@ -144,9 +144,11 @@ This file is the single place the format lives. It is kept true by rule:
 - **Action, same session, before any further building:**
   1. Edit the rule it changes in §2–§8. A new rule that contradicts an old one replaces it; nothing
      is left standing in two versions.
-  2. Bump the version (v1.2 → v1.3 for a rule change; v2.0 if the file or step order changes) in the
-     title and in `CLAUDE.md`'s pointer.
-  3. Add a dated changelog line below, quoting the learner's words.
+  2. **Do not make a new version for a small change.** Amend the current version in place and add a
+     dated line under it in the changelog, quoting the learner's words. A new version number is made
+     only when the learner asks for one, or when the section order of a file or the order of a Build
+     step changes; the title and `CLAUDE.md`'s pointer are then updated together.
+  3. Keep the changelog line short: what changed and the learner's words.
   4. Add the matching one-line entry to `learner-preferences.md` §3 if it is a general preference.
   5. If an existing pack now fails the acceptance check, add it to §8's list.
 - **Guardrail.** A requested change that would remove the guess line, the per-step Check, or the
@@ -174,7 +176,10 @@ This file is the single place the format lives. It is kept true by rule:
   does all verification and no learner marking (2026-10-17), pilot before a full build, build in
   priority order, the acceptance check, the "v1 is not a format" rule, and self-regulation (learner:
   "make it be self regulating with whatever changes i make be made in the ruleset itself").
-- **v1.3 — 2026-11-14.** Reference narrowed and frozen (learner: "only those two right? i dont want
-  anything else than that … i dont want new files that i generate in circutis and systems to change
-  the format unless i want it to"). The reference is now two files, copied to `study-pack-reference/`;
-  §9 gains the rule that the format changes only through the learner.
+  - *Amended 2026-11-14.* Reference frozen in `study-pack-reference/` and limited to named files
+    (learner: "i dont want new files that i generate in circutis and systems to change the format
+    unless i want it to"); §9 gains the rule that the format changes only through the learner.
+  - *Amended 2026-11-14.* `05-superposition` added as the third reference file, the example of a
+    numerical topic (learner: "i want the 05 file added in v1.2").
+  - *Amended 2026-11-14.* Small changes amend the current version instead of creating a new one
+    (learner: "its unessessery to have a whole new version for just one file change").
