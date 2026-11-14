@@ -37,6 +37,13 @@
 | J21 | Students must master "6 levels of thinking" | video "6 Levels of Thinking Every Student MUST Master" | title only | Likely Bloom/Krathwohl process dimension → verify content | A3 (K02) |
 | J22 | (Dispute) The SuperMemo community claims Sung contradicts Woźniak on spaced repetition | supermemopedia.com, supermemo.guru | partisan | Locate exactly what each side claims | B4a |
 
+## Touched in Part A (no verdicts — evidence pointers for S10)
+- **A1 §5 (S2):** J4/J6/J7/J16 — KB11 shows retrieval builds inference-ready learning; open variable
+  = prompt depth (SOLO), not "retrieval yes/no".
+- **A3 §6 (S3):** J17 — KLI: flashcards fit constant–constant facts; variable skills need other
+  formats (CRK22), but D13 rates practice testing high → "D-tier" likely describes misuse (J20).
+  J21 — "6 levels" very likely Krathwohl's six processes (K02 Table 3; hierarchy relaxed).
+
 ## Leads carried to S10
 - **Learning-Sciences-PhD response video:** not found in two searches (2026-11-15). Next: search
   YouTube directly by video title "response to Justin Sung" / "active recall is not lower order".

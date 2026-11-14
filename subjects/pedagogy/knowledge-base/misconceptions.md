@@ -16,7 +16,7 @@
 | M4 | Working memory holds 7 ± 2 items | A2 | written |
 | M5 | People learn best in their "learning style" | A8 | seed |
 | M6 | Rereading and highlighting are good study techniques | A4 | seed |
-| M7 | One best study method works for all material | A3, A4 | seed |
+| M7 | One best study method works for all material | A3, A4 | written |
 | M8 | Experts just have better memories / are smarter | A5 | seed |
 | M9 | If you learned it, you can use it anywhere | A5 | seed |
 | M10 | Wrong guesses before studying hurt learning | A6 | seed |
@@ -35,6 +35,11 @@
 | M23 | You forget ~70% of everything within a day (the forgetting curve) | A2 | written |
 | M24 | Memory works like a recording you play back | A2 | written |
 | M25 | Sleep is time lost from studying; all-nighters add study time | A2 | written |
+| M26 | Memorizing facts is the opposite of understanding | A3 | written |
+| M27 | If I understand how a procedure works, I can do it | A3 | written |
+| M28 | Bloom's taxonomy is a strict ladder and "remember" is low-value | A3 | written |
+| M29 | Knowing a concept = being able to state its definition | A3 | written |
+| M30 | If it were taught right, it would come as naturally as learning to talk | A3 | written |
 
 ---
 
@@ -155,11 +160,66 @@
 - **Exposing question:** "How much of last night's all-nighter material can you produce today, unaided?"
 - **Unit:** A2 §4. Status: written.
 
+### M7 — One best study method works for all material
+- **Why it feels true:** "the best study technique" lists rank methods globally (even D13 rates
+  techniques overall); one method that worked once gets generalized.
+- **Correction:** Gagné: effects of learning variables "can be generalized within these categories
+  but not between them" (G84). KLI: retrieval practice fits constant facts, example study fits
+  variable skills (CRK22: concept-type × training-type interaction, d = 0.38, single study).
+- **Exposing question:** "Is this a fact with one answer, or a skill where each problem is
+  different?"
+- **Unit:** A3 §2, §5; A4. Status: written.
+
+### M26 — Memorizing facts is the opposite of understanding
+- **Why it feels true:** rote cramming without meaning is real and useless; "understanding over
+  memorization" is a common slogan.
+- **Correction:** conceptual knowledge is defined as "the interrelationships among the basic
+  elements" (K02). The relationships need the elements. Facts are the material understanding is
+  built from; the failure is facts *left unconnected* (SOLO multistructural, BC82), not facts
+  themselves.
+- **Exposing question:** "Can you explain why KVL holds if you can't recall what a node and a
+  loop are?"
+- **Unit:** A3 §2.1. Status: written.
+
+### M27 — If I understand how a procedure works, I can do it
+- **Why it feels true:** following a worked solution feels like being able to produce one.
+- **Correction:** skills start declarative (slow, step-by-step) and must be compiled into fluent
+  condition→action rules through practice (A82; FP67 for motor skills). Understanding is the start
+  of the trajectory, not the end.
+- **Exposing question:** "Can you do a fresh one, start to finish, without the example open, at
+  exam speed?"
+- **Unit:** A3 §2.4. Status: written.
+
+### M28 — Bloom's taxonomy is a strict ladder and "remember" is low-value
+- **Why it feels true:** the pyramid graphic; "higher-order thinking" rhetoric.
+- **Correction:** the revision relaxed the hierarchy: categories overlap, and some Understand
+  processes (explaining) are more complex than some Apply processes (executing) (K02, p. 215).
+  Remembering is the base the others operate on, not a lesser goal.
+- **Exposing question:** "Can you analyze a circuit whose component laws you can't remember?"
+- **Unit:** A3 §2.1. Status: written.
+
+### M29 — Knowing a concept = being able to state its definition
+- **Why it feels true:** tests often ask for definitions; reciting one feels like knowing.
+- **Correction:** for Gagné, concepts are intellectual skills, shown by applying them to new
+  instances (G84). In KLI, category knowledge has a *variable* application condition: it must
+  fire on cases never seen before (CRK22). A definition is a fact *about* the concept.
+- **Exposing question:** "Here are five new circuits; which connections are in series?"
+- **Unit:** A3 §2.2, §3 row 2. Status: written.
+
+### M30 — If it were taught right, it would come as naturally as learning to talk
+- **Why it feels true:** speech and face recognition are effortless, so effortful learning feels
+  like a teaching failure.
+- **Correction:** language is biologically primary; school and university content is secondary.
+  It is culturally recent, effortful, constrained by working memory, and needs explicit instruction
+  (G08; `contested` as a theory but widely used in cognitive-load research).
+- **Exposing question:** "Did anyone ever need to be taught to talk? Did anyone ever learn calculus
+  without being taught?"
+- **Unit:** A3 §4. Status: written.
+
 ---
 
 ## Seeds awaiting their unit (full entries written in that unit's sprint)
-- **M5** learning styles → A8 (P08) · **M6** rereading/highlighting → A4 (D13) · **M7** one method
-  for all → A3/A4 (KCP12) · **M8** experts → A5 (CS73, CFG81) · **M9** transfer → A5 (BC02) ·
+- **M5** learning styles → A8 (P08) · **M6** rereading/highlighting → A4 (D13) · **M8** experts → A5 (CS73, CFG81) · **M9** transfer → A5 (BC02) ·
   **M10** wrong pretest guesses → A6 (RKK09) · **M12** mind maps → A6 (NA06, Sch17) · **M13**
   Feynman Technique → A8/B3 · **M14** learning pyramid → A8 · **M15** 2-sigma → B2/B4b ·
   **M17** discovery for novices → A4.

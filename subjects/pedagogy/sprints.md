@@ -66,7 +66,7 @@
 | S0 | Scaffold + roster | — | progress-log, profile, 00-map, roster.md | roster ≥ 5 tiers, provisional grades | **done 2026-11-15** |
 | S1 | **Map pass** | 00-map, roster | 00-map §prereq graph + threshold concepts; `sources.md` (tiered canon); `misconceptions.md` seed; **A3 framework decision** (which taxonomy is the spine); `justin-sung-claims.md` (inventory of his claims, each mapped to a research question) | prereq graph covers A1–A8 + B tiers; canon has ≥1 tier-1 source per unit; Sung inventory ≥ 15 claims with video/source refs | **done 2026-11-15** → stage-1 |
 | S2 | A1 studying vs learning + A2 memory architecture | 00-map, sources, misconceptions | `A1-studying-vs-learning.md`, `A2-memory-architecture.md` | learning/performance, storage/retrieval strength, fluency illusions, WM limits, encoding→consolidation→retrieval, forgetting curve (replication) all sourced | **done 2026-11-15** |
-| S3 | **A3 taxonomy of information** (the hub) | 00-map, sources, A1, A2 | `A3-kinds-of-information.md` | each type defined with an example, brain system, and how it fails; declarative/procedural, Krathwohl 4, Gagné 5, primary/secondary, element interactivity, SOLO, perceptual, motor reconciled into one table | |
+| S3 | **A3 taxonomy of information** (the hub) | 00-map, sources, A1, A2 | `A3-kinds-of-information.md` | each type defined with an example, brain system, and how it fails; declarative/procedural, Krathwohl 4, Gagné 5, primary/secondary, element interactivity, SOLO, perceptual, motor reconciled into one table | **done 2026-11-15** |
 | S4 | A4 bridge (type → method) + A5 schemas/expertise/transfer | 00-map, sources, A3 | `A4-type-to-method.md`, `A5-schemas-expertise-transfer.md` | bridge table: every A3 type → best-evidenced methods + grade; KLI framework checked; transfer near/far honest | |
 | S5 | A6 depth/generative learning + A7 metacognition | 00-map, sources, A3, A4, justin-sung-claims | `A6-depth-and-generation.md`, `A7-metacognition.md`; Sung claims touched here marked | levels of processing, generation, elaboration, concept maps (meta), advance organizers, pretesting; calibration + SRL sourced | |
 | S6 | A8 myths + Part A integration | all A files, misconceptions | `A8-myths.md`; cross-link pass; Part A README | every A file links to A3 types; no orphan claims | Part A stage-1 |
@@ -100,9 +100,6 @@ Read at start: <exact file list = Sy Inputs>
 | Item | Raised | Close in |
 |---|---|---|
 | Schroeder et al. 2017 vol/pages; Nesbit & Adesope 2006 overall pooled ES + subgroup g values at full text | S1 | S5 |
-| Krathwohl 2002 exact wording of *procedural knowledge* | S1 | S3 |
-| KLI knowledge-component typology at full text (decides A3 table labels) | S1 | S3 |
-| Gagné five capabilities: edition-specific wording (1985 4th ed.) | S1 | S3 |
 | Barnett & Ceci 2002 exact dimension list (3 content + 6 context?) | S1 | S4 |
 | Dunlosky et al. 2013 moderate-utility list at full text | S1 | S4 |
 | Zimmerman 2002 exact phase labels | S1 | S5 |
@@ -115,30 +112,33 @@ Read at start: <exact file list = Sy Inputs>
 | Justin Sung: locate the Learning-Sciences-PhD response video; caption-check every `digest` claim | S0/S1 | S10 |
 | Roster open leads (Montessori meta, Kumon RCT full text, Nuthall 3 encounters, Suzuki/Moore evidence, gurukul/chavruta) | S0 | S7–S9b |
 | S2 closed: Squire vol/issue ✓, BB92 + KB11 + PR18 added to canon ✓ | — | — |
+| S3 closed: Krathwohl procedural wording ✓ (full text) · KLI typology ✓ (CRK22 full text) · Gagné ✓ (G84 full text replaces 1985 edition) | — | — |
+| KCP12 original KC table + whether category learning sits under induction (A3 row 2) | S3 | S11 |
+| CKS17 vol/pages + verbatim intrinsic-load sentence | S3 | S4 |
+| CRK22 proceedings page numbers; look for replications of the fact/skill × practice/example interaction | S3 | S4 |
+| KMS10 perceptual-learning efficacy (A3 row 7 is `uncertain`) | S3 | S4 |
 | Engine-seeded misconceptions M14 (learning pyramid), M15 (2σ), M17 (minimal guidance) → re-verify at primary source | S1 | S6 / S9b / S4 |
 
 ## Current hand-off
 
 ```
-Sprint: S2 — A1 studying vs learning + A2 memory architecture — done (2026-11-15)
-Written: knowledge-base/A1-studying-vs-learning.md (3 terms; learning/performance dissociation;
-  storage vs retrieval strength; desirable difficulties + their limit [verbatim BB11]; retrieval as
-  encoding + scope caveat; learners can't feel what works; studying-without-learning checklist; uses)
-  · A2-memory-architecture.md (pipeline; WM ~4 chunks + Baddeley model + no WM-training transfer;
-  declarative/nondeclarative systems table; encoding → consolidation [sleep, interference] →
-  retrieval [encoding specificity]; forgetting curve + replication + what it doesn't say; failure
-  map; uses) · misconceptions.md restructured: index + full entries, M1–M4/M11/M16 written, new
-  M18–M25 · sources.md +11 (32 total) · 00-map anchors · CHANGELOG
-Verified this sprint: BB11 at FULL TEXT (definitions + the undesirable-difficulty limit, verbatim);
-  all others at abstract level (see sources.md Verified column)
-Open (carried): Verify backlog (S11 rows added: BB92 pages, RK06 figures, PR18 ES, priming locus,
-  LTM capacity claim)
-Decisions made: A1 §5 frames the Sung encoding-vs-retrieval question as *prompt depth* (SOLO), not
-  "retrieval yes/no" — S5/S10 must test it that way; engine note for S12: relational retrieval prompts
-Next sprint: S3 — A3 kinds of information (the hub). First action: get the KLI paper's
-  knowledge-component typology at full text (Koedinger et al. 2012, Cognitive Science 36(5)) — it
-  decides the A3 table's labels; then Krathwohl 2002 procedural wording; then Gagné capabilities
-Read at start: sprints.md, knowledge-base/00-map.md (§3 A3 decision), knowledge-base/sources.md,
-  knowledge-base/misconceptions.md, knowledge-base/A1-studying-vs-learning.md,
-  knowledge-base/A2-memory-architecture.md
+Sprint: S3 — A3 kinds of information (hub) — done (2026-11-15)
+Written: knowledge-base/A3-kinds-of-information.md — §1 why one taxonomy isn't enough; §2 verified
+  building blocks (Krathwohl table verbatim; Gagné 5 + within-not-between rule verbatim; KLI
+  constant/variable KCs + 3 processes + CRK22 test d = 0.38; mechanism columns); §3 combined table
+  (rows: facts, concepts/categories, principles/models, procedures, conditional, metacognitive,
+  perceptual, motor, [attitudes]); §3.1 failure table; §4 Geary as lens; §5 payoff; §6 Sung J17/J21;
+  §7 uses · misconceptions M7 + new M26–M30 · sources +6 (38 total) · 00-map §3 outcome · CHANGELOG
+Verified this sprint: FULL TEXT — Krathwohl 2002 Tables 2–3 (scanned page images), Gagné 1984
+  pp. 377–379 (scanned), Carvalho/Rachatasumrit/Koedinger 2022 (KLI typology + experiment)
+Open (carried): Verify backlog — S4 rows: CKS17, CRK22 replications, KMS10
+Decisions made: A3 table = final structure for A4 and all Part B tags (cite rows as "A3 row N");
+  Geary = lens not column; row 5 conditional knowledge split out; engine note for S12: ROUTE could
+  key on all A3 rows, not just procedure vs concept
+Next sprint: S4 — A4 kind → method bridge + A5 schemas/expertise/transfer. First action: build the
+  A4 table row by row from A3 §3, starting with Dunlosky 2013 full text (moderate-utility list +
+  per-technique evidence), then worked-example/expertise-reversal (Sweller; Kalyuga) and
+  interleaving (Brunmair & Richter 2019) for rows 4–5
+Read at start: sprints.md, knowledge-base/00-map.md, knowledge-base/sources.md,
+  knowledge-base/misconceptions.md, knowledge-base/A3-kinds-of-information.md
 ```

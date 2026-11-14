@@ -1,7 +1,7 @@
 # Pedagogy — Knowledge Base Map (Layer 2)
 
 > Built per `../../../subject-research-protocol.md`. Work runs in sprints (`../sprints.md`).
-> **Stage status: `stage-1`** (S1 map pass done; S2 wrote A1 + A2, 2026-11-15).
+> **Stage status: `stage-1`** (S1 map pass; S2 A1 + A2; S3 A3 — 2026-11-15).
 > Teaching gate = `stage-2✓` (no exception). Delivery once complete = study pack
 > (`study-pack-format.md` v1.2).
 
@@ -26,7 +26,7 @@
 |---|---|---|
 | A1 | Studying vs learning; performance vs learning; fluency illusions; storage vs retrieval strength | SB15, BB92, BB11, RK06, KB11, PR18, KoB08 — **written S2** (`A1-studying-vs-learning.md`) |
 | A2 | Memory architecture: working memory (~4 chunks), long-term memory, memory systems, encoding → consolidation (sleep) → retrieval, forgetting | C01, B00, Sq04, MLH13, RB13, W04, TT73, MD15 — **written S2** (`A2-memory-architecture.md`) |
-| A3 | **Kinds of information** (the hub) — see §3 decision | K02, KCP12, G85, G08, S10, Sq04, BC82 |
+| A3 | **Kinds of information** (the hub) — see §3 decision | K02 [full], G84 [full], CRK22 [full], KCP12, A82, FP67, KMS10, G08, S10, CKS17, Sq04, BC82 — **written S3** (`A3-kinds-of-information.md`) |
 | A4 | **Bridge: kind of information → method** | KCP12, D13, FM16 |
 | A5 | Schemas, chunking, novice vs expert, transfer | CS73, CFG81, BC02, BC82 |
 | A6 | Depth of processing & generative learning (Justin Sung's terrain): levels of processing, generation, elaboration, concept maps, advance organizers, pretesting | CL72, FM16, NA06, Sch17, RKK09 |
@@ -72,9 +72,10 @@ Part B: every tier needs A3 + A4 (each entry ends "serves → A3 type")
 
 *Rationale:* the readable labels come from Krathwohl. The link from kind of information to method
 comes from KLI and Gagné. The mechanism comes from the brain-systems, Geary, Sweller and SOLO
-columns. No single taxonomy gives all three. **S3 must confirm KLI's knowledge-component typology
-at full text before the table is final;** if it conflicts, KLI's process column stays, and its
-knowledge-component labels are dropped.
+columns. No single taxonomy gives all three. **S3 outcome (2026-11-15):** KLI typology confirmed at full text via CRK22 (Koedinger co-author)
+— facts = constant–constant, skills = variable–variable. Two refinements: Geary moved from a
+column to a cross-cutting lens (every school row is secondary, so it doesn't vary by row); a
+separate row 5 *conditional knowledge* added (Krathwohl Cc/Db). Final table: A3 §3.
 
 ## 4. Threshold concepts (each changes how the rest is seen; teach slowly, check hard)
 1. **Learning ≠ performance** (A1). Without it, every fluent session looks like success.

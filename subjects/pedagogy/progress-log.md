@@ -2,10 +2,10 @@
 
 ## Session resume
 - Last session: 2026-11-15
-- Where we stopped: S2 done (A1 + A2 written); next = S3 (A3 kinds of information) — start from sprints.md "Current hand-off"
-- Recap: S0 scaffold + roster; S1 map pass; S2 wrote A1 (studying vs learning) + A2 (memory
-  architecture), 32 sources, misconceptions upgraded to full entries (14 written, M18–M25 new)
-- Next up: S3 — say "S3"; read only the hand-off's "Read at start" list
+- Where we stopped: S3 done (A3 written); next = S4 (A4 bridge + A5) — start from sprints.md "Current hand-off"
+- Recap: S0 scaffold + roster; S1 map pass; S2 A1 + A2; S3 A3 kinds of information (combined
+  table, 3 sources at full text); 38 sources; misconceptions M1–M30 (20 written)
+- Next up: S4 — say "S4"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -57,8 +57,20 @@
 - [2026-11-15] S2 done-when checked: learning/performance ✓, SS/RS ✓, fluency illusions ✓, WM
   limits ✓, encoding→consolidation→retrieval ✓, forgetting curve + replication ✓, no `seed` owned
   by A1/A2 ✓. sprints.md ticked, backlog updated, S3 hand-off written.
+- [2026-11-15] S3 (A3 kinds of information) started — tree clean; no other-subject reviews due (swept earlier today).
+- [2026-11-15] S3: KLI full text blocked at two hosts (cert error; 403); curl -k download denied by
+  sandbox — not retried. Found Carvalho, Rachatasumrit & Koedinger 2022 (NSF PAR) restating the
+  KLI typology at full text → added CRK22.
+- [2026-11-15] S3: Krathwohl 2002 Tables 2–3 read from scanned page images (full text) → K02 row
+  upgraded; Gagné 1984 pp. 377–379 read (scanned) → G84 added; A82, FP67, KMS10, CKS17 added.
+- [2026-11-15] S3: wrote A3-kinds-of-information.md (table + failure table + Geary lens + payoff);
+  misconceptions M7 written + new M26–M30; Sung J17/J21 pointers logged in claims file.
+- [2026-11-15] S3 done-when checked: each row defined with example ✓, memory system ✓, failure ✓;
+  declarative/procedural, Krathwohl 4, Gagné 5, primary/secondary, element interactivity, SOLO,
+  perceptual, motor reconciled into one table ✓; no seed owned by A3 ✓; new misconceptions 5 ≥ 3 ✓.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
 - [2026-11-15] S1 map pass done · 21 anchors verified · Sung inventory J1–J22 · A3 spine decided · stage-1 · next: S2 (A1+A2)
 - [2026-11-15] S2 done · A1 + A2 written · sources 32 · misconceptions full-entry format, M18–M25 new · next: S3 (A3 hub)
+- [2026-11-15] S3 done · A3 hub table written · K02/G84/CRK22 at full text · M26–M30 new · next: S4 (A4 + A5)
