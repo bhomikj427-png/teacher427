@@ -1,0 +1,159 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>14 — Timing analysis</title><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2102 Digital Electronics · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figure svg.mpl { width: 100%; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+:root { --card:#fff; --soft:#f4f4f0; --g0:#2f5bea; --g1:#e0661b; --g2:#12925a; --g3:#b23fbf; --g4:#c2410c; --one:#1c1f24; --zero:#b7bac0; --x:#d97706; --bad:#d92d20; --good:#12925a; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+.fig-svg { width: 100%; height: auto; display: block; overflow: visible; font-family: Inter, "Segoe UI", sans-serif; }
+.k-cell { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.k-cell.hl-a { fill: var(--accent); fill-opacity: .28; }
+.k-cell.hl-b { fill: var(--g2); fill-opacity: .22; }
+.k-cell.hl-c { fill: var(--g1); fill-opacity: .25; }
+.k-one { fill: var(--one); font-weight: 700; }
+.k-zero { fill: var(--zero); font-weight: 500; }
+.k-zero-em { fill: var(--g1); font-weight: 700; }
+.k-x { fill: var(--x); font-weight: 700; }
+.k-idx { fill: var(--muted); font-size: 10px; font-family: "JetBrains Mono", monospace; }
+.k-idx-big { fill: var(--ink); font: 600 15px "JetBrains Mono", monospace; }
+.k-lab { fill: var(--muted); font: 13px "JetBrains Mono", monospace; }
+.k-var { fill: var(--ink); font-weight: 600; font-size: 14px; font-style: italic; }
+.k-diag { stroke: var(--line); stroke-width: 1.2; }
+.k-title { fill: var(--ink); font-weight: 600; font-size: 14px; }
+.k-note { fill: var(--muted); font-size: 12.5px; }
+.k-grp { fill-opacity: .10; stroke-width: 2.6; }
+.k-grp-0s .k-grp { stroke-dasharray: 6 4; }
+.k-arrow { fill: none; stroke: var(--g1); stroke-width: 2; stroke-dasharray: 5 4; }
+.k-arrowhead { fill: var(--g1); }
+.k-bad { fill: var(--bad); fill-opacity: .14; stroke: var(--bad); stroke-width: 2; }
+.k-chip { fill-opacity: .12; stroke-width: 1.5; }
+.k-chip-t { font: 600 13px "JetBrains Mono", monospace; }
+.c0 .k-grp, .c0 .k-chip { fill: var(--g0); stroke: var(--g0); } .c0 .k-chip-t, .g-term.c0 { fill: var(--g0); }
+.c1 .k-grp, .c1 .k-chip { fill: var(--g1); stroke: var(--g1); } .c1 .k-chip-t, .g-term.c1 { fill: var(--g1); }
+.c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
+.c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
+.c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>14 — Timing analysis</h1>
+<div class="sub">Syllabus Unit 3 item with no deck coverage: practice questions only · needs 09 (flip-flops) and 13 (synchronous circuits)</div>
+
+<h2>Map</h2>
+<div class="map"><span class="n here">1 Setup, hold, propagation delay</span><span class="a">→</span><span class="n">2 f<sub>max</sub> and the hold check</span></div>
+
+<p>Every synchronous circuit is flip-flops with logic between them. How fast can its clock run? Three numbers per flip-flop and two per logic path answer it.</p>
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">practice</span> t<sub>pd</sub> = 8 ns, t<sub>su</sub> = 3 ns, t<sub>h</sub> = 2 ns, logic 12 ns longest and 1 ns shortest. Find f<sub>max</sub> and check hold.</li>
+<li><span class="tag">practice</span> Compare the maximum clock of a ripple counter (12) and a synchronous counter (13).</li>
+</ul>
+<hr />
+<h2>Build</h2>
+<h3>1 · Setup, hold and propagation delay</h3>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>A D flip-flop samples at the edge. What do you think happens if D is changing at exactly that instant?</p>
+</div>
+
+<figure style="max-width:60%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 409.786925 114.2352" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.466493</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M -0 114.2352 L 409.786925 114.2352 L 409.786925 0 L -0 0 L -0 114.2352 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 116.342606 99.3024 L 184.641806 99.3024 L 184.641806 6.8976 L 116.342606 6.8976 z " clip-path="url(#p2fc3668ae1)" style="fill: #d92d20; opacity: 0.12"/> </g> <g id="patch_3"> <path d="M 184.641806 99.3024 L 224.817806 99.3024 L 224.817806 6.8976 L 184.641806 6.8976 z " clip-path="url(#p2fc3668ae1)" style="fill: #e0661b; opacity: 0.15"/> </g> <g id="line2d_1"> <path d="M 23.937806 43.056 L 184.641806 43.056 L 184.641806 14.9328 L 385.521806 14.9328 " clip-path="url(#p2fc3668ae1)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 23.937806 59.1264 L 88.219406 59.1264 L 100.272206 85.2408 L 264.993806 85.2408 L 277.046606 59.1264 L 385.521806 59.1264 " clip-path="url(#p2fc3668ae1)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linecap: square"/> </g> <g id="line2d_3"> <path d="M 23.937806 85.2408 L 88.219406 85.2408 L 100.272206 59.1264 L 264.993806 59.1264 L 277.046606 85.2408 L 385.521806 85.2408 " clip-path="url(#p2fc3668ae1)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linecap: square"/> </g> <g id="text_1"> <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="17.911406" y="31.290806" transform="rotate(-0 17.911406 31.290806)">CLK</text> </g> <g id="text_2"> <!-- $\mathrm{t}_{\mathrm{su}}$ --> <g style="fill: #d92d20" transform="translate(145.677206 10.9152)"> <text> <tspan style="font: 9px 'Segoe UI'" x="0" y="-0.171875">t</tspan> <tspan style="font: 6.3px 'Segoe UI'" x="3.128555 5.801748" y="1.1781249999999996">su</tspan> </text> </g> </g> <g id="text_3"> <!-- $\mathrm{t}_{\mathrm{h}}$ --> <g style="fill: #e0661b" transform="translate(201.264806 10.9152)"> <text> <tspan style="font: 9px 'Segoe UI'" x="0" y="-0.171875">t</tspan> <tspan style="font: 6.3px 'Segoe UI'" x="3.128555" y="1.1781249999999996">h</tspan> </text> </g> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="17.911406" y="74.406704" transform="rotate(-0 17.911406 74.406704)">D</text> </g> <g id="text_5"> <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="321.240206" y="107.3376" transform="rotate(-0 321.240206 107.3376)">D must not change inside the shaded window</text> </g> </g> </g> <defs> <clipPath id="p2fc3668ae1"> <rect x="3.849806" y="2.88" width="401.76" height="108.4752"/> </clipPath> </defs> </svg><figcaption>D must be steady from t<sub>su</sub> before the edge to t<sub>h</sub> after it.</figcaption></figure>
+
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Setup time t<sub>su</sub>:</strong> D must be steady this long before the edge. <strong>Hold time t<sub>h</sub>:</strong> and this long after. <strong>Propagation delay t<sub>pd</sub>:</strong> edge to valid Q. <strong>Metastability:</strong> if setup or hold is broken, Q can hang between 0 and 1 for an unpredictable time.</p>
+</div>
+<p><strong>Answer.</strong> The flip-flop may go <strong>metastable</strong>: an in-between output that resolves to 0 or 1 after an unknown time (17 shows the synchronizer that guards against it).</p>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>Define t<sub>su</sub>, t<sub>h</sub> and t<sub>pd</sub> in one line each, with a sketch.</p>
+</div>
+<h3>2 · f<sub>max</sub> and the hold check</h3>
+<div class="box q">
+<div class="bh"><span class="tag">practice</span></div>
+<p>A synchronous circuit has t<sub>pd</sub> = 8 ns, t<sub>su</sub> = 3 ns, t<sub>h</sub> = 2 ns, and combinational delays of 12 ns (longest path) and 1 ns (shortest). Find the maximum clock frequency and check the hold time.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Data leaves one flip-flop at an edge. By when must it reach the next one?</p>
+</div>
+
+<figure style="max-width:70%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 494.404116 159.683774" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.523730</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 159.683774 L 494.404116 159.683774 L 494.404116 0 L 0 0 L 0 159.683774 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 28.847361 70.787547 L 84.984267 70.787547 Q 88.606002 70.787547 88.606002 67.165811 L 88.606002 20.083245 Q 88.606002 16.461509 84.984267 16.461509 L 28.847361 16.461509 Q 25.225625 16.461509 25.225625 20.083245 L 25.225625 67.165811 Q 25.225625 70.787547 28.847361 70.787547 z " clip-path="url(#p2701789750)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_3"> <path d="M 183.676568 68.523962 L 274.219965 68.523962 Q 296.855814 68.523962 296.855814 45.888113 L 296.855814 41.360943 Q 296.855814 18.725094 274.219965 18.725094 L 183.676568 18.725094 Q 161.040719 18.725094 161.040719 41.360943 L 161.040719 45.888113 Q 161.040719 68.523962 183.676568 68.523962 z " clip-path="url(#p2701789750)" style="fill: #f0f0eb; stroke: #6a707a; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="patch_4"> <path d="M 372.912267 70.787547 L 429.049172 70.787547 Q 432.670908 70.787547 432.670908 67.165811 L 432.670908 20.083245 Q 432.670908 16.461509 429.049172 16.461509 L 372.912267 16.461509 Q 369.290531 16.461509 369.290531 20.083245 L 369.290531 67.165811 Q 369.290531 70.787547 372.912267 70.787547 z " clip-path="url(#p2701789750)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_5"> <path d="M 88.606002 43.624528 Q 124.823361 43.624528 159.758719 43.624528 " clip-path="url(#p2701789750)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 155.758719 41.271587 L 159.758719 43.624528 L 155.758719 45.977469 z " clip-path="url(#p2701789750)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_6"> <path d="M 296.855814 43.624528 Q 333.073172 43.624528 368.00853 43.624528 " clip-path="url(#p2701789750)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 364.00853 41.271587 L 368.00853 43.624528 L 364.00853 45.977469 z " clip-path="url(#p2701789750)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_7"> <path d="M 25.225625 122.85 L 142.93204 122.85 L 142.93204 102.477736 L 25.225625 102.477736 z " clip-path="url(#p2701789750)" style="fill: #2f5bea; opacity: 0.22; stroke: #2f5bea; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="patch_8"> <path d="M 142.93204 122.85 L 324.018833 122.85 L 324.018833 102.477736 L 142.93204 102.477736 z " clip-path="url(#p2701789750)" style="fill: #e0661b; opacity: 0.22; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="patch_9"> <path d="M 324.018833 122.85 L 387.39921 122.85 L 387.39921 102.477736 L 324.018833 102.477736 z " clip-path="url(#p2701789750)" style="fill: #d92d20; opacity: 0.22; stroke: #d92d20; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="patch_10"> <path d="M 387.39921 122.85 L 450.779587 122.85 L 450.779587 102.477736 L 387.39921 102.477736 z " clip-path="url(#p2701789750)" style="fill: #12925a; opacity: 0.22; stroke: #12925a; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="line2d_1"> <path d="M 25.225625 143.222264 L 25.225625 95.686981 " clip-path="url(#p2701789750)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 450.779587 143.222264 L 450.779587 95.686981 " clip-path="url(#p2701789750)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="56.915814" y="46.176091" transform="rotate(-0 56.915814 46.176091)">FF1</text> </g> <g id="text_2"> <text style="fill: #6a707a; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="228.948267" y="46.023278" transform="rotate(-0 228.948267 46.023278)">combinational logic</text> </g> <g id="text_3"> <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="400.980719" y="46.176091" transform="rotate(-0 400.980719 46.176091)">FF2</text> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="124.823361" y="36.833774" transform="rotate(-0 124.823361 36.833774)">Q</text> </g> <g id="text_5"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="333.073172" y="36.833774" transform="rotate(-0 333.073172 36.833774)">D</text> </g> <g id="text_6"> <!-- $\mathrm{t}_{\mathrm{pd}}$(FF) clk→Q --> <g style="fill: #1c1f24" transform="translate(59.718333 114.674726)"> <text> <tspan style="font: 8.3px 'Segoe UI'" x="0 9.861431 12.350933 16.379253 20.407573 22.897075 25.156963 28.967754 30.965801 35.066631 42.184673" y="-0.078125">t(FF) clk→Q</tspan> <tspan style="font: 5.81px 'Segoe UI'" x="2.865654 6.260723" y="1.1218750000000002">pd</tspan> </text> </g> </g> <g id="text_7"> <!-- $\mathrm{t}_{\mathrm{comb}}$ (longest path) --> <g style="fill: #1c1f24" transform="translate(197.992936 115.006726)"> <text> <tspan style="font: 8.3px 'Segoe UI'" x="0 17.486235 19.746123 22.235625 24.233672 29.067656 33.736479 38.594634 42.908965 46.409575 49.205229 51.465117 56.315215 60.512725 63.308379 67.977202" y="-0.078125">t (longest path)</tspan> <tspan style="font: 5.81px 'Segoe UI'" x="2.865654 5.533208 8.916997 13.891167" y="1.1218750000000002">comb</tspan> </text> </g> </g> <g id="text_8"> <!-- $\mathrm{t}_{\mathrm{su}}$ --> <g style="fill: #1c1f24" transform="translate(351.268521 115.008023)"> <text> <tspan style="font: 8.3px 'Segoe UI'" x="0" y="-0.8125">t</tspan> <tspan style="font: 5.81px 'Segoe UI'" x="2.865654 5.316082" y="0.3875000000000002">su</tspan> </text> </g> </g> <g id="text_9"> <text style="fill: #1c1f24; font: 8.3px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="419.089399" y="115.008023" transform="rotate(-0 419.089399 115.008023)">slack</text> </g> <g id="text_10"> <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="25.225625" y="151.37117" transform="rotate(-0 25.225625 151.37117)">clock edge n</text> </g> <g id="text_11"> <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="450.779587" y="151.37117" transform="rotate(-0 450.779587 151.37117)">clock edge n+1</text> </g> <g id="text_12"> <!-- $\mathrm{T}_{\mathrm{clk}}$ ≥ $\mathrm{t}_{\mathrm{pd}}$ + $\mathrm{t}_{\mathrm{comb,max}}$ + $\mathrm{t}_{\mathrm{su}}$ --> <g style="fill: #1c1f24" transform="translate(185.182606 140.958679)"> <text> <tspan style="font: 9.5px 'Segoe UI'" x="0 25.270361 48.611035 95.478032" y="-0.0">Tttt</tspan> <tspan style="font: 6.65px 'Segoe UI'" x="5.064795 8.136523 9.74707 28.5771 32.486572 51.917773 54.989502 58.885986 64.613818 68.523291 71.106011 76.833843 80.21729 98.784771 101.606475" y="1.5">clkpdcomb,maxsu</tspan> <tspan style="font: 700 9.5px 'Segoe UI'" x="13.302588 15.923438 22.649512 36.652539 39.273389 45.990186 83.519536 86.140386 92.857183" y="-0.0"> ≥ + + </tspan> </text> </g> </g> </g> </g> <defs> <clipPath id="p2701789750"> <rect x="11.644116" y="2.88" width="479.88" height="153.923774"/> </clipPath> </defs> </svg><figcaption>Flip-flop → logic → flip-flop on one clock.</figcaption></figure>
+
+<p><strong>Setup (longest path):</strong> launched at one edge, the data must pass the flip-flop and the slowest logic and arrive t<sub>su</sub> before the next edge:</p>
+<div class="eq">T<sub>clk</sub> ≥ t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub>&emsp;&emsp;&emsp;f<sub>max</sub> = 1/T<sub>clk,min</sub></div>
+
+<p><strong>Hold (shortest path):</strong> the new data must not arrive while the next flip-flop is still holding: <strong>t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub></strong>. The period is not in this inequality, so <strong>slowing the clock cannot fix a hold violation</strong>: add delay to the short path.</p>
+<p><strong>Answer.</strong> T<sub>min</sub> = 8 + 12 + 3 = <strong>23 ns</strong>, <strong>f<sub>max</sub> = 43.5 MHz</strong>. Hold: 8 + 1 = 9 ns ≥ 2 ns ✓.</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>(a) The longest path gains 4 ns. New f<sub>max</sub>? Does the hold check change? (b) A synchronous counter has t<sub>pd</sub> = 10 ns, one 5 ns AND gate between flip-flops, t<sub>su</sub> = 5 ns. f<sub>max</sub>?</p>
+</div>
+<hr />
+<h2>Exam form</h2>
+<p>Define t<sub>su</sub>, t<sub>h</sub>, t<sub>pd</sub>, metastability with a timing sketch. Setup inequality → f<sub>max</sub>. Hold inequality and why the clock does not appear. Ripple counter f<sub>max</sub> = 1/(n·t<sub>pd</sub>) for comparison.</p>
+<h2>Traps</h2>
+<ul>
+<li>Leaving out t<sub>pd</sub> or t<sub>su</sub> from the period.</li>
+<li>Using the longest path for the hold check.</li>
+<li>Trying to fix hold by slowing the clock.</li>
+</ul>
+<h2>Self-test</h2>
+<ol>
+<li>t<sub>pd</sub> = 5 ns, longest logic 10 ns, t<sub>su</sub> = 2 ns. f<sub>max</sub>?</li>
+<li>t<sub>pd</sub> = 2 ns, shortest logic 0.5 ns, t<sub>h</sub> = 3 ns. Is hold met? If not, what is the fix?</li>
+<li>Why can't a slower clock fix a hold violation?</li>
+<li>Compare f<sub>max</sub> of a 4-bit ripple counter (t<sub>pd</sub> = 10 ns) and the synchronous counter of Check 2(b).</li>
+</ol>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 1.</strong> t<sub>su</sub>: D steady before the edge; t<sub>h</sub>: D steady after it; t<sub>pd</sub>: edge to valid Q. Sketch as in step 1.</p>
+<p><strong>Check 2.</strong> (a) 8 + 16 + 3 = 27 ns: <strong>37.0 MHz</strong>. Hold unchanged: it uses the shortest path. (b) 10 + 5 + 5 = 20 ns: <strong>50 MHz</strong>.</p>
+<p><strong>Self-test.</strong></p>
+<ol>
+<li>17 ns: <strong>58.8 MHz</strong>.</li>
+<li>2.5 &lt; 3: <strong>violated</strong>; add at least 0.5 ns of delay to the short path.</li>
+<li>Hold compares two delays after the same edge; the period is not involved.</li>
+<li>Ripple: 4 × 10 = 40 ns, <strong>25 MHz</strong>. Synchronous: <strong>50 MHz</strong>, and its period does not grow with the number of bits.</li>
+</ol>
+</div></body></html>

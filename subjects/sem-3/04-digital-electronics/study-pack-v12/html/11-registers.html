@@ -1,0 +1,437 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>11 — Registers, ring and Johnson counters</title><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2102 Digital Electronics · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figure svg.mpl { width: 100%; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+:root { --card:#fff; --soft:#f4f4f0; --g0:#2f5bea; --g1:#e0661b; --g2:#12925a; --g3:#b23fbf; --g4:#c2410c; --one:#1c1f24; --zero:#b7bac0; --x:#d97706; --bad:#d92d20; --good:#12925a; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+.fig-svg { width: 100%; height: auto; display: block; overflow: visible; font-family: Inter, "Segoe UI", sans-serif; }
+.k-cell { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.k-cell.hl-a { fill: var(--accent); fill-opacity: .28; }
+.k-cell.hl-b { fill: var(--g2); fill-opacity: .22; }
+.k-cell.hl-c { fill: var(--g1); fill-opacity: .25; }
+.k-one { fill: var(--one); font-weight: 700; }
+.k-zero { fill: var(--zero); font-weight: 500; }
+.k-zero-em { fill: var(--g1); font-weight: 700; }
+.k-x { fill: var(--x); font-weight: 700; }
+.k-idx { fill: var(--muted); font-size: 10px; font-family: "JetBrains Mono", monospace; }
+.k-idx-big { fill: var(--ink); font: 600 15px "JetBrains Mono", monospace; }
+.k-lab { fill: var(--muted); font: 13px "JetBrains Mono", monospace; }
+.k-var { fill: var(--ink); font-weight: 600; font-size: 14px; font-style: italic; }
+.k-diag { stroke: var(--line); stroke-width: 1.2; }
+.k-title { fill: var(--ink); font-weight: 600; font-size: 14px; }
+.k-note { fill: var(--muted); font-size: 12.5px; }
+.k-grp { fill-opacity: .10; stroke-width: 2.6; }
+.k-grp-0s .k-grp { stroke-dasharray: 6 4; }
+.k-arrow { fill: none; stroke: var(--g1); stroke-width: 2; stroke-dasharray: 5 4; }
+.k-arrowhead { fill: var(--g1); }
+.k-bad { fill: var(--bad); fill-opacity: .14; stroke: var(--bad); stroke-width: 2; }
+.k-chip { fill-opacity: .12; stroke-width: 1.5; }
+.k-chip-t { font: 600 13px "JetBrains Mono", monospace; }
+.c0 .k-grp, .c0 .k-chip { fill: var(--g0); stroke: var(--g0); } .c0 .k-chip-t, .g-term.c0 { fill: var(--g0); }
+.c1 .k-grp, .c1 .k-chip { fill: var(--g1); stroke: var(--g1); } .c1 .k-chip-t, .g-term.c1 { fill: var(--g1); }
+.c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
+.c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
+.c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>11 — Registers, ring and Johnson counters</h1>
+<div class="sub">Deck 09 (slides 6–26) · syllabus Unit 3 · needs 09 (D flip-flops)</div>
+
+<h2>Map</h2>
+<div class="map"><span class="n here">1 Shift registers</span><span class="a">→</span><span class="n">2 Ring and Johnson counters</span></div>
+
+<p>One flip-flop stores a bit; a row of them sharing a clock stores a word. Connect each Q to the next D and the word moves one place per clock. Feed the end back to the start and it becomes a counter.</p>
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">Deck 09 slide 24</span> A 4-bit SIPO right-shift register with XOR feedback holds 0110. Find its contents for three clocks.</li>
+<li><span class="tag">Deck 09 slides 16–23</span> Draw a 4-bit Johnson counter; give its sequence and modulus; compare it with a ring counter.</li>
+</ul>
+<hr />
+<h2>Build</h2>
+<h3>1 · Shift registers</h3>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 09 slide 24 (figure redrawn)</span></div>
+<p>The initial contents of the 4-bit serial-in-parallel-out right-shift register shown in the figure is 0 1 1 0. Find out the contents of the shift register for upcoming three clock cycles.</p>
+</div>
+
+<figure style="max-width:65%"><div style="width:112mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 259.22745 99.788936" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-15T02:56:08.968107</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 99.788936 
+L 259.22745 99.788936 
+L 259.22745 0 
+L 0 0 
+L 0 99.788936 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 68.289578 44.670638 
+L 97.020642 44.670638 
+L 97.020642 18.551489 
+L 68.289578 18.551489 
+z
+" clip-path="url(#p4728f9011f)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 97.020642 44.670638 
+L 125.751705 44.670638 
+L 125.751705 18.551489 
+L 97.020642 18.551489 
+z
+" clip-path="url(#p4728f9011f)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 125.751705 44.670638 
+L 154.482769 44.670638 
+L 154.482769 18.551489 
+L 125.751705 18.551489 
+z
+" clip-path="url(#p4728f9011f)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 154.482769 44.670638 
+L 183.213833 44.670638 
+L 183.213833 18.551489 
+L 154.482769 18.551489 
+z
+" clip-path="url(#p4728f9011f)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 110.080216 84.632936 
+C 112.366086 84.632936 114.558641 83.72475 116.174995 82.108396 
+C 117.791349 80.492042 118.699535 78.299487 118.699535 76.013617 
+C 118.699535 73.727747 117.791349 71.535192 116.174995 69.918838 
+C 114.558641 68.302484 112.366086 67.394298 110.080216 67.394298 
+C 107.794346 67.394298 105.601791 68.302484 103.985437 69.918838 
+C 102.369083 71.535192 101.460897 73.727747 101.460897 76.013617 
+C 101.460897 78.299487 102.369083 80.492042 103.985437 82.108396 
+C 105.601791 83.72475 107.794346 84.632936 110.080216 84.632936 
+z
+" clip-path="url(#p4728f9011f)" style="fill: #ffffff; stroke: #e0661b; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 47.394259 31.611064 
+Q 57.841918 31.611064 67.007577 31.611064 
+" clip-path="url(#p4728f9011f)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 63.007577 29.258123 
+L 67.007577 31.611064 
+L 63.007577 33.964005 
+z
+" clip-path="url(#p4728f9011f)" style="fill: #e0661b; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 140.117237 44.670638 
+L 140.117237 72.095745 
+L 118.699535 72.095745 
+" clip-path="url(#p4728f9011f)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 183.213833 31.611064 
+L 198.885322 31.611064 
+L 198.885322 79.931489 
+L 118.699535 79.931489 
+" clip-path="url(#p4728f9011f)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 101.460897 76.013617 
+L 47.394259 76.013617 
+L 47.394259 31.611064 
+" clip-path="url(#p4728f9011f)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 11px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="82.65511" y="34.417783" transform="rotate(-0 82.65511 34.417783)">0</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="82.65511" y="13.32766" transform="rotate(-0 82.65511 13.32766)">Q0</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 11px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="111.386174" y="34.417783" transform="rotate(-0 111.386174 34.417783)">1</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="111.386174" y="13.32766" transform="rotate(-0 111.386174 13.32766)">Q1</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 11px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="140.117237" y="34.417783" transform="rotate(-0 140.117237 34.417783)">1</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="140.117237" y="13.32766" transform="rotate(-0 140.117237 13.32766)">Q2</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #1c1f24; font: 700 11px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="168.848301" y="34.417783" transform="rotate(-0 168.848301 34.417783)">0</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="168.848301" y="13.32766" transform="rotate(-0 168.848301 13.32766)">Q3</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #e0661b; font: 12px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="110.080216" y="79.075492" transform="rotate(-0 110.080216 79.075492)">⊕</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #e0661b; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(16.136016 49.922117)">serial in</text>
+    <text style="fill: #e0661b; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(2.88 59.428305)">= Q2 ⊕ Q3</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="204.109152" y="21.163404" transform="rotate(-0 204.109152 21.163404)">shift →</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p4728f9011f">
+   <rect x="10.82745" y="2.88" width="245.52" height="94.028936"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>The register: serial input = Q<sub>2</sub> ⊕ Q<sub>3</sub>.</figcaption></figure>
+
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Which bit is lost at each clock, and what replaces it at the left?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Register:</strong> n flip-flops on one clock, storing an n-bit word. <strong>Shift register:</strong> each Q feeds the next D, so the word moves one place per clock.</p>
+</div>
+
+<figure style="max-width:70%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 484.280743 134.552432" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.254032</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 134.552432 L 484.280743 134.552432 L 484.280743 0 L 0 0 L 0 134.552432 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 69.68723 74.665946 L 120.359662 74.665946 Q 122.471014 74.665946 122.471014 72.554595 L 122.471014 30.327568 Q 122.471014 28.216216 120.359662 28.216216 L 69.68723 28.216216 Q 67.575878 28.216216 67.575878 30.327568 L 67.575878 72.554595 Q 67.575878 74.665946 69.68723 74.665946 z " clip-path="url(#p2d42349480)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_3"> <path d="M 90.800743 74.665946 L 95.023446 67.909622 L 99.246149 74.665946 L 90.800743 74.665946 z " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_4"> <path d="M 122.471014 38.772973 Q 143.584527 38.772973 163.41604 38.772973 " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 159.41604 36.420032 L 163.41604 38.772973 L 159.41604 41.125914 z " clip-path="url(#p2d42349480)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_5"> <path d="M 166.809392 74.665946 L 217.481824 74.665946 Q 219.593176 74.665946 219.593176 72.554595 L 219.593176 30.327568 Q 219.593176 28.216216 217.481824 28.216216 L 166.809392 28.216216 Q 164.698041 28.216216 164.698041 30.327568 L 164.698041 72.554595 Q 164.698041 74.665946 166.809392 74.665946 z " clip-path="url(#p2d42349480)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_6"> <path d="M 187.922905 74.665946 L 192.145608 67.909622 L 196.368311 74.665946 L 187.922905 74.665946 z " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_7"> <path d="M 219.593176 38.772973 Q 240.706689 38.772973 260.538202 38.772973 " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 256.538202 36.420032 L 260.538202 38.772973 L 256.538202 41.125914 z " clip-path="url(#p2d42349480)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_8"> <path d="M 263.931554 74.665946 L 314.603986 74.665946 Q 316.715338 74.665946 316.715338 72.554595 L 316.715338 30.327568 Q 316.715338 28.216216 314.603986 28.216216 L 263.931554 28.216216 Q 261.820203 28.216216 261.820203 30.327568 L 261.820203 72.554595 Q 261.820203 74.665946 263.931554 74.665946 z " clip-path="url(#p2d42349480)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_9"> <path d="M 285.045068 74.665946 L 289.26777 67.909622 L 293.490473 74.665946 L 285.045068 74.665946 z " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_10"> <path d="M 316.715338 38.772973 Q 337.828851 38.772973 357.660364 38.772973 " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 353.660364 36.420032 L 357.660364 38.772973 L 353.660364 41.125914 z " clip-path="url(#p2d42349480)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_11"> <path d="M 361.053716 74.665946 L 411.726149 74.665946 Q 413.8375 74.665946 413.8375 72.554595 L 413.8375 30.327568 Q 413.8375 28.216216 411.726149 28.216216 L 361.053716 28.216216 Q 358.942365 28.216216 358.942365 30.327568 L 358.942365 72.554595 Q 358.942365 74.665946 361.053716 74.665946 z " clip-path="url(#p2d42349480)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_12"> <path d="M 382.16723 74.665946 L 386.389932 67.909622 L 390.612635 74.665946 L 382.16723 74.665946 z " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_13"> <path d="M 25.348851 38.772973 Q 46.462365 38.772973 66.293878 38.772973 " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 62.293878 36.420032 L 66.293878 38.772973 L 62.293878 41.125914 z " clip-path="url(#p2d42349480)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_14"> <path d="M 413.8375 38.772973 Q 425.449932 38.772973 435.780364 38.772973 " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 431.780364 36.420032 L 435.780364 38.772973 L 431.780364 41.125914 z " clip-path="url(#p2d42349480)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_1"> <path d="M 95.023446 93.668108 L 95.023446 74.665946 " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 192.145608 93.668108 L 192.145608 74.665946 " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_3"> <path d="M 289.26777 93.668108 L 289.26777 74.665946 " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_4"> <path d="M 386.389932 93.668108 L 386.389932 74.665946 " clip-path="url(#p2d42349480)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_5"> <path d="M 42.239662 93.668108 L 386.389932 93.668108 " clip-path="url(#p2d42349480)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="72.643122" y="40.884324" transform="rotate(-0 72.643122 40.884324)">D</text> </g> <g id="text_2"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="117.40377" y="40.884324" transform="rotate(-0 117.40377 40.884324)">Q</text> </g> <g id="text_3"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="95.023446" y="23.148973" transform="rotate(-0 95.023446 23.148973)">Q0</text> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="169.765284" y="40.884324" transform="rotate(-0 169.765284 40.884324)">D</text> </g> <g id="text_5"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="214.525932" y="40.884324" transform="rotate(-0 214.525932 40.884324)">Q</text> </g> <g id="text_6"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="192.145608" y="23.148973" transform="rotate(-0 192.145608 23.148973)">Q1</text> </g> <g id="text_7"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="266.887446" y="40.884324" transform="rotate(-0 266.887446 40.884324)">D</text> </g> <g id="text_8"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="311.648095" y="40.884324" transform="rotate(-0 311.648095 40.884324)">Q</text> </g> <g id="text_9"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="289.26777" y="23.148973" transform="rotate(-0 289.26777 23.148973)">Q2</text> </g> <g id="text_10"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="364.009608" y="40.884324" transform="rotate(-0 364.009608 40.884324)">D</text> </g> <g id="text_11"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="408.770257" y="40.884324" transform="rotate(-0 408.770257 40.884324)">Q</text> </g> <g id="text_12"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="386.389932" y="23.148973" transform="rotate(-0 386.389932 23.148973)">Q3</text> </g> <g id="text_13"> <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="40.128311" y="95.964514" transform="rotate(-0 40.128311 95.964514)">CLK</text> </g> <g id="text_14"> <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(2.88 36.188707)">Serial</text> <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(16.368438 45.694895)">in</text> </g> <g id="text_15"> <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(439.173716 36.188707)">Serial</text> <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(439.173716 45.694895)">out</text> </g> </g> </g> <defs> <clipPath id="p2d42349480"> <rect x="12.680743" y="2.88" width="468.72" height="128.792432"/> </clipPath> </defs> </svg><figcaption>4-bit shift register.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>In</th>
+<th>Out</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SISO</td>
+<td>serial</td>
+<td>serial</td>
+<td>delay line: n clocks</td>
+</tr>
+<tr>
+<td>SIPO</td>
+<td>serial</td>
+<td>parallel</td>
+<td>serial → parallel (receiver)</td>
+</tr>
+<tr>
+<td>PISO</td>
+<td>parallel load</td>
+<td>serial</td>
+<td>parallel → serial (transmitter)</td>
+</tr>
+<tr>
+<td>PIPO</td>
+<td>parallel</td>
+<td>parallel</td>
+<td>storage</td>
+</tr>
+</tbody>
+</table>
+<p>Serial loading takes n clocks (SIPO loading 1011, rightmost bit first, from 0000: 1000, 1100, 0110, 1011). A <strong>universal shift register</strong> (74194) has a 4:1 MUX before each D: hold, shift right, shift left, parallel load. Shifting toward the MSB multiplies by 2.</p>
+<p><strong>Answer.</strong> The serial input is Q<sub>2</sub> ⊕ Q<sub>3</sub>, read before the edge:</p>
+<table>
+<thead>
+<tr>
+<th>Clock</th>
+<th>Q<sub>2</sub> ⊕ Q<sub>3</sub> before</th>
+<th>Q<sub>0</sub> Q<sub>1</sub> Q<sub>2</sub> Q<sub>3</sub> after</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>start</td>
+<td></td>
+<td>0 1 1 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1 ⊕ 0 = 1</td>
+<td><strong>1 0 1 1</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>1 ⊕ 1 = 0</td>
+<td><strong>0 1 0 1</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>0 ⊕ 1 = 1</td>
+<td><strong>1 0 1 0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>XOR feedback like this makes a pseudo-random sequence generator (17).</p>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>(a) Continue for two more clocks. (b) A 4-bit SISO holds 0000; bits 1, 1, 0, 1 enter on clocks 1–4. On which clock does the first 1 reach the output? (c) Which type does a serial transmitter need?</p>
+</div>
+<h3>2 · Ring and Johnson counters</h3>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 09 slides 16–23</span></div>
+<p>Draw a 4-bit Johnson counter. Give its count sequence and modulus, and compare it with a ring counter.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>4 flip-flops have 16 states. How many does this counter visit?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Modulus (MOD):</strong> the number of states before the count repeats. <strong>Shift-register counter:</strong> a shift register fed back to its own input.</p>
+</div>
+
+<figure style="max-width:70%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 474.48 134.552432" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.332393</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 134.552432 L 474.48 134.552432 L 474.48 0 L 0 0 L 0 134.552432 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 59.886486 74.665946 L 110.558919 74.665946 Q 112.67027 74.665946 112.67027 72.554595 L 112.67027 30.327568 Q 112.67027 28.216216 110.558919 28.216216 L 59.886486 28.216216 Q 57.775135 28.216216 57.775135 30.327568 L 57.775135 72.554595 Q 57.775135 74.665946 59.886486 74.665946 z " clip-path="url(#p59816fbb7d)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_3"> <path d="M 81 74.665946 L 85.222703 67.909622 L 89.445405 74.665946 L 81 74.665946 z " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_4"> <path d="M 112.67027 38.772973 Q 133.783784 38.772973 153.615297 38.772973 " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 149.615297 36.420032 L 153.615297 38.772973 L 149.615297 41.125914 z " clip-path="url(#p59816fbb7d)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_5"> <path d="M 157.008649 74.665946 L 207.681081 74.665946 Q 209.792432 74.665946 209.792432 72.554595 L 209.792432 30.327568 Q 209.792432 28.216216 207.681081 28.216216 L 157.008649 28.216216 Q 154.897297 28.216216 154.897297 30.327568 L 154.897297 72.554595 Q 154.897297 74.665946 157.008649 74.665946 z " clip-path="url(#p59816fbb7d)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_6"> <path d="M 178.122162 74.665946 L 182.344865 67.909622 L 186.567568 74.665946 L 178.122162 74.665946 z " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_7"> <path d="M 209.792432 38.772973 Q 230.905946 38.772973 250.737459 38.772973 " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 246.737459 36.420032 L 250.737459 38.772973 L 246.737459 41.125914 z " clip-path="url(#p59816fbb7d)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_8"> <path d="M 254.130811 74.665946 L 304.803243 74.665946 Q 306.914595 74.665946 306.914595 72.554595 L 306.914595 30.327568 Q 306.914595 28.216216 304.803243 28.216216 L 254.130811 28.216216 Q 252.019459 28.216216 252.019459 30.327568 L 252.019459 72.554595 Q 252.019459 74.665946 254.130811 74.665946 z " clip-path="url(#p59816fbb7d)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_9"> <path d="M 275.244324 74.665946 L 279.467027 67.909622 L 283.68973 74.665946 L 275.244324 74.665946 z " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_10"> <path d="M 306.914595 38.772973 Q 328.028108 38.772973 347.859621 38.772973 " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 343.859621 36.420032 L 347.859621 38.772973 L 343.859621 41.125914 z " clip-path="url(#p59816fbb7d)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_11"> <path d="M 351.252973 74.665946 L 401.925405 74.665946 Q 404.036757 74.665946 404.036757 72.554595 L 404.036757 30.327568 Q 404.036757 28.216216 401.925405 28.216216 L 351.252973 28.216216 Q 349.141622 28.216216 349.141622 30.327568 L 349.141622 72.554595 Q 349.141622 74.665946 351.252973 74.665946 z " clip-path="url(#p59816fbb7d)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_12"> <path d="M 372.366486 74.665946 L 376.589189 67.909622 L 380.811892 74.665946 L 372.366486 74.665946 z " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_13"> <path d="M 36.661622 38.772973 Q 47.218378 38.772973 56.493135 38.772973 " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 52.493135 36.420032 L 56.493135 38.772973 L 52.493135 41.125914 z " clip-path="url(#p59816fbb7d)" style="fill: #e0661b; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_1"> <path d="M 85.222703 93.668108 L 85.222703 74.665946 " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 182.344865 93.668108 L 182.344865 74.665946 " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_3"> <path d="M 279.467027 93.668108 L 279.467027 74.665946 " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_4"> <path d="M 376.589189 93.668108 L 376.589189 74.665946 " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_5"> <path d="M 32.438919 93.668108 L 376.589189 93.668108 " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_6"> <path d="M 404.036757 38.772973 L 418.816216 38.772973 L 418.816216 119.004324 L 36.661622 119.004324 L 36.661622 38.772973 " clip-path="url(#p59816fbb7d)" style="fill: none; stroke: #e0661b; stroke-width: 1.5; stroke-linecap: round"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="62.842378" y="40.884324" transform="rotate(-0 62.842378 40.884324)">D</text> </g> <g id="text_2"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="107.603027" y="40.884324" transform="rotate(-0 107.603027 40.884324)">Q</text> </g> <g id="text_3"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="85.222703" y="23.148973" transform="rotate(-0 85.222703 23.148973)">Q0</text> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="159.964541" y="40.884324" transform="rotate(-0 159.964541 40.884324)">D</text> </g> <g id="text_5"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="204.725189" y="40.884324" transform="rotate(-0 204.725189 40.884324)">Q</text> </g> <g id="text_6"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="182.344865" y="23.148973" transform="rotate(-0 182.344865 23.148973)">Q1</text> </g> <g id="text_7"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="257.086703" y="40.884324" transform="rotate(-0 257.086703 40.884324)">D</text> </g> <g id="text_8"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="301.847351" y="40.884324" transform="rotate(-0 301.847351 40.884324)">Q</text> </g> <g id="text_9"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="279.467027" y="23.148973" transform="rotate(-0 279.467027 23.148973)">Q2</text> </g> <g id="text_10"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="354.208865" y="40.884324" transform="rotate(-0 354.208865 40.884324)">D</text> </g> <g id="text_11"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="398.969514" y="40.884324" transform="rotate(-0 398.969514 40.884324)">Q</text> </g> <g id="text_12"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="376.589189" y="23.148973" transform="rotate(-0 376.589189 23.148973)">Q3</text> </g> <g id="text_13"> <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="30.327568" y="95.964514" transform="rotate(-0 30.327568 95.964514)">CLK</text> </g> <g id="text_14"> <text style="fill: #e0661b; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="220.349189" y="127.44973" transform="rotate(-0 220.349189 127.44973)">feedback: last Q' (complemented) → first D</text> </g> </g> </g> <defs> <clipPath id="p59816fbb7d"> <rect x="2.88" y="2.88" width="468.72" height="128.792432"/> </clipPath> </defs> </svg><figcaption>Johnson counter: Q<sub>3</sub>' fed back to D<sub>0</sub>.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>clk</th>
+<th>Q<sub>0</sub> Q<sub>1</sub> Q<sub>2</sub> Q<sub>3</sub></th>
+<th>Decode</th>
+<th>clk</th>
+<th>Q<sub>0</sub> Q<sub>1</sub> Q<sub>2</sub> Q<sub>3</sub></th>
+<th>Decode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0 0 0 0</td>
+<td>Q<sub>0</sub>'Q<sub>3</sub>'</td>
+<td>4</td>
+<td>1 1 1 1</td>
+<td>Q<sub>0</sub>Q<sub>3</sub></td>
+</tr>
+<tr>
+<td>1</td>
+<td>1 0 0 0</td>
+<td>Q<sub>0</sub>Q<sub>1</sub>'</td>
+<td>5</td>
+<td>0 1 1 1</td>
+<td>Q<sub>0</sub>'Q<sub>1</sub></td>
+</tr>
+<tr>
+<td>2</td>
+<td>1 1 0 0</td>
+<td>Q<sub>1</sub>Q<sub>2</sub>'</td>
+<td>6</td>
+<td>0 0 1 1</td>
+<td>Q<sub>1</sub>'Q<sub>2</sub></td>
+</tr>
+<tr>
+<td>3</td>
+<td>1 1 1 0</td>
+<td>Q<sub>2</sub>Q<sub>3</sub>'</td>
+<td>7</td>
+<td>0 0 0 1</td>
+<td>Q<sub>2</sub>'Q<sub>3</sub></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Ring:</strong> Q<sub>3</sub> straight back to D<sub>0</sub>, preset to 1000: the single 1 circulates. n flip-flops → MOD-n; each Q is one state, no decoder.</li>
+<li><strong>Johnson (twisted ring):</strong> Q<sub>3</sub>' fed back: fills with 1s, then empties. n flip-flops → <strong>MOD-2n</strong>; each state decoded by one 2-input AND.</li>
+<li><strong>Lock-out:</strong> Johnson uses 8 of 16 states; from an unused one (e.g. 0100) it cycles among the others for ever. Start with a reset, or add self-correcting logic.</li>
+</ul>
+
+<figure style="max-width:70%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 485.64 182.4377" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.348954</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 182.4377 L 485.64 182.4377 L 485.64 -0 L 0 -0 L 0 182.4377 z " style="fill: none"/> </g> <g id="axes_1"> <g id="line2d_1"> <path d="M 37.157143 48.5807 L 61.640816 48.5807 L 61.640816 29.1767 L 86.12449 29.1767 L 86.12449 48.5807 L 110.608163 48.5807 L 110.608163 29.1767 L 135.091837 29.1767 L 135.091837 48.5807 L 159.57551 48.5807 L 159.57551 29.1767 L 184.059184 29.1767 L 184.059184 48.5807 L 208.542857 48.5807 L 208.542857 29.1767 L 233.026531 29.1767 L 233.026531 48.5807 L 257.510204 48.5807 L 257.510204 29.1767 L 281.993878 29.1767 L 281.993878 48.5807 L 306.477551 48.5807 L 306.477551 29.1767 L 330.961224 29.1767 L 330.961224 48.5807 L 355.444898 48.5807 L 355.444898 29.1767 L 379.928571 29.1767 L 379.928571 48.5807 L 404.412245 48.5807 L 404.412245 29.1767 L 428.895918 29.1767 L 428.895918 48.5807 L 453.379592 48.5807 L 453.379592 29.1767 L 477.863265 29.1767 L 477.863265 48.5807 L 477.863265 48.5807 " clip-path="url(#pa80d1b9363)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_2"> <path d="M 37.157143 77.6867 L 61.640816 77.6867 L 61.640816 58.2827 L 257.510204 58.2827 L 257.510204 77.6867 L 477.863265 77.6867 " clip-path="url(#pa80d1b9363)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_3"> <path d="M 37.157143 106.7927 L 110.608163 106.7927 L 110.608163 87.3887 L 306.477551 87.3887 L 306.477551 106.7927 L 477.863265 106.7927 " clip-path="url(#pa80d1b9363)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_4"> <path d="M 37.157143 135.8987 L 159.57551 135.8987 L 159.57551 116.4947 L 355.444898 116.4947 L 355.444898 135.8987 L 477.863265 135.8987 " clip-path="url(#pa80d1b9363)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_5"> <path d="M 37.157143 165.0047 L 208.542857 165.0047 L 208.542857 145.6007 L 404.412245 145.6007 L 404.412245 165.0047 L 477.863265 165.0047 " clip-path="url(#pa80d1b9363)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_6"> <path d="M 61.640816 179.5577 L 61.640816 4.9217 " clip-path="url(#pa80d1b9363)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/> </g> <g id="line2d_7"> <path d="M 453.379592 179.5577 L 453.379592 4.9217 " clip-path="url(#pa80d1b9363)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.036224" y="41.302684" transform="rotate(-0 31.036224 41.302684)">CLK</text> </g> <g id="text_2"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.036224" y="70.408684" transform="rotate(-0 31.036224 70.408684)">Q0</text> </g> <g id="text_3"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.036224" y="99.514684" transform="rotate(-0 31.036224 99.514684)">Q1</text> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.036224" y="128.620684" transform="rotate(-0 31.036224 128.620684)">Q2</text> </g> <g id="text_5"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.036224" y="157.726684" transform="rotate(-0 31.036224 157.726684)">Q3</text> </g> <g id="text_6"> <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="453.379592" y="8.8025" transform="rotate(-0 453.379592 8.8025)">repeats</text> </g> </g> </g> <defs> <clipPath id="pa80d1b9363"> <rect x="2.88" y="4.9217" width="479.88" height="174.636"/> </clipPath> </defs> </svg><figcaption>Johnson outputs: square waves at f/8, each shifted one clock.</figcaption></figure>
+
+<p><strong>Answer.</strong> 8 states, <strong>MOD-8</strong>, sequence in the table. Ring: n states, no decoding. Johnson: 2n states, 2-input decoding. Both waste states against a binary counter (2<sup>n</sup>).</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>(a) Flip-flops for MOD-10 as Johnson, ring and binary? (b) Decode term for state 0011? (c) A ring counter starts at 0000 by mistake. What happens?</p>
+</div>
+<hr />
+<h2>Exam form</h2>
+<p><strong>Shift registers.</strong> Circuit; the four types; trace table for a given input; universal register modes.</p>
+<p><strong>Ring, Johnson.</strong> Circuits; sequence tables; MOD-n vs MOD-2n; decoding; lock-out and the cure; comparison with binary.</p>
+<h2>Traps</h2>
+<ul>
+<li>Computing the feedback from the new values instead of the values before the edge.</li>
+<li>Johnson MOD = 2n, not n or 2<sup>n</sup>.</li>
+<li>Forgetting that a ring counter must be preset to one 1.</li>
+</ul>
+<h2>Self-test</h2>
+<ol>
+<li>Give the sequence and modulus of a 3-bit Johnson counter.</li>
+<li>MOD of a 5-bit ring counter?</li>
+<li>A PISO register holds 8 bits. How many clocks to send them after loading?</li>
+<li>A 4-bit SISO register is clocked at 1 MHz. What delay does it give?</li>
+<li>Decode term for Johnson state 1110 (Q<sub>0</sub>Q<sub>1</sub>Q<sub>2</sub>Q<sub>3</sub>)?</li>
+</ol>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 1.</strong> (a) From 1010: 1 ⊕ 0 → <strong>1101</strong>; then 0 ⊕ 1 → <strong>1110</strong>. (b) <strong>Clock 4</strong>. (c) <strong>PISO</strong>.</p>
+<p><strong>Check 2.</strong> (a) <strong>5, 10, 4</strong>. (b) <strong>Q<sub>1</sub>'Q<sub>2</sub></strong>. (c) It <strong>stays at 0000</strong>: nothing to circulate (its lock-out).</p>
+<p><strong>Self-test.</strong></p>
+<ol>
+<li>000, 100, 110, 111, 011, 001: <strong>MOD-6</strong>.</li>
+<li><strong>MOD-5</strong>.</li>
+<li><strong>8</strong>.</li>
+<li>4 clocks = <strong>4 μs</strong>.</li>
+<li><strong>Q<sub>2</sub>Q<sub>3</sub>'</strong>.</li>
+</ol>
+</div></body></html>

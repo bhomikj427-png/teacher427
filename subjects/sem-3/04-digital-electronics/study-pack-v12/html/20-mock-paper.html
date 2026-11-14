@@ -1,0 +1,233 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>20 — Mock end-term paper</title><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2102 Digital Electronics · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figure svg.mpl { width: 100%; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+:root { --card:#fff; --soft:#f4f4f0; --g0:#2f5bea; --g1:#e0661b; --g2:#12925a; --g3:#b23fbf; --g4:#c2410c; --one:#1c1f24; --zero:#b7bac0; --x:#d97706; --bad:#d92d20; --good:#12925a; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+.fig-svg { width: 100%; height: auto; display: block; overflow: visible; font-family: Inter, "Segoe UI", sans-serif; }
+.k-cell { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.k-cell.hl-a { fill: var(--accent); fill-opacity: .28; }
+.k-cell.hl-b { fill: var(--g2); fill-opacity: .22; }
+.k-cell.hl-c { fill: var(--g1); fill-opacity: .25; }
+.k-one { fill: var(--one); font-weight: 700; }
+.k-zero { fill: var(--zero); font-weight: 500; }
+.k-zero-em { fill: var(--g1); font-weight: 700; }
+.k-x { fill: var(--x); font-weight: 700; }
+.k-idx { fill: var(--muted); font-size: 10px; font-family: "JetBrains Mono", monospace; }
+.k-idx-big { fill: var(--ink); font: 600 15px "JetBrains Mono", monospace; }
+.k-lab { fill: var(--muted); font: 13px "JetBrains Mono", monospace; }
+.k-var { fill: var(--ink); font-weight: 600; font-size: 14px; font-style: italic; }
+.k-diag { stroke: var(--line); stroke-width: 1.2; }
+.k-title { fill: var(--ink); font-weight: 600; font-size: 14px; }
+.k-note { fill: var(--muted); font-size: 12.5px; }
+.k-grp { fill-opacity: .10; stroke-width: 2.6; }
+.k-grp-0s .k-grp { stroke-dasharray: 6 4; }
+.k-arrow { fill: none; stroke: var(--g1); stroke-width: 2; stroke-dasharray: 5 4; }
+.k-arrowhead { fill: var(--g1); }
+.k-bad { fill: var(--bad); fill-opacity: .14; stroke: var(--bad); stroke-width: 2; }
+.k-chip { fill-opacity: .12; stroke-width: 1.5; }
+.k-chip-t { font: 600 13px "JetBrains Mono", monospace; }
+.c0 .k-grp, .c0 .k-chip { fill: var(--g0); stroke: var(--g0); } .c0 .k-chip-t, .g-term.c0 { fill: var(--g0); }
+.c1 .k-grp, .c1 .k-chip { fill: var(--g1); stroke: var(--g1); } .c1 .k-chip-t, .g-term.c1 { fill: var(--g1); }
+.c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
+.c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
+.c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>20 — Mock end-term paper</h1>
+<div class="sub">Closed book, on paper, 3 hours · do it after the rest · then mark it with the key on the last pages and redo anything you missed</div>
+
+<p>No Digital Electronics end-term paper or blueprint has been seen, so the format is a guess. This paper copies the layout of the one official blueprint in hand (MAS2001, July–Nov 2026): Part A 10 × 2, Part B 6 × 6, Part C 2 × 8, Part D 1 × 8, total 80. Questions with a source tag are the professor's own and are not used earlier in the pack.</p>
+<h2>Part A · 10 × 2 = 20 marks</h2>
+<ol>
+<li>State De Morgan's two theorems.</li>
+<li>Convert F(A, B, C) = Σm(1, 3, 6) to product-of-maxterms form.</li>
+<li>Why is the NAND gate called a universal gate?</li>
+<li>How many select lines does a 16:1 MUX have? How many 4:1 MUXes build it as a tree?</li>
+<li>Find the odd parity bit for 1101001.</li>
+<li>Give two differences between a latch and a flip-flop.</li>
+<li>How many flip-flops does a MOD-12 counter need, and how many states are unused?</li>
+<li>Give two differences between Mealy and Moore machines.</li>
+<li>V<sub>OH(min)</sub> = 2.7 V, V<sub>IH(min)</sub> = 2.0 V, V<sub>IL(max)</sub> = 0.8 V, V<sub>OL(max)</sub> = 0.5 V. Find the noise margins.</li>
+<li>Differentiate PAL and PLA.</li>
+</ol>
+<h2>Part B · 6 × 6 = 36 marks</h2>
+<ol start="11">
+<li><span class="tag">Set 1 Q4</span> Design a combinational circuit having 4 inputs that will produce an output '1' when two consecutive input bits are 1 and produce '0' for other cases.</li>
+<li><span class="tag">Set 1 Q6</span> Implement F(P, Q, R, S) = Σm(0, 2, 5, 9, 11, 12, 14, 15) using an 8:1 multiplexer.</li>
+<li><span class="tag">Set 1 Q8</span> Implement F(a, b, c, d) = Σm(0, 1, 2, 5, 6, 8, 9, 15) using a suitable decoder.</li>
+<li><span class="tag">Set 2 Q4</span> Design a 2-bit synchronous up counter with JK flip-flops: state table, excitation table, equations.</li>
+<li><span class="tag">Deck 12 slide 18</span> Reduce by partitioning (next/z for x = 0; for x = 1): A D/0, D/0 · B C/1, D/0 · C C/1, D/0 · D D/0, B/0 · E C/1, F/0 · F D/0, D/0 · G G/0, G/0 · H B/1, D/0.</li>
+<li>Draw a two-input TTL NAND with totem-pole output and explain it. I<sub>OL</sub> = 8 mA, I<sub>IL</sub> = 0.4 mA, I<sub>OH</sub> = 0.4 mA, I<sub>IH</sub> = 20 μA: find the fan-out.</li>
+</ol>
+<h2>Part C · 2 × 8 = 16 marks</h2>
+<ol start="17">
+<li><span class="tag">Deck 11 slide 43 Q1</span> Design a Moore circuit to detect 1011 (overlap allowed) with D flip-flops: state diagram, state table, input equations.</li>
+<li><span class="tag">Deck 15 slide 28</span> Realise with a PAL of three product terms per output: F<sub>1</sub>(A, B, C, D) = Σm(1, 4–7, 10–13), F<sub>2</sub> = Σm(4–7, 10–11), F<sub>3</sub> = Σm(4–7, 9–15). Give the minimal expressions and the programming table.</li>
+</ol>
+<h2>Part D · 1 × 8 = 8 marks</h2>
+<ol start="19">
+<li>(a) Design a MOD-6 synchronous up counter (0–5) with JK flip-flops and check whether it is self-starting. (b) For an asynchronous MOD-6 instead: flip-flops, reset-gate inputs, and one disadvantage.</li>
+</ol>
+<hr />
+<h2>Formula recall</h2>
+<p>Cover the right column, write each line from the cue, then uncover. Any row you miss, go back to the file named.</p>
+<table>
+<thead>
+<tr>
+<th>Cue</th>
+<th>Recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01 Laws</td>
+<td>X + X'Y = X + Y · X + YZ = (X + Y)(X + Z) · De Morgan · consensus XY + X'Z + YZ = XY + X'Z</td>
+</tr>
+<tr>
+<td>01 Canonical</td>
+<td>Σm = 1-rows, ΠM = 0-rows · M<sub>j</sub> = m<sub>j</sub>'</td>
+</tr>
+<tr>
+<td>02 K-map</td>
+<td>groups 1, 2, 4, 8; wrap; largest, fewest; X only to enlarge · POS: group 0s, read inverted</td>
+</tr>
+<tr>
+<td>03 Universal</td>
+<td>SOP → NAND–NAND · POS → NOR–NOR · XOR = 4 NAND</td>
+</tr>
+<tr>
+<td>04 Adders</td>
+<td>S = A ⊕ B ⊕ C<sub>in</sub>, C<sub>out</sub> = AB + C<sub>in</sub>(A ⊕ B) · C<sub>i+1</sub> = G<sub>i</sub> + P<sub>i</sub>C<sub>i</sub> · ripple (2n + 1)T · BCD: + 0110 if K + Z<sub>3</sub>Z<sub>2</sub> + Z<sub>3</sub>Z<sub>1</sub></td>
+</tr>
+<tr>
+<td>05 MUX</td>
+<td>n variables on 2<sup>n−1</sup>:1: inputs 0, 1, x, x' per row pair</td>
+</tr>
+<tr>
+<td>06 Decoder, encoder</td>
+<td>output j = m<sub>j</sub>; OR (NAND if active-low) · y<sub>1</sub> = w<sub>3</sub> + w<sub>2</sub>, y<sub>0</sub> = w<sub>3</sub> + w<sub>2</sub>'w<sub>1</sub></td>
+</tr>
+<tr>
+<td>07 Display, comparator, parity</td>
+<td>common anode lit by 0 · G = A<sub>1</sub>B<sub>1</sub>' + x<sub>1</sub>A<sub>0</sub>B<sub>0</sub>' · P<sub>even</sub> = XOR of data</td>
+</tr>
+<tr>
+<td>08 Shifts, ALU</td>
+<td>arithmetic right copies sign · Y<sub>i</sub> = B<sub>i</sub>S<sub>0</sub> + B<sub>i</sub>'S<sub>1</sub>, F = A + Y + C<sub>in</sub></td>
+</tr>
+<tr>
+<td>09 Flip-flops</td>
+<td>Q⁺ = JQ' + K'Q · Q⁺ = D · Q⁺ = T ⊕ Q · excitation table</td>
+</tr>
+<tr>
+<td>11 Shift counters</td>
+<td>ring MOD-n · Johnson MOD-2n</td>
+</tr>
+<tr>
+<td>12 Ripple</td>
+<td>n·t<sub>pd</sub> · clear at first unwanted state</td>
+</tr>
+<tr>
+<td>13 Synchronous</td>
+<td>six steps; T = Q ⊕ Q⁺; unused states → self-start check</td>
+</tr>
+<tr>
+<td>14 Timing</td>
+<td>T ≥ t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub> · t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub></td>
+</tr>
+<tr>
+<td>15, 16 FSM</td>
+<td>Moore output in circle, Mealy on arrow · partition by outputs, then by next-state blocks</td>
+</tr>
+<tr>
+<td>17 Generators, async</td>
+<td>LFSR 2<sup>n</sup> − 1 · 555 f = 1.44/((R<sub>1</sub> + 2R<sub>2</sub>)C) · ring f = 1/(2Nt<sub>pd</sub>) · add consensus terms</td>
+</tr>
+<tr>
+<td>18 Families</td>
+<td>NM<sub>H</sub> = V<sub>OH</sub> − V<sub>IH</sub>, NM<sub>L</sub> = V<sub>IL</sub> − V<sub>OL</sub> · fan-out = min(I<sub>OL</sub>/I<sub>IL</sub>, I<sub>OH</sub>/I<sub>IH</sub>) · P = CV<sup>2</sup>f</td>
+</tr>
+<tr>
+<td>19 Memory, PLD</td>
+<td>2<sup>k</sup> × m: k address, m data lines · PROM fixed AND · PAL fixed OR · PLA both programmable</td>
+</tr>
+</tbody>
+</table>
+<div class="answers">
+<h2>Key</h2>
+<p><strong>Part A.</strong></p>
+<ol>
+<li>(X + Y)' = X'Y' and (XY)' = X' + Y'. (01)</li>
+<li><strong>ΠM(0, 2, 4, 5, 7)</strong>. (01)</li>
+<li>NOT, AND and OR can each be built from NANDs alone, so any function can. (03)</li>
+<li><strong>4</strong> select lines; <strong>five</strong> 4:1 MUXes. (05)</li>
+<li>Four 1s (even): odd parity bit <strong>1</strong>. (07)</li>
+<li>Latch: level-triggered, transparent while enabled, passes glitches. Flip-flop: edge-triggered, samples once per clock. (09)</li>
+<li><strong>4</strong> flip-flops; <strong>4</strong> unused states. (12)</li>
+<li>Mealy: output from state and input, on arrows, fewer states. Moore: from state only, in circles, one more state (any two). (15)</li>
+<li>NM<sub>H</sub> = <strong>0.7 V</strong>, NM<sub>L</sub> = <strong>0.3 V</strong>. (18)</li>
+<li>PAL: programmable AND, fixed OR, no sharing. PLA: both programmable, terms shared. (19)</li>
+</ol>
+<p><strong>Part B.</strong></p>
+<ol start="11">
+<li>F = 1 for minterms 3, 6, 7, 11, 12, 13, 14, 15. K-map: three quads, <strong>F = AB + BC + CD</strong>: three 2-input ANDs and a 3-input OR (or NAND–NAND).</li>
+<li>P, Q, R on the selects. I<sub>0</sub> = <strong>S'</strong>, I<sub>1</sub> = <strong>S'</strong>, I<sub>2</sub> = <strong>S</strong>, I<sub>3</sub> = <strong>0</strong>, I<sub>4</sub> = <strong>S</strong>, I<sub>5</sub> = <strong>S</strong>, I<sub>6</sub> = <strong>S'</strong>, I<sub>7</sub> = <strong>1</strong>. (05)</li>
+<li>A 4:16 decoder (two 3:8s, a enabling one directly and the other through an inverter); <strong>OR outputs 0, 1, 2, 5, 6, 8, 9, 15</strong> (8-input NAND if active-low). (06)</li>
+<li>00 → 01 → 10 → 11 → 00. Excitation (J<sub>1</sub>K<sub>1</sub>, J<sub>0</sub>K<sub>0</sub>): 00: 0X, 1X · 01: 1X, X1 · 10: X0, 1X · 11: X1, X1. <strong>J<sub>0</sub> = K<sub>0</sub> = 1, J<sub>1</sub> = K<sub>1</sub> = Q<sub>0</sub></strong>. (13)</li>
+<li>P<sub>1</sub>: (ADFG)(BCEH). P<sub>2</sub>: on x = 1, D → B (other block): D separates → (AFG)(BCEH)(D). P<sub>3</sub>: A, F → D but G → G: G separates; on x = 1, E → F but B, C, H → D: E separates → (AF)(BCH)(D)(E)(G). P<sub>4</sub> = P<sub>3</sub>. <strong>A ≡ F, B ≡ C ≡ H</strong>: 8 states become 5. (16)</li>
+<li>Circuit and operation: 18 §2. Fan-out: 8/0.4 = 20 and 400/20 = 20: <strong>20</strong>.</li>
+</ol>
+<p><strong>Part C.</strong></p>
+<ol start="17">
+<li>S0 nothing, S1 "1", S2 "10", S3 "101", S4 "1011" (z = 1). Next (x = 0, x = 1): S0 → S0, S1 · S1 → S2, S1 · S2 → S0, S3 · S3 → S2, S4 · S4 → S2, S1. Codes Y<sub>2</sub>Y<sub>1</sub>Y<sub>0</sub>: 000, 001, 010, 011, 100; 101–111 don't-care. <strong>D<sub>2</sub> = Y<sub>1</sub>Y<sub>0</sub>X · D<sub>1</sub> = Y<sub>0</sub>X' + Y<sub>1</sub>Y<sub>0</sub>'X + Y<sub>2</sub>X' · D<sub>0</sub> = Y<sub>1</sub>'X + Y<sub>0</sub>'X · z = Y<sub>2</sub></strong>. (15)</li>
+<li><strong>F<sub>1</sub> = A'B + BC' + AB'C + A'C'D</strong> (four terms), <strong>F<sub>2</sub> = A'B + AB'C</strong>, <strong>F<sub>3</sub> = B + AC + AD</strong>. F<sub>1</sub> does not fit in three terms, but two of its terms are F<sub>2</sub>: feed F<sub>2</sub> back, <strong>F<sub>1</sub> = F<sub>2</sub> + BC' + A'C'D</strong>. Table (A B C D F<sub>2</sub>; 1 = true, 0 = complement, – = none): F<sub>2</sub>: A'B = 0 1 – – –; AB'C = 1 0 1 – –. F<sub>1</sub>: F<sub>2</sub> = – – – – 1; BC' = – 1 0 – –; A'C'D = 0 – 0 1 –. F<sub>3</sub>: B = – 1 – – –; AC = 1 – 1 – –; AD = 1 – – 1 –. (19)</li>
+</ol>
+<p><strong>Part D.</strong></p>
+<ol start="19">
+<li>(a) 3 flip-flops; 6, 7 don't-care. <strong>J<sub>0</sub> = K<sub>0</sub> = 1 · J<sub>1</sub> = Q<sub>2</sub>'Q<sub>0</sub>, K<sub>1</sub> = Q<sub>0</sub> · J<sub>2</sub> = Q<sub>1</sub>Q<sub>0</sub>, K<sub>2</sub> = Q<sub>0</sub></strong>. Self-start: 110 → 111 (only FF0 toggles); 111 → 000. Both return: <strong>self-starting</strong>. (13) (b) 3 flip-flops; clear at 110: <strong>Q<sub>2</sub>, Q<sub>1</sub></strong> into the NAND. Disadvantage: ripple delay up to 3t<sub>pd</sub> and false states (a brief 110) on the outputs. (12)</li>
+</ol>
+</div></body></html>

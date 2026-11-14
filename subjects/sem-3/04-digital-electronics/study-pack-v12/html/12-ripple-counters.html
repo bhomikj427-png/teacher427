@@ -1,0 +1,163 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>12 — Asynchronous (ripple) counters</title><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2102 Digital Electronics · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figure svg.mpl { width: 100%; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+:root { --card:#fff; --soft:#f4f4f0; --g0:#2f5bea; --g1:#e0661b; --g2:#12925a; --g3:#b23fbf; --g4:#c2410c; --one:#1c1f24; --zero:#b7bac0; --x:#d97706; --bad:#d92d20; --good:#12925a; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+.fig-svg { width: 100%; height: auto; display: block; overflow: visible; font-family: Inter, "Segoe UI", sans-serif; }
+.k-cell { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.k-cell.hl-a { fill: var(--accent); fill-opacity: .28; }
+.k-cell.hl-b { fill: var(--g2); fill-opacity: .22; }
+.k-cell.hl-c { fill: var(--g1); fill-opacity: .25; }
+.k-one { fill: var(--one); font-weight: 700; }
+.k-zero { fill: var(--zero); font-weight: 500; }
+.k-zero-em { fill: var(--g1); font-weight: 700; }
+.k-x { fill: var(--x); font-weight: 700; }
+.k-idx { fill: var(--muted); font-size: 10px; font-family: "JetBrains Mono", monospace; }
+.k-idx-big { fill: var(--ink); font: 600 15px "JetBrains Mono", monospace; }
+.k-lab { fill: var(--muted); font: 13px "JetBrains Mono", monospace; }
+.k-var { fill: var(--ink); font-weight: 600; font-size: 14px; font-style: italic; }
+.k-diag { stroke: var(--line); stroke-width: 1.2; }
+.k-title { fill: var(--ink); font-weight: 600; font-size: 14px; }
+.k-note { fill: var(--muted); font-size: 12.5px; }
+.k-grp { fill-opacity: .10; stroke-width: 2.6; }
+.k-grp-0s .k-grp { stroke-dasharray: 6 4; }
+.k-arrow { fill: none; stroke: var(--g1); stroke-width: 2; stroke-dasharray: 5 4; }
+.k-arrowhead { fill: var(--g1); }
+.k-bad { fill: var(--bad); fill-opacity: .14; stroke: var(--bad); stroke-width: 2; }
+.k-chip { fill-opacity: .12; stroke-width: 1.5; }
+.k-chip-t { font: 600 13px "JetBrains Mono", monospace; }
+.c0 .k-grp, .c0 .k-chip { fill: var(--g0); stroke: var(--g0); } .c0 .k-chip-t, .g-term.c0 { fill: var(--g0); }
+.c1 .k-grp, .c1 .k-chip { fill: var(--g1); stroke: var(--g1); } .c1 .k-chip-t, .g-term.c1 { fill: var(--g1); }
+.c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
+.c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
+.c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>12 — Asynchronous (ripple) counters</h1>
+<div class="sub">Deck 10 (slides 4–17) · syllabus Unit 3 · needs 09 (T and JK flip-flops toggling)</div>
+
+<h2>Map</h2>
+<div class="map"><span class="n here">1 Ripple up and down</span><span class="a">→</span><span class="n">2 MOD-N by reset, cascading</span></div>
+
+<p>The cheapest counter: chain toggling flip-flops so each clocks the next. It costs no gates, but its outputs settle one after another. 13 removes that delay.</p>
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">Deck 10 slides 4–11</span> How does a ripple counter count, and what is its flaw?</li>
+<li><span class="tag">Deck 10 slides 12–13</span> Design an asynchronous decade counter.</li>
+</ul>
+<hr />
+<h2>Build</h2>
+<h3>1 · Ripple up and down counters</h3>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>FF0 toggles on every falling clock edge. FF1 toggles whenever Q<sub>0</sub> falls. What sequence does Q<sub>1</sub>Q<sub>0</sub> go through?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Counter:</strong> steps through a fixed sequence, one step per clock pulse. <strong>Asynchronous (ripple):</strong> only the first flip-flop gets the clock; each other is clocked by the one before.</p>
+</div>
+
+<figure style="max-width:100%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 415.57248 122.184" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.384910</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 122.184 L 415.57248 122.184 L 415.57248 0 L 0 0 L 0 122.184 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 70.40592 77.39136 L 126.28944 77.39136 Q 128.61792 77.39136 128.61792 75.06288 L 128.61792 28.49328 Q 128.61792 26.1648 126.28944 26.1648 L 70.40592 26.1648 Q 68.07744 26.1648 68.07744 28.49328 L 68.07744 75.06288 Q 68.07744 77.39136 70.40592 77.39136 z " clip-path="url(#pab3b973c6d)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_3"> <path d="M 93.69072 77.39136 L 98.34768 69.940224 L 103.00464 77.39136 L 93.69072 77.39136 z " clip-path="url(#pab3b973c6d)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_4"> <path d="M 98.34768 83.911104 C 99.212208 83.911104 100.041444 83.567623 100.652758 82.95631 C 101.264071 82.344996 101.607552 81.51576 101.607552 80.651232 C 101.607552 79.786704 101.264071 78.957468 100.652758 78.346154 C 100.041444 77.734841 99.212208 77.39136 98.34768 77.39136 C 97.483152 77.39136 96.653916 77.734841 96.042602 78.346154 C 95.431289 78.957468 95.087808 79.786704 95.087808 80.651232 C 95.087808 81.51576 95.431289 82.344996 96.042602 82.95631 C 96.653916 83.567623 97.483152 83.911104 98.34768 83.911104 z " clip-path="url(#pab3b973c6d)" style="fill: #ffffff; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_5"> <path d="M 128.61792 37.8072 Q 139.09608 37.8072 148.29224 37.8072 " clip-path="url(#pab3b973c6d)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 144.29224 35.454259 L 148.29224 37.8072 L 144.29224 40.160141 z " clip-path="url(#pab3b973c6d)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_6"> <path d="M 191.48688 77.39136 L 247.3704 77.39136 Q 249.69888 77.39136 249.69888 75.06288 L 249.69888 28.49328 Q 249.69888 26.1648 247.3704 26.1648 L 191.48688 26.1648 Q 189.1584 26.1648 189.1584 28.49328 L 189.1584 75.06288 Q 189.1584 77.39136 191.48688 77.39136 z " clip-path="url(#pab3b973c6d)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_7"> <path d="M 214.77168 77.39136 L 219.42864 69.940224 L 224.0856 77.39136 L 214.77168 77.39136 z " clip-path="url(#pab3b973c6d)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_8"> <path d="M 219.42864 83.911104 C 220.293168 83.911104 221.122404 83.567623 221.733718 82.95631 C 222.345031 82.344996 222.688512 81.51576 222.688512 80.651232 C 222.688512 79.786704 222.345031 78.957468 221.733718 78.346154 C 221.122404 77.734841 220.293168 77.39136 219.42864 77.39136 C 218.564112 77.39136 217.734876 77.734841 217.123562 78.346154 C 216.512249 78.957468 216.168768 79.786704 216.168768 80.651232 C 216.168768 81.51576 216.512249 82.344996 217.123562 82.95631 C 217.734876 83.567623 218.564112 83.911104 219.42864 83.911104 z " clip-path="url(#pab3b973c6d)" style="fill: #ffffff; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_9"> <path d="M 249.69888 37.8072 Q 260.17704 37.8072 269.3732 37.8072 " clip-path="url(#pab3b973c6d)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 265.3732 35.454259 L 269.3732 37.8072 L 265.3732 40.160141 z " clip-path="url(#pab3b973c6d)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_10"> <path d="M 312.56784 77.39136 L 368.45136 77.39136 Q 370.77984 77.39136 370.77984 75.06288 L 370.77984 28.49328 Q 370.77984 26.1648 368.45136 26.1648 L 312.56784 26.1648 Q 310.23936 26.1648 310.23936 28.49328 L 310.23936 75.06288 Q 310.23936 77.39136 312.56784 77.39136 z " clip-path="url(#pab3b973c6d)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_11"> <path d="M 335.85264 77.39136 L 340.5096 69.940224 L 345.16656 77.39136 L 335.85264 77.39136 z " clip-path="url(#pab3b973c6d)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_12"> <path d="M 340.5096 83.911104 C 341.374128 83.911104 342.203364 83.567623 342.814678 82.95631 C 343.425991 82.344996 343.769472 81.51576 343.769472 80.651232 C 343.769472 79.786704 343.425991 78.957468 342.814678 78.346154 C 342.203364 77.734841 341.374128 77.39136 340.5096 77.39136 C 339.645072 77.39136 338.815836 77.734841 338.204522 78.346154 C 337.593209 78.957468 337.249728 79.786704 337.249728 80.651232 C 337.249728 81.51576 337.593209 82.344996 338.204522 82.95631 C 338.815836 83.567623 339.645072 83.911104 340.5096 83.911104 z " clip-path="url(#pab3b973c6d)" style="fill: #ffffff; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_13"> <path d="M 370.77984 37.8072 Q 381.258 37.8072 390.45416 37.8072 " clip-path="url(#pab3b973c6d)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 386.45416 35.454259 L 390.45416 37.8072 L 386.45416 40.160141 z " clip-path="url(#pab3b973c6d)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_1"> <path d="M 21.50784 100.67616 L 98.34768 100.67616 L 98.34768 83.911104 " clip-path="url(#pab3b973c6d)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 128.61792 37.8072 L 149.57424 37.8072 L 149.57424 100.67616 L 219.42864 100.67616 L 219.42864 83.911104 " clip-path="url(#pab3b973c6d)" style="fill: none; stroke: #e0661b; stroke-width: 1.4; stroke-linecap: round"/> </g> <g id="line2d_3"> <path d="M 249.69888 37.8072 L 270.6552 37.8072 L 270.6552 100.67616 L 340.5096 100.67616 L 340.5096 83.911104 " clip-path="url(#pab3b973c6d)" style="fill: none; stroke: #e0661b; stroke-width: 1.4; stroke-linecap: round"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="73.665792" y="40.13568" transform="rotate(-0 73.665792 40.13568)">T=1</text> </g> <g id="text_2"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="123.029568" y="40.13568" transform="rotate(-0 123.029568 40.13568)">Q</text> </g> <g id="text_3"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="98.34768" y="20.576448" transform="rotate(-0 98.34768 20.576448)">Q0</text> </g> <g id="text_4"> <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="19.17936" y="102.972566" transform="rotate(-0 19.17936 102.972566)">CLK</text> </g> <g id="text_5"> <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="194.746752" y="40.13568" transform="rotate(-0 194.746752 40.13568)">T=1</text> </g> <g id="text_6"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="244.110528" y="40.13568" transform="rotate(-0 244.110528 40.13568)">Q</text> </g> <g id="text_7"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="219.42864" y="20.576448" transform="rotate(-0 219.42864 20.576448)">Q1</text> </g> <g id="text_8"> <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="315.827712" y="40.13568" transform="rotate(-0 315.827712 40.13568)">T=1</text> </g> <g id="text_9"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="365.191488" y="40.13568" transform="rotate(-0 365.191488 40.13568)">Q</text> </g> <g id="text_10"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="340.5096" y="20.576448" transform="rotate(-0 340.5096 20.576448)">Q2</text> </g> <g id="text_11"> <text style="fill: #e0661b; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="207.78624" y="114.64704" transform="rotate(-0 207.78624 114.64704)">each flip-flop is clocked by the Q of the one before (negative edge, ○ = falling-edge input)</text> </g> </g> </g> <defs> <clipPath id="pab3b973c6d"> <rect x="2.88" y="2.88" width="409.81248" height="116.424"/> </clipPath> </defs> </svg> </div> <div class="fig"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 485.64 151.98266" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.407416</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 151.98266 L 485.64 151.98266 L 485.64 0 L 0 0 L 0 151.98266 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 245.4 144.29786 L 263.976 144.29786 L 263.976 9.76346 L 245.4 9.76346 z " clip-path="url(#p292648f498)" style="fill: #d92d20; opacity: 0.13"/> </g> <g id="line2d_1"> <path d="M 39 48.20186 L 64.8 48.20186 L 64.8 28.98266 L 90.6 28.98266 L 90.6 48.20186 L 116.4 48.20186 L 116.4 28.98266 L 142.2 28.98266 L 142.2 48.20186 L 168 48.20186 L 168 28.98266 L 193.8 28.98266 L 193.8 48.20186 L 219.6 48.20186 L 219.6 28.98266 L 245.4 28.98266 L 245.4 48.20186 L 271.2 48.20186 L 271.2 28.98266 L 297 28.98266 L 297 48.20186 L 322.8 48.20186 L 322.8 28.98266 L 348.6 28.98266 L 348.6 48.20186 L 374.4 48.20186 L 374.4 28.98266 L 400.2 28.98266 L 400.2 48.20186 L 426 48.20186 L 426 28.98266 L 451.8 28.98266 L 451.8 48.20186 L 477.6 48.20186 " clip-path="url(#p292648f498)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_2"> <path d="M 39 77.03066 L 96.792 77.03066 L 96.792 57.81146 L 148.392 57.81146 L 148.392 77.03066 L 199.992 77.03066 L 199.992 57.81146 L 251.592 57.81146 L 251.592 77.03066 L 303.192 77.03066 L 303.192 57.81146 L 354.792 57.81146 L 354.792 77.03066 L 406.392 77.03066 L 406.392 57.81146 L 457.992 57.81146 L 457.992 77.03066 L 477.6 77.03066 " clip-path="url(#p292648f498)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_3"> <path d="M 39 105.85946 L 154.584 105.85946 L 154.584 86.64026 L 257.784 86.64026 L 257.784 105.85946 L 360.984 105.85946 L 360.984 86.64026 L 464.184 86.64026 L 464.184 105.85946 L 477.6 105.85946 " clip-path="url(#p292648f498)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_4"> <path d="M 39 134.68826 L 263.976 134.68826 L 263.976 115.46906 L 470.376 115.46906 L 470.376 134.68826 L 477.6 134.68826 " clip-path="url(#p292648f498)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_5"> <path d="M 245.4 149.10266 L 245.4 4.95866 " clip-path="url(#p292648f498)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="32.55" y="41.016244" transform="rotate(-0 32.55 41.016244)">CLK</text> </g> <g id="text_2"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="32.55" y="69.845044" transform="rotate(-0 32.55 69.845044)">Q0</text> </g> <g id="text_3"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="32.55" y="98.673844" transform="rotate(-0 32.55 98.673844)">Q1</text> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="32.55" y="127.502644" transform="rotate(-0 32.55 127.502644)">Q2</text> </g> <g id="text_5"> <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="245.4" y="8.8025" transform="rotate(-0 245.4 8.8025)">edge 4: 011 → 100</text> </g> </g> </g> <defs> <clipPath id="p292648f498"> <rect x="2.88" y="4.95866" width="479.88" height="144.144"/> </clipPath> </defs> </svg><figcaption>3-bit ripple up counter and its waveforms; the shaded region shows the false states during 011 → 100.</figcaption></figure>
+
+<ul>
+<li>Every flip-flop toggles (T = 1 or J = K = 1). Reading Q<sub>2</sub>Q<sub>1</sub>Q<sub>0</sub>: 0, 1, 2, … 7, 0: an <strong>up counter</strong>. Each Q is half the frequency of the one before: a <strong>frequency divider</strong>.</li>
+<li>Clock each stage from <strong>Q'</strong> instead and it counts <strong>down</strong> (with positive-edge flip-flops the rule swaps).</li>
+<li><strong>The flaw, ripple delay:</strong> each stage waits for the one before. 011 → 100 passes through 010 and 000. Worst settling time <strong>n·t<sub>pd</sub></strong>; the clock period must exceed it, and anything reading the outputs sees false states.</li>
+</ul>
+<p><strong>Answer.</strong> 00, 01, 10, 11, 00: it counts up, and Q<sub>1</sub> runs at a quarter of the clock frequency.</p>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>A 4-bit ripple counter uses flip-flops with t<sub>pd</sub> = 25 ns. Worst settling time and highest usable clock frequency?</p>
+</div>
+<h3>2 · MOD-N by reset, and cascading</h3>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 10 slides 12–13</span></div>
+<p>Design an asynchronous decade counter.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>A decade counter has 10 states. How many flip-flops, and how do you stop it going on to 10, 11, … 15?</p>
+</div>
+<p><strong>MOD less than 2<sup>n</sup>.</strong> Smallest n with 2<sup>n</sup> ≥ MOD. Let it count normally, detect the <strong>first unwanted state</strong> with a NAND, and drive every flip-flop's active-low <strong>CLEAR</strong>. <strong>Cascading</strong> (deck 10 slides 16–17): clock a second counter from the last output of the first: MOD-M then MOD-N gives MOD-(M × N).</p>
+<p><strong>Answer.</strong> 8 &lt; 10 ≤ 16: <strong>4 flip-flops</strong>, all toggling, each clocked by the Q before it. The first unwanted state is 10 = <strong>1010</strong>, the first with Q<sub>3</sub> and Q<sub>1</sub> both 1: a <strong>2-input NAND on Q<sub>3</sub>, Q<sub>1</sub></strong> drives all CLEARs. The count goes 0000 … 1001, shows 1010 for a few nanoseconds, and clears to 0000.</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>(a) <span class="tag">Deck 10 slide 14</span> Which outputs go to the NAND for MOD-7? For MOD-12? (b) Flip-flops for MOD-60? (c) A 10 kHz clock drives a MOD-10 counter: frequency of its last output?</p>
+</div>
+<hr />
+<h2>Exam form</h2>
+<p><strong>Ripple counter.</strong> Circuit, waveforms, up vs down connection, divide-by-2 per stage, ripple delay n·t<sub>pd</sub> and the false states.</p>
+<p><strong>MOD-N.</strong> Number of flip-flops; first unwanted state; NAND → CLEAR; cascading.</p>
+<h2>Traps</h2>
+<ul>
+<li>Detecting state N − 1 instead of N.</li>
+<li>Including outputs that are 0 in state N in the NAND (only the 1s go in).</li>
+<li>Forgetting the momentary false state before clear.</li>
+</ul>
+<h2>Self-test</h2>
+<ol>
+<li>Design a MOD-5 ripple counter: flip-flops and NAND inputs.</li>
+<li>A 1 MHz clock drives a ripple counter. Frequency at Q<sub>0</sub>? At Q<sub>3</sub>?</li>
+<li>A 3-bit ripple counter with t<sub>pd</sub> = 20 ns: f<sub>max</sub>?</li>
+<li>How do you make a ripple counter count down?</li>
+<li>MOD-6 by reset: NAND inputs?</li>
+<li>How would you build MOD-24 from smaller counters?</li>
+</ol>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 1.</strong> 4 × 25 = <strong>100 ns</strong>; f<sub>max</sub> = <strong>10 MHz</strong>.</p>
+<p><strong>Check 2.</strong> (a) MOD-7: clear at 111, <strong>Q<sub>2</sub>, Q<sub>1</sub>, Q<sub>0</sub></strong>. MOD-12: clear at 1100, <strong>Q<sub>3</sub>, Q<sub>2</sub></strong>. (b) 32 &lt; 60 ≤ 64: <strong>6</strong>. (c) <strong>1 kHz</strong>.</p>
+<p><strong>Self-test.</strong></p>
+<ol>
+<li><strong>3 flip-flops</strong>; clear at 101: NAND on <strong>Q<sub>2</sub>, Q<sub>0</sub></strong>.</li>
+<li><strong>500 kHz</strong>; <strong>62.5 kHz</strong>.</li>
+<li>60 ns: <strong>16.7 MHz</strong>.</li>
+<li>Clock each stage from the previous Q' (negative-edge flip-flops).</li>
+<li>Clear at 110: <strong>Q<sub>2</sub>, Q<sub>1</sub></strong>.</li>
+<li>Cascade MOD-3 and MOD-8 (or MOD-4 and MOD-6): 3 × 8 = 24.</li>
+</ol>
+</div></body></html>

@@ -1,0 +1,973 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>08 — Shifts, barrel shifter, ALU</title><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2102 Digital Electronics · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figure svg.mpl { width: 100%; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+:root { --card:#fff; --soft:#f4f4f0; --g0:#2f5bea; --g1:#e0661b; --g2:#12925a; --g3:#b23fbf; --g4:#c2410c; --one:#1c1f24; --zero:#b7bac0; --x:#d97706; --bad:#d92d20; --good:#12925a; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+.fig-svg { width: 100%; height: auto; display: block; overflow: visible; font-family: Inter, "Segoe UI", sans-serif; }
+.k-cell { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.k-cell.hl-a { fill: var(--accent); fill-opacity: .28; }
+.k-cell.hl-b { fill: var(--g2); fill-opacity: .22; }
+.k-cell.hl-c { fill: var(--g1); fill-opacity: .25; }
+.k-one { fill: var(--one); font-weight: 700; }
+.k-zero { fill: var(--zero); font-weight: 500; }
+.k-zero-em { fill: var(--g1); font-weight: 700; }
+.k-x { fill: var(--x); font-weight: 700; }
+.k-idx { fill: var(--muted); font-size: 10px; font-family: "JetBrains Mono", monospace; }
+.k-idx-big { fill: var(--ink); font: 600 15px "JetBrains Mono", monospace; }
+.k-lab { fill: var(--muted); font: 13px "JetBrains Mono", monospace; }
+.k-var { fill: var(--ink); font-weight: 600; font-size: 14px; font-style: italic; }
+.k-diag { stroke: var(--line); stroke-width: 1.2; }
+.k-title { fill: var(--ink); font-weight: 600; font-size: 14px; }
+.k-note { fill: var(--muted); font-size: 12.5px; }
+.k-grp { fill-opacity: .10; stroke-width: 2.6; }
+.k-grp-0s .k-grp { stroke-dasharray: 6 4; }
+.k-arrow { fill: none; stroke: var(--g1); stroke-width: 2; stroke-dasharray: 5 4; }
+.k-arrowhead { fill: var(--g1); }
+.k-bad { fill: var(--bad); fill-opacity: .14; stroke: var(--bad); stroke-width: 2; }
+.k-chip { fill-opacity: .12; stroke-width: 1.5; }
+.k-chip-t { font: 600 13px "JetBrains Mono", monospace; }
+.c0 .k-grp, .c0 .k-chip { fill: var(--g0); stroke: var(--g0); } .c0 .k-chip-t, .g-term.c0 { fill: var(--g0); }
+.c1 .k-grp, .c1 .k-chip { fill: var(--g1); stroke: var(--g1); } .c1 .k-chip-t, .g-term.c1 { fill: var(--g1); }
+.c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
+.c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
+.c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>08 — Shifts, barrel shifter, ALU</h1>
+<div class="sub">Deck 07 (shifts slides 2–4, ALU slides 9–10) · syllabus Unit 2 · needs 04 (parallel adder, 2's complement) and 05 (MUX)</div>
+
+<h2>Map</h2>
+<div class="map"><span class="n here">1 Logical, circular, arithmetic shifts</span><span class="a">→</span><span class="n">2 Barrel shifter</span><span class="a">→</span><span class="n">3 Arithmetic logic unit</span></div>
+
+<p>Two blocks of every processor's datapath, built from parts you already have: a barrel shifter is a row of 05's MUXes; an ALU is 04's adder with a MUX choosing what goes into its B input.</p>
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">Deck 07 slides 2–4</span> For 110110: logical shift left by 2, circular shift left by 2, arithmetic shift right by 1.</li>
+<li><span class="tag">Deck 07 slides 9–10</span> Design an arithmetic circuit for add, subtract, increment and decrement.</li>
+</ul>
+<hr />
+<h2>Build</h2>
+<h3>1 · Shifts</h3>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 07 slides 2–4</span></div>
+<p>For the word 110110 give (i) logical shift left by 2, (ii) circular shift left by 2, (iii) arithmetic shift right by 1.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>110110 is negative in 2's complement. After a right shift, what must the new leftmost bit be to keep it negative?</p>
+</div>
+
+<figure style="max-width:75%"><div style="width:183mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 322.702441 133.272" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-15T02:56:05.842779</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 133.272 
+L 322.702441 133.272 
+L 322.702441 0 
+L 0 0 
+L 0 133.272 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 81.812316 23.506941 
+L 96.813728 23.506941 
+L 96.813728 8.505529 
+L 81.812316 8.505529 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 96.813728 23.506941 
+L 111.81514 23.506941 
+L 111.81514 8.505529 
+L 96.813728 8.505529 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 111.81514 23.506941 
+L 126.816551 23.506941 
+L 126.816551 8.505529 
+L 111.81514 8.505529 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 126.816551 23.506941 
+L 141.817963 23.506941 
+L 141.817963 8.505529 
+L 126.816551 8.505529 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 141.817963 23.506941 
+L 156.819375 23.506941 
+L 156.819375 8.505529 
+L 141.817963 8.505529 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 156.819375 23.506941 
+L 171.820787 23.506941 
+L 171.820787 8.505529 
+L 156.819375 8.505529 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 81.812316 43.196294 
+L 96.813728 43.196294 
+L 96.813728 28.194882 
+L 81.812316 28.194882 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 96.813728 43.196294 
+L 111.81514 43.196294 
+L 111.81514 28.194882 
+L 96.813728 28.194882 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 111.81514 43.196294 
+L 126.816551 43.196294 
+L 126.816551 28.194882 
+L 111.81514 28.194882 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 126.816551 43.196294 
+L 141.817963 43.196294 
+L 141.817963 28.194882 
+L 126.816551 28.194882 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 141.817963 43.196294 
+L 156.819375 43.196294 
+L 156.819375 28.194882 
+L 141.817963 28.194882 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 156.819375 43.196294 
+L 171.820787 43.196294 
+L 171.820787 28.194882 
+L 156.819375 28.194882 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 81.812316 62.885647 
+L 96.813728 62.885647 
+L 96.813728 47.884235 
+L 81.812316 47.884235 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 96.813728 62.885647 
+L 111.81514 62.885647 
+L 111.81514 47.884235 
+L 96.813728 47.884235 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 111.81514 62.885647 
+L 126.816551 62.885647 
+L 126.816551 47.884235 
+L 111.81514 47.884235 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 126.816551 62.885647 
+L 141.817963 62.885647 
+L 141.817963 47.884235 
+L 126.816551 47.884235 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 141.817963 62.885647 
+L 156.819375 62.885647 
+L 156.819375 47.884235 
+L 141.817963 47.884235 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 156.819375 62.885647 
+L 171.820787 62.885647 
+L 171.820787 47.884235 
+L 156.819375 47.884235 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_20">
+    <path d="M 81.812316 82.575 
+L 96.813728 82.575 
+L 96.813728 67.573588 
+L 81.812316 67.573588 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_21">
+    <path d="M 96.813728 82.575 
+L 111.81514 82.575 
+L 111.81514 67.573588 
+L 96.813728 67.573588 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_22">
+    <path d="M 111.81514 82.575 
+L 126.816551 82.575 
+L 126.816551 67.573588 
+L 111.81514 67.573588 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_23">
+    <path d="M 126.816551 82.575 
+L 141.817963 82.575 
+L 141.817963 67.573588 
+L 126.816551 67.573588 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_24">
+    <path d="M 141.817963 82.575 
+L 156.819375 82.575 
+L 156.819375 67.573588 
+L 141.817963 67.573588 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_25">
+    <path d="M 156.819375 82.575 
+L 171.820787 82.575 
+L 171.820787 67.573588 
+L 156.819375 67.573588 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_26">
+    <path d="M 81.812316 102.264353 
+L 96.813728 102.264353 
+L 96.813728 87.262941 
+L 81.812316 87.262941 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_27">
+    <path d="M 96.813728 102.264353 
+L 111.81514 102.264353 
+L 111.81514 87.262941 
+L 96.813728 87.262941 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_28">
+    <path d="M 111.81514 102.264353 
+L 126.816551 102.264353 
+L 126.816551 87.262941 
+L 111.81514 87.262941 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_29">
+    <path d="M 126.816551 102.264353 
+L 141.817963 102.264353 
+L 141.817963 87.262941 
+L 126.816551 87.262941 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_30">
+    <path d="M 141.817963 102.264353 
+L 156.819375 102.264353 
+L 156.819375 87.262941 
+L 141.817963 87.262941 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_31">
+    <path d="M 156.819375 102.264353 
+L 171.820787 102.264353 
+L 171.820787 87.262941 
+L 156.819375 87.262941 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_32">
+    <path d="M 81.812316 121.953706 
+L 96.813728 121.953706 
+L 96.813728 106.952294 
+L 81.812316 106.952294 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_33">
+    <path d="M 96.813728 121.953706 
+L 111.81514 121.953706 
+L 111.81514 106.952294 
+L 96.813728 106.952294 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_34">
+    <path d="M 111.81514 121.953706 
+L 126.816551 121.953706 
+L 126.816551 106.952294 
+L 111.81514 106.952294 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_35">
+    <path d="M 126.816551 121.953706 
+L 141.817963 121.953706 
+L 141.817963 106.952294 
+L 126.816551 106.952294 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_36">
+    <path d="M 141.817963 121.953706 
+L 156.819375 121.953706 
+L 156.819375 106.952294 
+L 141.817963 106.952294 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_37">
+    <path d="M 156.819375 121.953706 
+L 171.820787 121.953706 
+L 171.820787 106.952294 
+L 156.819375 106.952294 
+z
+" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="77.124375" y="18.302642" transform="rotate(-0 77.124375 18.302642)">start</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="89.313022" y="18.455454" transform="rotate(-0 89.313022 18.455454)">1</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="104.314434" y="18.455454" transform="rotate(-0 104.314434 18.455454)">1</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="119.315846" y="18.455454" transform="rotate(-0 119.315846 18.455454)">0</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="134.317257" y="18.455454" transform="rotate(-0 134.317257 18.455454)">1</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="149.318669" y="18.455454" transform="rotate(-0 149.318669 18.455454)">1</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="164.320081" y="18.455454" transform="rotate(-0 164.320081 18.455454)">0</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #1c1f24; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="77.124375" y="38.022932" transform="rotate(-0 77.124375 38.022932)">logical left 2</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="89.313022" y="38.144807" transform="rotate(-0 89.313022 38.144807)">0</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="104.314434" y="38.144807" transform="rotate(-0 104.314434 38.144807)">1</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="119.315846" y="38.144807" transform="rotate(-0 119.315846 38.144807)">1</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="134.317257" y="38.144807" transform="rotate(-0 134.317257 38.144807)">0</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #e0661b; font: 700 10px 'Consolas'; text-anchor: middle" x="149.318669" y="38.176057" transform="rotate(-0 149.318669 38.176057)">0</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #e0661b; font: 700 10px 'Consolas'; text-anchor: middle" x="164.320081" y="38.176057" transform="rotate(-0 164.320081 38.176057)">0</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #6a707a; font: 8.3px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="177.446316" y="37.813385" transform="rotate(-0 177.446316 37.813385)">vacated bits ← 0</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #1c1f24; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="77.124375" y="57.659551" transform="rotate(-0 77.124375 57.659551)">logical right 1</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #e0661b; font: 700 10px 'Consolas'; text-anchor: middle" x="89.313022" y="57.86541" transform="rotate(-0 89.313022 57.86541)">0</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="104.314434" y="57.83416" transform="rotate(-0 104.314434 57.83416)">1</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="119.315846" y="57.83416" transform="rotate(-0 119.315846 57.83416)">1</text>
+   </g>
+   <g id="text_20">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="134.317257" y="57.83416" transform="rotate(-0 134.317257 57.83416)">0</text>
+   </g>
+   <g id="text_21">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="149.318669" y="57.83416" transform="rotate(-0 149.318669 57.83416)">1</text>
+   </g>
+   <g id="text_22">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="164.320081" y="57.83416" transform="rotate(-0 164.320081 57.83416)">1</text>
+   </g>
+   <g id="text_23">
+    <text style="fill: #6a707a; font: 8.3px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="177.446316" y="57.502738" transform="rotate(-0 177.446316 57.502738)">vacated bit ← 0</text>
+   </g>
+   <g id="text_24">
+    <text style="fill: #1c1f24; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="77.124375" y="77.3707" transform="rotate(-0 77.124375 77.3707)">circular left 2</text>
+   </g>
+   <g id="text_25">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="89.313022" y="77.523513" transform="rotate(-0 89.313022 77.523513)">0</text>
+   </g>
+   <g id="text_26">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="104.314434" y="77.523513" transform="rotate(-0 104.314434 77.523513)">1</text>
+   </g>
+   <g id="text_27">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="119.315846" y="77.523513" transform="rotate(-0 119.315846 77.523513)">1</text>
+   </g>
+   <g id="text_28">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="134.317257" y="77.523513" transform="rotate(-0 134.317257 77.523513)">0</text>
+   </g>
+   <g id="text_29">
+    <text style="fill: #e0661b; font: 700 10px 'Consolas'; text-anchor: middle" x="149.318669" y="77.554763" transform="rotate(-0 149.318669 77.554763)">1</text>
+   </g>
+   <g id="text_30">
+    <text style="fill: #e0661b; font: 700 10px 'Consolas'; text-anchor: middle" x="164.320081" y="77.554763" transform="rotate(-0 164.320081 77.554763)">1</text>
+   </g>
+   <g id="text_31">
+    <text style="fill: #6a707a; font: 8.3px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="177.446316" y="77.214138" transform="rotate(-0 177.446316 77.214138)">bits that fall off re-enter at the right</text>
+   </g>
+   <g id="text_32">
+    <text style="fill: #1c1f24; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="77.124375" y="97.038256" transform="rotate(-0 77.124375 97.038256)">circular right 1</text>
+   </g>
+   <g id="text_33">
+    <text style="fill: #e0661b; font: 700 10px 'Consolas'; text-anchor: middle" x="89.313022" y="97.244116" transform="rotate(-0 89.313022 97.244116)">0</text>
+   </g>
+   <g id="text_34">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="104.314434" y="97.212866" transform="rotate(-0 104.314434 97.212866)">1</text>
+   </g>
+   <g id="text_35">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="119.315846" y="97.212866" transform="rotate(-0 119.315846 97.212866)">1</text>
+   </g>
+   <g id="text_36">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="134.317257" y="97.212866" transform="rotate(-0 134.317257 97.212866)">0</text>
+   </g>
+   <g id="text_37">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="149.318669" y="97.212866" transform="rotate(-0 149.318669 97.212866)">1</text>
+   </g>
+   <g id="text_38">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="164.320081" y="97.212866" transform="rotate(-0 164.320081 97.212866)">1</text>
+   </g>
+   <g id="text_39">
+    <text style="fill: #6a707a; font: 8.3px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="177.446316" y="96.881444" transform="rotate(-0 177.446316 96.881444)">the bit that falls off re-enters at the left</text>
+   </g>
+   <g id="text_40">
+    <text style="fill: #1c1f24; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="77.124375" y="116.727609" transform="rotate(-0 77.124375 116.727609)">arithmetic right 1</text>
+   </g>
+   <g id="text_41">
+    <text style="fill: #e0661b; font: 700 10px 'Consolas'; text-anchor: middle" x="89.313022" y="116.933469" transform="rotate(-0 89.313022 116.933469)">1</text>
+   </g>
+   <g id="text_42">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="104.314434" y="116.902219" transform="rotate(-0 104.314434 116.902219)">1</text>
+   </g>
+   <g id="text_43">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="119.315846" y="116.902219" transform="rotate(-0 119.315846 116.902219)">1</text>
+   </g>
+   <g id="text_44">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="134.317257" y="116.902219" transform="rotate(-0 134.317257 116.902219)">0</text>
+   </g>
+   <g id="text_45">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="149.318669" y="116.902219" transform="rotate(-0 149.318669 116.902219)">1</text>
+   </g>
+   <g id="text_46">
+    <text style="fill: #1c1f24; font: 10px 'Consolas'; text-anchor: middle" x="164.320081" y="116.902219" transform="rotate(-0 164.320081 116.902219)">1</text>
+   </g>
+   <g id="text_47">
+    <text style="fill: #6a707a; font: 8.3px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="177.446316" y="116.592844" transform="rotate(-0 177.446316 116.592844)">vacated bit ← copy of the sign bit</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p80231f8b59">
+   <rect x="3.054904" y="2.88" width="294.402706" height="127.512"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>Logical, circular and arithmetic shifts.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Shift</th>
+<th>Empty places filled with</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logical</td>
+<td>0</td>
+<td>left = × 2, right = ÷ 2 (unsigned)</td>
+</tr>
+<tr>
+<td>Circular (rotate)</td>
+<td>the bits that fell off the other end</td>
+<td>nothing lost</td>
+</tr>
+<tr>
+<td>Arithmetic</td>
+<td>right: a copy of the sign bit; left: 0</td>
+<td>÷ 2 keeping the sign (2's complement)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer.</strong> (i) <strong>011000</strong>. (ii) <strong>011011</strong>: the 11 that leaves the left comes back on the right. (iii) <strong>111011</strong>: the sign bit is copied.</p>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>(a) Arithmetic shift right of 1001. What numbers are these in 2's complement? (b) Circular shift right by 1 of 110110.</p>
+</div>
+<h3>2 · The barrel shifter</h3>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>A shift register (11) moves one place per clock. How could a circuit shift by 3 places in one step, with no clock?</p>
+</div>
+<p>A <strong>barrel shifter</strong> is combinational: each output bit has a MUX, and the shift amount drives every select. 4-bit rotate-left:</p>
+<table>
+<thead>
+<tr>
+<th>S<sub>1</sub>S<sub>0</sub></th>
+<th>Y<sub>3</sub> Y<sub>2</sub> Y<sub>1</sub> Y<sub>0</sub></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td>D<sub>3</sub> D<sub>2</sub> D<sub>1</sub> D<sub>0</sub></td>
+</tr>
+<tr>
+<td>01</td>
+<td>D<sub>2</sub> D<sub>1</sub> D<sub>0</sub> D<sub>3</sub></td>
+</tr>
+<tr>
+<td>10</td>
+<td>D<sub>1</sub> D<sub>0</sub> D<sub>3</sub> D<sub>2</sub></td>
+</tr>
+<tr>
+<td>11</td>
+<td>D<sub>0</sub> D<sub>3</sub> D<sub>2</sub> D<sub>1</sub></td>
+</tr>
+</tbody>
+</table>
+
+<figure style="max-width:40%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 150.84 109.876235" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:39.920081</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 109.876235 L 150.84 109.876235 L 150.84 0 L 0 0 L 0 109.876235 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 58.351765 74.993294 L 58.351765 17.814706 L 94.621765 29.549118 L 94.621765 63.258882 z " clip-path="url(#p85114f4a86)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/> </g> <g id="patch_3"> <path d="M 94.621765 46.404 Q 104.222647 46.404 112.541529 46.404 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 108.541529 44.051059 L 112.541529 46.404 L 108.541529 48.756941 z " clip-path="url(#p85114f4a86)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_1"> <path d="M 43.417059 24.962029 L 58.351765 24.962029 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 43.417059 39.256676 L 58.351765 39.256676 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_3"> <path d="M 43.417059 53.551324 L 58.351765 53.551324 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_4"> <path d="M 43.417059 67.845971 L 58.351765 67.845971 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_5"> <path d="M 65.819118 89.928 L 65.819118 72.577386 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_6"> <path d="M 89.287941 89.928 L 89.287941 64.984531 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="text_1"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="26.901217" transform="rotate(-0 60.912 26.901217)">I0</text> </g> <g id="text_2"> <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="27.386014" transform="rotate(-0 41.283529 27.386014)">D0</text> </g> <g id="text_3"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="41.195864" transform="rotate(-0 60.912 41.195864)">I1</text> </g> <g id="text_4"> <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="41.680661" transform="rotate(-0 41.283529 41.680661)">D3</text> </g> <g id="text_5"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="55.490511" transform="rotate(-0 60.912 55.490511)">I2</text> </g> <g id="text_6"> <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="55.975308" transform="rotate(-0 41.283529 55.975308)">D2</text> </g> <g id="text_7"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="69.785158" transform="rotate(-0 60.912 69.785158)">I3</text> </g> <g id="text_8"> <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="70.269955" transform="rotate(-0 41.283529 70.269955)">D1</text> </g> <g id="text_9"> <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="115.957059" y="49.083141" transform="rotate(-0 115.957059 49.083141)">Y0</text> </g> <g id="text_10"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="65.819118" y="100.161263" transform="rotate(-0 65.819118 100.161263)">S1</text> </g> <g id="text_11"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.287941" y="100.161263" transform="rotate(-0 89.287941 100.161263)">S0</text> </g> <g id="text_12"> <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="76.486765" y="12.480882" transform="rotate(-0 76.486765 12.480882)">the MUX for Y0</text> </g> </g> </g> <defs> <clipPath id="p85114f4a86"> <rect x="2.88" y="2.88" width="145.08" height="104.116235"/> </clipPath> </defs> </svg><figcaption>The MUX for Y<sub>0</sub>.</figcaption></figure>
+
+<p><strong>Answer.</strong> One n:1 MUX per output bit (n MUXes), or log<sub>2</sub>n rows of 2:1 MUXes shifting by 1, 2, 4, ….</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>How many 8:1 MUXes does an 8-bit barrel shifter need?</p>
+</div>
+<h3>3 · The arithmetic logic unit</h3>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 07 slides 9–10</span></div>
+<p>Design an arithmetic circuit with inputs A and B that generates addition, subtraction, increment and decrement.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>An adder computes A + (something) + carry-in. What "something" and carry-in give A − 1?</p>
+</div>
+<p>Keep one parallel adder (04) and change its B input, Y. Two selects choose Y; C<sub>in</sub> is a third control:</p>
+<div class="eq">Y<sub>i</sub> = B<sub>i</sub>S<sub>0</sub> + B<sub>i</sub>'S<sub>1</sub>&emsp;&emsp;&emsp;F = A + Y + C<sub>in</sub></div>
+
+<table>
+<thead>
+<tr>
+<th>S<sub>1</sub> S<sub>0</sub></th>
+<th>Y</th>
+<th>C<sub>in</sub> = 0</th>
+<th>C<sub>in</sub> = 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 0</td>
+<td>all 0s</td>
+<td>A (transfer)</td>
+<td><strong>A + 1 (increment)</strong></td>
+</tr>
+<tr>
+<td>0 1</td>
+<td>B</td>
+<td><strong>A + B (add)</strong></td>
+<td>A + B + 1</td>
+</tr>
+<tr>
+<td>1 0</td>
+<td>B'</td>
+<td>A + B'</td>
+<td><strong>A − B (subtract)</strong></td>
+</tr>
+<tr>
+<td>1 1</td>
+<td>all 1s</td>
+<td><strong>A − 1 (decrement)</strong></td>
+<td>A (transfer)</td>
+</tr>
+</tbody>
+</table>
+<p>All 1s is −1 in 2's complement, so adding it decrements. Each stage: a full adder plus two ANDs and an OR for Y<sub>i</sub>.</p>
+
+<figure style="max-width:60%"><div style="width:178mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 396.36 146.045915" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-15T02:56:05.947557</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 146.045915 
+L 396.36 146.045915 
+L 396.36 0 
+L 0 0 
+L 0 146.045915 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 65.596056 52.392676 
+L 132.713239 52.392676 
+Q 134.913803 52.392676 134.913803 50.192113 
+L 134.913803 18.834085 
+Q 134.913803 16.633521 132.713239 16.633521 
+L 65.596056 16.633521 
+Q 63.395493 16.633521 63.395493 18.834085 
+L 63.395493 50.192113 
+Q 63.395493 52.392676 65.596056 52.392676 
+z
+" clip-path="url(#pe7689ca8e6)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 65.596056 107.406761 
+L 132.713239 107.406761 
+Q 134.913803 107.406761 134.913803 105.206197 
+L 134.913803 73.848169 
+Q 134.913803 71.647606 132.713239 71.647606 
+L 65.596056 71.647606 
+Q 63.395493 71.647606 63.395493 73.848169 
+L 63.395493 105.206197 
+Q 63.395493 107.406761 65.596056 107.406761 
+z
+" clip-path="url(#pe7689ca8e6)" style="fill: #eaf6ef; stroke: #12925a; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 35.888451 27.636338 
+Q 49.641972 27.636338 62.113493 27.636338 
+" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 58.113493 25.283397 
+L 62.113493 27.636338 
+L 58.113493 29.989279 
+z
+" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 35.888451 41.389859 
+Q 49.641972 41.389859 62.113493 41.389859 
+" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 58.113493 39.036918 
+L 62.113493 41.389859 
+L 58.113493 43.7428 
+z
+" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 35.888451 82.650423 
+Q 49.641972 82.650423 62.113493 82.650423 
+" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 58.113493 80.297481 
+L 62.113493 82.650423 
+L 58.113493 85.003364 
+z
+" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 35.888451 96.403944 
+Q 49.641972 96.403944 62.113493 96.403944 
+" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 58.113493 94.051002 
+L 62.113493 96.403944 
+L 58.113493 98.756885 
+z
+" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 200.930704 101.905352 
+L 200.930704 22.13493 
+L 236.689859 35.888451 
+L 236.689859 88.151831 
+z
+" clip-path="url(#pe7689ca8e6)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 134.913803 34.513099 
+Q 167.922254 34.513099 199.648704 34.513099 
+" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 195.648704 32.160157 
+L 199.648704 34.513099 
+L 195.648704 36.86604 
+z
+" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 134.913803 89.527183 
+Q 167.922254 89.527183 199.648704 89.527183 
+" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 195.648704 87.174242 
+L 199.648704 89.527183 
+L 195.648704 91.880124 
+z
+" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 236.689859 62.020141 
+Q 251.818732 62.020141 265.665605 62.020141 
+" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 261.665605 59.6672 
+L 265.665605 62.020141 
+L 261.665605 64.373082 
+z
+" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 99.154648 16.633521 
+Q 99.154648 11.132113 99.154648 6.912705 
+" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 96.801707 10.912705 
+L 99.154648 6.912705 
+L 101.507589 10.912705 
+z
+" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 218.810282 126.66169 
+L 218.810282 95.028592 
+" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 90.902535 126.66169 
+L 90.902535 107.406761 
+" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 107.406761 126.66169 
+L 107.406761 117.034225 
+L 154.168732 117.034225 
+L 154.168732 62.020141 
+L 107.406761 62.020141 
+L 107.406761 52.392676 
+" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(79.216132 31.776817)">arithmetic</text>
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(91.446289 41.842192)">unit</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(89.609726 86.766996)">logic</text>
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(91.446289 96.880183)">unit</text>
+   </g>
+   <g id="text_3">
+    <!-- $\mathrm{A}_{\mathrm{i}}$, $\mathrm{B}_{\mathrm{i}}$, -->
+    <g style="fill: #1c1f24" transform="translate(11.087746 31.776817)">
+     <text>
+      <tspan style="font: 9px 'Segoe UI'" x="0 12.556582" y="-0.703125">AB</tspan>
+      <tspan style="font: 6.3px 'Segoe UI'" x="5.883926 17.794512" y="0.6468749999999996">ii</tspan>
+      <tspan style="font: 700 9px 'Segoe UI'" x="7.634707 10.073672 19.545293" y="-0.703125">, ,</tspan>
+     </text>
+    </g>
+    <!-- $\mathrm{C}_{\mathrm{i}}$ -->
+    <g style="fill: #1c1f24" transform="translate(25.667746 41.842192)">
+     <text>
+      <tspan style="font: 9px 'Segoe UI'" x="0" y="-0.59375">C</tspan>
+      <tspan style="font: 6.3px 'Segoe UI'" x="5.651016" y="0.7562499999999996">i</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_4">
+    <!-- $\mathrm{A}_{\mathrm{i}}$, $\mathrm{B}_{\mathrm{i}}$ -->
+    <g style="fill: #1c1f24" transform="translate(13.517746 91.823589)">
+     <text>
+      <tspan style="font: 9px 'Segoe UI'" x="0 12.556582" y="-0.703125">AB</tspan>
+      <tspan style="font: 6.3px 'Segoe UI'" x="5.883926 17.794512" y="0.6468749999999996">ii</tspan>
+      <tspan style="font: 700 9px 'Segoe UI'" x="7.634707 10.073672" y="-0.703125">, </tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(213.306532 59.435875)">2:1</text>
+    <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(209.567196 68.942063)">MUX</text>
+   </g>
+   <g id="text_6">
+    <!-- $\mathrm{F}_{\mathrm{i}}$ -->
+    <g style="fill: #2f5bea" transform="translate(269.69831 64.699281)">
+     <text>
+      <tspan style="font: 10.5px 'Segoe UI'" x="0" y="-0.296875">F</tspan>
+      <tspan style="font: 7.35px 'Segoe UI'" x="5.223203" y="1.3531250000000004">i</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_7">
+    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="218.810282" y="137.080403" transform="rotate(-0 218.810282 137.080403)">S2: 0 = arithmetic, 1 = logic</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="99.154648" y="137.080403" transform="rotate(-0 99.154648 137.080403)">S1 S0: which operation</text>
+   </g>
+   <g id="text_9">
+    <!-- $\mathrm{C}_{\mathrm{i}}$+1 to the next stage -->
+    <g style="fill: #6a707a" transform="translate(103.280704 10.497908)">
+     <text>
+      <tspan style="font: 8.3px 'Segoe UI'" x="0 6.776543 12.42022 16.867485 19.127373 21.923027 26.757012 29.016899 31.812554 36.481377 40.795708 43.055596 47.724419 52.03875 55.825371 58.621025 60.880913 64.381523 67.177178 71.374687 76.232842" y="-0.078125">C+1 to the next stage</tspan>
+      <tspan style="font: 5.81px 'Segoe UI'" x="5.17791" y="1.1218750000000002">i</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_10">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(299.956056 23.027105)">one-bit slice;</text>
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(299.956056 32.533292)">n slices side by side</text>
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(299.956056 42.084636)">make an n-bit ALU</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pe7689ca8e6">
+   <rect x="2.88" y="2.88" width="390.6" height="140.285915"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>One ALU stage: Y<sub>i</sub> logic into a full adder.</figcaption></figure>
+
+<p>A full ALU adds a logic unit (AND, OR, XOR, NOT) and a MUX per bit choosing arithmetic or logic; it outputs flags: <strong>carry, zero, sign, overflow</strong>.</p>
+<p><strong>Answer.</strong> The table: add (01, C<sub>in</sub> 0), subtract (10, 1), increment (00, 1), decrement (11, 0).</p>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>(a) A = 0110, B = 0011, S<sub>1</sub>S<sub>0</sub> = 10, C<sub>in</sub> = 1. Find F. (b) A = 0110, S<sub>1</sub>S<sub>0</sub> = 11, C<sub>in</sub> = 0. Find F.</p>
+</div>
+<hr />
+<h2>Exam form</h2>
+<p><strong>Shifts.</strong> The three types with an example each.</p>
+<p><strong>Barrel shifter.</strong> Table and MUX per bit.</p>
+<p><strong>ALU.</strong> Y<sub>i</sub> = B<sub>i</sub>S<sub>0</sub> + B<sub>i</sub>'S<sub>1</sub>; the 8-entry function table; stage diagram; flags.</p>
+<h2>Traps</h2>
+<ul>
+<li>Arithmetic left shift copying the sign: it fills with 0.</li>
+<li>Decrement with C<sub>in</sub> = 1: that gives A again.</li>
+<li>Reading the circular shift as logical.</li>
+</ul>
+<h2>Self-test</h2>
+<ol>
+<li>Logical shift right by 2 of 10110100.</li>
+<li>Rotate left by 1 of 1001.</li>
+<li>Arithmetic shift right by 1 of 0110. What is it in decimal?</li>
+<li>ALU: A = 0101, S<sub>1</sub>S<sub>0</sub> = 00, C<sub>in</sub> = 1. F?</li>
+<li>ALU: A = 0101, B = 0010, S<sub>1</sub>S<sub>0</sub> = 01, C<sub>in</sub> = 0. F?</li>
+<li>Why is all 1s the right Y for decrement?</li>
+</ol>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 1.</strong> (a) <strong>1100</strong>: 1001 = −7, 1100 = −4 (÷ 2, rounded down). (b) <strong>011011</strong>.</p>
+<p><strong>Check 2.</strong> <strong>Eight</strong>.</p>
+<p><strong>Check 3.</strong> (a) Y = 1100; 0110 + 1100 + 1 = 1 0011: <strong>F = 0011</strong> (6 − 3). (b) Y = 1111; 0110 + 1111 = 1 0101: <strong>F = 0101</strong> (6 − 1).</p>
+<p><strong>Self-test.</strong></p>
+<ol>
+<li><strong>00101101</strong>.</li>
+<li><strong>0011</strong>.</li>
+<li><strong>0011</strong> = 3 (6 ÷ 2).</li>
+<li><strong>0110</strong> (increment).</li>
+<li><strong>0111</strong> (5 + 2).</li>
+<li>All 1s is −1 in 2's complement, so A + 1111 = A − 1 (carry discarded).</li>
+</ol>
+</div></body></html>

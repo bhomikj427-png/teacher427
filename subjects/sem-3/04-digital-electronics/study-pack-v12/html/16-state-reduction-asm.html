@@ -1,0 +1,764 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>16 — State reduction and ASM charts</title><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2102 Digital Electronics · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figure svg.mpl { width: 100%; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+:root { --card:#fff; --soft:#f4f4f0; --g0:#2f5bea; --g1:#e0661b; --g2:#12925a; --g3:#b23fbf; --g4:#c2410c; --one:#1c1f24; --zero:#b7bac0; --x:#d97706; --bad:#d92d20; --good:#12925a; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+.fig-svg { width: 100%; height: auto; display: block; overflow: visible; font-family: Inter, "Segoe UI", sans-serif; }
+.k-cell { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.k-cell.hl-a { fill: var(--accent); fill-opacity: .28; }
+.k-cell.hl-b { fill: var(--g2); fill-opacity: .22; }
+.k-cell.hl-c { fill: var(--g1); fill-opacity: .25; }
+.k-one { fill: var(--one); font-weight: 700; }
+.k-zero { fill: var(--zero); font-weight: 500; }
+.k-zero-em { fill: var(--g1); font-weight: 700; }
+.k-x { fill: var(--x); font-weight: 700; }
+.k-idx { fill: var(--muted); font-size: 10px; font-family: "JetBrains Mono", monospace; }
+.k-idx-big { fill: var(--ink); font: 600 15px "JetBrains Mono", monospace; }
+.k-lab { fill: var(--muted); font: 13px "JetBrains Mono", monospace; }
+.k-var { fill: var(--ink); font-weight: 600; font-size: 14px; font-style: italic; }
+.k-diag { stroke: var(--line); stroke-width: 1.2; }
+.k-title { fill: var(--ink); font-weight: 600; font-size: 14px; }
+.k-note { fill: var(--muted); font-size: 12.5px; }
+.k-grp { fill-opacity: .10; stroke-width: 2.6; }
+.k-grp-0s .k-grp { stroke-dasharray: 6 4; }
+.k-arrow { fill: none; stroke: var(--g1); stroke-width: 2; stroke-dasharray: 5 4; }
+.k-arrowhead { fill: var(--g1); }
+.k-bad { fill: var(--bad); fill-opacity: .14; stroke: var(--bad); stroke-width: 2; }
+.k-chip { fill-opacity: .12; stroke-width: 1.5; }
+.k-chip-t { font: 600 13px "JetBrains Mono", monospace; }
+.c0 .k-grp, .c0 .k-chip { fill: var(--g0); stroke: var(--g0); } .c0 .k-chip-t, .g-term.c0 { fill: var(--g0); }
+.c1 .k-grp, .c1 .k-chip { fill: var(--g1); stroke: var(--g1); } .c1 .k-chip-t, .g-term.c1 { fill: var(--g1); }
+.c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
+.c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
+.c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>16 — State reduction and ASM charts</h1>
+<div class="sub">Deck 12 (slides 10–26) · deck 13 (slides 3–8) · syllabus Unit 4 · needs 15 (state tables)</div>
+
+<h2>Map</h2>
+<div class="map"><span class="n here">1 Partitioning</span><span class="a">→</span><span class="n">2 Implication table, compatibles</span><span class="a">→</span><span class="n">3 ASM charts</span></div>
+
+<p>15 built a state table by hand; it may have more states than needed. Fewer states can mean fewer flip-flops and simpler logic. An ASM chart is the same machine drawn as a flowchart with timing.</p>
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">Deck 12 slides 10, 16</span> Find the equivalent states of a 5-state machine and give the reduced table.</li>
+<li><span class="tag">Deck 12 slide 17</span> Reduce an 8-state machine by partitioning.</li>
+<li><span class="tag">Deck 13 slides 3–8</span> Name the three elements of an ASM chart; draw the chart of the 1101 detector.</li>
+</ul>
+<hr />
+<h2>Build</h2>
+<h3>1 · Partitioning</h3>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 12 slides 10 and 16</span></div>
+<p>Find the equivalent states of the machine below and give the reduced state table.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Present</th>
+<th>x = 0</th>
+<th>x = 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>C/1</td>
+<td>B/0</td>
+</tr>
+<tr>
+<td>B</td>
+<td>C/1</td>
+<td>E/0</td>
+</tr>
+<tr>
+<td>C</td>
+<td>B/1</td>
+<td>E/0</td>
+</tr>
+<tr>
+<td>D</td>
+<td>D/0</td>
+<td>B/1</td>
+</tr>
+<tr>
+<td>E</td>
+<td>E/0</td>
+<td>A/1</td>
+</tr>
+</tbody>
+</table>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Which rows give the same outputs? Only those can possibly merge.</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Equivalent states:</strong> for every input they give the same output and go to equivalent next states. No input sequence can tell them apart, so they merge.</p>
+</div>
+<ol>
+<li><strong>P<sub>0</sub></strong> = (ABCDE).</li>
+<li><strong>P<sub>1</sub></strong>, split by outputs: A, B, C give (1, 0); D, E give (0, 1) → (ABC)(DE).</li>
+<li><strong>P<sub>2</sub></strong>, split by the block each next state falls in. On x = 1: A → B (in ABC), but B, C → E (in DE): A separates → (A)(BC)(DE).</li>
+<li><strong>P<sub>3</sub></strong>: on x = 1, D → B (in BC) but E → A (in A): D and E separate → (A)(BC)(D)(E).</li>
+<li><strong>P<sub>4</sub> = P<sub>3</sub></strong>: B, C go to C, B (same block) and E, E. Stop.</li>
+</ol>
+<p><strong>Answer.</strong> <strong>B ≡ C.</strong> Five states become four, so 2 flip-flops instead of 3. Replace C by B: A: B/1, B/0 · B: B/1, E/0 · D: D/0, B/1 · E: E/0, A/1.</p>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p><span class="tag">Deck 12 slide 17</span> Reduce by partitioning (next/z for x = 0; for x = 1): A E/0, D/0 · B A/1, F/0 · C C/0, A/1 · D B/0, A/0 · E D/1, C/0 · F C/0, D/1 · G H/1, G/1 · H C/1, B/1.</p>
+</div>
+<h3>2 · Implication table and compatibles</h3>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>Partitioning works top-down. Could you instead test every pair of states once?</p>
+</div>
+
+<figure style="max-width:45%"><div style="width:117mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 262.44 200.004324" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-15T02:56:13.720348</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 200.004324 
+L 262.44 200.004324 
+L 262.44 0 
+L 0 0 
+L 0 200.004324 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 37.566486 58.378378 
+L 72.252973 58.378378 
+L 72.252973 23.691892 
+L 37.566486 23.691892 
+z
+" clip-path="url(#p0c828ec4c4)" style="fill: #fff4f2; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 37.566486 93.064865 
+L 72.252973 93.064865 
+L 72.252973 58.378378 
+L 37.566486 58.378378 
+z
+" clip-path="url(#p0c828ec4c4)" style="fill: #fff4f2; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 72.252973 93.064865 
+L 106.939459 93.064865 
+L 106.939459 58.378378 
+L 72.252973 58.378378 
+z
+" clip-path="url(#p0c828ec4c4)" style="fill: #eaf6ef; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 37.566486 127.751351 
+L 72.252973 127.751351 
+L 72.252973 93.064865 
+L 37.566486 93.064865 
+z
+" clip-path="url(#p0c828ec4c4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 72.252973 127.751351 
+L 106.939459 127.751351 
+L 106.939459 93.064865 
+L 72.252973 93.064865 
+z
+" clip-path="url(#p0c828ec4c4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 106.939459 127.751351 
+L 141.625946 127.751351 
+L 141.625946 93.064865 
+L 106.939459 93.064865 
+z
+" clip-path="url(#p0c828ec4c4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 37.566486 162.437838 
+L 72.252973 162.437838 
+L 72.252973 127.751351 
+L 37.566486 127.751351 
+z
+" clip-path="url(#p0c828ec4c4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 72.252973 162.437838 
+L 106.939459 162.437838 
+L 106.939459 127.751351 
+L 72.252973 127.751351 
+z
+" clip-path="url(#p0c828ec4c4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 106.939459 162.437838 
+L 141.625946 162.437838 
+L 141.625946 127.751351 
+L 106.939459 127.751351 
+z
+" clip-path="url(#p0c828ec4c4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 141.625946 162.437838 
+L 176.312432 162.437838 
+L 176.312432 127.751351 
+L 141.625946 127.751351 
+z
+" clip-path="url(#p0c828ec4c4)" style="fill: #fff4f2; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 40.341405 55.603459 
+L 69.478054 26.466811 
+" clip-path="url(#p0c828ec4c4)" style="fill: none; stroke: #d92d20; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 40.341405 90.289946 
+L 69.478054 61.153297 
+" clip-path="url(#p0c828ec4c4)" style="fill: none; stroke: #d92d20; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 144.400865 159.662919 
+L 173.537514 130.52627 
+" clip-path="url(#p0c828ec4c4)" style="fill: none; stroke: #d92d20; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="27.160541" y="43.714276" transform="rotate(-0 27.160541 43.714276)">B</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="54.90973" y="43.203963" transform="rotate(-0 54.90973 43.203963)">B–E</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="27.160541" y="78.400762" transform="rotate(-0 27.160541 78.400762)">C</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(47.407816 73.137356)">B–C</text>
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(47.798284 82.643543)">B–E</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #12925a; font: 700 12px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.596216" y="78.783497" transform="rotate(-0 89.596216 78.783497)">✓</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="27.160541" y="113.087249" transform="rotate(-0 27.160541 113.087249)">D</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #6a707a; font: 700 12px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="54.90973" y="113.469983" transform="rotate(-0 54.90973 113.469983)">×</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #6a707a; font: 700 12px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.596216" y="113.469983" transform="rotate(-0 89.596216 113.469983)">×</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #6a707a; font: 700 12px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="124.282703" y="113.469983" transform="rotate(-0 124.282703 113.469983)">×</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="27.160541" y="147.773735" transform="rotate(-0 27.160541 147.773735)">E</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #6a707a; font: 700 12px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="54.90973" y="148.15647" transform="rotate(-0 54.90973 148.15647)">×</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #6a707a; font: 700 12px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.596216" y="148.15647" transform="rotate(-0 89.596216 148.15647)">×</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #6a707a; font: 700 12px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="124.282703" y="148.15647" transform="rotate(-0 124.282703 148.15647)">×</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="158.969189" y="147.263423" transform="rotate(-0 158.969189 147.263423)">A–B</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="54.90973" y="177.257249" transform="rotate(-0 54.90973 177.257249)">A</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.596216" y="177.257249" transform="rotate(-0 89.596216 177.257249)">B</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="124.282703" y="177.257249" transform="rotate(-0 124.282703 177.257249)">C</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="158.969189" y="177.257249" transform="rotate(-0 158.969189 177.257249)">D</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #6a707a; font: 8.3px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="117.345405" y="32.363514" transform="rotate(-0 117.345405 32.363514)">× : outputs differ</text>
+   </g>
+   <g id="text_20">
+    <text style="fill: #d92d20; font: 8.3px 'Segoe UI', 'DejaVu Sans'" transform="translate(117.345405 54.117026)">pair listed, struck out: it depends</text>
+    <text style="fill: #d92d20; font: 8.3px 'Segoe UI', 'DejaVu Sans'" transform="translate(117.345405 63.399539)">on a pair that is not equivalent</text>
+   </g>
+   <g id="text_21">
+    <text style="fill: #12925a; font: 8.3px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="152.031892" y="87.861892" transform="rotate(-0 152.031892 87.861892)">✓ : equivalent</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p0c828ec4c4">
+   <rect x="2.88" y="2.88" width="256.68" height="194.244324"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>Implication table for step 1's machine.</figcaption></figure>
+
+<ol>
+<li>One cell per pair. Cross out (×) every pair whose outputs differ.</li>
+<li>In each remaining cell write the next-state pairs that would have to be equivalent.</li>
+<li>Cross out any cell that depends on a crossed pair. Repeat until nothing changes.</li>
+<li>Uncrossed cells are the equivalent pairs.</li>
+</ol>
+<p>Here A–B needs B–E (crossed), so it goes; D–E needs A–B, so it goes; <strong>B–C</strong> needs only C–B and E–E: it survives.</p>
+<p><strong>Incompletely specified machines</strong> (deck 12 slides 19–26): with don't-care entries, equivalence becomes <strong>compatibility</strong>: specified outputs never conflict and next states are compatible. It is <strong>not transitive</strong>, so states are grouped into maximal compatibles with a merger diagram; the chosen set must <strong>cover</strong> every state and be <strong>closed</strong> (each group's next states fall inside one chosen group).</p>
+<p><strong>Answer.</strong> Yes: the implication table tests every pair, and gives the same B ≡ C.</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>Why can't you merge A, B, C just because A–B and B–C are compatible?</p>
+</div>
+<h3>3 · ASM charts</h3>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 13 slides 3–8</span></div>
+<p>Name the three elements of an ASM chart and draw the ASM chart of the Mealy 1101 detector of 15.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>In a flowchart of the machine, which shape should take exactly one clock period?</p>
+</div>
+
+<figure style="max-width:55%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 290.786824 429.914471" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-15T02:56:13.818368</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M -0 429.914471 
+L 290.786824 429.914471 
+L 290.786824 0 
+L -0 0 
+L -0 429.914471 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 87.1488 40.057412 
+L 141.675671 40.057412 
+Q 142.295294 40.057412 142.295294 39.437788 
+L 142.295294 15.892094 
+Q 142.295294 15.272471 141.675671 15.272471 
+L 87.1488 15.272471 
+Q 86.529176 15.272471 86.529176 15.892094 
+L 86.529176 39.437788 
+Q 86.529176 40.057412 87.1488 40.057412 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 114.412235 58.646118 
+L 137.648118 72.587647 
+L 114.412235 86.529176 
+L 91.176353 72.587647 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 87.1488 133.000941 
+L 141.675671 133.000941 
+Q 142.295294 133.000941 142.295294 132.381318 
+L 142.295294 108.835624 
+Q 142.295294 108.216 141.675671 108.216 
+L 87.1488 108.216 
+Q 86.529176 108.216 86.529176 108.835624 
+L 86.529176 132.381318 
+Q 86.529176 133.000941 87.1488 133.000941 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 114.412235 151.589647 
+L 137.648118 165.531176 
+L 114.412235 179.472706 
+L 91.176353 165.531176 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 87.1488 225.944471 
+L 141.675671 225.944471 
+Q 142.295294 225.944471 142.295294 225.324847 
+L 142.295294 201.779153 
+Q 142.295294 201.159529 141.675671 201.159529 
+L 87.1488 201.159529 
+Q 86.529176 201.159529 86.529176 201.779153 
+L 86.529176 225.324847 
+Q 86.529176 225.944471 87.1488 225.944471 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 114.412235 244.533176 
+L 137.648118 258.474706 
+L 114.412235 272.416235 
+L 91.176353 258.474706 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 87.1488 318.888 
+L 141.675671 318.888 
+Q 142.295294 318.888 142.295294 318.268376 
+L 142.295294 294.722682 
+Q 142.295294 294.103059 141.675671 294.103059 
+L 87.1488 294.103059 
+Q 86.529176 294.103059 86.529176 294.722682 
+L 86.529176 318.268376 
+Q 86.529176 318.888 87.1488 318.888 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 114.412235 337.476706 
+L 137.648118 351.418235 
+L 114.412235 365.359765 
+L 91.176353 351.418235 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 114.412235 86.529176 
+Q 114.412235 97.372588 114.412235 106.934 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 116.765176 102.934 
+L 114.412235 106.934 
+L 112.059294 102.934 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 77.234824 27.664941 
+Q 81.882 27.664941 85.247176 27.664941 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 81.247176 25.312 
+L 85.247176 27.664941 
+L 81.247176 30.017882 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 114.412235 179.472706 
+Q 114.412235 190.316118 114.412235 199.877529 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 116.765176 195.877529 
+L 114.412235 199.877529 
+L 112.059294 195.877529 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 74.136706 23.017765 
+Q 80.332941 23.017765 85.247176 23.017765 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 81.247176 20.664824 
+L 85.247176 23.017765 
+L 81.247176 25.370706 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 114.412235 272.416235 
+Q 114.412235 283.259647 114.412235 292.821058 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 116.765176 288.821058 
+L 114.412235 292.821058 
+L 112.059294 288.821058 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 151.589647 213.552 
+Q 146.942471 213.552 143.577295 213.552 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 147.577295 215.904941 
+L 143.577295 213.552 
+L 147.577295 211.199059 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 74.136706 18.370588 
+Q 80.332941 18.370588 85.247176 18.370588 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 81.247176 16.017647 
+L 85.247176 18.370588 
+L 81.247176 20.723529 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 114.412235 404.860765 
+C 121.396094 404.860765 128.094852 403.473407 133.033185 401.00424 
+C 137.971519 398.535073 140.746235 395.185694 140.746235 391.693765 
+C 140.746235 388.201835 137.971519 384.852457 133.033185 382.38329 
+C 128.094852 379.914123 121.396094 378.526765 114.412235 378.526765 
+C 107.428377 378.526765 100.729619 379.914123 95.791285 382.38329 
+C 90.852952 384.852457 88.078235 388.201835 88.078235 391.693765 
+C 88.078235 395.185694 90.852952 398.535073 95.791285 401.00424 
+C 100.729619 403.473407 107.428377 404.860765 114.412235 404.860765 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 154.687765 120.608471 
+Q 148.491529 120.608471 143.577295 120.608471 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 147.577295 122.961412 
+L 143.577295 120.608471 
+L 147.577295 118.255529 
+z
+" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 114.412235 40.057412 
+L 114.412235 58.646118 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 114.412235 133.000941 
+L 114.412235 151.589647 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 114.412235 225.944471 
+L 114.412235 244.533176 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 114.412235 318.888 
+L 114.412235 337.476706 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 91.176353 72.587647 
+L 61.744235 72.587647 
+L 61.744235 27.664941 
+L 86.529176 27.664941 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 91.176353 165.531176 
+L 40.057412 165.531176 
+L 40.057412 23.017765 
+L 86.529176 23.017765 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 137.648118 258.474706 
+L 167.080235 258.474706 
+L 167.080235 213.552 
+L 142.295294 213.552 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 91.176353 351.418235 
+L 18.370588 351.418235 
+L 18.370588 18.370588 
+L 86.529176 18.370588 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 114.412235 365.359765 
+L 114.412235 377.752235 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 140.746235 391.693765 
+L 207.355765 391.693765 
+L 207.355765 120.608471 
+L 142.295294 120.608471 
+" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="30.216504" transform="rotate(-0 114.412235 30.216504)">A</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="75.011631" transform="rotate(-0 114.412235 75.011631)">x</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="123.160033" transform="rotate(-0 114.412235 123.160033)">B</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="167.955161" transform="rotate(-0 114.412235 167.955161)">x</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="216.103562" transform="rotate(-0 114.412235 216.103562)">C</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="260.89869" transform="rotate(-0 114.412235 260.89869)">x</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="309.047092" transform="rotate(-0 114.412235 309.047092)">D</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="353.84222" transform="rotate(-0 114.412235 353.84222)">x</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="117.510353" y="100.470706" transform="rotate(-0 117.510353 100.470706)">1</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="74.136706" y="69.489529" transform="rotate(-0 74.136706 69.489529)">0</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="117.510353" y="193.414235" transform="rotate(-0 117.510353 193.414235)">1</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="74.136706" y="162.433059" transform="rotate(-0 74.136706 162.433059)">0</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="117.510353" y="286.357765" transform="rotate(-0 117.510353 286.357765)">0</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="142.295294" y="255.376588" transform="rotate(-0 142.295294 255.376588)">1</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="74.136706" y="348.320118" transform="rotate(-0 74.136706 348.320118)">0</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="117.510353" y="374.654118" transform="rotate(-0 117.510353 374.654118)">1</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="394.117749" transform="rotate(-0 114.412235 394.117749)">z = 1</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'" transform="translate(176.374588 12.521706)">state box</text>
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'" transform="translate(176.374588 21.468706)">= one clock</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'" transform="translate(148.491529 416.204971)">conditional output box:</text>
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'" transform="translate(148.491529 425.151971)">z depends on x (Mealy)</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pd7faf80302">
+   <rect x="2.88" y="2.88" width="285.026824" height="421.344"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>ASM chart of the Mealy 1101 detector.</figcaption></figure>
+
+<p>An <strong>ASM chart</strong> is a flowchart with timing: each state box lasts one clock period.</p>
+<ul>
+<li><strong>State box</strong> (rectangle): one state; Moore outputs inside. One entry, one exit.</li>
+<li><strong>Decision box</strong> (diamond): tests an input; exits for 0 and 1.</li>
+<li><strong>Conditional output box</strong> (oval): an output produced only on that path; always after a decision box. A Mealy output.</li>
+</ul>
+<p>An <strong>ASM block</strong> is one state box with the decision and conditional boxes reached before the next state box: everything in it happens in one clock period. Circle → state box; arrows → decision on the input; Mealy output → oval on that exit. Back to a circuit: each path between state boxes is one state-table row. The deck also charts a MOD-6 counter, D and JK flip-flops, a serial adder (carry 0 / carry 1) and 2-bit up and up/down counters.</p>
+<p><strong>Answer.</strong> State box, decision box, conditional output box. Four state boxes A–D, a decision on x after each, and one oval (z = 1) on the x = 1 exit of D.</p>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>(a) In the Moore 1101 detector, where is z = 1 written? (b) How many state boxes for a MOD-6 counter? (c) Why can a conditional output box never follow a state box directly?</p>
+</div>
+<hr />
+<h2>Exam form</h2>
+<p><strong>Partitioning.</strong> P<sub>0</sub> → P<sub>1</sub> by outputs → refine by next-state blocks until stable; the reduced table.</p>
+<p><strong>Implication table.</strong> Four steps; equivalent pairs; compatibility, merger diagram, cover and closure.</p>
+<p><strong>ASM.</strong> Three elements with shapes; ASM block; chart for a given machine.</p>
+<h2>Traps</h2>
+<ul>
+<li>Splitting on next states before splitting on outputs.</li>
+<li>Comparing next states by name instead of by block.</li>
+<li>Treating compatibility as transitive.</li>
+<li>Putting a Mealy output in a state box.</li>
+</ul>
+<h2>Self-test</h2>
+<ol>
+<li>Define equivalent states.</li>
+<li>Reduce: A: B/0, C/1 · B: A/0, D/1 · C: C/1, A/0 · D: D/1, B/0 (next/z for x = 0; x = 1).</li>
+<li>How many flip-flops before and after reduction in Q2?</li>
+<li>What is an ASM block?</li>
+<li>Draw the ASM chart of a 2-bit up counter.</li>
+</ol>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 1.</strong> P<sub>1</sub> by outputs: (AD)(BE)(CF)(GH). P<sub>2</sub>: on x = 1, G → G but H → B: G, H separate; A, D go to E, B and D, A (same blocks); B, E go to A, D and F, C; C, F go to C, C and A, D. → <strong>(AD)(BE)(CF)(G)(H)</strong>, P<sub>3</sub> = P<sub>2</sub>. 8 states become <strong>5</strong>.</p>
+<p><strong>Check 2.</strong> Compatibility is not transitive: A–C may conflict even though both are compatible with B.</p>
+<p><strong>Check 3.</strong> (a) <strong>Inside E's state box</strong>. (b) <strong>Six</strong>. (c) A conditional output depends on an input, so an input must be tested first: a decision box.</p>
+<p><strong>Self-test.</strong></p>
+<ol>
+<li>Same output for every input, and equivalent next states, for every input sequence.</li>
+<li>P<sub>1</sub>: (AB)(CD). A → B, C and B → A, D: same blocks; C → C, A and D → D, B: same blocks. <strong>A ≡ B, C ≡ D</strong>: two states.</li>
+<li><strong>2 → 1</strong>.</li>
+<li>One state box with the decision and conditional output boxes reached from it before the next state box: one clock period.</li>
+<li>Four state boxes 00 → 01 → 10 → 11 → 00, no decision boxes (no input).</li>
+</ol>
+</div></body></html>

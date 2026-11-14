@@ -27,6 +27,30 @@ def _km(ones, groups, dcs=()):
     return s.replace(">A</text>", ">Q₂</text>").replace(">BC</text>", ">Q₁Q₀</text>")
 
 
+
+# Figures whose v1 source functions are gone: reuse the rendered copies from DE-ETE-v1.html
+# (extract_v1figs.py -> v1figs.json), keyed by the v1 placeholder.
+import json  # noqa: E402
+_V1 = json.loads((HERE / "v1figs.json").read_text(encoding="utf-8"))
+_ALIAS = {
+    "fsm_blocks": "fsm_block(False) + fsm_block(True)", "lfsr3": 'chain(3, "lfsr")',
+    "shift4": 'chain(4, "shift")', "johnson4": 'chain(4, "johnson")', "johnson_waves": "johnson_waves()",
+    "ripple_counter": "ripple_counter() + ripple_waves()", "setup_hold": "setup_hold()",
+    "timing_path": "timing_path()", "astable_555": "astable_555()", "ring_osc": "ring_osc()",
+    "hazard": "hazard_kmap() + glitch()", "noise_bands": "noise_bands()", "fanout_fig": "fanout_fig()",
+    "ttl_nand": "ttl_nand()", "tristate_bus": "tristate_bus()", "ecl_gate": "ecl_gate()",
+    "cmos_inv": 'commons("CMOS_Inverter.svg", 170)', "cmos_nand": 'commons("CMOS_NAND.svg", 190)',
+    "memory_org": "memory_org()", "sram_cell": 'commons("SRAM_Cell_(6_Transistors).svg", 300)',
+    "dram_cell": "dram_cell()", "pld_arrays": "pld_arrays()", "jk_wave_noq": "jk_wave(show_q=False)",
+}
+for _n, _k in _ALIAS.items():
+    ALL[_n] = (lambda s: (lambda: s))(_V1[_k])
+# K-maps, MUX and two-level figures drawn with arguments in v1: v1arg0, v1arg1, ... in v1figs.json order
+_ARGS = [k for k in _V1 if k.startswith(("km(", "km5(", "mux_fig(", "two_level("))]
+for _i, _k in enumerate(_ARGS):
+    ALL[f"v1arg{_i}"] = (lambda s: (lambda: s))(_V1[_k])
+
+ALL["adder_sub"] = lambda: figs1.ripple_adder(True)
 ALL["km_T1"] = lambda: _km([1, 3, 5, 7], [([1, 3, 5, 7], "T1 = Q0")])
 ALL["km_T2"] = lambda: _km([3, 7], [([3, 7], "T2 = Q1Q0")])
 

@@ -175,3 +175,5 @@
   question or Predict, a guess line and a Check; Exam form, Traps, Self-test, Answers at the end. All numbers are ones the v1 `verify.py` already checks
   (plus one new g_m value / Gray-step check, hand-verified). All pages viewed. **Awaiting learner sign-off; no teaching event.**
 - [2026-11-15] Learner signed off both v1.2 demos. Full v1.2 build queued after EDC: files 01–12, 14–20 in START-HERE priority order, content reused from `study-pack/pdf-ete/parts/A–H.html` + `verify.py` numbers; combined PDF at the end.
+- [2026-11-15] Full v1.2 DE pack **built**: `study-pack-v12/pdf/` = 00 + files 01–20 (13 from the demo; the rest new, content from v1 parts A–E, H; numbers from v1 `verify.py`; new K-map Self-test answers checked with `qm.py`) + combined `ECE2102-DE-ETE-study-pack.pdf` (114 pp.). 23 v1 figures had no source module left; recovered from `DE-ETE-v1.html` by `src/extract_v1figs.py` → `src/v1figs.json` (an end-of-figure bug that pulled following tables into 11 and 19 was found on viewing and fixed). Pages of 11, 18, 19 viewed. **No teaching event.**
+- Where we stopped: DE v1.2 pack delivered; learner has not worked any Check.
