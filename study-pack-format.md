@@ -1,12 +1,14 @@
-# Study-pack format — v1.2
+# Study-pack format — v1.3
 
 > **The one format for every study pack** (PDF or `.md`, any subject). Loaded by reference from
 > `CLAUDE.md`. A pack is built to this file, **not copied from another pack**. If this file and an
 > existing pack disagree, this file wins.
 >
-> **Reference build:** `subjects/sem-3/13-circuits-and-systems/study-pack/` (read `pdf/00-START-HERE.pdf`
-> and `pdf/01-elements-and-sources.pdf`; source in `src/content/*.md`, builder `src/build.py`). It shows
-> what a finished pack looks like. Where it differs from the rules below (§8), the rules win.
+> **Reference: exactly two files, frozen** in `study-pack-reference/`: `00-START-HERE.pdf` and
+> `01-elements-and-sources.pdf` (with their two `.md` sources), copied from the Circuits & Systems pack
+> on 2026-11-14. They show what a finished start page and a finished topic file look like. **Nothing
+> else is a reference**: not the rest of that pack, not files added to it later, not any other pack.
+> Where the two files differ from the rules below (§8), the rules win.
 >
 > **This file regulates itself** (§9): every format change the learner states is written here, in the
 > rule it changes, the same session.
@@ -91,7 +93,7 @@ ideas are never merged to save space.
   reports only misses.
 - **Slips in the professor's material** are flagged in a note box where they occur, with the corrected
   version used in the pack.
-- **Page look:** the reference build's: A4, one accent colour, coloured boxes for question / guess /
+- **Page look:** the two reference files': A4, one accent colour, coloured boxes for question / guess /
   check / trap / note, generous white space, footer with pack name and page number.
 
 ## 7. Building and checking
@@ -128,7 +130,7 @@ ideas are never merged to save space.
   They have one question and one Check per whole topic, dense pages, no ranked start page, no Exam
   form, no Traps, no Self-test. Their figures, questions and verification scripts are sound and are
   reused when they are rebuilt.
-- **Where the reference build differs from v1.2** (do not copy these parts):
+- **Where the reference files differ from this spec** (do not copy these parts):
   - Its START-HERE asks the learner to mark each Check clean / struggle / wrong. v1.2 has no marking.
   - Topic files with no board question open on Predict prompts throughout; that is allowed, but a real
     question is used wherever one exists.
@@ -151,6 +153,10 @@ This file is the single place the format lives. It is kept true by rule:
   engine's verification breaks a core principle (`CLAUDE.md`). It is not applied silently: name the
   conflict, offer the nearest alternative, and log it under *Tensions* in `learner-preferences.md`.
 - **Observed patterns** (not stated by the learner) are proposed to the learner, not written in.
+- **The format changes only through the learner.** Building, editing or adding files in any pack,
+  including the Circuits & Systems pack the reference was copied from, never changes this spec or the
+  frozen reference. A new file that drifts from the spec is a defect in that file, not a new format.
+  The reference copies are replaced only when the learner says so.
 - **Rebuilds follow, they do not lead.** Changing this file does not by itself rebuild old packs; the
   learner decides which ones to redo and in what order.
 
@@ -168,3 +174,7 @@ This file is the single place the format lives. It is kept true by rule:
   does all verification and no learner marking (2026-10-17), pilot before a full build, build in
   priority order, the acceptance check, the "v1 is not a format" rule, and self-regulation (learner:
   "make it be self regulating with whatever changes i make be made in the ruleset itself").
+- **v1.3 — 2026-11-14.** Reference narrowed and frozen (learner: "only those two right? i dont want
+  anything else than that … i dont want new files that i generate in circutis and systems to change
+  the format unless i want it to"). The reference is now two files, copied to `study-pack-reference/`;
+  §9 gains the rule that the format changes only through the learner.

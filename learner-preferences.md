@@ -202,8 +202,9 @@ prefers minimal prose, wants diagrams described, etc.)*
   between concepts as its own bridge ("why the next thing exists"); define every term before first
   use; enforce a per-page load budget mechanically. Extends the 2026-09-15 and site-v2 rules to print.
 
-- [stated 2026-11-14] **Study packs are built to `study-pack-format.md` (v1.2), with the Circuits &
-  Systems pack as the example.** The dense "v1" PDFs (DE-v1, EDC-ETE-v1, DE-ETE-v1) were rejected:
+- [stated 2026-11-14] **Study packs are built to `study-pack-format.md`; the only examples are the two
+  frozen files in `study-pack-reference/` (Circuits & Systems `00` and `01`); files built later never
+  change the format, only the learner does.** The dense "v1" PDFs (DE-v1, EDC-ETE-v1, DE-ETE-v1) were rejected:
   "this isnt really what i wanted", "v1 isnt good at all", "isnt tier 2 [the per-step rewrite]
   supposed to be default?". → build every pack to the spec; never copy an older pack's shape; pilot one
   file before a full build; write any later format change into the spec itself the same session
