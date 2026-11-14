@@ -174,3 +174,4 @@
 - [2026-11-14] v1.2 demo **built**: `study-pack-v12/pdf/` = `00-START-HERE` + `13-synchronous-counters (6 steps)` + combined PDF (5 + 7 = 12 pp.). Every step has a
   question or Predict, a guess line and a Check; Exam form, Traps, Self-test, Answers at the end. All numbers are ones the v1 `verify.py` already checks
   (plus one new g_m value / Gray-step check, hand-verified). All pages viewed. **Awaiting learner sign-off; no teaching event.**
+- [2026-11-15] Learner signed off both v1.2 demos. Full v1.2 build queued after EDC: files 01–12, 14–20 in START-HERE priority order, content reused from `study-pack/pdf-ete/parts/A–H.html` + `verify.py` numbers; combined PDF at the end.
