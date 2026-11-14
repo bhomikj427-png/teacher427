@@ -1,0 +1,1152 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>08 — Estimators and the four properties of a good one</title><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "MAS2001 Statistics & Probability · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figure svg.mpl { width: 100%; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table-header-group; }</style></head><body><h1>08 — Estimators and the four properties of a good one</h1>
+<div class="sub">Gupta & Kapoor ch. 15 (§15.1–15.6), §12.11 · blueprint row 3 "parameter and statistic, point and interval estimation; characteristics of a good estimator" · 2 real questions (MTE) + Gupta & Kapoor exercises · needs 03, 07</div>
+
+<h2>Map</h2>
+<div class="map"><span class="n here">1 Estimator, point and interval</span><span class="a">→</span><span class="n">2 Unbiased</span><span class="a">→</span><span class="n">3 Why s² divides by n − 1</span><span class="a">→</span><span class="n">4 Consistent</span><span class="a">→</span><span class="n">5 Efficient</span><span class="a">→</span><span class="n">6 Sufficient</span></div>
+
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">MTE C1(b) · 3 marks</span> X₁, X₂, X₃ is a random sample from a population with mean μ and variance σ<sup>2</sup>. T₁ = X₁ + X₂ − X₃ and T₂ = 3X₁ + 2X₃ − 3X₂. Which is an unbiased estimator of μ? Justify.</li>
+<li><span class="tag">MTE A3 · 2 marks</span> If an estimator t contains all the information of the sample regarding the parameter θ, it is called: efficient / sufficient / consistent / unbiased.</li>
+<li><span class="tag">G&amp;K ch. 15 objective Q1</span> True or false: "an unbiased estimator is necessarily consistent"; "a maximum likelihood estimator is always unbiased"; "an unbiased estimator whose variance tends to zero as the sample size increases is consistent".</li>
+</ul>
+<p>Blueprint row 3 (estimation) is the heaviest row: 22 of 80 marks, with one 2-mark, two 6-mark and one 8-mark question.</p>
+<hr />
+<h2>Build</h2>
+<h3>1 · Estimator; point and interval estimation</h3>
+<p>File 07 showed that x̄ varies around μ. Estimation asks how to choose such a statistic well.</p>
+<div class="box q">
+<div class="bh">Predict</div>
+<p>To estimate the mean lifetime μ of all bulbs, you could use the sample mean, the sample median, or (largest + smallest)/2. How would you decide which is best?</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Write one property you would want the chosen rule to have.</p>
+</div>
+<p><strong>Terms</strong> (G&amp;K §15.1):</p>
+<ul>
+<li><strong>Estimator</strong>: a statistic T (a formula in X₁, …, Xₙ) used to estimate a parameter θ. Its value for one sample is an <strong>estimate</strong>.</li>
+<li><strong>Point estimation</strong>: one number for θ (x̄ = 1480 h).</li>
+<li><strong>Interval estimation</strong>: a range with a stated confidence (1450 to 1510 h, 95% confidence): file 11.</li>
+</ul>
+<p><strong>Answer.</strong> Judge a rule by how its estimates behave over many samples: centred on θ (<strong>unbiased</strong>), closing in on θ as n grows (<strong>consistent</strong>), with small spread (<strong>efficient</strong>), and using all the information in the data (<strong>sufficient</strong>).</p>
+
+<figure style="max-width:92%">
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg class="mpl" xmlns:xlink="http://www.w3.org/1999/xlink" width="382.68pt" height="161.19323pt" viewBox="0 0 382.68 161.19323" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-15T04:26:01.089249</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 161.19323 
+L 382.68 161.19323 
+L 382.68 0 
+L 0 0 
+L 0 161.19323 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 61.358824 119.424926 
+C 73.454055 119.424926 85.055526 114.619439 93.608147 106.066819 
+C 102.160767 97.514198 106.966254 85.912727 106.966254 73.817495 
+C 106.966254 61.722263 102.160767 50.120793 93.608147 41.568172 
+C 85.055526 33.015552 73.454055 28.210065 61.358824 28.210065 
+C 49.263592 28.210065 37.662121 33.015552 29.1095 41.568172 
+C 20.55688 50.120793 15.751393 61.722263 15.751393 73.817495 
+C 15.751393 85.912727 20.55688 97.514198 29.1095 106.066819 
+C 37.662121 114.619439 49.263592 119.424926 61.358824 119.424926 
+L 61.358824 119.424926 
+z
+" clip-path="url(#p3f93e26d88)" style="fill: none; stroke: #cbd5e1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 61.358824 102.322139 
+C 68.918343 102.322139 76.169263 99.31871 81.514651 93.973322 
+C 86.860038 88.627935 89.863467 81.377015 89.863467 73.817495 
+C 89.863467 66.257975 86.860038 59.007056 81.514651 53.661668 
+C 76.169263 48.316281 68.918343 45.312851 61.358824 45.312851 
+C 53.799304 45.312851 46.548384 48.316281 41.202996 53.661668 
+C 35.857609 59.007056 32.85418 66.257975 32.85418 73.817495 
+C 32.85418 81.377015 35.857609 88.627935 41.202996 93.973322 
+C 46.548384 99.31871 53.799304 102.322139 61.358824 102.322139 
+L 61.358824 102.322139 
+z
+" clip-path="url(#p3f93e26d88)" style="fill: none; stroke: #cbd5e1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 61.358824 85.219353 
+C 64.382632 85.219353 67.282999 84.017981 69.421154 81.879826 
+C 71.559309 79.741671 72.760681 76.841303 72.760681 73.817495 
+C 72.760681 70.793687 71.559309 67.89332 69.421154 65.755165 
+C 67.282999 63.617009 64.382632 62.415638 61.358824 62.415638 
+C 58.335016 62.415638 55.434648 63.617009 53.296493 65.755165 
+C 51.158338 67.89332 49.956966 70.793687 49.956966 73.817495 
+C 49.956966 76.841303 51.158338 79.741671 53.296493 81.879826 
+C 55.434648 84.017981 58.335016 85.219353 61.358824 85.219353 
+L 61.358824 85.219353 
+z
+" clip-path="url(#p3f93e26d88)" style="fill: none; stroke: #cbd5e1; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <defs>
+     <path id="m446a7f1555" d="M 0 1.5 
+C 0.397805 1.5 0.77937 1.341951 1.06066 1.06066 
+C 1.341951 0.77937 1.5 0.397805 1.5 0 
+C 1.5 -0.397805 1.341951 -0.77937 1.06066 -1.06066 
+C 0.77937 -1.341951 0.397805 -1.5 0 -1.5 
+C -0.397805 -1.5 -0.77937 -1.341951 -1.06066 -1.06066 
+C -1.341951 -0.77937 -1.5 -0.397805 -1.5 0 
+C -1.5 0.397805 -1.341951 0.77937 -1.06066 1.06066 
+C -0.77937 1.341951 -0.397805 1.5 0 1.5 
+z
+" style="stroke: #1d4ed8"/>
+    </defs>
+    <g clip-path="url(#p3f93e26d88)">
+     <use xlink:href="#m446a7f1555" x="40.785931" y="107.792839" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="54.98731" y="63.031318" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="90.503165" y="71.003068" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="47.18111" y="93.950392" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="80.567282" y="31.878478" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="68.356483" y="105.45753" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="36.775316" y="32.770318" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="66.563606" y="118.253994" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="59.211666" y="103.659103" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="45.214954" y="86.336884" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="43.059354" y="59.621025" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="59.740405" y="88.938871" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="71.867746" y="52.528238" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="19.208407" y="80.403696" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+    </g>
+   </g>
+   <g id="line2d_2">
+    <defs>
+     <path id="mf9c10cc4fd" d="M -5 0 
+L 5 0 
+M 0 5 
+L 0 -5 
+" style="stroke: #dc2626; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#p3f93e26d88)">
+     <use xlink:href="#mf9c10cc4fd" x="61.358824" y="73.817495" style="fill: #dc2626; stroke: #dc2626; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_1">
+    <!-- unbiased, large variance -->
+    <g transform="translate(8.840777 13.658672) scale(0.085 -0.085)">
+     <defs>
+      <path id="DejaVuSans-75" d="M 544 1381 
+L 544 3500 
+L 1119 3500 
+L 1119 1403 
+Q 1119 906 1312 657 
+Q 1506 409 1894 409 
+Q 2359 409 2629 706 
+Q 2900 1003 2900 1516 
+L 2900 3500 
+L 3475 3500 
+L 3475 0 
+L 2900 0 
+L 2900 538 
+Q 2691 219 2414 64 
+Q 2138 -91 1772 -91 
+Q 1169 -91 856 284 
+Q 544 659 544 1381 
+z
+M 1991 3584 
+L 1991 3584 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-6e" d="M 3513 2113 
+L 3513 0 
+L 2938 0 
+L 2938 2094 
+Q 2938 2591 2744 2837 
+Q 2550 3084 2163 3084 
+Q 1697 3084 1428 2787 
+Q 1159 2491 1159 1978 
+L 1159 0 
+L 581 0 
+L 581 3500 
+L 1159 3500 
+L 1159 2956 
+Q 1366 3272 1645 3428 
+Q 1925 3584 2291 3584 
+Q 2894 3584 3203 3211 
+Q 3513 2838 3513 2113 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-62" d="M 3116 1747 
+Q 3116 2381 2855 2742 
+Q 2594 3103 2138 3103 
+Q 1681 3103 1420 2742 
+Q 1159 2381 1159 1747 
+Q 1159 1113 1420 752 
+Q 1681 391 2138 391 
+Q 2594 391 2855 752 
+Q 3116 1113 3116 1747 
+z
+M 1159 2969 
+Q 1341 3281 1617 3432 
+Q 1894 3584 2278 3584 
+Q 2916 3584 3314 3078 
+Q 3713 2572 3713 1747 
+Q 3713 922 3314 415 
+Q 2916 -91 2278 -91 
+Q 1894 -91 1617 61 
+Q 1341 213 1159 525 
+L 1159 0 
+L 581 0 
+L 581 4863 
+L 1159 4863 
+L 1159 2969 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-69" d="M 603 3500 
+L 1178 3500 
+L 1178 0 
+L 603 0 
+L 603 3500 
+z
+M 603 4863 
+L 1178 4863 
+L 1178 4134 
+L 603 4134 
+L 603 4863 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-61" d="M 2194 1759 
+Q 1497 1759 1228 1600 
+Q 959 1441 959 1056 
+Q 959 750 1161 570 
+Q 1363 391 1709 391 
+Q 2188 391 2477 730 
+Q 2766 1069 2766 1631 
+L 2766 1759 
+L 2194 1759 
+z
+M 3341 1997 
+L 3341 0 
+L 2766 0 
+L 2766 531 
+Q 2569 213 2275 61 
+Q 1981 -91 1556 -91 
+Q 1019 -91 701 211 
+Q 384 513 384 1019 
+Q 384 1609 779 1909 
+Q 1175 2209 1959 2209 
+L 2766 2209 
+L 2766 2266 
+Q 2766 2663 2505 2880 
+Q 2244 3097 1772 3097 
+Q 1472 3097 1187 3025 
+Q 903 2953 641 2809 
+L 641 3341 
+Q 956 3463 1253 3523 
+Q 1550 3584 1831 3584 
+Q 2591 3584 2966 3190 
+Q 3341 2797 3341 1997 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-73" d="M 2834 3397 
+L 2834 2853 
+Q 2591 2978 2328 3040 
+Q 2066 3103 1784 3103 
+Q 1356 3103 1142 2972 
+Q 928 2841 928 2578 
+Q 928 2378 1081 2264 
+Q 1234 2150 1697 2047 
+L 1894 2003 
+Q 2506 1872 2764 1633 
+Q 3022 1394 3022 966 
+Q 3022 478 2636 193 
+Q 2250 -91 1575 -91 
+Q 1294 -91 989 -36 
+Q 684 19 347 128 
+L 347 722 
+Q 666 556 975 473 
+Q 1284 391 1588 391 
+Q 1994 391 2212 530 
+Q 2431 669 2431 922 
+Q 2431 1156 2273 1281 
+Q 2116 1406 1581 1522 
+L 1381 1569 
+Q 847 1681 609 1914 
+Q 372 2147 372 2553 
+Q 372 3047 722 3315 
+Q 1072 3584 1716 3584 
+Q 2034 3584 2315 3537 
+Q 2597 3491 2834 3397 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-65" d="M 3597 1894 
+L 3597 1613 
+L 953 1613 
+Q 991 1019 1311 708 
+Q 1631 397 2203 397 
+Q 2534 397 2845 478 
+Q 3156 559 3463 722 
+L 3463 178 
+Q 3153 47 2828 -22 
+Q 2503 -91 2169 -91 
+Q 1331 -91 842 396 
+Q 353 884 353 1716 
+Q 353 2575 817 3079 
+Q 1281 3584 2069 3584 
+Q 2775 3584 3186 3129 
+Q 3597 2675 3597 1894 
+z
+M 3022 2063 
+Q 3016 2534 2758 2815 
+Q 2500 3097 2075 3097 
+Q 1594 3097 1305 2825 
+Q 1016 2553 972 2059 
+L 3022 2063 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-64" d="M 2906 2969 
+L 2906 4863 
+L 3481 4863 
+L 3481 0 
+L 2906 0 
+L 2906 525 
+Q 2725 213 2448 61 
+Q 2172 -91 1784 -91 
+Q 1150 -91 751 415 
+Q 353 922 353 1747 
+Q 353 2572 751 3078 
+Q 1150 3584 1784 3584 
+Q 2172 3584 2448 3432 
+Q 2725 3281 2906 2969 
+z
+M 947 1747 
+Q 947 1113 1208 752 
+Q 1469 391 1925 391 
+Q 2381 391 2643 752 
+Q 2906 1113 2906 1747 
+Q 2906 2381 2643 2742 
+Q 2381 3103 1925 3103 
+Q 1469 3103 1208 2742 
+Q 947 2381 947 1747 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-2c" d="M 750 794 
+L 1409 794 
+L 1409 256 
+L 897 -744 
+L 494 -744 
+L 750 256 
+L 750 794 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-20" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-6c" d="M 603 4863 
+L 1178 4863 
+L 1178 0 
+L 603 0 
+L 603 4863 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-72" d="M 2631 2963 
+Q 2534 3019 2420 3045 
+Q 2306 3072 2169 3072 
+Q 1681 3072 1420 2755 
+Q 1159 2438 1159 1844 
+L 1159 0 
+L 581 0 
+L 581 3500 
+L 1159 3500 
+L 1159 2956 
+Q 1341 3275 1631 3429 
+Q 1922 3584 2338 3584 
+Q 2397 3584 2469 3576 
+Q 2541 3569 2628 3553 
+L 2631 2963 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-67" d="M 2906 1791 
+Q 2906 2416 2648 2759 
+Q 2391 3103 1925 3103 
+Q 1463 3103 1205 2759 
+Q 947 2416 947 1791 
+Q 947 1169 1205 825 
+Q 1463 481 1925 481 
+Q 2391 481 2648 825 
+Q 2906 1169 2906 1791 
+z
+M 3481 434 
+Q 3481 -459 3084 -895 
+Q 2688 -1331 1869 -1331 
+Q 1566 -1331 1297 -1286 
+Q 1028 -1241 775 -1147 
+L 775 -588 
+Q 1028 -725 1275 -790 
+Q 1522 -856 1778 -856 
+Q 2344 -856 2625 -561 
+Q 2906 -266 2906 331 
+L 2906 616 
+Q 2728 306 2450 153 
+Q 2172 0 1784 0 
+Q 1141 0 747 490 
+Q 353 981 353 1791 
+Q 353 2603 747 3093 
+Q 1141 3584 1784 3584 
+Q 2172 3584 2450 3431 
+Q 2728 3278 2906 2969 
+L 2906 3500 
+L 3481 3500 
+L 3481 434 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-76" d="M 191 3500 
+L 800 3500 
+L 1894 563 
+L 2988 3500 
+L 3597 3500 
+L 2284 0 
+L 1503 0 
+L 191 3500 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-63" d="M 3122 3366 
+L 3122 2828 
+Q 2878 2963 2633 3030 
+Q 2388 3097 2138 3097 
+Q 1578 3097 1268 2742 
+Q 959 2388 959 1747 
+Q 959 1106 1268 751 
+Q 1578 397 2138 397 
+Q 2388 397 2633 464 
+Q 2878 531 3122 666 
+L 3122 134 
+Q 2881 22 2623 -34 
+Q 2366 -91 2075 -91 
+Q 1284 -91 818 406 
+Q 353 903 353 1747 
+Q 353 2603 823 3093 
+Q 1294 3584 2113 3584 
+Q 2378 3584 2631 3529 
+Q 2884 3475 3122 3366 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-75"/>
+     <use xlink:href="#DejaVuSans-6e" x="63.378906"/>
+     <use xlink:href="#DejaVuSans-62" x="126.757812"/>
+     <use xlink:href="#DejaVuSans-69" x="190.234375"/>
+     <use xlink:href="#DejaVuSans-61" x="218.017578"/>
+     <use xlink:href="#DejaVuSans-73" x="279.296875"/>
+     <use xlink:href="#DejaVuSans-65" x="331.396484"/>
+     <use xlink:href="#DejaVuSans-64" x="392.919922"/>
+     <use xlink:href="#DejaVuSans-2c" x="456.396484"/>
+     <use xlink:href="#DejaVuSans-20" x="488.183594"/>
+     <use xlink:href="#DejaVuSans-6c" x="519.970703"/>
+     <use xlink:href="#DejaVuSans-61" x="547.753906"/>
+     <use xlink:href="#DejaVuSans-72" x="609.033203"/>
+     <use xlink:href="#DejaVuSans-67" x="648.396484"/>
+     <use xlink:href="#DejaVuSans-65" x="711.873047"/>
+     <use xlink:href="#DejaVuSans-20" x="773.396484"/>
+     <use xlink:href="#DejaVuSans-76" x="805.183594"/>
+     <use xlink:href="#DejaVuSans-61" x="864.363281"/>
+     <use xlink:href="#DejaVuSans-72" x="925.642578"/>
+     <use xlink:href="#DejaVuSans-69" x="966.755859"/>
+     <use xlink:href="#DejaVuSans-61" x="994.539062"/>
+     <use xlink:href="#DejaVuSans-6e" x="1055.818359"/>
+     <use xlink:href="#DejaVuSans-63" x="1119.197266"/>
+     <use xlink:href="#DejaVuSans-65" x="1174.177734"/>
+    </g>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_5">
+    <path d="M 191.34 119.424926 
+C 203.435232 119.424926 215.036703 114.619439 223.589323 106.066819 
+C 232.141944 97.514198 236.94743 85.912727 236.94743 73.817495 
+C 236.94743 61.722263 232.141944 50.120793 223.589323 41.568172 
+C 215.036703 33.015552 203.435232 28.210065 191.34 28.210065 
+C 179.244768 28.210065 167.643297 33.015552 159.090677 41.568172 
+C 150.538056 50.120793 145.73257 61.722263 145.73257 73.817495 
+C 145.73257 85.912727 150.538056 97.514198 159.090677 106.066819 
+C 167.643297 114.619439 179.244768 119.424926 191.34 119.424926 
+L 191.34 119.424926 
+z
+" clip-path="url(#p90f2819de6)" style="fill: none; stroke: #cbd5e1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 191.34 102.322139 
+C 198.89952 102.322139 206.150439 99.31871 211.495827 93.973322 
+C 216.841215 88.627935 219.844644 81.377015 219.844644 73.817495 
+C 219.844644 66.257975 216.841215 59.007056 211.495827 53.661668 
+C 206.150439 48.316281 198.89952 45.312851 191.34 45.312851 
+C 183.78048 45.312851 176.529561 48.316281 171.184173 53.661668 
+C 165.838785 59.007056 162.835356 66.257975 162.835356 73.817495 
+C 162.835356 81.377015 165.838785 88.627935 171.184173 93.973322 
+C 176.529561 99.31871 183.78048 102.322139 191.34 102.322139 
+L 191.34 102.322139 
+z
+" clip-path="url(#p90f2819de6)" style="fill: none; stroke: #cbd5e1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 191.34 85.219353 
+C 194.363808 85.219353 197.264176 84.017981 199.402331 81.879826 
+C 201.540486 79.741671 202.741858 76.841303 202.741858 73.817495 
+C 202.741858 70.793687 201.540486 67.89332 199.402331 65.755165 
+C 197.264176 63.617009 194.363808 62.415638 191.34 62.415638 
+C 188.316192 62.415638 185.415824 63.617009 183.277669 65.755165 
+C 181.139514 67.89332 179.938142 70.793687 179.938142 73.817495 
+C 179.938142 76.841303 181.139514 79.741671 183.277669 81.879826 
+C 185.415824 84.017981 188.316192 85.219353 191.34 85.219353 
+L 191.34 85.219353 
+z
+" clip-path="url(#p90f2819de6)" style="fill: none; stroke: #cbd5e1; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_3">
+    <g clip-path="url(#p90f2819de6)">
+     <use xlink:href="#m446a7f1555" x="210.005216" y="55.098177" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="207.805574" y="53.716802" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="216.7242" y="56.033004" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="209.526487" y="56.687561" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="209.217194" y="63.52168" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="218.596039" y="61.769651" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="225.333898" y="48.757726" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="202.757416" y="51.92501" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="209.14317" y="53.628674" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="217.305108" y="68.034115" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="215.330773" y="55.687046" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="223.84955" y="62.283425" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="222.253585" y="61.695701" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="214.633347" y="59.853592" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+    </g>
+   </g>
+   <g id="line2d_4">
+    <g clip-path="url(#p90f2819de6)">
+     <use xlink:href="#mf9c10cc4fd" x="191.34" y="73.817495" style="fill: #dc2626; stroke: #dc2626; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_2">
+    <!-- biased, small variance -->
+    <g transform="translate(143.660313 13.658672) scale(0.085 -0.085)">
+     <defs>
+      <path id="DejaVuSans-6d" d="M 3328 2828 
+Q 3544 3216 3844 3400 
+Q 4144 3584 4550 3584 
+Q 5097 3584 5394 3201 
+Q 5691 2819 5691 2113 
+L 5691 0 
+L 5113 0 
+L 5113 2094 
+Q 5113 2597 4934 2840 
+Q 4756 3084 4391 3084 
+Q 3944 3084 3684 2787 
+Q 3425 2491 3425 1978 
+L 3425 0 
+L 2847 0 
+L 2847 2094 
+Q 2847 2600 2669 2842 
+Q 2491 3084 2119 3084 
+Q 1678 3084 1418 2786 
+Q 1159 2488 1159 1978 
+L 1159 0 
+L 581 0 
+L 581 3500 
+L 1159 3500 
+L 1159 2956 
+Q 1356 3278 1631 3431 
+Q 1906 3584 2284 3584 
+Q 2666 3584 2933 3390 
+Q 3200 3197 3328 2828 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-62"/>
+     <use xlink:href="#DejaVuSans-69" x="63.476562"/>
+     <use xlink:href="#DejaVuSans-61" x="91.259766"/>
+     <use xlink:href="#DejaVuSans-73" x="152.539062"/>
+     <use xlink:href="#DejaVuSans-65" x="204.638672"/>
+     <use xlink:href="#DejaVuSans-64" x="266.162109"/>
+     <use xlink:href="#DejaVuSans-2c" x="329.638672"/>
+     <use xlink:href="#DejaVuSans-20" x="361.425781"/>
+     <use xlink:href="#DejaVuSans-73" x="393.212891"/>
+     <use xlink:href="#DejaVuSans-6d" x="445.3125"/>
+     <use xlink:href="#DejaVuSans-61" x="542.724609"/>
+     <use xlink:href="#DejaVuSans-6c" x="604.003906"/>
+     <use xlink:href="#DejaVuSans-6c" x="631.787109"/>
+     <use xlink:href="#DejaVuSans-20" x="659.570312"/>
+     <use xlink:href="#DejaVuSans-76" x="691.357422"/>
+     <use xlink:href="#DejaVuSans-61" x="750.537109"/>
+     <use xlink:href="#DejaVuSans-72" x="811.816406"/>
+     <use xlink:href="#DejaVuSans-69" x="852.929688"/>
+     <use xlink:href="#DejaVuSans-61" x="880.712891"/>
+     <use xlink:href="#DejaVuSans-6e" x="941.992188"/>
+     <use xlink:href="#DejaVuSans-63" x="1005.371094"/>
+     <use xlink:href="#DejaVuSans-65" x="1060.351562"/>
+    </g>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="patch_8">
+    <path d="M 321.321176 119.424926 
+C 333.416408 119.424926 345.017879 114.619439 353.5705 106.066819 
+C 362.12312 97.514198 366.928607 85.912727 366.928607 73.817495 
+C 366.928607 61.722263 362.12312 50.120793 353.5705 41.568172 
+C 345.017879 33.015552 333.416408 28.210065 321.321176 28.210065 
+C 309.225945 28.210065 297.624474 33.015552 289.071853 41.568172 
+C 280.519233 50.120793 275.713746 61.722263 275.713746 73.817495 
+C 275.713746 85.912727 280.519233 97.514198 289.071853 106.066819 
+C 297.624474 114.619439 309.225945 119.424926 321.321176 119.424926 
+L 321.321176 119.424926 
+z
+" clip-path="url(#p5262cbc78c)" style="fill: none; stroke: #cbd5e1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 321.321176 102.322139 
+C 328.880696 102.322139 336.131616 99.31871 341.477004 93.973322 
+C 346.822391 88.627935 349.82582 81.377015 349.82582 73.817495 
+C 349.82582 66.257975 346.822391 59.007056 341.477004 53.661668 
+C 336.131616 48.316281 328.880696 45.312851 321.321176 45.312851 
+C 313.761657 45.312851 306.510737 48.316281 301.165349 53.661668 
+C 295.819962 59.007056 292.816533 66.257975 292.816533 73.817495 
+C 292.816533 81.377015 295.819962 88.627935 301.165349 93.973322 
+C 306.510737 99.31871 313.761657 102.322139 321.321176 102.322139 
+L 321.321176 102.322139 
+z
+" clip-path="url(#p5262cbc78c)" style="fill: none; stroke: #cbd5e1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 321.321176 85.219353 
+C 324.344984 85.219353 327.245352 84.017981 329.383507 81.879826 
+C 331.521662 79.741671 332.723034 76.841303 332.723034 73.817495 
+C 332.723034 70.793687 331.521662 67.89332 329.383507 65.755165 
+C 327.245352 63.617009 324.344984 62.415638 321.321176 62.415638 
+C 318.297368 62.415638 315.397001 63.617009 313.258846 65.755165 
+C 311.120691 67.89332 309.919319 70.793687 309.919319 73.817495 
+C 309.919319 76.841303 311.120691 79.741671 313.258846 81.879826 
+C 315.397001 84.017981 318.297368 85.219353 321.321176 85.219353 
+L 321.321176 85.219353 
+z
+" clip-path="url(#p5262cbc78c)" style="fill: none; stroke: #cbd5e1; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_5">
+    <g clip-path="url(#p5262cbc78c)">
+     <use xlink:href="#m446a7f1555" x="332.883936" y="69.282416" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="340.729564" y="68.694168" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="328.065317" y="67.107753" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="316.479628" y="74.376413" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="332.099036" y="76.982486" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="322.828042" y="73.986886" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="326.183516" y="76.729942" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="320.10513" y="71.882976" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="322.143435" y="80.721103" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="328.47069" y="84.181064" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="311.734713" y="84.053448" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="329.038873" y="76.695619" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="313.571044" y="82.884423" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+     <use xlink:href="#m446a7f1555" x="324.682351" y="82.236496" style="fill: #1d4ed8; stroke: #1d4ed8"/>
+    </g>
+   </g>
+   <g id="line2d_6">
+    <g clip-path="url(#p5262cbc78c)">
+     <use xlink:href="#mf9c10cc4fd" x="321.321176" y="73.817495" style="fill: #dc2626; stroke: #dc2626; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_3">
+    <!-- unbiased + efficient -->
+    <g transform="translate(278.380903 13.658672) scale(0.085 -0.085)">
+     <defs>
+      <path id="DejaVuSans-2b" d="M 2944 4013 
+L 2944 2272 
+L 4684 2272 
+L 4684 1741 
+L 2944 1741 
+L 2944 0 
+L 2419 0 
+L 2419 1741 
+L 678 1741 
+L 678 2272 
+L 2419 2272 
+L 2419 4013 
+L 2944 4013 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-66" d="M 2375 4863 
+L 2375 4384 
+L 1825 4384 
+Q 1516 4384 1395 4259 
+Q 1275 4134 1275 3809 
+L 1275 3500 
+L 2222 3500 
+L 2222 3053 
+L 1275 3053 
+L 1275 0 
+L 697 0 
+L 697 3053 
+L 147 3053 
+L 147 3500 
+L 697 3500 
+L 697 3744 
+Q 697 4328 969 4595 
+Q 1241 4863 1831 4863 
+L 2375 4863 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-74" d="M 1172 4494 
+L 1172 3500 
+L 2356 3500 
+L 2356 3053 
+L 1172 3053 
+L 1172 1153 
+Q 1172 725 1289 603 
+Q 1406 481 1766 481 
+L 2356 481 
+L 2356 0 
+L 1766 0 
+Q 1100 0 847 248 
+Q 594 497 594 1153 
+L 594 3053 
+L 172 3053 
+L 172 3500 
+L 594 3500 
+L 594 4494 
+L 1172 4494 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-75"/>
+     <use xlink:href="#DejaVuSans-6e" x="63.378906"/>
+     <use xlink:href="#DejaVuSans-62" x="126.757812"/>
+     <use xlink:href="#DejaVuSans-69" x="190.234375"/>
+     <use xlink:href="#DejaVuSans-61" x="218.017578"/>
+     <use xlink:href="#DejaVuSans-73" x="279.296875"/>
+     <use xlink:href="#DejaVuSans-65" x="331.396484"/>
+     <use xlink:href="#DejaVuSans-64" x="392.919922"/>
+     <use xlink:href="#DejaVuSans-20" x="456.396484"/>
+     <use xlink:href="#DejaVuSans-2b" x="488.183594"/>
+     <use xlink:href="#DejaVuSans-20" x="571.972656"/>
+     <use xlink:href="#DejaVuSans-65" x="603.759766"/>
+     <use xlink:href="#DejaVuSans-66" x="665.283203"/>
+     <use xlink:href="#DejaVuSans-66" x="700.488281"/>
+     <use xlink:href="#DejaVuSans-69" x="735.693359"/>
+     <use xlink:href="#DejaVuSans-63" x="763.476562"/>
+     <use xlink:href="#DejaVuSans-69" x="818.457031"/>
+     <use xlink:href="#DejaVuSans-65" x="846.240234"/>
+     <use xlink:href="#DejaVuSans-6e" x="907.763672"/>
+     <use xlink:href="#DejaVuSans-74" x="971.142578"/>
+    </g>
+   </g>
+  </g>
+  <g id="text_4">
+   <!-- red + = the true parameter θ; dots = estimates from repeated samples -->
+   <g style="fill: #6b7280" transform="translate(32.565352 152.225495) scale(0.085 -0.085)">
+    <defs>
+     <path id="DejaVuSans-3d" d="M 678 2906 
+L 4684 2906 
+L 4684 2381 
+L 678 2381 
+L 678 2906 
+z
+M 678 1631 
+L 4684 1631 
+L 4684 1100 
+L 678 1100 
+L 678 1631 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-68" d="M 3513 2113 
+L 3513 0 
+L 2938 0 
+L 2938 2094 
+Q 2938 2591 2744 2837 
+Q 2550 3084 2163 3084 
+Q 1697 3084 1428 2787 
+Q 1159 2491 1159 1978 
+L 1159 0 
+L 581 0 
+L 581 4863 
+L 1159 4863 
+L 1159 2956 
+Q 1366 3272 1645 3428 
+Q 1925 3584 2291 3584 
+Q 2894 3584 3203 3211 
+Q 3513 2838 3513 2113 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-70" d="M 1159 525 
+L 1159 -1331 
+L 581 -1331 
+L 581 3500 
+L 1159 3500 
+L 1159 2969 
+Q 1341 3281 1617 3432 
+Q 1894 3584 2278 3584 
+Q 2916 3584 3314 3078 
+Q 3713 2572 3713 1747 
+Q 3713 922 3314 415 
+Q 2916 -91 2278 -91 
+Q 1894 -91 1617 61 
+Q 1341 213 1159 525 
+z
+M 3116 1747 
+Q 3116 2381 2855 2742 
+Q 2594 3103 2138 3103 
+Q 1681 3103 1420 2742 
+Q 1159 2381 1159 1747 
+Q 1159 1113 1420 752 
+Q 1681 391 2138 391 
+Q 2594 391 2855 752 
+Q 3116 1113 3116 1747 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-3b8" d="M 2953 2219 
+L 963 2219 
+Q 1009 1284 1225 888 
+Q 1494 400 1959 400 
+Q 2428 400 2688 891 
+Q 2916 1322 2953 2219 
+z
+M 2944 2750 
+Q 2856 3638 2688 3950 
+Q 2419 4444 1959 4444 
+Q 1481 4444 1228 3956 
+Q 1028 3563 969 2750 
+L 2944 2750 
+z
+M 1959 4913 
+Q 2709 4913 3138 4250 
+Q 3566 3591 3566 2422 
+Q 3566 1256 3138 594 
+Q 2709 -72 1959 -72 
+Q 1206 -72 781 594 
+Q 353 1256 353 2422 
+Q 353 3591 781 4250 
+Q 1206 4913 1959 4913 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-3b" d="M 750 3309 
+L 1409 3309 
+L 1409 2516 
+L 750 2516 
+L 750 3309 
+z
+M 750 794 
+L 1409 794 
+L 1409 256 
+L 897 -744 
+L 494 -744 
+L 750 256 
+L 750 794 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-6f" d="M 1959 3097 
+Q 1497 3097 1228 2736 
+Q 959 2375 959 1747 
+Q 959 1119 1226 758 
+Q 1494 397 1959 397 
+Q 2419 397 2687 759 
+Q 2956 1122 2956 1747 
+Q 2956 2369 2687 2733 
+Q 2419 3097 1959 3097 
+z
+M 1959 3584 
+Q 2709 3584 3137 3096 
+Q 3566 2609 3566 1747 
+Q 3566 888 3137 398 
+Q 2709 -91 1959 -91 
+Q 1206 -91 779 398 
+Q 353 888 353 1747 
+Q 353 2609 779 3096 
+Q 1206 3584 1959 3584 
+z
+" transform="scale(0.015625)"/>
+    </defs>
+    <use xlink:href="#DejaVuSans-72"/>
+    <use xlink:href="#DejaVuSans-65" x="38.863281"/>
+    <use xlink:href="#DejaVuSans-64" x="100.386719"/>
+    <use xlink:href="#DejaVuSans-20" x="163.863281"/>
+    <use xlink:href="#DejaVuSans-2b" x="195.650391"/>
+    <use xlink:href="#DejaVuSans-20" x="279.439453"/>
+    <use xlink:href="#DejaVuSans-3d" x="311.226562"/>
+    <use xlink:href="#DejaVuSans-20" x="395.015625"/>
+    <use xlink:href="#DejaVuSans-74" x="426.802734"/>
+    <use xlink:href="#DejaVuSans-68" x="466.011719"/>
+    <use xlink:href="#DejaVuSans-65" x="529.390625"/>
+    <use xlink:href="#DejaVuSans-20" x="590.914062"/>
+    <use xlink:href="#DejaVuSans-74" x="622.701172"/>
+    <use xlink:href="#DejaVuSans-72" x="661.910156"/>
+    <use xlink:href="#DejaVuSans-75" x="703.023438"/>
+    <use xlink:href="#DejaVuSans-65" x="766.402344"/>
+    <use xlink:href="#DejaVuSans-20" x="827.925781"/>
+    <use xlink:href="#DejaVuSans-70" x="859.712891"/>
+    <use xlink:href="#DejaVuSans-61" x="923.189453"/>
+    <use xlink:href="#DejaVuSans-72" x="984.46875"/>
+    <use xlink:href="#DejaVuSans-61" x="1025.582031"/>
+    <use xlink:href="#DejaVuSans-6d" x="1086.861328"/>
+    <use xlink:href="#DejaVuSans-65" x="1184.273438"/>
+    <use xlink:href="#DejaVuSans-74" x="1245.796875"/>
+    <use xlink:href="#DejaVuSans-65" x="1285.005859"/>
+    <use xlink:href="#DejaVuSans-72" x="1346.529297"/>
+    <use xlink:href="#DejaVuSans-20" x="1387.642578"/>
+    <use xlink:href="#DejaVuSans-3b8" x="1419.429688"/>
+    <use xlink:href="#DejaVuSans-3b" x="1480.611328"/>
+    <use xlink:href="#DejaVuSans-20" x="1514.302734"/>
+    <use xlink:href="#DejaVuSans-64" x="1546.089844"/>
+    <use xlink:href="#DejaVuSans-6f" x="1609.566406"/>
+    <use xlink:href="#DejaVuSans-74" x="1670.748047"/>
+    <use xlink:href="#DejaVuSans-73" x="1709.957031"/>
+    <use xlink:href="#DejaVuSans-20" x="1762.056641"/>
+    <use xlink:href="#DejaVuSans-3d" x="1793.84375"/>
+    <use xlink:href="#DejaVuSans-20" x="1877.632812"/>
+    <use xlink:href="#DejaVuSans-65" x="1909.419922"/>
+    <use xlink:href="#DejaVuSans-73" x="1970.943359"/>
+    <use xlink:href="#DejaVuSans-74" x="2023.042969"/>
+    <use xlink:href="#DejaVuSans-69" x="2062.251953"/>
+    <use xlink:href="#DejaVuSans-6d" x="2090.035156"/>
+    <use xlink:href="#DejaVuSans-61" x="2187.447266"/>
+    <use xlink:href="#DejaVuSans-74" x="2248.726562"/>
+    <use xlink:href="#DejaVuSans-65" x="2287.935547"/>
+    <use xlink:href="#DejaVuSans-73" x="2349.458984"/>
+    <use xlink:href="#DejaVuSans-20" x="2401.558594"/>
+    <use xlink:href="#DejaVuSans-66" x="2433.345703"/>
+    <use xlink:href="#DejaVuSans-72" x="2468.550781"/>
+    <use xlink:href="#DejaVuSans-6f" x="2507.414062"/>
+    <use xlink:href="#DejaVuSans-6d" x="2568.595703"/>
+    <use xlink:href="#DejaVuSans-20" x="2666.007812"/>
+    <use xlink:href="#DejaVuSans-72" x="2697.794922"/>
+    <use xlink:href="#DejaVuSans-65" x="2736.658203"/>
+    <use xlink:href="#DejaVuSans-70" x="2798.181641"/>
+    <use xlink:href="#DejaVuSans-65" x="2861.658203"/>
+    <use xlink:href="#DejaVuSans-61" x="2923.181641"/>
+    <use xlink:href="#DejaVuSans-74" x="2984.460938"/>
+    <use xlink:href="#DejaVuSans-65" x="3023.669922"/>
+    <use xlink:href="#DejaVuSans-64" x="3085.193359"/>
+    <use xlink:href="#DejaVuSans-20" x="3148.669922"/>
+    <use xlink:href="#DejaVuSans-73" x="3180.457031"/>
+    <use xlink:href="#DejaVuSans-61" x="3232.556641"/>
+    <use xlink:href="#DejaVuSans-6d" x="3293.835938"/>
+    <use xlink:href="#DejaVuSans-70" x="3391.248047"/>
+    <use xlink:href="#DejaVuSans-6c" x="3454.724609"/>
+    <use xlink:href="#DejaVuSans-65" x="3482.507812"/>
+    <use xlink:href="#DejaVuSans-73" x="3544.03125"/>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p3f93e26d88">
+   <rect x="7.2" y="19.658672" width="108.317647" height="108.317647"/>
+  </clipPath>
+  <clipPath id="p90f2819de6">
+   <rect x="137.181176" y="19.658672" width="108.317647" height="108.317647"/>
+  </clipPath>
+  <clipPath id="p5262cbc78c">
+   <rect x="267.162353" y="19.658672" width="108.317647" height="108.317647"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Each dot is the estimate from one sample. Unbiased: centred on θ. Efficient: tightly packed.</figcaption></figure>
+
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>Point or interval? (a) "The mean is 12.5 g/dL." (b) "The mean is between 12.1 and 12.9 g/dL with 95% confidence."</p>
+</div>
+<h3>2 · Unbiased</h3>
+<div class="box q">
+<div class="bh"><span class="tag">MTE C1(b) · 3 marks</span></div>
+<p>Let X₁, X₂, X₃ be a random sample of size 3 from a population with mean μ and variance σ<sup>2</sup>. T₁ = X₁ + X₂ − X₃ and T₂ = 3X₁ + 2X₃ − 3X₂ are used to estimate μ. Which of T₁, T₂ is unbiased? Justify your answer.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Add up the coefficients in each formula. What do you notice?</p>
+</div>
+<p><strong>Term.</strong> T is an <strong>unbiased</strong> estimator of θ if E(T) = θ for every θ (G&amp;K §15.4). Otherwise E(T) − θ is the <strong>bias</strong>.</p>
+<p>Each Xᵢ has E(Xᵢ) = μ; expectation is linear (file 03), so E(Σcᵢ Xᵢ) = (Σcᵢ)μ. A linear estimator is unbiased for μ exactly when its coefficients add to 1.</p>
+<p><strong>Answer.</strong>
+E(T₁) = E(X₁) + E(X₂) − E(X₃) = μ + μ − μ = μ ⇒ <strong>T₁ is unbiased</strong>.
+E(T₂) = 3μ + 2μ − 3μ = 2μ ≠ μ ⇒ <strong>T₂ is biased</strong> (bias = μ).</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>For the same sample, find λ so that T₃ = (λX₁ + X₂ + X₃)/3 is unbiased for μ.</p>
+</div>
+<h3>3 · Why the sample variance divides by n − 1</h3>
+<p>The most-used unbiased estimator in the course is s<sup>2</sup>. Its divisor is the reason the t, F and χ² formulas use n − 1.</p>
+<div class="box q">
+<div class="bh">Predict</div>
+<p>For a normal population with σ<sup>2</sup> = 4, many samples of size 3 are drawn. For each, compute Σ(xᵢ − x̄)<sup>2</sup>/3. Will the average of these values be 4, more than 4, or less than 4?</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>x̄ is the centre of the sample itself. Are values closer to x̄ or to μ?</p>
+</div>
+<p><strong>Answer.</strong> <strong>Less than 4</strong>: about 8/3 ≈ 2.67. Deviations are measured from x̄, which sits inside the sample, so they are smaller than deviations from μ. The exact result (G&amp;K §12.11):</p>
+<div class="eq">E[Σ(Xᵢ − X̄)<sup>2</sup>] = (n − 1)σ<sup>2</sup>&emsp;&emsp;&emsp;⇒&emsp;&emsp;&emsp;s<sup>2</sup> = <span class="frac"><span>1</span><span>n − 1</span></span> Σ(xᵢ − x̄)<sup>2</sup>&emsp;&emsp;&emsp;is unbiased for σ<sup>2</sup></div>
+
+<p>Dividing by n gives a biased estimator with E = <span class="frac"><span>n − 1</span><span>n</span></span>σ<sup>2</sup>. <strong>n − 1 = degrees of freedom</strong>: once x̄ is fixed, only n − 1 of the deviations are free.</p>
+<div class="box note">
+<div class="bh">Notation in this pack</div>
+<p>Gupta &amp; Kapoor sometimes write s<sup>2</sup> for the n-divisor and S<sup>2</sup> for the (n − 1)-divisor. This pack writes <strong>s<sup>2</sup> with n − 1</strong> throughout, and says so wherever a question's data could be read either way.</p>
+</div>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>Data 4, 6, 8. Compute Σ(x − x̄)<sup>2</sup>/n and s<sup>2</sup>.</p>
+</div>
+<h3>4 · Consistent</h3>
+<p>Unbiased is about the centre at one n. Consistency is about what happens as n grows.</p>
+<div class="box q">
+<div class="bh"><span class="tag">G&amp;K ch. 15 objective Q1 (iv), (vi)</span></div>
+<p>True or false: (iv) an unbiased estimator is necessarily consistent; (vi) an unbiased estimator whose variance tends to zero as the sample size increases is consistent.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>T₁ = X₁ + X₂ − X₃ uses three observations however large the sample. Does it get better with n?</p>
+</div>
+<p><strong>Term.</strong> Tₙ is <strong>consistent</strong> for θ if Tₙ gets arbitrarily close to θ with probability → 1 as n → ∞ (G&amp;K §15.3).</p>
+<p><strong>Sufficient condition</strong> (G&amp;K Theorem 15.2): E(Tₙ) → θ <strong>and</strong> Var(Tₙ) → 0.</p>
+<p><strong>Answer.</strong> (iv) <strong>False</strong>: T₁ is unbiased but its variance stays 3σ<sup>2</sup> for every n, so it never closes in on μ. (vi) <strong>True</strong>: that is the sufficient condition. Example: x̄ has E = μ and Var = σ<sup>2</sup>/n → 0, so x̄ is consistent. File 07's LLN (G&amp;K §6.15) is the same fact.</p>
+<div class="box check">
+<div class="bh">Check 4</div>
+<p>X is the number of successes in n trials with probability p. Is X/n a consistent estimator of p? Use the condition.</p>
+</div>
+<h3>5 · Efficient</h3>
+<p>Two unbiased estimators: prefer the one with less spread.</p>
+<div class="box q">
+<div class="bh">Predict</div>
+<p>For the MTE sample of size 3, both T₁ = X₁ + X₂ − X₃ and X̄ = (X₁ + X₂ + X₃)/3 are unbiased for μ. Which would you use?</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Compute or guess each variance in terms of σ<sup>2</sup>.</p>
+</div>
+<p><strong>Term.</strong> Of two unbiased estimators, T is <strong>more efficient</strong> than T′ if Var(T) &lt; Var(T′). The <strong>efficiency</strong> of T′ relative to T is Var(T)/Var(T′) (G&amp;K §15.5). The most efficient one is the minimum-variance unbiased estimator.</p>
+<p><strong>Answer.</strong> By file 03 (independent Xᵢ, variances add with squared coefficients):
+Var(T₁) = (1 + 1 + 1)σ<sup>2</sup> = <strong>3σ<sup>2</sup></strong>. Var(X̄) = (1/9)(3σ<sup>2</sup>) = <strong>σ<sup>2</sup>/3</strong>.
+X̄ is 9 times more efficient (efficiency of T₁ relative to X̄ = (σ<sup>2</sup>/3)/(3σ<sup>2</sup>) = 1/9). Use <strong>X̄</strong>.</p>
+<div class="box check">
+<div class="bh">Check 5</div>
+<p>T₄ = (X₁ + 2X₂ + X₃)/4. Is it unbiased? Find Var(T₄) and its efficiency relative to X̄.</p>
+</div>
+<h3>6 · Sufficient</h3>
+<p>The last property is about information, not centre or spread.</p>
+<div class="box q">
+<div class="bh"><span class="tag">MTE A3 · 2 marks</span></div>
+<p>If an estimator t contains all the information of the sample regarding the population parameter θ, it is called: (a) efficient (b) sufficient (c) consistent (d) unbiased</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Pick from the definitions you now have.</p>
+</div>
+<p><strong>Term.</strong> T is <strong>sufficient</strong> for θ if, once T is known, the rest of the sample carries no further information about θ (G&amp;K §15.6). <strong>Factorisation test:</strong> the likelihood L (file 09) splits as L = g(T, θ) · h(x), where h does not contain θ.</p>
+<p><strong>Example.</strong> Poisson sample: L = e<sup>−nλ</sup>λ<sup>Σxᵢ</sup>/Πxᵢ!. θ = λ appears only through Σxᵢ, so <strong>Σxᵢ (and x̄) is sufficient</strong> for λ.</p>
+<p><strong>Answer.</strong> <strong>Sufficient</strong> (b).</p>
+<div class="box check">
+<div class="bh">Check 6</div>
+<p><span class="tag">G&amp;K ch. 15 objective Q1 (iii)</span> True or false: "a maximum likelihood estimator is always unbiased." (Hint: file 09 shows that the MLE of σ<sup>2</sup> divides by n.)</p>
+</div>
+<hr />
+<h2>Exam form</h2>
+<p><strong>Definitions</strong> (write all four when asked for "characteristics of a good estimator"):</p>
+<ol>
+<li><strong>Unbiased</strong>: E(T) = θ.</li>
+<li><strong>Consistent</strong>: T → θ in probability as n → ∞; sufficient condition E(T) → θ and Var(T) → 0.</li>
+<li><strong>Efficient</strong>: among unbiased estimators, the smallest variance; efficiency of T′ relative to T = Var(T)/Var(T′).</li>
+<li><strong>Sufficient</strong>: uses all the sample's information about θ; L = g(T, θ)h(x).</li>
+</ol>
+<p><strong>Standard results.</strong> x̄ is unbiased, consistent and (normal population) efficient for μ. s<sup>2</sup> = Σ(x − x̄)<sup>2</sup>/(n − 1) is unbiased for σ<sup>2</sup>; the n-divisor version is biased but consistent.</p>
+<p><strong>Procedure (is T unbiased?).</strong> Take E of each term (E(Xᵢ) = μ), add, compare with θ, state "unbiased" or "biased, bias = …".</p>
+<h2>Traps</h2>
+<ul>
+<li>Calling an estimator unbiased because it "looks like" the mean: check the coefficients add to 1.</li>
+<li>Unbiased does not imply consistent, and consistent does not imply unbiased.</li>
+<li>Var(aX₁ − bX₂) = (a<sup>2</sup> + b<sup>2</sup>)σ<sup>2</sup>: the minus sign does not subtract variances.</li>
+<li>Swapping "efficient" (small variance) and "sufficient" (all the information).</li>
+</ul>
+<h2>Self-test</h2>
+<ol>
+<li>Define unbiased, consistent, efficient and sufficient estimators.</li>
+<li>X₁, X₂ from a population with mean μ. Is (2X₁ + 3X₂)/5 unbiased? Is (X₁ + X₂)/3?</li>
+<li>Find the variances of the two estimators in Q2 (variance σ<sup>2</sup>).</li>
+<li>Why is s<sup>2</sup> divided by n − 1?</li>
+<li>Give an estimator that is unbiased but not consistent.</li>
+<li>For a Poisson sample, which statistic is sufficient for λ?</li>
+</ol>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 1.</strong> (a) point (b) interval.</p>
+<p><strong>Check 2.</strong> E(T₃) = (λ + 2)μ/3 = μ ⇒ <strong>λ = 1</strong>.</p>
+<p><strong>Check 3.</strong> x̄ = 6; Σ(x − x̄)<sup>2</sup> = 4 + 0 + 4 = 8. n-divisor: 8/3 = <strong>2.67</strong>; s<sup>2</sup> = 8/2 = <strong>4</strong>.</p>
+<p><strong>Check 4.</strong> E(X/n) = np/n = p and Var(X/n) = npq/n<sup>2</sup> = pq/n → 0: <strong>consistent</strong>.</p>
+<p><strong>Check 5.</strong> E = (1 + 2 + 1)μ/4 = μ: <strong>unbiased</strong>. Var = (1 + 4 + 1)σ<sup>2</sup>/16 = <strong>3σ<sup>2</sup>/8</strong>. Efficiency relative to X̄ = (σ<sup>2</sup>/3)/(3σ<sup>2</sup>/8) = <strong>8/9</strong>.</p>
+<p><strong>Check 6.</strong> <strong>False</strong>: the MLE of σ<sup>2</sup> is Σ(x − x̄)<sup>2</sup>/n, which is biased.</p>
+<p><strong>Self-test.</strong></p>
+<ol>
+<li>See Exam form.</li>
+<li>Coefficients 2/5 + 3/5 = 1: <strong>unbiased</strong>. 1/3 + 1/3 = 2/3: <strong>biased</strong> (E = 2μ/3).</li>
+<li>(4 + 9)σ<sup>2</sup>/25 = <strong>13σ<sup>2</sup>/25</strong>; (1 + 1)σ<sup>2</sup>/9 = <strong>2σ<sup>2</sup>/9</strong>.</li>
+<li>E[Σ(X − X̄)<sup>2</sup>] = (n − 1)σ<sup>2</sup>, so dividing by n − 1 makes the estimator unbiased.</li>
+<li>T = X₁ (the first observation alone): E = μ, but Var = σ<sup>2</sup> for every n.</li>
+<li><strong>Σxᵢ</strong> (equivalently x̄).</li>
+</ol>
+</div></body></html>

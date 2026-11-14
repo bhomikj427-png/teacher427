@@ -1,0 +1,512 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Statistics & Probability — Study Pack (ETE)</title><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "MAS2001 Statistics & Probability · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figure svg.mpl { width: 100%; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table-header-group; }</style></head><body><h1>Statistics &amp; Probability — Study Pack (ETE)</h1>
+<div class="sub">MAS2001 · B.Tech Sem 3 · July–Nov 2026 · built on the official ETE blueprint, the 2026 MTE paper and its marking scheme, Assignments 1, 2, 4, 5, and the professor's LMS slides · facts from Gupta & Kapoor and the subject knowledge base · every number recomputed by script</div>
+
+<h2>Priority order: if time is short, study in this order</h2>
+<p>The ranking is driven by <strong>marks</strong>. The ETE blueprint (official) fixes the marks per syllabus row: probability and RVs 10, distributions and CLT 20, <strong>estimation 22</strong>, hypotheses 10, <strong>t/F/χ²/ANOVA 18 including the only 8-mark Part D</strong>. Within a row, files rank by how many assignment, MTE and slide questions hit them. The blueprint is hard evidence; how the marks split between files inside a row is an estimate.</p>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>Study</th>
+<th>Why it ranks here</th>
+<th>Do first</th>
+<th>Rough time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>09 MoM and MLE</strong></td>
+<td>Row 3 (22 marks): two 6-mark and one 8-mark slot; the professor's slides work four MLE examples</td>
+<td>09 §3–7, mock B3, C2</td>
+<td>70 min</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><strong>11 Confidence interval for mean</strong></td>
+<td>Named in row 3; Assignment 4 has five CI questions, Assignment 5 two more</td>
+<td>11 §2, 5, 6</td>
+<td>45 min</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>16 ANOVA</strong></td>
+<td>Row 5 holds the paper's only Part D (8 marks); Assignment 5's Part D includes an ANOVA</td>
+<td>16 §2–4, mock D1</td>
+<td>45 min</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td><strong>13 t-tests</strong></td>
+<td>Row 5; six t-test questions in Assignment 5, one of them Part D</td>
+<td>13 §2, 4, 5</td>
+<td>60 min</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td><strong>06 Normal</strong></td>
+<td>Row 2 (20 marks, one Part C); MTE C1(a) was 4 marks; five Assignment 2 numericals</td>
+<td>06 §2–5</td>
+<td>50 min</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td><strong>07 SE and CLT</strong></td>
+<td>Named in row 2; four worked slide examples; a Part C candidate</td>
+<td>07 §2–5, mock C1</td>
+<td>40 min</td>
+</tr>
+<tr>
+<td><strong>7</strong></td>
+<td><strong>15 χ² independence</strong></td>
+<td>Row 5; four numericals in Assignment 5</td>
+<td>15 §3–4</td>
+<td>40 min</td>
+</tr>
+<tr>
+<td><strong>8</strong></td>
+<td><strong>08 Estimator properties</strong></td>
+<td>Row 3; MTE A3 (2) and C1(b) (3)</td>
+<td>08 §2, exam form</td>
+<td>35 min</td>
+</tr>
+<tr>
+<td><strong>9</strong></td>
+<td><strong>12 Hypotheses and errors</strong></td>
+<td>Row 4 (10 marks); α/β questions A4 C1–C3 fit its 6-mark slot</td>
+<td>12 §3, 5, 6</td>
+<td>50 min</td>
+</tr>
+<tr>
+<td><strong>10</strong></td>
+<td><strong>04 Binomial and Poisson</strong></td>
+<td>Row 2; MTE A2, A4, B3 (8 marks)</td>
+<td>04 §1, 3, 4</td>
+<td>40 min</td>
+</tr>
+<tr>
+<td><strong>11</strong></td>
+<td><strong>14 F-test</strong></td>
+<td>Row 5; four Assignment 5 numericals; quick to learn</td>
+<td>14 §2, 4</td>
+<td>30 min</td>
+</tr>
+<tr>
+<td><strong>12</strong></td>
+<td><strong>05 Uniform and exponential</strong></td>
+<td>Row 2; MTE B4 (4 marks); eight short Assignment 2 items</td>
+<td>05 §2, 5</td>
+<td>35 min</td>
+</tr>
+<tr>
+<td><strong>13</strong></td>
+<td><strong>03 Expectation, variance, Chebyshev</strong></td>
+<td>Row 1 (10 marks); MTE B1, B2 (7 marks)</td>
+<td>03 §5–6</td>
+<td>45 min</td>
+</tr>
+<tr>
+<td><strong>14</strong></td>
+<td><strong>10 Bayesian</strong></td>
+<td>Blueprint says "introduction of"; one slide example</td>
+<td>10 §3</td>
+<td>25 min</td>
+</tr>
+<tr>
+<td><strong>15</strong></td>
+<td><strong>02 Random variables</strong></td>
+<td>Row 1; needed by 03, 08, 09</td>
+<td>02 §2, 4, 5</td>
+<td>45 min</td>
+</tr>
+<tr>
+<td><strong>16</strong></td>
+<td><strong>01 Probability basics</strong></td>
+<td>Row 1 definitions; Bayes' theorem feeds 10</td>
+<td>01 §4, 6</td>
+<td>30 min</td>
+</tr>
+<tr>
+<td><strong>last</strong></td>
+<td><strong>17 Mock paper</strong></td>
+<td>All rows in blueprint proportion</td>
+<td>closed book</td>
+<td>3 h</td>
+</tr>
+</tbody>
+</table>
+<p>Two rules for using the ranking:</p>
+<ul>
+<li><strong>Short on time:</strong> go down the list doing only the "Do first" column, then the matching mock items.</li>
+<li><strong>Stuck in 08–09:</strong> they need E(X), Var(X) and PDFs. Go back to 02 §5 and 03 §1–4 first.</li>
+</ul>
+<h2>The path through the pack</h2>
+<p>The order is the syllabus order, which is also the order of the assignments (1, 2, …, 5).</p>
+<p><strong>Unit 1 — probability and random variables</strong> (blueprint row 1)</p>
+<div class="map"><span class="n here">01 Probability basics</span><span class="a">→</span><span class="n">02 Random variables</span><span class="a">→</span><span class="n">03 Expectation, variance, Chebyshev</span></div>
+
+<p><strong>Unit 2 — distributions and sampling</strong> (row 2)</p>
+<div class="map"><span class="n">04 Binomial, Poisson</span><span class="a">→</span><span class="n">05 Uniform, exponential</span><span class="a">→</span><span class="n">06 Normal</span><span class="a">→</span><span class="n">07 SE and CLT</span></div>
+
+<p><strong>Unit 3 — estimation</strong> (row 3)</p>
+<div class="map"><span class="n">08 Estimator properties</span><span class="a">→</span><span class="n">09 MoM and MLE</span><span class="a">→</span><span class="n">10 Bayesian</span><span class="a">→</span><span class="n">11 CI for the mean</span></div>
+
+<p><strong>Unit 4 — testing</strong> (rows 4 and 5)</p>
+<div class="map"><span class="n">12 Hypotheses, errors</span><span class="a">→</span><span class="n">13 t-tests</span><span class="a">→</span><span class="n">14 F-test</span><span class="a">→</span><span class="n">15 χ²</span><span class="a">→</span><span class="n">16 ANOVA</span><span class="a">→</span><span class="n">17 Mock</span></div>
+
+<p>02 needs 01's probability rules. 03 needs 02's PMF/PDF. 04–06 use 03's E and Var. 07 needs 03 (variance of a sum) and 06 (normal table). 08–09 need 03, 07 and the distributions of 04–05. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Blueprint item</th>
+<th>What it teaches</th>
+<th>Real Qs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>row 1 · basic terminology</td>
+<td>sample space, events, classical probability, addition, conditional, independence, Bayes</td>
+<td>4</td>
+</tr>
+<tr>
+<td>02</td>
+<td>row 1 · RVs, PMF, PDF, CDF</td>
+<td>discrete vs continuous, PMF, building a PMF, CDF, PDF as area, conditionals</td>
+<td>11</td>
+</tr>
+<tr>
+<td>03</td>
+<td>row 1 · expectation, variance, Chebyshev</td>
+<td>E, Var, rules for sums, Chebyshev both forms, bound vs exact</td>
+<td>13</td>
+</tr>
+<tr>
+<td>04</td>
+<td>row 2 · binomial, Poisson</td>
+<td>formulas, mean/variance, finding λ, Poisson limit</td>
+<td>11 + 1 textbook</td>
+</tr>
+<tr>
+<td>05</td>
+<td>row 2 · uniform, exponential</td>
+<td>probability as length, absolute-value intervals, waiting times, memoryless</td>
+<td>13</td>
+</tr>
+<tr>
+<td>06</td>
+<td>row 2 · normal</td>
+<td>standardising, the φ table, counts, normal + binomial, inverse problems</td>
+<td>9</td>
+</tr>
+<tr>
+<td>07</td>
+<td>row 2 · population, sample, SE, CLT</td>
+<td>parameter vs statistic, SE = σ/√n, CLT and its three cases</td>
+<td>6</td>
+</tr>
+<tr>
+<td>08</td>
+<td>row 3 · good estimators</td>
+<td>unbiased, n − 1, consistent, efficient, sufficient</td>
+<td>2 + textbook</td>
+</tr>
+<tr>
+<td>09</td>
+<td>row 3 · MoM, MLE</td>
+<td>one- and two-parameter MoM, the five MLE steps, four slide MLEs, both methods</td>
+<td>4 + 3 textbook</td>
+</tr>
+<tr>
+<td>10</td>
+<td>row 3 · Bayesian (intro)</td>
+<td>prior, posterior, the slide's defectives example, posterior mean</td>
+<td>1</td>
+</tr>
+<tr>
+<td>11</td>
+<td>row 3 · CI for mean</td>
+<td>meaning, z-interval, levels, function of μ, t-interval, raw data</td>
+<td>7</td>
+</tr>
+<tr>
+<td>12</td>
+<td>row 4</td>
+<td>H₀/H₁, tails, Type I/II, α, β, power, critical region, test steps</td>
+<td>15</td>
+</tr>
+<tr>
+<td>13</td>
+<td>row 5 · t-test</td>
+<td>one-sample (summary, raw), two levels, pooled two-sample, paired</td>
+<td>9</td>
+</tr>
+<tr>
+<td>14</td>
+<td>row 5 · F-test</td>
+<td>F ratio, sums of squares, two-tailed, raw data, before the t</td>
+<td>6</td>
+</tr>
+<tr>
+<td>15</td>
+<td>row 5 · χ²</td>
+<td>expected frequency, df, 2 × 2, shortcut, building tables, 3 × 3</td>
+<td>8</td>
+</tr>
+<tr>
+<td>16</td>
+<td>row 5 · ANOVA</td>
+<td>idea, assumptions, sums of squares, ANOVA table, equal and unequal groups</td>
+<td>4</td>
+</tr>
+<tr>
+<td>17</td>
+<td>all rows</td>
+<td>an 80-mark paper on the blueprint, with a marking key</td>
+<td>19 practice</td>
+</tr>
+</tbody>
+</table>
+<h2>Where the questions come from</h2>
+<p>A question that opens a step is quoted from the professor's material where one exists, and tagged:</p>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Source</th>
+<th>Questions used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="tag">MTE A1</span> …</td>
+<td>Mid-term exam, Jul–Nov 2026 (30 marks) and its marking scheme</td>
+<td>all 10 parts</td>
+</tr>
+<tr>
+<td><span class="tag">A1</span> <span class="tag">A2</span> <span class="tag">A4</span> <span class="tag">A5</span></td>
+<td>Assignments 1, 2, 4, 5 (no Assignment 3 was available)</td>
+<td>~100</td>
+</tr>
+<tr>
+<td><span class="tag">Slides</span></td>
+<td>LMS slides: "Sampling &amp; Limit Theorems", "MLE and Bayesian Estimation", "ppt 8 Hypothesis Testing"</td>
+<td>13</td>
+</tr>
+<tr>
+<td><span class="tag">G&amp;K</span></td>
+<td>Gupta &amp; Kapoor, <em>Fundamentals of Mathematical Statistics</em> (the reference the slides cite)</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Predict</td>
+<td>no real question exists for that idea; labelled "Predict"</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>P1 (professor's papers, assignments, slides): about 120 questions. P2 (textbook): 6.</strong> The mock paper's 19 items are practice questions written in the professor's forms and say which form each copies.</p>
+<h2>How each file runs</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Map</strong></td>
+<td>the file's steps, in order</td>
+</tr>
+<tr>
+<td><strong>Questions</strong></td>
+<td>the real questions the file answers</td>
+</tr>
+<tr>
+<td><strong>Build</strong></td>
+<td>each step: question → you guess → the answer teaches the idea → a Check</td>
+</tr>
+<tr>
+<td><strong>Exam form</strong></td>
+<td>what to write in the exam: statements, procedures, formulas</td>
+</tr>
+<tr>
+<td><strong>Traps</strong></td>
+<td>the mistakes that cost marks</td>
+</tr>
+<tr>
+<td><strong>Self-test</strong>, <strong>Answers</strong></td>
+<td>answers to every Check and Self-test are on the last pages of the file</td>
+</tr>
+</tbody>
+</table>
+<div class="box key">
+<div class="bh">The one rule that makes this work</div>
+<p>When you reach a <strong>Guess first</strong> box, write a guess on paper <strong>before</strong> reading on: one line, however wrong. A wrong guess that gets corrected sticks better than a right answer you only read.</p>
+</div>
+<h2>Units and symbols used everywhere</h2>
+<ul>
+<li><strong>X</strong> = a random variable; <strong>x</strong> = a value it takes. <strong>P(A | B)</strong> = probability of A given B.</li>
+<li><strong>μ, σ, σ<sup>2</sup></strong> = population mean, SD, variance (parameters). <strong>x̄, s, s<sup>2</sup></strong> = sample mean, SD, variance (statistics).</li>
+<li><strong>s<sup>2</sup> = Σ(x − x̄)<sup>2</sup>/(n − 1)</strong> throughout. Where a question's "SD" could be the n-divisor version, the file says so.</li>
+<li><strong>SE</strong> = standard error = σ/√n (or s/√n).</li>
+<li><strong>φ(z)</strong> = area under the standard normal curve <strong>from 0 to z</strong> (the table the professor gives in questions).</li>
+<li><strong>H₀, H₁</strong> = null and alternative hypotheses; <strong>α, β</strong> = probabilities of Type I and Type II errors; <strong>df</strong> = degrees of freedom.</li>
+<li>t<sub>α/2, ν</sub>, F<sub>α</sub>(ν₁, ν₂), χ<sup>2</sup><sub>α</sub> = table values with α in the upper tail.</li>
+</ul>
+<h2>Where the professor's material disagrees with the pack</h2>
+<p>Every answer in the assignments and the MTE key was recomputed. These differ; the pack uses the corrected value and flags it where it occurs.</p>
+<table>
+<thead>
+<tr>
+<th>Where</th>
+<th>Material says</th>
+<th>Pack says</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A5 C6</strong> (16 §3)</td>
+<td>table value 19.41</td>
+<td><strong>F₀.₀₅(2, 12) = 3.89</strong></td>
+<td>19.41 is F(12, 2): df reversed. <strong>The decision flips</strong>: F = 9.17 rejects H₀</td>
+</tr>
+<tr>
+<td>A5 D1 (14 §4)</td>
+<td>table value 5.19</td>
+<td>F₀.₀₅(4, 4) = 6.39</td>
+<td>5.19 is F(4, 5); same decision</td>
+</tr>
+<tr>
+<td>A5 D2 (11 §6)</td>
+<td>CI (24.945, 25.075)</td>
+<td>(24.930, 25.080)</td>
+<td>the key's half-width does not match the data's s = 0.1605</td>
+</tr>
+<tr>
+<td>A5 A4 (13 §5)</td>
+<td>options 1.55/2.10/3.00/3.87</td>
+<td>t = 3.10</td>
+<td>no option matches; nearest is 3.00</td>
+</tr>
+<tr>
+<td>A5 A10 (16 §2)</td>
+<td>options 4/5/6/8</td>
+<td>F = 4.44</td>
+<td>no option matches; nearest is 4.00</td>
+</tr>
+<tr>
+<td>A2 B5 (05 §6)</td>
+<td>0.5679</td>
+<td>0.6225</td>
+<td>recomputed two ways</td>
+</tr>
+<tr>
+<td>A2 C2 (06 §6)</td>
+<td>μ = 37.5</td>
+<td>μ = 37.18, re-exam mark 30.40</td>
+<td>the key's own 30.43 implies μ ≈ 37.2</td>
+</tr>
+<tr>
+<td>A1 LA 2 (02 §2, §4)</td>
+<td>P(X = 0) = k; key for P(X &gt; 6) is 81/100</td>
+<td>textbook table P(X = 0) = 0; P(X &gt; 6) = 17/100, P(X &lt; 6) = 81/100</td>
+<td>the key belongs to the textbook version</td>
+</tr>
+<tr>
+<td>A1 LA 3 (03 §4)</td>
+<td>0.808 without replacement</td>
+<td>0.8 in both cases</td>
+<td>expectation of a sum needs no independence</td>
+</tr>
+<tr>
+<td>A1 App 3 (03 §2)</td>
+<td>SD ≈ 0.98</td>
+<td>0.973</td>
+<td>the key rounded the variance first</td>
+</tr>
+<tr>
+<td>MTE B1 (03 §6)</td>
+<td>bound 16/3</td>
+<td>16/3 (correct), plus: a bound above 1 says nothing; exact value 5/6</td>
+<td>an addition, not a correction</td>
+</tr>
+<tr>
+<td>Slides CLT p.11 (07 §4)</td>
+<td>z = −0.4</td>
+<td>z = −0.94</td>
+<td>typo; the slide's area uses 0.94</td>
+</tr>
+<tr>
+<td>Slides MLE Ex. 14 (09 §6)</td>
+<td>L(x₁, …, x₁₀; θ)</td>
+<td>n = 6</td>
+<td>label only</td>
+</tr>
+<tr>
+<td>ppt 8 slide 7 (12 §2)</td>
+<td>"H₀: μ &gt; −0.545"</td>
+<td>H₁: μ &gt; −0.545</td>
+<td>the alternative was labelled H₀</td>
+</tr>
+</tbody>
+</table>
+<h2>How this pack was checked</h2>
+<ul>
+<li><strong>Facts:</strong> from the subject's knowledge base (researched to both stages from Walpole, Montgomery &amp; Runger and Ross; every load-bearing claim checked against sources) and from Gupta &amp; Kapoor, the reference the slides cite. Section numbers are quoted where a formula is used.</li>
+<li><strong>Numbers:</strong> <code>src/verify.py</code> recomputes every number in the pack, more than 400 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 11 mismatches are the slips in the table above.</li>
+<li><strong>Pages:</strong> every page was viewed after the final build.</li>
+</ul></body></html>

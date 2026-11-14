@@ -1,0 +1,1172 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>01 — Probability: the basic terms</title><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "MAS2001 Statistics & Probability · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figure svg.mpl { width: 100%; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table-header-group; }</style></head><body><h1>01 — Probability: the basic terms</h1>
+<div class="sub">Gupta & Kapoor ch. 4 (§4.3, 4.7, 4.8) · blueprint row 1 "basic terminology and concepts of probability theory" · 4 real questions (Assignment 1) · needs nothing earlier</div>
+
+<h2>Map</h2>
+<div class="map"><span class="n here">1 Outcomes and events</span><span class="a">→</span><span class="n">2 Classical probability</span><span class="a">→</span><span class="n">3 Addition and complement</span><span class="a">→</span><span class="n">4 Conditional probability</span><span class="a">→</span><span class="n">5 Independence</span><span class="a">→</span><span class="n">6 Bayes' theorem</span></div>
+
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">A1 MCQ 7</span> A box contains 4 red and 6 blue balls. One ball is selected randomly. The probability of selecting a red ball is: 0.2 / 0.4 / 0.6 / 0.8.</li>
+<li><span class="tag">A1 MCQ 9</span> A card is drawn from a standard deck of 52 cards. The probability of drawing an Ace is: 1/13 / 1/4 / 4/13 / 1/52.</li>
+<li><span class="tag">A1 MCQ 6</span> The conditional probability of A given B is defined as: P(B)/P(A) / P(A∩B)/P(B) / P(A) + P(B) / P(A∩B)/P(A).</li>
+<li><span class="tag">A1 MCQ 8</span> If P(A | B) = 1, then: A is impossible whenever B occurs / A always occurs whenever B occurs / A and B are mutually exclusive / none of these.</li>
+</ul>
+<p>Row 1 of the ETE blueprint is 10 marks: two 2-mark items and one 6-mark item. Every later file uses the words defined here.</p>
+<hr />
+<h2>Build</h2>
+<h3>1 · Outcomes, sample space, events</h3>
+<div class="box q">
+<div class="bh">Predict</div>
+<p>You throw one die. Write down every result that can happen. Then write down the results that count as "an even number".</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Write both lists on paper before reading on.</p>
+</div>
+<p><strong>Terms.</strong></p>
+<ul>
+<li><strong>Random experiment</strong>: an action whose result is not known in advance (throwing a die, drawing a card).</li>
+<li><strong>Sample space S</strong>: the list of every possible result (outcome). For one die, S = {1, 2, 3, 4, 5, 6}.</li>
+<li><strong>Event</strong>: a group of outcomes, written as a set. "Even" = A = {2, 4, 6}.</li>
+</ul>
+
+<figure style="max-width:55%">
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg class="mpl" xmlns:xlink="http://www.w3.org/1999/xlink" width="243.042207pt" height="141.912pt" viewBox="0 0 243.042207 141.912" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-15T04:25:53.364838</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 141.912 
+L 243.042207 141.912 
+L 243.042207 0 
+L 0 0 
+L 0 141.912 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 11.596966 130.315034 
+L 231.445241 130.315034 
+L 231.445241 11.596966 
+L 11.596966 11.596966 
+L 11.596966 130.315034 
+z
+" clip-path="url(#pf42b70a02e)" style="fill: none; stroke: #6b7280; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 95.13931 112.727172 
+C 106.217155 112.727172 116.842771 108.325898 124.67599 100.492679 
+C 132.509209 92.65946 136.910483 82.033844 136.910483 70.956 
+C 136.910483 59.878156 132.509209 49.25254 124.67599 41.419321 
+C 116.842771 33.586102 106.217155 29.184828 95.13931 29.184828 
+C 84.061466 29.184828 73.43585 33.586102 65.602631 41.419321 
+C 57.769412 49.25254 53.368138 59.878156 53.368138 70.956 
+C 53.368138 82.033844 57.769412 92.65946 65.602631 100.492679 
+C 73.43585 108.325898 84.061466 112.727172 95.13931 112.727172 
+z
+" clip-path="url(#pf42b70a02e)" style="fill: #1d4ed8; opacity: 0.18; stroke: #1d4ed8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 147.902897 112.727172 
+C 158.980741 112.727172 169.606357 108.325898 177.439576 100.492679 
+C 185.272795 92.65946 189.674069 82.033844 189.674069 70.956 
+C 189.674069 59.878156 185.272795 49.25254 177.439576 41.419321 
+C 169.606357 33.586102 158.980741 29.184828 147.902897 29.184828 
+C 136.825052 29.184828 126.199436 33.586102 118.366217 41.419321 
+C 110.532998 49.25254 106.131724 59.878156 106.131724 70.956 
+C 106.131724 82.033844 110.532998 92.65946 118.366217 100.492679 
+C 126.199436 108.325898 136.825052 112.727172 147.902897 112.727172 
+z
+" clip-path="url(#pf42b70a02e)" style="fill: #dc2626; opacity: 0.18; stroke: #dc2626; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <!-- A -->
+    <g style="fill: #1d4ed8" transform="translate(70.906559 70.956) scale(0.13 -0.13)">
+     <defs>
+      <path id="DejaVuSans-41" d="M 2188 4044 
+L 1331 1722 
+L 3047 1722 
+L 2188 4044 
+z
+M 1831 4666 
+L 2547 4666 
+L 4325 0 
+L 3669 0 
+L 3244 1197 
+L 1141 1197 
+L 716 0 
+L 50 0 
+L 1831 4666 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-41"/>
+    </g>
+   </g>
+   <g id="text_2">
+    <!-- B -->
+    <g style="fill: #dc2626" transform="translate(163.229632 70.956) scale(0.13 -0.13)">
+     <defs>
+      <path id="DejaVuSans-42" d="M 1259 2228 
+L 1259 519 
+L 2272 519 
+Q 2781 519 3026 730 
+Q 3272 941 3272 1375 
+Q 3272 1813 3026 2020 
+Q 2781 2228 2272 2228 
+L 1259 2228 
+z
+M 1259 4147 
+L 1259 2741 
+L 2194 2741 
+Q 2656 2741 2882 2914 
+Q 3109 3088 3109 3444 
+Q 3109 3797 2882 3972 
+Q 2656 4147 2194 4147 
+L 1259 4147 
+z
+M 628 4666 
+L 2241 4666 
+Q 2963 4666 3353 4366 
+Q 3744 4066 3744 3513 
+Q 3744 3084 3544 2831 
+Q 3344 2578 2956 2516 
+Q 3422 2416 3680 2098 
+Q 3938 1781 3938 1306 
+Q 3938 681 3513 340 
+Q 3088 0 2303 0 
+L 628 0 
+L 628 4666 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-42"/>
+    </g>
+   </g>
+   <g id="text_3">
+    <!-- A∩B -->
+    <g transform="translate(111.010947 72.055241) scale(0.1 -0.1)">
+     <defs>
+      <path id="DejaVuSans-2229" d="M 825 1850 
+Q 825 2775 1208 3240 
+Q 1591 3706 2344 3706 
+Q 3094 3706 3476 3240 
+Q 3859 2775 3859 1850 
+L 3859 0 
+L 3322 0 
+L 3322 1772 
+Q 3322 2534 3090 2864 
+Q 2859 3194 2344 3194 
+Q 1825 3194 1594 2864 
+Q 1363 2534 1363 1772 
+L 1363 0 
+L 825 0 
+L 825 1850 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-41"/>
+     <use xlink:href="#DejaVuSans-2229" x="68.408203"/>
+     <use xlink:href="#DejaVuSans-42" x="141.601562"/>
+    </g>
+   </g>
+   <g id="text_4">
+    <!-- S (all outcomes) -->
+    <g style="fill: #6b7280" transform="translate(20.390897 23.688621) scale(0.09 -0.09)">
+     <defs>
+      <path id="DejaVuSans-53" d="M 3425 4513 
+L 3425 3897 
+Q 3066 4069 2747 4153 
+Q 2428 4238 2131 4238 
+Q 1616 4238 1336 4038 
+Q 1056 3838 1056 3469 
+Q 1056 3159 1242 3001 
+Q 1428 2844 1947 2747 
+L 2328 2669 
+Q 3034 2534 3370 2195 
+Q 3706 1856 3706 1288 
+Q 3706 609 3251 259 
+Q 2797 -91 1919 -91 
+Q 1588 -91 1214 -16 
+Q 841 59 441 206 
+L 441 856 
+Q 825 641 1194 531 
+Q 1563 422 1919 422 
+Q 2459 422 2753 634 
+Q 3047 847 3047 1241 
+Q 3047 1584 2836 1778 
+Q 2625 1972 2144 2069 
+L 1759 2144 
+Q 1053 2284 737 2584 
+Q 422 2884 422 3419 
+Q 422 4038 858 4394 
+Q 1294 4750 2059 4750 
+Q 2388 4750 2728 4690 
+Q 3069 4631 3425 4513 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-20" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-28" d="M 1984 4856 
+Q 1566 4138 1362 3434 
+Q 1159 2731 1159 2009 
+Q 1159 1288 1364 580 
+Q 1569 -128 1984 -844 
+L 1484 -844 
+Q 1016 -109 783 600 
+Q 550 1309 550 2009 
+Q 550 2706 781 3412 
+Q 1013 4119 1484 4856 
+L 1984 4856 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-61" d="M 2194 1759 
+Q 1497 1759 1228 1600 
+Q 959 1441 959 1056 
+Q 959 750 1161 570 
+Q 1363 391 1709 391 
+Q 2188 391 2477 730 
+Q 2766 1069 2766 1631 
+L 2766 1759 
+L 2194 1759 
+z
+M 3341 1997 
+L 3341 0 
+L 2766 0 
+L 2766 531 
+Q 2569 213 2275 61 
+Q 1981 -91 1556 -91 
+Q 1019 -91 701 211 
+Q 384 513 384 1019 
+Q 384 1609 779 1909 
+Q 1175 2209 1959 2209 
+L 2766 2209 
+L 2766 2266 
+Q 2766 2663 2505 2880 
+Q 2244 3097 1772 3097 
+Q 1472 3097 1187 3025 
+Q 903 2953 641 2809 
+L 641 3341 
+Q 956 3463 1253 3523 
+Q 1550 3584 1831 3584 
+Q 2591 3584 2966 3190 
+Q 3341 2797 3341 1997 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-6c" d="M 603 4863 
+L 1178 4863 
+L 1178 0 
+L 603 0 
+L 603 4863 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-6f" d="M 1959 3097 
+Q 1497 3097 1228 2736 
+Q 959 2375 959 1747 
+Q 959 1119 1226 758 
+Q 1494 397 1959 397 
+Q 2419 397 2687 759 
+Q 2956 1122 2956 1747 
+Q 2956 2369 2687 2733 
+Q 2419 3097 1959 3097 
+z
+M 1959 3584 
+Q 2709 3584 3137 3096 
+Q 3566 2609 3566 1747 
+Q 3566 888 3137 398 
+Q 2709 -91 1959 -91 
+Q 1206 -91 779 398 
+Q 353 888 353 1747 
+Q 353 2609 779 3096 
+Q 1206 3584 1959 3584 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-75" d="M 544 1381 
+L 544 3500 
+L 1119 3500 
+L 1119 1403 
+Q 1119 906 1312 657 
+Q 1506 409 1894 409 
+Q 2359 409 2629 706 
+Q 2900 1003 2900 1516 
+L 2900 3500 
+L 3475 3500 
+L 3475 0 
+L 2900 0 
+L 2900 538 
+Q 2691 219 2414 64 
+Q 2138 -91 1772 -91 
+Q 1169 -91 856 284 
+Q 544 659 544 1381 
+z
+M 1991 3584 
+L 1991 3584 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-74" d="M 1172 4494 
+L 1172 3500 
+L 2356 3500 
+L 2356 3053 
+L 1172 3053 
+L 1172 1153 
+Q 1172 725 1289 603 
+Q 1406 481 1766 481 
+L 2356 481 
+L 2356 0 
+L 1766 0 
+Q 1100 0 847 248 
+Q 594 497 594 1153 
+L 594 3053 
+L 172 3053 
+L 172 3500 
+L 594 3500 
+L 594 4494 
+L 1172 4494 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-63" d="M 3122 3366 
+L 3122 2828 
+Q 2878 2963 2633 3030 
+Q 2388 3097 2138 3097 
+Q 1578 3097 1268 2742 
+Q 959 2388 959 1747 
+Q 959 1106 1268 751 
+Q 1578 397 2138 397 
+Q 2388 397 2633 464 
+Q 2878 531 3122 666 
+L 3122 134 
+Q 2881 22 2623 -34 
+Q 2366 -91 2075 -91 
+Q 1284 -91 818 406 
+Q 353 903 353 1747 
+Q 353 2603 823 3093 
+Q 1294 3584 2113 3584 
+Q 2378 3584 2631 3529 
+Q 2884 3475 3122 3366 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-6d" d="M 3328 2828 
+Q 3544 3216 3844 3400 
+Q 4144 3584 4550 3584 
+Q 5097 3584 5394 3201 
+Q 5691 2819 5691 2113 
+L 5691 0 
+L 5113 0 
+L 5113 2094 
+Q 5113 2597 4934 2840 
+Q 4756 3084 4391 3084 
+Q 3944 3084 3684 2787 
+Q 3425 2491 3425 1978 
+L 3425 0 
+L 2847 0 
+L 2847 2094 
+Q 2847 2600 2669 2842 
+Q 2491 3084 2119 3084 
+Q 1678 3084 1418 2786 
+Q 1159 2488 1159 1978 
+L 1159 0 
+L 581 0 
+L 581 3500 
+L 1159 3500 
+L 1159 2956 
+Q 1356 3278 1631 3431 
+Q 1906 3584 2284 3584 
+Q 2666 3584 2933 3390 
+Q 3200 3197 3328 2828 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-65" d="M 3597 1894 
+L 3597 1613 
+L 953 1613 
+Q 991 1019 1311 708 
+Q 1631 397 2203 397 
+Q 2534 397 2845 478 
+Q 3156 559 3463 722 
+L 3463 178 
+Q 3153 47 2828 -22 
+Q 2503 -91 2169 -91 
+Q 1331 -91 842 396 
+Q 353 884 353 1716 
+Q 353 2575 817 3079 
+Q 1281 3584 2069 3584 
+Q 2775 3584 3186 3129 
+Q 3597 2675 3597 1894 
+z
+M 3022 2063 
+Q 3016 2534 2758 2815 
+Q 2500 3097 2075 3097 
+Q 1594 3097 1305 2825 
+Q 1016 2553 972 2059 
+L 3022 2063 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-73" d="M 2834 3397 
+L 2834 2853 
+Q 2591 2978 2328 3040 
+Q 2066 3103 1784 3103 
+Q 1356 3103 1142 2972 
+Q 928 2841 928 2578 
+Q 928 2378 1081 2264 
+Q 1234 2150 1697 2047 
+L 1894 2003 
+Q 2506 1872 2764 1633 
+Q 3022 1394 3022 966 
+Q 3022 478 2636 193 
+Q 2250 -91 1575 -91 
+Q 1294 -91 989 -36 
+Q 684 19 347 128 
+L 347 722 
+Q 666 556 975 473 
+Q 1284 391 1588 391 
+Q 1994 391 2212 530 
+Q 2431 669 2431 922 
+Q 2431 1156 2273 1281 
+Q 2116 1406 1581 1522 
+L 1381 1569 
+Q 847 1681 609 1914 
+Q 372 2147 372 2553 
+Q 372 3047 722 3315 
+Q 1072 3584 1716 3584 
+Q 2034 3584 2315 3537 
+Q 2597 3491 2834 3397 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-29" d="M 513 4856 
+L 1013 4856 
+Q 1481 4119 1714 3412 
+Q 1947 2706 1947 2009 
+Q 1947 1309 1714 600 
+Q 1481 -109 1013 -844 
+L 513 -844 
+Q 928 -128 1133 580 
+Q 1338 1288 1338 2009 
+Q 1338 2731 1133 3434 
+Q 928 4138 513 4856 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-53"/>
+     <use xlink:href="#DejaVuSans-20" x="63.476562"/>
+     <use xlink:href="#DejaVuSans-28" x="95.263672"/>
+     <use xlink:href="#DejaVuSans-61" x="134.277344"/>
+     <use xlink:href="#DejaVuSans-6c" x="195.556641"/>
+     <use xlink:href="#DejaVuSans-6c" x="223.339844"/>
+     <use xlink:href="#DejaVuSans-20" x="251.123047"/>
+     <use xlink:href="#DejaVuSans-6f" x="282.910156"/>
+     <use xlink:href="#DejaVuSans-75" x="344.091797"/>
+     <use xlink:href="#DejaVuSans-74" x="407.470703"/>
+     <use xlink:href="#DejaVuSans-63" x="446.679688"/>
+     <use xlink:href="#DejaVuSans-6f" x="501.660156"/>
+     <use xlink:href="#DejaVuSans-6d" x="562.841797"/>
+     <use xlink:href="#DejaVuSans-65" x="660.253906"/>
+     <use xlink:href="#DejaVuSans-73" x="721.777344"/>
+     <use xlink:href="#DejaVuSans-29" x="773.876953"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pf42b70a02e">
+   <rect x="7.2" y="7.2" width="228.642207" height="127.512"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Events are regions inside S. A∩B ("A and B") is the overlap; A∪B ("A or B") is everything in either circle.</figcaption></figure>
+
+<p>Two events are <strong>mutually exclusive</strong> if they cannot happen together: their overlap is empty, A∩B = ∅. "Even" and "odd" on one die are mutually exclusive. The <strong>complement</strong> Aᶜ is "A does not happen": everything in S outside A.</p>
+<p><strong>Answer.</strong> S = {1, 2, 3, 4, 5, 6}; even = {2, 4, 6}.</p>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>(a) Two coins are tossed. Write S. (b) Are "at least one head" and "no head" mutually exclusive? Are they complements?</p>
+</div>
+<h3>2 · Classical probability: count and divide</h3>
+<p>The list of outcomes is in place; now give each event a number.</p>
+<div class="box q">
+<div class="bh"><span class="tag">A1 MCQ 7 · 2 marks</span></div>
+<p>A box contains 4 red and 6 blue balls. One ball is selected randomly. The probability of selecting a red ball is: (a) 0.2 (b) 0.4 (c) 0.6 (d) 0.8</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Pick an option and write one line saying why.</p>
+</div>
+<p><strong>Classical definition</strong> (G&amp;K §4.3): if the experiment has n <strong>equally likely</strong> outcomes and m of them are favourable to A, then</p>
+<div class="eq">P(A) = <span class="frac"><span>m</span><span>n</span></span> = <span class="frac"><span>favourable outcomes</span><span>total outcomes</span></span></div>
+
+<p>"Selected randomly" is the phrase that makes every ball equally likely. Every probability lies between 0 (impossible) and 1 (certain), and P(S) = 1.</p>
+<p><strong>Answer.</strong> n = 4 + 6 = 10 balls, m = 4 red. P(red) = 4/10 = <strong>0.4</strong>, option (b).</p>
+<div class="box q">
+<div class="bh"><span class="tag">A1 MCQ 9 · 2 marks</span></div>
+<p>A card is drawn from a standard deck of 52 cards. The probability of drawing an Ace is: (a) 1/13 (b) 1/4 (c) 4/13 (d) 1/52</p>
+</div>
+<p><strong>Answer.</strong> A deck has 4 aces among 52 cards: P = 4/52 = <strong>1/13</strong>, option (a).</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>A bag has 3 white, 5 black and 2 green balls. One ball is drawn at random. Find P(not black).</p>
+</div>
+<h3>3 · Addition rule and complement</h3>
+<p>Single events are done; exam questions combine them with "or" and "not".</p>
+<div class="box q">
+<div class="bh">Predict</div>
+<p>One card is drawn from 52. Find P(Ace or Heart).</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Is it 4/52 + 13/52? Write your answer and check whether any card was counted twice.</p>
+</div>
+<p><strong>Terms.</strong> P(A∪B) = probability that A or B (or both) happens.</p>
+<p><strong>Addition rule</strong> (G&amp;K §4.6):</p>
+<div class="eq">P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</div>
+
+<p>The overlap is subtracted because it was counted once inside P(A) and again inside P(B). For <strong>mutually exclusive</strong> events the overlap is empty, so P(A∪B) = P(A) + P(B).</p>
+<p><strong>Complement rule</strong>: P(Aᶜ) = 1 − P(A). Use it whenever "at least one" appears: P(at least one) = 1 − P(none).</p>
+<p><strong>Answer.</strong> 4 aces + 13 hearts − 1 (the ace of hearts, counted twice) = 16 cards. P = 4/52 + 13/52 − 1/52 = <strong>16/52 = 4/13</strong>.</p>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>P(A) = 0.5, P(B) = 0.3, P(A∩B) = 0.1. Find (a) P(A∪B) (b) P(neither A nor B).</p>
+</div>
+<h3>4 · Conditional probability</h3>
+<p>The next step is what happens to a probability once you <strong>know</strong> something has already happened.</p>
+<div class="box q">
+<div class="bh"><span class="tag">A1 MCQ 6 · 2 marks</span></div>
+<p>The conditional probability of A given B is defined as: (a) P(B)/P(A) (b) P(A∩B)/P(B) (c) P(A) + P(B) (d) P(A∩B)/P(A)</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>A die shows an even number. What is the chance it is a 6? Answer that, then pick the formula that gives the same number.</p>
+</div>
+<p><strong>Term.</strong> <strong>P(A | B)</strong>, read "probability of A given B": the probability of A when we already know B happened.</p>
+<p>Knowing B shrinks the sample space to B. Inside that smaller space, A can only happen through the overlap A∩B:</p>
+<div class="eq">P(A | B) = <span class="frac"><span>P(A ∩ B)</span><span>P(B)</span></span>,&emsp;&emsp;&emsp;P(B) > 0</div>
+
+<p><strong>Concrete.</strong> B = even = {2, 4, 6}, A = six = {6}. A∩B = {6}. P(A|B) = (1/6)/(3/6) = <strong>1/3</strong>: one of the three even faces.</p>
+<p><strong>Answer.</strong> Option <strong>(b)</strong>. Option (d) is P(B | A), the conditioning the other way round.</p>
+<p><strong>Multiplication rule</strong> (rearranged): P(A∩B) = P(B) · P(A | B). A probability tree multiplies along each branch:</p>
+
+<figure style="max-width:72%">
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg class="mpl" xmlns:xlink="http://www.w3.org/1999/xlink" width="315.72pt" height="147.456pt" viewBox="0 0 315.72 147.456" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-15T04:25:53.384945</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 147.456 
+L 315.72 147.456 
+L 315.72 0 
+L 0 0 
+L 0 147.456 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 15.57 73.728 
+L 97.1775 38.507294 
+" clip-path="url(#p963bf0edaa)" style="fill: none; stroke: #6b7280; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 15.57 73.728 
+L 97.1775 108.948706 
+" clip-path="url(#p963bf0edaa)" style="fill: none; stroke: #6b7280; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 118.1025 38.507294 
+L 180.8775 20.896941 
+" clip-path="url(#p963bf0edaa)" style="fill: none; stroke: #6b7280; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 118.1025 38.507294 
+L 180.8775 56.117647 
+" clip-path="url(#p963bf0edaa)" style="fill: none; stroke: #6b7280; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 118.1025 108.948706 
+L 180.8775 91.338353 
+" clip-path="url(#p963bf0edaa)" style="fill: none; stroke: #6b7280; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 118.1025 108.948706 
+L 180.8775 126.559059 
+" clip-path="url(#p963bf0edaa)" style="fill: none; stroke: #6b7280; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <!-- P(B) -->
+    <g style="fill: #1d4ed8" transform="translate(43.922813 48.290824) scale(0.09 -0.09)">
+     <defs>
+      <path id="DejaVuSans-50" d="M 1259 4147 
+L 1259 2394 
+L 2053 2394 
+Q 2494 2394 2734 2622 
+Q 2975 2850 2975 3272 
+Q 2975 3691 2734 3919 
+Q 2494 4147 2053 4147 
+L 1259 4147 
+z
+M 628 4666 
+L 2053 4666 
+Q 2838 4666 3239 4311 
+Q 3641 3956 3641 3272 
+Q 3641 2581 3239 2228 
+Q 2838 1875 2053 1875 
+L 1259 1875 
+L 1259 0 
+L 628 0 
+L 628 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-28" d="M 1984 4856 
+Q 1566 4138 1362 3434 
+Q 1159 2731 1159 2009 
+Q 1159 1288 1364 580 
+Q 1569 -128 1984 -844 
+L 1484 -844 
+Q 1016 -109 783 600 
+Q 550 1309 550 2009 
+Q 550 2706 781 3412 
+Q 1013 4119 1484 4856 
+L 1984 4856 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-42" d="M 1259 2228 
+L 1259 519 
+L 2272 519 
+Q 2781 519 3026 730 
+Q 3272 941 3272 1375 
+Q 3272 1813 3026 2020 
+Q 2781 2228 2272 2228 
+L 1259 2228 
+z
+M 1259 4147 
+L 1259 2741 
+L 2194 2741 
+Q 2656 2741 2882 2914 
+Q 3109 3088 3109 3444 
+Q 3109 3797 2882 3972 
+Q 2656 4147 2194 4147 
+L 1259 4147 
+z
+M 628 4666 
+L 2241 4666 
+Q 2963 4666 3353 4366 
+Q 3744 4066 3744 3513 
+Q 3744 3084 3544 2831 
+Q 3344 2578 2956 2516 
+Q 3422 2416 3680 2098 
+Q 3938 1781 3938 1306 
+Q 3938 681 3513 340 
+Q 3088 0 2303 0 
+L 628 0 
+L 628 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-29" d="M 513 4856 
+L 1013 4856 
+Q 1481 4119 1714 3412 
+Q 1947 2706 1947 2009 
+Q 1947 1309 1714 600 
+Q 1481 -109 1013 -844 
+L 513 -844 
+Q 928 -128 1133 580 
+Q 1338 1288 1338 2009 
+Q 1338 2731 1133 3434 
+Q 928 4138 513 4856 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-50"/>
+     <use xlink:href="#DejaVuSans-28" x="60.302734"/>
+     <use xlink:href="#DejaVuSans-42" x="99.316406"/>
+     <use xlink:href="#DejaVuSans-29" x="167.919922"/>
+    </g>
+   </g>
+   <g id="text_2">
+    <!-- P(Bᶜ) -->
+    <g style="fill: #1d4ed8" transform="translate(42.257109 103.078588) scale(0.09 -0.09)">
+     <defs>
+      <path id="DejaVuSans-1d9c" d="M 1966 3972 
+L 1966 3672 
+Q 1813 3747 1659 3784 
+Q 1503 3822 1347 3822 
+Q 994 3822 800 3622 
+Q 603 3425 603 3065 
+Q 603 2706 800 2509 
+Q 994 2309 1347 2309 
+Q 1503 2309 1659 2347 
+Q 1813 2384 1966 2459 
+L 1966 2163 
+Q 1816 2100 1653 2069 
+Q 1491 2038 1306 2038 
+Q 809 2038 515 2316 
+Q 222 2594 222 3066 
+Q 222 3544 519 3819 
+Q 816 4094 1331 4094 
+Q 1497 4094 1656 4066 
+Q 1816 4034 1966 3972 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-50"/>
+     <use xlink:href="#DejaVuSans-28" x="60.302734"/>
+     <use xlink:href="#DejaVuSans-42" x="99.316406"/>
+     <use xlink:href="#DejaVuSans-1d9c" x="167.919922"/>
+     <use xlink:href="#DejaVuSans-29" x="204.931641"/>
+    </g>
+   </g>
+   <g id="text_3">
+    <!-- P(A|B) -->
+    <g style="fill: #1d4ed8" transform="translate(132.444844 21.875294) scale(0.09 -0.09)">
+     <defs>
+      <path id="DejaVuSans-41" d="M 2188 4044 
+L 1331 1722 
+L 3047 1722 
+L 2188 4044 
+z
+M 1831 4666 
+L 2547 4666 
+L 4325 0 
+L 3669 0 
+L 3244 1197 
+L 1141 1197 
+L 716 0 
+L 50 0 
+L 1831 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-7c" d="M 1344 4891 
+L 1344 -1509 
+L 813 -1509 
+L 813 4891 
+L 1344 4891 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-50"/>
+     <use xlink:href="#DejaVuSans-28" x="60.302734"/>
+     <use xlink:href="#DejaVuSans-41" x="99.316406"/>
+     <use xlink:href="#DejaVuSans-7c" x="167.724609"/>
+     <use xlink:href="#DejaVuSans-42" x="201.416016"/>
+     <use xlink:href="#DejaVuSans-29" x="270.019531"/>
+    </g>
+   </g>
+   <g id="text_4">
+    <!-- P(A|Bᶜ) -->
+    <g style="fill: #1d4ed8" transform="translate(130.779141 92.316706) scale(0.09 -0.09)">
+     <use xlink:href="#DejaVuSans-50"/>
+     <use xlink:href="#DejaVuSans-28" x="60.302734"/>
+     <use xlink:href="#DejaVuSans-41" x="99.316406"/>
+     <use xlink:href="#DejaVuSans-7c" x="167.724609"/>
+     <use xlink:href="#DejaVuSans-42" x="201.416016"/>
+     <use xlink:href="#DejaVuSans-1d9c" x="270.019531"/>
+     <use xlink:href="#DejaVuSans-29" x="307.03125"/>
+    </g>
+   </g>
+   <g id="text_5">
+    <g id="patch_2">
+     <path d="M 101.628 43.85245 
+L 109.782844 43.85245 
+L 109.782844 33.162138 
+L 101.628 33.162138 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <!-- B -->
+    <g transform="translate(102.618 40.990732) scale(0.09 -0.09)">
+     <use xlink:href="#DejaVuSans-42"/>
+    </g>
+   </g>
+   <g id="text_6">
+    <g id="patch_3">
+     <path d="M 101.628 114.293862 
+L 113.11425 114.293862 
+L 113.11425 103.60355 
+L 101.628 103.60355 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <!-- Bᶜ -->
+    <g transform="translate(102.618 111.432143) scale(0.09 -0.09)">
+     <use xlink:href="#DejaVuSans-42"/>
+     <use xlink:href="#DejaVuSans-1d9c" x="68.603516"/>
+    </g>
+   </g>
+   <g id="text_7">
+    <g id="patch_4">
+     <path d="M 185.328 26.242097 
+L 222.292688 26.242097 
+L 222.292688 15.551785 
+L 185.328 15.551785 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <!-- A and B -->
+    <g transform="translate(186.318 23.380379) scale(0.09 -0.09)">
+     <defs>
+      <path id="DejaVuSans-20" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-61" d="M 2194 1759 
+Q 1497 1759 1228 1600 
+Q 959 1441 959 1056 
+Q 959 750 1161 570 
+Q 1363 391 1709 391 
+Q 2188 391 2477 730 
+Q 2766 1069 2766 1631 
+L 2766 1759 
+L 2194 1759 
+z
+M 3341 1997 
+L 3341 0 
+L 2766 0 
+L 2766 531 
+Q 2569 213 2275 61 
+Q 1981 -91 1556 -91 
+Q 1019 -91 701 211 
+Q 384 513 384 1019 
+Q 384 1609 779 1909 
+Q 1175 2209 1959 2209 
+L 2766 2209 
+L 2766 2266 
+Q 2766 2663 2505 2880 
+Q 2244 3097 1772 3097 
+Q 1472 3097 1187 3025 
+Q 903 2953 641 2809 
+L 641 3341 
+Q 956 3463 1253 3523 
+Q 1550 3584 1831 3584 
+Q 2591 3584 2966 3190 
+Q 3341 2797 3341 1997 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-6e" d="M 3513 2113 
+L 3513 0 
+L 2938 0 
+L 2938 2094 
+Q 2938 2591 2744 2837 
+Q 2550 3084 2163 3084 
+Q 1697 3084 1428 2787 
+Q 1159 2491 1159 1978 
+L 1159 0 
+L 581 0 
+L 581 3500 
+L 1159 3500 
+L 1159 2956 
+Q 1366 3272 1645 3428 
+Q 1925 3584 2291 3584 
+Q 2894 3584 3203 3211 
+Q 3513 2838 3513 2113 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-64" d="M 2906 2969 
+L 2906 4863 
+L 3481 4863 
+L 3481 0 
+L 2906 0 
+L 2906 525 
+Q 2725 213 2448 61 
+Q 2172 -91 1784 -91 
+Q 1150 -91 751 415 
+Q 353 922 353 1747 
+Q 353 2572 751 3078 
+Q 1150 3584 1784 3584 
+Q 2172 3584 2448 3432 
+Q 2725 3281 2906 2969 
+z
+M 947 1747 
+Q 947 1113 1208 752 
+Q 1469 391 1925 391 
+Q 2381 391 2643 752 
+Q 2906 1113 2906 1747 
+Q 2906 2381 2643 2742 
+Q 2381 3103 1925 3103 
+Q 1469 3103 1208 2742 
+Q 947 2381 947 1747 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-41"/>
+     <use xlink:href="#DejaVuSans-20" x="68.408203"/>
+     <use xlink:href="#DejaVuSans-61" x="100.195312"/>
+     <use xlink:href="#DejaVuSans-6e" x="161.474609"/>
+     <use xlink:href="#DejaVuSans-64" x="224.853516"/>
+     <use xlink:href="#DejaVuSans-20" x="288.330078"/>
+     <use xlink:href="#DejaVuSans-42" x="320.117188"/>
+    </g>
+   </g>
+   <g id="text_8">
+    <g id="patch_5">
+     <path d="M 185.328 61.462803 
+L 225.624094 61.462803 
+L 225.624094 50.772491 
+L 185.328 50.772491 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <!-- Aᶜ and B -->
+    <g transform="translate(186.318 58.601085) scale(0.09 -0.09)">
+     <use xlink:href="#DejaVuSans-41"/>
+     <use xlink:href="#DejaVuSans-1d9c" x="68.408203"/>
+     <use xlink:href="#DejaVuSans-20" x="105.419922"/>
+     <use xlink:href="#DejaVuSans-61" x="137.207031"/>
+     <use xlink:href="#DejaVuSans-6e" x="198.486328"/>
+     <use xlink:href="#DejaVuSans-64" x="261.865234"/>
+     <use xlink:href="#DejaVuSans-20" x="325.341797"/>
+     <use xlink:href="#DejaVuSans-42" x="357.128906"/>
+    </g>
+   </g>
+   <g id="text_9">
+    <g id="patch_6">
+     <path d="M 185.328 96.683509 
+L 225.624094 96.683509 
+L 225.624094 85.993197 
+L 185.328 85.993197 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <!-- A and Bᶜ -->
+    <g transform="translate(186.318 93.82179) scale(0.09 -0.09)">
+     <use xlink:href="#DejaVuSans-41"/>
+     <use xlink:href="#DejaVuSans-20" x="68.408203"/>
+     <use xlink:href="#DejaVuSans-61" x="100.195312"/>
+     <use xlink:href="#DejaVuSans-6e" x="161.474609"/>
+     <use xlink:href="#DejaVuSans-64" x="224.853516"/>
+     <use xlink:href="#DejaVuSans-20" x="288.330078"/>
+     <use xlink:href="#DejaVuSans-42" x="320.117188"/>
+     <use xlink:href="#DejaVuSans-1d9c" x="388.720703"/>
+    </g>
+   </g>
+   <g id="text_10">
+    <g id="patch_7">
+     <path d="M 185.328 131.904215 
+L 228.9555 131.904215 
+L 228.9555 121.213903 
+L 185.328 121.213903 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <!-- Aᶜ and Bᶜ -->
+    <g transform="translate(186.318 129.042496) scale(0.09 -0.09)">
+     <use xlink:href="#DejaVuSans-41"/>
+     <use xlink:href="#DejaVuSans-1d9c" x="68.408203"/>
+     <use xlink:href="#DejaVuSans-20" x="105.419922"/>
+     <use xlink:href="#DejaVuSans-61" x="137.207031"/>
+     <use xlink:href="#DejaVuSans-6e" x="198.486328"/>
+     <use xlink:href="#DejaVuSans-64" x="261.865234"/>
+     <use xlink:href="#DejaVuSans-20" x="325.341797"/>
+     <use xlink:href="#DejaVuSans-42" x="357.128906"/>
+     <use xlink:href="#DejaVuSans-1d9c" x="425.732422"/>
+    </g>
+   </g>
+   <g id="text_11">
+    <!-- P(B)·P(A|B) -->
+    <g style="fill: #16a34a" transform="translate(249.93 23.27491) scale(0.09 -0.09)">
+     <defs>
+      <path id="DejaVuSans-b7" d="M 684 2619 
+L 1344 2619 
+L 1344 1825 
+L 684 1825 
+L 684 2619 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-50"/>
+     <use xlink:href="#DejaVuSans-28" x="60.302734"/>
+     <use xlink:href="#DejaVuSans-42" x="99.316406"/>
+     <use xlink:href="#DejaVuSans-29" x="167.919922"/>
+     <use xlink:href="#DejaVuSans-b7" x="206.933594"/>
+     <use xlink:href="#DejaVuSans-50" x="238.720703"/>
+     <use xlink:href="#DejaVuSans-28" x="299.023438"/>
+     <use xlink:href="#DejaVuSans-41" x="338.037109"/>
+     <use xlink:href="#DejaVuSans-7c" x="406.445312"/>
+     <use xlink:href="#DejaVuSans-42" x="440.136719"/>
+     <use xlink:href="#DejaVuSans-29" x="508.740234"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p963bf0edaa">
+   <rect x="7.2" y="7.2" width="301.32" height="133.056"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Each path's probability = product of the branch probabilities on it.</figcaption></figure>
+
+<div class="box q">
+<div class="bh"><span class="tag">A1 MCQ 8 · 2 marks</span></div>
+<p>If P(A | B) = 1, then: (a) A is impossible whenever B occurs (b) A always occurs whenever B occurs (c) A and B are mutually exclusive (d) none of these.</p>
+</div>
+<p><strong>Answer.</strong> P(A|B) = 1 means P(A∩B) = P(B): every outcome in B is also in A. So A always happens when B does, option <strong>(b)</strong>. Mutually exclusive would give P(A|B) = 0, the opposite.</p>
+<div class="box check">
+<div class="bh">Check 4</div>
+<p>Two cards are drawn one after the other without replacement. Find P(both are aces).</p>
+</div>
+<h3>5 · Independence</h3>
+<p>Conditional probability gives the exact meaning of "one event does not affect the other".</p>
+<div class="box q">
+<div class="bh">Predict</div>
+<p>A coin is tossed and a die is thrown. Is P(head and six) = (1/2)(1/6)? Why can you multiply here but not for two aces drawn without replacement?</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Write one sentence on what makes the two situations different.</p>
+</div>
+<p><strong>Term.</strong> A and B are <strong>independent</strong> if knowing B does not change the probability of A: P(A | B) = P(A). Substituting into the multiplication rule:</p>
+<div class="eq">A, B independent ⇔ P(A ∩ B) = P(A) · P(B)</div>
+
+<p><strong>Answer.</strong> The coin cannot influence the die, so P(head and six) = 1/2 × 1/6 = <strong>1/12</strong>. Drawing a first ace without replacement removes an ace, so P(second ace) changes from 4/52 to 3/51: the draws are <strong>dependent</strong>.</p>
+<div class="box trap">
+<div class="bh">Independent is not mutually exclusive</div>
+<p>Mutually exclusive events (with non-zero probabilities) are always <strong>dependent</strong>: if one happens, the other's probability drops to 0.</p>
+</div>
+<div class="box check">
+<div class="bh">Check 5</div>
+<p>P(A) = 0.4 and P(B) = 0.5. Find P(A∩B) if (a) A and B are independent (b) A and B are mutually exclusive.</p>
+</div>
+<h3>6 · Bayes' theorem</h3>
+<p>The last tool turns a conditional probability around: from P(B | A) to P(A | B). File 10 (Bayesian estimation) is built on it.</p>
+<div class="box q">
+<div class="bh">Predict</div>
+<p>Machine M₁ makes 60% of a factory's bolts and machine M₂ makes 40%. 2% of M₁'s bolts and 5% of M₂'s bolts are defective. A bolt picked at random is defective. Which machine is more likely to have made it?</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>M₂ makes fewer bolts but a higher share of them are bad. Write which machine you would bet on.</p>
+</div>
+<p><strong>Total probability</strong>: a defective bolt comes from M₁ or from M₂, so add the two tree paths:</p>
+<div class="eq">P(D) = P(M<sub>1</sub>)P(D | M<sub>1</sub>) + P(M<sub>2</sub>)P(D | M<sub>2</sub>) = 0.6 × 0.02 + 0.4 × 0.05 = 0.012 + 0.020 = 0.032</div>
+
+<p><strong>Bayes' theorem</strong> (G&amp;K §4.8): the share of that total coming through each path is</p>
+<div class="eq">P(M<sub>i</sub> | D) = <span class="frac"><span>P(M<sub>i</sub>) P(D | M<sub>i</sub>)</span><span>Σ<sub>j</sub> P(M<sub>j</sub>) P(D | M<sub>j</sub>)</span></span></div>
+
+<p><strong>Answer.</strong> P(M₁ | D) = 0.012/0.032 = <strong>0.375</strong>. P(M₂ | D) = 0.020/0.032 = <strong>0.625</strong>. M₂ is the more likely source: its higher defect rate outweighs its smaller output.</p>
+<p><strong>Terms used again in file 10:</strong> P(Mᵢ) is the <strong>prior</strong> (before seeing the bolt); P(Mᵢ | D) is the <strong>posterior</strong> (after seeing it is defective).</p>
+<div class="box check">
+<div class="bh">Check 6</div>
+<p>In the same factory, a bolt is found <strong>good</strong>. Find P(M₁ | good).</p>
+</div>
+<hr />
+<h2>Exam form</h2>
+<p><strong>Definitions.</strong> Random experiment · sample space S (all outcomes) · event (a subset of S) · mutually exclusive (A∩B = ∅) · complement Aᶜ · equally likely outcomes.</p>
+<p><strong>Formulas.</strong></p>
+<ol>
+<li>Classical: P(A) = m/n (equally likely outcomes), 0 ≤ P(A) ≤ 1, P(S) = 1.</li>
+<li>Addition: P(A∪B) = P(A) + P(B) − P(A∩B); mutually exclusive: P(A∪B) = P(A) + P(B).</li>
+<li>Complement: P(Aᶜ) = 1 − P(A); P(at least one) = 1 − P(none).</li>
+<li>Conditional: P(A | B) = P(A∩B)/P(B).</li>
+<li>Multiplication: P(A∩B) = P(B)P(A | B); independent: P(A∩B) = P(A)P(B).</li>
+<li>Bayes: P(Aᵢ | B) = P(Aᵢ)P(B | Aᵢ) / Σⱼ P(Aⱼ)P(B | Aⱼ).</li>
+</ol>
+<p><strong>Procedure for a Bayes question.</strong> (1) Name the causes A₁, A₂, … and the observed event B. (2) Write the priors P(Aᵢ) and the likelihoods P(B | Aᵢ). (3) Total probability P(B) = Σ P(Aᵢ)P(B | Aᵢ). (4) Divide each path by P(B).</p>
+<h2>Traps</h2>
+<ul>
+<li>Adding P(A) + P(B) for events that overlap: subtract P(A∩B).</li>
+<li>Swapping P(A | B) and P(B | A): the given event goes in the denominator.</li>
+<li>Treating "mutually exclusive" as "independent".</li>
+<li>Multiplying probabilities for draws <strong>without</strong> replacement as if they were independent.</li>
+</ul>
+<h2>Self-test</h2>
+<ol>
+<li>Define sample space and event, with a one-die example.</li>
+<li>Two dice are thrown. Find P(sum = 7).</li>
+<li>P(A) = 0.6, P(B) = 0.5, P(A∪B) = 0.8. Find P(A∩B) and P(A | B).</li>
+<li>Are the A and B of question 3 independent? Show the test.</li>
+<li>A family has two children. Given that at least one is a boy, find P(both are boys).</li>
+<li>Urn I has 2 white and 3 black balls; urn II has 4 white and 1 black. An urn is chosen at random and a ball drawn from it is white. Find P(it came from urn I).</li>
+</ol>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 1.</strong> (a) S = {HH, HT, TH, TT}. (b) Yes, they cannot both happen; and yes, together they cover S, so "no head" is the complement of "at least one head".</p>
+<p><strong>Check 2.</strong> P(not black) = 1 − 5/10 = <strong>0.5</strong>.</p>
+<p><strong>Check 3.</strong> (a) 0.5 + 0.3 − 0.1 = <strong>0.7</strong>. (b) 1 − 0.7 = <strong>0.3</strong>.</p>
+<p><strong>Check 4.</strong> (4/52)(3/51) = 12/2652 = <strong>1/221</strong>.</p>
+<p><strong>Check 5.</strong> (a) 0.4 × 0.5 = <strong>0.2</strong>. (b) <strong>0</strong>.</p>
+<p><strong>Check 6.</strong> P(good) = 0.6 × 0.98 + 0.4 × 0.95 = 0.588 + 0.380 = 0.968. P(M₁ | good) = 0.588/0.968 = <strong>0.6074</strong>.</p>
+<p><strong>Self-test.</strong></p>
+<ol>
+<li>S = set of all outcomes, {1, …, 6}; event = subset, e.g. even = {2, 4, 6}.</li>
+<li>Six pairs (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) of 36: <strong>1/6</strong>.</li>
+<li>P(A∩B) = 0.6 + 0.5 − 0.8 = <strong>0.3</strong>; P(A | B) = 0.3/0.5 = <strong>0.6</strong>.</li>
+<li>P(A)P(B) = 0.30 = P(A∩B), so <strong>yes, independent</strong> (also P(A | B) = 0.6 = P(A)).</li>
+<li>Outcomes with at least one boy: BB, BG, GB. P(BB | at least one boy) = <strong>1/3</strong>.</li>
+<li>P(W) = ½(2/5) + ½(4/5) = 0.2 + 0.4 = 0.6. P(I | W) = 0.2/0.6 = <strong>1/3</strong>.</li>
+</ol>
+</div></body></html>

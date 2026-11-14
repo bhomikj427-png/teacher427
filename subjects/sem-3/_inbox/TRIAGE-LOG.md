@@ -99,3 +99,13 @@
 - `[2026-11-13]` `_unsorted/OneDrive_1_11-13-2026.zip` (9 files, all Digital Electronics), unzipped and the zip removed. **8 filed** → `04-digital-electronics/exam-pack/`:
   `9_Register.pdf` → `slides-09-registers-shift-registers.pdf` · `10_Counters.pdf` → `slides-10-counters.pdf` · `11_FSM.pdf` → `slides-11-fsm-sequential-circuit-design.pdf` · `12_State_Reduction.pdf` → `slides-12-state-reduction.pdf` · `13_ASM.pdf` → `slides-13-asm-charts.pdf` · `14_Logic_family.pdf` → `slides-14-logic-families.pdf` · `15_PLDs.pdf` → `slides-15-plds.pdf` · `Practice questions set 2.png` → `practice-set-02-flipflops-counters.png` (PRACTICE).
   **1 dropped:** `MTE PPR.pdf`, same MD5 as the filed `PYQ-MTE-2025-09-25.pdf`. **Also removed:** `slides-merged-01-05.pdf` (filed 2026-09-11 as a convenience copy), identical to decks 01–05 on all 232 pages, deleted under the learner's "exact same page for page" rule. Index: `04-…/exam-pack/README.md`. `_unsorted/` is empty.
+
+- `[2026-11-15]` **10 files, all MAS2001 Statistics & Probability** → `01-statistics-and-probability/`. Original → new:
+  `mte_qp_MAS2001-Statistics and Probability.pdf` → `exam-pack/PYQ-MTE-2026-question-paper.pdf` (PYQ, 30 marks) ·
+  `MAS2001-MTE Solution and Marking Scheme.pdf` → `exam-pack/PYQ-MTE-2026-solution-and-marking-scheme.pdf` (handwritten key, read visually) ·
+  `MAS2001-Assignment 1 (1).pdf` → `exam-pack/ASSIGNMENT-1-random-variables-chebyshev.pdf` · `Assignment 2_MAS2001-2.pdf` → `exam-pack/ASSIGNMENT-2-distributions.pdf` ·
+  `Assignment 4_MAS2001.pdf` → `exam-pack/ASSIGNMENT-4-CI-and-hypothesis-errors.pdf` · `Assignment -5 MAS2001.pdf` → `exam-pack/ASSIGNMENT-5-t-F-chisq-ANOVA.pdf` ·
+  `LMS -Standard Error & Central Limit Theorem.pdf` → `exam-pack/slides-LMS-standard-error-and-CLT.pdf` · `LMS -MLE Bayesian (1).pdf` → `exam-pack/slides-LMS-MLE-and-Bayesian.pdf` ·
+  `ppt 8_LMS_Hypothesis _o.pptx` → `exam-pack/slides-08-hypothesis-testing.pptx` ·
+  `Fundamentals-of-Mathematical-Statistics_Gupta-Kapoor.pdf` → `books/Gupta-Kapoor-Fundamentals-of-Mathematical-Statistics.pdf` (textbook, 1303 pp.).
+  No duplicates. `_unsorted/` is empty.

@@ -235,3 +235,7 @@ Nothing in `01`–`10` was edited this session.
   one MTE only (patterns `likely`); **course-code mismatch ECE 2105 (decks) vs ECE2102 (paper/KB)**;
   missing decks for counters/registers/FSM/logic-families/memories; 2026 exam dates still unset
   (2025 MTE was 25 Sep).
+- `[2026-11-15]` **01 MAS2001 exam evidence filed** (MTE 2026 + key, Assignments 1, 2, 4, 5, LMS decks on SE/CLT, MLE/Bayes,
+  hypothesis testing, and Gupta & Kapoor in `books/`). Assignment topic lists confirm the unit scope used by the KB (unit-list caveat of
+  2026-06-16 is resolved in practice; the official handout is still unseen). KB unchanged (no delta: every examined item is covered);
+  `exam-map.md` rebuilt. v1.2 ETE study pack built in `01-statistics-and-probability/study-pack-v12/`.

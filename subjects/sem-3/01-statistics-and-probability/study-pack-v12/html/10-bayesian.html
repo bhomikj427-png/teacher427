@@ -1,0 +1,1187 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>10 — Introduction to Bayesian estimation</title><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "MAS2001 Statistics & Probability · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figure svg.mpl { width: 100%; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table-header-group; }</style></head><body><h1>10 — Introduction to Bayesian estimation</h1>
+<div class="sub">Professor's LMS slides "MLE and Bayesian Estimation" (p.10–15, Example 15) · Walpole et al. ch. 18 (via the knowledge base) · blueprint row 3 "introduction of Bayesian estimation" · 1 slide example + slide definitions · needs 01 (Bayes' theorem), 04 (binomial), 09</div>
+
+<h2>Map</h2>
+<div class="map"><span class="n here">1 Parameters as random variables</span><span class="a">→</span><span class="n">2 Prior → posterior</span><span class="a">→</span><span class="n">3 The full posterior table</span><span class="a">→</span><span class="n">4 A Bayes point estimate</span></div>
+
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">Slides p.10–12</span> What is the key difference between the Bayesian and the classical (frequentist) approach? What are subjective probability, the conditional perspective and the prior distribution?</li>
+<li><span class="tag">Slides Ex. 15</span> The prior distribution for the proportion of defectives p produced by a machine is P(p = 0.1) = 0.6, P(p = 0.2) = 0.4. Let x be the number of defectives in a random sample of size 2. Find the posterior distribution of p, given that x is observed.</li>
+</ul>
+<p>The blueprint says "introduction of", inside the 22-mark estimation row: expect definitions (2 marks) or one posterior calculation like Example 15 (6 marks).</p>
+<hr />
+<h2>Build</h2>
+<h3>1 · Parameters as random variables</h3>
+<p>Files 08–09 treated θ as a fixed unknown number. The Bayesian approach does not.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Slides p.10</span></div>
+<p>What is the key difference between the Bayesian approach and the classical (frequentist) approach?</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>"What is the probability that it rains tomorrow?" Can that be a long-run frequency of repeated tomorrows? What kind of probability is it?</p>
+</div>
+<p><strong>Terms</strong> (slides p.10–12):</p>
+<ul>
+<li><strong>Subjective probability</strong>: a probability that expresses a person's degree of belief (rain tomorrow, a stock rising, a merger). Different people may give different values.</li>
+<li><strong>Prior distribution π(θ)</strong>: a probability distribution placed on the parameter <strong>before</strong> seeing data, usually from subjective probability or past records. It reflects the experimenter's prior belief.</li>
+<li><strong>Conditional perspective</strong>: inference is based on the data actually observed; all knowledge about θ is in the observed data <strong>plus</strong> the prior.</li>
+</ul>
+<p><strong>Answer.</strong> In the Bayesian approach the <strong>parameter is treated as a random variable</strong>, with its own distribution; in the classical approach it is a fixed unknown constant and only the data are random.</p>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>Write two applications the slides list for Bayesian methods, and one reason a prior is useful when data are scarce.</p>
+</div>
+<h3>2 · Prior → posterior</h3>
+<p>File 01's Bayes' theorem updated the probability of a cause after seeing an effect. Here the "cause" is the value of θ.</p>
+<div class="box q">
+<div class="bh">Predict</div>
+<p>A machine's defect rate is either 0.1 or 0.2, with prior belief 0.6 and 0.4. You test 2 items and <strong>both are good</strong>. Does your belief in p = 0.1 go up or down? Roughly to what?</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Write "up" or "down" and a number.</p>
+</div>
+<p><strong>Posterior distribution</strong> (slides p.13): with prior π(θ) and sample x = (x₁, …, xₙ),</p>
+<div class="eq">π(θ | x) = <span class="frac"><span>f(x | θ) π(θ)</span><span>g(x)</span></span></div>
+
+<div class="eq">g(x) = Σ<sub>θ</sub> f(x | θ)π(θ)&emsp;&emsp;&emsp;(θ discrete),&emsp;&emsp;&emsp;g(x) = ∫ f(x | θ)π(θ) dθ&emsp;&emsp;&emsp;(θ continuous)</div>
+
+<p>f(x | θ) is the likelihood of file 09; g(x) is the marginal probability of the data, which makes the posterior add to 1. In words: <strong>posterior ∝ likelihood × prior</strong>.</p>
+<p><strong>Answer.</strong> x = 0 defectives in 2. Likelihoods: f(0 | 0.1) = 0.9<sup>2</sup> = 0.81, f(0 | 0.2) = 0.8<sup>2</sup> = 0.64.
+Products: 0.81 × 0.6 = 0.486; 0.64 × 0.4 = 0.256; g(0) = 0.742.
+π(0.1 | 0) = 0.486/0.742 = <strong>0.6550</strong>: <strong>up</strong> from 0.6. Two good items favour the lower defect rate.</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>Same prior. One item is tested and it is defective. Find π(0.1 | x = 1) for n = 1.</p>
+</div>
+<h3>3 · The full posterior table</h3>
+<div class="box q">
+<div class="bh"><span class="tag">Slides Ex. 15</span></div>
+<p>Assume that the prior distribution for the proportion of defectives produced by a machine is p = 0.1 with π = 0.6, p = 0.2 with π = 0.4. Denote by x the number of defectives among a random sample of size 2. Find the posterior probability distribution of p, given that x is observed.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>For x = 2 (both defective), which value of p will the posterior favour?</p>
+</div>
+<p><strong>Answer.</strong> X | p ~ B(2, p): f(x | p) = C(2, x)p<sup>x</sup>(1 − p)<sup>2−x</sup>.
+g(x) = C(2, x)[(0.1)<sup>x</sup>(0.9)<sup>2−x</sup>(0.6) + (0.2)<sup>x</sup>(0.8)<sup>2−x</sup>(0.4)].</p>
+<table>
+<thead>
+<tr>
+<th>x</th>
+<th>f(x ∣ 0.1)·0.6</th>
+<th>f(x ∣ 0.2)·0.4</th>
+<th>g(x)</th>
+<th>π(0.1 ∣ x)</th>
+<th>π(0.2 ∣ x)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0.81 × 0.6 = 0.486</td>
+<td>0.64 × 0.4 = 0.256</td>
+<td>0.742</td>
+<td><strong>0.6550</strong></td>
+<td><strong>0.3450</strong></td>
+</tr>
+<tr>
+<td>1</td>
+<td>0.18 × 0.6 = 0.108</td>
+<td>0.32 × 0.4 = 0.128</td>
+<td>0.236</td>
+<td><strong>0.4576</strong></td>
+<td><strong>0.5424</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.01 × 0.6 = 0.006</td>
+<td>0.04 × 0.4 = 0.016</td>
+<td>0.022</td>
+<td><strong>0.2727</strong></td>
+<td><strong>0.7273</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Check: g(0) + g(1) + g(2) = 1.000 ✓; each row of the posterior adds to 1.</p>
+
+<figure style="max-width:78%">
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg class="mpl" xmlns:xlink="http://www.w3.org/1999/xlink" width="385.78125pt" height="151.594406pt" viewBox="0 0 385.78125 151.594406" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-15T04:26:03.153028</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 151.594406 
+L 385.78125 151.594406 
+L 385.78125 0 
+L 0 0 
+L 0 151.594406 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 43.78125 129.168 
+L 378.58125 129.168 
+L 378.58125 7.2 
+L 43.78125 7.2 
+L 43.78125 129.168 
+z
+" style="fill: none"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 58.999432 129.168 
+L 88.453977 129.168 
+L 88.453977 43.072941 
+L 58.999432 43.072941 
+z
+" clip-path="url(#p1b5b8b9165)" style="fill: #1d4ed8"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 140.817614 129.168 
+L 170.272159 129.168 
+L 170.272159 35.180894 
+L 140.817614 35.180894 
+z
+" clip-path="url(#p1b5b8b9165)" style="fill: #1d4ed8"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 222.635795 129.168 
+L 252.090341 129.168 
+L 252.090341 63.506168 
+L 222.635795 63.506168 
+z
+" clip-path="url(#p1b5b8b9165)" style="fill: #1d4ed8"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 304.453977 129.168 
+L 333.908523 129.168 
+L 333.908523 90.037796 
+L 304.453977 90.037796 
+z
+" clip-path="url(#p1b5b8b9165)" style="fill: #1d4ed8"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 88.453977 129.168 
+L 117.908523 129.168 
+L 117.908523 71.771294 
+L 88.453977 71.771294 
+z
+" clip-path="url(#p1b5b8b9165)" style="fill: #dc2626"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 170.272159 129.168 
+L 199.726705 129.168 
+L 199.726705 79.663341 
+L 170.272159 79.663341 
+z
+" clip-path="url(#p1b5b8b9165)" style="fill: #dc2626"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 252.090341 129.168 
+L 281.544886 129.168 
+L 281.544886 51.338067 
+L 252.090341 51.338067 
+z
+" clip-path="url(#p1b5b8b9165)" style="fill: #dc2626"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 333.908523 129.168 
+L 363.363068 129.168 
+L 363.363068 24.80644 
+L 333.908523 24.80644 
+z
+" clip-path="url(#p1b5b8b9165)" style="fill: #dc2626"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m74a42a0f66" d="M 0 0 
+L 0 3.5 
+" style="stroke: #4b5563; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m74a42a0f66" x="88.453977" y="129.168" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <!-- prior -->
+      <g style="fill: #4b5563" transform="translate(78.480423 142.626672) scale(0.085 -0.085)">
+       <defs>
+        <path id="DejaVuSans-70" d="M 1159 525 
+L 1159 -1331 
+L 581 -1331 
+L 581 3500 
+L 1159 3500 
+L 1159 2969 
+Q 1341 3281 1617 3432 
+Q 1894 3584 2278 3584 
+Q 2916 3584 3314 3078 
+Q 3713 2572 3713 1747 
+Q 3713 922 3314 415 
+Q 2916 -91 2278 -91 
+Q 1894 -91 1617 61 
+Q 1341 213 1159 525 
+z
+M 3116 1747 
+Q 3116 2381 2855 2742 
+Q 2594 3103 2138 3103 
+Q 1681 3103 1420 2742 
+Q 1159 2381 1159 1747 
+Q 1159 1113 1420 752 
+Q 1681 391 2138 391 
+Q 2594 391 2855 752 
+Q 3116 1113 3116 1747 
+z
+" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-72" d="M 2631 2963 
+Q 2534 3019 2420 3045 
+Q 2306 3072 2169 3072 
+Q 1681 3072 1420 2755 
+Q 1159 2438 1159 1844 
+L 1159 0 
+L 581 0 
+L 581 3500 
+L 1159 3500 
+L 1159 2956 
+Q 1341 3275 1631 3429 
+Q 1922 3584 2338 3584 
+Q 2397 3584 2469 3576 
+Q 2541 3569 2628 3553 
+L 2631 2963 
+z
+" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-69" d="M 603 3500 
+L 1178 3500 
+L 1178 0 
+L 603 0 
+L 603 3500 
+z
+M 603 4863 
+L 1178 4863 
+L 1178 4134 
+L 603 4134 
+L 603 4863 
+z
+" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-6f" d="M 1959 3097 
+Q 1497 3097 1228 2736 
+Q 959 2375 959 1747 
+Q 959 1119 1226 758 
+Q 1494 397 1959 397 
+Q 2419 397 2687 759 
+Q 2956 1122 2956 1747 
+Q 2956 2369 2687 2733 
+Q 2419 3097 1959 3097 
+z
+M 1959 3584 
+Q 2709 3584 3137 3096 
+Q 3566 2609 3566 1747 
+Q 3566 888 3137 398 
+Q 2709 -91 1959 -91 
+Q 1206 -91 779 398 
+Q 353 888 353 1747 
+Q 353 2609 779 3096 
+Q 1206 3584 1959 3584 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-70"/>
+       <use xlink:href="#DejaVuSans-72" x="63.476562"/>
+       <use xlink:href="#DejaVuSans-69" x="104.589844"/>
+       <use xlink:href="#DejaVuSans-6f" x="132.373047"/>
+       <use xlink:href="#DejaVuSans-72" x="193.554688"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m74a42a0f66" x="170.272159" y="129.168" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <!-- after x = 0 -->
+      <g style="fill: #4b5563" transform="translate(147.384581 142.626672) scale(0.085 -0.085)">
+       <defs>
+        <path id="DejaVuSans-61" d="M 2194 1759 
+Q 1497 1759 1228 1600 
+Q 959 1441 959 1056 
+Q 959 750 1161 570 
+Q 1363 391 1709 391 
+Q 2188 391 2477 730 
+Q 2766 1069 2766 1631 
+L 2766 1759 
+L 2194 1759 
+z
+M 3341 1997 
+L 3341 0 
+L 2766 0 
+L 2766 531 
+Q 2569 213 2275 61 
+Q 1981 -91 1556 -91 
+Q 1019 -91 701 211 
+Q 384 513 384 1019 
+Q 384 1609 779 1909 
+Q 1175 2209 1959 2209 
+L 2766 2209 
+L 2766 2266 
+Q 2766 2663 2505 2880 
+Q 2244 3097 1772 3097 
+Q 1472 3097 1187 3025 
+Q 903 2953 641 2809 
+L 641 3341 
+Q 956 3463 1253 3523 
+Q 1550 3584 1831 3584 
+Q 2591 3584 2966 3190 
+Q 3341 2797 3341 1997 
+z
+" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-66" d="M 2375 4863 
+L 2375 4384 
+L 1825 4384 
+Q 1516 4384 1395 4259 
+Q 1275 4134 1275 3809 
+L 1275 3500 
+L 2222 3500 
+L 2222 3053 
+L 1275 3053 
+L 1275 0 
+L 697 0 
+L 697 3053 
+L 147 3053 
+L 147 3500 
+L 697 3500 
+L 697 3744 
+Q 697 4328 969 4595 
+Q 1241 4863 1831 4863 
+L 2375 4863 
+z
+" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-74" d="M 1172 4494 
+L 1172 3500 
+L 2356 3500 
+L 2356 3053 
+L 1172 3053 
+L 1172 1153 
+Q 1172 725 1289 603 
+Q 1406 481 1766 481 
+L 2356 481 
+L 2356 0 
+L 1766 0 
+Q 1100 0 847 248 
+Q 594 497 594 1153 
+L 594 3053 
+L 172 3053 
+L 172 3500 
+L 594 3500 
+L 594 4494 
+L 1172 4494 
+z
+" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-65" d="M 3597 1894 
+L 3597 1613 
+L 953 1613 
+Q 991 1019 1311 708 
+Q 1631 397 2203 397 
+Q 2534 397 2845 478 
+Q 3156 559 3463 722 
+L 3463 178 
+Q 3153 47 2828 -22 
+Q 2503 -91 2169 -91 
+Q 1331 -91 842 396 
+Q 353 884 353 1716 
+Q 353 2575 817 3079 
+Q 1281 3584 2069 3584 
+Q 2775 3584 3186 3129 
+Q 3597 2675 3597 1894 
+z
+M 3022 2063 
+Q 3016 2534 2758 2815 
+Q 2500 3097 2075 3097 
+Q 1594 3097 1305 2825 
+Q 1016 2553 972 2059 
+L 3022 2063 
+z
+" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-20" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-78" d="M 3513 3500 
+L 2247 1797 
+L 3578 0 
+L 2900 0 
+L 1881 1375 
+L 863 0 
+L 184 0 
+L 1544 1831 
+L 300 3500 
+L 978 3500 
+L 1906 2253 
+L 2834 3500 
+L 3513 3500 
+z
+" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-3d" d="M 678 2906 
+L 4684 2906 
+L 4684 2381 
+L 678 2381 
+L 678 2906 
+z
+M 678 1631 
+L 4684 1631 
+L 4684 1100 
+L 678 1100 
+L 678 1631 
+z
+" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-30" d="M 2034 4250 
+Q 1547 4250 1301 3770 
+Q 1056 3291 1056 2328 
+Q 1056 1369 1301 889 
+Q 1547 409 2034 409 
+Q 2525 409 2770 889 
+Q 3016 1369 3016 2328 
+Q 3016 3291 2770 3770 
+Q 2525 4250 2034 4250 
+z
+M 2034 4750 
+Q 2819 4750 3233 4129 
+Q 3647 3509 3647 2328 
+Q 3647 1150 3233 529 
+Q 2819 -91 2034 -91 
+Q 1250 -91 836 529 
+Q 422 1150 422 2328 
+Q 422 3509 836 4129 
+Q 1250 4750 2034 4750 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-61"/>
+       <use xlink:href="#DejaVuSans-66" x="61.279297"/>
+       <use xlink:href="#DejaVuSans-74" x="94.734375"/>
+       <use xlink:href="#DejaVuSans-65" x="133.943359"/>
+       <use xlink:href="#DejaVuSans-72" x="195.466797"/>
+       <use xlink:href="#DejaVuSans-20" x="236.580078"/>
+       <use xlink:href="#DejaVuSans-78" x="268.367188"/>
+       <use xlink:href="#DejaVuSans-20" x="327.546875"/>
+       <use xlink:href="#DejaVuSans-3d" x="359.333984"/>
+       <use xlink:href="#DejaVuSans-20" x="443.123047"/>
+       <use xlink:href="#DejaVuSans-30" x="474.910156"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m74a42a0f66" x="252.090341" y="129.168" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <!-- after x = 1 -->
+      <g style="fill: #4b5563" transform="translate(229.202763 142.626672) scale(0.085 -0.085)">
+       <defs>
+        <path id="DejaVuSans-31" d="M 794 531 
+L 1825 531 
+L 1825 4091 
+L 703 3866 
+L 703 4441 
+L 1819 4666 
+L 2450 4666 
+L 2450 531 
+L 3481 531 
+L 3481 0 
+L 794 0 
+L 794 531 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-61"/>
+       <use xlink:href="#DejaVuSans-66" x="61.279297"/>
+       <use xlink:href="#DejaVuSans-74" x="94.734375"/>
+       <use xlink:href="#DejaVuSans-65" x="133.943359"/>
+       <use xlink:href="#DejaVuSans-72" x="195.466797"/>
+       <use xlink:href="#DejaVuSans-20" x="236.580078"/>
+       <use xlink:href="#DejaVuSans-78" x="268.367188"/>
+       <use xlink:href="#DejaVuSans-20" x="327.546875"/>
+       <use xlink:href="#DejaVuSans-3d" x="359.333984"/>
+       <use xlink:href="#DejaVuSans-20" x="443.123047"/>
+       <use xlink:href="#DejaVuSans-31" x="474.910156"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m74a42a0f66" x="333.908523" y="129.168" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <!-- after x = 2 -->
+      <g style="fill: #4b5563" transform="translate(311.020945 142.626672) scale(0.085 -0.085)">
+       <defs>
+        <path id="DejaVuSans-32" d="M 1228 531 
+L 3431 531 
+L 3431 0 
+L 469 0 
+L 469 531 
+Q 828 903 1448 1529 
+Q 2069 2156 2228 2338 
+Q 2531 2678 2651 2914 
+Q 2772 3150 2772 3378 
+Q 2772 3750 2511 3984 
+Q 2250 4219 1831 4219 
+Q 1534 4219 1204 4116 
+Q 875 4013 500 3803 
+L 500 4441 
+Q 881 4594 1212 4672 
+Q 1544 4750 1819 4750 
+Q 2544 4750 2975 4387 
+Q 3406 4025 3406 3419 
+Q 3406 3131 3298 2873 
+Q 3191 2616 2906 2266 
+Q 2828 2175 2409 1742 
+Q 1991 1309 1228 531 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-61"/>
+       <use xlink:href="#DejaVuSans-66" x="61.279297"/>
+       <use xlink:href="#DejaVuSans-74" x="94.734375"/>
+       <use xlink:href="#DejaVuSans-65" x="133.943359"/>
+       <use xlink:href="#DejaVuSans-72" x="195.466797"/>
+       <use xlink:href="#DejaVuSans-20" x="236.580078"/>
+       <use xlink:href="#DejaVuSans-78" x="268.367188"/>
+       <use xlink:href="#DejaVuSans-20" x="327.546875"/>
+       <use xlink:href="#DejaVuSans-3d" x="359.333984"/>
+       <use xlink:href="#DejaVuSans-20" x="443.123047"/>
+       <use xlink:href="#DejaVuSans-32" x="474.910156"/>
+      </g>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_5">
+      <defs>
+       <path id="m81e0cc84c2" d="M 0 0 
+L -3.5 0 
+" style="stroke: #4b5563; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m81e0cc84c2" x="43.78125" y="129.168" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <!-- 0.0 -->
+      <g style="fill: #4b5563" transform="translate(20.878125 132.967219) scale(0.1 -0.1)">
+       <defs>
+        <path id="DejaVuSans-2e" d="M 684 794 
+L 1344 794 
+L 1344 0 
+L 684 0 
+L 684 794 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-30"/>
+       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+       <use xlink:href="#DejaVuSans-30" x="95.410156"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m81e0cc84c2" x="43.78125" y="100.469647" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <!-- 0.2 -->
+      <g style="fill: #4b5563" transform="translate(20.878125 104.268866) scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-30"/>
+       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+       <use xlink:href="#DejaVuSans-32" x="95.410156"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m81e0cc84c2" x="43.78125" y="71.771294" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <!-- 0.4 -->
+      <g style="fill: #4b5563" transform="translate(20.878125 75.570513) scale(0.1 -0.1)">
+       <defs>
+        <path id="DejaVuSans-34" d="M 2419 4116 
+L 825 1625 
+L 2419 1625 
+L 2419 4116 
+z
+M 2253 4666 
+L 3047 4666 
+L 3047 1625 
+L 3713 1625 
+L 3713 1100 
+L 3047 1100 
+L 3047 0 
+L 2419 0 
+L 2419 1100 
+L 313 1100 
+L 313 1709 
+L 2253 4666 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-30"/>
+       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+       <use xlink:href="#DejaVuSans-34" x="95.410156"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m81e0cc84c2" x="43.78125" y="43.072941" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <!-- 0.6 -->
+      <g style="fill: #4b5563" transform="translate(20.878125 46.87216) scale(0.1 -0.1)">
+       <defs>
+        <path id="DejaVuSans-36" d="M 2113 2584 
+Q 1688 2584 1439 2293 
+Q 1191 2003 1191 1497 
+Q 1191 994 1439 701 
+Q 1688 409 2113 409 
+Q 2538 409 2786 701 
+Q 3034 994 3034 1497 
+Q 3034 2003 2786 2293 
+Q 2538 2584 2113 2584 
+z
+M 3366 4563 
+L 3366 3988 
+Q 3128 4100 2886 4159 
+Q 2644 4219 2406 4219 
+Q 1781 4219 1451 3797 
+Q 1122 3375 1075 2522 
+Q 1259 2794 1537 2939 
+Q 1816 3084 2150 3084 
+Q 2853 3084 3261 2657 
+Q 3669 2231 3669 1497 
+Q 3669 778 3244 343 
+Q 2819 -91 2113 -91 
+Q 1303 -91 875 529 
+Q 447 1150 447 2328 
+Q 447 3434 972 4092 
+Q 1497 4750 2381 4750 
+Q 2619 4750 2861 4703 
+Q 3103 4656 3366 4563 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-30"/>
+       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+       <use xlink:href="#DejaVuSans-36" x="95.410156"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#m81e0cc84c2" x="43.78125" y="14.374588" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <!-- 0.8 -->
+      <g style="fill: #4b5563" transform="translate(20.878125 18.173807) scale(0.1 -0.1)">
+       <defs>
+        <path id="DejaVuSans-38" d="M 2034 2216 
+Q 1584 2216 1326 1975 
+Q 1069 1734 1069 1313 
+Q 1069 891 1326 650 
+Q 1584 409 2034 409 
+Q 2484 409 2743 651 
+Q 3003 894 3003 1313 
+Q 3003 1734 2745 1975 
+Q 2488 2216 2034 2216 
+z
+M 1403 2484 
+Q 997 2584 770 2862 
+Q 544 3141 544 3541 
+Q 544 4100 942 4425 
+Q 1341 4750 2034 4750 
+Q 2731 4750 3128 4425 
+Q 3525 4100 3525 3541 
+Q 3525 3141 3298 2862 
+Q 3072 2584 2669 2484 
+Q 3125 2378 3379 2068 
+Q 3634 1759 3634 1313 
+Q 3634 634 3220 271 
+Q 2806 -91 2034 -91 
+Q 1263 -91 848 271 
+Q 434 634 434 1313 
+Q 434 1759 690 2068 
+Q 947 2378 1403 2484 
+z
+M 1172 3481 
+Q 1172 3119 1398 2916 
+Q 1625 2713 2034 2713 
+Q 2441 2713 2670 2916 
+Q 2900 3119 2900 3481 
+Q 2900 3844 2670 4047 
+Q 2441 4250 2034 4250 
+Q 1625 4250 1398 4047 
+Q 1172 3844 1172 3481 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-30"/>
+       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+       <use xlink:href="#DejaVuSans-38" x="95.410156"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_10">
+     <!-- probability -->
+     <g style="fill: #374151" transform="translate(14.798438 94.859781) rotate(-90) scale(0.1 -0.1)">
+      <defs>
+       <path id="DejaVuSans-62" d="M 3116 1747 
+Q 3116 2381 2855 2742 
+Q 2594 3103 2138 3103 
+Q 1681 3103 1420 2742 
+Q 1159 2381 1159 1747 
+Q 1159 1113 1420 752 
+Q 1681 391 2138 391 
+Q 2594 391 2855 752 
+Q 3116 1113 3116 1747 
+z
+M 1159 2969 
+Q 1341 3281 1617 3432 
+Q 1894 3584 2278 3584 
+Q 2916 3584 3314 3078 
+Q 3713 2572 3713 1747 
+Q 3713 922 3314 415 
+Q 2916 -91 2278 -91 
+Q 1894 -91 1617 61 
+Q 1341 213 1159 525 
+L 1159 0 
+L 581 0 
+L 581 4863 
+L 1159 4863 
+L 1159 2969 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-6c" d="M 603 4863 
+L 1178 4863 
+L 1178 0 
+L 603 0 
+L 603 4863 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-79" d="M 2059 -325 
+Q 1816 -950 1584 -1140 
+Q 1353 -1331 966 -1331 
+L 506 -1331 
+L 506 -850 
+L 844 -850 
+Q 1081 -850 1212 -737 
+Q 1344 -625 1503 -206 
+L 1606 56 
+L 191 3500 
+L 800 3500 
+L 1894 763 
+L 2988 3500 
+L 3597 3500 
+L 2059 -325 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#DejaVuSans-70"/>
+      <use xlink:href="#DejaVuSans-72" x="63.476562"/>
+      <use xlink:href="#DejaVuSans-6f" x="102.339844"/>
+      <use xlink:href="#DejaVuSans-62" x="163.521484"/>
+      <use xlink:href="#DejaVuSans-61" x="226.998047"/>
+      <use xlink:href="#DejaVuSans-62" x="288.277344"/>
+      <use xlink:href="#DejaVuSans-69" x="351.753906"/>
+      <use xlink:href="#DejaVuSans-6c" x="379.537109"/>
+      <use xlink:href="#DejaVuSans-69" x="407.320312"/>
+      <use xlink:href="#DejaVuSans-74" x="435.103516"/>
+      <use xlink:href="#DejaVuSans-79" x="474.3125"/>
+     </g>
+    </g>
+   </g>
+   <g id="patch_11">
+    <path d="M 43.78125 129.168 
+L 43.78125 7.2 
+" style="fill: none; stroke: #9ca3af; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 43.78125 129.168 
+L 378.58125 129.168 
+" style="fill: none; stroke: #9ca3af; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_11">
+    <!-- 0.6 -->
+    <g transform="translate(67.763033 40.203106) scale(0.075 -0.075)">
+     <use xlink:href="#DejaVuSans-30"/>
+     <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+     <use xlink:href="#DejaVuSans-36" x="95.410156"/>
+    </g>
+   </g>
+   <g id="text_12">
+    <!-- 0.4 -->
+    <g transform="translate(97.217578 68.901459) scale(0.075 -0.075)">
+     <use xlink:href="#DejaVuSans-30"/>
+     <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+     <use xlink:href="#DejaVuSans-34" x="95.410156"/>
+    </g>
+   </g>
+   <g id="text_13">
+    <!-- 0.655 -->
+    <g transform="translate(144.809339 32.311059) scale(0.075 -0.075)">
+     <defs>
+      <path id="DejaVuSans-35" d="M 691 4666 
+L 3169 4666 
+L 3169 4134 
+L 1269 4134 
+L 1269 2991 
+Q 1406 3038 1543 3061 
+Q 1681 3084 1819 3084 
+Q 2600 3084 3056 2656 
+Q 3513 2228 3513 1497 
+Q 3513 744 3044 326 
+Q 2575 -91 1722 -91 
+Q 1428 -91 1123 -41 
+Q 819 9 494 109 
+L 494 744 
+Q 775 591 1075 516 
+Q 1375 441 1709 441 
+Q 2250 441 2565 725 
+Q 2881 1009 2881 1497 
+Q 2881 1984 2565 2268 
+Q 2250 2553 1709 2553 
+Q 1456 2553 1204 2497 
+Q 953 2441 691 2322 
+L 691 4666 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-30"/>
+     <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+     <use xlink:href="#DejaVuSans-36" x="95.410156"/>
+     <use xlink:href="#DejaVuSans-35" x="159.033203"/>
+     <use xlink:href="#DejaVuSans-35" x="222.65625"/>
+    </g>
+   </g>
+   <g id="text_14">
+    <!-- 0.345 -->
+    <g transform="translate(174.263885 76.793506) scale(0.075 -0.075)">
+     <defs>
+      <path id="DejaVuSans-33" d="M 2597 2516 
+Q 3050 2419 3304 2112 
+Q 3559 1806 3559 1356 
+Q 3559 666 3084 287 
+Q 2609 -91 1734 -91 
+Q 1441 -91 1130 -33 
+Q 819 25 488 141 
+L 488 750 
+Q 750 597 1062 519 
+Q 1375 441 1716 441 
+Q 2309 441 2620 675 
+Q 2931 909 2931 1356 
+Q 2931 1769 2642 2001 
+Q 2353 2234 1838 2234 
+L 1294 2234 
+L 1294 2753 
+L 1863 2753 
+Q 2328 2753 2575 2939 
+Q 2822 3125 2822 3475 
+Q 2822 3834 2567 4026 
+Q 2313 4219 1838 4219 
+Q 1578 4219 1281 4162 
+Q 984 4106 628 3988 
+L 628 4550 
+Q 988 4650 1302 4700 
+Q 1616 4750 1894 4750 
+Q 2613 4750 3031 4423 
+Q 3450 4097 3450 3541 
+Q 3450 3153 3228 2886 
+Q 3006 2619 2597 2516 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-30"/>
+     <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+     <use xlink:href="#DejaVuSans-33" x="95.410156"/>
+     <use xlink:href="#DejaVuSans-34" x="159.033203"/>
+     <use xlink:href="#DejaVuSans-35" x="222.65625"/>
+    </g>
+   </g>
+   <g id="text_15">
+    <!-- 0.458 -->
+    <g transform="translate(226.627521 60.636333) scale(0.075 -0.075)">
+     <use xlink:href="#DejaVuSans-30"/>
+     <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+     <use xlink:href="#DejaVuSans-34" x="95.410156"/>
+     <use xlink:href="#DejaVuSans-35" x="159.033203"/>
+     <use xlink:href="#DejaVuSans-38" x="222.65625"/>
+    </g>
+   </g>
+   <g id="text_16">
+    <!-- 0.542 -->
+    <g transform="translate(256.082067 48.468232) scale(0.075 -0.075)">
+     <use xlink:href="#DejaVuSans-30"/>
+     <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+     <use xlink:href="#DejaVuSans-35" x="95.410156"/>
+     <use xlink:href="#DejaVuSans-34" x="159.033203"/>
+     <use xlink:href="#DejaVuSans-32" x="222.65625"/>
+    </g>
+   </g>
+   <g id="text_17">
+    <!-- 0.273 -->
+    <g transform="translate(308.445703 87.16796) scale(0.075 -0.075)">
+     <defs>
+      <path id="DejaVuSans-37" d="M 525 4666 
+L 3525 4666 
+L 3525 4397 
+L 1831 0 
+L 1172 0 
+L 2766 4134 
+L 525 4134 
+L 525 4666 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-30"/>
+     <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+     <use xlink:href="#DejaVuSans-32" x="95.410156"/>
+     <use xlink:href="#DejaVuSans-37" x="159.033203"/>
+     <use xlink:href="#DejaVuSans-33" x="222.65625"/>
+    </g>
+   </g>
+   <g id="text_18">
+    <!-- 0.727 -->
+    <g transform="translate(337.900249 21.936604) scale(0.075 -0.075)">
+     <use xlink:href="#DejaVuSans-30"/>
+     <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
+     <use xlink:href="#DejaVuSans-37" x="95.410156"/>
+     <use xlink:href="#DejaVuSans-32" x="159.033203"/>
+     <use xlink:href="#DejaVuSans-37" x="222.65625"/>
+    </g>
+   </g>
+   <g id="legend_1">
+    <g id="patch_13">
+     <path d="M 185.18625 20.47875 
+L 201.18625 20.47875 
+L 201.18625 14.87875 
+L 185.18625 14.87875 
+z
+" style="fill: #1d4ed8"/>
+    </g>
+    <g id="text_19">
+     <!-- p = 0.1 -->
+     <g transform="translate(207.58625 20.47875) scale(0.08 -0.08)">
+      <use xlink:href="#DejaVuSans-70"/>
+      <use xlink:href="#DejaVuSans-20" x="63.476562"/>
+      <use xlink:href="#DejaVuSans-3d" x="95.263672"/>
+      <use xlink:href="#DejaVuSans-20" x="179.052734"/>
+      <use xlink:href="#DejaVuSans-30" x="210.839844"/>
+      <use xlink:href="#DejaVuSans-2e" x="274.462891"/>
+      <use xlink:href="#DejaVuSans-31" x="306.25"/>
+     </g>
+    </g>
+    <g id="patch_14">
+     <path d="M 185.18625 32.22125 
+L 201.18625 32.22125 
+L 201.18625 26.62125 
+L 185.18625 26.62125 
+z
+" style="fill: #dc2626"/>
+    </g>
+    <g id="text_20">
+     <!-- p = 0.2 -->
+     <g transform="translate(207.58625 32.22125) scale(0.08 -0.08)">
+      <use xlink:href="#DejaVuSans-70"/>
+      <use xlink:href="#DejaVuSans-20" x="63.476562"/>
+      <use xlink:href="#DejaVuSans-3d" x="95.263672"/>
+      <use xlink:href="#DejaVuSans-20" x="179.052734"/>
+      <use xlink:href="#DejaVuSans-30" x="210.839844"/>
+      <use xlink:href="#DejaVuSans-2e" x="274.462891"/>
+      <use xlink:href="#DejaVuSans-32" x="306.25"/>
+     </g>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p1b5b8b9165">
+   <rect x="43.78125" y="7.2" width="334.8" height="121.968"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Each defective found shifts belief toward p = 0.2.</figcaption></figure>
+
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>Same machine, prior changed to P(p = 0.1) = P(p = 0.2) = 0.5. Find π(0.2 | x = 1) for a sample of 2.</p>
+</div>
+<h3>4 · A Bayes point estimate</h3>
+<p>The posterior is a whole distribution. When one number is wanted, summarise it.</p>
+<div class="box q">
+<div class="bh">Predict</div>
+<p>After observing x = 0 in Example 15, give a single estimate of p.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Should it be 0.1, 0.2, or something in between?</p>
+</div>
+<p><strong>Bayes estimate.</strong> Under squared-error loss the Bayes estimate is the <strong>posterior mean</strong> E(θ | x) (Walpole et al. ch. 18). The posterior mode (most probable value) is another summary.</p>
+<p><strong>Answer.</strong> E(p | x = 0) = 0.1 × 0.6550 + 0.2 × 0.3450 = 0.0655 + 0.0690 = <strong>0.1345</strong>. Compare the prior mean 0.1 × 0.6 + 0.2 × 0.4 = 0.14: the data pulled the estimate down a little.</p>
+<p><strong>Contrast with file 09.</strong> The MLE from x = 0 defectives in 2 is p̂ = 0/2 = 0, which ignores the prior knowledge that p is 0.1 or 0.2. The Bayes estimate combines both.</p>
+<div class="box check">
+<div class="bh">Check 4</div>
+<p>Find the Bayes estimate (posterior mean) of p after x = 2 in Example 15.</p>
+</div>
+<hr />
+<h2>Exam form</h2>
+<p><strong>Definitions.</strong></p>
+<ul>
+<li><strong>Bayesian approach</strong>: parameters are random variables; inference combines a prior distribution with the observed data.</li>
+<li><strong>Prior π(θ)</strong>: distribution of θ before data, reflecting prior belief (subjective probability).</li>
+<li><strong>Posterior π(θ | x)</strong>: distribution of θ after data.</li>
+<li><strong>Conditional perspective</strong>: inference is conditional on the data actually observed.</li>
+</ul>
+<p><strong>Posterior.</strong> π(θ | x) = f(x | θ)π(θ)/g(x), g(x) = Σ<sub>θ</sub> f(x | θ)π(θ) or ∫ f(x | θ)π(θ)dθ.</p>
+<p><strong>Procedure (discrete prior).</strong></p>
+<ol>
+<li>List the θ values and prior weights.</li>
+<li>Likelihood f(x | θ) for the observed x.</li>
+<li>Products f(x | θ)π(θ); sum them for g(x).</li>
+<li>Posterior = each product ÷ g(x). Check the posterior adds to 1.</li>
+<li>If asked for an estimate: posterior mean Σθ π(θ | x).</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Classical (MoM, MLE)</th>
+<th>Bayesian</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>θ is</td>
+<td>a fixed unknown constant</td>
+<td>a random variable</td>
+</tr>
+<tr>
+<td>Uses</td>
+<td>data only</td>
+<td>data + prior</td>
+</tr>
+<tr>
+<td>Answer</td>
+<td>a point/interval for θ</td>
+<td>a posterior distribution of θ</td>
+</tr>
+</tbody>
+</table>
+<h2>Traps</h2>
+<ul>
+<li>Forgetting to divide by g(x): the products are not yet probabilities.</li>
+<li>Using the binomial coefficient in one product but not the other (it cancels only if used consistently).</li>
+<li>Calling the prior "the data": the prior is fixed before the sample is seen.</li>
+</ul>
+<h2>Self-test</h2>
+<ol>
+<li>State the key difference between Bayesian and classical estimation.</li>
+<li>Define prior and posterior distributions.</li>
+<li>Write Bayes' formula for the posterior and say what g(x) is.</li>
+<li>A coin is fair (p = 0.5) or biased (p = 0.8), prior 0.7 and 0.3. One toss gives a head. Find the posterior P(p = 0.8 | head).</li>
+<li>For Q4, find the posterior mean of p.</li>
+</ol>
+<div class="answers">
+<h2>Answers</h2>
+<p><strong>Check 1.</strong> Any two of: statistical modelling and data analysis, bioinformatics, biology, business, engineering, environmental science, health, medicine. With few data the prior supplies information the sample cannot.</p>
+<p><strong>Check 2.</strong> Products: 0.1 × 0.6 = 0.06, 0.2 × 0.4 = 0.08; g = 0.14. π(0.1 | 1) = 0.06/0.14 = <strong>0.4286</strong>.</p>
+<p><strong>Check 3.</strong> Products: 0.18 × 0.5 = 0.09, 0.32 × 0.5 = 0.16; g = 0.25. π(0.2 | 1) = 0.16/0.25 = <strong>0.64</strong>.</p>
+<p><strong>Check 4.</strong> 0.1 × 0.2727 + 0.2 × 0.7273 = 0.02727 + 0.14546 = <strong>0.1727</strong>.</p>
+<p><strong>Self-test.</strong></p>
+<ol>
+<li>Bayesian: θ is random with a prior distribution; classical: θ is a fixed constant.</li>
+<li>Prior: belief about θ before data. Posterior: distribution of θ given the data.</li>
+<li>π(θ | x) = f(x | θ)π(θ)/g(x); g(x) = Σ f(x | θ)π(θ), the marginal probability of the data.</li>
+<li>Products 0.5 × 0.7 = 0.35, 0.8 × 0.3 = 0.24; g = 0.59. P(0.8 | H) = 0.24/0.59 = <strong>0.4068</strong>.</li>
+<li>0.5 × 0.5932 + 0.8 × 0.4068 = <strong>0.6220</strong>.</li>
+</ol>
+</div></body></html>

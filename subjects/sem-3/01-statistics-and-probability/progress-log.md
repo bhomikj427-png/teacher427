@@ -48,3 +48,25 @@
   blueprint for MAS2001, July–Nov 2026: 5 content rows × Parts A/B/C/D, weightage 10/20/22/10/18 = 80. The marks per part
   are not printed; solved uniquely from the rows as A = 2, B = 6, C = 8, D = 8 (all five rows check). `knowledge-base/exam-map.md`
   priority section rewritten from it.
+- [2026-11-15] Inbox triage (no teaching): 10 MAS2001 files in `_inbox/_unsorted/` filed. `exam-pack/`: `PYQ-MTE-2026-question-paper.pdf`
+  (30 marks: A1–A4 2 each, B1 3, B2–B4 4 each, C1 4+3), `PYQ-MTE-2026-solution-and-marking-scheme.pdf` (handwritten key),
+  `ASSIGNMENT-1-random-variables-chebyshev.pdf`, `ASSIGNMENT-2-distributions.pdf`, `ASSIGNMENT-4-CI-and-hypothesis-errors.pdf`,
+  `ASSIGNMENT-5-t-F-chisq-ANOVA.pdf`, `slides-LMS-standard-error-and-CLT.pdf`, `slides-LMS-MLE-and-Bayesian.pdf`,
+  `slides-08-hypothesis-testing.pptx`. `books/Gupta-Kapoor-Fundamentals-of-Mathematical-Statistics.pdf` (1303 pp.; the professor's
+  slides cite it as the reference text). No Assignment 3 in the drop. **Finding:** the MTE is 30 marks, so the 80-mark blueprint is the ETE.
+- [2026-11-15] Learner request (stated): "make me a v1.2 and do make a combined pdf at the end, take as long as u need". Building
+  `study-pack-v12/` to `study-pack-format.md` v1.2, full build (learner asked for the whole pack, so no separate pilot stop).
+  Questions from the MTE 2026 paper, Assignments 1, 2, 4, 5 and the professor's slides (P1), Gupta & Kapoor (P2). Facts from the
+  `stage-2✓` KB + Gupta & Kapoor. **No teaching event.**
+- [2026-11-15] `knowledge-base/exam-map.md` updated from the new evidence: MTE = 30 marks so the blueprint is the ETE; per-row table of
+  MTE/assignment/slide items; confirmed forms (one-way ANOVA only, χ² independence only, discrete-prior Bayes); the 11 key slips.
+  (Logged right after the edit, not before it, which breaks the log-first rule for this one line.)
+- [2026-11-15] **v1.2 ETE pack built**: `study-pack-v12/pdf/` = `00-START-HERE` + 16 topic files (01 probability basics … 16 ANOVA) +
+  `17-mock-paper` (80 marks on the blueprint, with a marking key) + combined `MAS2001-Statistics-and-Probability-ETE-study-pack.pdf`
+  (121 pp., bookmarked). Every step has a question or Predict, a guess line and a Check; every file has Exam form, Traps, Self-test,
+  Answers. Questions: all 10 MTE parts, ~100 assignment items, 13 slide examples (P1); 6 Gupta & Kapoor (P2). `src/verify.py`:
+  423 checks, 0 failures; 11 professor-key mismatches flagged in the files and in START-HERE (A5 C6 table value 19.41 → F(2, 12) = 3.89
+  flips the decision). 29 generated figures (`src/figures.py`). All pages viewed after the final build; fixes made on viewing: tables
+  allowed to split between rows, list spacing, nested superscripts, an accidental Markdown link, 8 figure label overlaps.
+  The pilot step was skipped because the learner asked for the full pack in one go. **No teaching event; mastery ledger unchanged.**
+  **Where we stopped:** pack delivered; learner has not worked any Check.
