@@ -167,3 +167,10 @@
   Circuits & Systems pack. Format written down as `study-pack-format.md` (v1.2) at the project root. `study-pack/pdf-ete/DE-ETE-v1.pdf` (and `study-pack/pdf/DE-v1.pdf`) is listed there as
   **non-conforming** (one question and one Check per topic, no ranked start page, no Exam form/Traps/Self-test); its questions, figures and
   `verify.py` are sound and will be reused in the rebuild. README marked. Rebuild not started. **No teaching event.**
+- [2026-11-14] Learner request (stated): "start with electronic devices … build a demo for both subjects first", without the cost of a
+  full rebuild. Building the v1.2 demo (`study-pack-format.md`): `study-pack-v12/` = `00-START-HERE` + one topic file (`13-synchronous-counters`),
+  rendered by the shared builder `tools/study_pack_build.py` (copied from the reference pack's own build script). Figures, questions
+  and numbers reused from the v1 pack and its `verify.py`. Awaiting learner sign-off before the rest. **No teaching event.**
+- [2026-11-14] v1.2 demo **built**: `study-pack-v12/pdf/` = `00-START-HERE` + `13-synchronous-counters (6 steps)` + combined PDF (5 + 7 = 12 pp.). Every step has a
+  question or Predict, a guess line and a Check; Exam form, Traps, Self-test, Answers at the end. All numbers are ones the v1 `verify.py` already checks
+  (plus one new g_m value / Gray-step check, hand-verified). All pages viewed. **Awaiting learner sign-off; no teaching event.**

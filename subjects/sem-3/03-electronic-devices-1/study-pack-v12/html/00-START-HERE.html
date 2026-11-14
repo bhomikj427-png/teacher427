@@ -1,0 +1,355 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Electronic Devices & Circuits — Study Pack (ETE)</title><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2106 Electronic Devices & Circuits · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figure svg.mpl { width: 100%; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+</style></head><body><h1>Electronic Devices &amp; Circuits — Study Pack (ETE)</h1>
+<div class="sub">ECE2106 · B.Tech ECE Sem 3 · all 7 units of the syllabus on slide 2 of the professor's first deck · built from the professor's decks and solved-numerical sheets · every answer checked by computer</div>
+
+<h2>Priority order: if time is short, study in this order</h2>
+<p>Ranked by how much the professor's material stresses each topic: solved numerical sheets, a flagged mark value, and the size of the deck. There is <strong>no past paper yet</strong>, so this is an estimate. Every topic on the syllabus can come up.</p>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>Study</th>
+<th>Why it ranks here</th>
+<th>Do first</th>
+<th>Rough time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>07 JFET</strong></td>
+<td>A classmate relayed "8 marks" for the JFET parameters; the professor's numericals sheet spends Q1–Q19 on JFETs</td>
+<td>07 §3 (parameters), then §2 and §4</td>
+<td>70 min</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>08 MOSFET</strong></td>
+<td>The same sheet, Q20–Q31: D-MOSFET and E-MOSFET bias and gain</td>
+<td>08 bias steps</td>
+<td>60 min</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>11 BJT biasing and stability</strong></td>
+<td>53-slide deck, the longest in Unit 5; stability factor is derived in full</td>
+<td>11 voltage-divider bias, S</td>
+<td>60 min</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>12 h-parameters, multistage</strong></td>
+<td>A whole problem sheet (book pp. 131–145, Problems 3–16)</td>
+<td>12 the four formulas</td>
+<td>50 min</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>04 Diode circuits and rectifiers</strong></td>
+<td>Two decks of worked examples (L08, L09)</td>
+<td>04 rectifier table</td>
+<td>40 min</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>05 Clippers, clampers, Zener</strong></td>
+<td>Deck L10 with worked examples</td>
+<td>05 clamper rule, Zener regulator</td>
+<td>40 min</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>13 Feedback</strong></td>
+<td>51-slide deck, four topologies</td>
+<td>13 gain with feedback</td>
+<td>40 min</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>14 Oscillators</strong></td>
+<td>Deck with RC, Wien, LC, crystal</td>
+<td>14 Barkhausen, RC phase-shift</td>
+<td>35 min</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>03 pn junction and diode</strong></td>
+<td>Second half of the 100-slide Unit 1–2 deck</td>
+<td>03 built-in voltage, diode equation</td>
+<td>40 min</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>01, 02 Semiconductors and current flow</strong></td>
+<td>First half of the same deck; mostly definitions and short derivations</td>
+<td>02 drift and diffusion</td>
+<td>50 min</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>10 BJT operation</strong></td>
+<td>Short decks L20–L25</td>
+<td>10 α, β</td>
+<td>25 min</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>06 Special diodes, 09 CMOS and FinFET</strong></td>
+<td>Extra decks beyond the syllabus text</td>
+<td>09 CMOS gate</td>
+<td>30 min</td>
+</tr>
+<tr>
+<td>last</td>
+<td><strong>15 Mock paper</strong></td>
+<td>Closed book, after the rest</td>
+<td>all</td>
+<td>3 h</td>
+</tr>
+</tbody>
+</table>
+<p>Two rules for using the ranking:</p>
+<ul>
+<li><strong>Short on time:</strong> do only the "Do first" column, top to bottom, then the matching mock-paper questions.</li>
+<li><strong>Stuck in 07 or 08:</strong> both lean on 03 (the reverse-biased pn junction). Go back one step and don't skip ahead.</li>
+</ul>
+<h2>The path through this pack</h2>
+<p>The order is the syllabus, unit by unit.</p>
+<p><strong>Unit 1 — semiconductors</strong></p>
+<div class="map"><span class="n">01 Semiconductors, carriers</span><span class="a">→</span><span class="n">02 Drift, diffusion, continuity</span></div>
+
+<p><strong>Unit 2 — the diode</strong></p>
+<div class="map"><span class="n">03 pn junction, diode</span><span class="a">→</span><span class="n">04 Diode circuits, rectifiers</span><span class="a">→</span><span class="n">05 Clippers, clampers, Zener</span><span class="a">→</span><span class="n">06 Special diodes</span></div>
+
+<p><strong>Units 3–4 — field-effect transistors</strong></p>
+<div class="map"><span class="n here">07 JFET</span></div>
+
+<div class="map"><span class="n">08 MOSFET</span><span class="a">→</span><span class="n">09 CMOS, FinFET</span></div>
+
+<p><strong>Units 5–7 — BJT, feedback, oscillators</strong></p>
+<div class="map"><span class="n">10 BJT operation</span><span class="a">→</span><span class="n">11 BJT biasing</span><span class="a">→</span><span class="n">12 h-parameters</span><span class="a">→</span><span class="n">13 Feedback</span><span class="a">→</span><span class="n">14 Oscillators</span><span class="a">→</span><span class="n">15 Mock paper</span></div>
+
+<p>Each file needs the ones before it. 07 uses 03's depletion region. 08 reuses 07's biasing method. 11 uses 10's α and β. 13 and 14 use 12's amplifier gain. 14 is 13 with the feedback made positive.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Syllabus item</th>
+<th>What it teaches</th>
+<th>Real Qs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>U1</td>
+<td>energy bands, electrons and holes, doping, mass-action law, Fermi level</td>
+<td>deck</td>
+</tr>
+<tr>
+<td>02</td>
+<td>U1</td>
+<td>drift, mobility, conductivity, diffusion, Einstein relation, continuity</td>
+<td>deck</td>
+</tr>
+<tr>
+<td>03</td>
+<td>U2</td>
+<td>junction, depletion region, built-in voltage, diode equation, resistances, capacitances</td>
+<td>deck</td>
+</tr>
+<tr>
+<td>04</td>
+<td>U2</td>
+<td>load line, series/parallel diode circuits, half- and full-wave rectifiers</td>
+<td>L08, L09</td>
+</tr>
+<tr>
+<td>05</td>
+<td>U2</td>
+<td>clippers, clampers, voltage multipliers, Zener regulator, Schottky</td>
+<td>L10</td>
+</tr>
+<tr>
+<td>06</td>
+<td>U2 extra</td>
+<td>LED, photodiode, tunnel diode</td>
+<td>deck</td>
+</tr>
+<tr>
+<td>07</td>
+<td>U3</td>
+<td>JFET operation, Shockley's equation, g<sub>m</sub>, r<sub>d</sub>, μ, biasing, CS and CD amplifiers</td>
+<td>sheet Q1–Q19</td>
+</tr>
+<tr>
+<td>08</td>
+<td>U4</td>
+<td>E- and D-MOSFET, regions, current equations, biasing, amplifiers</td>
+<td>sheet Q20–Q31</td>
+</tr>
+<tr>
+<td>09</td>
+<td>U4 extra</td>
+<td>MOSFET as a switch, CMOS gates, FinFET</td>
+<td>deck</td>
+</tr>
+<tr>
+<td>10</td>
+<td>U5</td>
+<td>BJT construction, operation, α, β, the three connections</td>
+<td>L20–L25</td>
+</tr>
+<tr>
+<td>11</td>
+<td>U5</td>
+<td>load line, Q-point, fixed / emitter / voltage-divider bias, stability factor</td>
+<td>L26–L27</td>
+</tr>
+<tr>
+<td>12</td>
+<td>U5</td>
+<td>h-parameter model, CE and CC analysis, multistage, Darlington</td>
+<td>book Problems 3–16</td>
+</tr>
+<tr>
+<td>13</td>
+<td>U6</td>
+<td>feedback, the four topologies, effects of negative feedback</td>
+<td>deck</td>
+</tr>
+<tr>
+<td>14</td>
+<td>U7</td>
+<td>Barkhausen, RC phase-shift, Wien bridge, Hartley, Colpitts, crystal</td>
+<td>deck</td>
+</tr>
+<tr>
+<td>15</td>
+<td>all</td>
+<td>one closed-book paper with a key</td>
+<td>sheet extras</td>
+</tr>
+</tbody>
+</table>
+<h2>Where the questions come from</h2>
+<p>A step opens with a <strong>real question, quoted</strong>, wherever the professor's material has one, tagged with its source: <span class="tag">Sheet Q17</span> = the JFET/MOSFET solved-numericals sheet, <span class="tag">Book P3</span> = the h-parameter problem pages, <span class="tag">Deck</span> = a worked example on a slide. Where there is none, the step opens with a <strong>Predict</strong> prompt instead, or a problem tagged <span class="tag">practice</span>.</p>
+<p>Marks per question: <strong>not known</strong>, except the relayed "8 marks" for the JFET parameters.</p>
+<h2>How each file runs</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Map</strong></td>
+<td>the file's steps, in order</td>
+</tr>
+<tr>
+<td><strong>Build</strong></td>
+<td>each step opens with a real question or a Predict → you guess → the answer teaches the idea → a Check</td>
+</tr>
+<tr>
+<td><strong>Exam form</strong></td>
+<td>what to reproduce in the exam: statements, derivations, procedures, formulas</td>
+</tr>
+<tr>
+<td><strong>Traps</strong></td>
+<td>the mistakes that cost marks</td>
+</tr>
+<tr>
+<td><strong>Self-test, Answers</strong></td>
+<td>answers to every Check and the Self-test are on the last page(s) of each file</td>
+</tr>
+</tbody>
+</table>
+<div class="box key">
+<div class="bh">The one rule that makes this work</div>
+<p>When you reach a <strong>Guess first</strong> box, write a guess on paper <strong>before</strong> reading on: one line, however wrong. A wrong guess that gets corrected sticks better than a right answer you only read.</p>
+</div>
+<h2>Units and symbols used everywhere</h2>
+<ul>
+<li>Uppercase <strong>V, I</strong> with uppercase subscripts = DC values (V<sub>GS</sub>, I<sub>D</sub>). Lowercase <strong>v, i</strong> = small AC signals (v<sub>gs</sub>, i<sub>d</sub>).</li>
+<li>Resistances in <strong>kΩ</strong> with currents in <strong>mA</strong> give voltages in <strong>V</strong> directly: 3.3 kΩ × 1.52 mA = 5 V.</li>
+<li>n-channel devices throughout unless a step says p-channel. For a p-channel device every voltage and current reverses.</li>
+</ul>
+<h2>Where the professor's material disagrees with the pack</h2>
+<table>
+<thead>
+<tr>
+<th>Where</th>
+<th>Slide says</th>
+<th>Pack says</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L08 slide 5 (04)</td>
+<td>V<sub>R</sub> = 18.5 V</td>
+<td>9.25 V</td>
+<td>R is 0.5 kΩ; 18.5 V cannot come from a 10 V source</td>
+</tr>
+<tr>
+<td>Feedback slide 32 (13)</td>
+<td>98.3 for A = 5000</td>
+<td>98.0</td>
+<td>5000/51 = 98.0; the table's other entries are right</td>
+</tr>
+</tbody>
+</table>
+<h2>How this pack was checked</h2>
+<ul>
+<li>Facts: the subject knowledge base (Boylestad &amp; Nashelsky, Sedra &amp; Smith, Streetman, Neamen). Units 6–7 and the deck extras are not in the knowledge base yet; their formulas are the standard textbook results, each re-derived or simulated.</li>
+<li>Numbers: every number in the pack was computed a second time by <code>verify.py</code> (211 checks), including numerical simulation of the oscillator networks.</li>
+<li>Where a slide has a slip, the pack uses the corrected value and says so in a Note.</li>
+</ul></body></html>

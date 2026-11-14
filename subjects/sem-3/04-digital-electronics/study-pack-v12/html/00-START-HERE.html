@@ -1,0 +1,434 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Digital Electronics — Study Pack (ETE)</title><style>
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
+  @bottom-left { content: "ECE2102 Digital Electronics · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
+  @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
+:root { --ink:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --line:#e5e7eb; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); font-size: 10.5pt;
+  line-height: 1.5; margin: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1 { font-size: 21pt; margin: 0 0 2pt; letter-spacing: -0.3pt; }
+.sub { color: var(--muted); font-size: 9.5pt; margin-bottom: 12pt; }
+h2 { font-size: 13.5pt; color: var(--accent); border-bottom: 1.5px solid var(--line);
+  padding-bottom: 3pt; margin: 18pt 0 8pt; break-after: avoid; }
+h3 { font-size: 11.5pt; margin: 14pt 0 5pt; break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f3f4f6; padding: 0 3px; border-radius: 3px; }
+ol, ul { break-inside: avoid; }
+table { border-collapse: collapse; margin: 8pt 0; width: 100%; font-size: 9.8pt; break-inside: avoid; }
+th { background: #eff6ff; color: #1e3a8a; text-align: left; }
+th, td { border: 1px solid #dbe2ea; padding: 4pt 7pt; vertical-align: top; }
+figure { margin: 10pt auto; text-align: center; break-inside: avoid; }
+figure svg { max-width: 100%; height: auto; }
+figure svg.mpl { width: 100%; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+.eq { text-align: center; font-size: 12pt; margin: 8pt 0; padding: 6pt; background: #f8fafc;
+  border-radius: 6px; break-inside: avoid; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;
+  margin: 0 2px; font-size: 95%; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.box { border-radius: 7px; padding: 7pt 11pt; margin: 9pt 0; break-inside: avoid; border-left: 4px solid; }
+.box > .bh { font-weight: 700; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .4pt; margin-bottom: 2pt; }
+.box p:first-of-type { margin-top: 2pt; } .box p:last-child { margin-bottom: 2pt; }
+.q { background: #eff6ff; border-color: #1d4ed8; } .q > .bh { color: #1d4ed8; }
+.guess { background: #fefce8; border-color: #ca8a04; } .guess > .bh { color: #a16207; }
+.check { background: #f0fdf4; border-color: #16a34a; } .check > .bh { color: #15803d; }
+.trap { background: #fef2f2; border-color: #dc2626; } .trap > .bh { color: #b91c1c; }
+.note { background: #f9fafb; border-color: #9ca3af; } .note > .bh { color: #4b5563; }
+.key { background: #f5f3ff; border-color: #7c3aed; } .key > .bh { color: #6d28d9; }
+.map { display: flex; flex-wrap: wrap; align-items: center; gap: 4pt; margin: 8pt 0 12pt; break-inside: avoid; }
+.map .n { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 4pt 8pt; font-size: 9.3pt; background: #fff; }
+.map .n.here { border-color: var(--accent); background: #eff6ff; color: #1e3a8a; font-weight: 600; }
+.map .a { color: #94a3b8; font-size: 12pt; }
+.answers { break-before: page; }
+.answers h2 { color: #15803d; }
+.tag { display: inline-block; font-size: 8.5pt; color: #1e3a8a; background: #dbeafe; border-radius: 4px;
+  padding: 0 5px; font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+:root { --card:#fff; --soft:#f4f4f0; --g0:#2f5bea; --g1:#e0661b; --g2:#12925a; --g3:#b23fbf; --g4:#c2410c; --one:#1c1f24; --zero:#b7bac0; --x:#d97706; --bad:#d92d20; --good:#12925a; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; break-inside: avoid; }
+.two > * { min-width: 0; }
+.fig-svg { width: 100%; height: auto; display: block; overflow: visible; font-family: Inter, "Segoe UI", sans-serif; }
+.k-cell { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.k-cell.hl-a { fill: var(--accent); fill-opacity: .28; }
+.k-cell.hl-b { fill: var(--g2); fill-opacity: .22; }
+.k-cell.hl-c { fill: var(--g1); fill-opacity: .25; }
+.k-one { fill: var(--one); font-weight: 700; }
+.k-zero { fill: var(--zero); font-weight: 500; }
+.k-zero-em { fill: var(--g1); font-weight: 700; }
+.k-x { fill: var(--x); font-weight: 700; }
+.k-idx { fill: var(--muted); font-size: 10px; font-family: "JetBrains Mono", monospace; }
+.k-idx-big { fill: var(--ink); font: 600 15px "JetBrains Mono", monospace; }
+.k-lab { fill: var(--muted); font: 13px "JetBrains Mono", monospace; }
+.k-var { fill: var(--ink); font-weight: 600; font-size: 14px; font-style: italic; }
+.k-diag { stroke: var(--line); stroke-width: 1.2; }
+.k-title { fill: var(--ink); font-weight: 600; font-size: 14px; }
+.k-note { fill: var(--muted); font-size: 12.5px; }
+.k-grp { fill-opacity: .10; stroke-width: 2.6; }
+.k-grp-0s .k-grp { stroke-dasharray: 6 4; }
+.k-arrow { fill: none; stroke: var(--g1); stroke-width: 2; stroke-dasharray: 5 4; }
+.k-arrowhead { fill: var(--g1); }
+.k-bad { fill: var(--bad); fill-opacity: .14; stroke: var(--bad); stroke-width: 2; }
+.k-chip { fill-opacity: .12; stroke-width: 1.5; }
+.k-chip-t { font: 600 13px "JetBrains Mono", monospace; }
+.c0 .k-grp, .c0 .k-chip { fill: var(--g0); stroke: var(--g0); } .c0 .k-chip-t, .g-term.c0 { fill: var(--g0); }
+.c1 .k-grp, .c1 .k-chip { fill: var(--g1); stroke: var(--g1); } .c1 .k-chip-t, .g-term.c1 { fill: var(--g1); }
+.c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
+.c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
+.c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>Digital Electronics — Study Pack (ETE)</h1>
+<div class="sub">ECE2102 (ECE 2105 on the decks) · B.Tech ECE Sem 3 · all 5 units of the syllabus on slide 2 of the professor's first deck · built from the 2025 mid-term paper, decks 01–15 and two practice sets · every answer checked by computer</div>
+
+<h2>Priority order: if time is short, study in this order</h2>
+<p>Ranked by the professor's own material: the 2025 mid-term paper (30 marks: 2-mark recall, 4-mark method, one 8-mark design), the two practice sets, and the decks. There is <strong>no end-term paper yet</strong>, so this is an estimate. The mid-term covered Units 1–3 up to counters; the end-term covers all five units, so Units 3–5 weigh more than the mid-term suggests.</p>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>Study</th>
+<th>Why it ranks here</th>
+<th>Do first</th>
+<th>Rough time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>13 Synchronous counters</strong></td>
+<td>The mid-term's only 8-mark question; practice set 2 Q4–Q6; deck 10</td>
+<td>13 §2–§3</td>
+<td>60 min</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>15 FSM design</strong></td>
+<td>Deck 11, with five practice detectors on its last slide; Unit 4 is not yet examined</td>
+<td>15 the 1101 detector</td>
+<td>60 min</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>02 K-map</strong></td>
+<td>Mid-term Q4 (4 marks); practice set 1 Q1, Q2</td>
+<td>02 don't-cares</td>
+<td>45 min</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>05 MUX, DEMUX</strong></td>
+<td>Mid-term Q5 (4 marks); practice set 1 Q3, Q5, Q6</td>
+<td>05 n variables on a smaller MUX</td>
+<td>40 min</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>06 Decoder, encoder</strong></td>
+<td>Mid-term Q6 (4 marks); practice set 1 Q7, Q8</td>
+<td>06 function from a decoder</td>
+<td>30 min</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>09, 10 Flip-flops and waveforms</strong></td>
+<td>Mid-term Q3 (2) and Q7 (4); practice set 2 Q1–Q3</td>
+<td>10 the waveform procedure</td>
+<td>50 min</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>16 State reduction, ASM</strong></td>
+<td>Decks 12–13, worked tables</td>
+<td>16 partitioning</td>
+<td>45 min</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>11, 12 Registers, ripple counters</strong></td>
+<td>Decks 09–10</td>
+<td>12 MOD-N reset</td>
+<td>40 min</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>19 Memories, PLDs</strong></td>
+<td>Deck 15, with PAL and PLA design examples</td>
+<td>19 PLA table</td>
+<td>40 min</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>18 Logic families</strong></td>
+<td>Deck 14</td>
+<td>18 noise margin, fan-out</td>
+<td>35 min</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>04 Adders, subtractors</strong></td>
+<td>Deck 03; mid-term Q6 used the full adder</td>
+<td>04 full adder</td>
+<td>30 min</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>01, 03 Boolean algebra, NAND/NOR</strong></td>
+<td>Mid-term Q1 (2 marks)</td>
+<td>03 NOR-only</td>
+<td>30 min</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>07, 08 Display, comparator, parity, shifter, ALU</strong></td>
+<td>Mid-term Q2 (2 marks); decks 06–07</td>
+<td>07 parity</td>
+<td>30 min</td>
+</tr>
+<tr>
+<td>14</td>
+<td><strong>14, 17 Timing; generators, asynchronous circuits</strong></td>
+<td>Syllabus items with no deck coverage</td>
+<td>17 hazards</td>
+<td>40 min</td>
+</tr>
+<tr>
+<td>last</td>
+<td><strong>20 Mock paper</strong></td>
+<td>Closed book, after the rest</td>
+<td>all</td>
+<td>3 h</td>
+</tr>
+</tbody>
+</table>
+<p>Two rules for using the ranking:</p>
+<ul>
+<li><strong>Short on time:</strong> do only the "Do first" column, top to bottom, then the matching mock-paper questions.</li>
+<li><strong>Stuck in 13 or 15:</strong> both rest on 09 (the excitation tables) and 02 (K-maps). Go back one step and don't skip ahead.</li>
+</ul>
+<h2>The path through this pack</h2>
+<p>The order is the syllabus, unit by unit.</p>
+<p><strong>Unit 1 — combinational logic design</strong></p>
+<div class="map"><span class="n">01 Boolean algebra</span><span class="a">→</span><span class="n">02 K-map</span><span class="a">→</span><span class="n">03 NAND, NOR</span><span class="a">→</span><span class="n">04 Adders, subtractors</span></div>
+
+<p><strong>Unit 2 — MSI devices</strong></p>
+<div class="map"><span class="n">05 MUX, DEMUX</span><span class="a">→</span><span class="n">06 Decoder, encoder</span><span class="a">→</span><span class="n">07 Display, comparator, parity</span><span class="a">→</span><span class="n">08 Shifter, ALU</span></div>
+
+<p><strong>Unit 3 — sequential logic</strong></p>
+<div class="map"><span class="n">09 Latches, flip-flops</span><span class="a">→</span><span class="n">10 Waveforms</span><span class="a">→</span><span class="n">11 Registers, ring, Johnson</span><span class="a">→</span><span class="n">12 Ripple counters</span><span class="a">→</span><span class="n here">13 Synchronous counters</span><span class="a">→</span><span class="n">14 Timing analysis</span></div>
+
+<p><strong>Units 4–5 — state machines, families, memories</strong></p>
+<div class="map"><span class="n">15 FSM design</span><span class="a">→</span><span class="n">16 Reduction, ASM</span><span class="a">→</span><span class="n">17 Generators, async</span><span class="a">→</span><span class="n">18 Logic families</span><span class="a">→</span><span class="n">19 Memories, PLDs</span><span class="a">→</span><span class="n">20 Mock paper</span></div>
+
+<p>Each file needs the ones before it. 02 is Boolean algebra drawn as a grid. 05–06 build functions from blocks instead of gates. 13 uses 09's excitation tables and 02's K-maps. 15 is 13 with an input added. 19's PLA is two levels of 01's gates, made programmable.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Syllabus item</th>
+<th>What it teaches</th>
+<th>Real Qs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>U1</td>
+<td>gates, Boolean laws, minterms, maxterms, Σm and ΠM</td>
+<td>deck 01</td>
+</tr>
+<tr>
+<td>02</td>
+<td>U1</td>
+<td>K-maps (3, 4, 5 variables), don't-cares, POS</td>
+<td>MTE Q4, set 1 Q1–Q2</td>
+</tr>
+<tr>
+<td>03</td>
+<td>U1</td>
+<td>universal gates, NAND-only, NOR-only</td>
+<td>MTE Q1</td>
+</tr>
+<tr>
+<td>04</td>
+<td>U1</td>
+<td>half/full adder and subtractor, parallel, look-ahead, serial, BCD</td>
+<td>deck 03</td>
+</tr>
+<tr>
+<td>05</td>
+<td>U2</td>
+<td>multiplexer, function generation, MUX tree, demultiplexer</td>
+<td>MTE Q5, set 1 Q3, Q5, Q6</td>
+</tr>
+<tr>
+<td>06</td>
+<td>U2</td>
+<td>decoder, decoder-based design, encoder, priority encoder</td>
+<td>MTE Q6, set 1 Q7–Q8</td>
+</tr>
+<tr>
+<td>07</td>
+<td>U2</td>
+<td>7-segment driver, multiplexed display, comparator, parity</td>
+<td>MTE Q2, set 1 Q9–Q10</td>
+</tr>
+<tr>
+<td>08</td>
+<td>U2</td>
+<td>logical, circular, arithmetic shifts, barrel shifter, ALU</td>
+<td>deck 07</td>
+</tr>
+<tr>
+<td>09</td>
+<td>U3</td>
+<td>SR latch, D latch, SR/D/JK/T flip-flops, master–slave, excitation, conversion</td>
+<td>MTE Q3, set 2 Q1</td>
+</tr>
+<tr>
+<td>10</td>
+<td>U3</td>
+<td>drawing flip-flop and latch waveforms</td>
+<td>MTE Q7, set 2 Q2–Q3</td>
+</tr>
+<tr>
+<td>11</td>
+<td>U3</td>
+<td>SISO, SIPO, PISO, PIPO, universal register, ring, Johnson</td>
+<td>deck 09</td>
+</tr>
+<tr>
+<td>12</td>
+<td>U3</td>
+<td>ripple up/down, MOD-N by reset, cascading</td>
+<td>deck 10</td>
+</tr>
+<tr>
+<td>13</td>
+<td>U3</td>
+<td>synchronous counter design with T, JK, D; MOD-N; any sequence</td>
+<td>MTE Q8, set 2 Q4–Q6</td>
+</tr>
+<tr>
+<td>14</td>
+<td>U3</td>
+<td>setup, hold, propagation delay, f<sub>max</sub></td>
+<td>practice</td>
+</tr>
+<tr>
+<td>15</td>
+<td>U4</td>
+<td>Moore and Mealy, sequence detectors, state assignment</td>
+<td>deck 11</td>
+</tr>
+<tr>
+<td>16</td>
+<td>U4</td>
+<td>partitioning, implication tables, compatibles, ASM charts</td>
+<td>decks 12–13</td>
+</tr>
+<tr>
+<td>17</td>
+<td>U4</td>
+<td>skew, metastability, LFSR, pulse train, clocks, races, hazards</td>
+<td>practice</td>
+</tr>
+<tr>
+<td>18</td>
+<td>U5</td>
+<td>noise margin, fan-out, TTL NAND, tristate, ECL, CMOS, interfacing</td>
+<td>deck 14</td>
+</tr>
+<tr>
+<td>19</td>
+<td>U5</td>
+<td>RAM, ROM, memory decoding, PROM, PAL, PLA</td>
+<td>deck 15</td>
+</tr>
+<tr>
+<td>20</td>
+<td>all</td>
+<td>one closed-book paper with a key</td>
+<td>sets 1–2, decks</td>
+</tr>
+</tbody>
+</table>
+<h2>Where the questions come from</h2>
+<p>A step opens with a <strong>real question, quoted</strong>, wherever the professor's material has one, tagged with its source: <span class="tag">MTE 2025 Q8</span> = the mid-term paper of 25 Sep 2025, <span class="tag">Set 2 Q5</span> = practice set 2, <span class="tag">Deck 10 slide 34</span> = a worked example on a slide. Where there is none, the step opens with a <strong>Predict</strong> prompt instead, or a problem tagged <span class="tag">practice</span>.</p>
+<p>All eight mid-term questions are worked in the pack. Mid-term Q7's waveform image is missing from our copy of the paper, so 10 uses a practice waveform in the same form.</p>
+<h2>How each file runs</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Map</strong></td>
+<td>the file's steps, in order</td>
+</tr>
+<tr>
+<td><strong>Build</strong></td>
+<td>each step opens with a real question or a Predict → you guess → the answer teaches the idea → a Check</td>
+</tr>
+<tr>
+<td><strong>Exam form</strong></td>
+<td>what to reproduce in the exam: statements, procedures, equations</td>
+</tr>
+<tr>
+<td><strong>Traps</strong></td>
+<td>the mistakes that cost marks</td>
+</tr>
+<tr>
+<td><strong>Self-test, Answers</strong></td>
+<td>answers to every Check and the Self-test are on the last page(s) of each file</td>
+</tr>
+</tbody>
+</table>
+<div class="box key">
+<div class="bh">The one rule that makes this work</div>
+<p>When you reach a <strong>Guess first</strong> box, write a guess on paper <strong>before</strong> reading on: one line, however wrong. A wrong guess that gets corrected sticks better than a right answer you only read.</p>
+</div>
+<h2>Units and symbols used everywhere</h2>
+<ul>
+<li><strong>A'</strong> = NOT A (complement). <strong>·</strong> or nothing = AND, <strong>+</strong> = OR, <strong>⊕</strong> = XOR, <strong>⊙</strong> = XNOR.</li>
+<li><strong>Σm(…)</strong> lists the rows where F = 1; <strong>ΠM(…)</strong> lists the rows where F = 0; <strong>d(…)</strong> lists don't-cares.</li>
+<li><strong>Q⁺</strong> = Q after the clock edge. <strong>Q0</strong> is the least significant bit of a counter.</li>
+<li>K-map rows and columns run <strong>00, 01, 11, 10</strong>, so neighbouring cells differ in one bit.</li>
+</ul>
+<h2>Where the professor's material disagrees with the pack</h2>
+<table>
+<thead>
+<tr>
+<th>Where</th>
+<th>Slide says</th>
+<th>Pack says</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deck 01 slide 31 (01)</td>
+<td>last term a'bc</td>
+<td>a'bc'</td>
+<td>the expansion of bc' gives a'bc' (row 2); a'bc is row 3, where f = 0</td>
+</tr>
+<tr>
+<td>Deck 15 slide 28 (19)</td>
+<td>F<sub>2</sub>(A, B, C), F<sub>3</sub>(A, B, C) with minterms up to 15</td>
+<td>functions of A, B, C, D</td>
+<td>three variables have only minterms 0–7</td>
+</tr>
+<tr>
+<td>Deck header vs paper</td>
+<td>ECE 2105</td>
+<td>ECE2102</td>
+<td>same syllabus; the deck code is stale</td>
+</tr>
+</tbody>
+</table>
+<h2>How this pack was checked</h2>
+<ul>
+<li>Facts: the subject knowledge base (Anand Kumar, Jain, Brown &amp; Vranesic, Mano).</li>
+<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (<code>verify.py</code>, 192 checks).</li>
+<li>Where a slide has a slip, the pack uses the corrected version and says so in a Note.</li>
+</ul></body></html>
