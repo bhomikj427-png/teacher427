@@ -15,4 +15,9 @@
   failure table; Geary lens; payoff; Sung J17/J21 touched). Sources +6 (CRK22 [full text], G84
   [full text, supersedes G85], A82, FP67, KMS10, CKS17); K02 upgraded to full text (Tables 2–3 read
   from scanned pages). misconceptions: M7 written; new M26–M30. 00-map §3 decision outcome recorded.
+- [2026-11-15] S4: A4-type-to-method.md (method evidence table with S/M/T grades; A3-row bridge table;
+  3 cross-cutting rules; encoding-vs-retrieval framing for S10) and A5-schemas-expertise-transfer.md
+  (chunks/schemas; surface vs structure; transfer + analogy noticing + schema induction; deliberate
+  practice honestly sized). Sources +9 (C06, BR19, Bi18, KACS03, KSC06, SK21, ATS17, GH80, MHO14).
+  misconceptions: M6, M8, M9, M17 written; new M31–M36 (all 30 written entries now have full text).
 

@@ -67,7 +67,7 @@
 | S1 | **Map pass** | 00-map, roster | 00-map §prereq graph + threshold concepts; `sources.md` (tiered canon); `misconceptions.md` seed; **A3 framework decision** (which taxonomy is the spine); `justin-sung-claims.md` (inventory of his claims, each mapped to a research question) | prereq graph covers A1–A8 + B tiers; canon has ≥1 tier-1 source per unit; Sung inventory ≥ 15 claims with video/source refs | **done 2026-11-15** → stage-1 |
 | S2 | A1 studying vs learning + A2 memory architecture | 00-map, sources, misconceptions | `A1-studying-vs-learning.md`, `A2-memory-architecture.md` | learning/performance, storage/retrieval strength, fluency illusions, WM limits, encoding→consolidation→retrieval, forgetting curve (replication) all sourced | **done 2026-11-15** |
 | S3 | **A3 taxonomy of information** (the hub) | 00-map, sources, A1, A2 | `A3-kinds-of-information.md` | each type defined with an example, brain system, and how it fails; declarative/procedural, Krathwohl 4, Gagné 5, primary/secondary, element interactivity, SOLO, perceptual, motor reconciled into one table | **done 2026-11-15** |
-| S4 | A4 bridge (type → method) + A5 schemas/expertise/transfer | 00-map, sources, A3 | `A4-type-to-method.md`, `A5-schemas-expertise-transfer.md` | bridge table: every A3 type → best-evidenced methods + grade; KLI framework checked; transfer near/far honest | |
+| S4 | A4 bridge (type → method) + A5 schemas/expertise/transfer | 00-map, sources, A3 | `A4-type-to-method.md`, `A5-schemas-expertise-transfer.md` | bridge table: every A3 type → best-evidenced methods + grade; KLI framework checked; transfer near/far honest | **done 2026-11-15** |
 | S5 | A6 depth/generative learning + A7 metacognition | 00-map, sources, A3, A4, justin-sung-claims | `A6-depth-and-generation.md`, `A7-metacognition.md`; Sung claims touched here marked | levels of processing, generation, elaboration, concept maps (meta), advance organizers, pretesting; calibration + SRL sourced | |
 | S6 | A8 myths + Part A integration | all A files, misconceptions | `A8-myths.md`; cross-link pass; Part A README | every A file links to A3 types; no orphan claims | Part A stage-1 |
 | S7 | B1 historical teachers | roster §1, A3, A4 | `B1-historical.md` | each roster §1 entry written to protocol step 8 or dropped with reason | |
@@ -100,8 +100,8 @@ Read at start: <exact file list = Sy Inputs>
 | Item | Raised | Close in |
 |---|---|---|
 | Schroeder et al. 2017 vol/pages; Nesbit & Adesope 2006 overall pooled ES + subgroup g values at full text | S1 | S5 |
-| Barnett & Ceci 2002 exact dimension list (3 content + 6 context?) | S1 | S4 |
-| Dunlosky et al. 2013 moderate-utility list at full text | S1 | S4 |
+| Barnett & Ceci 2002 exact dimension list (3 content + 6 context?) | S1 | S11 (not closed in S4) |
+| Dunlosky et al. 2013 moderate-utility list at full text | S1 | S11 (not closed in S4) |
 | Zimmerman 2002 exact phase labels | S1 | S5 |
 | Dunlosky & Rawson 2012 → add to canon | S1 | S5 |
 | BB92 chapter editors/pages (from recall) | S2 | S11 |
@@ -114,31 +114,40 @@ Read at start: <exact file list = Sy Inputs>
 | S2 closed: Squire vol/issue ✓, BB92 + KB11 + PR18 added to canon ✓ | — | — |
 | S3 closed: Krathwohl procedural wording ✓ (full text) · KLI typology ✓ (CRK22 full text) · Gagné ✓ (G84 full text replaces 1985 edition) | — | — |
 | KCP12 original KC table + whether category learning sits under induction (A3 row 2) | S3 | S11 |
-| CKS17 vol/pages + verbatim intrinsic-load sentence | S3 | S4 |
-| CRK22 proceedings page numbers; look for replications of the fact/skill × practice/example interaction | S3 | S4 |
-| KMS10 perceptual-learning efficacy (A3 row 7 is `uncertain`) | S3 | S4 |
+| CKS17 vol/pages + verbatim intrinsic-load sentence | S3 | S11 (not closed in S4) |
+| CRK22 proceedings page numbers; look for replications of the fact/skill × practice/example interaction | S3 | S11 (not closed in S4) |
+| KMS10 perceptual-learning efficacy (A3 row 7 is `uncertain`) | S3 | S11 (not closed in S4) |
+| ATS17 numeric g (full-text host dead; engine seed g≈0.5–0.7 unverified) | S4 | S11 |
+| BR19: no/reversed interleaving benefit for words/expository text — confirm at full text | S4 | S11 |
+| SK21 vol/pages + how the bias-adjusted g = 0.87 was computed; fidelity moderator | S4 | S11 |
+| GH80/83 solution percentages (10 / 30 / 75–92 / 52%) at full text | S4 | S11 |
+| MHO14 vol/pages | S4 | S11 |
+| Rawson et al. 2013 successive relearning → add to canon (A4 row 1 grade is seed-level) | S4 | S5 |
 | Engine-seeded misconceptions M14 (learning pyramid), M15 (2σ), M17 (minimal guidance) → re-verify at primary source | S1 | S6 / S9b / S4 |
 
 ## Current hand-off
 
 ```
-Sprint: S3 — A3 kinds of information (hub) — done (2026-11-15)
-Written: knowledge-base/A3-kinds-of-information.md — §1 why one taxonomy isn't enough; §2 verified
-  building blocks (Krathwohl table verbatim; Gagné 5 + within-not-between rule verbatim; KLI
-  constant/variable KCs + 3 processes + CRK22 test d = 0.38; mechanism columns); §3 combined table
-  (rows: facts, concepts/categories, principles/models, procedures, conditional, metacognitive,
-  perceptual, motor, [attitudes]); §3.1 failure table; §4 Geary as lens; §5 payoff; §6 Sung J17/J21;
-  §7 uses · misconceptions M7 + new M26–M30 · sources +6 (38 total) · 00-map §3 outcome · CHANGELOG
-Verified this sprint: FULL TEXT — Krathwohl 2002 Tables 2–3 (scanned page images), Gagné 1984
-  pp. 377–379 (scanned), Carvalho/Rachatasumrit/Koedinger 2022 (KLI typology + experiment)
-Open (carried): Verify backlog — S4 rows: CKS17, CRK22 replications, KMS10
-Decisions made: A3 table = final structure for A4 and all Part B tags (cite rows as "A3 row N");
-  Geary = lens not column; row 5 conditional knowledge split out; engine note for S12: ROUTE could
-  key on all A3 rows, not just procedure vs concept
-Next sprint: S4 — A4 kind → method bridge + A5 schemas/expertise/transfer. First action: build the
-  A4 table row by row from A3 §3, starting with Dunlosky 2013 full text (moderate-utility list +
-  per-technique evidence), then worked-example/expertise-reversal (Sweller; Kalyuga) and
-  interleaving (Brunmair & Richter 2019) for rows 4–5
+Sprint: S4 — A4 kind → method bridge + A5 schemas/expertise/transfer — done (2026-11-15)
+Written: knowledge-base/A4-type-to-method.md (13-method evidence table with S/M/T grades and
+  boundaries; A3 row → first choice / also / avoid; 3 cross-cutting rules: expertise changes the
+  method, guidance-first vs productive failure reconciled by prerequisites, difficulty only within
+  reach; encoding-vs-retrieval framed as "both, by row") · A5-schemas-expertise-transfer.md (chess
+  chunks; novice surface vs expert structure; transfer taxonomy, analogy noticing bottleneck, schema
+  induction from compared analogs; deliberate practice sized by domain) · misconceptions M6/M8/M9/M17
+  written + new M31–M36 (36 total, 30 written) · sources +9 (47 total) · 00-map · CHANGELOG ·
+  Sung claims file (A4 §4 pointers)
+Verified this sprint: abstract level for all 9 new sources (no full text this sprint); several
+  S3-backlog items NOT closed → re-targeted to S11 (marked in backlog)
+Open (carried): Verify backlog — S5 row: Rawson 2013; plus S11 rows
+Decisions made: method grades S/M/T fixed in A4 §1 — Part B grades must cite these; productive
+  failure vs explicit instruction treated as compatible (prerequisites + instruction afterwards);
+  engine notes for S12: ROUTE for all A3 rows; teach-back names the deep principle
+Next sprint: S5 — A6 depth & generative learning + A7 metacognition. First action: Dunlosky &
+  Rawson 2012 (overconfidence / judgments of learning) + Rawson et al. 2013 successive relearning;
+  then A6: generation effect (Slamecka & Graf 1978; Bertsch 2007 meta), ICAP (Chi & Wylie 2014),
+  advance organizers (Ausubel; Luiten 1980 meta), Justin Sung J2/J3/J9–J14
 Read at start: sprints.md, knowledge-base/00-map.md, knowledge-base/sources.md,
-  knowledge-base/misconceptions.md, knowledge-base/A3-kinds-of-information.md
+  knowledge-base/misconceptions.md, knowledge-base/A3-kinds-of-information.md,
+  knowledge-base/A4-type-to-method.md, knowledge-base/justin-sung-claims.md
 ```

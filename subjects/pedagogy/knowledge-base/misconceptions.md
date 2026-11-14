@@ -15,10 +15,10 @@
 | M3 | Forgetting means the session was wasted | A1, A2 | written |
 | M4 | Working memory holds 7 ± 2 items | A2 | written |
 | M5 | People learn best in their "learning style" | A8 | seed |
-| M6 | Rereading and highlighting are good study techniques | A4 | seed |
+| M6 | Rereading and highlighting are good study techniques | A4 | written |
 | M7 | One best study method works for all material | A3, A4 | written |
-| M8 | Experts just have better memories / are smarter | A5 | seed |
-| M9 | If you learned it, you can use it anywhere | A5 | seed |
+| M8 | Experts just have better memories / are smarter | A5 | written |
+| M9 | If you learned it, you can use it anywhere | A5 | written |
 | M10 | Wrong guesses before studying hurt learning | A6 | seed |
 | M11 | Retrieval practice only checks memory; it doesn't build understanding | A1, A6 | written |
 | M12 | Mind maps always beat linear notes | A6 | seed |
@@ -26,7 +26,7 @@
 | M14 | The learning pyramid ("10% of what we read…") | A8 | seed |
 | M15 | One-to-one tutoring reliably gives a 2-sigma gain | B2 | seed |
 | M16 | Any difficulty is a "desirable difficulty" | A1, A4 | written |
-| M17 | Novices learn best by discovering things themselves | A4 | seed |
+| M17 | Novices learn best by discovering things themselves | A4 | written |
 | M18 | If I can't recall it, I never learned it | A1 | written |
 | M19 | Doing well right after studying proves the method works | A1 | written |
 | M20 | For deep understanding, elaborating (e.g. concept mapping) beats testing yourself | A1, A6 | written |
@@ -40,6 +40,12 @@
 | M28 | Bloom's taxonomy is a strict ladder and "remember" is low-value | A3 | written |
 | M29 | Knowing a concept = being able to state its definition | A3 | written |
 | M30 | If it were taught right, it would come as naturally as learning to talk | A3 | written |
+| M31 | Worked examples are spoon-feeding; real learners should solve problems from the start | A4 | written |
+| M32 | Interleaving always beats blocking | A4 | written |
+| M33 | Productive failure means letting students struggle without help | A4 | written |
+| M34 | 10,000 hours of practice makes anyone an expert | A5 | written |
+| M35 | Once you've seen an example, you'll recognise when to use it | A5 | written |
+| M36 | Experts follow the same steps as novices, just faster | A5 | written |
 
 ---
 
@@ -216,10 +222,85 @@
   without being taught?"
 - **Unit:** A3 §4. Status: written.
 
+### M6 — Rereading and highlighting are good study techniques
+- **Why it feels true:** they are easy, feel productive, and raise fluency (A1 §6).
+- **Correction:** rated *low utility* (D13); restudy loses to retrieval on delayed tests (RK06).
+  They raise retrieval strength briefly without much storage gain (BB92).
+- **Exposing question:** "After the reread, close the book: what can you produce?"
+- **Unit:** A4 §1. Status: written.
+
+### M8 — Experts just have better memories / are smarter
+- **Why it feels true:** experts recall and solve things that look impossible to novices.
+- **Correction:** chess masters' advantage vanishes on random boards (CS73). Their edge is
+  domain-specific chunks, and they represent problems by deep principle rather than surface (CFG81).
+- **Exposing question:** "Would the expert still win on a random arrangement with no meaningful pattern?"
+- **Unit:** A5 §1–2. Status: written.
+
+### M9 — If you learned it, you can use it anywhere
+- **Why it feels true:** understanding feels general.
+- **Correction:** far transfer is hard and depends on content and context distance (BC02). Even with
+  the analogy in memory, people rarely notice it without a hint (GH80).
+- **Exposing question:** "Have you ever used this outside the type of problem you practised it on?"
+- **Unit:** A5 §3. Status: written.
+
+### M17 — Novices learn best by discovering things themselves
+- **Why it feels true:** discovery feels deep and memorable; "learning by doing" sounds right.
+- **Correction:** minimally guided instruction is less effective and efficient for novices (KSC06).
+  Productive failure works only when attempts are designed *and followed by instruction*, and it
+  reverses for young learners (SK21). Scaffolded inquiry ≠ minimal guidance (2007 rebuttals).
+- **Exposing question:** "After the struggle, who teaches the canonical solution, and when?"
+- **Unit:** A4 §3. Status: written.
+
+### M31 — Worked examples are spoon-feeding; real learners should solve problems from the start
+- **Why it feels true:** solving feels active; studying a solution feels passive.
+- **Correction:** for novices, worked examples beat unguided problem solving (worked-example effect;
+  KACS03; CRK22 for skills). The reverse holds once the learner is fluent (expertise reversal), so
+  the answer depends on level.
+- **Exposing question:** "Can the learner already do these steps unaided? If not, why make them guess?"
+- **Unit:** A4 §1, §3. Status: written.
+
+### M32 — Interleaving always beats blocking
+- **Why it feels true:** it is a famous desirable difficulty.
+- **Correction:** BR19: g = 0.42 overall but strongly moderated. It is best when categories are
+  similar to each other and complex; maths effects are small; some materials show no or reversed
+  benefit. For novices: block first, then mix (BB11 limit on difficulty).
+- **Exposing question:** "Can the learner already do each type on its own?"
+- **Unit:** A4 §1. Status: written.
+
+### M33 — Productive failure means letting students struggle without help
+- **Why it feels true:** the name emphasizes failure.
+- **Correction:** the evidence is for *problem-solving followed by instruction* (SK21, g = 0.36).
+  The struggle is designed, and the instruction that follows builds on students' attempts. Remove
+  the instruction and it becomes minimal guidance (KSC06).
+- **Exposing question:** "What happens straight after the struggle?"
+- **Unit:** A4 §1, §3. Status: written.
+
+### M34 — 10,000 hours of practice makes anyone an expert
+- **Why it feels true:** popular books; every expert practised a lot.
+- **Correction:** deliberate practice explained 26% of performance variance in games, 21% music,
+  18% sports, 4% education, <1% professions (MHO14; operationalization disputed by Ericsson et al.).
+  Practice is necessary, not sufficient, and its *quality* matters more than hours.
+- **Exposing question:** "Was the practice targeted at weaknesses, with feedback, at the edge of ability?"
+- **Unit:** A5 §4. Status: written.
+
+### M35 — Once you've seen an example, you'll recognise when to use it
+- **Why it feels true:** the example felt clear and memorable.
+- **Correction:** in GH80, most people did not apply an analogous solution they had just read
+  until hinted. Retrieval needs a matching cue (TT73). Comparing two or more analogs builds an
+  abstract schema that new problems can trigger (Gick & Holyoak 1983).
+- **Exposing question:** "Would you recognise the same principle in a problem that looks completely different?"
+- **Unit:** A5 §3. Status: written.
+
+### M36 — Experts follow the same steps as novices, just faster
+- **Why it feels true:** expert performance looks like sped-up novice performance.
+- **Correction:** experts represent problems differently, by deep principle (CFG81), with larger
+  chunks (CS73), and their procedures are compiled (A82). Copying an expert's speed without their
+  representation fails.
+- **Exposing question:** "How does the expert *describe* the problem before solving it?"
+- **Unit:** A5 §2. Status: written.
+
 ---
 
 ## Seeds awaiting their unit (full entries written in that unit's sprint)
-- **M5** learning styles → A8 (P08) · **M6** rereading/highlighting → A4 (D13) · **M8** experts → A5 (CS73, CFG81) · **M9** transfer → A5 (BC02) ·
-  **M10** wrong pretest guesses → A6 (RKK09) · **M12** mind maps → A6 (NA06, Sch17) · **M13**
-  Feynman Technique → A8/B3 · **M14** learning pyramid → A8 · **M15** 2-sigma → B2/B4b ·
-  **M17** discovery for novices → A4.
+- **M5** learning styles → A8 (P08) · **M10** wrong pretest guesses → A6 (RKK09) · **M12** mind maps → A6 (NA06, Sch17) · **M13**
+  Feynman Technique → A8/B3 · **M14** learning pyramid → A8 · **M15** 2-sigma → B2/B4b.

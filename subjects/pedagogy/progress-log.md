@@ -2,10 +2,10 @@
 
 ## Session resume
 - Last session: 2026-11-15
-- Where we stopped: S3 done (A3 written); next = S4 (A4 bridge + A5) — start from sprints.md "Current hand-off"
-- Recap: S0 scaffold + roster; S1 map pass; S2 A1 + A2; S3 A3 kinds of information (combined
-  table, 3 sources at full text); 38 sources; misconceptions M1–M30 (20 written)
-- Next up: S4 — say "S4"; read only the hand-off's "Read at start" list
+- Where we stopped: S4 done (A4 + A5 written); next = S5 (A6 + A7) — start from sprints.md "Current hand-off"
+- Recap: S0–S4 done: map pass; A1 studying vs learning; A2 memory; A3 kinds-of-information hub;
+  A4 type→method bridge; A5 schemas/expertise/transfer; 47 sources; misconceptions M1–M36 (30 written)
+- Next up: S5 — say "S5"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -68,9 +68,17 @@
 - [2026-11-15] S3 done-when checked: each row defined with example ✓, memory system ✓, failure ✓;
   declarative/procedural, Krathwohl 4, Gagné 5, primary/secondary, element interactivity, SOLO,
   perceptual, motor reconciled into one table ✓; no seed owned by A3 ✓; new misconceptions 5 ≥ 3 ✓.
+- [2026-11-15] Learner: "do as many sprints as u can within safe context window". S4 (A4 bridge + A5) started; tree clean.
+- [2026-11-15] S4: verified (abstract level) C06, BR19, Bi18, KACS03, KSC06, SK21, ATS17 (bib only),
+  GH80/83, MHO14 → added to sources.md; wrote A4-type-to-method.md and A5-schemas-expertise-transfer.md.
+- [2026-11-15] S4: misconceptions M6, M8, M9, M17 written; new M31–M36 written (A4 +3, A5 +3).
+- [2026-11-15] S4 done-when checked: bridge table covers every A3 row with grade ✓; KLI framework
+  used as spine ✓ (KCP12 original table still S11); transfer near/far written with honest
+  uncertainty ✓. Five S3 backlog items not closed → re-targeted to S11 in the backlog.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
 - [2026-11-15] S1 map pass done · 21 anchors verified · Sung inventory J1–J22 · A3 spine decided · stage-1 · next: S2 (A1+A2)
 - [2026-11-15] S2 done · A1 + A2 written · sources 32 · misconceptions full-entry format, M18–M25 new · next: S3 (A3 hub)
 - [2026-11-15] S3 done · A3 hub table written · K02/G84/CRK22 at full text · M26–M30 new · next: S4 (A4 + A5)
+- [2026-11-15] S4 done · A4 bridge + A5 written · sources 47 · M31–M36 new · next: S5 (A6 + A7)

@@ -43,6 +43,10 @@
 - **A3 §6 (S3):** J17 — KLI: flashcards fit constant–constant facts; variable skills need other
   formats (CRK22), but D13 rates practice testing high → "D-tier" likely describes misuse (J20).
   J21 — "6 levels" very likely Krathwohl's six processes (K02 Table 3; hierarchy relaxed).
+- **A4 §4 (S4):** J4/J5/J11/J12 — bridge table gives retrieval a role in rows 1, 3, 4 (different
+  prompts) and encoding/organization methods a role in rows 2, 3, 5; evidence points to "both, by
+  row", not encoding *over* retrieval. J5 (load is necessary) must be read against expertise
+  reversal + BB11 limit. J18 (rereading/highlighting D-tier) matches D13 *low*.
 
 ## Leads carried to S10
 - **Learning-Sciences-PhD response video:** not found in two searches (2026-11-15). Next: search
