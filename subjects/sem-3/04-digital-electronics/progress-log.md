@@ -7,7 +7,7 @@
 ## Session resume
 - Last session: 2026-11-14 — no teaching; built `study-pack/pdf-ete/DE-ETE-v1.pdf` (61 pp., all 5 units, EDC-ETE-v1 format).
 - Where we stopped: pack delivered; learner has not worked any Check. **No teaching yet; learner level undiagnosed.**
-- Next up: start-of-session recall, then the mock paper (in the PDF) as the diagnostic; teach from the misses.
+- Next up: **rebuild the ETE pack to `study-pack-format.md` (v1.2)**, pilot file first; the v1 pack was rejected 2026-11-14.
 - Due for review today: nothing yet (no items mastered).
 - Open: ETE date and format not given; no memory deck from the professor (E6 is built from the KB).
 
@@ -163,3 +163,7 @@
   Reuses the DE-v1 ETE-half figures (`study-pack/pdf/figs.py`) and 4 Wikimedia Commons drawings. All 61 pages viewed after the final build.
   `study-pack/pdf-ete/README.md` written. **No teaching event; mastery ledger and review queue unchanged.**
   **Where we stopped:** pack delivered; learner has not worked any Check.
+- [2026-11-14] Learner verdict (stated) on the v1-format packs: "this isnt really what i wanted … v1 isnt good at all"; the expected shape is the
+  Circuits & Systems pack. Format written down as `study-pack-format.md` (v1.2) at the project root. `study-pack/pdf-ete/DE-ETE-v1.pdf` (and `study-pack/pdf/DE-v1.pdf`) is listed there as
+  **non-conforming** (one question and one Check per topic, no ranked start page, no Exam form/Traps/Self-test); its questions, figures and
+  `verify.py` are sound and will be reused in the rebuild. README marked. Rebuild not started. **No teaching event.**

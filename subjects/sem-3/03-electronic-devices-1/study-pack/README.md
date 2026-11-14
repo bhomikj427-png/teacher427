@@ -1,5 +1,8 @@
 # ECE 2106 Electronic Devices & Circuits: ETE study pack
 
+> ⚠ **Does not conform to `study-pack-format.md` (v1.2). Rejected by the learner 2026-11-14. Do not copy this pack's shape.**
+> Its questions, figures and verification script are sound and are the raw material for the rebuild.
+
 - **Read:** `pdf/EDC-ETE-v1.pdf` (63 pp., A4). Parts A–G = Units 1–7, then a mock paper with key and a formula sheet.
 - **Format:** the DE-v1 format (`../../04-digital-electronics/study-pack/pdf/`): Q (sourced) → guess → figure → teaching → answer → Check; Check answers end each Part.
 - **Edit:** `pdf/parts/*.html` (text), `pdf/figs.py`, `figs2.py`, `figs3.py` (every figure). The PDF is generated; never edit it by hand.

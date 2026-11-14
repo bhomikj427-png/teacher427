@@ -202,6 +202,13 @@ prefers minimal prose, wants diagrams described, etc.)*
   between concepts as its own bridge ("why the next thing exists"); define every term before first
   use; enforce a per-page load budget mechanically. Extends the 2026-09-15 and site-v2 rules to print.
 
+- [stated 2026-11-14] **Study packs are built to `study-pack-format.md` (v1.2), with the Circuits &
+  Systems pack as the example.** The dense "v1" PDFs (DE-v1, EDC-ETE-v1, DE-ETE-v1) were rejected:
+  "this isnt really what i wanted", "v1 isnt good at all", "isnt tier 2 [the per-step rewrite]
+  supposed to be default?". → build every pack to the spec; never copy an older pack's shape; pilot one
+  file before a full build; write any later format change into the spec itself the same session
+  ("make it be self regulating").
+
 ## 4. Autonomy & choice
 - [stated 2026-10-17] **Engine does all verification; the learner only learns.** "I can only either
   learn or be checking everything myself." → re-derive and cross-check every answer independently,
@@ -321,3 +328,5 @@ without breaking the method.)*
 - 2026-10-17 — Added §4 stated prefs: engine does all verification; no marking (misses-only
   evidence); marathon study mode (`marathon.md`). Logged the §7 cramming tension (massing honoured,
   generation + revision set kept).
+- 2026-11-14 — Added §3 pref: study packs follow `study-pack-format.md` (v1.2, self-regulating); the
+  dense "v1" PDF format is rejected. `CLAUDE.md` gains a *Study packs* section and a file-map line.

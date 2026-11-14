@@ -7,7 +7,7 @@
 ## Session resume
 - Last session: 2026-11-13/14 — no teaching; inbox triage (21 professor files) + built `study-pack/pdf/EDC-ETE-v1.pdf` (63 pp., all 7 ECE2106 units).
 - Where we stopped: pack delivered; learner has not worked any Check. ETE stated as about 2026-11-15.
-- Next up: start-of-session recall, then the mock paper (in the PDF) as the diagnostic; teach from the misses.
+- Next up: **rebuild the ETE pack to `study-pack-format.md` (v1.2)**, pilot file first; the v1 pack was rejected 2026-11-14.
 - Due for review today: nothing yet (no items mastered).
 - Open: U6 Feedback, U7 Oscillators and the deck extras are in the pack but not in `knowledge-base/` (no stage-2 research).
 
@@ -61,3 +61,7 @@
   sources. `verify.py` passes (211 checks). Second deck slip flagged in the PDF: feedback slide 32 prints 98.3 for A = 5000 (formula gives 98.0).
   All pages viewed after the final build. `study-pack/README.md` written. **No teaching event; mastery ledger and review queue unchanged.**
   **Where we stopped:** pack delivered; learner has not worked any Check. Open: U6/U7 + deck extras still absent from `knowledge-base/` (pack-only).
+- [2026-11-14] Learner verdict (stated) on the v1-format packs: "this isnt really what i wanted … v1 isnt good at all"; the expected shape is the
+  Circuits & Systems pack. Format written down as `study-pack-format.md` (v1.2) at the project root. `study-pack/pdf/EDC-ETE-v1.pdf` is listed there as
+  **non-conforming** (one question and one Check per topic, no ranked start page, no Exam form/Traps/Self-test); its questions, figures and
+  `verify.py` are sound and will be reused in the rebuild. README marked. Rebuild not started. **No teaching event.**

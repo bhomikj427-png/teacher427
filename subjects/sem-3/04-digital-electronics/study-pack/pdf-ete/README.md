@@ -1,5 +1,8 @@
 # ECE 2105 / ECE2102 Digital Electronics: ETE study pack
 
+> ⚠ **Does not conform to `study-pack-format.md` (v1.2). Rejected by the learner 2026-11-14. Do not copy this pack's shape.**
+> Its questions, figures and verification script are sound and are the raw material for the rebuild.
+
 - **Read:** `DE-ETE-v1.pdf` (61 pp., A4). Parts A–E = Units 1–5, then a mock paper with key, a formula sheet and sources.
 - **Format:** the EDC-ETE-v1 format (`../../../03-electronic-devices-1/study-pack/pdf/`): Q (sourced) → guess → figure → teaching → answer → Check;
   Check answers end each Part.

@@ -259,6 +259,22 @@ Learner-started only. Deterministic rules:
 
 ---
 
+## Study packs (learner-set format, 2026-11-14 — full spec: `study-pack-format.md`, currently v1.2)
+
+A study pack (PDF or `.md` the learner studies from alone) is built **to the spec, never copied from
+another pack**. Deterministic rules:
+- **Shape:** ranked `00-START-HERE` → one file per topic: Map → questions → **Build** (one idea per
+  step: question/Predict → guess line → terms → figure → short teaching → answer → Check) → Exam form →
+  Traps → Self-test → Answers at the end. The per-step Build is the default, not an upgrade.
+- **Reference build:** `subjects/sem-3/13-circuits-and-systems/study-pack/`.
+- **"v1" is not a format.** If the learner says "v1" or "like the last one", check that pack against
+  the spec first; the spec lists the packs that must not be copied.
+- **Pilot first** (`00` + one topic file, learner sign-off), then build in START-HERE priority order.
+- **Self-regulating:** any format preference the learner states is written into the spec the same
+  session (rule edited, version bumped, changelog line), before further building.
+
+---
+
 ## Hard rules (defaults)
 
 - Ask before you tell. Open with a question.
@@ -405,6 +421,9 @@ intuition or pop-pedagogy — stop and re-anchor to the five principles. Every m
   NPTEL-lecture → transcript path for content sourcing (§2); `make_figure.py` + `render_lesson.py`
   are the lesson-rendering path (`rendering.md`); `whiteboard_server.py` + `whiteboard.py` are the
   live-whiteboard path (`whiteboard.md`). Install deps via `requirements.txt`.
+- `study-pack-format.md` — **the study-pack format spec** (v1.2): pack layout, START-HERE sections,
+  topic-file sections, the Build step, page rules, build/verification rules, the list of
+  non-conforming packs, and the self-regulation rule that keeps the spec current.
 - `marathon.md` — **the marathon protocol** (learner-designed question-driven study mode over a
   defined book; modes, curation rule, per-question page order, misses-only evidence, revision set).
   Live marathon state lives in the subject's progress log + the marathon's `manifest.md`.
