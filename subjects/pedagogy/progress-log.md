@@ -2,10 +2,10 @@
 
 ## Session resume
 - Last session: 2026-11-15
-- Where we stopped: S0 done (scaffold + roster + sprint plan); next = S1 map pass — see sprints.md "Current hand-off"
-- Recap: subject scoped (Part A science of learning by information type; Part B teachers, graded);
-  goals/delivery set by learner; roster search started
-- Next up: S1 map pass (sprints.md)
+- Where we stopped: S1 map pass done (stage-1); next = S2 (A1 + A2) — start from sprints.md "Current hand-off"
+- Recap: S0 scaffold + roster; S1 map pass — 21 verified anchor sources, Sung claims J1–J22,
+  misconceptions M1–M17, A3 spine decided, prereq graph + threshold concepts
+- Next up: S2 — say "S2"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -31,6 +31,18 @@
   template). S0 (scaffold + roster) marked done.
 - [2026-11-15] Learner decision: research + KB writing stay in the same sprint (study-pack writing
   stays separate, S14+); add write-as-you-verify rule to sprints.md protocol.
+- [2026-11-15] S1 (map pass) started — inputs read: sprints.md, 00-map.md, roster.md.
+- [2026-11-15] S1: verified 21 Part A anchor sources (citation + abstract-level claim) and wrote
+  each into knowledge-base/sources.md as checked (write-as-you-verify); Squire vol. and Schroeder
+  2017 vol/pages flagged unverified.
+- [2026-11-15] S1: wrote justin-sung-claims.md (J1–J22; mostly third-party digests → caption check in
+  S10; PhD response video not found in 2 searches), misconceptions.md (M1–M17 seed), CHANGELOG.md.
+- [2026-11-15] S1: rewrote 00-map.md — prerequisite graph, A3 spine decision (combined table),
+  5 threshold concepts; stage-0 → stage-1.
+- [2026-11-15] S1 done-when checked: prereq graph covers A1–A8 + B tiers ✓; ≥1 tier-1 source per
+  unit ✓ (A1 SB15 … A8 P08); Sung inventory 22 ≥ 15 ✓. sprints.md: session-entry step + persistent
+  Verify backlog added; S1 ticked; hand-off for S2 written.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
+- [2026-11-15] S1 map pass done · 21 anchors verified · Sung inventory J1–J22 · A3 spine decided · stage-1 · next: S2 (A1+A2)

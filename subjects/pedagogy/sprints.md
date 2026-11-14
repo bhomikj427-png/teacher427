@@ -9,6 +9,13 @@
 
 ## Sprint protocol (every sprint, fixed order)
 
+**Session entry (before anything else)**
+0. `CLAUDE.md` session-start steps 0–0b as usual (load preferences; `git status`, commit any
+   leftover work first). Sweep other subjects' spaced-review queues and *report* items due (do not
+   run them unless the learner chooses). Research sprints skip the start-of-session learner recall
+   (nothing has been taught yet); **the hand-off below is the resume.** The trigger phrase is just
+   the sprint id ("S2").
+
 **Start (context hygiene)**
 1. Read only: this file's *Current hand-off* block → the sprint's **Inputs** list → `CLAUDE.md`
    rules already loaded. Do not read other KB files "for context"; if a file is needed, it must
@@ -39,7 +46,8 @@
 **Close**
 10. Self-check the sprint's **Done-when** list item by item; anything failing → stays open in the
     hand-off (sprint marked `partial`, never `done`).
-11. Overwrite *Current hand-off* (template below); tick the sprint in the table; update
+11. Move every open item into **Verify backlog** (below; it persists, the hand-off is overwritten).
+    Overwrite *Current hand-off* (template below); tick the sprint in the table; update
     `00-map.md` stage line if the stage changed; progress-log resume; commit + push.
 
 ---
@@ -49,7 +57,7 @@
 | # | Sprint | Inputs (read only these) | Outputs | Done when | Status |
 |---|---|---|---|---|---|
 | S0 | Scaffold + roster | — | progress-log, profile, 00-map, roster.md | roster ≥ 5 tiers, provisional grades | **done 2026-11-15** |
-| S1 | **Map pass** | 00-map, roster | 00-map §prereq graph + threshold concepts; `sources.md` (tiered canon); `misconceptions.md` seed; **A3 framework decision** (which taxonomy is the spine); `justin-sung-claims.md` (inventory of his claims, each mapped to a research question) | prereq graph covers A1–A8 + B tiers; canon has ≥1 tier-1 source per unit; Sung inventory ≥ 15 claims with video/source refs | → stage-1 |
+| S1 | **Map pass** | 00-map, roster | 00-map §prereq graph + threshold concepts; `sources.md` (tiered canon); `misconceptions.md` seed; **A3 framework decision** (which taxonomy is the spine); `justin-sung-claims.md` (inventory of his claims, each mapped to a research question) | prereq graph covers A1–A8 + B tiers; canon has ≥1 tier-1 source per unit; Sung inventory ≥ 15 claims with video/source refs | **done 2026-11-15** → stage-1 |
 | S2 | A1 studying vs learning + A2 memory architecture | 00-map, sources, misconceptions | `A1-studying-vs-learning.md`, `A2-memory-architecture.md` | learning/performance, storage/retrieval strength, fluency illusions, WM limits, encoding→consolidation→retrieval, forgetting curve (replication) all sourced | |
 | S3 | **A3 taxonomy of information** (the hub) | 00-map, sources, A1, A2 | `A3-kinds-of-information.md` | each type defined with an example, brain system, and how it fails; declarative/procedural, Krathwohl 4, Gagné 5, primary/secondary, element interactivity, SOLO, perceptual, motor reconciled into one table | |
 | S4 | A4 bridge (type → method) + A5 schemas/expertise/transfer | 00-map, sources, A3 | `A4-type-to-method.md`, `A5-schemas-expertise-transfer.md` | bridge table: every A3 type → best-evidenced methods + grade; KLI framework checked; transfer near/far honest | |
@@ -80,21 +88,42 @@ Next sprint: Sy — first action: <one concrete step>
 Read at start: <exact file list = Sy Inputs>
 ```
 
+## Verify backlog (persistent — items leave only when resolved, with the sprint that closed them)
+
+| Item | Raised | Close in |
+|---|---|---|
+| Squire 2004 volume/issue number (journal + pages confirmed only) | S1 | S2 |
+| Schroeder et al. 2017 vol/pages; Nesbit & Adesope 2006 overall pooled ES + subgroup g values at full text | S1 | S5 |
+| Krathwohl 2002 exact wording of *procedural knowledge* | S1 | S3 |
+| KLI knowledge-component typology at full text (decides A3 table labels) | S1 | S3 |
+| Gagné five capabilities: edition-specific wording (1985 4th ed.) | S1 | S3 |
+| Barnett & Ceci 2002 exact dimension list (3 content + 6 context?) | S1 | S4 |
+| Dunlosky et al. 2013 moderate-utility list at full text | S1 | S4 |
+| Zimmerman 2002 exact phase labels | S1 | S5 |
+| Bjork & Bjork 1992 (new theory of disuse) and Dunlosky & Rawson 2012 → add to canon | S1 | S2 / S5 |
+| Karpicke & Blunt 2011 (retrieval vs concept mapping) + Pan & Rickard 2018 → canon (needed for M11, J4) | S1 | S2 |
+| Justin Sung: locate the Learning-Sciences-PhD response video; caption-check every `digest` claim | S0/S1 | S10 |
+| Roster open leads (Montessori meta, Kumon RCT full text, Nuthall 3 encounters, Suzuki/Moore evidence, gurukul/chavruta) | S0 | S7–S9b |
+| Engine-seeded misconceptions M14 (learning pyramid), M15 (2σ), M17 (minimal guidance) → re-verify at primary source | S1 | S6 / S9b / S4 |
+
 ## Current hand-off
 
 ```
-Sprint: S0 — scaffold + roster — done (2026-11-15)
-Written: progress-log.md, learner-profile.md, knowledge-base/00-map.md (scope, A1–A8 plan, build
-  order), knowledge-base/roster.md (~60 people, 5 tiers, provisional grades, open leads, search
-  provenance), sprints.md (this plan)
-Verified this sprint: nothing to stage standard — roster grades are pointers from web search only
-Open (carried): roster "Open search leads" list (Sung rebuttal video; Montessori meta Randolph et
-  al. 2023; Kumon RCT full text; Nuthall 3-encounters; Gagné + Krathwohl 2002; Suzuki/Moore
-  evidence; gurukul/chavruta)
-Decisions made: goal = learner + teacher + engine equally; Part B graded-all-included; delivery =
-  study pack v1.2 after stage-2✓; engine research/ is a seed, re-verified, never edited directly
-Next sprint: S1 — first action: draft the A1–A8 prerequisite graph in 00-map, then pick the A3
-  spine taxonomy (candidates: Krathwohl 2002 knowledge dimension vs Gagné learned capabilities
-  vs KLI knowledge-component types)
-Read at start: sprints.md, knowledge-base/00-map.md, knowledge-base/roster.md
+Sprint: S1 — map pass — done (2026-11-15)
+Written: knowledge-base/sources.md (21 tier-1 anchors, IDs SB15…RKK09, citation details checked,
+  claim-level marked per row) · misconceptions.md (M1–M17 seed) · justin-sung-claims.md (J1–J22,
+  reliability-coded, research question + Part A home per claim) · 00-map.md rewritten (unit
+  anchors, prerequisite graph, A3 spine decision, 5 threshold concepts; stage-1) · CHANGELOG.md
+Verified this sprint: citation details + core finding (abstract level) for all 21 anchors; see the
+  "Verified" column in sources.md for which are claim-level vs bibliographic-only
+Open (carried): see Verify backlog (S2 rows first)
+Decisions made: A3 = one combined table (rows Krathwohl 4 + motor + perceptual; columns brain
+  system / Geary / element interactivity / SOLO / KLI process); A4 reads method off the KLI column;
+  threshold concept 4 (retrieval is encoding) is the hinge of the Sung audit
+Next sprint: S2 — A1 studying vs learning + A2 memory architecture. First action: verify Bjork &
+  Bjork 1992 new theory of disuse (storage vs retrieval strength) at source and write it into
+  A1-studying-vs-learning.md; then Karpicke & Blunt 2011 + Pan & Rickard 2018; then the Squire
+  volume number
+Read at start: sprints.md, knowledge-base/00-map.md, knowledge-base/sources.md,
+  knowledge-base/misconceptions.md
 ```
