@@ -29,6 +29,8 @@
   its content and ending with a written hand-off so the next session starts clean (no reliance on
   carried context). → wrote subjects/pedagogy/sprints.md (S0–S15 plan + sprint protocol + hand-off
   template). S0 (scaffold + roster) marked done.
+- [2026-11-15] Learner decision: research + KB writing stay in the same sprint (study-pack writing
+  stays separate, S14+); add write-as-you-verify rule to sprints.md protocol.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass

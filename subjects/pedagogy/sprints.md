@@ -21,6 +21,12 @@
 4. Effect sizes: quote with study, N/k, and the caveat (publication bias; `research/07`). Never
    a single number as a promise.
 5. Unverifiable this session → tag `uncertain` and add to the verify backlog; never written as fact.
+5b. **Write-as-you-verify (learner-confirmed 2026-11-15).** Research and KB writing happen in the
+    same sprint, interleaved claim by claim: verify one claim at its source → write it into the KB
+    file immediately (source + confidence tag) → next claim. Never batch "research everything, then
+    write" — a mid-session context compaction must never lose verified-but-unwritten findings.
+    Study-pack writing is a different job and stays in its own sprints (S14+), built only from
+    finished KB files.
 
 **Write (content standard — a file is "done" only if all hold)**
 6. Each claim carries a source + confidence tag (`settled` / `contested` / `uncertain` / `suspect`).
