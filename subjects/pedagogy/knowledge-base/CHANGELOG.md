@@ -30,3 +30,7 @@
   Sch17 construct/study g = 0.72/0.43 (was 0.82/0.37 from a secondary source); Sch17 bib = 30(2)
   431–455 (2018 print). misconceptions: M10, M12 written; new M37–M44.
 - [2026-11-15] S5: A4 §1 updated — successive relearning now cites RDS13; pretesting re-graded M → **S** for the asked items (SCA24 preregistered meta) with "no general effect" boundary; concept-mapping row gets construct/study split.
+- [2026-11-15] S6: A8-myths.md (prevalence Dek12; 8 myths; claim test kit) + README-part-A.md (Part A
+  guide; A3 row → unit → traps). Cross-link pass: all A files name their A3 rows; orphan-ID script check
+  clean. Sources +8 (Dek12, Sis18, Y19, N13, CGNA96, LH18, Og25, SY-FT). misconceptions M5, M13, M14 written;
+  new M45–M48. Part A content complete (stage-1 level).

@@ -14,7 +14,7 @@
 | M2 | If it feels fluent, I've learned it | A1, A7 | written |
 | M3 | Forgetting means the session was wasted | A1, A2 | written |
 | M4 | Working memory holds 7 ± 2 items | A2 | written |
-| M5 | People learn best in their "learning style" | A8 | seed |
+| M5 | People learn best in their "learning style" | A8 | written |
 | M6 | Rereading and highlighting are good study techniques | A4 | written |
 | M7 | One best study method works for all material | A3, A4 | written |
 | M8 | Experts just have better memories / are smarter | A5 | written |
@@ -22,8 +22,8 @@
 | M10 | Wrong guesses before studying hurt learning | A6 | written |
 | M11 | Retrieval practice only checks memory; it doesn't build understanding | A1, A6 | written |
 | M12 | Mind maps always beat linear notes | A6 | written |
-| M13 | The "Feynman Technique" was Feynman's method | A8, B3 | seed |
-| M14 | The learning pyramid ("10% of what we read…") | A8 | seed |
+| M13 | The "Feynman Technique" was Feynman's method | A8, B3 | written |
+| M14 | The learning pyramid ("10% of what we read…") | A8 | written |
 | M15 | One-to-one tutoring reliably gives a 2-sigma gain | B2 | seed |
 | M16 | Any difficulty is a "desirable difficulty" | A1, A4 | written |
 | M17 | Novices learn best by discovering things themselves | A4 | written |
@@ -54,6 +54,10 @@
 | M42 | Getting an item right once means I can stop studying it | A7 | written |
 | M43 | Metacognition means reflecting a lot; more reflection = better learning | A7 | written |
 | M44 | Being able to manage your own studying is a trait you have or don't | A7 | written |
+| M45 | People are left-brained (logical) or right-brained (creative) | A8 | written |
+| M46 | I can study fine while texting or watching something | A8 | written |
+| M47 | The Pomodoro technique makes you learn more | A8 | written |
+| M48 | Teaching students a growth mindset reliably raises their grades | A8 | written |
 
 ---
 
@@ -395,8 +399,69 @@
 - **Exposing question:** "Which of the three phases did you actually do this week?"
 - **Unit:** A7 §5. Status: written (correction size `uncertain`).
 
+### M5 — People learn best in their "learning style"
+- **Why it feels true:** preferences are real, and comfort feels like learning; 93–96% of surveyed
+  teachers believed it (Dek12).
+- **Correction:** the claim needs a crossover interaction (style-A learners gain more from method A,
+  style-B from method B). Reviews found virtually none, and some studies contradict it (P08).
+  The format should fit the *content* (A3 row) and prior knowledge, not the person.
+- **Exposing question:** "Has anyone shown that *your* style group learned more with the matched
+  method and *less* with the other one — on a real test?"
+- **Unit:** A8 §2 myth 1. Status: written.
+
+### M13 — The "Feynman Technique" was Feynman's method
+- **Why it feels true:** it carries his name and suits his reputation as a great explainer.
+- **Correction:** the named four-step method appears around 2011 in Scott Young's writing (SY-FT);
+  no Feynman text describing it was found (`uncertain` — absence of evidence). The method's parts
+  are well-evidenced anyway: self-explanation (Bi18), teaching as generative learning (FM16). Its
+  popularizer warns it does not replace practice problems.
+- **Exposing question:** "Where did Feynman write these steps down?"
+- **Unit:** A8 §2 myth 7. Status: written (attribution `uncertain`).
+
+### M14 — The learning pyramid ("we remember 10% of what we read … 90% of what we teach")
+- **Why it feels true:** tidy numbers; its message (doing beats watching) is partly right.
+- **Correction:** versions have circulated for over 160 years and did not come from research; the
+  percentages have no data behind them (LH18). The true part — constructive and interactive
+  activity beats passive receiving — is supported by ICAP without any percentages (CW14).
+- **Exposing question:** "Which study measured those percentages, with what test?"
+- **Unit:** A8 §2 myth 3. Status: written.
+
+### M45 — People are left-brained (logical) or right-brained (creative)
+- **Why it feels true:** some functions really do lean to one side (language mostly left), and
+  personality labels are appealing.
+- **Correction:** in 1,011 brain scans, lateralization was local to particular networks and present
+  in everyone; there was no whole-brain "left-brained" or "right-brained" type (N13).
+- **Exposing question:** "If language is left-sided in almost everyone, what would a
+  'right-brained' person use to talk?"
+- **Unit:** A8 §2 myth 2. Status: written.
+
+### M46 — I can study fine while texting or watching something
+- **Why it feels true:** you keep reading and the page still makes sense, so nothing seems lost.
+- **Correction:** dividing attention while encoding causes large memory losses; dividing it during
+  retrieval mostly costs speed (CGNA96). Feeling that it makes sense is performance, not storage (A1).
+- **Exposing question:** "Tomorrow, without notes, what can you recall from the pages you read with
+  the phone on?"
+- **Unit:** A8 §2 myth 4. Status: written.
+
+### M47 — The Pomodoro technique makes you learn more
+- **Why it feels true:** timed sprints feel focused, and breaks reduce tiredness.
+- **Correction:** the evidence (32 studies, N = 5,270) mainly measured self-rated focus, fatigue and
+  motivation, not delayed learning (Og25). It may help you sit down and keep going; it is not a
+  learning method. What you *do* in the 25 minutes decides the learning (A4).
+- **Exposing question:** "What did the studies measure — your feeling of focus, or what you could
+  recall a week later?"
+- **Unit:** A8 §2 myth 5. Status: written.
+
+### M48 — Teaching students a growth mindset reliably raises their grades
+- **Why it feels true:** the message is hopeful, and believing effort matters seems obviously useful.
+- **Correction:** across 43 studies, interventions gave d = 0.08 overall and about zero for
+  middle- and upper-SES students; larger effects for low-SES (d = 0.34, 7 effect sizes) (Sis18).
+  A national RCT found gains for lower-achieving students where peer norms supported the message
+  (Y19). Small and conditional, not a general lever.
+- **Exposing question:** "For which students, and how big was the gain?"
+- **Unit:** A8 §2 myth 6. Status: written.
+
 ---
 
 ## Seeds awaiting their unit (full entries written in that unit's sprint)
-- **M5** learning styles → A8 (P08) · **M13**
-  Feynman Technique → A8/B3 · **M14** learning pyramid → A8 · **M15** 2-sigma → B2/B4b.
+- **M15** 2-sigma → B2/B4b (only seed left).

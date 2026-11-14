@@ -2,11 +2,11 @@
 
 ## Session resume
 - Last session: 2026-11-15
-- Where we stopped: S5 done (A6 + A7 written); next = S6 (A8 myths + Part A integration) — start from sprints.md "Current hand-off"
+- Where we stopped: S6 done (A8 + Part A README; Part A content complete); next = S7 (B1 historical teachers) — start from sprints.md "Current hand-off"
 - Recap: S0–S5 done: map pass; A1 studying vs learning; A2 memory; A3 kinds-of-information hub;
   A4 type→method bridge; A5 schemas/expertise/transfer; A6 depth & generation; A7 metacognition;
-  57 sources; misconceptions M1–M44 (40 written)
-- Next up: S6 — say "S6"; read only the hand-off's "Read at start" list
+  A8 myths + Part A README; 65 sources; misconceptions M1–M48 (47 written)
+- Next up: S7 — say "S7"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -89,6 +89,15 @@
   (A4/Bi18 + D13 pending full text), concept maps meta ✓ (Sch17), advance organizers ✓ (LAA80, small/old),
   pretesting ✓ (SCA24 full), calibration ✓ (RT11, DR12), SRL ✓ (Z02, DB08 — sizes uncertain); no seed owned
   by A6/A7 ✓; new misconceptions A6 +4, A7 +4 ✓. sprints.md ticked, backlog updated, S6 hand-off written.
+- [2026-11-15] S6 (A8 myths + Part A integration) started; tree clean (S5 pushed as 7c57ba3).
+- [2026-11-15] S6: verified Dek12 (full text, Table 1), Sis18 (full text), Y19 + N13 + CGNA96 (Europe PMC
+  abstracts), LH18 (abstract), Og25 (PMC full record), SY-FT (Scott Young's own pages) → sources.md.
+- [2026-11-15] S6: wrote knowledge-base/A8-myths.md (8 myths + claim-testing kit); misconceptions M5, M13,
+  M14 written + new M45–M48 (only seed left: M15, owned by B2/B4b).
+- [2026-11-15] S6: wrote knowledge-base/README-part-A.md; cross-link pass done (all A files name A3 rows;
+  orphan source-ID script check clean).
+- [2026-11-15] S6 done-when checked: every A file links to A3 types ✓; no orphan source IDs ✓; A8 owns no
+  seed ✓; new misconceptions 4 ≥ 3 ✓. sprints.md ticked, backlog updated, S7 hand-off written.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
@@ -97,3 +106,4 @@
 - [2026-11-15] S3 done · A3 hub table written · K02/G84/CRK22 at full text · M26–M30 new · next: S4 (A4 + A5)
 - [2026-11-15] S4 done · A4 bridge + A5 written · sources 47 · M31–M36 new · next: S5 (A6 + A7)
 - [2026-11-15] S5 done · A6 depth & generation + A7 metacognition written · sources 57 · Sch17 numbers corrected · M37–M44 new · next: S6 (A8 + Part A integration)
+- [2026-11-15] S6 done · A8 myths + Part A README · Part A content complete · sources 65 · M45–M48 new · next: S7 (B1 historical)

@@ -69,7 +69,7 @@
 | S3 | **A3 taxonomy of information** (the hub) | 00-map, sources, A1, A2 | `A3-kinds-of-information.md` | each type defined with an example, brain system, and how it fails; declarative/procedural, Krathwohl 4, Gagné 5, primary/secondary, element interactivity, SOLO, perceptual, motor reconciled into one table | **done 2026-11-15** |
 | S4 | A4 bridge (type → method) + A5 schemas/expertise/transfer | 00-map, sources, A3 | `A4-type-to-method.md`, `A5-schemas-expertise-transfer.md` | bridge table: every A3 type → best-evidenced methods + grade; KLI framework checked; transfer near/far honest | **done 2026-11-15** |
 | S5 | A6 depth/generative learning + A7 metacognition | 00-map, sources, A3, A4, justin-sung-claims | `A6-depth-and-generation.md`, `A7-metacognition.md`; Sung claims touched here marked | levels of processing, generation, elaboration, concept maps (meta), advance organizers, pretesting; calibration + SRL sourced | **done 2026-11-15** |
-| S6 | A8 myths + Part A integration | all A files, misconceptions | `A8-myths.md`; cross-link pass; Part A README | every A file links to A3 types; no orphan claims | Part A stage-1 |
+| S6 | A8 myths + Part A integration | all A files, misconceptions | `A8-myths.md`; cross-link pass; Part A README | every A file links to A3 types; no orphan claims | **done 2026-11-15** (Part A written) |
 | S7 | B1 historical teachers | roster §1, A3, A4 | `B1-historical.md` | each roster §1 entry written to protocol step 8 or dropped with reason | |
 | S8 | B2 mid-century method-builders + B3 classroom legends | roster §2–3, A3, A4 | `B2-method-builders.md`, `B3-classroom-legends.md` | same; Feynman-technique attribution sourced | |
 | S9a | B4 researchers: memory & practice (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) | roster §4, A3, A4 | `B4a-researchers-memory.md` | same | |
@@ -129,36 +129,38 @@ Read at start: <exact file list = Sy Inputs>
 | Morris, Bransford & Franks 1977 transfer-appropriate processing — read primary | S5 | S11 |
 | Pan & Carpenter 2023 prequestion review (answer-must-follow condition) | S5 | S11 |
 | LAA80 third author spelling (Ackerson/Ackerman) + any numeric ES; Stone 1982 vs 1983 | S5 | S11 |
-| Engine-seeded misconceptions M14 (learning pyramid), M15 (2σ), M17 (minimal guidance) → re-verify at primary source | S1 | S6 / S9b / S4 |
+| Engine-seeded M15 (2σ) → re-verify at primary source (M14 closed S6 via LH18; M17 closed S4 via KSC06) | S1 | S9b |
+| "10% of the brain" + coordination exercises / Brain Gym: find a primary refutation or drop from A8 | S6 | S11 |
+| P08 full text (meshing criterion wording; number of studies) | S6 | S11 |
+| Y19 effect sizes (grades, lower-achievers) at full text | S6 | S11 |
+| Feynman Technique: check Gleick *Genius* / Feynman's own texts for any described method; Scott Young's 2011 post body | S6 | S10 |
+| Dek12 "commercial programmes" link — confirm wording in abstract | S6 | S11 |
 
 ## Current hand-off
 
 ```
-Sprint: S5 — A6 depth & generative learning + A7 metacognition — done (2026-11-15)
-Written: knowledge-base/A6-depth-and-generation.md (levels of processing + transfer-appropriate
-  caveat; generation effect Be07 d = .40 with moderators — nonwords .05, > 1 day .64; generative
-  learning + ICAP table with the authors' own three overrides; concept maps construct 0.72 / study
-  0.43 but < retrieval; pretesting specific g = 0.54 vs general 0.04; advance organizers small/old;
-  §7 "encoding vs retrieval = both are generation, prompt by A3 row") ·
-  A7-metacognition.md (monitoring vs control; why monitoring fails; delayed-JOL g = 0.93; criterion
-  stopping via successive relearning; Zimmerman cycle; calibration table) · misconceptions M10, M12
-  written + new M37–M44 (44 total, 40 written; seeds left: M5, M13, M14, M15) · sources +10 (57) ·
-  A4 §1 updated (pretesting → S for asked items; RDS13; mapping split) · 00-map · CHANGELOG ·
-  Sung claims file (S5 pointers)
-Verified this sprint: full text — Be07, CW14, SCA24; abstract — KHB09, RT11, BDK13, Sch17 (ERIC),
-  LAA80 (ERIC); bib only — DR12, RDS13, DB08 (publisher-elided abstracts)
-Open (carried): Verify backlog S11 rows added this sprint (DR12, RDS13, DB08, RT11 split, Morris
-  1977, Pan & Carpenter 2023, LAA80, Z02, NA06)
-Decisions made: retrieval and "encoding" methods are treated as one family (generation) whose
-  prompt is chosen by A3 row — S10 audits Sung's J4/J6 against A6 §7; ICAP overrides mean arbitrary
-  facts get retrieval, not elaboration; S12 engine candidates: prequestions aimed at the lesson's
-  key points (A6 §8), calibration feedback on CHECKs (A7 §7, `uncertain`)
-Next sprint: S6 — A8 myths + Part A integration. First action: Pashler et al. 2008 (P08) at full
-  text for learning styles (M5); then learning pyramid (M14: trace to NTL/Dale's cone critiques,
-  e.g. Letrud & Hernes 2016), Feynman-technique attribution (M13), and re-verify engine
-  research/06 myth seeds at primary source; then the cross-link pass (every A file → A3 rows) and
-  a Part A README
-Read at start: sprints.md, knowledge-base/00-map.md, knowledge-base/misconceptions.md (index +
-  seeds section), knowledge-base/sources.md, then each A file's headings only (grep "^## ") for
-  the cross-link pass; ../../research/06-excluded-and-contested.md for myth seeds (seed only — re-verify)
+Sprint: S6 — A8 myths + Part A integration — done (2026-11-15)
+Written: knowledge-base/A8-myths.md (prevalence from Dek12; 8 myths with why-it-feels-true +
+  evidence + grade: learning styles, left/right brain, learning pyramid, multitasking,
+  Pomodoro-as-learning, growth-mindset-as-lever, Feynman-technique attribution, rereading; a
+  7-question test kit for any learning claim) · README-part-A.md (8-step story, dependency graph,
+  threshold concepts, A3-row → unit → traps table) · cross-link pass: every A file names its A3
+  rows; zero orphan source IDs (script check) · misconceptions M5, M13, M14 written + new M45–M48
+  (48 total, 47 written; only seed = M15, owned by B2/B4b) · sources +8 (65)
+Verified this sprint: full text — Dek12 (Table 1), Sis18; abstract — Y19, N13, CGNA96, LH18;
+  record — Og25; practitioner's own pages — SY-FT
+Open (carried): backlog rows added S6 (10%-brain / Brain Gym refutation, P08 full text, Y19 sizes,
+  Feynman primary check → S10, Dek12 wording)
+Decisions made: Part A is complete in content (stage-1 level); A8 test kit (§3) is the standard
+  every Part B entry is checked against; Feynman Technique graded by its evidenced parts
+  (self-explanation, teaching), attribution kept `uncertain`
+Next sprint: S7 — B1 historical teachers. First action: read roster §1 (17 entries, Socrates →
+  Skinner); for each, find the person's own text or the best primary scholarship, write the entry
+  to protocol step 8 (serves → A3 row · grade S/M/T/X citing A4 §1 grades · use as learner · use as
+  teacher), or drop with reason. Likely S7a/S7b split (17 entries): S7a Socrates → Herbart,
+  S7b Fröbel → Skinner. Priority checks: Montessori (Lillard et al. 2017 lottery study), Vygotsky
+  ZPD vs scaffolding (Wood, Bruner & Ross 1976), Jesuit Ratio Studiorum (repetitions/review days)
+Read at start: sprints.md, knowledge-base/roster.md §1 + "Open search leads", knowledge-base/A3-kinds-of-information.md §3 (table only),
+  knowledge-base/A4-type-to-method.md §1–2, knowledge-base/A8-myths.md §3 (test kit),
+  knowledge-base/sources.md (ID list only)
 ```

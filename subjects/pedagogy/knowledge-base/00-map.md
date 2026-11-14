@@ -1,7 +1,7 @@
 # Pedagogy — Knowledge Base Map (Layer 2)
 
 > Built per `../../../subject-research-protocol.md`. Work runs in sprints (`../sprints.md`).
-> **Stage status: `stage-1`** (S1 map pass; S2 A1 + A2; S3 A3; S4 A4 + A5; S5 A6 + A7 — 2026-11-15).
+> **Stage status: `stage-1`** (S1 map pass; S2 A1 + A2; S3 A3; S4 A4 + A5; S5 A6 + A7; S6 A8 + Part A README — 2026-11-15).
 > Teaching gate = `stage-2✓` (no exception). Delivery once complete = study pack
 > (`study-pack-format.md` v1.2).
 
@@ -31,7 +31,7 @@
 | A5 | Schemas, chunking, novice vs expert, transfer | CS73, CFG81, BC02, GH80, MHO14, CKS17 — **written S4** (`A5-schemas-expertise-transfer.md`) |
 | A6 | Depth of processing & generative learning (Justin Sung's terrain): levels of processing, generation, elaboration, concept maps, advance organizers, pretesting | CL72, Be07 [full], CW14 [full], FM16, Sch17, KB11, KHB09, RKK09, SCA24 [full], LAA80 — **written S5** (`A6-depth-and-generation.md`) |
 | A7 | Metacognition & self-regulated learning; calibration | BDK13, RT11, DR12, RDS13, Z02, DB08, KoB08 — **written S5** (`A7-metacognition.md`) |
-| A8 | Myths | P08 (+ research/06 seeds → re-verify S6) |
+| A8 | Myths | P08, Dek12 [full], N13, LH18, CGNA96, Og25, Sis18 [full], Y19, SY-FT — **written S6** (`A8-myths.md`); Part A guide = `README-part-A.md` |
 
 ## 2. Prerequisite graph
 
