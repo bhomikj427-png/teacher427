@@ -71,8 +71,9 @@
 | S5 | A6 depth/generative learning + A7 metacognition | 00-map, sources, A3, A4, justin-sung-claims | `A6-depth-and-generation.md`, `A7-metacognition.md`; Sung claims touched here marked | levels of processing, generation, elaboration, concept maps (meta), advance organizers, pretesting; calibration + SRL sourced | **done 2026-11-15** |
 | S6 | A8 myths + Part A integration | all A files, misconceptions | `A8-myths.md`; cross-link pass; Part A README | every A file links to A3 types; no orphan claims | **done 2026-11-15** (Part A written) |
 | S7a | B1 historical teachers: Socrates → Herbart | roster §1, A3, A4 | `B1-historical.md` §1–7 + summary | each of the 7 entries written to protocol step 8 or dropped with reason | **done 2026-11-15** |
-| S7b | B1 historical teachers: Fröbel → Skinner (10) | roster §1, A3, A4, B1 (summary only) | `B1-historical.md` §8–17 | same | |
-| S8 | B2 mid-century method-builders + B3 classroom legends | roster §2–3, A3, A4 | `B2-method-builders.md`, `B3-classroom-legends.md` | same; Feynman-technique attribution sourced | |
+| S7b | B1 historical teachers: Fröbel → Skinner (10) | roster §1, A3, A4, B1 (summary only) | `B1-historical.md` §8–17 + full summary | each of the 10 entries written to protocol step 8 or dropped with reason | **done 2026-11-15** (B1 complete) |
+| S8a | B2 mid-century method-builders (Keller, Bloom, Gagné, Ausubel, Bruner, Engelmann, Kumon, lesson study, Oxbridge tutorial, Freire) | roster §2, A3, A4, B1 (summary only) | `B2-method-builders.md` | each entry to protocol step 8; M15 (2σ) seed written | |
+| S8b | B3 classroom legends (Feynman, Escalante, Collins, Khan) | roster §3, A3, A4, A8 §2 myth 7 | `B3-classroom-legends.md` | same; Feynman-technique attribution sourced | |
 | S9a | B4 researchers: memory & practice (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) | roster §4, A3, A4 | `B4a-researchers-memory.md` | same | |
 | S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | |
 | S10 | B5 practitioners + **full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 | `B5-practitioners.md`, `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **stage-1✓** |
@@ -111,7 +112,7 @@ Read at start: <exact file list = Sy Inputs>
 | A2: priming → neocortex (not in Sq04 abstract) | S2 | S11 |
 | LTM "no practical capacity limit" — find a source or drop | S2 | S11 |
 | Justin Sung: locate the Learning-Sciences-PhD response video; caption-check every `digest` claim | S0/S1 | S10 |
-| Roster open leads (Montessori meta, Kumon RCT full text, Nuthall 3 encounters, Suzuki/Moore evidence, gurukul/chavruta) | S0 | S7–S9b |
+| Roster open leads (Kumon RCT full text, Nuthall 3 encounters, gurukul/chavruta) — S7b closed: Montessori meta (Ra23 + Li25), Suzuki (LWW24), Moore (none found; IBL La14) | S0 | S8a–S9b |
 | S2 closed: Squire vol/issue ✓, BB92 + KB11 + PR18 added to canon ✓ | — | — |
 | S3 closed: Krathwohl procedural wording ✓ (full text) · KLI typology ✓ (CRK22 full text) · Gagné ✓ (G84 full text replaces 1985 edition) | — | — |
 | KCP12 original KC table + whether category learning sits under induction (A3 row 2) | S3 | S11 |
@@ -143,33 +144,37 @@ Read at start: <exact file list = Sy Inputs>
 | RS1599 translator (Farrell 1970?) for the Kolbe English text | S7a | S12 |
 | *Orbis Pictus* "first illustrated textbook" — find a primary/scholarly source or soften | S7a | S12 |
 | CSJ01 full text: prompt-only condition N, measures | S7a | S12 |
+| Vyg78 primary read (ZPD wording p. 86) + Chaiklin 2003 chapter | S7b | S12 |
+| Sm25 full text (effect sizes, conditions); WBR76 full text (six functions — 1976 or 1978?) | S7b | S12 |
+| KCE80 effect size (programmed instruction, college) — numbers not found | S7b | S12 |
+| LM96 abstract/full text; any Piaget primary for stages | S7b | S12 |
+| Fröbel gifts/occupations primary (*Pedagogics of the Kindergarten*); Moore method primary accounts (Parker 2005); Suzuki *Nurtured by Love*; Pólya *How to Solve It* | S7b | S12 |
+| La14, LWW24, Sk22, Li17 co-author lists / volume numbers | S7b | S12 |
 
 ## Current hand-off
 
 ```
-Sprint: S7a — B1 historical teachers, Socrates → Herbart — done (2026-11-15)
-Written: knowledge-base/B1-historical.md — header (grading rule: a historical method is graded by
-  the modern evidence for its mechanism; the package is almost never tested) + §1 Socrates,
-  §2 Confucius, §3 Quintilian, §4 Jesuit Ratio Studiorum, §5 Comenius, §6 Pestalozzi, §7 Herbart,
-  each to protocol step 8 + S7a summary table + "pattern" paragraph · misconceptions M49–M52 ·
-  sources +14 (7 primary texts + SK22, CSJ01, Ko19, No22, FN18, FMSG14, EC05)
-Verified this sprint: primary texts (Meno, Analects, Quintilian, Ratio 1599, Great Didactic,
-  How Gertrude, Science of Education); abstracts — SK22 g 0.41 (k 44), CSJ01 prompt-only tutoring,
-  Ko19 g 0.35/0.56 (28 studies), No22 (29 reviews); FN18 author MS
-Open (carried): backlog rows added S7a (SK22 moderators, FMSG14 numbers, FN18/No22 bib, EC05,
-  RS1599 translator, Orbis Pictus claim, CSJ01 full text)
-Decisions made: B1 entry format = What they did (primary, quoted) → Mechanism (Part A IDs) →
-  Serves → Grade "method / mechanism" → Use as learner → Use as teacher. Five-steps attributed to
-  Rein, not Herbart. Rivalry/prizes/public naming flagged "not supported", not graded (no Part A
-  unit covers competition)
-Next sprint: S7b — B1 Fröbel → Skinner (10 entries: Fröbel, Ebbinghaus [short: pointer to A2,
-  scientist not teacher], Dewey, Montessori, Vygotsky, Piaget, Pólya, R. L. Moore, Suzuki,
-  Skinner). First action: Montessori — Lillard et al. 2017 lottery study + Randolph et al. 2023
-  meta (Campbell review) at abstract/full text. Then Vygotsky ZPD vs Wood, Bruner & Ross 1976
-  scaffolding; Skinner 1958 "Teaching machines" (Science) + programmed-instruction meta (Kulik);
-  Dewey vs KSC06; Pólya heuristics (Schoenfeld 1985/1992). Append §8–17 + extend summary table;
-  then close B1 with misconceptions ≥3 new.
-Read at start: sprints.md, knowledge-base/roster.md §1 + "Open search leads",
-  knowledge-base/B1-historical.md (header + Summary only), knowledge-base/A3-kinds-of-information.md §3
-  (table only), knowledge-base/A4-type-to-method.md §1–2, knowledge-base/sources.md (ID list only)
+Sprint: S7b — B1 historical teachers, Fröbel → Skinner — done (2026-11-15); B1 complete
+Written: knowledge-base/B1-historical.md §8 Montessori, §9 Vygotsky (+ scaffolding), §10 Skinner,
+  §11 Dewey, §12 Piaget, §13 Fröbel, §14 Ebbinghaus (pointer to A2), §15 Pólya, §16 R. L. Moore,
+  §17 Suzuki; "Summary (B1, all 17)" table + B1 pattern (4 points) · misconceptions M53–M56 ·
+  sources +19 (98 total)
+Verified this sprint: full text — Montessori Handbook, Skinner 1958, Democracy and Education,
+  Education of Man, Schoenfeld 1992; abstracts — Li17, Li25 (PNAS 2025 national RCT), Ra23
+  (g 0.24 academic), WWM78, VVB10, Sm25 (failed replication), LH16 (d 0.50), Sk22, La14, LWW24
+Open (carried): backlog rows added S7b (Vygotsky primary, Sm25/WBR76 full text, KCE80 numbers,
+  LM96, Fröbel/Moore/Suzuki/Pólya primaries, co-author lists)
+Decisions made: §8 Montessori written out of birth order (tested as a package) — numbering is final;
+  Ebbinghaus kept as a pointer entry (scientist → A2). "Grade method / mechanism" two-part format
+  kept. S8 split into S8a (B2, 10 entries) and S8b (B3, 4 entries)
+Next sprint: S8a — B2 method-builders. First action: write M15 (2-sigma) properly — Bloom 1984
+  (Educational Researcher 13(6) 4–16) at primary + VanLehn 2011 + Nickow et al. 2020 tutoring meta;
+  then Keller PSI (Kulik, Kulik & Cohen 1979; Kulik, Kulik & Bangert-Drowns 1990 mastery meta),
+  Engelmann DI (Stockard et al. 2018, RER), Kumon (J. Human Capital RCT), Gagné nine events
+  (link to A3 §2.2 G84), Ausubel (link to A6 §5 LAA80), Bruner (spiral, CPA; link B1 §6),
+  lesson study, Oxbridge tutorial, Freire.
+Read at start: sprints.md, knowledge-base/roster.md §2 + "Open search leads",
+  knowledge-base/B1-historical.md (header + "Summary (B1, all 17)" only),
+  knowledge-base/A3-kinds-of-information.md §3 (table only), knowledge-base/A4-type-to-method.md §1–2,
+  knowledge-base/misconceptions.md (M15 seed line only), knowledge-base/sources.md (ID list only)
 ```

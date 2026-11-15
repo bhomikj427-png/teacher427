@@ -8,7 +8,7 @@
 > Every entry was checked against the A8 §3 test kit (outcome = learning? comparison? numbers
 > traceable? who sells it?).
 >
-> Written S7a (2026-11-15): Socrates → Herbart. S7b: Fröbel → Skinner.
+> Written S7a (2026-11-15): §1–7 Socrates → Herbart. S7b (2026-11-15): §8–17 Fröbel → Skinner.
 
 ---
 
@@ -327,7 +327,393 @@ to come back.
 
 ---
 
-## Summary (S7a)
+## 8. Montessori (1870–1952) — prepared environment, self-correcting materials, auto-education
+
+*(Out of birth order: written first in S7b because it is the one historical method tested as a
+whole. §9 onward follows the roster.)*
+
+**What she wrote (primary: *Dr. Montessori's Own Handbook*, 1914, Project Gutenberg #29635, read
+S7b).** The cylinder blocks: a child puts graded cylinders in holes; if one is misplaced, one
+cylinder is left without a hole, so "the child cannot help seeing his mistake in concrete form."
+"The educative process is based on this: that the control of the error lies in *the material
+itself*, and the child has concrete evidence of it. … It is not a teacher who makes him notice his
+mistake … Hence at this point there begins the process of auto-education." Children of three
+"repeated the exercise up to *forty* times"; a new set's "*change* of shape … reawakens his
+interest." On colour grading: an error by a child who has understood the task means he has not
+yet reached the stage of perceiving the differences — "It is practise which perfects in the child
+that capacity for distinguishing the fine differences, and so we leave him alone to his attempts!"
+
+**Mechanism (Part A).** *Control of error* = **immediate, task-level feedback** built into the
+object — no teacher judgement, no social cost (engine feedback protocol; A4 row 7). Sense
+materials (grading size, colour, texture) = **perceptual learning** by high-volume discrimination
+with feedback (A3 row 7; KMS10, `uncertain`). Self-paced repetition to mastery = practice to
+fluency (A3 row 4). Sequenced materials from concrete to symbolic (e.g. number rods → numerals) =
+concreteness fading (§6). Mixed ages + free choice are motivational/social features that Part A
+does not grade.
+
+**The evidence for the whole method (rare for this tier).**
+- Lillard et al. 2017 (Li17): lottery admission to two public Montessori schools in a high-poverty
+  US city, 141 children tested 4 times over ages 3–6. No difference at the start; over time the
+  Montessori group did better on academic achievement, social understanding and mastery
+  orientation; higher executive function at age 4. Small, two schools.
+- Lillard et al. 2025 (Li25, *PNAS*): national lottery study, 24 public Montessori schools. **No
+  notable impacts at the end of PK3 or PK4**; at the end of kindergarten, higher reading,
+  short-term memory, theory of mind and executive function; intention-to-treat effects "exceeded a
+  fifth of a SD". Only about half the treatment group stayed in Montessori for kindergarten; the
+  authors note "important limitations". Lead author is a long-standing Montessori researcher.
+- Randolph et al. 2023 (Ra23, Campbell review): 32 studies with baseline equivalence, 204 effect
+  sizes. Academic composite **g = 0.24** (general academic ability 0.26, maths 0.22, language
+  0.17 — high-quality evidence; science low quality); non-academic composite g = 0.33 (executive
+  function 0.36, moderate quality). Larger effects in randomized than non-randomized studies, in
+  preschool/elementary than middle/high school, and in private than public Montessori. The abstract
+  reports "some evidence for a lack of small sample-size studies" favouring traditional education —
+  a sign of possible publication bias.
+
+**Serves:** A3 row 7 (perceptual discrimination), row 4 (practical-life and early maths
+procedures), row 2 (early concepts: number, size, colour); row 8 (fine motor — writing preparation).
+
+**Grade:** **M** for the method as a package (preschool–elementary; g ≈ 0.2–0.3 academic; one
+national RCT with delayed effects; possible publication bias) — `contested` on size. The
+"control of error" mechanism is **S** in spirit (immediate feedback on a retrieval/production
+attempt). Nothing here shows it works beyond early schooling (Ra23: smaller effects at
+middle/high school).
+
+**Use as learner.** Build your own control of error: practice with answers you can check
+instantly and without a person — worked-answer keys you look at only after committing, simulators,
+compilers, unit tests, a calculator check of a hand derivation.
+
+**Use as teacher.** Design tasks whose result *shows* whether it is right (the circuit lights or
+not; the code passes the test). Let the learner repeat freely; change one feature to renew the
+task. Keep the method's limit in view: it is evidenced for young children.
+
+---
+
+## 9. Vygotsky (1896–1934) — the zone of proximal development; and what "scaffolding" really rests on
+
+**What he wrote.** The standard English definition (*Mind in Society*, 1978, p. 86 — an edited
+compilation published 44 years after his death): the ZPD is the distance between the actual
+developmental level "as determined by independent problem solving" and the level of potential
+development "as determined through problem solving under adult guidance or in collaboration with
+more capable peers." Primary book not read this session — wording taken from consistent
+secondary quotation → `uncertain` at the word level. Scholars note the 1978 text was heavily
+edited, and that Vygotsky's ZPD concerned **development and diagnosis** (what a child is about to
+be able to do), not a tutoring technique (Chaiklin, secondary, not read).
+
+**The tutoring idea grew elsewhere.** "Scaffolding" is not Vygotsky's word. Wood, Bruner & Ross
+1976 (WBR76) introduced it from one tutor teaching 3- to 5-year-olds a block-construction task.
+The six tutor functions often credited to that paper (recruitment, reduction in degrees of freedom,
+direction maintenance, marking critical features, frustration control, demonstration) are in
+practice cited from it and its follow-up; the follow-up, Wood, Wood & Middleton 1978 (WWM78),
+tested a **contingent** rule — give more help after a failure, less after a success — against three
+other strategies and reported the contingent one best ("largely confirms these predictions",
+abstract; 32 children).
+
+**The evidence.**
+- Van de Pol, Volman & Beishuizen 2010 (VVB10), review of a decade of scaffolding research: key
+  features = contingency, fading, transfer of responsibility; "the small number of effectiveness
+  studies available … suggest that scaffolding is effective. However, more research is needed. The
+  main challenge … appears to be its measurement."
+- **Smit, de Kleijn, Wicherts & van de Pol 2025 (Sm25)**, preregistered direct replication of
+  WWM78: 285 three-year-olds randomized to the four conditions; tutor accuracy matched the original
+  (68.9% vs 70%), but contingent instruction did **not** improve the children's independent
+  problem-solving over the other conditions; Bayes factors favoured the null (university
+  research-portal abstract + secondary commentary; full text not read → S12).
+
+**Mechanism (Part A).** What survives is the general principle the engine already uses:
+**difficulty at the edge of current ability** with support that is **faded** (A4 §1 worked
+examples → fading, S; expertise reversal, KACS03). "Help more after failure, less after success"
+is intuitive, and adaptive tutoring systems use it, but its founding experiment did not replicate.
+
+**Serves:** difficulty calibration across all A3 rows; most studied for row 4 (procedures/skills)
+with young children.
+
+**Grade:** ZPD **T** — a developmental frame, not a tested teaching effect. Scaffolding as a
+package **M−, `contested`**: plausible, consistent with fading (S), few effectiveness studies,
+measurement problems (VVB10), and the classic contingent-tutoring result failed direct
+replication (Sm25).
+
+**Use as learner.** Work on problems you solve about 4 times in 5 with effort; when you fail,
+take the smallest hint that unblocks you, then remove it next time.
+
+**Use as teacher.** Fade support on purpose and hand control back to the learner. Treat
+"contingent scaffolding" as sensible practice, not as a proven effect — and do not use "ZPD" as
+if it named a technique.
+
+---
+
+## 10. Skinner (1904–1990) — teaching machines and programmed instruction
+
+**What he wrote (primary: Skinner, B. F. 1958, "Teaching machines", *Science* 128, 969–977;
+JSTOR-stamped scan, full text searched S7b).** An "appropriate teaching machine" has these
+features: "The student must compose his response rather than select it from a set of
+alternatives, as in a multiple-choice self-rater. One reason for this is that **we want him to
+recall rather than recognize** — to make a response as well as see that it is right." Material is
+built in an ordered sequence of small frames; "Like a skillful tutor the machine helps the student
+to come up with the right answer … with techniques of hinting, prompting, suggesting"; it
+"reinforces the student for every correct response, using this immediate feedback"; and it lets
+"each student … proceed at his own rate." Prompts are then "vanished": responses "first controlled
+by a text, but this is slowly reduced … until the responses can be emitted without a text" (e.g. a
+fully labelled map whose labels are removed). Programs aimed for so few errors that the learner
+moves forward "quite possibly without having made a wrong response."
+
+**Mechanism (Part A).** Composed (not selected) answers = **retrieval/production > recognition**
+(A4 §1, S — Skinner's stated reason is the modern one). Immediate feedback on each response = the
+feedback half of test-enhanced learning. Vanishing prompts = **fading** (A4, S) — the same move as
+worked examples → completion → independent solving. Self-pacing = mastery gating (→ Keller, Bloom
+in B2). **Where it parts from the modern evidence:** (a) *errorless* design — Part A finds that
+generating a wrong answer *before* the right one is followed by feedback helps the asked items
+(pretesting, SCA24; KHB09), so "never let them err" gives up a useful difficulty; (b) tiny frames
+with heavy prompting make each response easy — high success with low retrieval effort, the
+fluency trap of A1 (performance ≠ learning); (c) no spacing — a linear program is one pass.
+
+**The evidence.** Kulik, Cohen & Ebeling 1980 (KCE80) meta-analysed programmed instruction in
+higher education (ERIC record confirms scope: overall effects, study features, aptitude-treatment
+studies). The commonly cited result — a small positive effect on exams, ≈ 0.2–0.3 SD — is **not
+verified this session** (no abstract numbers) → `uncertain`, backlog. Its descendants (computer
+tutors, adaptive spaced-repetition software) are graded in B4a/B4b, not here.
+
+**Serves:** A3 row 1 (facts, terms — the classic frame sequences), row 4 (procedural steps);
+weak for row 3 (principles) and row 5 (choosing methods), which tiny prompted frames do not exercise.
+
+**Grade:** **M** (historic) — the mechanisms recall-not-recognize, immediate feedback and fading are
+**S**; the programmed-instruction package showed small effects in its era (`uncertain` size);
+errorless, over-prompted frames conflict with A1/A6 findings.
+
+**Use as learner.** Make every self-test a *composed* answer, never multiple choice you can
+recognise. Write your own "vanishing" sheet: full notes → notes with key terms blanked → blank page.
+
+**Use as teacher.** Keep Skinner's three good rules — produce don't pick, feedback at once, fade
+the prompts — and drop errorlessness: let learners attempt before the prompt, then correct.
+
+---
+
+## 11. Dewey (1859–1952) — learning from experience; the five essentials of method
+
+**What he wrote (primary: *Democracy and Education*, 1916, Project Gutenberg #852, full text
+searched S7b).** Successful methods "give the pupils something to do, not something to learn; and
+the doing is of such a nature as to demand thinking, or the intentional noting of connections;
+learning naturally results." The task must present "what is new (and hence uncertain or
+problematic) and yet sufficiently connected with existing habits to call out an effective response."
+"An ounce of experience is better than a ton of theory simply because it is only in experience that
+any theory has vital and verifiable significance." His five "essentials of method": (1) a genuine
+situation of experience; (2) a genuine problem within it; (3) "that he possess the information and
+make the observations needed to deal with it"; (4) suggested solutions he must develop "in an
+orderly way"; (5) testing ideas by application.
+
+**Read him precisely.** Dewey's own list *requires information* (essential 3) and a problem "sufficiently
+connected with existing habits" — i.e. within reach of prior knowledge. The minimal-guidance
+"discovery" practice later attached to his name drops exactly these conditions.
+
+**Mechanism (Part A).** Problem first, then knowledge used in it = **productive failure / problem →
+instruction** (SK21, g = 0.36, reversed for young children and needs prerequisites — A4 §1). Noting
+connections = elaboration (A6). Testing ideas by application = retrieval + transfer (A4, A5).
+"Connected with existing habits" = the edge-of-ability rule.
+
+**The evidence.** Inquiry *with* guidance beats inquiry without it: Lazonder & Harmsen 2016 (LH16),
+72 studies — guidance improved learning outcomes d = 0.50 [0.37, 0.62], performance success
+d = 0.71, learning activities d = 0.66 (comparison = guided vs unguided inquiry, not inquiry vs
+direct instruction). Minimal guidance underperforms explicit instruction for novices (KSC06,
+`contested` at the edges — A4 §1). The "learning by doing" slogan without guidance is the
+version the evidence is against.
+
+**Serves:** A3 row 3 (principles applied), row 5 (when to use what — problems in context), and
+transfer (A5).
+
+**Grade:** **T–`contested`** for Dewey's method as practised (rarely implemented with all five
+essentials; no package test); **M** for guided inquiry (LH16) and for problem-then-instruction with
+prerequisites (SK21); the unguided reading is **not supported** for novices (KSC06).
+
+**Use as learner.** Start a topic from a real problem you want solved (a circuit to debug, a
+question from the exam), *but* gather the information it needs before thrashing — Dewey's own
+essential 3.
+
+**Use as teacher.** Pose the problem first; make sure the needed information is available and
+connected to what learners know; guide the inquiry; finish by testing ideas on new cases.
+
+---
+
+## 12. Piaget (1896–1980) — constructivist stages (a theory of development, not a teaching method)
+
+**What he claimed (secondary — Piaget's own texts not read this session → `uncertain` at the
+word level).** Children build knowledge by acting on the world; thinking develops through a
+sequence of qualitatively different stages (sensorimotor, preoperational, concrete operational,
+formal operational); new experience is assimilated to existing structures or forces those
+structures to change (accommodation), with conflict between expectation and outcome driving the
+change.
+
+**What education took from it.** (a) **Readiness**: don't teach what the stage cannot handle;
+(b) **discovery**: let children construct rather than be told; (c) **cognitive conflict** as the
+trigger for conceptual change.
+
+**The evidence (light this session).** The theory is heavily debated; Lourenço & Machado 1996
+(LM96) defend it against ten common criticisms (two confirmed via secondary sources: it ignores
+post-adolescent development; it relies on inadequate models of logic) — their existence marks
+the stage account as `contested`. Of the three educational offshoots, (c) has the clearest
+modern support via refutation text (SK22, g = 0.41) and pretesting; (b) as *minimal guidance*
+underperforms for novices (KSC06; §11); (a) — waiting for a stage — has no tested support in
+Part A, and age-based readiness is a weaker guide than **prior knowledge** (A5; expertise reversal).
+
+**Serves:** developmental frame across A3 rows 2–3; no row-specific method.
+
+**Grade:** **`contested`** as theory; as a teaching method **T** (none specified); cognitive-conflict
+offshoot **M** (via SK22).
+
+**Use as learner.** When a result surprises you, stop and write what you expected and why — the
+conflict is the learning moment.
+
+**Use as teacher.** Diagnose prior knowledge, not age or "stage"; use predict-then-observe
+conflicts; never read "constructivism" (a theory of how knowledge forms) as "students must
+discover it unguided" (a teaching choice the evidence is against for novices).
+
+---
+
+## 13. Fröbel (1782–1852) — the kindergarten, play, and the "gifts"
+
+**What he wrote (primary: *The Education of Man*, tr. J. Jarvis, 1885, Internet Archive
+educationofman00froe, full text searched S7b).** §30: "Play is the highest stage of the child's
+development at this time; for it is freely active representation of the inner." The book's frame is
+religious-idealist ("free self-activity and self-determination of man"). His structured "gifts"
+(balls, cubes and blocks in set sequences) and "occupations" are described in his kindergarten
+writings, not read this session → their details are `uncertain` here.
+
+**Mechanism (Part A).** Structured manipulation of graded objects = concrete experience before
+abstraction (§6, concreteness fading) and perceptual discrimination (A3 row 7). Play itself is a
+biologically primary activity (A3 §4, Geary lens, `contested`): children do it without being
+taught; whether it teaches biologically secondary content depends on guidance.
+
+**The evidence.** Fröbel's own system is untested. The modern test of his idea: Skene et al. 2022
+(Sk22), 39 studies reviewed, 17 meta-analysed (N = 3,893, ages 1–8): **guided play** beat direct
+instruction on early maths (g = 0.24), shape knowledge (0.63) and task switching (0.40), and beat free
+play on spatial vocabulary (0.93); no differences on other key outcomes; "guided play" was defined
+and implemented very differently across studies.
+
+**Serves:** A3 rows 2 and 7 for young children (shape, number, spatial concepts); row 8 (fine motor).
+
+**Grade:** **T** for Fröbel's kindergarten as designed; **M** (young children, specific outcomes,
+heterogeneous definitions) for *guided* play; free play as a route to academic content is not
+supported by Sk22.
+
+**Use as learner.** For spatial or structural ideas, handling a physical model you are *guided*
+through (with a goal and questions) helps more than free tinkering.
+
+**Use as teacher.** Keep the play, add the guidance: a goal, a question, a pointed-out feature.
+
+---
+
+## 14. Ebbinghaus (1850–1909) — not a teacher; the measurement that started it all
+
+Experimental psychologist, not a teacher; covered in **A2** (forgetting curve, savings, spacing).
+Kept in the roster because every spacing method in Part B descends from his self-experiments. His
+forgetting curve held up in a single-subject replication (MD15, A2). Grade for the mechanism
+(spacing): **S** (A4 §1). **Use:** see A2/A4 — not repeated here.
+
+---
+
+## 15. Pólya (1887–1985) — *How to Solve It*: understand, plan, carry out, look back
+
+**What he proposed.** Four phases (understand the problem → devise a plan → carry out the plan →
+look back) and a list of heuristics (draw a figure, work backwards, special cases, analogy, solve a
+simpler related problem …). *How to Solve It* (1945) not read this session; the phases and the
+heuristics are described consistently in Schoenfeld 1992 (Sch92, full text read S7b).
+
+**The evidence (Sch92, handbook chapter, full text).** Through the 1970s "there was little empirical
+evidence to back up the sense that heuristics could be used as vehicles to enhanced problem solving";
+Wilson (1967) and Smith (1973) "found that the heuristics that students were taught did not, despite
+their ostensible generality, transfer to new domains." The diagnosis: Pólya's descriptions were
+"descriptive rather than prescriptive" — they let you *recognise* a strategy in use, but not carry it
+out unless you already could. Each "heuristic" is really a family of domain-specific moves (which
+special cases help depends on the problem). The bigger missing piece was **control**
+(metacognition): in Schoenfeld's 100+ videotapes, roughly 60% of student attempts were "read, make a
+decision quickly, and pursue that direction come hell or high water"; after his course fewer than
+20% were, with "a concomitant increase in problem solving success" (his own course, not a
+controlled trial). His summary: students "can be taught to develop productive control behaviors,
+although only in extended instruction that, in effect, amounts to behavior modification."
+
+**Mechanism (Part A).** Heuristics are A3 row 5 (conditional: when to use what) and row 6
+(metacognitive control). General strategies without the domain knowledge base do not transfer
+(A5: transfer depends on schemas; far transfer is rare). The "look back" phase = self-explanation
+on a solved problem (Bi18, S). Monitoring and abandoning dead ends = metacognitive regulation (A7).
+
+**Serves:** A3 rows 5 and 6, built on row 4.
+
+**Grade:** **T–M** — the four phases are a sound frame; teaching heuristics *as general skills*
+showed little transfer (Sch92's review); heuristics taught **inside a domain with explicit control
+training over extended time** helped in Schoenfeld's and Lester et al.'s courses (uncontrolled →
+`uncertain` size).
+
+**Use as learner.** Every few minutes on a hard problem, ask: *is this approach working; what else
+could I do?* — the control question matters more than any heuristic. Learn heuristics as concrete
+moves in one subject (e.g. "try n = 1, 2, 3" for sequences), and in "look back" write *why* the move
+worked here.
+
+**Use as teacher.** Model the monitoring aloud (abandon a dead end on purpose). Teach strategies
+attached to problem types, not as a free-floating list.
+
+---
+
+## 16. R. L. Moore (1882–1974) — the Moore method: students prove everything themselves
+
+**What it was (secondary only — Moore left no text on his method; accounts are by students and
+biographers, not read this session → `uncertain`).** In the commonly reported form: students get
+definitions and theorem statements, no textbook, and must prove the results themselves and present
+them at the board; the teacher withholds proofs.
+
+**Evidence.** No controlled study of the original method found. Its modern descendant,
+**inquiry-based learning (IBL)** in college mathematics: Laursen et al. 2014 (La14), 100+ course
+sections at 4 universities; the abstract reports student-centred methods "that improve learning
+outcomes and, ultimately, student retention" (quasi-experimental; numbers not read → S12). The
+method's fame rests on Moore's many successful doctoral students — selected, strong students
+(survivorship; M50).
+
+**Mechanism (Part A).** Generating proofs = generation + self-explanation (A6; Bi18) at maximum
+difficulty; presenting at the board = learning by teaching (Ko19). For learners with the
+prerequisites this is productive failure (SK21); for novices it is minimal guidance (KSC06).
+
+**Serves:** A3 row 3 (principles — proof), row 5 (choosing a proof strategy).
+
+**Grade:** **T** for the original (no comparison data); IBL **M−, `uncertain`** (La14 quasi-experimental).
+
+**Use as learner.** Before reading a proof, try it yourself for a fixed time; then read and compare
+step by step.
+
+**Use as teacher.** Use it with strong, prepared students and with hints available; it is not a
+default for novices.
+
+---
+
+## 17. Shinichi Suzuki (1898–1998) — talent education ("mother-tongue method")
+
+**What it is (secondary — Suzuki's *Nurtured by Love* not read → `uncertain` at the word level).**
+Children start very young, listen repeatedly to the pieces before playing them, learn by ear and
+imitation before reading notation, progress in very small steps through a fixed repertoire, review
+old pieces continually, and a parent attends lessons and practises with the child at home.
+
+**Evidence.** Liu, Wang & Wong 2024 (LWW24), PRISMA systematic review: from 481 records, **7**
+experimental studies comparing Suzuki with conventional teaching; most found benefits for
+instrumental skills — posture, musicality, technique control; rhythm effects varied by instrument and
+age. Seven small, varied studies → weak base.
+
+**Mechanism (Part A).** Listening before playing = perceptual learning of the target (A3 row 7): the
+learner knows what correct sounds like, so practice has an internal standard to check against.
+Imitation in small steps = modelling + segmenting (A3 row 8; FP67 cognitive → autonomous stages).
+Continual review of old pieces = spaced practice of motor sequences (A4, S). Parent at home = more,
+supervised practice.
+
+**Serves:** A3 row 8 (motor), row 7 (perceptual/aural).
+
+**Grade:** **T–M** — positive but thin evidence (LWW24, 7 studies); its mechanisms (modelling,
+segmenting, spaced review) are evidenced for motor skills.
+
+**Use as learner.** For any skill with a "correct output" (pronunciation, an instrument, a clean
+solder joint), study good examples until you can recognise errors *before* practising; keep old
+pieces in rotation.
+
+**Use as teacher.** Give the target model first, small steps, and a home-practice routine that
+includes review of earlier material.
+
+---
+
+## Summary (B1, all 17)
 
 | Teacher | Core move | Serves (A3) | Grade (method / mechanism) |
 |---|---|---|---|
@@ -338,13 +724,32 @@ to come back.
 | Comenius | senses first; example + rule + reason; learn by teaching | 2, 1, 4 | T / worked examples S, teaching M (Ko19), multimedia M (No22) |
 | Pestalozzi | sense-impression → simple elements → essential features | 2, 1 | T / concreteness fading M (`uncertain` size) |
 | Herbart | clearness → association → system → method (Rein: 5 steps) | 2–4 (structure) | T / segmenting, elaboration; lacks retrieval & spacing |
+| Montessori | self-correcting materials ("control of error"); auto-education | 7, 4, 2, 8 | **M** package (Ra23 g 0.24 academic; Li25 RCT) / feedback S |
+| Vygotsky | ZPD (frame); scaffolding (WBR76, WWM78 — not his) | calibration, all rows | ZPD T; scaffolding M−, contested (Sm25 replication failed) |
+| Skinner | composed answers, immediate feedback, vanishing prompts, own pace | 1, 4 | M historic / recall-not-recognize S; errorless conflicts with A1/A6 |
+| Dewey | something to do, not to learn; 5 essentials incl. information | 3, 5 | T–contested / guided inquiry M (LH16); unguided not supported |
+| Piaget | stages; assimilation/accommodation; conflict | developmental | contested / conflict M (SK22); readiness-by-stage unsupported |
+| Fröbel | kindergarten, play, gifts | 2, 7, 8 | T / guided play M (Sk22) |
+| Ebbinghaus | (scientist) forgetting curve, spacing | 1 | → A2; spacing S |
+| Pólya | understand → plan → carry out → look back; heuristics | 5, 6 | T–M / general heuristics little transfer (Sch92); control trainable |
+| R. L. Moore | students prove everything | 3, 5 | T / IBL M−, uncertain (La14) |
+| Suzuki | listen first, imitate, tiny steps, review, parent | 8, 7 | T–M (LWW24, 7 studies) |
 
-**Pattern across S7a.** Every historical method that lasted contains *some* evidenced mechanism —
-and every one also carries untested or contradicted parts (recollection theory, rivalry,
-rereading, "more senses"). Longevity selects for methods that feel right to teachers, not for
-methods tested on retention (A8 §3 kit, Q1–Q2). The useful habit: extract the mechanism, grade it
-by Part A, drop the rest.
+**Pattern across B1.** (1) Every historical method that lasted contains *some* evidenced mechanism
+and also untested or contradicted parts (recollection theory, rivalry, rereading, "more senses",
+errorless frames). Longevity selects for methods that feel right to teachers, not for methods tested
+on retention (A8 §3 kit, Q1–Q2; M50). (2) Only **Montessori** has been tested as a whole package
+with randomization (Li17, Li25, Ra23) — and its effects are modest and concentrated in early years.
+(3) Two famous foundations are weaker than their reputation: contingent scaffolding (failed direct
+replication, Sm25) and general problem-solving heuristics (little transfer, Sch92). (4) The
+recurring evidenced moves across 2,400 years: **produce before being told** (Socrates, Confucius,
+Skinner's composed answers, Moore), **recall on a schedule** (Jesuits, Suzuki's review),
+**immediate feedback** (Montessori, Skinner), **model → fade** (Quintilian, Skinner's vanishing,
+Pestalozzi/Bruner's concreteness fading), **teach it to learn it** (Comenius). These are A4's
+S-grade methods; the historical record re-discovered them without being able to test them.
 
-## Misconceptions owned (B1, S7a)
-M49 (Socratic = never tell), M50 (old & lasting = proven), M51 (concrete is always better),
-M52 (Herbart's five steps) — full entries in `misconceptions.md`.
+## Misconceptions owned (B1)
+S7a: M49 (Socratic = never tell), M50 (old & lasting = proven), M51 (concrete is always better),
+M52 (Herbart's five steps). S7b: M53 (scaffolding is a proven effect), M54 (learning by doing =
+discovery, as Dewey said), M55 (general problem-solving strategies transfer), M56 (errorless
+learning is best) — full entries in `misconceptions.md`.

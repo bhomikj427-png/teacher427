@@ -2,11 +2,9 @@
 
 ## Session resume
 - Last session: 2026-11-15
-- Where we stopped: S7a done (B1 §1–7, Socrates → Herbart); next = S7b (Fröbel → Skinner) — start from sprints.md "Current hand-off"
-- Recap: S0–S5 done: map pass; A1 studying vs learning; A2 memory; A3 kinds-of-information hub;
-  A4 type→method bridge; A5 schemas/expertise/transfer; A6 depth & generation; A7 metacognition;
-  A8 myths + Part A README; 65 sources; misconceptions M1–M48 (47 written)
-- Next up: S7b — say "S7b"; read only the hand-off's "Read at start" list
+- Where we stopped: S7b done (B1 complete, §1–17); next = S8a (B2 method-builders) — start from sprints.md "Current hand-off"
+- Recap: S0–S7b done: Part A (A1–A8 + README) complete; Part B: B1 historical teachers (17 entries) complete; 98 sources; misconceptions M1–M56 (55 written; seed M15)
+- Next up: S8a — say "S8a"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -102,6 +100,10 @@
 - [2026-11-15] S7a: read primary texts (Meno; Analects/Legge; Quintilian/Butler 1.2–1.3, 10.2–10.7; Ratio Studiorum 1599 lower-class + academy rules; Comenius Great Didactic; Pestalozzi How Gertrude; Herbart Science of Education) + verified SK22, CSJ01, Ko19, No22 (Crossref/EPMC abstracts), FN18 (author MS full text) → wrote knowledge-base/B1-historical.md §1–7 + summary.
 - [2026-11-15] S7a: correction — five formal steps are Rein's (via Ziller), Herbart wrote four (Clearness, Association, System, Method). misconceptions M49–M52 written; sources +14; CHANGELOG.
 - [2026-11-15] S7a done-when checked: 7/7 entries written to protocol step 8 (none dropped) ✓; misconceptions +4 ✓. sprints.md: S7 split S7a/S7b, backlog +7, hand-off written.
+- [2026-11-15] S7b (B1 Fröbel → Skinner) started; tree clean (e69d253 pushed).
+- [2026-11-15] S7b: verified Mont-HB (full text), Li17/Li25/Ra23 (abstracts), WWM78/VVB10 (abstracts), Sm25 (portal abstract + secondary), Sk58 (full text), KCE80 (ERIC scope only), Dew-DE (full text), LH16 (abstract), LM96 (bib), Fr-EM (full text), Sk22 (abstract), Sch92 (full text), La14 (abstract), LWW24 (abstract) → wrote B1 §8–17 progressively (Montessori, Vygotsky, Skinner, Dewey+Piaget written mid-sprint; §13–17 Fröbel, Ebbinghaus, Pólya, Moore, Suzuki now).
+- [2026-11-15] S7b: B1 summary table extended to all 17 + B1 pattern; misconceptions M53–M56 written; CHANGELOG.
+- [2026-11-15] S7b done-when checked: 10/10 entries written to protocol step 8 (none dropped; Ebbinghaus as pointer) ✓; misconceptions +4 ✓; orphan-ID script check on B1 clean ✓. sprints.md: S7b ticked, S8 split S8a/S8b, backlog +6, hand-off written.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
@@ -112,3 +114,4 @@
 - [2026-11-15] S5 done · A6 depth & generation + A7 metacognition written · sources 57 · Sch17 numbers corrected · M37–M44 new · next: S6 (A8 + Part A integration)
 - [2026-11-15] S6 done · A8 myths + Part A README · Part A content complete · sources 65 · M45–M48 new · next: S7 (B1 historical)
 - [2026-11-15] S7a done · B1 §1–7 Socrates → Herbart from primary texts · Rein (not Herbart) five steps · sources 79 · M49–M52 new · next: S7b (Fröbel → Skinner)
+- [2026-11-15] S7b done · B1 complete (17 entries) · Montessori tested as package (Ra23, Li25) · contingent scaffolding replication failed (Sm25) · sources 98 · M53–M56 new · next: S8a (B2 method-builders)

@@ -38,3 +38,8 @@
   Pestalozzi, Herbart) + S7a summary table, all from primary texts. Attribution correction: the five
   formal steps are Rein's, not Herbart's (Herbart: Clearness, Association, System, Method). Sources +14
   (primary texts ×7; SK22, CSJ01, Ko19, No22, FN18, FMSG14, EC05). misconceptions M49–M52 new.
+- [2026-11-15] S7b: B1-historical.md §8–17 (Montessori, Vygotsky, Skinner, Dewey, Piaget, Fröbel,
+  Ebbinghaus pointer, Pólya, R. L. Moore, Suzuki); summary table now covers all 17 + B1 pattern.
+  Notable: Montessori is the only package with randomized tests (Li17, Li25, Ra23 g 0.24); contingent
+  scaffolding failed preregistered replication (Sm25); heuristics training showed little transfer
+  (Sch92); Dewey's own method requires information (Dew-DE). Sources +19. misconceptions M53–M56 new.

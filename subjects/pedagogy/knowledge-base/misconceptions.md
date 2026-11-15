@@ -62,6 +62,10 @@
 | M50 | A method used for centuries (Jesuit, Socratic, Confucian) is proven by its longevity | B1 | written |
 | M51 | Concrete, hands-on, realistic materials are always better than abstract ones | B1 | written |
 | M52 | Herbart invented the five-step lesson plan | B1 | written |
+| M53 | Scaffolding (contingent tutoring in the ZPD) is a proven effect | B1 | written |
+| M54 | Learning by doing means discovery without being told — that is what Dewey said, and it works best | B1 | written |
+| M55 | Teaching general problem-solving strategies makes you a better problem-solver in any subject | B1 | written |
+| M56 | Good instruction is errorless — learners should never be allowed to make mistakes | B1 | written |
 
 ---
 
@@ -508,6 +512,47 @@
   includes retrieval, spacing or checks for understanding.
 - **Exposing question:** "Where in the five steps does the learner recall anything a week later?"
 - **Unit:** B1 §7. Status: written.
+
+
+### M53 — Scaffolding (contingent tutoring in the ZPD) is a proven effect
+- **Why it feels true:** "ZPD" and "scaffolding" are in every teacher-training course; helping more
+  when the learner struggles and less when they succeed sounds obviously right.
+- **Correction:** the ZPD is Vygotsky's developmental frame, not a technique; "scaffolding" comes from
+  WBR76 (one tutor, young children). The contingent-tutoring experiment (WWM78, 32 children) failed a
+  preregistered direct replication with 285 children (Sm25: no advantage, Bayes factors favour null).
+  Reviews find few effectiveness studies and measurement problems (VVB10). What is evidenced is
+  **fading** support as competence grows (worked examples → independent practice, A4 S).
+- **Exposing question:** "Which experiment shows contingent help beats other help, and has it been replicated?"
+- **Unit:** B1 §9. Status: written.
+
+### M54 — Learning by doing means discovery without being told — that is what Dewey said, and it works best
+- **Why it feels true:** "learning by doing" is Dewey's slogan; doing feels more engaging than listening.
+- **Correction:** Dewey's own essentials of method require that the learner "possess the information
+  and make the observations needed" and that the problem be "sufficiently connected with existing
+  habits" (Dew-DE). Within inquiry, guidance improves outcomes (LH16, d = 0.50); minimal guidance
+  underperforms explicit instruction for novices (KSC06).
+- **Exposing question:** "Where does the learner get the information the problem needs?"
+- **Unit:** B1 §11. Status: written.
+
+### M55 — Teaching general problem-solving strategies makes you a better problem-solver in any subject
+- **Why it feels true:** Pólya's heuristics (work backwards, special cases) look universal, and experts
+  visibly use them.
+- **Correction:** taught as general skills, heuristics did not transfer to new domains (Wilson 1967;
+  Smith 1973 — via Sch92); they are "descriptive rather than prescriptive" and each is a family of
+  domain-specific moves. What helped was **control** (monitoring, abandoning dead ends), trained over
+  extended time inside a domain (Sch92). Transfer rides on domain knowledge (A5).
+- **Exposing question:** "Did the strategy work on a problem type you had never practised it on?"
+- **Unit:** B1 §15. Status: written.
+
+### M56 — Good instruction is errorless — learners should never be allowed to make mistakes
+- **Why it feels true:** errors feel like failure and might be "learned"; programmed instruction (Sk58)
+  was designed so learners move on "without having made a wrong response."
+- **Correction:** attempting an answer *before* learning it — including wrong attempts — improves
+  learning of those items when correct feedback follows (KHB09; pretesting SCA24, g = 0.54 on asked
+  items). Easy, heavily prompted responses give high performance with little retrieval effort
+  (learning ≠ performance, A1). Keep the feedback, drop the errorlessness.
+- **Exposing question:** "If they never get anything wrong, how hard were they actually retrieving?"
+- **Unit:** B1 §10. Status: written.
 
 ---
 
