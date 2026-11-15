@@ -43,3 +43,9 @@
   Notable: Montessori is the only package with randomized tests (Li17, Li25, Ra23 g 0.24); contingent
   scaffolding failed preregistered replication (Sm25); heuristics training showed little transfer
   (Sch92); Dewey's own method requires information (Dew-DE). Sources +19. misconceptions M53–M56 new.
+- [2026-11-15] S8a: B2-method-builders.md written (10 entries: Keller PSI, Bloom mastery + 2σ, Gagné,
+  Ausubel, Bruner, Engelmann DI, Kumon, lesson study, Oxbridge tutorial, Freire) + summary + B2
+  pattern. Notable: Bl84 read at full text — 2σ = tutoring *plus* mastery correctives, 11 lessons /
+  3 weeks; Sl87 full text — group ML median +.04 on standardized tests; St18 full text — DI 0.54
+  (joint 0.60), authors NIFDI-affiliated; Kumon RCT (SMS24) 0.50–1.21 SD unadjusted. Sources +15.
+  misconceptions: M15 seed → written; M57–M60 new.

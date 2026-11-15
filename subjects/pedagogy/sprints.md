@@ -72,7 +72,7 @@
 | S6 | A8 myths + Part A integration | all A files, misconceptions | `A8-myths.md`; cross-link pass; Part A README | every A file links to A3 types; no orphan claims | **done 2026-11-15** (Part A written) |
 | S7a | B1 historical teachers: Socrates → Herbart | roster §1, A3, A4 | `B1-historical.md` §1–7 + summary | each of the 7 entries written to protocol step 8 or dropped with reason | **done 2026-11-15** |
 | S7b | B1 historical teachers: Fröbel → Skinner (10) | roster §1, A3, A4, B1 (summary only) | `B1-historical.md` §8–17 + full summary | each of the 10 entries written to protocol step 8 or dropped with reason | **done 2026-11-15** (B1 complete) |
-| S8a | B2 mid-century method-builders (Keller, Bloom, Gagné, Ausubel, Bruner, Engelmann, Kumon, lesson study, Oxbridge tutorial, Freire) | roster §2, A3, A4, B1 (summary only) | `B2-method-builders.md` | each entry to protocol step 8; M15 (2σ) seed written | |
+| S8a | B2 mid-century method-builders (Keller, Bloom, Gagné, Ausubel, Bruner, Engelmann, Kumon, lesson study, Oxbridge tutorial, Freire) | roster §2, A3, A4, B1 (summary only) | `B2-method-builders.md` | each entry to protocol step 8; M15 (2σ) seed written | **done 2026-11-15** |
 | S8b | B3 classroom legends (Feynman, Escalante, Collins, Khan) | roster §3, A3, A4, A8 §2 myth 7 | `B3-classroom-legends.md` | same; Feynman-technique attribution sourced | |
 | S9a | B4 researchers: memory & practice (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) | roster §4, A3, A4 | `B4a-researchers-memory.md` | same | |
 | S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | |
@@ -131,7 +131,7 @@ Read at start: <exact file list = Sy Inputs>
 | Morris, Bransford & Franks 1977 transfer-appropriate processing — read primary | S5 | S11 |
 | Pan & Carpenter 2023 prequestion review (answer-must-follow condition) | S5 | S11 |
 | LAA80 third author spelling (Ackerson/Ackerman) + any numeric ES; Stone 1982 vs 1983 | S5 | S11 |
-| Engine-seeded M15 (2σ) → re-verify at primary source (M14 closed S6 via LH18; M17 closed S4 via KSC06) | S1 | S9b |
+| S8a closed: M15 (2σ) written from Bl84 full text + VL11 + NOQ24 ✓ | — | — |
 | "10% of the brain" + coordination exercises / Brain Gym: find a primary refutation or drop from A8 | S6 | S11 |
 | P08 full text (meshing criterion wording; number of studies) | S6 | S11 |
 | Y19 effect sizes (grades, lower-achievers) at full text | S6 | S11 |
@@ -150,6 +150,13 @@ Read at start: <exact file list = Sy Inputs>
 | LM96 abstract/full text; any Piaget primary for stages | S7b | S12 |
 | Fröbel gifts/occupations primary (*Pedagogics of the Kindergarten*); Moore method primary accounts (Parker 2005); Suzuki *Nurtured by Love*; Pólya *How to Solve It* | S7b | S12 |
 | La14, LWW24, Sk22, Li17 co-author lists / volume numbers | S7b | S12 |
+| KKC79 numeric mean ES (PSI) + KKB90 numeric mean (abstracts give direction only) | S8a | S12 |
+| Ke68 Keller's own five-feature wording (PMC scan; try image render) | S8a | S12 |
+| Gagné nine events wording at primary (Gagné, Briggs & Wager) + any controlled test of the sequence | S8a | S12 |
+| Ausubel "most important single factor" epigraph wording (1968); Bruner "intellectually honest form" (1960) | S8a | S12 |
+| SMS24 journal-version numbers (working paper 2020 read) | S8a | S12 |
+| Ash05 vol/pages; content-focused vs process-only PD claim (B2 §8) | S8a | S12 |
+| VL11 answer-based tutoring ES (not in abstract) | S8a | S12 |
 
 ## Research tooling notes (what worked, S7a–S7b — read with the hand-off)
 
@@ -163,33 +170,35 @@ Read at start: <exact file list = Sy Inputs>
 - **PDFs** WebFetch can't read are saved to tool-results → extract with `pypdf` (installed).
 - **Blocked:** Springer/Wiley article pages and PDFs (login redirect), ctext.org (anti-scraping),
   PMC pages (reCAPTCHA) — go to Crossref/Europe PMC instead.
+- **Scanned PDFs (no OCR installed):** render pages with `pymupdf` (`page.get_pixmap(dpi=125)`) to
+  the scratchpad and Read the PNG — worked for Bl84 (S8a). Archive.org lending-library books return 401.
+- **Author repository copies** (university DSpace: `.../server/api/core/bitstreams/<uuid>/content`) and
+  gwern.net/doc PDFs often give full text of RER/AERA papers.
 - **Shell:** long bash heredocs with apostrophes/quotes have failed to parse twice — write long
   content with the Write tool to the scratchpad, then append via a short Python script.
 
 ## Current hand-off
 
 ```
-Sprint: S7b — B1 historical teachers, Fröbel → Skinner — done (2026-11-15); B1 complete
-Written: knowledge-base/B1-historical.md §8 Montessori, §9 Vygotsky (+ scaffolding), §10 Skinner,
-  §11 Dewey, §12 Piaget, §13 Fröbel, §14 Ebbinghaus (pointer to A2), §15 Pólya, §16 R. L. Moore,
-  §17 Suzuki; "Summary (B1, all 17)" table + B1 pattern (4 points) · misconceptions M53–M56 ·
-  sources +19 (98 total)
-Verified this sprint: full text — Montessori Handbook, Skinner 1958, Democracy and Education,
-  Education of Man, Schoenfeld 1992; abstracts — Li17, Li25 (PNAS 2025 national RCT), Ra23
-  (g 0.24 academic), WWM78, VVB10, Sm25 (failed replication), LH16 (d 0.50), Sk22, La14, LWW24
-Open (carried): backlog rows added S7b (Vygotsky primary, Sm25/WBR76 full text, KCE80 numbers,
-  LM96, Fröbel/Moore/Suzuki/Pólya primaries, co-author lists)
-Decisions made: §8 Montessori written out of birth order (tested as a package) — numbering is final;
-  Ebbinghaus kept as a pointer entry (scientist → A2). "Grade method / mechanism" two-part format
-  kept. S8 split into S8a (B2, 10 entries) and S8b (B3, 4 entries)
-Next sprint: S8a — B2 method-builders. First action: write M15 (2-sigma) properly — Bloom 1984
-  (Educational Researcher 13(6) 4–16) at primary + VanLehn 2011 + Nickow et al. 2020 tutoring meta;
-  then Keller PSI (Kulik, Kulik & Cohen 1979; Kulik, Kulik & Bangert-Drowns 1990 mastery meta),
-  Engelmann DI (Stockard et al. 2018, RER), Kumon (J. Human Capital RCT), Gagné nine events
-  (link to A3 §2.2 G84), Ausubel (link to A6 §5 LAA80), Bruner (spiral, CPA; link B1 §6),
-  lesson study, Oxbridge tutorial, Freire.
-Read at start: sprints.md (incl. Research tooling notes), knowledge-base/roster.md §2 + "Open search leads",
-  knowledge-base/B1-historical.md (header + "Summary (B1, all 17)" only),
+Sprint: S8a — B2 mid-century method-builders — done (2026-11-15)
+Written: knowledge-base/B2-method-builders.md §1 Keller PSI, §2 Bloom (mastery + 2σ), §3 Gagné,
+  §4 Ausubel (evidence points to A6 §5), §5 Bruner, §6 Engelmann DI, §7 Kumon, §8 lesson study,
+  §9 Oxbridge tutorial, §10 Freire; "Summary (B2, all 10)" + B2 pattern (4 points) ·
+  misconceptions M15 written (no seeds left) + M57–M60 · sources +15 (113 total)
+Verified this sprint: full text — Bl84 (scan), Sl87, St18, SMS24 (WP), Freire ch. 2; abstracts —
+  KKB90, KKC79, VL11, NOQ24, LP17, MWW18 (ERIC), Ash05, FMSG14
+Open (carried): backlog rows added S8a (KKC79/KKB90 numbers, Keller wording, Gagné nine events
+  primary, Ausubel/Bruner quotes, SMS24 journal numbers, VL11 answer-based ES)
+Decisions made: 2σ graded X as a general claim (tutoring S but ≈0.29 SD at scale); B2 grade format
+  "method / mechanism" kept; Ausubel entry points to A6 §5 instead of duplicating evidence
+Next sprint: S8b — B3 classroom legends (Feynman, Escalante, Collins, Khan). First action: Feynman —
+  check whether Feynman himself described a "technique" (Feynman Lectures preface; Gleick *Genius*;
+  Scott Young 2011 post as the label's origin), then Escalante (Mathews 1988; AP results data),
+  Marva Collins (any outcome data; 1981 *60 Minutes*/Westside Prep controversy), Khan Academy
+  efficacy studies (e.g. SRI 2014 implementation study; Khanmigo/MAP growth reports — vendor
+  COI).
+Read at start: sprints.md (incl. Research tooling notes), knowledge-base/roster.md §3,
   knowledge-base/A3-kinds-of-information.md §3 (table only), knowledge-base/A4-type-to-method.md §1–2,
-  knowledge-base/misconceptions.md (M15 seed line only), knowledge-base/sources.md (ID list only)
+  knowledge-base/A8-myths.md §2 myth 7, knowledge-base/B2-method-builders.md (Summary only),
+  knowledge-base/sources.md (ID list only)
 ```

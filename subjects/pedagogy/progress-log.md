@@ -2,9 +2,9 @@
 
 ## Session resume
 - Last session: 2026-11-15
-- Where we stopped: S7b done (B1 complete, §1–17); next = S8a (B2 method-builders) — start from sprints.md "Current hand-off"
-- Recap: S0–S7b done: Part A (A1–A8 + README) complete; Part B: B1 historical teachers (17 entries) complete; 98 sources; misconceptions M1–M56 (55 written; seed M15)
-- Next up: S8a — say "S8a"; read only the hand-off's "Read at start" list
+- Where we stopped: S8a done (B2 complete, §1–10); next = S8b (B3 classroom legends) — start from sprints.md "Current hand-off"
+- Recap: S0–S8a done: Part A (A1–A8 + README) complete; Part B: B1 historical (17) + B2 method-builders (10) complete; 113 sources; misconceptions M1–M60 all written
+- Next up: S8b — say "S8b"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -105,6 +105,10 @@
 - [2026-11-15] S7b: B1 summary table extended to all 17 + B1 pattern; misconceptions M53–M56 written; CHANGELOG.
 - [2026-11-15] S7b done-when checked: 10/10 entries written to protocol step 8 (none dropped; Ebbinghaus as pointer) ✓; misconceptions +4 ✓; orphan-ID script check on B1 clean ✓. sprints.md: S7b ticked, S8 split S8a/S8b, backlog +6, hand-off written.
 - [2026-11-15] Learner asked whether to continue S8a in this context or start fresh → fresh start. Saved session-only research know-how: research-tools/abstract_lookup.py + 'Research tooling notes' in sprints.md.
+- [2026-11-15] Learner (new session): "pedagogy, do as many sprints as u can without getting dumb from too much context yet work for as long as u can". S8a (B2 method-builders) started; tree clean (80c7696); other subjects' reviews swept earlier today.
+- [2026-11-15] S8a: verified Bl84 (full text, page images), Sl87 (full text), St18 (full text, author copy), SMS24 (working-paper full text), Fr70 ch. 2 (full text); KKB90, KKC79, VL11, NOQ24, LP17, MWW18, Ash05, FMSG14 (abstracts) → wrote knowledge-base/B2-method-builders.md §1–10 + summary + pattern.
+- [2026-11-15] S8a: misconceptions M15 (seed → written), M57–M60 new; sources +15; CHANGELOG.
+- [2026-11-15] S8a done-when checked: 10/10 entries to protocol step 8 (none dropped) ✓; M15 written ✓; misconceptions +4 ✓; orphan-ID check on B2 clean ✓. sprints.md: S8a ticked, backlog +7, S8b hand-off written.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
@@ -116,3 +120,4 @@
 - [2026-11-15] S6 done · A8 myths + Part A README · Part A content complete · sources 65 · M45–M48 new · next: S7 (B1 historical)
 - [2026-11-15] S7a done · B1 §1–7 Socrates → Herbart from primary texts · Rein (not Herbart) five steps · sources 79 · M49–M52 new · next: S7b (Fröbel → Skinner)
 - [2026-11-15] S7b done · B1 complete (17 entries) · Montessori tested as package (Ra23, Li25) · contingent scaffolding replication failed (Sm25) · sources 98 · M53–M56 new · next: S8a (B2 method-builders)
+- [2026-11-15] S8a done · B2 method-builders (10 entries) · 2σ = tutoring + mastery correctives, 3 weeks (Bl84 full text) · group mastery learning ≈0 on standardized tests (Sl87) · DI 0.54–0.60 (St18, COI) · sources 113 · M15 + M57–M60 · next: S8b (B3 classroom legends)

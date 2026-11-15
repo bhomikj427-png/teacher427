@@ -24,7 +24,7 @@
 | M12 | Mind maps always beat linear notes | A6 | written |
 | M13 | The "Feynman Technique" was Feynman's method | A8, B3 | written |
 | M14 | The learning pyramid ("10% of what we read…") | A8 | written |
-| M15 | One-to-one tutoring reliably gives a 2-sigma gain | B2 | seed |
+| M15 | One-to-one tutoring reliably gives a 2-sigma gain | B2 | written |
 | M16 | Any difficulty is a "desirable difficulty" | A1, A4 | written |
 | M17 | Novices learn best by discovering things themselves | A4 | written |
 | M18 | If I can't recall it, I never learned it | A1 | written |
@@ -66,6 +66,10 @@
 | M54 | Learning by doing means discovery without being told — that is what Dewey said, and it works best | B1 | written |
 | M55 | Teaching general problem-solving strategies makes you a better problem-solver in any subject | B1 | written |
 | M56 | Good instruction is errorless — learners should never be allowed to make mistakes | B1 | written |
+| M57 | Mastery learning reliably gives about a 1-sigma gain in ordinary schools | B2 | written |
+| M58 | Advance organizers are a strong, proven way to start a lesson | B2 | written |
+| M59 | Direct Instruction means lecturing — the teacher talks, students listen | B2 | written |
+| M60 | Letting every learner go at their own pace is always better | B2 | written |
 
 ---
 
@@ -554,7 +558,62 @@
 - **Exposing question:** "If they never get anything wrong, how hard were they actually retrieving?"
 - **Unit:** B1 §10. Status: written.
 
+### M15 — One-to-one tutoring reliably gives a 2-sigma gain
+- **Why it feels true:** Bloom's 1984 paper is famous, the number is memorable ("above 98% of the
+  class"), and anyone who has had a good tutor felt the difference.
+- **Correction:** the 2σ came from two dissertations, grades 4–8, **11 lessons over 3 weeks**,
+  tests made for the study, and the tutoring condition **also** ran mastery-learning
+  feedback-correctives (Bl84, full text). Later reviews: human tutoring d = 0.79 vs no tutoring
+  (VL11, about as good as step-based computer tutors at 0.76); preK–12 randomized tutoring
+  programmes pooled **0.29 SD** (NOQ24). Tutoring works — at roughly a seventh of the famous size
+  at scale.
+- **Exposing question:** "How long did the 2-sigma study run, on what test, and what else did the
+  tutored group get?"
+- **Unit:** B2 §2. Status: written.
+
+### M57 — Mastery learning reliably gives about a 1-sigma gain in ordinary schools
+- **Why it feels true:** Bloom reported ≈1σ for mastery learning beside the 2σ for tutoring;
+  early metas reported means of 0.5–0.9.
+- **Correction:** in group-based mastery learning in real schools over ≥ 4 weeks, the median
+  effect on **standardized** tests was **+.04** (7 studies) and on experimenter-made tests **+.255**
+  (8 studies), with little evidence of maintenance (Sl87, full text). Larger effects came from
+  short studies with generous corrective time and aligned tests. Mastery *mechanisms* (test →
+  correct → retest) are well supported; the 1σ figure is not.
+- **Exposing question:** "Was that effect on a standardized test or a test written for the study?"
+- **Unit:** B2 §2. Status: written.
+
+### M58 — Advance organizers are a strong, proven way to start a lesson
+- **Why it feels true:** Ausubel's principle — learning depends on what the learner already knows
+  — is true, and "give them the big picture first" sounds like an application of it.
+- **Correction:** the meta-analytic effect of advance organizers is **small** (LAA80, 135 studies),
+  and does not follow the theory's prediction about low-knowledge learners (Stone); Bloom's own
+  table put them at .20 (Bl84). Opening with **questions the learner must answer** (pretesting,
+  SCA24 g = 0.54 on asked items) has stronger evidence than opening with an overview.
+- **Exposing question:** "Did the learners *do* anything with the overview, or just read it?"
+- **Unit:** B2 §4 (evidence at A6 §5). Status: written.
+
+### M59 — Direct Instruction means lecturing — the teacher talks, students listen
+- **Why it feels true:** "direct" and "instruction" suggest transmission; critics use "direct
+  instruction" for any teacher-led lesson.
+- **Correction:** Engelmann's DI is built on constant learner **responses** (choral and
+  individual answers every few seconds), example/non-example sequences, immediate correction and
+  mastery checks (St18 distinguishes DI from "little di"). Its effect on achievement is moderate to
+  large (St18: 0.54–0.60, developer-affiliated authors). A lecture with no responses has none of
+  those mechanisms.
+- **Exposing question:** "How many times per minute does each student answer in this lesson?"
+- **Unit:** B2 §6. Status: written.
+
+### M60 — Letting every learner go at their own pace is always better
+- **Why it feels true:** learners differ in speed, and forced pacing leaves some behind and bores
+  others; self-paced courses (PSI, Kumon, online platforms) sound respectful.
+- **Correction:** self-paced mastery programmes "often reduce the completion rates in college
+  classes" (KKB90, abstract) — the mastery and feedback parts help, the absence of deadlines lets
+  procrastination win. Kumon's RCT ran a fixed 30 minutes daily inside school time (SMS24): *level*
+  was individual, *schedule* was not.
+- **Exposing question:** "Self-paced on what — level, or schedule? Who sets the deadline?"
+- **Unit:** B2 §1. Status: written.
+
 ---
 
 ## Seeds awaiting their unit (full entries written in that unit's sprint)
-- **M15** 2-sigma → B2/B4b (only seed left).
+- (none — M15 written S8a)
