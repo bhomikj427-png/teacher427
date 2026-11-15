@@ -83,6 +83,10 @@
 | M71 | Students need exactly three encounters with a concept to learn it | B4b | written |
 | M72 | Hattie's effect-size rankings tell you which teaching method to choose | B4b | written |
 | M73 | If a class makes me feel I'm learning less, I am learning less | B4b | written |
+| M74 | Flashcard apps are retrieval practice, so if flashcards disappoint, retrieval practice doesn't work | B5 | written |
+| M75 | Start at the top of Bloom's taxonomy and the facts will fill themselves in | B5 | written |
+| M76 | Feeling confused means you're learning efficiently | B5 | written |
+| M77 | Once knowledge is well connected you don't need spaced retrieval any more | B5 | written |
 
 ---
 
@@ -768,6 +772,51 @@
   (Des19). Feelings of fluency track ease of processing, not learning (A1 §6; Bjork B4a §1).
 - **Exposing question:** "What did the delayed test say — not how did it feel?"
 - **Unit:** B4b §8. Status: written.
+
+
+### M74 — Flashcard apps are retrieval practice, so if flashcards disappoint, retrieval practice doesn't work
+- **Why it feels true:** "active recall" is popularly taught *as* Anki; when a big deck becomes
+  tedious and grades don't rise, the whole idea gets blamed.
+- **Correction:** a spaced-retrieval *system* of isolated fact cards is one narrow format.
+  Retrieval practice in research includes free recall, practice tests, and solving problems; it
+  improves delayed tests over rereading, and higher-order prompts improve higher-order tests while
+  fact prompts do not (Ag19; KB11, RK06). The disappointing part is the prompt level, not retrieval
+  (BK22; Sung's own correction, JS-CO).
+- **Exposing question:** "What did your cards ask you to *do* — name a fact, or use, compare or
+  explain it?"
+- **Unit:** B5 / `justin-sung-audit.md` §1. Status: written.
+
+### M75 — Start at the top of Bloom's taxonomy and the facts will fill themselves in
+- **Why it feels true:** experts reason at the top levels and seem to know the facts "for free";
+  higher-order questions do work better for higher-order exams.
+- **Correction:** higher-order and mixed retrieval quizzes beat fact-only quizzes on higher-order
+  tests (Ag19) — but the learners still studied the material, mixed quizzes did as well, and no
+  study shows facts are reliably acquired without being practised. Novices facing
+  high-interactivity material need worked guidance first (KSC06, KACS03); expert reasoning rests
+  on stored knowledge (A5). Bloom is not a strict ladder either way (M28).
+- **Exposing question:** "Can you evaluate two options if you can't yet recall what each one is?"
+- **Unit:** B5 / `justin-sung-audit.md` §2 (J23). Status: written.
+
+### M76 — Feeling confused means you're learning efficiently
+- **Why it feels true:** good strategies do feel harder, and learners wrongly read that effort as
+  failure (misinterpreted-effort hypothesis, KGF19) — so "confusion is good" sounds like the cure.
+- **Correction:** effort is a by-product of some useful processing, not a measure of it. Overload
+  and badly designed material (extraneous load) also feel confusing and do not help (M16; S10).
+  Feelings during study are weak monitors (BDK13); a delayed retrieval test is the check (RT11).
+- **Exposing question:** "Was it hard because you were relating ideas — or because the material
+  was a mess? What did a test a few days later show?"
+- **Unit:** B5 / `justin-sung-audit.md` §4 (J26). Status: written.
+
+### M77 — Once knowledge is well connected you don't need spaced retrieval any more
+- **Why it feels true:** well-understood material does feel stable, and connected knowledge does
+  fade more slowly than isolated items.
+- **Correction:** deeper, related processing improves retention (CL72; Be07), but it does not
+  stop forgetting; spaced retrieval to a criterion (successive relearning) is what keeps items
+  available (RD11, C06). Relating and retrieving are complements — the "both" position both sides
+  of the Sung–Keep exchange reached (BK22, JS-CO).
+- **Exposing question:** "If you understood it well last month, can you produce it now without
+  looking?"
+- **Unit:** B5 / `justin-sung-audit.md` §2 (J2). Status: written.
 
 ---
 

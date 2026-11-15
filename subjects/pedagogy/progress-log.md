@@ -1,10 +1,10 @@
 # Pedagogy — Progress Log
 
 ## Session resume
-- Last session: 2026-11-15
-- Where we stopped: S9b-2 done (B4 complete: B4a 8 + B4b 14); next = S10 (B5 practitioners + Justin Sung audit) — start from sprints.md "Current hand-off"
-- Recap: S0–S8a done: Part A (A1–A8 + README) complete; Part B: B1 historical (17) + B2 method-builders (10) + B3 legends (4) + B4a (8) + B4b (14) researchers complete; 156 sources; misconceptions M1–M73 all written
-- Next up: S10 — say "S10"; read only the hand-off's "Read at start" list
+- Last session: 2026-11-16
+- Where we stopped: S10a done (Justin Sung audit, J1–J28); next = S10b (B5 practitioners) — start from sprints.md "Current hand-off"
+- Recap: S0–S10a done (S10a: justin-sung-audit.md): Part A (A1–A8 + README) complete; Part B: B1 historical (17) + B2 method-builders (10) + B3 legends (4) + B4a (8) + B4b (14) researchers complete; 166 sources; misconceptions M1–M77 all written
+- Next up: S10b — say "S10b"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -126,6 +126,11 @@
 - [2026-11-15] S9b-2: verified Fre14, DSW11, Des19, WHD15, KD17, ANB21, WMS18, NAL95, Nut00, HT07, Sim17, Ber17 (abstracts); Nuthall book claim via T3 secondaries (`uncertain`) → wrote knowledge-base/B4b-researchers-instruction.md §8–14 + full summary + pattern.
 - [2026-11-15] S9b-2: misconceptions M70–M73 new; sources +14; CHANGELOG.
 - [2026-11-15] S9b-2 done-when checked: 7/7 entries to protocol step 8 ✓; Hattie written as a methodology case ✓; misconceptions +4 ✓; orphan-ID check clean ✓. sprints.md: S9b ticked (B4 complete), backlog +3, S10 hand-off written.
+- [2026-11-16] S10a (full Justin Sung audit; S10 split: S10a Sung, S10b other practitioners) started under auto.py; tree dirty only with auto.py + .claude/auto/ (not this subject's work — left alone).
+- [2026-11-16] S10a: review sweep of all subjects' progress logs — nothing due today anywhere.
+- [2026-11-16] S10a: located the response video (Benjamin Keep, "What Study Gurus Get Wrong About Learning", 2022) + Sung's joint reply (2023); caption-checked JS-TED, JS-PRB, JS-RNK, JS-6L, JS-CO; verified Ag19, KGF19 (abstracts); no peer-reviewed Sung outcome study found → wrote knowledge-base/justin-sung-audit.md (J1–J28 verdicts + §5 overall; grade translator M / own method T).
+- [2026-11-16] S10a: misconceptions M74–M77 new; sources +10 (166); CHANGELOG; justin-sung-claims.md status line; research-tools/yt_search.py + cap.py added.
+- [2026-11-16] S10a done-when checked: every Sung claim verdicted (22 + 6 new) ✓; rebuttal video located ✓; misconceptions +4 ✓; source-ID check clean ✓. sprints.md: S10 split → S10a done, S10b (B5 practitioners) next; backlog +3 (2 Feynman rows → S10b); hand-off written.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
@@ -142,3 +147,4 @@
 - [2026-11-15] S9a done · B4a memory & practice researchers (8 entries) · classroom quizzing to end-of-year (McD11) · relearning 3+3 (RD11) · interleaving RCT d 0.83 (RDHC20) · deliberate practice non-replication (MM19) · sources 131 · M64–M66 · next: S9b-1
 - [2026-11-15] S9b-1 done · B4b §1–7 (Rosenshine → Mazur) · Rosenshine 10 principles verbatim; 80% = correlational · formative assessment 0.20 not 0.7 (KN11) · Hake 0.23 vs 0.48 · sources 142 · M67–M69 · next: S9b-2
 - [2026-11-15] S9b-2 done · B4b §8–14 (Wieman → Hattie) · B4 complete · active learning 0.47 SD / OR fail 1.95 (Fre14) · learn more, feel less (Des19) · Hattie as methodology case · sources 156 · M70–M73 · next: S10 (B5 + Sung audit)
+- [2026-11-16] S10a done · full Justin Sung audit (J1–J28) · Keep response video found; Sung self-corrected J4 · pre-study B not "most important" · own data unpublished · sources 166 · M74–M77 · next: S10b (B5 practitioners)

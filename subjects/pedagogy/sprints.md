@@ -76,7 +76,8 @@
 | S8b | B3 classroom legends (Feynman, Escalante, Collins, Khan) | roster §3, A3, A4, A8 §2 myth 7 | `B3-classroom-legends.md` | same; Feynman-technique attribution sourced | **done 2026-11-15** |
 | S9a | B4 researchers: memory & practice (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) | roster §4, A3, A4 | `B4a-researchers-memory.md` | same | **done 2026-11-15** |
 | S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) — **split S9b-1 / S9b-2** (7 + 7) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | **done 2026-11-15** (S9b-1 §1–7, S9b-2 §8–14) |
-| S10 | B5 practitioners + **full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 | `B5-practitioners.md`, `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **stage-1✓** |
+| S10a | **Full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 (pointers) | `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **done 2026-11-16** (J1–J28; Keep video found) |
+| S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | **stage-1✓** |
 | S11 | Stage 2 — Part A verification sweep | all A files, sources | corrections in A files + CHANGELOG | every effect size checked at the paper; `uncertain` tags resolved or kept with reason | |
 | S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | |
 | S13 | §0 surplus test + integrity audit | everything | audit note in CHANGELOG; 00-map stamp | surplus test recorded; zero unsourced claims | **stage-2✓** |
@@ -111,7 +112,10 @@ Read at start: <exact file list = Sy Inputs>
 | PR18 effect sizes 0.40 / 0.28 / 0.58 at full text | S2 | S11 |
 | A2: priming → neocortex (not in Sq04 abstract) | S2 | S11 |
 | LTM "no practical capacity limit" — find a source or drop | S2 | S11 |
-| Justin Sung: locate the Learning-Sciences-PhD response video; caption-check every `digest` claim | S0/S1 | S10 |
+| S10a closed: response video located (BK22 Keep 2022 + JS-CO) ✓; digest claims caption-checked except J8, J10, J13 (row below) | — | — |
+| Sung J8 (course), J10, J13 (interview/summary) wording at a primary video; J22 SuperMemo page (404 on supermemo.guru) | S10a | S12 |
+| ICS22 *Report on Learning* (iCanStudy 2022) — read if obtainable; any later peer-reviewed Sung outcome study | S10a | S12 |
+| Ag19 full text: experiment Ns, effect sizes, whether fact knowledge was tested after higher-order quizzes (M75 boundary) | S10a | S11 |
 | Roster open leads (Kumon RCT full text, Nuthall 3 encounters, gurukul/chavruta) — S7b closed: Montessori meta (Ra23 + Li25), Suzuki (LWW24), Moore (none found; IBL La14) | S0 | S8a–S9b |
 | S2 closed: Squire vol/issue ✓, BB92 + KB11 + PR18 added to canon ✓ | — | — |
 | S3 closed: Krathwohl procedural wording ✓ (full text) · KLI typology ✓ (CRK22 full text) · Gagné ✓ (G84 full text replaces 1985 edition) | — | — |
@@ -135,7 +139,7 @@ Read at start: <exact file list = Sy Inputs>
 | "10% of the brain" + coordination exercises / Brain Gym: find a primary refutation or drop from A8 | S6 | S11 |
 | P08 full text (meshing criterion wording; number of studies) | S6 | S11 |
 | Y19 effect sizes (grades, lower-achievers) at full text | S6 | S11 |
-| Feynman Technique: check Gleick *Genius* / Feynman's own texts for any described method; Scott Young's 2011 post body | S6 | S10 |
+| Feynman Technique: check Gleick *Genius* / Feynman's own texts for any described method; Scott Young's 2011 post body | S6 | S10b |
 | Dek12 "commercial programmes" link — confirm wording in abstract | S6 | S11 |
 | SK22 moderators (text type, delay, age) at full text | S7a | S12 |
 | FMSG14 numbers (how many studies, outcomes) — abstract elided by publisher | S7a | S12 |
@@ -157,7 +161,7 @@ Read at start: <exact file list = Sy Inputs>
 | SMS24 journal-version numbers (working paper 2020 read) | S8a | S12 |
 | Ash05 vol/pages; content-focused vs process-only PD claim (B2 §8) | S8a | S12 |
 | VL11 answer-based tutoring ES (not in abstract) | S8a | S12 |
-| Feynman *Lectures* preface + Goodstein "freshman lecture" anecdote at a primary/first-hand source | S8b | S10 |
+| Feynman *Lectures* preface + Goodstein "freshman lecture" anecdote at a primary/first-hand source | S8b | S10b |
 | Mat88 (Mathews *Escalante*) — Garfield year-by-year numbers, summer/Saturday sessions | S8b | S12 |
 | Marva Collins: any independent Westside Prep evaluation; *Marva Collins' Way* (1982) primary | S8b | S12 |
 | Systematic phonics evidence (B3 §3 mechanism, outside A3 scope) — decide include or drop | S8b | S12 |
@@ -188,28 +192,39 @@ Read at start: <exact file list = Sy Inputs>
   the scratchpad and Read the PNG — worked for Bl84 (S8a). Archive.org lending-library books return 401.
 - **Author repository copies** (university DSpace: `.../server/api/core/bitstreams/<uuid>/content`) and
   gwern.net/doc PDFs often give full text of RER/AERA papers.
+- **YouTube (S10a):** `python -I research-tools/yt_search.py "<query>"` lists id | channel | title; then
+  `python -I tools/fetch_transcripts.py "https://www.youtube.com/watch?v=<id>" /tmp/<dir>` (keep captions
+  out of the repo); read with `python -I research-tools/cap.py "<glob>" "<regex>" 250` (keyword windows,
+  not whole 14k-word files). Only Bash can read %TEMP% (Read/cat are blocked there). Upload dates:
+  `python -I -m yt_dlp --skip-download --print "%(id)s %(upload_date)s" <urls>`.
 - **Shell:** long bash heredocs with apostrophes/quotes have failed to parse twice — write long
   content with the Write tool to the scratchpad, then append via a short Python script.
 
 ## Current hand-off
 
 ```
-Sprint: S9b-2 — B4b instruction researchers, Wieman → Hattie — done (2026-11-15); B4 complete
-Written: knowledge-base/B4b-researchers-instruction.md §8 Wieman, §9 Willingham, §10 Kirschner &
-  Hendrick, §11 Agarwal, §12 Learning Scientists, §13 Nuthall, §14 Hattie + "Summary (B4b, all 14)"
-  + pattern · misconceptions M70–M73 · sources +14 (156)
-Verified this sprint: abstracts — Fre14, DSW11, Des19, WHD15, KD17, ANB21, WMS18, NAL95, Nut00, HT07,
-  Sim17, Ber17; Nut07 via T3 secondaries only
-Open (carried): backlog rows added S9b-2 (Fre14 failure %, Nuthall book pages, Hattie book figures)
-Decisions made: Hattie graded X as a decision tool (methodology case), HT07 kept as M. Translators
-  (Willingham, Kirschner/Hendrick, Learning Scientists) graded M as synthesis, never as primary.
-Next sprint: S10 — B5 practitioners + FULL Justin Sung audit. First action: read
-  knowledge-base/justin-sung-claims.md (inventory ≥ 15 claims) and roster §5; locate the
-  Learning-Sciences-PhD response video (backlog S0/S1) via YouTube search + transcripts tool
-  (tools/fetch_transcripts.py); verdict each Sung claim against A1–A8 evidence (supported /
-  partly / unsupported / untestable) with source IDs. Then B5 entries (other popularizers on roster §5).
-  Likely split: S10a Sung audit, S10b other practitioners.
-Read at start: sprints.md (incl. Research tooling notes), knowledge-base/roster.md §5,
-  knowledge-base/justin-sung-claims.md, knowledge-base/A4-type-to-method.md §1–2,
-  knowledge-base/A8-myths.md §3 (test kit), knowledge-base/sources.md (ID list only)
+Sprint: S10a — Full Justin Sung audit — done (2026-11-16)
+Written: knowledge-base/justin-sung-audit.md — §1 retrieval dispute (J4/J6/J7/J16), §2 higher-order
+  & effort (J1–3, J5, J9, J12, J21, J23), §3 notes/mind maps/priming/tier list (J10–J20), §4 evidence &
+  capacity claims (J8, J22, J24–J28), §5 overall verdict + B5 grade (translator M / own method T)
+  · misconceptions M74–M77 · sources +10 (166) · justin-sung-claims.md status line
+Verified this sprint: captions — JS-TED, JS-PRB, JS-RNK, JS-6L, JS-CO, BK22 (Keep response video,
+  read in full); abstracts — Ag19 (higher-order quizzes > fact quizzes for higher-order tests),
+  KGF19 (misinterpreted-effort hypothesis); no peer-reviewed Sung outcome study found (Crossref/EPMC/web)
+Open (carried): J8/J10/J13 wording not caption-checked; J22 page 404; ICS22 unread; Ag19 full text
+Decisions made: S10 split → S10a (audit) + S10b (B5 practitioners, Sung entry summarises audit §5,
+  does not re-argue it). J-verdict scale: supported / partly / unsupported / untestable. Engine impact
+  of the audit: none.
+Assumptions to review (unattended run): (1) split S10 into S10a/S10b without asking — the hand-off
+  predicted it; (2) added research-tools/yt_search.py + cap.py (helpers, no engine change);
+  (3) caption transcripts kept in %TEMP%, not committed (third-party text).
+Next sprint: S10b — B5 practitioners. First action: write B5 §1 Justin Sung from audit §5 (short),
+  then Scott Young (resolve the two Feynman-technique backlog rows: Young's 2011 post body; Gleick /
+  Feynman Lectures preface), Oakley (diffuse mode, chunking — find any primary test), Sherrington,
+  Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard (group entry), Abdaal/Frank (include only where a
+  claim maps to research). Likely split S10b-1 (Sung, Young, Oakley, Lemov) / S10b-2 (rest).
+Read at start: sprints.md (hand-off + Research tooling notes), knowledge-base/roster.md §5,
+  knowledge-base/justin-sung-audit.md §5 only, knowledge-base/A4-type-to-method.md §1–2,
+  knowledge-base/A8-myths.md §3 (test kit), knowledge-base/sources.md (ID list only),
+  knowledge-base/B4b-researchers-instruction.md first 15 lines (entry format)
 ```

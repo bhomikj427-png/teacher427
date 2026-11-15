@@ -71,4 +71,12 @@
   1.95 verified at abstract; Des19 "learn more, feel less" (randomized); ANB21 classroom retrieval review;
   Nuthall three-vs-four encounters left `uncertain` (book unread); Hattie written as a methodology case
   (Sim17, Ber17). Part B B4 complete. Sources +14. misconceptions M70–M73 new.
-
+- [2026-11-16] S10a: justin-sung-audit.md created — verdict for every claim J1–J22 + six new claims found
+  in his own videos (J23–J28); 6 Sung videos + the response video re-checked at captions (TEDx at the
+  volunteer transcript). Learning-Sciences-PhD response video **located**: Benjamin Keep, "What Study Gurus
+  Get Wrong About Learning" (2022), plus Sung's joint reply (2023) in which he calls not separating
+  active recall from spaced repetition his "biggest regret". Notable: J4 ("retrieval only fights
+  forgetting") unsupported and self-withdrawn; J14 wording corrected (pre-study rated B, not "most
+  important"); J24 own outcome data unpublished (no peer-reviewed study found); Ag19 + KGF19 verified at
+  abstract. Grade for B5: translator M / own method T. justin-sung-claims.md status line updated.
+  Sources +10 (166). misconceptions M74–M77 new.

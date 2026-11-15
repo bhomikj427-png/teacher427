@@ -1,6 +1,7 @@
 # Justin Sung — Claim Inventory (S1; audited in S10)
 
-> **Status: inventory only.** Each claim is recorded **as reported**, with where it came from and
+> **Status: audited S10a (2026-11-16) → verdicts in `justin-sung-audit.md` (J1–J28).** This file stays
+> the inventory as first reported (wording corrections are in the audit). Each claim is recorded **as reported**, with where it came from and
 > how reliable that report is. No verdicts here; S10 writes `justin-sung-audit.md` with a verdict
 > per claim. **Source reliability codes:** `own` = his own words in a primary source we read ·
 > `digest` = third-party or AI summary of his video (wording may be paraphrased) · `interview` =
@@ -54,7 +55,8 @@
   during study are poor monitors (BDK13, KoB08); delayed retrieval attempts are good ones (RT11).
 
 ## Leads carried to S10
-- **Learning-Sciences-PhD response video:** not found in two searches (2026-11-15). Next: search
+- **Learning-Sciences-PhD response video:** FOUND S10a — Benjamin Keep (BK22) + Sung's reply (JS-CO).
+  Earlier note: not found in two searches (2026-11-15). Next: search
   YouTube directly by video title "response to Justin Sung" / "active recall is not lower order".
 - The central claim to settle is **J4 vs retrieval-based learning**: Karpicke's line of work treats
   retrieval as an encoding event in its own right. Resolving this decides J4, J6, J7 and J16
