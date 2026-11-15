@@ -151,6 +151,21 @@ Read at start: <exact file list = Sy Inputs>
 | Fröbel gifts/occupations primary (*Pedagogics of the Kindergarten*); Moore method primary accounts (Parker 2005); Suzuki *Nurtured by Love*; Pólya *How to Solve It* | S7b | S12 |
 | La14, LWW24, Sk22, Li17 co-author lists / volume numbers | S7b | S12 |
 
+## Research tooling notes (what worked, S7a–S7b — read with the hand-off)
+
+- **Abstracts by DOI or title:** `python -I research-tools/abstract_lookup.py <DOI> "<title words>"` →
+  Crossref (bib + often abstract), Europe PMC (abstract; best for psychology/medicine), Semantic
+  Scholar (abstract/TLDR). Publisher-elided abstracts → try ERIC API
+  (`api.ies.ed.gov/eric/?search=...&format=json`) or a university repository copy.
+- **Old primary texts:** Project Gutenberg plain text (`gutenberg.org/cache/epub/<n>/pg<n>.txt`) and
+  Internet Archive full text (`archive.org/download/<id>/<id>_djvu.txt`; find `<id>` via
+  `archive.org/advancedsearch.php?...&output=json`) — curl to the scratchpad, then grep.
+- **PDFs** WebFetch can't read are saved to tool-results → extract with `pypdf` (installed).
+- **Blocked:** Springer/Wiley article pages and PDFs (login redirect), ctext.org (anti-scraping),
+  PMC pages (reCAPTCHA) — go to Crossref/Europe PMC instead.
+- **Shell:** long bash heredocs with apostrophes/quotes have failed to parse twice — write long
+  content with the Write tool to the scratchpad, then append via a short Python script.
+
 ## Current hand-off
 
 ```
@@ -173,7 +188,7 @@ Next sprint: S8a — B2 method-builders. First action: write M15 (2-sigma) prope
   Engelmann DI (Stockard et al. 2018, RER), Kumon (J. Human Capital RCT), Gagné nine events
   (link to A3 §2.2 G84), Ausubel (link to A6 §5 LAA80), Bruner (spiral, CPA; link B1 §6),
   lesson study, Oxbridge tutorial, Freire.
-Read at start: sprints.md, knowledge-base/roster.md §2 + "Open search leads",
+Read at start: sprints.md (incl. Research tooling notes), knowledge-base/roster.md §2 + "Open search leads",
   knowledge-base/B1-historical.md (header + "Summary (B1, all 17)" only),
   knowledge-base/A3-kinds-of-information.md §3 (table only), knowledge-base/A4-type-to-method.md §1–2,
   knowledge-base/misconceptions.md (M15 seed line only), knowledge-base/sources.md (ID list only)

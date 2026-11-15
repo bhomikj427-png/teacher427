@@ -104,6 +104,7 @@
 - [2026-11-15] S7b: verified Mont-HB (full text), Li17/Li25/Ra23 (abstracts), WWM78/VVB10 (abstracts), Sm25 (portal abstract + secondary), Sk58 (full text), KCE80 (ERIC scope only), Dew-DE (full text), LH16 (abstract), LM96 (bib), Fr-EM (full text), Sk22 (abstract), Sch92 (full text), La14 (abstract), LWW24 (abstract) → wrote B1 §8–17 progressively (Montessori, Vygotsky, Skinner, Dewey+Piaget written mid-sprint; §13–17 Fröbel, Ebbinghaus, Pólya, Moore, Suzuki now).
 - [2026-11-15] S7b: B1 summary table extended to all 17 + B1 pattern; misconceptions M53–M56 written; CHANGELOG.
 - [2026-11-15] S7b done-when checked: 10/10 entries written to protocol step 8 (none dropped; Ebbinghaus as pointer) ✓; misconceptions +4 ✓; orphan-ID script check on B1 clean ✓. sprints.md: S7b ticked, S8 split S8a/S8b, backlog +6, hand-off written.
+- [2026-11-15] Learner asked whether to continue S8a in this context or start fresh → fresh start. Saved session-only research know-how: research-tools/abstract_lookup.py + 'Research tooling notes' in sprints.md.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
