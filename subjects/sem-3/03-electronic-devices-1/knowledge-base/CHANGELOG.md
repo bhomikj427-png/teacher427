@@ -116,3 +116,4 @@ the open items below (none block teaching; exam-targeting still wants PYQs to we
   derivation, plus a table of held-constant variables. These were missing before (g_m and r_d were present). `settled` (derivation).
 - `exam-map.md`: first evidence row. U3 has an 8-mark item (`likely`).
 - [2026-11-15] stage-2/01 §11: Si DOS masses + N_V, Ge/GaAs n_i, dopant binding energies (web-checked) for the 01a/01b pack rebuild.
+- [2026-11-15] stage-2/01 §11: Si mobility-vs-doping fit (Caughey–Thomas/MINIMOS parameters, web-checked) for the 02a pack rebuild.

@@ -6,7 +6,7 @@
 
 [[map:1 Atoms and bonds > 2 Breaking a bond > 3 The hole > 4 Energy bands > 5 n_{i} and heat > 6 Donors > 7 Acceptors > 8 n·p = n_{i}^{2}|here=1]]
 
-Every device in this course is a piece of silicon with a few chosen impurities. This file answers one question: **what carries current inside silicon, and how many of these carriers are there?** 01b then explains *why* the counts come out as they do (the Fermi level). 02 explains what makes the carriers move.
+Every device in this course is a piece of silicon with a few chosen impurities. This file answers one question: **what carries current inside silicon, and how many of these carriers are there?** 01b then explains *why* the counts come out as they do (the Fermi level). 02a and 02b explain what makes the carriers move.
 
 | Symbol | Meaning | Value used |
 |---|---|---|

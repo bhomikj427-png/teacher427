@@ -105,3 +105,9 @@
 - **Shallow-dopant binding energies in Si:** P ≈ 45 meV, As ≈ 54 meV (dmccreary semiconductor course, checked
   2026-11-15); B ≈ 45 meV (deck slide 39, Sze; not independently re-checked). All ≪ kT·ln-scale → full
   ionisation at 300 K. Deck slide 39 prints all three.
+- **Mobility vs doping, Si 300 K (Caughey–Thomas form, MINIMOS parameters):** μ(N) = μ_min + (μ_max − μ_min)/(1 + (N/N_ref)^α).
+  Electrons μ_max 1430, μ_min 80 cm²/V·s, N_ref 1.12×10¹⁷ cm⁻³, α 0.72; holes 460, 45, 2.23×10¹⁷, 0.72 (Palankovski
+  PhD thesis, TU Wien, Table 3.22 — μ_min, N_ref, α; nextnano MINIMOS model page — μ_max; checked 2026-11-15). Gives
+  μ_n ≈ 1230 / 780 / 420 / 310 at 10¹⁶ / 10¹⁷ / 5×10¹⁷ / 10¹⁸; μ_p ≈ 420 / 310 / 150 at 10¹⁶ / 10¹⁷ / 10¹⁸. Deck slide
+  52 (σ = 32 at N_D = 5×10¹⁷) implies μ_n = 400: consistent. Other fits (Masetti, Arora) differ by ~10 %; exam
+  numericals use the μ given.

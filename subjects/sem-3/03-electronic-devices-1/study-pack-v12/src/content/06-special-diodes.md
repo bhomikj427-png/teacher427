@@ -1,6 +1,6 @@
 # 06 — Special diodes: LED, photodiode, tunnel diode
 
-<div class="sub">Deck "LED, Tunnel, Photo" · beyond the syllabus text, taught on the slides · needs 03 (the junction) and 02 (recombination)</div>
+<div class="sub">Deck "LED, Tunnel, Photo" · beyond the syllabus text, taught on the slides · needs 03 (the junction) and 02b (recombination)</div>
 
 ## Map
 
@@ -21,7 +21,7 @@ Three junctions built for one job each: turn current into light, turn light into
 ### 1 · The LED
 
 :::guess Predict
-In 02, recombination in Si gave heat and in GaAs gave light. Which material would you make an LED from, and why?
+In 02b, recombination in Si gave heat and in GaAs gave light. Which material would you make an LED from, and why?
 :::
 
 [[fig:special_symbols|Symbols: LED, photodiode, tunnel diode.|w=60]]

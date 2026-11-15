@@ -1,6 +1,6 @@
 # 03 — The pn junction and the diode
 
-<div class="sub">Unit 1–2 deck, slides 77–100 (examples slides 77–78) · syllabus Unit 2 · needs 02 (drift and diffusion balance)</div>
+<div class="sub">Unit 1–2 deck, slides 77–100 (examples slides 77–78) · syllabus Unit 2 · needs 02a (drift, σ) and 02b (drift–diffusion balance, Einstein relation, lifetime τ, diffusion length L, Poisson)</div>
 
 ## Map
 
@@ -34,11 +34,11 @@ Does forward bias make the depletion region wider or narrower?
 
 [[fig:junction|pn junction: depletion region of fixed ions, built-in field from n to p.|w=75]]
 
-At contact, holes diffuse p → n and electrons n → p (02) and recombine, leaving fixed ions: − on the p side, + on the n side. This carrier-free strip is the **depletion region**. Its field (n → p) pushes carriers back; diffusion stops when drift cancels it. The voltage across it then is
+At contact, holes diffuse p → n and electrons n → p (02b) and recombine, leaving fixed ions: − on the p side, + on the n side. This carrier-free strip is the **depletion region**. Its field (n → p) pushes carriers back; diffusion stops when drift cancels it. The voltage across it then is
 
 $$V_{bi} = V_{T} ln(N_{A}N_{D}/n_{i}^{2})$$
 
-about 0.6–0.9 V in Si. (A voltmeter reads zero across a loose diode: the metal contacts cancel it.) Solving Poisson (02) gives a triangular field and
+about 0.6–0.9 V in Si. (A voltmeter reads zero across a loose diode: the metal contacts cancel it.) Solving Poisson (02b step 13) gives a triangular field and
 
 $$W = √[(2ε/q)(1/N_{A} + 1/N_{D})(V_{bi} − V_{a})]      N_{A}x_{p} = N_{D}x_{n}$$
 

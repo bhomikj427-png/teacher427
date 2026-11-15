@@ -17,7 +17,7 @@ Ranked by how much the professor's material stresses each topic: solved numerica
 | 7 | **13 Feedback** | 51-slide deck, four topologies | 13 gain with feedback | 40 min |
 | 8 | **14 Oscillators** | Deck with RC, Wien, LC, crystal | 14 Barkhausen, RC phase-shift | 35 min |
 | 9 | **03 pn junction and diode** | Second half of the 100-slide Unit 1–2 deck | 03 built-in voltage, diode equation | 40 min |
-| 10 | **01a, 01b, 02 Semiconductors and current flow** | First half of the same deck; definitions and short derivations (slide 38: E_{F} at mid-gap) | 01a step 8, 01b steps 7 and 9, 02 drift and diffusion | 90 min |
+| 10 | **01a, 01b, 02a, 02b Semiconductors and current flow** | First half of the same deck; definitions and short derivations (slide 38: E_{F} at mid-gap) | 01a step 8, 01b steps 7 and 9, 02a steps 5–7, 02b steps 3–6 | 120 min |
 | 11 | **10 BJT operation** | Short decks L20–L25 | 10 α, β | 25 min |
 | 12 | **06 Special diodes, 09 CMOS and FinFET** | Extra decks beyond the syllabus text | 09 CMOS gate | 30 min |
 | last | **15 Mock paper** | Closed book, after the rest | all | 3 h |
@@ -33,7 +33,7 @@ The order is the syllabus, unit by unit.
 
 **Unit 1 — semiconductors**
 
-[[map:01a Bonds, bands, carriers, doping > 01b Fermi level, carrier counts > 02 Drift, diffusion, continuity]]
+[[map:01a Bonds, bands, carriers, doping > 01b Fermi level, carrier counts > 02a Drift, conductivity > 02b Diffusion, recombination, continuity]]
 
 **Unit 2 — the diode**
 
@@ -55,7 +55,8 @@ Each file needs the ones before it. 07 uses 03's depletion region. 08 reuses 07'
 |---|---|---|---|
 | 01a | U1 | covalent bonds, electrons and holes, energy bands, n_{i}(T), donors, acceptors, mass-action law | deck |
 | 01b | U1 | states, Fermi–Dirac f(E), density of states, N_{C} and N_{V}, np = n_{i}^{2} proved, E_{F} at mid-gap, E_{F} with doping | deck slide 38 |
-| 02 | U1 | drift, mobility, conductivity, diffusion, Einstein relation, continuity | deck |
+| 02a | U1 | thermal motion, drift velocity, mobility (vs field, doping, T), drift current, σ and ρ, resistance, sheet resistance | deck slides 49–52 |
+| 02b | U1 | diffusion, Fick's law, total current, equilibrium balance, Einstein relation, G–R, SRH, lifetime, continuity, diffusion length, Poisson | deck slides 57, 61–65 |
 | 03 | U2 | junction, depletion region, built-in voltage, diode equation, resistances, capacitances | deck |
 | 04 | U2 | load line, series/parallel diode circuits, half- and full-wave rectifiers | L08, L09 |
 | 05 | U2 | clippers, clampers, voltage multipliers, Zener regulator, Schottky | L10 |
@@ -101,10 +102,12 @@ When you reach a **Guess first** box, write a guess on paper **before** reading 
 | Where | Slide says | Pack says | Why |
 |---|---|---|---|
 | L08 slide 5 (04) | V_{R} = 18.5 V | 9.25 V | R is 0.5 kΩ; 18.5 V cannot come from a 10 V source |
+| Unit 1–2 deck slide 64 (02b) | J_{p} = +qF_{n} | J_{p} = +qF_{p} | holes carry their own flux |
+| Unit 1–2 deck slide 65 (02b) | J_{p} = qμ_{p}pE + qD_{p}dp/dx | − qD_{p}dp/dx | slide 55 has the right sign |
 | Feedback slide 32 (13) | 98.3 for A = 5000 | 98.0 | 5000/51 = 98.0; the table's other entries are right |
 
 ## How this pack was checked
 
 - Facts: the subject knowledge base (Boylestad & Nashelsky, Sedra & Smith, Streetman, Neamen). Units 6–7 and the deck extras are not in the knowledge base yet; their formulas are the standard textbook results, each re-derived or simulated.
-- Numbers: every number in the pack was computed a second time by `verify.py` (211 checks), including numerical simulation of the oscillator networks.
+- Numbers: every number in the pack was computed a second time by `verify.py` (211 checks), including numerical simulation of the oscillator networks. Files 01a–02b have their own scripts, `verify_u1.py` and `verify_u2.py`.
 - Where a slide has a slip, the pack uses the corrected value and says so in a Note.
