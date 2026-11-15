@@ -77,7 +77,7 @@
 | S9a | B4 researchers: memory & practice (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) | roster §4, A3, A4 | `B4a-researchers-memory.md` | same | **done 2026-11-15** |
 | S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) — **split S9b-1 / S9b-2** (7 + 7) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | **done 2026-11-15** (S9b-1 §1–7, S9b-2 §8–14) |
 | S10a | **Full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 (pointers) | `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **done 2026-11-16** (J1–J28; Keep video found) |
-| S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | split: **S10b-1 done 2026-11-16** (§1–4 Sung, Young, Oakley, Lemov) · S10b-2 (Sherrington, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank + full summary) → **stage-1✓** |
+| S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | split: **S10b-1 done 2026-11-16** (§1–4 Sung, Young, Oakley, Lemov) · **S10b-2 done 2026-11-16** (§5–8 + full summary) → **stage-1✓** |
 | S11 | Stage 2 — Part A verification sweep | all A files, sources | corrections in A files + CHANGELOG | every effect size checked at the paper; `uncertain` tags resolved or kept with reason | |
 | S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | |
 | S13 | §0 surplus test + integrity audit | everything | audit note in CHANGELOG; 00-map stamp | surplus test recorded; zero unsourced claims | **stage-2✓** |
@@ -178,6 +178,12 @@ Read at start: <exact file list = Sy Inputs>
 | Fre14 failure rates (21.8% vs 33.8%?) at full text; DSW11 effect size | S9b-2 | S12 |
 | Nut07 three/four encounters at the book (pp. 63, 126); Nuthall death year (2001 vs 2004) | S9b-2 | S12 |
 | Hat09 "800+ metas" + d = 0.40 hinge at the book; Willingham "residue of thought" wording | S9b-2 | S12 |
+| *Seven Myths* chapter-level source check (book not read; EAP17 review only); *Teaching Secondary Science* (Boxer) claim at the book (LB-AB review only) | S10b-2 | S12 |
+| Laming *Human Judgment* (2004) "no absolute judgement" rationale for CJ — read or soften (B5 §6 `uncertain`) | S10b-2 | S12 |
+| GFG01 abstract/full text (motivation decline through school); Mccrea's expectation principle in his own words (only reviewer summaries) | S10b-2 | S12 |
+| Abdaal's "2011 Swahili study" = KBa11? (design matches; confirm from video description/on-screen citation) + the "+50%" figure; TF19 description links | S10b-2 | S12 |
+| Willingham 2003 deep/shallow knowledge (cited by Furst, EF26) — read | S10b-2 | S12 |
+| Lead: EdWeek Oct 2026 report of an *EEPA* coaching RCT (ICP) with null effects on scores — check primary; may update KBH18 "shrinks at scale" line | S10b-2 | S12 |
 
 ## Research tooling notes (what worked, S7a–S7b — read with the hand-off)
 
@@ -212,31 +218,29 @@ Read at start: <exact file list = Sy Inputs>
 ## Current hand-off
 
 ```
-Sprint: S10b-1 — B5 practitioners part 1 (Sung, Young, Oakley, Lemov) — done (2026-11-16)
-Written: knowledge-base/B5-practitioners.md — header (two-axis grading: translator / own method),
-  §1 Sung (summary of audit §5), §2 Young (Feynman Technique origin settled; MIT Challenge n = 1,
-  self-graded), §3 Oakley (diffuse mode → incubation meta; chunking S; LHTL evidence thin), §4 Lemov
-  (craft taxonomy from observation; cold call; coaching meta), partial summary table + pattern,
-  misconceptions-owned list · misconceptions M78–M81 · sources +9 (175) · A8 myth 7, M13, B3 §1
-  updated (Feynman attribution `uncertain` → `settled`) · CHANGELOG
-Verified this sprint: full text — SY-FT11 (Young 2011 transcript), Gd89 (Goodstein 1989), OS19
-  (Oakley & Sejnowski 2019, Europe PMC); pages — SY-FT24, SY-MIT, Po11; abstracts — SO09, DHP13, KBH18
-Open (carried): Feynman preface wording (secondary only); Chen & Oakley 2019 AERA paper; Gd89 pages;
-  SO09 numbers; any controlled TLAC / cold-call-on-learning test (all → backlog)
-Decisions made: B5 entries graded on two axes (as translator / own method) where both apply;
-  "package untested, parts tested → grade the parts" is the B5 rule. Lemov has no translator grade
-  (he reports craft, not research).
-Assumptions to review (unattended run): (1) split S10b into S10b-1/-2 without asking (the hand-off
-  predicted it); (2) changed A8 myth 7 verdict cell to "Myth X (attribution settled)" and edited M13 +
-  B3 §1 — outside this sprint's unit, but the backlog row it closed was owned by them.
-Next sprint: S10b-2 — B5 practitioners part 2. First action: write B5 §5 Tom Sherrington
-  (*Rosenshine's Principles in Action*, WalkThrus — grade as translator against B4b §1), then
-  Christodoulou (*Seven Myths*, assessment: comparative judgement — find a test), group entry
-  Furst / Boxer / Mccrea / Harvard (translators; check one load-bearing claim each), Abdaal / Frank
-  (include only claims that map to research; else drop with reason). Then the full B5 summary
-  (replace "part 1" heading), ≥ 3 new misconceptions, tick S10b → stage-1✓ in the table + 00-map.
-Read at start: sprints.md (hand-off + Research tooling notes), knowledge-base/roster.md §5 (lines
-  89–100), knowledge-base/B5-practitioners.md (header + Summary section only), knowledge-base/B4b-
-  researchers-instruction.md §1 (Rosenshine, lines 11–53), knowledge-base/A8-myths.md §3 (test kit),
-  knowledge-base/sources.md (ID list only)
+Sprint: S10b-2 — B5 practitioners part 2 (Sherrington, Christodoulou, Furst/Boxer/Mccrea/Harvard,
+  Abdaal/Frank) — done (2026-11-16) → stage-1✓ (Part A + Part B content complete)
+Written: knowledge-base/B5-practitioners.md — §5 Sherrington (four strands, SH19 full text), §6
+  Christodoulou (Seven Myths; comparative judgement reliability VBDD19 + adaptive-SSR caveat BW15),
+  §7 translator group (Furst SFD22, Boxer ZS24, Mccrea GC16, Harvard LB19), §8 Abdaal/Frank (caption
+  claim tables, keep/drop), full summary table (8 rows) + B5 pattern, misconceptions-owned list ·
+  misconceptions M82–M86 · sources +16 (191; new "B5 part 2" table at end of sources.md) ·
+  CHANGELOG · 00-map stage line → stage-1✓
+Verified this sprint: full text — SH19 (intro + strand 1); abstracts — VBDD19, BW15, SFD22, ZS24,
+  GC16, KBa11, SV01; pages — EAP17, EF26, PM20, LB19; captions — AA18, TF19
+Open (carried): Seven Myths + Boxer book not read; Laming; GFG01; Abdaal's 2011 study identity;
+  Willingham 2003; ICP coaching RCT lead (all → backlog, S12)
+Decisions made: B5 group entries check one load-bearing claim per person (hand-off rule) and
+  grade as translators only; popularizer entries use a keep/drop claim table.
+Assumptions to review (unattended run): (1) ticked stage-1✓ in 00-map (S10b's table row says
+  "→ stage-1✓"); (2) M85 tagged `contested` beyond early-primary maths (one study, GC16);
+  (3) Abdaal's "2011 study" identified as KBa11 only as "likely".
+Next sprint: S11 — Stage 2 Part A verification sweep. It is too big for one session → split
+  first: S11a = A1–A4 (+ backlog rows targeted S11 that belong to A1–A4), S11b = A5–A8. First
+  action: write the split into the sprint table, then take the backlog rows for A1/A2 (RK06
+  61% vs 40% at the paper's table; PR18 effect sizes; priming → neocortex; LTM capacity line)
+  and check each at full text, editing the A file + CHANGELOG as each closes.
+Read at start: sprints.md (hand-off + Verify backlog + Research tooling notes),
+  knowledge-base/A1-studying-vs-learning.md, A2-memory-architecture.md, A3-kinds-of-information.md,
+  A4-type-to-method.md, knowledge-base/sources.md (ID list only)
 ```

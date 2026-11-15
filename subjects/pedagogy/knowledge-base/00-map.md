@@ -1,7 +1,7 @@
 # Pedagogy — Knowledge Base Map (Layer 2)
 
 > Built per `../../../subject-research-protocol.md`. Work runs in sprints (`../sprints.md`).
-> **Stage status: `stage-1`** (S1 map pass; S2 A1 + A2; S3 A3; S4 A4 + A5; S5 A6 + A7; S6 A8 + Part A README — 2026-11-15).
+> **Stage status: `stage-1✓`** (Part A S1–S6, 2026-11-15; Part B B1–B5 + Sung audit S7a–S10b-2, completed 2026-11-16). Next: Stage 2 verification S11–S13 → `stage-2✓`.
 > Teaching gate = `stage-2✓` (no exception). Delivery once complete = study pack
 > (`study-pack-format.md` v1.2).
 

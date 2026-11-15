@@ -88,3 +88,13 @@
   diffuse mode graded via the incubation meta (SO09); LHTL outcome evidence = one AERA conference paper
   (OS19 full text). Lemov: no controlled TLAC test; cold calling (DHP13) raised participation and
   comfort; coaching meta (KBH18). Sources +9 (175). misconceptions M78–M81 new.
+- [2026-11-16] S10b-2: B5-practitioners.md §5-8 written + full summary + pattern (B5 complete).
+  Sherrington: four strands verified at SH19 full text (faithful; no correlational caveat; WalkThrus
+  untested). Christodoulou: Seven Myths list (EAP17; book not read); comparative judgement reliable
+  with enough comparisons (VBDD19) but adaptive SSR inflates, even from random data (BW15). Translator
+  group: Furst (SFD22 prior-knowledge paradox), Boxer (ZS24 explicit-first for novices, N = 85),
+  Mccrea (GC16 achievement -> motivation, not reverse), Harvard (retrieval/forgetting; own class
+  comparisons T). Abdaal/Frank caption-checked (AA18, TF19): expanding schedule not special (KBa11),
+  context effect shrinks with mental reinstatement (SV01), Pomodoro dropped as a learning claim.
+  Sources +16 (191). misconceptions M82-M86 new. Part B content complete (B1-B5) -> stage-1 batch
+  milestone met.

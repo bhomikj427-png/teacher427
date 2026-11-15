@@ -2,9 +2,9 @@
 
 ## Session resume
 - Last session: 2026-11-16
-- Where we stopped: S10b-1 done (B5 §1–4 Sung, Young, Oakley, Lemov); next = S10b-2 (B5 rest) — start from sprints.md "Current hand-off"
-- Recap: S0–S10b-1 done (S10a: justin-sung-audit.md; S10b-1: B5-practitioners.md §1–4): Part A (A1–A8 + README) complete; Part B: B1 historical (17) + B2 method-builders (10) + B3 legends (4) + B4a (8) + B4b (14) researchers complete; B5 §1–4; 175 sources; misconceptions M1–M81 all written
-- Next up: S10b-2 — say "S10b-2"; read only the hand-off's "Read at start" list
+- Where we stopped: S10b-2 done (B5 §5–8 + summary; B5 complete) → stage-1✓; next = S11 (split S11a/S11b) — start from sprints.md "Current hand-off"
+- Recap: S0–S10b-2 done → stage-1✓: Part A (A1–A8 + README) complete; Part B: B1 historical (17) + B2 method-builders (10) + B3 legends (4) + B4a (8) + B4b (14) + Sung audit + B5 practitioners (8 entries) complete; 191 sources; misconceptions M1–M86 all written
+- Next up: S11 (Stage 2, Part A verification; split S11a/S11b first) — say "S11"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -138,6 +138,14 @@
 - [2026-11-16] S10b-1: misconceptions M78-M81 new; sources +9 (175); CHANGELOG; Feynman-technique attribution settled -> A8 myth 7, M13, B3 section 1 updated.
 - [2026-11-16] S10b-1 done-when checked: 4/4 entries (Sung, Young, Oakley, Lemov) to protocol step 8 (serves/grade/learner/teacher) OK; Feynman backlog row (S6) closed, S8b row part-closed (Goodstein first-hand; preface still secondary) OK; misconceptions +4 OK; source-ID check clean OK. sprints.md: S10b-1 done, S10b-2 hand-off written.
 
+- [2026-11-16] S10b-2 (B5 practitioners part 2: Sherrington, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) started under auto.py; tree dirty only with auto.py + .claude/auto/ (not this subject's work — left alone); review sweep done in S10a today, nothing due.
+- [2026-11-16] S10b-2: verified SH19 (Sherrington 2019, introduction + strand 1 at full text, publisher sample PDF); WalkThrus outcome evidence searched, none found → wrote B5 §5 Sherrington.
+- [2026-11-16] S10b-2: verified VBDD19 (CJ reliability meta, abstract), BW15 (Bramley & Wheadon 2015, adaptive SSR inflation, abstract), EAP17 (Seven Myths list via review; book not read) → wrote B5 §6 Christodoulou.
+- [2026-11-16] S10b-2: verified EF26 (Furst post), SFD22 (prior-knowledge meta, abstract), ZS24 (Zhang & Sweller 2024, abstract), PM20 (Mccrea extract), GC16 (Garon-Carrier 2016, abstract), LB19 (Harvard interview); LB-AB review, GFG01 bib only → wrote B5 §7 translator group (Furst, Boxer, Mccrea, Harvard).
+- [2026-11-16] S10b-2: caption-checked AA18 (Abdaal 2018, spaced repetition) + TF19 (Frank 2019, 13 tips); verified KBa11 (Karpicke & Bauernschmidt 2011, abstract: absolute not relative spacing) + SV01 (Smith & Vela 2001, abstract) → wrote B5 §8 Abdaal/Frank (claim tables keep/drop). Sources now 191.
+- [2026-11-16] S10b-2: misconceptions M82–M86 new; B5 full summary + pattern; CHANGELOG; 00-map stage-1 → stage-1✓.
+- [2026-11-16] S10b-2 done-when checked: 4 entries (§5 Sherrington, §6 Christodoulou, §7 group of 4, §8 Abdaal/Frank) to protocol step 8 (serves/grade/learner/teacher), none dropped OK; Feynman backlog rows already closed/carried in S10b-1 OK; misconceptions +5 OK; source-ID check clean (191) OK. sprints.md: S10b ticked → stage-1✓, backlog +6, S11 hand-off written.
+
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
 - [2026-11-15] S1 map pass done · 21 anchors verified · Sung inventory J1–J22 · A3 spine decided · stage-1 · next: S2 (A1+A2)
@@ -155,3 +163,4 @@
 - [2026-11-15] S9b-2 done · B4b §8–14 (Wieman → Hattie) · B4 complete · active learning 0.47 SD / OR fail 1.95 (Fre14) · learn more, feel less (Des19) · Hattie as methodology case · sources 156 · M70–M73 · next: S10 (B5 + Sung audit)
 - [2026-11-16] S10a done · full Justin Sung audit (J1–J28) · Keep response video found; Sung self-corrected J4 · pre-study B not "most important" · own data unpublished · sources 166 · M74–M77 · next: S10b (B5 practitioners)
 - [2026-11-16] S10b-1 done · B5 §1–4 (Sung, Young, Oakley, Lemov) · Feynman Technique = Young 2011 (his own words) · diffuse mode → incubation meta SO09 · no TLAC trial; cold call raised participation (DHP13) · sources 175 · M78–M81 · next: S10b-2
+- [2026-11-16] S10b-2 done · B5 complete (Sherrington, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) · stage-1✓ · CJ reliable but adaptive SSR inflates (BW15) · prior knowledge predicts level not gain (SFD22) · achievement → motivation (GC16) · expanding gaps not special (KBa11) · sources 191 · M82–M86 · next: S11 (split a/b)

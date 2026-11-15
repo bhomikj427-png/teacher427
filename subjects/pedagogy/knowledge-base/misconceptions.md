@@ -91,6 +91,11 @@
 | M79 | Cold-calling makes students anxious and shuts down participation | B5 | written |
 | M80 | A one-person learning challenge (e.g. the MIT Challenge) shows the method will work for you | B5 | written |
 | M81 | If I can explain it simply (the "Feynman Technique"), I've mastered it — no practice problems needed | B5 | written |
+| M82 | Spaced reviews only work on an expanding schedule (1 day, 3 days, a week, a month) | B5 | written |
+| M83 | Review something enough times and you stop forgetting it — the forgetting curve "no longer applies" | B5 (A2) | written |
+| M84 | The more you already know about a topic, the more you will gain from the next lesson ("knowledge is power") | B5 (A5) | written |
+| M85 | Motivation comes first: get students motivated and achievement will follow | B5 (A7) | written |
+| M86 | A very high reliability figure from a marking tool means the marks are trustworthy | B5 | written |
 
 ---
 
@@ -867,6 +872,63 @@
   up worse off!" (SY-FT24). An explanation written with the book open is not a test (A1, fluency).
 - **Exposing question:** "You can explain it — now solve an unseen problem on it, closed-book."
 - **Unit:** B5 §2 (Young). Status: written.
+
+### M82 — Spaced reviews only work on an expanding schedule
+- **Why it feels true:** "review just before you forget" sounds like it needs ever-growing gaps,
+  and popular schedules (1-3-7-30; AA18, TF19; SRS apps) all expand, so the shape looks like the
+  active ingredient.
+- **Correction:** KBa11 (*JEP:LMC* 2011): increasing the **total** spacing of repeated tests
+  produced large retention gains, but **expanding vs equal vs contracting** schedules made no
+  clear difference; expanding gaps made practice harder without better long-term retention.
+  What matters: real gaps, actual retrieval, enough total spread (C06). Expanding schedules are
+  convenient, not magic.
+- **Exposing question:** "If you kept the same total time but used equal gaps, what would change
+  on the final test?"
+- **Unit:** B5 §8 (Abdaal/Frank); mechanism A4. Status: written.
+
+### M83 — Review something enough times and you stop forgetting it
+- **Why it feels true:** well-practised facts (your phone number) feel permanent; popularizers
+  say the forgetting curve "no longer applies" after enough spaced reviews (AA18).
+- **Correction:** each successful spaced retrieval slows forgetting (A2; RD11), so retention can
+  last years — but forgetting does not switch off; unused knowledge still decays, just slowly.
+  This is why the engine keeps re-testing mastered items at expanding but finite intervals.
+- **Exposing question:** "Something you knew perfectly for an exam three years ago — can you
+  still do it now, unaided?"
+- **Unit:** B5 §8; mechanism A2. Status: written.
+
+### M84 — The more you already know, the more you will gain from the next lesson
+- **Why it feels true:** experts learn new things in their field fast (A5), and "prior knowledge
+  is the most important factor" is a famous line (Ausubel, B2).
+- **Correction:** SFD22 (meta, 8,776 effect sizes): prior knowledge strongly predicts **later
+  knowledge** (r = .53 — those who know more still know more) but barely predicts **gain**
+  (r = −.06), with a huge spread (−.69 to .62). It helps, hinders, or does nothing depending on
+  whether it is relevant, active, accurate and well organized (EF26) — inaccurate deep knowledge
+  is a misconception that blocks learning.
+- **Exposing question:** "Did the students who knew most at the start *gain* most, or just end
+  highest?"
+- **Unit:** B5 §7a (Furst); mechanism A5. Status: written.
+
+### M85 — Motivation comes first: get students motivated and achievement will follow
+- **Why it feels true:** motivated students do work harder and score higher, and the
+  correlation is read as motivation → achievement; motivation talks are easy to give.
+- **Correction:** GC16 (1,478 children, Grades 1–4, cross-lagged): maths **achievement predicted
+  later intrinsic motivation; motivation did not predict later achievement** at any point. In
+  that sample the arrow ran from success to motivation. Practical rule: build early success
+  (well-sequenced, ~high success rate) and motivation tends to follow (Mccrea's expectation
+  principle). One age group and subject — not a law for all ages (`contested` beyond it).
+- **Exposing question:** "Which came first in your best subject — liking it, or being good at
+  it?"
+- **Unit:** B5 §7c (Mccrea); mechanism A7. Status: written.
+
+### M86 — A very high reliability figure from a marking tool means the marks are trustworthy
+- **Why it feels true:** reliability is a technical-sounding number; 0.9+ looks like proof.
+- **Correction:** BW15: with adaptive comparative-judgement pairing, the reliability statistic
+  (SSR) is inflated — "high values of SSR (above 0.8) can even be obtained from random data."
+  Non-adaptive CJ is reliable with enough comparisons (VBDD19: ~10–14 per script for .70).
+  Ask how the figure was computed, not just how high it is.
+- **Exposing question:** "Would this reliability figure still be high if the judgements were
+  random?"
+- **Unit:** B5 §6 (Christodoulou). Status: written.
 
 ---
 
