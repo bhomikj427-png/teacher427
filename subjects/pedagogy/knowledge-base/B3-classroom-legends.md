@@ -36,7 +36,10 @@ in Scott Young's writing (SY-FT); no Feynman text describing it was found. This 
 procedure. Attribution stays `uncertain` → leaning **not his**. The often-quoted lines ("if I
 can't reduce it to the freshman level, we don't really understand it" — Goodstein's anecdote; the
 *Lectures* preface's pessimism about how well he did by the students) are second-hand or not read
-this sprint → `uncertain` (backlog).
+this sprint → `uncertain` (backlog). **Update S10b-1:** attribution `settled` — the method is Scott
+Young's (SY-FT11, SY-FT24; B5 §2). Goodstein's anecdote read first-hand (Gd89: "I couldn't reduce
+it to the freshman level. That means we really don't understand it."; freshman attendance
+"started dropping alarmingly"). The preface wording is still seen only in secondary quotes.
 
 **Mechanism (Part A).** What Feynman argued *against* is exactly A1's fluency/verbatim problem:
 verbatim prompts build verbatim knowledge (A1 §5); an exam that asks for lists gets lists. What
@@ -192,7 +195,7 @@ every student has their own device before replacing class time with it (FFL20).
 
 | Teacher | Core move | Serves (A3) | Grade (method / mechanism) |
 |---|---|---|---|
-| Feynman | explain in plain words; against memorized words | 3, 6 | T (case); "Feynman Technique" attribution `uncertain` / self-explanation S, teaching M |
+| Feynman | explain in plain words; against memorized words | 3, 6 | T (case); "Feynman Technique" = Young's (`settled` S10b-1) / self-explanation S, teaching M |
 | Escalante | daily quizzes, weekly exams, nightly practice, contracts, extra time | 4, 1 | T (case; collapsed after he left) / retrieval + practice + time S |
 | Marva Collins | phonics, recitation, classics, questioning, expectations | 1, 4 | T (case; Beidler pre/post 10.2% → 32.5% → 13.5%) / retrieval S |
 | Sal Khan | videos + mastery practice platform | 1, 4 | T–M (RCT null FFL20; +0.03–0.09 SD EB26) / practice + feedback S |

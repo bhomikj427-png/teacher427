@@ -2,9 +2,9 @@
 
 ## Session resume
 - Last session: 2026-11-16
-- Where we stopped: S10a done (Justin Sung audit, J1–J28); next = S10b (B5 practitioners) — start from sprints.md "Current hand-off"
-- Recap: S0–S10a done (S10a: justin-sung-audit.md): Part A (A1–A8 + README) complete; Part B: B1 historical (17) + B2 method-builders (10) + B3 legends (4) + B4a (8) + B4b (14) researchers complete; 166 sources; misconceptions M1–M77 all written
-- Next up: S10b — say "S10b"; read only the hand-off's "Read at start" list
+- Where we stopped: S10b-1 done (B5 §1–4 Sung, Young, Oakley, Lemov); next = S10b-2 (B5 rest) — start from sprints.md "Current hand-off"
+- Recap: S0–S10b-1 done (S10a: justin-sung-audit.md; S10b-1: B5-practitioners.md §1–4): Part A (A1–A8 + README) complete; Part B: B1 historical (17) + B2 method-builders (10) + B3 legends (4) + B4a (8) + B4b (14) researchers complete; B5 §1–4; 175 sources; misconceptions M1–M81 all written
+- Next up: S10b-2 — say "S10b-2"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -131,6 +131,12 @@
 - [2026-11-16] S10a: located the response video (Benjamin Keep, "What Study Gurus Get Wrong About Learning", 2022) + Sung's joint reply (2023); caption-checked JS-TED, JS-PRB, JS-RNK, JS-6L, JS-CO; verified Ag19, KGF19 (abstracts); no peer-reviewed Sung outcome study found → wrote knowledge-base/justin-sung-audit.md (J1–J28 verdicts + §5 overall; grade translator M / own method T).
 - [2026-11-16] S10a: misconceptions M74–M77 new; sources +10 (166); CHANGELOG; justin-sung-claims.md status line; research-tools/yt_search.py + cap.py added.
 - [2026-11-16] S10a done-when checked: every Sung claim verdicted (22 + 6 new) ✓; rebuttal video located ✓; misconceptions +4 ✓; source-ID check clean ✓. sprints.md: S10 split → S10a done, S10b (B5 practitioners) next; backlog +3 (2 Feynman rows → S10b); hand-off written.
+- [2026-11-16] S10b-1 (B5 practitioners part 1: Sung, Young, Oakley, Lemov; S10b split -1/-2) started under auto.py; tree dirty only with auto.py + .claude/auto/ (not this subject's work — left alone); review sweep done in S10a today, nothing due.
+- [2026-11-16] S10b-1: verified SY-FT11 (Young 2011 transcript PDF, full), SY-FT24 (2024 post), SY-MIT (project page), Gd89 (Goodstein, Physics Today 1989, full text) → wrote knowledge-base/B5-practitioners.md §1 Sung (from audit §5) + §2 Young; Feynman-technique attribution now settled (Young's own words).
+- [2026-11-16] S10b-1: verified OS19 (Oakley & Sejnowski 2019, full text via Europe PMC), SO09 (Sio & Ormerod 2009 incubation meta, abstract) -> wrote B5 section 3 Oakley.
+- [2026-11-16] S10b-1: verified Po11 (Education Next review), DHP13, KBH18 (abstracts) -> wrote B5 section 4 Lemov + partial summary + misconceptions-owned list.
+- [2026-11-16] S10b-1: misconceptions M78-M81 new; sources +9 (175); CHANGELOG; Feynman-technique attribution settled -> A8 myth 7, M13, B3 section 1 updated.
+- [2026-11-16] S10b-1 done-when checked: 4/4 entries (Sung, Young, Oakley, Lemov) to protocol step 8 (serves/grade/learner/teacher) OK; Feynman backlog row (S6) closed, S8b row part-closed (Goodstein first-hand; preface still secondary) OK; misconceptions +4 OK; source-ID check clean OK. sprints.md: S10b-1 done, S10b-2 hand-off written.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
@@ -148,3 +154,4 @@
 - [2026-11-15] S9b-1 done · B4b §1–7 (Rosenshine → Mazur) · Rosenshine 10 principles verbatim; 80% = correlational · formative assessment 0.20 not 0.7 (KN11) · Hake 0.23 vs 0.48 · sources 142 · M67–M69 · next: S9b-2
 - [2026-11-15] S9b-2 done · B4b §8–14 (Wieman → Hattie) · B4 complete · active learning 0.47 SD / OR fail 1.95 (Fre14) · learn more, feel less (Des19) · Hattie as methodology case · sources 156 · M70–M73 · next: S10 (B5 + Sung audit)
 - [2026-11-16] S10a done · full Justin Sung audit (J1–J28) · Keep response video found; Sung self-corrected J4 · pre-study B not "most important" · own data unpublished · sources 166 · M74–M77 · next: S10b (B5 practitioners)
+- [2026-11-16] S10b-1 done · B5 §1–4 (Sung, Young, Oakley, Lemov) · Feynman Technique = Young 2011 (his own words) · diffuse mode → incubation meta SO09 · no TLAC trial; cold call raised participation (DHP13) · sources 175 · M78–M81 · next: S10b-2

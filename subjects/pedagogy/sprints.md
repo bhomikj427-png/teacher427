@@ -77,7 +77,7 @@
 | S9a | B4 researchers: memory & practice (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) | roster §4, A3, A4 | `B4a-researchers-memory.md` | same | **done 2026-11-15** |
 | S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) — **split S9b-1 / S9b-2** (7 + 7) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | **done 2026-11-15** (S9b-1 §1–7, S9b-2 §8–14) |
 | S10a | **Full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 (pointers) | `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **done 2026-11-16** (J1–J28; Keep video found) |
-| S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | **stage-1✓** |
+| S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | split: **S10b-1 done 2026-11-16** (§1–4 Sung, Young, Oakley, Lemov) · S10b-2 (Sherrington, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank + full summary) → **stage-1✓** |
 | S11 | Stage 2 — Part A verification sweep | all A files, sources | corrections in A files + CHANGELOG | every effect size checked at the paper; `uncertain` tags resolved or kept with reason | |
 | S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | |
 | S13 | §0 surplus test + integrity audit | everything | audit note in CHANGELOG; 00-map stamp | surplus test recorded; zero unsourced claims | **stage-2✓** |
@@ -139,7 +139,7 @@ Read at start: <exact file list = Sy Inputs>
 | "10% of the brain" + coordination exercises / Brain Gym: find a primary refutation or drop from A8 | S6 | S11 |
 | P08 full text (meshing criterion wording; number of studies) | S6 | S11 |
 | Y19 effect sizes (grades, lower-achievers) at full text | S6 | S11 |
-| Feynman Technique: check Gleick *Genius* / Feynman's own texts for any described method; Scott Young's 2011 post body | S6 | S10b |
+| S10b-1 closed: Feynman Technique origin ✓ (SY-FT11 transcript full text + SY-FT24: Young's own method; Gleick not needed for attribution) | — | — |
 | Dek12 "commercial programmes" link — confirm wording in abstract | S6 | S11 |
 | SK22 moderators (text type, delay, age) at full text | S7a | S12 |
 | FMSG14 numbers (how many studies, outcomes) — abstract elided by publisher | S7a | S12 |
@@ -161,7 +161,10 @@ Read at start: <exact file list = Sy Inputs>
 | SMS24 journal-version numbers (working paper 2020 read) | S8a | S12 |
 | Ash05 vol/pages; content-focused vs process-only PD claim (B2 §8) | S8a | S12 |
 | VL11 answer-based tutoring ES (not in abstract) | S8a | S12 |
-| Feynman *Lectures* preface + Goodstein "freshman lecture" anecdote at a primary/first-hand source | S8b | S10b |
+| Feynman *Lectures* preface wording ("did very well by the students", "the system is a failure") at the book (caltech site 403s; only secondary quotes) — Goodstein anecdote closed S10b-1 (Gd89 first-hand) | S8b | S12 |
+| Chen & Oakley 2019 AERA paper (LHTL effectiveness: design, N, effect) — only quoted in OS19 | S10b-1 | S12 |
+| Gd89 page range 70–75 (from PDF) — confirm at AIP record; SO09 effect sizes + moderators at full text | S10b-1 | S12 |
+| Any controlled test of *Teach Like a Champion* training or of Cold Call on learning (not participation) | S10b-1 | S12 |
 | Mat88 (Mathews *Escalante*) — Garfield year-by-year numbers, summer/Saturday sessions | S8b | S12 |
 | Marva Collins: any independent Westside Prep evaluation; *Marva Collins' Way* (1982) primary | S8b | S12 |
 | Systematic phonics evidence (B3 §3 mechanism, outside A3 scope) — decide include or drop | S8b | S12 |
@@ -197,34 +200,43 @@ Read at start: <exact file list = Sy Inputs>
   out of the repo); read with `python -I research-tools/cap.py "<glob>" "<regex>" 250` (keyword windows,
   not whole 14k-word files). Only Bash can read %TEMP% (Read/cat are blocked there). Upload dates:
   `python -I -m yt_dlp --skip-download --print "%(id)s %(upload_date)s" <urls>`.
-- **Shell:** long bash heredocs with apostrophes/quotes have failed to parse twice — write long
-  content with the Write tool to the scratchpad, then append via a short Python script.
+- **Shell:** long bash heredocs with apostrophes/quotes fail to parse (again in S10b-1) — **append to KB
+  files with the Edit tool** (anchor on the file's last lines); short Python one-liners only for logs.
+  `cd dir && <write>` compounds and `mkdir /tmp/...` need approval under auto.py — use absolute paths;
+  scratch downloads go to `C:/Users/bhomi/AppData/Local/Temp/` (curl -o), WebFetch PDFs land in
+  tool-results (extract with pypdf + `sys.stdout.reconfigure(encoding='utf-8')`).
+- **Europe PMC full text (S10b-1):** open-access papers behind publisher logins (nature.com) →
+  `ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:<doi>&format=json` for the PMCID, then
+  `.../rest/<PMCID>/fullTextXML`.
 
 ## Current hand-off
 
 ```
-Sprint: S10a — Full Justin Sung audit — done (2026-11-16)
-Written: knowledge-base/justin-sung-audit.md — §1 retrieval dispute (J4/J6/J7/J16), §2 higher-order
-  & effort (J1–3, J5, J9, J12, J21, J23), §3 notes/mind maps/priming/tier list (J10–J20), §4 evidence &
-  capacity claims (J8, J22, J24–J28), §5 overall verdict + B5 grade (translator M / own method T)
-  · misconceptions M74–M77 · sources +10 (166) · justin-sung-claims.md status line
-Verified this sprint: captions — JS-TED, JS-PRB, JS-RNK, JS-6L, JS-CO, BK22 (Keep response video,
-  read in full); abstracts — Ag19 (higher-order quizzes > fact quizzes for higher-order tests),
-  KGF19 (misinterpreted-effort hypothesis); no peer-reviewed Sung outcome study found (Crossref/EPMC/web)
-Open (carried): J8/J10/J13 wording not caption-checked; J22 page 404; ICS22 unread; Ag19 full text
-Decisions made: S10 split → S10a (audit) + S10b (B5 practitioners, Sung entry summarises audit §5,
-  does not re-argue it). J-verdict scale: supported / partly / unsupported / untestable. Engine impact
-  of the audit: none.
-Assumptions to review (unattended run): (1) split S10 into S10a/S10b without asking — the hand-off
-  predicted it; (2) added research-tools/yt_search.py + cap.py (helpers, no engine change);
-  (3) caption transcripts kept in %TEMP%, not committed (third-party text).
-Next sprint: S10b — B5 practitioners. First action: write B5 §1 Justin Sung from audit §5 (short),
-  then Scott Young (resolve the two Feynman-technique backlog rows: Young's 2011 post body; Gleick /
-  Feynman Lectures preface), Oakley (diffuse mode, chunking — find any primary test), Sherrington,
-  Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard (group entry), Abdaal/Frank (include only where a
-  claim maps to research). Likely split S10b-1 (Sung, Young, Oakley, Lemov) / S10b-2 (rest).
-Read at start: sprints.md (hand-off + Research tooling notes), knowledge-base/roster.md §5,
-  knowledge-base/justin-sung-audit.md §5 only, knowledge-base/A4-type-to-method.md §1–2,
-  knowledge-base/A8-myths.md §3 (test kit), knowledge-base/sources.md (ID list only),
-  knowledge-base/B4b-researchers-instruction.md first 15 lines (entry format)
+Sprint: S10b-1 — B5 practitioners part 1 (Sung, Young, Oakley, Lemov) — done (2026-11-16)
+Written: knowledge-base/B5-practitioners.md — header (two-axis grading: translator / own method),
+  §1 Sung (summary of audit §5), §2 Young (Feynman Technique origin settled; MIT Challenge n = 1,
+  self-graded), §3 Oakley (diffuse mode → incubation meta; chunking S; LHTL evidence thin), §4 Lemov
+  (craft taxonomy from observation; cold call; coaching meta), partial summary table + pattern,
+  misconceptions-owned list · misconceptions M78–M81 · sources +9 (175) · A8 myth 7, M13, B3 §1
+  updated (Feynman attribution `uncertain` → `settled`) · CHANGELOG
+Verified this sprint: full text — SY-FT11 (Young 2011 transcript), Gd89 (Goodstein 1989), OS19
+  (Oakley & Sejnowski 2019, Europe PMC); pages — SY-FT24, SY-MIT, Po11; abstracts — SO09, DHP13, KBH18
+Open (carried): Feynman preface wording (secondary only); Chen & Oakley 2019 AERA paper; Gd89 pages;
+  SO09 numbers; any controlled TLAC / cold-call-on-learning test (all → backlog)
+Decisions made: B5 entries graded on two axes (as translator / own method) where both apply;
+  "package untested, parts tested → grade the parts" is the B5 rule. Lemov has no translator grade
+  (he reports craft, not research).
+Assumptions to review (unattended run): (1) split S10b into S10b-1/-2 without asking (the hand-off
+  predicted it); (2) changed A8 myth 7 verdict cell to "Myth X (attribution settled)" and edited M13 +
+  B3 §1 — outside this sprint's unit, but the backlog row it closed was owned by them.
+Next sprint: S10b-2 — B5 practitioners part 2. First action: write B5 §5 Tom Sherrington
+  (*Rosenshine's Principles in Action*, WalkThrus — grade as translator against B4b §1), then
+  Christodoulou (*Seven Myths*, assessment: comparative judgement — find a test), group entry
+  Furst / Boxer / Mccrea / Harvard (translators; check one load-bearing claim each), Abdaal / Frank
+  (include only claims that map to research; else drop with reason). Then the full B5 summary
+  (replace "part 1" heading), ≥ 3 new misconceptions, tick S10b → stage-1✓ in the table + 00-map.
+Read at start: sprints.md (hand-off + Research tooling notes), knowledge-base/roster.md §5 (lines
+  89–100), knowledge-base/B5-practitioners.md (header + Summary section only), knowledge-base/B4b-
+  researchers-instruction.md §1 (Rosenshine, lines 11–53), knowledge-base/A8-myths.md §3 (test kit),
+  knowledge-base/sources.md (ID list only)
 ```

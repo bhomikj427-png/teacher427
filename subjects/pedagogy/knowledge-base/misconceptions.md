@@ -87,6 +87,10 @@
 | M75 | Start at the top of Bloom's taxonomy and the facts will fill themselves in | B5 | written |
 | M76 | Feeling confused means you're learning efficiently | B5 | written |
 | M77 | Once knowledge is well connected you don't need spaced retrieval any more | B5 | written |
+| M78 | Breaks ("diffuse mode") are themselves how the brain learns hard material — rest first, the insight comes | B5 | written |
+| M79 | Cold-calling makes students anxious and shuts down participation | B5 | written |
+| M80 | A one-person learning challenge (e.g. the MIT Challenge) shows the method will work for you | B5 | written |
+| M81 | If I can explain it simply (the "Feynman Technique"), I've mastered it — no practice problems needed | B5 | written |
 
 ---
 
@@ -441,11 +445,13 @@
 ### M13 — The "Feynman Technique" was Feynman's method
 - **Why it feels true:** it carries his name and suits his reputation as a great explainer.
 - **Correction:** the named four-step method appears around 2011 in Scott Young's writing (SY-FT);
-  no Feynman text describing it was found (`uncertain` — absence of evidence). The method's parts
+  no Feynman text describing it was found. **S10b-1: settled** — Young's own 2011 transcript gives
+  the steps and names them after a Feynman anecdote (SY-FT11); in 2024 he calls it "the most
+  popular piece of studying advice I've ever come up with", "only loosely based on Richard Feynman's practices" (SY-FT24). The method's parts
   are well-evidenced anyway: self-explanation (Bi18), teaching as generative learning (FM16). Its
   popularizer warns it does not replace practice problems.
 - **Exposing question:** "Where did Feynman write these steps down?"
-- **Unit:** A8 §2 myth 7. Status: written (attribution `uncertain`).
+- **Unit:** A8 §2 myth 7; B5 §2. Status: written (attribution `settled` S10b-1).
 
 ### M14 — The learning pyramid ("we remember 10% of what we read … 90% of what we teach")
 - **Why it feels true:** tidy numbers; its message (doing beats watching) is partly right.
@@ -817,6 +823,50 @@
 - **Exposing question:** "If you understood it well last month, can you produce it now without
   looking?"
 - **Unit:** B5 / `justin-sung-audit.md` §2 (J2). Status: written.
+
+### M78 — Breaks ("diffuse mode") are themselves how the brain learns hard material
+- **Why it feels true:** insights really do arrive in the shower or on a walk, and the
+  "focused/diffuse mode" story ties it to a named brain network, which sounds like proof.
+- **Correction:** the testable version is the incubation effect: a positive effect, but **longer
+  preparation before the break gives a bigger effect**, and it is strongest for divergent-thinking
+  problems (SO09, meta-analysis). The break helps a problem you have already worked hard on; it does
+  not replace the work, and it is a problem-solving effect, not a memory method. The default-mode
+  mapping is a metaphor on correlational imaging (OS19 cites resting-state papers, not learning
+  experiments).
+- **Exposing question:** "What did you try on the problem before you took the break?"
+- **Unit:** B5 §3 (Oakley). Status: written.
+
+### M79 — Cold-calling makes students anxious and shuts down participation
+- **Why it feels true:** being put on the spot is uncomfortable in the moment, and teachers
+  remember the one student who froze.
+- **Correction:** in university classes with high cold-calling, *voluntary* participation was
+  higher and rose over the term, and students' comfort participating went **up**; in low
+  cold-calling classes comfort did not change (DHP13). Caveat: participation and comfort, not
+  learning, were measured; tone and routine matter (B5 §4).
+- **Exposing question:** "In classes where anyone might be asked, did fewer or more people
+  volunteer by the end of term?"
+- **Unit:** B5 §4 (Lemov). Status: written.
+
+### M80 — A one-person learning challenge shows the method will work for you
+- **Why it feels true:** a dramatic, well-documented personal result (33 MIT courses in a year)
+  is vivid and concrete; statistics are not.
+- **Correction:** n = 1, no comparison condition, a highly motivated self-selected learner, and
+  **self-graded** exams (pass = ≥ 50%; the author says stricter grading would fail five finals —
+  SY-MIT). It shows what one person did, not what caused it or whether it transfers. Same logic
+  as M61 (a famous teacher's results).
+- **Exposing question:** "Who else tried it, what did they get, and compared to what?"
+- **Unit:** B5 §2 (Young). Status: written.
+
+### M81 — If I can explain it simply, I've mastered it — no practice problems needed
+- **Why it feels true:** a smooth explanation feels like full understanding, and the "Feynman
+  Technique" is sold as the deep-understanding method ("understand an idea in 20 minutes, that
+  will stick with you for years", SY-FT11).
+- **Correction:** explaining builds and checks *understanding* (self-explanation g = 0.55, Bi18),
+  but procedures and conditional knowledge need practice on problems (A4 rows 4–5); the
+  technique's author: "If you're cutting out practice in favor of self-explanations, you may end
+  up worse off!" (SY-FT24). An explanation written with the book open is not a test (A1, fluency).
+- **Exposing question:** "You can explain it — now solve an unseen problem on it, closed-book."
+- **Unit:** B5 §2 (Young). Status: written.
 
 ---
 

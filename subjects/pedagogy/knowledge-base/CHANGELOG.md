@@ -80,3 +80,11 @@
   important"); J24 own outcome data unpublished (no peer-reviewed study found); Ag19 + KGF19 verified at
   abstract. Grade for B5: translator M / own method T. justin-sung-claims.md status line updated.
   Sources +10 (166). misconceptions M74–M77 new.
+- [2026-11-16] S10b-1 (S10b split -1/-2): B5-practitioners.md created — §1 Sung (summary of audit §5),
+  §2 Scott Young, §3 Barbara Oakley, §4 Doug Lemov, partial summary + pattern. Feynman Technique
+  attribution **settled**: Young's 2011 transcript (SY-FT11, full text) + 2024 post (SY-FT24) — the
+  method is his, "only loosely based on Richard Feynman's practices"; A8 myth 7, M13, B3 §1 updated
+  (`uncertain` → `settled`). Goodstein's freshman-lecture anecdote read first-hand (Gd89). Oakley:
+  diffuse mode graded via the incubation meta (SO09); LHTL outcome evidence = one AERA conference paper
+  (OS19 full text). Lemov: no controlled TLAC test; cold calling (DHP13) raised participation and
+  comfort; coaching meta (KBH18). Sources +9 (175). misconceptions M78–M81 new.
