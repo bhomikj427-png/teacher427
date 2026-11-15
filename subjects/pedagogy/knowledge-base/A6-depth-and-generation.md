@@ -18,9 +18,11 @@
 - **Limits:**
   - "Depth" was never defined independently of the memory result it predicts (the circularity
     critique, noted in CL72's reception).
-  - **Transfer-appropriate processing** (Morris, Bransford & Franks 1977, `uncertain` — not
-    re-read this sprint): processing helps when it matches what the test asks. A rhyme-based test
-    favours rhyme-based study. "Deep" is best read as "matched to the use you need".
+  - **Transfer-appropriate processing** (MBF77; bib confirmed S11b-1, result seen only in
+    consistent secondary summaries → `uncertain` until the paper is read): processing helps when it
+    matches what the test asks. Semantic study beat rhyme study on a standard recognition test, but
+    rhyme study did better on a rhyme recognition test. "Deep" is best read as "matched to the use
+    you need" — the same pattern Ag19 found for fact vs higher-order quizzes (A4 §1, full text).
 - **Bridge:** this is why ICAP (§3) warns that shallow tests hide the benefit of deep activities.
 
 ## 2. The generation effect: producing beats reading `settled` (lab)
@@ -106,8 +108,11 @@
 - **Mechanism (attention account, SCA24):** a prequestion tells you what will matter, so
   attention catches that answer when it appears. Searching memory for an answer also activates
   related knowledge, ready to link to the answer.
-- **Conditions:** the correct answer must follow, soon (Pan & Carpenter 2023 narrative review,
-  via SCA24 search; `uncertain` until read). Pre-asking does not raise learning of untested parts.
+- **Conditions:** the correct answer must follow — pretesting helps "if there is an opportunity to
+  study the correct answers afterwards", and works with texts, videos, lectures or feedback despite
+  many wrong first answers (PC23 abstract, S11b-1) `settled`. *How soon* the answer must follow is
+  not stated in the abstract → `uncertain`. The size "may vary due to differences in procedure or
+  how learning is assessed" (PC23). Pre-asking does not raise learning of untested parts.
 - **Advance organizers** (Ausubel: a short, more general frame given before the lesson, to link
   new material to what the learner knows) are a *different* pre-study move. `contested` / thin:
   - 135 studies: a **small** facilitative effect on learning and retention; the retention
@@ -119,8 +124,9 @@
     summaries (Kozlow 1978 via ERIC; `uncertain`). This links to A5 §3 (analogies).
 
 ## 6. Elaboration and self-explanation (summary; full evidence in A4 §1)
-- Self-explanation g = 0.55 (Bi18). Elaborative interrogation rated moderate (D13, list at full
-  text → S11).
+- Self-explanation g = 0.55 (Bi18, full text S11a-rest; 0.67 vs no explanation, 0.35 vs a
+  given explanation). Elaborative interrogation rated moderate (D13, list confirmed at full text
+  S11a).
 - Both are *constructive* in ICAP terms and work through the same mechanism as §2: produce the
   link yourself. Both need enough prior knowledge to produce good explanations.
 

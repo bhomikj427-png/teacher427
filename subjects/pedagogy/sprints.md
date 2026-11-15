@@ -78,8 +78,8 @@
 | S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) — **split S9b-1 / S9b-2** (7 + 7) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | **done 2026-11-15** (S9b-1 §1–7, S9b-2 §8–14) |
 | S10a | **Full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 (pointers) | `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **done 2026-11-16** (J1–J28; Keep video found) |
 | S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | split: **S10b-1 done 2026-11-16** (§1–4 Sung, Young, Oakley, Lemov) · **S10b-2 done 2026-11-16** (§5–8 + full summary) → **stage-1✓** |
-| S11a | Stage 2 — Part A verification: **A1–A4** (+ backlog rows targeted S11 that belong to A1–A4) | sprints.md, A1–A4, sources (IDs) | corrections in A1–A4 + sources + CHANGELOG | every A1–A4 effect size checked at the paper; `uncertain` tags resolved or kept with reason | **partial 2026-11-16** (A1–A3 backlog closed; A4 open rows in hand-off) |
-| S11b | Stage 2 — Part A verification: **A5–A8** (+ their S11 backlog rows; engine 80% note) | sprints.md, A5–A8, sources (IDs) | corrections in A5–A8 + sources + CHANGELOG | same for A5–A8 | |
+| S11a | Stage 2 — Part A verification: **A1–A4** (+ backlog rows targeted S11 that belong to A1–A4) | sprints.md, A1–A4, sources (IDs) | corrections in A1–A4 + sources + CHANGELOG | every A1–A4 effect size checked at the paper; `uncertain` tags resolved or kept with reason | **done 2026-11-16** (partial in session 4; finished S11a-rest: A4 swept; ATS17 g + SK21 method carried to S12 with reason) |
+| S11b | Stage 2 — Part A verification: **A5–A8** (+ their S11 backlog rows; engine 80% note) | sprints.md, A5–A8, sources (IDs) | corrections in A5–A8 + sources + CHANGELOG | same for A5–A8 | split (2026-11-16, context hygiene): **S11b-1 = A5 + A6** (GH80/83, Barnett & Ceci, MBF77, NA06, Pan & Carpenter 2023, LAA80/Stone) · **S11b-2 = A7 + A8 + engine 80% note** (Z02, DR12, DB08, RT11, P08, Y19, Dek12, 10%-brain, MPDK16, Ros12/80%) · **S11b-1 partial 2026-11-16** (A5 done bar BC02 → S12; A6 rest in hand-off) |
 | S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | |
 | S13 | §0 surplus test + integrity audit | everything | audit note in CHANGELOG; 00-map stamp | surplus test recorded; zero unsourced claims | **stage-2✓** |
 | S14 | Study-pack pilot (v1.2 spec) | study-pack-format.md, reference files, A1, A3 | `study-pack/00-START-HERE` + one topic file | learner sign-off | |
@@ -104,29 +104,27 @@ Read at start: <exact file list = Sy Inputs>
 | Item | Raised | Close in |
 |---|---|---|
 | Nesbit & Adesope 2006 pooled ES + whether 0.82/0.37 is an NA06 subgroup (Sch17 closed S5: 30(2) 431–455; g 0.58, construct 0.72, study 0.43) | S1 | S11 (part-closed S5) |
-| Barnett & Ceci 2002 exact dimension list (3 content + 6 context?) | S1 | S11 (not closed in S4) |
+| Barnett & Ceci 2002 exact dimension list (3 content + 6 context?) — S11b-1: no free full text; Klahr & Chen 2011 CMU PDF 404; LS blog lists only 3 conditions | S1 | S12 |
 | Zimmerman 2002 exact phase labels + sub-processes (Bath PDF host dead in S5) | S1 | S11 |
 | S5 closed: DR12 + RDS13 added to canon ✓ (numbers still open, rows below) | — | — |
 | A2: priming → neocortex placement (S11a: not-hippocampus settled via SS17; Squire full texts 403) | S2 | S12
 | S10a closed: response video located (BK22 Keep 2022 + JS-CO) ✓; digest claims caption-checked except J8, J10, J13 (row below) | — | — |
 | Sung J8 (course), J10, J13 (interview/summary) wording at a primary video; J22 SuperMemo page (404 on supermemo.guru) | S10a | S12 |
 | ICS22 *Report on Learning* (iCanStudy 2022) — read if obtainable; any later peer-reviewed Sung outcome study | S10a | S12 |
-| Ag19 full text: experiment Ns, effect sizes, whether fact knowledge was tested after higher-order quizzes (M75 boundary) | S10a | S11 |
 | Roster open leads (Kumon RCT full text, Nuthall 3 encounters, gurukul/chavruta) — S7b closed: Montessori meta (Ra23 + Li25), Suzuki (LWW24), Moore (none found; IBL La14) | S0 | S8a–S9b |
 | S11a closed: D13 moderate list ✓ · BB92 editors/pages ✓ · RK06 ✓ · PR18 ✓ · LTM capacity ✓ (St73, BKAO08) · KCP12 row 2 ✓ · CKS17 ✓ (quote replaced) · BR19 ✓ · RDS13 ✓ (DGBWR23) | — | — |
 | S2 closed: Squire vol/issue ✓, BB92 + KB11 + PR18 added to canon ✓ | — | — |
 | S3 closed: Krathwohl procedural wording ✓ (full text) · KLI typology ✓ (CRK22 full text) · Gagné ✓ (G84 full text replaces 1985 edition) | — | — |
-| CRK22 proceedings page numbers; look for replications of the fact/skill × practice/example interaction | S3 | S11 (not closed in S4) |
+| CRK22 proceedings page numbers (escholarship PDF returned empty S11a-rest; replication part closed) | S3 | S12 |
 | KMS10 perceptual-learning efficacy (A3 row 7 is `uncertain`) | S3 | S11 (not closed in S4) |
-| ATS17 numeric g (WSU host still dead S11a; lead: PMC10409703 reports g = 0.70 — secondary) | S4 | S11a-rest |
-| SK21 how the bias-adjusted g = 0.87 was computed (vol/pages + fidelity closed S11a) | S4 | S11a-rest |
-| GH80/83 solution percentages (10 / 30 / 75–92 / 52%) at full text | S4 | S11 |
-| MHO14 vol/pages | S4 | S11 |
+| ATS17 numeric g (WSU 403, ERIC abstract has no number; numeric role moved to YLVYS21 in S11a-rest — row stays for completeness only) | S4 | S12 |
+| SK21 how the bias-adjusted g = 0.87 was computed (paywalled; lead: Sinha's ETH 2020 thesis "Problem-Solving Followed by Instruction", research-collection 500 in S11a-rest) | S4 | S12 |
+| S11a-rest closed: Bi18 full text ✓ · C06 abstract ✓ · MHO14 vol/pages ✓ · KACS03 bib ✓ · Ag19 full text ✓ (M75 verified) · CRK22 fact/skill replication ✓ (YF19 independent lab + RKC25 preprint) | — | — |
+| S11b-1 closed: GH80/83 percentages ✓ (GH83 full text; 52% corrected to 45 vs 21%) · Pan & Carpenter 2023 ✓ (PC23 abstract; timing part stays `uncertain`) | — | — |
 | DR12 numbers (overconfidence → early stopping → retention) — abstract elided by publisher | S5 | S11 |
 | DB08 mean ES 0.69 + moderators at full text | S5 | S11 |
 | RT11 cue-only vs cue-target JOL split (0.70 vs 0.03 via Tekin & Roediger 2021) | S5 | S11 |
-| Morris, Bransford & Franks 1977 transfer-appropriate processing — read primary | S5 | S11 |
-| Pan & Carpenter 2023 prequestion review (answer-must-follow condition) | S5 | S11 |
+| Morris, Bransford & Franks 1977 transfer-appropriate processing — read primary (bib ✓ S11b-1; no free PDF found; only secondaries) | S5 | S11b-1-rest |
 | LAA80 third author spelling (Ackerson/Ackerman) + any numeric ES; Stone 1982 vs 1983 | S5 | S11 |
 | S8a closed: M15 (2σ) written from Bl84 full text + VL11 + NOQ24 ✓ | — | — |
 | "10% of the brain" + coordination exercises / Brain Gym: find a primary refutation or drop from A8 | S6 | S11 |
@@ -211,28 +209,37 @@ Read at start: <exact file list = Sy Inputs>
 ## Current hand-off
 
 ```
-Sprint: S11a — Stage 2 Part A verification, A1–A4 — partial (2026-11-16; context limit)
-Written: sprints.md — S11 split into S11a (A1–A4) / S11b (A5–A8); backlog rows closed (see
-  "S11a closed" line) · A1 §2 RK06 full-text numbers + §5 PR18 full-text numbers and PEESE
-  bias line · A2 §3 priming row (SS17) + LTM capacity (St73, BKAO08) · A3 row 2 (KLI manuscript),
-  row 7 → contested, CKS17 quote replaced · A4 D13 moderate list, self-explanation note,
-  interleaving (BR19 words −0.39), successive relearning (DGBWR23 numbers), row 7 + confidence
-  line · sources +4 (195: SS17, St73, BKAO08, DGBWR23; "Added S11a" table at end) · CHANGELOG
-Verified this sprint: full text — RK06, PR18, D13, KLI manuscript (KCP12), DGBWR23, SS17;
-  abstracts — BR19, SK21, CKS17, KMS10, ATS17, St73, BKAO08; bib — BB92 (LCB99 reference list)
-Open (carried, = rest of S11a): ATS17 numeric g (host dead; lead PMC10409703 g = 0.70,
-  secondary); SK21 bias-adjustment method; CRK22 pages + fact/skill replication; Ag19 full text
-  (M75); one read-through of A1–A4 for remaining unchecked effect sizes (Bi18 0.55, Sch17,
-  SCA24, C06 in the A4 table) — not yet swept
-Decisions made: authors' own review chapters (T2) accepted for numbers of paywalled primaries
-  (DGBWR23 for RDS13), flagged as such; a quote seen only in a secondary source is replaced by
-  verified wording, not kept with a tag.
+Sprint: S11b-1 — Stage 2 verification A5 + A6 — partial (2026-11-16; context limit, same session
+  as S11a-rest)
+S11b-1 so far: A5 §3 rewritten from GH83 full text (correction 52% → 45 vs 21%; 92% dropped) ·
+  A6 §5 PC23 (answer must follow, timing `uncertain`) · A6 §1 MBF77 bib, result `uncertain` ·
+  A6 §6 Bi18/D13 pointers · sources +2 (200: PC23, MBF77) · CHANGELOG · BC02 → S12
+S11b-1 still open (do these, then tick S11b-1): A6 §5 advance organizers — LAA80 third-author
+  spelling + Stone 1982/1983 + any numeric ES; NA06 pooled ES (Nesbit & Adesope 2006, RER 76(3));
+  A6 §3 "one experiment (161 undergraduates) found passive best" — find its source ID or cut it;
+  FM16 + CW14 + Be07 rows already full text/abstract (no action); A5 §1 CS73 / CFG81 rows are
+  abstract-level (OK for S11b-1); MBF77 primary if a copy turns up.
+Assumptions to review (S11b-1): (6) GH83 read from a gwern.net scan; GH80 numbers taken from the
+  authors' own recap in GH83, not GH80 itself.
+--- previous sprint (closed) ---
+Sprint: S11a — Stage 2 Part A verification, A1–A4 — done (2026-11-16; finished as S11a-rest)
+Written: A4 rows: retrieval (YLVYS21 classroom g 0.50; Ag19 quiz-type boundary), spacing (C06
+  verbal-recall-only boundary), worked examples (YF19 + RKC25 crossover), self-explanation (Bi18
+  full-text numbers by comparison), productive failure (adjustment method `uncertain`) ·
+  misconceptions M75 rewritten + verified · sources +3 (198: YLVYS21, YF19, RKC25) · CHANGELOG ·
+  S11b split into S11b-1 (A5+A6) / S11b-2 (A7+A8+engine note) in the table
+Verified this sprint: full text — Bi18 (gwern copy), Ag19 (author PDF); abstracts — C06, YLVYS21,
+  YF19 (truncated), RKC25, ATS17 (ERIC); bib — MHO14, KACS03
+Open (carried): ATS17 numeric g, SK21 adjustment method, CRK22 pages → all S12 (backlog)
+Decisions made: when a meta's number can't be read, a newer readable T1 meta takes the numeric
+  role and the old one stays for direction (ATS17 → YLVYS21); same-lab preprints = T3, support only.
 Assumptions to review (unattended run): (1) DGBWR23 year 2023 inferred from the PDF upload path;
-  (2) KLI v5.00 manuscript (marked "do not disseminate") read for verification only, cited as
-  KCP12 with short phrases; (3) A3 row 7 upgraded to contested, not settled.
-Next sprint: S11a-rest (finish S11a, then tick it) — first action: check Bi18 / Sch17 / SCA24 /
-  C06 values in the A4 table at abstract-or-better; then ATS17 g (Europe PMC / ERIC / author
-  copy), CRK22 pages (escholarship 5cm7582q), SK21 method, Ag19. Then S11b if context allows.
+  (2) KLI v5.00 manuscript read for verification only (KCP12); (3) A3 row 7 → contested;
+  (4) Bi18 read from a gwern.net mirror (matches journal pagination 703–725); (5) S11b split a/b.
+Next sprint: S11b-1-rest (finish S11b-1, then tick it) — first action: find the source of A6 §3's
+  "161 undergraduates, passive best" line (grep A6/sources/CHANGELOG for it; cut if unsourced);
+  then LAA80/Stone (ERIC API), NA06. Then S11b-2 (A7 + A8 + engine 80% note) if context allows.
 Read at start: sprints.md (hand-off + Verify backlog + Research tooling notes),
-  knowledge-base/A4-type-to-method.md, knowledge-base/sources.md (ID list only)
+  knowledge-base/A5-schemas-expertise-transfer.md, knowledge-base/A6-depth-and-generation.md,
+  knowledge-base/sources.md (ID list only)
 ```

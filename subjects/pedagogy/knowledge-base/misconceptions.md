@@ -84,7 +84,7 @@
 | M72 | Hattie's effect-size rankings tell you which teaching method to choose | B4b | written |
 | M73 | If a class makes me feel I'm learning less, I am learning less | B4b | written |
 | M74 | Flashcard apps are retrieval practice, so if flashcards disappoint, retrieval practice doesn't work | B5 | written |
-| M75 | Start at the top of Bloom's taxonomy and the facts will fill themselves in | B5 | written |
+| M75 | Start at the top of Bloom's taxonomy and the facts will fill themselves in | B5 | verified |
 | M76 | Feeling confused means you're learning efficiently | B5 | written |
 | M77 | Once knowledge is well connected you don't need spaced retrieval any more | B5 | written |
 | M78 | Breaks ("diffuse mode") are themselves how the brain learns hard material — rest first, the insight comes | B5 | written |
@@ -801,12 +801,15 @@
 - **Why it feels true:** experts reason at the top levels and seem to know the facts "for free";
   higher-order questions do work better for higher-order exams.
 - **Correction:** higher-order and mixed retrieval quizzes beat fact-only quizzes on higher-order
-  tests (Ag19) — but the learners still studied the material, mixed quizzes did as well, and no
-  study shows facts are reliably acquired without being practised. Novices facing
+  tests (Ag19) — but the same study **directly refutes "the facts fill themselves in"**: in Exp. 1
+  (N = 48, 2-day delay) the fact test after higher-order quizzes was 53%, no better than studying
+  once or twice (54%), while fact quizzes gave 78% (d ≈ 1.2) (Ag19 full text, S11a-rest). Benefits
+  matched the quiz type; only **mixed** quizzes helped both tests (Exp. 3, 142 sixth-graders: mixed
+  quizzes raised the fact test by 27 points over no quiz). Novices facing
   high-interactivity material need worked guidance first (KSC06, KACS03); expert reasoning rests
   on stored knowledge (A5). Bloom is not a strict ladder either way (M28).
 - **Exposing question:** "Can you evaluate two options if you can't yet recall what each one is?"
-- **Unit:** B5 / `justin-sung-audit.md` §2 (J23). Status: written.
+- **Unit:** B5 / `justin-sung-audit.md` §2 (J23). Status: **verified** (Ag19 full text, S11a-rest).
 
 ### M76 — Feeling confused means you're learning efficiently
 - **Why it feels true:** good strategies do feel harder, and learners wrongly read that effort as

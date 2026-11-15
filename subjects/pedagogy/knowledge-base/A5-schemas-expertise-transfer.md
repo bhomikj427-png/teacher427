@@ -46,17 +46,25 @@
   in what social and physical setting, in what format).
 - Exact dimension list: `uncertain` (3 content + 6 context per a secondary source; verify S11).
 
-**The analogy bottleneck is noticing, not reasoning (GH80)** `settled` (pattern) / `uncertain` (percentages)
+**The analogy bottleneck is noticing, not reasoning (GH80)** `settled` (pattern and percentages —
+the authors' own recap in GH83, full text, S11b-1)
 - Duncker's radiation problem: a tumour must be destroyed by rays that would also burn healthy
   tissue on the way in.
-- Few people solve it unaided (≈10%).
-- After reading a story with the same solution (an army splits up and converges on a fortress),
-  only ≈30% use it spontaneously.
-- With a hint to use the story, ≈75–92% solve it.
-- So people *had* the analogy and failed to *retrieve* it: a cue/encoding-specificity failure (TT73, A2).
-- **Schema induction (Gick & Holyoak 1983):**
-  - Reading **two** analogous stories and comparing them to extract their shared structure raised
-    spontaneous transfer (≈52%).
+- Few people solve it unaided: no more than 10% in any no-story or irrelevant-story control.
+- After memorising a story with the same solution (an army splits up and converges on a
+  fortress), only about 30% use it spontaneously.
+- With a non-specific hint to use the story, about 75% solve it.
+- So people *had* the analogy and failed to *retrieve* it: "only a third or less" of those who could
+  apply it noticed it — a cue/encoding-specificity failure (TT73, A2).
+- **Schema induction (GH83, full text):**
+  - **One story could not be fixed**: summarising it, adding a verbal statement of the principle,
+    or a diagram "none … achieved a notable degree of success" (Part I).
+  - **Two** analogous stories, with a request to describe their similarities: 45% solved without a
+    hint vs 21% with one story (80% vs 53% in total; Exp. 4). (An earlier figure of "52%" here was
+    only the dissimilar-pair subgroup — corrected S11b-1.)
+  - The quality of the written comparison predicted transfer: 91% of those who wrote a good schema
+    solved without a hint, vs 30% with a poor one — and 59% wrote poor schemas.
+  - The principle and diagram that failed with one story helped when paired with two.
   - Comparison strips surface details and stores the structure. That structure is the retrieval
     cue that new problems can match.
 

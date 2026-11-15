@@ -107,3 +107,17 @@
   secondary quote replaced with abstract wording. A4: D13 moderate list at full text; BR19 words
   g = −0.39 / expository ns; RDS13 numbers via DGBWR23; perceptual row → `contested`. BB92, CKS17,
   SK21 bib confirmed. Sources +4 (195): SS17, St73, BKAO08, DGBWR23.
+- [2026-11-16] S11a-rest (S11a closed): A4 self-explanation row — Bi18 at full text (g 0.55
+  [0.45, 0.65], 5,917 participants; vs no explanation 0.67 / vs instructional explanation 0.35 /
+  vs other strategy 0.30; bias checked only by fail-safe N). Retrieval row — ATS17 numeric g still
+  unreadable (kept for direction); classroom meta YLVYS21 added (222 studies, g = 0.50); Ag19 boundary
+  added. Spacing row — C06 limited to verbal recall. Worked-example row — independent test of the
+  fact/skill crossover YF19 + same-lab preprint RKC25. Productive failure — adjustment method
+  `uncertain`. Ag19 read at full text → M75 correction rewritten (higher-order quizzes did not raise
+  fact recall) and M75 `verified`. MHO14 + KACS03 bib confirmed. Sources +3 (198): YLVYS21, YF19, RKC25.
+- [2026-11-16] S11b-1 (partial): A5 §3 analogy section rewritten from GH83 full text — controls
+  ≤10% / ≈30% unprompted / ≈75% with hint confirmed; **correction: two-analog transfer = 45% vs 21%
+  (Exp. 4), the old "52%" was the dissimilar-pair subgroup; "92%" dropped**; one-analog aids failed,
+  schema quality predicted transfer (91% vs 30%). A6 §5 "answer must follow" settled via PC23
+  abstract (timing `uncertain`); A6 §1 MBF77 bib confirmed, result still secondary; A6 §6 updated.
+  BC02 dimension list still unreadable. Sources +2 (200): PC23, MBF77.
