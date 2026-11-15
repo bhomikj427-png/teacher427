@@ -74,8 +74,8 @@
 | S7b | B1 historical teachers: Fröbel → Skinner (10) | roster §1, A3, A4, B1 (summary only) | `B1-historical.md` §8–17 + full summary | each of the 10 entries written to protocol step 8 or dropped with reason | **done 2026-11-15** (B1 complete) |
 | S8a | B2 mid-century method-builders (Keller, Bloom, Gagné, Ausubel, Bruner, Engelmann, Kumon, lesson study, Oxbridge tutorial, Freire) | roster §2, A3, A4, B1 (summary only) | `B2-method-builders.md` | each entry to protocol step 8; M15 (2σ) seed written | **done 2026-11-15** |
 | S8b | B3 classroom legends (Feynman, Escalante, Collins, Khan) | roster §3, A3, A4, A8 §2 myth 7 | `B3-classroom-legends.md` | same; Feynman-technique attribution sourced | **done 2026-11-15** |
-| S9a | B4 researchers: memory & practice (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) | roster §4, A3, A4 | `B4a-researchers-memory.md` | same | |
-| S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | |
+| S9a | B4 researchers: memory & practice (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) | roster §4, A3, A4 | `B4a-researchers-memory.md` | same | **done 2026-11-15** |
+| S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) — **split S9b-1 / S9b-2** (7 + 7) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | |
 | S10 | B5 practitioners + **full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 | `B5-practitioners.md`, `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **stage-1✓** |
 | S11 | Stage 2 — Part A verification sweep | all A files, sources | corrections in A files + CHANGELOG | every effect size checked at the paper; `uncertain` tags resolved or kept with reason | |
 | S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | |
@@ -162,6 +162,9 @@ Read at start: <exact file list = Sy Inputs>
 | Marva Collins: any independent Westside Prep evaluation; *Marva Collins' Way* (1982) primary | S8b | S12 |
 | Systematic phonics evidence (B3 §3 mechanism, outside A3 scope) — decide include or drop | S8b | S12 |
 | Teacher-expectancy effect size (M62) — Rosenthal & Jacobson + Jussim & Harber 2005 review | S8b | S12 |
+| MPDK16 peer-reviewed report of the PLM efficacy RCT (→ upgrade A3 row 7 / KMS10) | S9a | S11 |
+| Kel08 vol/pages; Make It Stick (2014) not read; MN19 remaining 34k chars | S9a | S12 |
+| Controlled test of SM-2 vs a fixed spacing schedule (B4a §5 `uncertain`) | S9a | S12 |
 
 ## Research tooling notes (what worked, S7a–S7b — read with the hand-off)
 
@@ -185,23 +188,24 @@ Read at start: <exact file list = Sy Inputs>
 ## Current hand-off
 
 ```
-Sprint: S8b — B3 classroom legends — done (2026-11-15)
-Written: knowledge-base/B3-classroom-legends.md §1 Feynman, §2 Escalante, §3 Marva Collins,
-  §4 Sal Khan; "Summary (B3, all 4)" + B3 pattern · misconceptions M61–M63 · sources +6 (119 total)
-Verified this sprint: full text — Fey63 (Caltech), CSM88, CR05, FFL20 (MPRA); abstract + affiliations —
-  EB26 (PNAS 2026)
-Open (carried): backlog rows added S8b (Feynman preface/Goodstein, Mathews 1988, Collins primary,
-  phonics scope decision, teacher-expectancy size)
-Decisions made: B3 legends graded T as method by design (cases); grade carried by mechanisms.
-  Feynman Technique attribution stays `uncertain`, leaning not-his (A8 myth 7 unchanged).
-Next sprint: S9a — B4 researchers, memory & practice (Bjorks, Roediger/Karpicke/McDaniel,
-  Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman). First action:
-  most mechanisms are already sourced in Part A — write each entry as "what the researcher turned
-  into a *method*" (e.g. Woźniak → SuperMemo algorithm SM-2 primary; Rawson & Dunlosky successive
-  relearning criterion; Rohrer interleaved maths homework RCT — Rohrer, Dedrick & Stershic 2015 /
-  Rohrer et al. 2020 classroom RCT; Kellman perceptual-learning modules — closes KMS10 backlog row;
-  Ericsson deliberate practice vs MHO14); reuse Part A source IDs, add only new ones.
-Read at start: sprints.md (incl. Research tooling notes), knowledge-base/roster.md §4 (memory &
-  practice rows), knowledge-base/A3-kinds-of-information.md §3 (table only),
-  knowledge-base/A4-type-to-method.md §1–2, knowledge-base/sources.md (ID list only)
+Sprint: S9a — B4a researchers: memory & practice — done (2026-11-15)
+Written: knowledge-base/B4a-researchers-memory.md §1 Bjorks, §2 Roediger/Karpicke/McDaniel,
+  §3 Dunlosky/Rawson, §4 Rohrer/Carpenter/Kang, §5 Woźniak, §6 Matuschak/Nielsen, §7 Ericsson,
+  §8 Kellman/Massey; "Summary (B4a, all 8)" + pattern · misconceptions M64–M66 · sources +12 (131)
+Verified this sprint: full text — Woz90 (SM-2), MN19 (essay), MPDK16 (poster); abstracts — McD11,
+  RAMM11, RD11, RDS15, RDHC20, Lin14, MM19, Kel08, MHO14 (breakdown)
+Open (carried): backlog rows added S9a (PLM peer-reviewed report, Kel08 pages, SM-2 vs fixed test)
+Decisions made: B4 entries record "what the researcher made into a usable method" + its best
+  real-use test, with mechanisms pointed to Part A (no re-arguing). Tools graded below mechanisms.
+Next sprint: S9b — B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi,
+  Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall,
+  Hattie). 14 entries → split S9b-1 (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur)
+  and S9b-2 (Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie).
+  First action S9b-1: Rosenshine 2012 *American Educator* "Principles of Instruction" (open PDF —
+  list the 10 verbatim); Black & Wiliam 1998 + the Kingston & Nash 2011 re-analysis (ES ≈ 0.2);
+  Crouch & Mazur 2001 (Am. J. Phys.); Chi & Wylie 2014 ICAP; Mayer multimedia principles (Mayer
+  2009/2021 book; meta per principle where available); Sweller — point to A4 (CKS17, KACS03).
+Read at start: sprints.md (incl. Research tooling notes), knowledge-base/roster.md §4,
+  knowledge-base/A3-kinds-of-information.md §3 (table only), knowledge-base/A4-type-to-method.md §1–2,
+  knowledge-base/sources.md (ID list only)
 ```

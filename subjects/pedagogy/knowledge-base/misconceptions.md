@@ -73,6 +73,9 @@
 | M61 | A famous teacher's results prove that their method works | B3 | written |
 | M62 | Escalante's students succeeded because he believed in them — high expectations are the method | B3 | written |
 | M63 | Time spent on a learning platform (videos, Khan Academy) is learning; such platforms are proven to raise scores a lot | B3 | written |
+| M64 | Multiple-choice quizzes can't help learning — only recall tests or essays count | B4a | written |
+| M65 | If I can recall it once, I've learned it — move on | B4a | written |
+| M66 | Interleaving means only mixed practice, from the very first lesson | B4a | written |
 
 ---
 
@@ -651,6 +654,36 @@
 - **Exposing question:** "Was that a randomized comparison — and is it minutes watched or items
   answered?"
 - **Unit:** B3 §4. Status: written.
+
+### M64 — Multiple-choice quizzes can't help learning — only recall tests or essays count
+- **Why it feels true:** recognition is easier than recall, and A1/A4 stress that *producing* the
+  answer is what builds memory.
+- **Correction:** in real classrooms, low-stakes **multiple-choice quizzes with feedback** raised
+  unit-exam scores by 13–25% for quizzed content, with benefits persisting to end-of-year exams
+  (McD11), and improved later **short-answer** exam performance too (RAMM11). Free recall is often
+  stronger, but well-built MC quizzes followed by feedback are a real retrieval event.
+- **Exposing question:** "Did the quiz require choosing between plausible answers — and did
+  feedback follow?"
+- **Unit:** B4a §2. Status: written.
+
+### M65 — If I can recall it once, I've learned it — move on
+- **Why it feels true:** one correct recall feels like proof; carrying on seems wasteful.
+- **Correction:** one correct recall at the end of a session says retrieval strength is high
+  *now* (A1). RD11 (533 students, retention 1–4 months later): reach **3 correct recalls** in the
+  first session, then **relearn 3 times at widely spaced intervals**; relearning gave "pronounced
+  effects on long-term retention with a relatively minimal cost."
+- **Exposing question:** "Could you recall it next month without having seen it in between?"
+- **Unit:** B4a §3. Status: written.
+
+### M66 — Interleaving means only mixed practice, from the very first lesson
+- **Why it feels true:** "mixing beats blocking" is the headline of the interleaving research.
+- **Correction:** in Rohrer's classroom studies the new skill was still introduced in its lesson;
+  interleaving rearranged a **portion of the practice problems** across earlier units (RDS15,
+  RDHC20). Novices need a few blocked examples to form the method before they can choose between
+  methods (engine rule: block first, then interleave; BR19 moderators). Interleaving helps the
+  *choice*; it does not replace learning the procedure.
+- **Exposing question:** "Can the learner already do each method on its own?"
+- **Unit:** B4a §4. Status: written.
 
 ---
 

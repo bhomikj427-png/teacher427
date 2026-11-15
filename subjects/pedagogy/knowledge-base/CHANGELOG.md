@@ -54,4 +54,10 @@
   but describes no "technique" — A8 myth 7 attribution leans further to "not his"; Khan Academy RCT in
   Brazil null on average (FFL20), real-world effect +0.03–0.09 SD (EB26, Khan co-authors); Escalante
   and Collins graded as cases. Sources +6. misconceptions M61–M63 new.
+- [2026-11-15] S9a: B4a-researchers-memory.md written (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson,
+  Rohrer/Carpenter/Kang, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) + summary + pattern. Notable:
+  classroom quizzing to end-of-year (McD11, RAMM11); relearning prescription 3 + 3 (RD11); preregistered
+  interleaving RCT d = 0.83 (RDHC20); SM-2 read at primary; deliberate-practice replication failed (MM19);
+  MHO14 breakdown verified at abstract (26/21/18/4/<1%); PLM RCT poster ES ≤ .48 (partly closes KMS10).
+  Sources +12. misconceptions M64–M66 new.
 
