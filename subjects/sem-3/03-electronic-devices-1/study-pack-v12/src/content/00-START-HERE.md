@@ -17,7 +17,7 @@ Ranked by how much the professor's material stresses each topic: solved numerica
 | 7 | **13 Feedback** | 51-slide deck, four topologies | 13 gain with feedback | 40 min |
 | 8 | **14 Oscillators** | Deck with RC, Wien, LC, crystal | 14 Barkhausen, RC phase-shift | 35 min |
 | 9 | **03 pn junction and diode** | Second half of the 100-slide Unit 1–2 deck | 03 built-in voltage, diode equation | 40 min |
-| 10 | **01, 02 Semiconductors and current flow** | First half of the same deck; mostly definitions and short derivations | 02 drift and diffusion | 50 min |
+| 10 | **01a, 01b, 02 Semiconductors and current flow** | First half of the same deck; definitions and short derivations (slide 38: E_{F} at mid-gap) | 01a step 8, 01b steps 7 and 9, 02 drift and diffusion | 90 min |
 | 11 | **10 BJT operation** | Short decks L20–L25 | 10 α, β | 25 min |
 | 12 | **06 Special diodes, 09 CMOS and FinFET** | Extra decks beyond the syllabus text | 09 CMOS gate | 30 min |
 | last | **15 Mock paper** | Closed book, after the rest | all | 3 h |
@@ -33,7 +33,7 @@ The order is the syllabus, unit by unit.
 
 **Unit 1 — semiconductors**
 
-[[map:01 Semiconductors, carriers > 02 Drift, diffusion, continuity]]
+[[map:01a Bonds, bands, carriers, doping > 01b Fermi level, carrier counts > 02 Drift, diffusion, continuity]]
 
 **Unit 2 — the diode**
 
@@ -53,7 +53,8 @@ Each file needs the ones before it. 07 uses 03's depletion region. 08 reuses 07'
 
 | File | Syllabus item | What it teaches | Real Qs |
 |---|---|---|---|
-| 01 | U1 | energy bands, electrons and holes, doping, mass-action law, Fermi level | deck |
+| 01a | U1 | covalent bonds, electrons and holes, energy bands, n_{i}(T), donors, acceptors, mass-action law | deck |
+| 01b | U1 | states, Fermi–Dirac f(E), density of states, N_{C} and N_{V}, np = n_{i}^{2} proved, E_{F} at mid-gap, E_{F} with doping | deck slide 38 |
 | 02 | U1 | drift, mobility, conductivity, diffusion, Einstein relation, continuity | deck |
 | 03 | U2 | junction, depletion region, built-in voltage, diode equation, resistances, capacitances | deck |
 | 04 | U2 | load line, series/parallel diode circuits, half- and full-wave rectifiers | L08, L09 |

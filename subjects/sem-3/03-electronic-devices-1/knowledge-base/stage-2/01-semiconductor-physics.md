@@ -92,3 +92,16 @@
 ## Open / to-verify (Stage 2)
 - `[opened 2026-06-24]` Exact Si N_V value (1.04 vs 1.83×10¹⁹) — m_p* convention; not pinned, teach
   as convention-dependent (ties to the nᵢ `contested` flag). *(verified spread, not a single number.)*
+
+## 11. Constants added 2026-11-15 (study-pack 01a/01b rebuild)
+- **Si DOS effective masses (Neamen/Hu convention):** m_n* = 1.08 m₀, m_p* = 0.56 m₀ → N_C = 2.8×10¹⁹,
+  N_V = 1.04×10¹⁹ cm⁻³ at 300 K (recomputed from N = 2(2πm*kT/h²)^{3/2} in `study-pack-v12/src/verify_u1.py`).
+  Ioffe uses 1.18/0.81 → 3.2×10¹⁹ / 1.8×10¹⁹: the spread already flagged in §1. *(Chenming Hu ch.1 slides,
+  chu.berkeley.edu; ioffe.ru Si band structure; checked 2026-11-15.)*
+- With 2.8/1.04×10¹⁹ and E_g = 1.12 eV, √(N_C N_V)e^{−E_g/2kT} = **≈7×10⁹ cm⁻³**, not the 1.5×10¹⁰ the deck
+  quotes: the n_i `contested` spread in numbers. Teach both; exam numericals use the value given.
+- **n_i at 300 K:** Ge ≈ 2.4×10¹³, Si ≈ 1.5×10¹⁰ (1.45×10¹⁰ / 1.0×10¹⁰ in refined sources), GaAs ≈ 1.8×10⁶ cm⁻³
+  (Sze-derived property tables: ele.uri.edu, eesemi.com; checked 2026-11-15). Order Ge ≫ Si ≫ GaAs follows E_g.
+- **Shallow-dopant binding energies in Si:** P ≈ 45 meV, As ≈ 54 meV (dmccreary semiconductor course, checked
+  2026-11-15); B ≈ 45 meV (deck slide 39, Sze; not independently re-checked). All ≪ kT·ln-scale → full
+  ionisation at 300 K. Deck slide 39 prints all three.

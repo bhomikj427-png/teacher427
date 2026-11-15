@@ -1,6 +1,6 @@
 # 02 — Drift, diffusion and continuity
 
-<div class="sub">Unit 1–2 deck, slides 40–60 (example slide 51) · syllabus Unit 1 · needs 01 (n, p, n_{i})</div>
+<div class="sub">Unit 1–2 deck, slides 40–60 (example slide 51) · syllabus Unit 1 · needs 01a, 01b (n, p, n_{i}, E_{F})</div>
 
 ## Map
 

@@ -12,10 +12,13 @@ sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(HERE.parents[1] / "study-pack" / "pdf"))
 from study_pack_build import build  # noqa: E402
 import figs, figs2, figs3  # noqa: E402,E401
+sys.path.insert(0, str(HERE))
+import figs_u1  # noqa: E402
 
 ALL = {}
 for m in (figs, figs2, figs3):
     ALL.update({k: getattr(m, k) for k in dir(m) if not k.startswith("_") and callable(getattr(m, k))})
+ALL.update(figs_u1.FIGS)
 
 if __name__ == "__main__":
     build(HERE, pack="ECE2106 Electronic Devices & Circuits · ETE Study Pack",

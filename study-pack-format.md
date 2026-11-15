@@ -67,7 +67,10 @@ Each step teaches **one idea** and runs in this order:
 2. **Guess first.** One line that asks for an answer on paper before reading on. This line is the
    mechanism (pretesting, `research/02 §1, §5`); it is never dropped.
 3. **Terms.** At most three new terms, each defined before it is used.
-4. **Figure.** The figure that carries the idea comes before the prose about it.
+4. **Figure.** The figure that carries the idea comes before the prose about it. **Every graph
+   says what it plots**: what each axis is, and what one point on it means, in its caption or a
+   "Reading the figure" line before the prose. Every symbol in a formula is defined in words
+   (what it counts, what sets its value) before the formula is used.
 5. **Teaching.** Short: about 60 words per block, a list or table where the content is a list or a
    table. Concrete first, general statement after.
 6. **Answer** to the opening question, worked with every intermediate value.
@@ -183,3 +186,6 @@ This file is the single place the format lives. It is kept true by rule:
     numerical topic (learner: "i want the 05 file added in v1.2").
   - *Amended 2026-11-14.* Small changes amend the current version instead of creating a new one
     (learner: "its unessessery to have a whole new version for just one file change").
+  - *Amended 2026-11-15.* §5.4: every graph states what it plots; every symbol in a formula is
+    defined in words before use (learner, on EDC 01: "Nc and Nv are not even explained properly,
+    i dont understand the graph much, what is it trying to graph?"). EDC 01 rebuilt as 01a + 01b.

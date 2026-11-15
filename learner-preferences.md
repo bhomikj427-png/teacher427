@@ -210,6 +210,10 @@ prefers minimal prose, wants diagrams described, etc.)*
   file before a full build; write any later format change into the spec itself the same session
   ("make it be self regulating"), amending the current version rather than creating a new one for a small
   change ("unessessery to have a whole new version for just one file change").
+- [stated 2026-11-15] **Every graph says what it plots, and every symbol is explained, not just named.** On EDC 01:
+  "Nc and Nv are not even explained properly, i dont understand the graph much, what is it trying to graph?", "a bit too
+  compressed". → state each axis and what one point means before the prose; define a symbol by what it counts and
+  what sets it; never merge several ideas into one step to save space (written into `study-pack-format.md` §5.4).
 
 ## 4. Autonomy & choice
 - [stated 2026-10-17] **Engine does all verification; the learner only learns.** "I can only either
