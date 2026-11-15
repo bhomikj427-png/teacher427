@@ -2,11 +2,11 @@
 
 ## Session resume
 - Last session: 2026-11-15
-- Where we stopped: S6 done (A8 + Part A README; Part A content complete); next = S7 (B1 historical teachers) — start from sprints.md "Current hand-off"
+- Where we stopped: S7a done (B1 §1–7, Socrates → Herbart); next = S7b (Fröbel → Skinner) — start from sprints.md "Current hand-off"
 - Recap: S0–S5 done: map pass; A1 studying vs learning; A2 memory; A3 kinds-of-information hub;
   A4 type→method bridge; A5 schemas/expertise/transfer; A6 depth & generation; A7 metacognition;
   A8 myths + Part A README; 65 sources; misconceptions M1–M48 (47 written)
-- Next up: S7 — say "S7"; read only the hand-off's "Read at start" list
+- Next up: S7b — say "S7b"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -98,6 +98,10 @@
   orphan source-ID script check clean).
 - [2026-11-15] S6 done-when checked: every A file links to A3 types ✓; no orphan source IDs ✓; A8 owns no
   seed ✓; new misconceptions 4 ≥ 3 ✓. sprints.md ticked, backlog updated, S7 hand-off written.
+- [2026-11-15] Learner: "pedagogy, do as many sprints as u can without getting dumb from too much context yet work for as long as u can". S7 split into S7a (Socrates → Herbart) / S7b (Fröbel → Skinner) per hand-off; S7a started; tree clean (f4a44cb); other subjects' reviews swept earlier today.
+- [2026-11-15] S7a: read primary texts (Meno; Analects/Legge; Quintilian/Butler 1.2–1.3, 10.2–10.7; Ratio Studiorum 1599 lower-class + academy rules; Comenius Great Didactic; Pestalozzi How Gertrude; Herbart Science of Education) + verified SK22, CSJ01, Ko19, No22 (Crossref/EPMC abstracts), FN18 (author MS full text) → wrote knowledge-base/B1-historical.md §1–7 + summary.
+- [2026-11-15] S7a: correction — five formal steps are Rein's (via Ziller), Herbart wrote four (Clearness, Association, System, Method). misconceptions M49–M52 written; sources +14; CHANGELOG.
+- [2026-11-15] S7a done-when checked: 7/7 entries written to protocol step 8 (none dropped) ✓; misconceptions +4 ✓. sprints.md: S7 split S7a/S7b, backlog +7, hand-off written.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
@@ -107,3 +111,4 @@
 - [2026-11-15] S4 done · A4 bridge + A5 written · sources 47 · M31–M36 new · next: S5 (A6 + A7)
 - [2026-11-15] S5 done · A6 depth & generation + A7 metacognition written · sources 57 · Sch17 numbers corrected · M37–M44 new · next: S6 (A8 + Part A integration)
 - [2026-11-15] S6 done · A8 myths + Part A README · Part A content complete · sources 65 · M45–M48 new · next: S7 (B1 historical)
+- [2026-11-15] S7a done · B1 §1–7 Socrates → Herbart from primary texts · Rein (not Herbart) five steps · sources 79 · M49–M52 new · next: S7b (Fröbel → Skinner)

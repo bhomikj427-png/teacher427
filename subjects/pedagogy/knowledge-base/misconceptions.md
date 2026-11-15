@@ -58,6 +58,10 @@
 | M46 | I can study fine while texting or watching something | A8 | written |
 | M47 | The Pomodoro technique makes you learn more | A8 | written |
 | M48 | Teaching students a growth mindset reliably raises their grades | A8 | written |
+| M49 | The Socratic method means the teacher never tells, only asks | B1 | written |
+| M50 | A method used for centuries (Jesuit, Socratic, Confucian) is proven by its longevity | B1 | written |
+| M51 | Concrete, hands-on, realistic materials are always better than abstract ones | B1 | written |
+| M52 | Herbart invented the five-step lesson plan | B1 | written |
 
 ---
 
@@ -460,6 +464,50 @@
   (Y19). Small and conditional, not a general lever.
 - **Exposing question:** "For which students, and how big was the gain?"
 - **Unit:** A8 §2 myth 6. Status: written.
+
+
+### M49 — The Socratic method means the teacher never tells, only asks
+- **Why it feels true:** in the *Meno* Socrates says "I am not teaching the boy anything, but only
+  asking him questions", and questioning feels more respectful and active than lecturing.
+- **Correction:** his questions are heavily leading and carry the structure of the proof; the boy
+  already had the needed parts (counting, seeing squares). Prompting can replace explaining only
+  when the learner has the pieces: in CSJ01, prompt-only tutoring matched explaining tutoring for
+  students who could construct; for novices, minimal guidance underperforms explicit instruction
+  (KSC06). What is evidenced is the *parts*: commit first (SCA24), refute the wrong belief (SK22,
+  g = 0.41), self-explain (Bi18).
+- **Exposing question:** "Could the learner have answered your questions if they knew none of the
+  pieces? Who supplied the diagonal?"
+- **Unit:** B1 §1. Status: written.
+
+### M50 — A method used for centuries is proven by its longevity
+- **Why it feels true:** surviving for hundreds of years looks like a long field test; famous
+  schools and pupils seem to vouch for it.
+- **Correction:** methods survive because teachers find them workable and they feel right, and the
+  famous pupils were selected (survivorship). None of the S7a methods was tested on retention or
+  transfer as a package; each mixes evidenced parts (the Jesuit retrieval ladder) with unsupported
+  ones (public rivalry, Comenius's morning-and-evening rereading, Socrates' recollection theory).
+  Grade the mechanism by Part A (A8 §3 kit: Q1 outcome, Q2 comparison).
+- **Exposing question:** "Compared with what, and measured how — a week later?"
+- **Unit:** B1 §summary. Status: written.
+
+### M51 — Concrete, hands-on, realistic materials are always better than abstract ones
+- **Why it feels true:** concrete objects are easy to grasp and engaging; "learning by doing" and
+  Pestalozzi's sense-impression sound obviously right.
+- **Correction:** concrete materials help as a *start*; the target is the abstract idea. Concreteness
+  fading moves concrete → iconic → abstract and makes the link explicit (FN18); a concept that stays
+  tied to its concrete form need not transfer. Pestalozzi himself warned that single views mislead
+  about the "essential" features — the evidenced remedy is varied, contrasted examples (A4 §2).
+- **Exposing question:** "Can you solve it when the blocks are gone and the symbols are all you have?"
+- **Unit:** B1 §6 (also B2 Bruner, B1 §10 Montessori). Status: written.
+
+### M52 — Herbart invented the five-step lesson plan
+- **Why it feels true:** the steps are taught as "Herbart's five formal steps" in teacher-training texts.
+- **Correction:** Herbart wrote four (Clearness, Association, System, Method — *Science of Education*,
+  Felkin tr.); Ziller reworked them and Rein split Clearness into preparation + presentation (EC05).
+  The rigid scripted plan is the Herbartians'. More important than the name: neither version
+  includes retrieval, spacing or checks for understanding.
+- **Exposing question:** "Where in the five steps does the learner recall anything a week later?"
+- **Unit:** B1 §7. Status: written.
 
 ---
 

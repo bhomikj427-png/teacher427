@@ -70,7 +70,8 @@
 | S4 | A4 bridge (type → method) + A5 schemas/expertise/transfer | 00-map, sources, A3 | `A4-type-to-method.md`, `A5-schemas-expertise-transfer.md` | bridge table: every A3 type → best-evidenced methods + grade; KLI framework checked; transfer near/far honest | **done 2026-11-15** |
 | S5 | A6 depth/generative learning + A7 metacognition | 00-map, sources, A3, A4, justin-sung-claims | `A6-depth-and-generation.md`, `A7-metacognition.md`; Sung claims touched here marked | levels of processing, generation, elaboration, concept maps (meta), advance organizers, pretesting; calibration + SRL sourced | **done 2026-11-15** |
 | S6 | A8 myths + Part A integration | all A files, misconceptions | `A8-myths.md`; cross-link pass; Part A README | every A file links to A3 types; no orphan claims | **done 2026-11-15** (Part A written) |
-| S7 | B1 historical teachers | roster §1, A3, A4 | `B1-historical.md` | each roster §1 entry written to protocol step 8 or dropped with reason | |
+| S7a | B1 historical teachers: Socrates → Herbart | roster §1, A3, A4 | `B1-historical.md` §1–7 + summary | each of the 7 entries written to protocol step 8 or dropped with reason | **done 2026-11-15** |
+| S7b | B1 historical teachers: Fröbel → Skinner (10) | roster §1, A3, A4, B1 (summary only) | `B1-historical.md` §8–17 | same | |
 | S8 | B2 mid-century method-builders + B3 classroom legends | roster §2–3, A3, A4 | `B2-method-builders.md`, `B3-classroom-legends.md` | same; Feynman-technique attribution sourced | |
 | S9a | B4 researchers: memory & practice (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) | roster §4, A3, A4 | `B4a-researchers-memory.md` | same | |
 | S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | |
@@ -135,32 +136,40 @@ Read at start: <exact file list = Sy Inputs>
 | Y19 effect sizes (grades, lower-achievers) at full text | S6 | S11 |
 | Feynman Technique: check Gleick *Genius* / Feynman's own texts for any described method; Scott Young's 2011 post body | S6 | S10 |
 | Dek12 "commercial programmes" link — confirm wording in abstract | S6 | S11 |
+| SK22 moderators (text type, delay, age) at full text | S7a | S12 |
+| FMSG14 numbers (how many studies, outcomes) — abstract elided by publisher | S7a | S12 |
+| FN18 vol/pages (Educational Review 71(4) 403–422 from recall); No22 author list beyond first | S7a | S12 |
+| EC05 exact title/pages; ideally read Rein directly for the five steps | S7a | S12 |
+| RS1599 translator (Farrell 1970?) for the Kolbe English text | S7a | S12 |
+| *Orbis Pictus* "first illustrated textbook" — find a primary/scholarly source or soften | S7a | S12 |
+| CSJ01 full text: prompt-only condition N, measures | S7a | S12 |
 
 ## Current hand-off
 
 ```
-Sprint: S6 — A8 myths + Part A integration — done (2026-11-15)
-Written: knowledge-base/A8-myths.md (prevalence from Dek12; 8 myths with why-it-feels-true +
-  evidence + grade: learning styles, left/right brain, learning pyramid, multitasking,
-  Pomodoro-as-learning, growth-mindset-as-lever, Feynman-technique attribution, rereading; a
-  7-question test kit for any learning claim) · README-part-A.md (8-step story, dependency graph,
-  threshold concepts, A3-row → unit → traps table) · cross-link pass: every A file names its A3
-  rows; zero orphan source IDs (script check) · misconceptions M5, M13, M14 written + new M45–M48
-  (48 total, 47 written; only seed = M15, owned by B2/B4b) · sources +8 (65)
-Verified this sprint: full text — Dek12 (Table 1), Sis18; abstract — Y19, N13, CGNA96, LH18;
-  record — Og25; practitioner's own pages — SY-FT
-Open (carried): backlog rows added S6 (10%-brain / Brain Gym refutation, P08 full text, Y19 sizes,
-  Feynman primary check → S10, Dek12 wording)
-Decisions made: Part A is complete in content (stage-1 level); A8 test kit (§3) is the standard
-  every Part B entry is checked against; Feynman Technique graded by its evidenced parts
-  (self-explanation, teaching), attribution kept `uncertain`
-Next sprint: S7 — B1 historical teachers. First action: read roster §1 (17 entries, Socrates →
-  Skinner); for each, find the person's own text or the best primary scholarship, write the entry
-  to protocol step 8 (serves → A3 row · grade S/M/T/X citing A4 §1 grades · use as learner · use as
-  teacher), or drop with reason. Likely S7a/S7b split (17 entries): S7a Socrates → Herbart,
-  S7b Fröbel → Skinner. Priority checks: Montessori (Lillard et al. 2017 lottery study), Vygotsky
-  ZPD vs scaffolding (Wood, Bruner & Ross 1976), Jesuit Ratio Studiorum (repetitions/review days)
-Read at start: sprints.md, knowledge-base/roster.md §1 + "Open search leads", knowledge-base/A3-kinds-of-information.md §3 (table only),
-  knowledge-base/A4-type-to-method.md §1–2, knowledge-base/A8-myths.md §3 (test kit),
-  knowledge-base/sources.md (ID list only)
+Sprint: S7a — B1 historical teachers, Socrates → Herbart — done (2026-11-15)
+Written: knowledge-base/B1-historical.md — header (grading rule: a historical method is graded by
+  the modern evidence for its mechanism; the package is almost never tested) + §1 Socrates,
+  §2 Confucius, §3 Quintilian, §4 Jesuit Ratio Studiorum, §5 Comenius, §6 Pestalozzi, §7 Herbart,
+  each to protocol step 8 + S7a summary table + "pattern" paragraph · misconceptions M49–M52 ·
+  sources +14 (7 primary texts + SK22, CSJ01, Ko19, No22, FN18, FMSG14, EC05)
+Verified this sprint: primary texts (Meno, Analects, Quintilian, Ratio 1599, Great Didactic,
+  How Gertrude, Science of Education); abstracts — SK22 g 0.41 (k 44), CSJ01 prompt-only tutoring,
+  Ko19 g 0.35/0.56 (28 studies), No22 (29 reviews); FN18 author MS
+Open (carried): backlog rows added S7a (SK22 moderators, FMSG14 numbers, FN18/No22 bib, EC05,
+  RS1599 translator, Orbis Pictus claim, CSJ01 full text)
+Decisions made: B1 entry format = What they did (primary, quoted) → Mechanism (Part A IDs) →
+  Serves → Grade "method / mechanism" → Use as learner → Use as teacher. Five-steps attributed to
+  Rein, not Herbart. Rivalry/prizes/public naming flagged "not supported", not graded (no Part A
+  unit covers competition)
+Next sprint: S7b — B1 Fröbel → Skinner (10 entries: Fröbel, Ebbinghaus [short: pointer to A2,
+  scientist not teacher], Dewey, Montessori, Vygotsky, Piaget, Pólya, R. L. Moore, Suzuki,
+  Skinner). First action: Montessori — Lillard et al. 2017 lottery study + Randolph et al. 2023
+  meta (Campbell review) at abstract/full text. Then Vygotsky ZPD vs Wood, Bruner & Ross 1976
+  scaffolding; Skinner 1958 "Teaching machines" (Science) + programmed-instruction meta (Kulik);
+  Dewey vs KSC06; Pólya heuristics (Schoenfeld 1985/1992). Append §8–17 + extend summary table;
+  then close B1 with misconceptions ≥3 new.
+Read at start: sprints.md, knowledge-base/roster.md §1 + "Open search leads",
+  knowledge-base/B1-historical.md (header + Summary only), knowledge-base/A3-kinds-of-information.md §3
+  (table only), knowledge-base/A4-type-to-method.md §1–2, knowledge-base/sources.md (ID list only)
 ```

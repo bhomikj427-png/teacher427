@@ -34,3 +34,7 @@
   guide; A3 row → unit → traps). Cross-link pass: all A files name their A3 rows; orphan-ID script check
   clean. Sources +8 (Dek12, Sis18, Y19, N13, CGNA96, LH18, Og25, SY-FT). misconceptions M5, M13, M14 written;
   new M45–M48. Part A content complete (stage-1 level).
+- [2026-11-15] S7a: B1-historical.md §1–7 (Socrates, Confucius, Quintilian, Jesuit *Ratio*, Comenius,
+  Pestalozzi, Herbart) + S7a summary table, all from primary texts. Attribution correction: the five
+  formal steps are Rein's, not Herbart's (Herbart: Clearness, Association, System, Method). Sources +14
+  (primary texts ×7; SK22, CSJ01, Ko19, No22, FN18, FMSG14, EC05). misconceptions M49–M52 new.
