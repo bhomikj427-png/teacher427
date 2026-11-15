@@ -4,7 +4,7 @@
 > test → mechanism (pointer to Part A, not re-argued) → **serves** (A3 row) · **grade** · **use as
 > learner** · **use as teacher**. Grade = method in practice / mechanism.
 >
-> Written S9b-1 (2026-11-15): §1–7 Rosenshine → Mazur. §8–14 (Wieman → Hattie) in S9b-2.
+> Written S9b-1 (2026-11-15): §1–7 Rosenshine → Mazur. S9b-2 (2026-11-15): §8–14 Wieman → Hattie.
 
 ---
 
@@ -261,12 +261,236 @@ follow with an isomorphic question to check it was understanding, not copying.
 
 ---
 
-*(S9b-2 continues: §8 Wieman, §9 Willingham, §10 Kirschner & Hendrick, §11 Agarwal, §12 The
-Learning Scientists, §13 Nuthall, §14 Hattie, then the full B4b summary.)*
+## 8. Carl Wieman — active learning in university science; the "feeling of learning"
 
-## Summary (B4b §1–7)
+**What he built.** Through the Carl Wieman Science Education Initiative (UBC, Colorado): replace
+lecture with research-based active instruction — pre-class reading, in-class clicker questions
+with peer discussion, small-group tasks with immediate feedback, the instructor responding to
+what students produce ("deliberate practice" framing in class).
 
-| Researcher | Method made usable | Serves (A3) | Grade (method / mechanism) |
+**Evidence.**
+- **DSW11** (Deslauriers, Schelew & Wieman 2011, *Science*, abstract): two large sections
+  (N = 267, 271) of introductory physics; one week (3 hours) taught by an experienced, highly
+  rated lecturer vs a trained but inexperienced instructor using research-based active
+  instruction: "increased student attendance, higher engagement, and **more than twice the
+  learning**". Caveats: one week, one topic set, test written by the researchers, the active
+  instructors were co-authors.
+- **Fre14** (Freeman et al. 2014, *PNAS*, abstract — the meta Wieman's movement relies on):
+  225 studies of undergraduate STEM: exam/concept-inventory scores **+0.47 SD** under active
+  learning (158 studies); odds ratio for failing **1.95** under lecturing (67 studies) — "1.5
+  times more likely to fail"; holds across disciplines and class sizes (largest in classes ≤ 50);
+  trim-and-fill and fail-safe N "suggest that the results are not due to publication bias";
+  robust to study rigor. (Roster's "failure 34% → 21%" is the paper's body, not abstract →
+  backlog.)
+- **Des19** (Deslauriers et al. 2019, *PNAS*, abstract): randomized students, identical content,
+  active vs passive instruction (passive = "lectures by experienced and highly rated
+  instructors"): students in the active classroom **learned more but felt they learned less**;
+  the gap was partly caused by the greater cognitive effort; an early intervention explaining
+  this to students helped.
+
+**Mechanism.** Retrieval + feedback + interactive/constructive engagement (B4b §5, §7); the
+Des19 result is A1's fluency illusion measured in a real course — effortful learning feels worse
+(desirable difficulties, B4a §1).
+
+**Serves:** A3 rows 3 and 5 (principles; choosing approaches in problems); row 6 (calibration).
+
+**Grade:** **S** for active learning vs traditional lecturing in undergraduate STEM (Fre14, large
+meta, bias checks) — with the caveat that "active learning" is a family, not one method;
+DSW11's "twice the learning" is a one-week demonstration (T–M as a number).
+
+**Use as learner.** If a class or method *feels* less productive because you are working
+harder, that is the expected signal (Des19) — judge it by your delayed test result.
+
+**Use as teacher.** Tell students in week 1 that active classes feel less effective and why;
+replace some lecture time with questions every student answers, then discussion, then feedback.
+
+---
+
+## 9. Daniel Willingham — translating cognitive science for teachers
+
+**What he does.** Translation, not new methods: *Why Don't Students Like School?* (2009; 2nd ed.
+2021 — book, not read this sprint), the "Ask the Cognitive Scientist" column (*American
+Educator*), and reviews such as **WHD15** (Willingham, Hughes & Dobolyi 2015, abstract):
+learning-styles theories hold that people learn best in different ways, "but, in fact,
+scientific support for these theories is lacking"; educators' time is "better spent on other
+theories."
+
+**Mechanism.** Points to Part A: memory as "the residue of thought" (what you think about is what
+you remember — A6 depth of processing; book claim, wording `uncertain`), background knowledge as
+the basis of critical thinking (A5), learning styles unsupported (A8).
+
+**Serves:** A3 rows 1–3 and 6 (the knowledge-first message).
+
+**Grade:** **M** as a synthesis (sound translations of S-grade findings; no new method to test).
+Check every quoted line against the primary source he cites — that is how translators are used
+in this KB (tier T3 for books, T1 for his reviews).
+
+**Use as learner.** Use translators to find the right primary paper, then read its abstract.
+
+**Use as teacher.** Plan lessons around what students will *think about* (if the activity makes
+them think about the poster paint, they will remember the paint, not the history).
+
+---
+
+## 10. Paul A. Kirschner & Carl Hendrick — *How Learning Happens*; against minimal guidance
+
+**What they do.** Kirschner co-authored KSC06 (minimal guidance fails for novices — A4, B4b §2);
+with Hendrick, *How Learning Happens* (2020, book, not read): summaries of ~28 seminal papers for
+teachers. Kirschner & De Bruyckere 2017 (**KD17**, abstract): "there is no such thing as a
+digital native who is information-skilled simply because (s)he has never known a world that was
+not digital", and the claimed ability to **multitask** "does not exist"; designing education that
+assumes it "hinders rather than helps learning."
+
+**Mechanism.** Guidance for novices (A4, CLT); working-memory limits make multitasking a series of
+costly switches (A2).
+
+**Serves:** A3 rows 3–4 (guided instruction), row 6 (myths about learners).
+
+**Grade:** **M** as translators (sound summaries of S-grade evidence); KSC06 **S** for novices /
+`contested` at the edges.
+
+**Use as learner.** Study with one task open; switching between study and messages is not a
+generational skill (KD17).
+
+**Use as teacher.** Don't design for "digital natives"; design for working memory.
+
+---
+
+## 11. Pooja K. Agarwal — retrieval practice in real classrooms
+
+**What she built.** Co-author of the classroom quizzing studies (McD11, RAMM11 — B4a §2); the
+practitioner site retrievalpractice.org and *Powerful Teaching* (Agarwal & Bain 2019, book, not
+read). Key review: **ANB21** (Agarwal, Nunes & Blunt 2021, *Educational Psychology Review* 33(4)
+1409–1453, abstract): narrow definition of "classroom research"; ≈2,000 abstracts screened;
+**50 experiments, 49 effect sizes, n = 5,374; 57% showed medium or large benefits**; benefits
+across education levels, subjects, designs, delays, formats and feedback timing; **only 6% of
+experiments in non-WEIRD countries**.
+
+**Mechanism.** → A4 retrieval-practice row; A1.
+
+**Serves:** A3 rows 1 and 3.
+
+**Grade:** **S** (systematic review of classroom experiments, consistent). Caveat that matters for
+this learner: almost all evidence is from WEIRD countries — no reason to expect the memory
+mechanism to differ, but classroom implementation evidence is thin elsewhere.
+
+**Use as learner.** Retrieval works for you whatever your level or subject (ANB21's range); the
+form (MC, short answer, free recall) matters less than doing it with feedback.
+
+**Use as teacher.** Low-stakes retrieval at the start of lessons ("brain dumps", two-things
+recall), with feedback, works across the settings tested.
+
+---
+
+## 12. The Learning Scientists (Yana Weinstein, Megan Sumeracki, Oliver Caviglioli) — six strategies
+
+**What they built.** Free teacher/student materials on **six strategies** — spaced practice,
+interleaving, retrieval practice, elaboration, concrete examples, dual coding — with posters by
+Caviglioli. The academic version: **WMS18** (Weinstein, Madan & Sumeracki 2018, *Cognitive
+Research: Principles and Implications* 3, tutorial review, abstract): six strategies "that have
+received robust support from decades of research", with basic and applied research and
+implementation examples.
+
+**Mechanism.** Spacing, retrieval, interleaving → A4 (S, S, M); elaboration → A4 elaborative
+interrogation (M); concrete examples → B1 §6 / concreteness fading (M); dual coding → No22
+multimedia (M–S).
+
+**Serves:** A3 rows 1–5.
+
+**Grade:** **M–S** (faithful translation; the six are not equally strong — "robust support" is
+true for spacing and retrieval, moderate for the others). Uniform posters can make all six look
+equally proven (M70).
+
+**Use as learner.** Start with the two strongest (retrieval + spacing); add interleaving once you
+have several problem types; use elaboration and examples for understanding.
+
+**Use as teacher.** Their materials are a good student handout — add the strength ranking.
+
+---
+
+## 13. Graham Nuthall (1935–2001*) — *The Hidden Lives of Learners*
+
+*\*Year of death: summaries say 2004; roster's 2001 is unverified → backlog.*
+
+**What he did.** Decades of fine-grained classroom observation in New Zealand: individual
+microphones on students, recording everything each student heard, said and did during a unit,
+then testing what they learned and remembered up to a year later. Peer-reviewed: **NAL95**
+(Nuthall & Alton-Lee 1995, *AERJ*, abstract): 14 students; a model of how students use
+"multilayered episodic and semantic memory" to answer test items; **Nut00** (Nuthall 2000,
+*Cognition and Instruction* 18(1) 83–139, abstract): recollection 12 months later "replaced
+details with inferences and summaries, and direct recall with deductions from related generic
+schemas."
+
+**The "three encounters" claim.** In *The Hidden Lives of Learners* (2007, posthumous; not read),
+p. 63 as quoted by a secondary source (Watson, Learning & the Brain blog — T3): a student needed to
+encounter the **full set of information** about a concept on **at least three different
+occasions** to learn it; the same secondary source notes p. 126 says **four**. Wexler (T3)
+reports Nuthall's rule predicted learning with **80–85%** accuracy. Status: `uncertain` — the
+count and accuracy come from very small observational samples, and the exact wording is
+unverified at the book (backlog).
+
+**Mechanism.** Repeated encounters spaced across a unit = **spacing** + multiple retrieval or
+re-encoding opportunities (A4 S); "full set of information" = complete schema components (A5);
+12-month reconstruction from schemas = A2 (reconstructive memory).
+
+**Serves:** all A3 rows (it is a claim about exposure count).
+
+**Grade:** **T–M**: rich observational evidence, very small N, no manipulation of encounter count;
+the "three" is a useful planning heuristic, not a law (M71).
+
+**Use as learner.** Plan to meet every key idea at least 3–4 times, complete each time, on
+separate days — first teaching, then two or three retrievals.
+
+**Use as teacher.** Track, for each key concept, how many *complete* encounters each student has
+had — a student who missed one lesson may have had only two.
+
+---
+
+## 14. John Hattie — *Visible Learning* (2009): a methodology case
+
+**What he built.** A synthesis of (by his account) 800+ meta-analyses, converted to a common
+effect size (Cohen's d) and **ranked** as a league table of "influences" on achievement, with a
+"hinge point" of **d = 0.40** as the average to beat (book, not read; figures as widely reported
+→ `uncertain`). Also a sound primary review: **HT07** (Hattie & Timperley 2007, "The Power of
+Feedback", *RER* 77(1) 81–112, abstract): feedback is "one of the most powerful influences on
+learning and achievement, but this impact can be either positive or negative"; type and delivery
+matter; a model of effective feedback.
+
+**The methodological critique (why this is a cautionary case).**
+- **Sim17** (Simpson 2017, *Journal of Education Policy* 32(4) 450–466, abstract): standardized
+  effect size "is open to researcher manipulations which violate the assumptions required for
+  legitimately comparing and combining studies"; league tables "may, instead, be hierarchies of
+  openness to research design manipulations." (Effect sizes depend on the test, the sample's
+  spread, the comparison condition and the study length — B2 pattern: Bloom's 3-week 2σ vs
+  Slavin's semester-long +.04.)
+- **Ber17** (Bergeron 2017, *McGill Journal of Education*, statistician's critique, abstract):
+  calls the method "pseudoscience" because Cohen's d "simply cannot be used as some sort of
+  universal measure of impact" across such different studies.
+- Averaging meta-analyses of different quality, outcomes and comparison groups mixes things that
+  are not the same quantity; the hinge point d = 0.40 inherits all of that.
+
+**Mechanism.** Not a method. The *individual* findings often point the right way (feedback,
+clarity, formative evaluation rank high; learning styles low) — but the ranking and the numbers
+should not be used to choose between methods. Use the primary metas behind each line instead
+(this KB's approach: A4 grades by replication and moderators, never by one d).
+
+**Serves:** none (meta-level).
+
+**Grade:** league table as a decision tool **X** (methodology); HT07 feedback model **M**
+(narrative review; the "can be positive or negative" point agrees with Kluger & DeNisi 1996, the
+engine's ~38% figure, `research/04`).
+
+**Use as learner.** When anyone quotes "d = 0.7, top of Hattie's list", ask which studies, which
+test, what comparison — the A8 §3 kit.
+
+**Use as teacher.** Use Hattie as a pointer to topics worth reading about (feedback, formative
+evaluation), then go to the primary meta-analysis for that topic.
+
+---
+
+## Summary (B4b, all 14)
+
+| Researcher(s) | Method made usable | Serves (A3) | Grade (method / mechanism) |
 |---|---|---|---|
 | Rosenshine | 10 principles of instruction | 1, 4 (3) | **M–S** synthesis / mechanisms S; 80% = correlational |
 | Sweller | CLT: worked examples, split attention, expertise reversal | 3, 4 | **S** for novices / theory productive |
@@ -275,8 +499,28 @@ Learning Scientists, §13 Nuthall, §14 Hattie, then the full B4b summary.)*
 | Chi | self-explanation; ICAP; novice/expert | 3, 2 | self-explanation **S**; ICAP **M** |
 | Wiliam (& Black) | formative assessment | all | components M; package **T–M** (KN11 ≈0.20); 0.4–0.7 claim **X** |
 | Mazur | Peer Instruction + ConcepTests | 3, 6 | **M–S** (Hak98, Smi09, CM01) |
+| Wieman | active learning in STEM; feeling-of-learning | 3, 5, 6 | **S** (Fre14 0.47 SD, OR fail 1.95; Des19 RCT) |
+| Willingham | translation; learning styles unsupported | 1–3, 6 | **M** (translator) |
+| Kirschner & Hendrick | translation; against minimal guidance, digital-native and multitasking myths | 3, 4, 6 | **M** (translators); KSC06 S novices |
+| Agarwal | classroom retrieval practice | 1, 3 | **S** (ANB21: 50 experiments, 57% medium/large; 6% non-WEIRD) |
+| Learning Scientists | six strategies | 1–5 | **M–S** (WMS18; strengths unequal) |
+| Nuthall | 3–4 complete encounters; hidden classroom learning | all | **T–M** (observational, small N; count `uncertain`) |
+| Hattie | effect-size league tables; feedback model | — | league table **X** as decision tool; HT07 **M** |
 
-## Misconceptions owned (B4b §1–7)
-M67 (formative assessment reliably gives 0.4–0.7 SD), M68 (productive failure contradicts cognitive
-load theory — one of them must be wrong), M69 (any activity where students are busy is "active
-learning") — full entries in `misconceptions.md`.
+**Pattern across B4b.** (1) The **instruction** researchers converge on one lesson shape: review
+→ small steps with models → every student answers → feedback → guided then independent practice
+→ spaced review (Rosenshine's list is that convergence written down; Wieman's and Mazur's active
+classes are its university version). (2) The **labels** are weaker than their components:
+"formative assessment" ≈0.2 as a package, "active learning" a family with a strong average,
+"Visible Learning" rankings not a decision tool — always grade the mechanism inside the label.
+(3) **Effortful learning feels worse** (Des19; Bjork B4a §1) — this is the single most practically
+important finding for learners, because it predicts they will abandon the methods that work.
+(4) **Numbers travel without their conditions**: the 80% success rate (correlational), 0.4–0.7
+(untraceable), 2σ (3 weeks), d = 0.40 hinge (mixed metas) — every famous number in this unit
+needed its source re-read.
+
+## Misconceptions owned (B4b)
+§1–7: M67 (formative assessment 0.4–0.7 SD), M68 (productive failure vs CLT), M69 (busy = active
+learning). §8–14: M70 (all six "Learning Scientists" strategies are equally proven), M71 ("students
+need exactly three encounters" as a law), M72 (Hattie's rankings tell you which method to choose),
+M73 (if a class feels like I'm learning less, I am) — full entries in `misconceptions.md`.

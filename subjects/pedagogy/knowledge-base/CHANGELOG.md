@@ -66,4 +66,9 @@
   S11 as a note on engine principle 4 (no engine change; design sign-off rule); formative assessment
   0.4–0.7 claim vs KN11 weighted 0.20; Hake 0.23 vs 0.48; Smi09 isomorphic-question test. Sources +11.
   misconceptions M67–M69 new.
+- [2026-11-15] S9b-2: B4b-researchers-instruction.md §8–14 (Wieman, Willingham, Kirschner & Hendrick, Agarwal,
+  Learning Scientists, Nuthall, Hattie) + full summary (14) + B4b pattern. Notable: Fre14 0.47 SD / OR fail
+  1.95 verified at abstract; Des19 "learn more, feel less" (randomized); ANB21 classroom retrieval review;
+  Nuthall three-vs-four encounters left `uncertain` (book unread); Hattie written as a methodology case
+  (Sim17, Ber17). Part B B4 complete. Sources +14. misconceptions M70–M73 new.
 

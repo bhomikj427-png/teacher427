@@ -2,9 +2,9 @@
 
 ## Session resume
 - Last session: 2026-11-15
-- Where we stopped: S9b-1 done (B4b §1–7); next = S9b-2 (B4b §8–14 Wieman → Hattie) — start from sprints.md "Current hand-off"
-- Recap: S0–S8a done: Part A (A1–A8 + README) complete; Part B: B1 historical (17) + B2 method-builders (10) + B3 legends (4) + B4a memory researchers (8) complete; B4b §1–7 written; 142 sources; misconceptions M1–M69 all written
-- Next up: S9b-2 — say "S9b-2"; read only the hand-off's "Read at start" list
+- Where we stopped: S9b-2 done (B4 complete: B4a 8 + B4b 14); next = S10 (B5 practitioners + Justin Sung audit) — start from sprints.md "Current hand-off"
+- Recap: S0–S8a done: Part A (A1–A8 + README) complete; Part B: B1 historical (17) + B2 method-builders (10) + B3 legends (4) + B4a (8) + B4b (14) researchers complete; 156 sources; misconceptions M1–M73 all written
+- Next up: S10 — say "S10"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -122,6 +122,10 @@
 - [2026-11-15] S9b-1: finding for the engine — Rosenshine's "80% success rate" is from correlational process-product research (82% vs 73%); logged as S11 verify item (no engine edit; design-first rule).
 - [2026-11-15] S9b-1: misconceptions M67–M69 new; sources +11; CHANGELOG.
 - [2026-11-15] S9b-1 done-when checked: 7/7 entries to protocol step 8 ✓; misconceptions +3 ✓; orphan-ID check clean ✓. sprints.md: S9b row marked S9b-1 done, backlog +3, S9b-2 hand-off written.
+- [2026-11-15] S9b-2 (B4b §8–14 Wieman → Hattie) started; tree clean (4fbe31b pushed).
+- [2026-11-15] S9b-2: verified Fre14, DSW11, Des19, WHD15, KD17, ANB21, WMS18, NAL95, Nut00, HT07, Sim17, Ber17 (abstracts); Nuthall book claim via T3 secondaries (`uncertain`) → wrote knowledge-base/B4b-researchers-instruction.md §8–14 + full summary + pattern.
+- [2026-11-15] S9b-2: misconceptions M70–M73 new; sources +14; CHANGELOG.
+- [2026-11-15] S9b-2 done-when checked: 7/7 entries to protocol step 8 ✓; Hattie written as a methodology case ✓; misconceptions +4 ✓; orphan-ID check clean ✓. sprints.md: S9b ticked (B4 complete), backlog +3, S10 hand-off written.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
@@ -137,3 +141,4 @@
 - [2026-11-15] S8b done · B3 classroom legends (4 entries) · Feynman 1963 keynote: anti-rote, no "technique" · Khan Academy RCT null (FFL20), +0.03–0.09 SD real-world (EB26) · sources 119 · M61–M63 · next: S9a (B4 memory & practice researchers)
 - [2026-11-15] S9a done · B4a memory & practice researchers (8 entries) · classroom quizzing to end-of-year (McD11) · relearning 3+3 (RD11) · interleaving RCT d 0.83 (RDHC20) · deliberate practice non-replication (MM19) · sources 131 · M64–M66 · next: S9b-1
 - [2026-11-15] S9b-1 done · B4b §1–7 (Rosenshine → Mazur) · Rosenshine 10 principles verbatim; 80% = correlational · formative assessment 0.20 not 0.7 (KN11) · Hake 0.23 vs 0.48 · sources 142 · M67–M69 · next: S9b-2
+- [2026-11-15] S9b-2 done · B4b §8–14 (Wieman → Hattie) · B4 complete · active learning 0.47 SD / OR fail 1.95 (Fre14) · learn more, feel less (Des19) · Hattie as methodology case · sources 156 · M70–M73 · next: S10 (B5 + Sung audit)

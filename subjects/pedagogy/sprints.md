@@ -75,7 +75,7 @@
 | S8a | B2 mid-century method-builders (Keller, Bloom, Gagné, Ausubel, Bruner, Engelmann, Kumon, lesson study, Oxbridge tutorial, Freire) | roster §2, A3, A4, B1 (summary only) | `B2-method-builders.md` | each entry to protocol step 8; M15 (2σ) seed written | **done 2026-11-15** |
 | S8b | B3 classroom legends (Feynman, Escalante, Collins, Khan) | roster §3, A3, A4, A8 §2 myth 7 | `B3-classroom-legends.md` | same; Feynman-technique attribution sourced | **done 2026-11-15** |
 | S9a | B4 researchers: memory & practice (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) | roster §4, A3, A4 | `B4a-researchers-memory.md` | same | **done 2026-11-15** |
-| S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) — **split S9b-1 / S9b-2** (7 + 7) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | S9b-1 **done 2026-11-15** (§1–7); S9b-2 open |
+| S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) — **split S9b-1 / S9b-2** (7 + 7) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | **done 2026-11-15** (S9b-1 §1–7, S9b-2 §8–14) |
 | S10 | B5 practitioners + **full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 | `B5-practitioners.md`, `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **stage-1✓** |
 | S11 | Stage 2 — Part A verification sweep | all A files, sources | corrections in A files + CHANGELOG | every effect size checked at the paper; `uncertain` tags resolved or kept with reason | |
 | S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | |
@@ -168,6 +168,9 @@ Read at start: <exact file list = Sy Inputs>
 | Engine note: principle 4 "~80% success" rests partly on correlational process-product data (Ros12) — check research/01 §5 + 03 §1 sources; any change → design sign-off | S9b-1 | S11 |
 | Kap08 abstract/full text (only TLDR seen); Ben11, Smi09 author/vol checks; ICAP independent tests | S9b-1 | S12 |
 | Mazur "30–70% first-vote" guideline — primary source | S9b-1 | S12 |
+| Fre14 failure rates (21.8% vs 33.8%?) at full text; DSW11 effect size | S9b-2 | S12 |
+| Nut07 three/four encounters at the book (pp. 63, 126); Nuthall death year (2001 vs 2004) | S9b-2 | S12 |
+| Hat09 "800+ metas" + d = 0.40 hinge at the book; Willingham "residue of thought" wording | S9b-2 | S12 |
 
 ## Research tooling notes (what worked, S7a–S7b — read with the hand-off)
 
@@ -191,23 +194,22 @@ Read at start: <exact file list = Sy Inputs>
 ## Current hand-off
 
 ```
-Sprint: S9b-1 — B4b instruction researchers, Rosenshine → Mazur — done (2026-11-15)
-Written: knowledge-base/B4b-researchers-instruction.md §1 Rosenshine, §2 Sweller, §3 Mayer/Fiorella,
-  §4 Kapur, §5 Chi, §6 Wiliam, §7 Mazur + "Summary (B4b §1–7)" · misconceptions M67–M69 ·
-  sources +11 (142)
-Verified this sprint: full text — Ros12; abstracts — Swe88, CW14, KN11, Ben11, MVV13, CM01, Hak98, Smi09
-Open (carried): backlog rows added S9b-1 (engine 80% note → S11; Kap08 abstract; Mazur guideline)
-Decisions made: Wiliam graded as package T–M with the 0.4–0.7 claim X (M67). B4b summary table is
-  partial until S9b-2 extends it to all 14 + pattern.
-Next sprint: S9b-2 — §8 Wieman (Freeman et al. 2014 PNAS active-learning meta: 0.47 SD, failure
-  34% → 21% — verify; Deslauriers, Schelew & Wieman 2011 Science; Deslauriers et al. 2019 PNAS
-  "feeling of learning"), §9 Willingham (book → point to A-files; check one claim), §10 Kirschner &
-  Hendrick (book; KSC06 already), §11 Agarwal (Agarwal et al. 2021 EPR review of classroom retrieval),
-  §12 Learning Scientists (Weinstein, Madan & Sumeracki 2018 CRPI "Teaching the science of learning"),
-  §13 Nuthall (*Hidden Lives of Learners* 2007 — three encounters claim primary; closes roster lead),
-  §14 Hattie (*Visible Learning* 2009; critiques: Bergeron & Rivard 2017; Slavin; Simpson 2017
-  "effect sizes are not comparable") → then full B4b summary + pattern.
-Read at start: sprints.md (incl. Research tooling notes), knowledge-base/roster.md §4,
-  knowledge-base/A4-type-to-method.md §1–2, knowledge-base/B4b-researchers-instruction.md
-  (header + "Summary (B4b §1–7)" only), knowledge-base/sources.md (ID list only)
+Sprint: S9b-2 — B4b instruction researchers, Wieman → Hattie — done (2026-11-15); B4 complete
+Written: knowledge-base/B4b-researchers-instruction.md §8 Wieman, §9 Willingham, §10 Kirschner &
+  Hendrick, §11 Agarwal, §12 Learning Scientists, §13 Nuthall, §14 Hattie + "Summary (B4b, all 14)"
+  + pattern · misconceptions M70–M73 · sources +14 (156)
+Verified this sprint: abstracts — Fre14, DSW11, Des19, WHD15, KD17, ANB21, WMS18, NAL95, Nut00, HT07,
+  Sim17, Ber17; Nut07 via T3 secondaries only
+Open (carried): backlog rows added S9b-2 (Fre14 failure %, Nuthall book pages, Hattie book figures)
+Decisions made: Hattie graded X as a decision tool (methodology case), HT07 kept as M. Translators
+  (Willingham, Kirschner/Hendrick, Learning Scientists) graded M as synthesis, never as primary.
+Next sprint: S10 — B5 practitioners + FULL Justin Sung audit. First action: read
+  knowledge-base/justin-sung-claims.md (inventory ≥ 15 claims) and roster §5; locate the
+  Learning-Sciences-PhD response video (backlog S0/S1) via YouTube search + transcripts tool
+  (tools/fetch_transcripts.py); verdict each Sung claim against A1–A8 evidence (supported /
+  partly / unsupported / untestable) with source IDs. Then B5 entries (other popularizers on roster §5).
+  Likely split: S10a Sung audit, S10b other practitioners.
+Read at start: sprints.md (incl. Research tooling notes), knowledge-base/roster.md §5,
+  knowledge-base/justin-sung-claims.md, knowledge-base/A4-type-to-method.md §1–2,
+  knowledge-base/A8-myths.md §3 (test kit), knowledge-base/sources.md (ID list only)
 ```

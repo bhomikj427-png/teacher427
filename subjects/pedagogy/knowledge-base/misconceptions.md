@@ -79,6 +79,10 @@
 | M67 | Formative assessment reliably raises achievement by 0.4–0.7 SD | B4b | written |
 | M68 | Productive failure contradicts cognitive load theory — one of them must be wrong | B4b | written |
 | M69 | Any activity where students are busy (highlighting, copying, clicking) is "active learning" | B4b | written |
+| M70 | All the popular evidence-based strategies (the "six strategies") are equally proven | B4b | written |
+| M71 | Students need exactly three encounters with a concept to learn it | B4b | written |
+| M72 | Hattie's effect-size rankings tell you which teaching method to choose | B4b | written |
+| M73 | If a class makes me feel I'm learning less, I am learning less | B4b | written |
 
 ---
 
@@ -721,6 +725,49 @@
   interactive work.
 - **Exposing question:** "What does the student produce that was not already on the page?"
 - **Unit:** B4b §5, §7. Status: written.
+
+### M70 — All the popular evidence-based strategies (the "six strategies") are equally proven
+- **Why it feels true:** they are presented together, in matching posters, all labelled
+  "evidence-based".
+- **Correction:** retrieval practice and spacing are rated high utility with large, replicated
+  classroom evidence (D13; ANB21); interleaving is moderate with real moderators (BR19 — weak or
+  reversed for expository text); elaboration moderate (D13); concrete examples and dual coding rest
+  on narrower or mixed evidence (concreteness fading `uncertain` size; No22 for multimedia).
+  WMS18 describes "robust support" — true for some more than others.
+- **Exposing question:** "Which meta-analysis supports *this* one, and what are its moderators?"
+- **Unit:** B4b §12. Status: written.
+
+### M71 — Students need exactly three encounters with a concept to learn it
+- **Why it feels true:** Nuthall's "three encounters" is quoted widely as a rule from careful
+  classroom research.
+- **Correction:** the count comes from very small observational studies (e.g., 14 students in
+  NAL95); the book itself reportedly gives three (p. 63) and later four (p. 126) (secondary,
+  `uncertain`); encounters must contain the **full** set of information; the number was never
+  manipulated experimentally. Treat it as a planning floor, and use spaced retrieval to criterion
+  (RD11) as the evidenced version.
+- **Exposing question:** "Three encounters of what — and was the number ever tested by changing it?"
+- **Unit:** B4b §13. Status: written.
+
+### M72 — Hattie's effect-size rankings tell you which teaching method to choose
+- **Why it feels true:** one table, hundreds of meta-analyses, a clear hinge point (d = 0.40) —
+  it looks like the most evidence-based list possible.
+- **Correction:** standardized effect sizes depend on the test, the sample's spread, the
+  comparison and the study length, so combining and ranking them across different studies can
+  rank "openness to research design manipulations" rather than impact (Sim17; Ber17). The same
+  intervention gives 2σ in a 3-week study with an aligned test and +.04 over a semester on a
+  standardized test (Bl84 vs Sl87). Read the primary meta for the method you care about.
+- **Exposing question:** "Were the studies behind these two numbers measuring the same outcome,
+  over the same time, against the same comparison?"
+- **Unit:** B4b §14. Status: written.
+
+### M73 — If a class makes me feel I'm learning less, I am learning less
+- **Why it feels true:** a polished lecture feels clear and complete; active work feels confusing
+  and slow.
+- **Correction:** in a randomized comparison with identical content, students in the active
+  class **learned more but felt they learned less**, partly because of the extra cognitive effort
+  (Des19). Feelings of fluency track ease of processing, not learning (A1 §6; Bjork B4a §1).
+- **Exposing question:** "What did the delayed test say — not how did it feel?"
+- **Unit:** B4b §8. Status: written.
 
 ---
 
