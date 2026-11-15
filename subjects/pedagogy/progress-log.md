@@ -2,9 +2,9 @@
 
 ## Session resume
 - Last session: 2026-11-16
-- Where we stopped: S10b-2 done (B5 §5–8 + summary; B5 complete) → stage-1✓; next = S11 (split S11a/S11b) — start from sprints.md "Current hand-off"
-- Recap: S0–S10b-2 done → stage-1✓: Part A (A1–A8 + README) complete; Part B: B1 historical (17) + B2 method-builders (10) + B3 legends (4) + B4a (8) + B4b (14) + Sung audit + B5 practitioners (8 entries) complete; 191 sources; misconceptions M1–M86 all written
-- Next up: S11 (Stage 2, Part A verification; split S11a/S11b first) — say "S11"; read only the hand-off's "Read at start" list
+- Where we stopped: S11a partial (A1–A3 backlog closed; A4 partly) — rest of S11a listed in sprints.md "Current hand-off"
+- Recap: S0–S10b-2 done → stage-1✓ (Part A + Part B complete; M1–M86). Stage 2 begun: S11a verified A1–A4 claims at full text (RK06, PR18, D13, KLI, DGBWR23); 195 sources
+- Next up: S11a-rest (A4 effect-size sweep + ATS17, CRK22, SK21, Ag19), then S11b (A5–A8) — read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -146,6 +146,15 @@
 - [2026-11-16] S10b-2: misconceptions M82–M86 new; B5 full summary + pattern; CHANGELOG; 00-map stage-1 → stage-1✓.
 - [2026-11-16] S10b-2 done-when checked: 4 entries (§5 Sherrington, §6 Christodoulou, §7 group of 4, §8 Abdaal/Frank) to protocol step 8 (serves/grade/learner/teacher), none dropped OK; Feynman backlog rows already closed/carried in S10b-1 OK; misconceptions +5 OK; source-ID check clean (191) OK. sprints.md: S10b ticked → stage-1✓, backlog +6, S11 hand-off written.
 
+- [2026-11-16] S11a (Stage 2 Part A verification, A1–A4; S11 split a/b) started under auto.py; tree dirty only with auto.py + .claude/auto/ (not this subject's work — left alone); review sweep done in S10a today, nothing due.
+- [2026-11-16] S11a: RK06 checked at full text (Exp. 2 N = 180: 1 week 61/56/40%, 5 min 83/78/71%; SSSS more confident) → A1 §2 `uncertain` resolved; sources row updated.
+- [2026-11-16] S11a: PR18 checked at full text (d 0.40, 0.28 → 0.58 confirmed; PEESE adjusted intercept ≈ 0, worst cell −0.21) → A1 §5 `uncertain` resolved with publication-bias line; sources row updated.
+- [2026-11-16] S11a: BB92 editors/vol/pages confirmed (Lang, Craske & Bjork 1999 reference list); A2 priming row → "not hippocampus-dependent" `settled` via SS17 (full text), neocortex placement kept `uncertain` (Squire full texts 403); A2 LTM capacity → `settled` for recognition via St73 + BKAO08 (abstracts), recall-bottleneck boundary added. Sources +3 (SS17, St73, BKAO08).
+- [2026-11-16] S11a: S11 split written into sprints.md (S11a = A1–A4, S11b = A5–A8). D13 moderate list confirmed at full text → A4 rows (elaborative interrogation, self-explanation note) + sources D13 row. SK21 abstract re-read (fidelity 0.37–0.58, age reversal, 0.87 bias-adjusted confirmed in abstract); CKS17 vol/pages confirmed 29(2) 393–405 (Crossref); ATS17 full-text host still dead.
+- [2026-11-16] S11a: BR19 abstract re-read (words g = −0.39 blocking wins; expository/tastes ns; maths 0.34) → A4 interleaving row `verify` resolved. RDS13 numbers via authors' guide DGBWR23 (full text: >10-point exam gain, 24-day >60% vs <20%; problem-solving d = .28) → A4 successive-relearning row. Sources +1 (DGBWR23).
+- [2026-11-16] S11a: KCP12 accepted-manuscript full text read → A3 row 2 `uncertain` resolved (categories = variable-condition KCs; induction & refinement, non-verbal). KMS10 abstract read → A3/A4 row 7 `uncertain` → `contested` (developer-lab evidence; MPDK16 RCT not peer-reviewed).
+- [2026-11-16] S11a stopped at context limit → partial. Done-when check: A1 ✓, A2 ✓ (neocortex placement kept `uncertain` with reason), A3 ✓, A4 partial (ATS17 g, SK21 method, CRK22 pages, Ag19, and a sweep of Bi18/Sch17/SCA24/C06 still open). CHANGELOG + backlog closures + hand-off written; sources 195.
+
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
 - [2026-11-15] S1 map pass done · 21 anchors verified · Sung inventory J1–J22 · A3 spine decided · stage-1 · next: S2 (A1+A2)
@@ -164,3 +173,4 @@
 - [2026-11-16] S10a done · full Justin Sung audit (J1–J28) · Keep response video found; Sung self-corrected J4 · pre-study B not "most important" · own data unpublished · sources 166 · M74–M77 · next: S10b (B5 practitioners)
 - [2026-11-16] S10b-1 done · B5 §1–4 (Sung, Young, Oakley, Lemov) · Feynman Technique = Young 2011 (his own words) · diffuse mode → incubation meta SO09 · no TLAC trial; cold call raised participation (DHP13) · sources 175 · M78–M81 · next: S10b-2
 - [2026-11-16] S10b-2 done · B5 complete (Sherrington, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) · stage-1✓ · CJ reliable but adaptive SSR inflates (BW15) · prior knowledge predicts level not gain (SFD22) · achievement → motivation (GC16) · expanding gaps not special (KBa11) · sources 191 · M82–M86 · next: S11 (split a/b)
+- [2026-11-16] S11a partial · S11 split a/b · RK06 + PR18 + D13 + KLI checked at full text · PR18 bias-adjusted transfer ~0 without success/congruency · LTM capacity settled for recognition · BR19 words reverse · perceptual row contested · sources 195 · next: S11a-rest

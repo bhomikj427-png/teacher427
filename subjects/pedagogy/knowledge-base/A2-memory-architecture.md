@@ -53,7 +53,7 @@ Squire (Sq04):
 |---|---|---|---|
 | **Declarative** (explicit) — *semantic* (facts, concepts) and *episodic* (events you lived) | "Knowing that" | Conscious recollection; can be true or false | Medial temporal lobe / hippocampus |
 | **Nondeclarative** (implicit) — skills and habits | "Knowing how" | Performance, without awareness of the content | Striatum (basal ganglia) |
-| — priming | Faster or biased processing after exposure | Performance | Neocortex (`uncertain` — not in the Sq04 abstract; verify S11) |
+| — priming | Faster or biased processing after exposure | Performance | **Not hippocampus-dependent** — "dependent on other brain systems" (SS17, Squire lab, full text) `settled`. The usual textbook placement "neocortex" stays `uncertain` (Sq04 / Squire 1996 / 2015 full texts all 403'd in S11a; not load-bearing) |
 | — simple conditioning | Learned emotional or motor responses | Performance | Amygdala (emotional), cerebellum (motor) |
 
 - **Why it matters:** different systems learn by different rules.
@@ -63,8 +63,17 @@ Squire (Sq04):
 - `contested`: the boundary is not absolute. Some tasks can be learned either declaratively or
   nondeclaratively (Sq04 discussion), and skill learning usually *starts* declarative ("first
   put the clutch in, then…") before becoming automatic (→ A3, procedural row).
-- **Capacity:** no practical limit on long-term memory has been demonstrated. `uncertain` as a
-  formal claim (often stated in CLT texts; no direct measure cited yet). Not load-bearing.
+- **Capacity:** no practical limit on long-term *storage* has been found where it has been
+  measured. `settled` for recognition, scoped (S11a):
+  - Standing 1973 (St73): single-trial picture learning up to 10,000 items; recognition capacity
+    for pictures "almost limitless" under appropriate conditions; retained amount grows as a
+    power law of amount presented.
+  - Brady, Konkle, Alvarez & Oliva 2008 (BKAO08): 2,500 objects in 5.5 h; two-alternative
+    recognition 92% (vs a new category), 88% (vs a same-category object), 87% (same object, other
+    state/pose) — thousands of items stored *with detail*.
+  - **Boundary:** these are *recognition* tests. Recall is far lower (St73), so the practical
+    bottleneck is **retrieval**, not storage — the same split as storage vs retrieval strength (A1
+    §3). The engine reading: "you're not out of space; you're out of retrieval routes."
 
 ## 4. Encoding → consolidation → retrieval
 

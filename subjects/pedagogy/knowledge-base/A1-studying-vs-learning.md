@@ -37,8 +37,16 @@ SB15 (an integrative review across motor and verbal learning) documents both dir
 a prose passage or took recall tests on it.
 - At **5 minutes**, restudying won.
 - At **2 days and 1 week**, the result reversed: the tested group recalled more.
-- Reported one-week figures: 61% (tested) vs 40% (restudied). `uncertain` (press-release figures;
-  check the paper's own table in S11)
+- Numbers at full text (RK06, Psychological Science 17(3) 249–255; checked S11a) `settled`:
+  - **Exp. 2** (N = 180, 30 per cell, between-subjects; no feedback on any test): one week later,
+    study-once-then-three-tests (STTT) recalled **61%** of idea units, SSST 56%, study-four-times
+    (SSSS) **40%**. At 5 min the order flipped: SSSS 83%, SSST 78%, STTT 71%.
+  - The SSSS group had read the passage ~14 times (vs ~3 for STTT) and were **more confident** they
+    would remember it in a week (d = 0.54 and 0.61 vs the two test groups) — the fluency illusion
+    measured in the same study.
+  - Exp. 1 showed the same crossover (study twice vs study + one test; 5 min, 2 days, 1 week).
+  - One lab, short prose passages, idea-unit free recall: the direction has replicated widely
+    (A4); the 21-point gap is this study's, not a promise.
 - A student judging by the 5-minute result picks the worse method.
 
 ## 3. Mechanism: storage strength vs retrieval strength `settled` as a framework
@@ -88,8 +96,18 @@ know something" into two quantities:
 - **Transfer (PR18):** a meta-analysis of 192 effect sizes finds testing benefits transfer to new
   questions and formats, about d ≈ 0.40 overall. The benefit is larger when the final test asks
   for the same kind of response (≈ 0.58) and smaller otherwise (≈ 0.28).
-  - `uncertain` on the exact values (secondary report; verify S11).
-  - Effect sizes are optimistic upper bounds (publication bias).
+  - Checked at full text (S11a, author PDF) `settled` for direction, `contested` for size:
+    192 ES / 122 experiments / N = 10,382; random-effects d = 0.40, 95% CI [0.31, 0.50]. No
+    response congruency: d = 0.28 [0.17, 0.39]; congruency adds 0.30 → ≈ 0.58. Elaborated
+    retrieval practice and higher initial-test accuracy also raise transfer.
+  - **Publication bias is measured, not assumed:** PEESE found significant small-study bias; with
+    the moderators fitted, the bias-adjusted intercept was ≈ 0 (d = 0.015), and with no
+    congruency, no elaboration and low initial accuracy the adjusted estimate was *negative*
+    (d = −0.21). Practical reading: testing transfers when the learner **succeeds** on the
+    practice test and the practice asks for the same kind of answer or for elaboration —
+    not automatically.
+  - Transfer is weakest to untested material seen during study and to rearranged
+    stimulus–response items (abstract).
 - **Why this matters:** it is the hinge of the Justin Sung audit (J4, J6, J7, J16). The claim
   "retrieval only fights forgetting, it doesn't encode" conflicts with KB11.
   - Still `contested`: whether retrieval of *isolated facts* builds relational understanding.

@@ -88,9 +88,12 @@ K02, G84 and CRK22.
   - So "procedural" is a *trajectory*, not a fixed state. `settled`
 - **Element interactivity (S10, CKS17):**
   - How many elements must be held in working memory *together* to understand the material.
-  - It is **not a property of the material alone**: "Intrinsic load is determined by an
-    interaction between the nature of information … and the expertise of the learner" (CKS17,
-    via secondary report — `uncertain` on wording).
+  - It is **not a property of the material alone** `settled`. CKS17's abstract (read S11a): the
+    element interactivity effect "relies on changes in element interactivity due to changes in
+    the type of material being learned, while the expertise reversal effect also relies on changes
+    in relative levels of element interactivity but in this case, due to changes in relative levels
+    of expertise." (The earlier "intrinsic load is determined by an interaction…" sentence came
+    from a secondary report and has been dropped as a quote.)
   - The same circuit-analysis step is many interacting elements for a novice and one chunk for an expert.
 - **SOLO level (BC82):** the *depth of structure* a response shows: one point → several
   unconnected points → points related into a whole → generalized to new situations. It describes
@@ -112,12 +115,23 @@ K02, G84 and CRK22.
 
 Cell confidence:
 - Rows 1, 3, 4: `settled` (K02 + G84 + CRK22/KCP12 + A82 agree).
-- Row 2: `settled` in classification, `uncertain` on which process dominates (KLI places category
-  learning under induction; verify at KCP12 full text, S11).
+- Row 2: `settled` (checked S11a at the KLI full-text manuscript, v5.00 "accepted with revisions",
+  cited as KCP12): categories are **variable-condition, constant-response KCs** ("category-
+  recognition rules with many-to-one mappings"), and **induction and refinement** processes are
+  the ones "relevant to Variable-Constant and Variable-Variable KCs", working on the *condition*
+  part ("when does this apply?"). Those processes are **non-verbal** — learners may induce
+  features they cannot state — which is why varied examples beat a stated definition alone.
+  Perceptual chunking is listed among the same mechanisms (→ row 7).
 - Row 5: `uncertain` as a separate row. It is Krathwohl's Cc/Db and Gagné's cognitive strategies;
   split out because the learner's exams and Part B methods (interleaving, contrasting cases) target
   it directly.
-- Row 7: `uncertain` (KMS10 at citation level only).
+- Row 7: `contested` (upgraded from `uncertain`, S11a). The *existence* of perceptual learning in
+  complex symbolic domains is supported: KMS10 (abstract read) reports three maths PLMs —
+  matching across representations, seeing equation structure "but not solving equations" →
+  faster equation solving, and transfer to novel measurement/fraction problems; MPDK16 (class-
+  randomized efficacy study, 6th grade, poster full text) found gains in 2–3 of 4 modules (max
+  ES .48) with a significant 1-year delayed composite. **Not yet settled:** both come from the
+  developers' lab and the RCT is not peer-reviewed (backlog).
 - Row 8: `settled` (FP67, Sq04).
 
 ### 3.1 How each row fails (the symptom tells you the row)
@@ -129,7 +143,7 @@ Cell confidence:
 | 4 Procedures | Can follow, can't produce; or slow and error-prone | Understands the worked solution, stalls on a fresh problem | Still at the declarative stage; not compiled by practice (A82) |
 | 5 Conditional | Right method, wrong situation | Uses mesh analysis where nodal is two lines | Methods practised in blocks, never chosen between (KoB08 logic → A4 interleaving) |
 | 6 Metacognitive | Confident and wrong | Rereads to "learn", predicts a high score, scores low | Fluency mistaken for learning (A1 §6, KoB08) |
-| 7 Perceptual | Slow to "see" the structure | Has to reason step by step through what an expert sees at a glance | Too little classified exposure (KMS10, `uncertain`) |
+| 7 Perceptual | Slow to "see" the structure | Has to reason step by step through what an expert sees at a glance | Too little classified exposure (KMS10, MPDK16; `contested`) |
 | 8 Motor | Inconsistent execution | Joints sometimes good, sometimes cold | Still at the cognitive/associative stage (FP67) |
 
 ## 4. Biologically primary vs secondary (Geary, G08) — a cross-cutting lens, not a column `contested`

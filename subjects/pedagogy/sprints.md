@@ -78,7 +78,8 @@
 | S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) — **split S9b-1 / S9b-2** (7 + 7) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | **done 2026-11-15** (S9b-1 §1–7, S9b-2 §8–14) |
 | S10a | **Full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 (pointers) | `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **done 2026-11-16** (J1–J28; Keep video found) |
 | S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | split: **S10b-1 done 2026-11-16** (§1–4 Sung, Young, Oakley, Lemov) · **S10b-2 done 2026-11-16** (§5–8 + full summary) → **stage-1✓** |
-| S11 | Stage 2 — Part A verification sweep | all A files, sources | corrections in A files + CHANGELOG | every effect size checked at the paper; `uncertain` tags resolved or kept with reason | |
+| S11a | Stage 2 — Part A verification: **A1–A4** (+ backlog rows targeted S11 that belong to A1–A4) | sprints.md, A1–A4, sources (IDs) | corrections in A1–A4 + sources + CHANGELOG | every A1–A4 effect size checked at the paper; `uncertain` tags resolved or kept with reason | **partial 2026-11-16** (A1–A3 backlog closed; A4 open rows in hand-off) |
+| S11b | Stage 2 — Part A verification: **A5–A8** (+ their S11 backlog rows; engine 80% note) | sprints.md, A5–A8, sources (IDs) | corrections in A5–A8 + sources + CHANGELOG | same for A5–A8 | |
 | S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | |
 | S13 | §0 surplus test + integrity audit | everything | audit note in CHANGELOG; 00-map stamp | surplus test recorded; zero unsourced claims | **stage-2✓** |
 | S14 | Study-pack pilot (v1.2 spec) | study-pack-format.md, reference files, A1, A3 | `study-pack/00-START-HERE` + one topic file | learner sign-off | |
@@ -104,32 +105,24 @@ Read at start: <exact file list = Sy Inputs>
 |---|---|---|
 | Nesbit & Adesope 2006 pooled ES + whether 0.82/0.37 is an NA06 subgroup (Sch17 closed S5: 30(2) 431–455; g 0.58, construct 0.72, study 0.43) | S1 | S11 (part-closed S5) |
 | Barnett & Ceci 2002 exact dimension list (3 content + 6 context?) | S1 | S11 (not closed in S4) |
-| Dunlosky et al. 2013 moderate-utility list at full text | S1 | S11 (not closed in S4) |
 | Zimmerman 2002 exact phase labels + sub-processes (Bath PDF host dead in S5) | S1 | S11 |
 | S5 closed: DR12 + RDS13 added to canon ✓ (numbers still open, rows below) | — | — |
-| BB92 chapter editors/pages (from recall) | S2 | S11 |
-| RK06 one-week 61% vs 40% (press release) → paper's table | S2 | S11 |
-| PR18 effect sizes 0.40 / 0.28 / 0.58 at full text | S2 | S11 |
-| A2: priming → neocortex (not in Sq04 abstract) | S2 | S11 |
-| LTM "no practical capacity limit" — find a source or drop | S2 | S11 |
+| A2: priming → neocortex placement (S11a: not-hippocampus settled via SS17; Squire full texts 403) | S2 | S12
 | S10a closed: response video located (BK22 Keep 2022 + JS-CO) ✓; digest claims caption-checked except J8, J10, J13 (row below) | — | — |
 | Sung J8 (course), J10, J13 (interview/summary) wording at a primary video; J22 SuperMemo page (404 on supermemo.guru) | S10a | S12 |
 | ICS22 *Report on Learning* (iCanStudy 2022) — read if obtainable; any later peer-reviewed Sung outcome study | S10a | S12 |
 | Ag19 full text: experiment Ns, effect sizes, whether fact knowledge was tested after higher-order quizzes (M75 boundary) | S10a | S11 |
 | Roster open leads (Kumon RCT full text, Nuthall 3 encounters, gurukul/chavruta) — S7b closed: Montessori meta (Ra23 + Li25), Suzuki (LWW24), Moore (none found; IBL La14) | S0 | S8a–S9b |
+| S11a closed: D13 moderate list ✓ · BB92 editors/pages ✓ · RK06 ✓ · PR18 ✓ · LTM capacity ✓ (St73, BKAO08) · KCP12 row 2 ✓ · CKS17 ✓ (quote replaced) · BR19 ✓ · RDS13 ✓ (DGBWR23) | — | — |
 | S2 closed: Squire vol/issue ✓, BB92 + KB11 + PR18 added to canon ✓ | — | — |
 | S3 closed: Krathwohl procedural wording ✓ (full text) · KLI typology ✓ (CRK22 full text) · Gagné ✓ (G84 full text replaces 1985 edition) | — | — |
-| KCP12 original KC table + whether category learning sits under induction (A3 row 2) | S3 | S11 |
-| CKS17 vol/pages + verbatim intrinsic-load sentence | S3 | S11 (not closed in S4) |
 | CRK22 proceedings page numbers; look for replications of the fact/skill × practice/example interaction | S3 | S11 (not closed in S4) |
 | KMS10 perceptual-learning efficacy (A3 row 7 is `uncertain`) | S3 | S11 (not closed in S4) |
-| ATS17 numeric g (full-text host dead; engine seed g≈0.5–0.7 unverified) | S4 | S11 |
-| BR19: no/reversed interleaving benefit for words/expository text — confirm at full text | S4 | S11 |
-| SK21 vol/pages + how the bias-adjusted g = 0.87 was computed; fidelity moderator | S4 | S11 |
+| ATS17 numeric g (WSU host still dead S11a; lead: PMC10409703 reports g = 0.70 — secondary) | S4 | S11a-rest |
+| SK21 how the bias-adjusted g = 0.87 was computed (vol/pages + fidelity closed S11a) | S4 | S11a-rest |
 | GH80/83 solution percentages (10 / 30 / 75–92 / 52%) at full text | S4 | S11 |
 | MHO14 vol/pages | S4 | S11 |
 | DR12 numbers (overconfidence → early stopping → retention) — abstract elided by publisher | S5 | S11 |
-| RDS13 course-exam / long-term retention numbers (≈40% month-later claim is secondary) | S5 | S11 |
 | DB08 mean ES 0.69 + moderators at full text | S5 | S11 |
 | RT11 cue-only vs cue-target JOL split (0.70 vs 0.03 via Tekin & Roediger 2021) | S5 | S11 |
 | Morris, Bransford & Franks 1977 transfer-appropriate processing — read primary | S5 | S11 |
@@ -218,29 +211,28 @@ Read at start: <exact file list = Sy Inputs>
 ## Current hand-off
 
 ```
-Sprint: S10b-2 — B5 practitioners part 2 (Sherrington, Christodoulou, Furst/Boxer/Mccrea/Harvard,
-  Abdaal/Frank) — done (2026-11-16) → stage-1✓ (Part A + Part B content complete)
-Written: knowledge-base/B5-practitioners.md — §5 Sherrington (four strands, SH19 full text), §6
-  Christodoulou (Seven Myths; comparative judgement reliability VBDD19 + adaptive-SSR caveat BW15),
-  §7 translator group (Furst SFD22, Boxer ZS24, Mccrea GC16, Harvard LB19), §8 Abdaal/Frank (caption
-  claim tables, keep/drop), full summary table (8 rows) + B5 pattern, misconceptions-owned list ·
-  misconceptions M82–M86 · sources +16 (191; new "B5 part 2" table at end of sources.md) ·
-  CHANGELOG · 00-map stage line → stage-1✓
-Verified this sprint: full text — SH19 (intro + strand 1); abstracts — VBDD19, BW15, SFD22, ZS24,
-  GC16, KBa11, SV01; pages — EAP17, EF26, PM20, LB19; captions — AA18, TF19
-Open (carried): Seven Myths + Boxer book not read; Laming; GFG01; Abdaal's 2011 study identity;
-  Willingham 2003; ICP coaching RCT lead (all → backlog, S12)
-Decisions made: B5 group entries check one load-bearing claim per person (hand-off rule) and
-  grade as translators only; popularizer entries use a keep/drop claim table.
-Assumptions to review (unattended run): (1) ticked stage-1✓ in 00-map (S10b's table row says
-  "→ stage-1✓"); (2) M85 tagged `contested` beyond early-primary maths (one study, GC16);
-  (3) Abdaal's "2011 study" identified as KBa11 only as "likely".
-Next sprint: S11 — Stage 2 Part A verification sweep. It is too big for one session → split
-  first: S11a = A1–A4 (+ backlog rows targeted S11 that belong to A1–A4), S11b = A5–A8. First
-  action: write the split into the sprint table, then take the backlog rows for A1/A2 (RK06
-  61% vs 40% at the paper's table; PR18 effect sizes; priming → neocortex; LTM capacity line)
-  and check each at full text, editing the A file + CHANGELOG as each closes.
+Sprint: S11a — Stage 2 Part A verification, A1–A4 — partial (2026-11-16; context limit)
+Written: sprints.md — S11 split into S11a (A1–A4) / S11b (A5–A8); backlog rows closed (see
+  "S11a closed" line) · A1 §2 RK06 full-text numbers + §5 PR18 full-text numbers and PEESE
+  bias line · A2 §3 priming row (SS17) + LTM capacity (St73, BKAO08) · A3 row 2 (KLI manuscript),
+  row 7 → contested, CKS17 quote replaced · A4 D13 moderate list, self-explanation note,
+  interleaving (BR19 words −0.39), successive relearning (DGBWR23 numbers), row 7 + confidence
+  line · sources +4 (195: SS17, St73, BKAO08, DGBWR23; "Added S11a" table at end) · CHANGELOG
+Verified this sprint: full text — RK06, PR18, D13, KLI manuscript (KCP12), DGBWR23, SS17;
+  abstracts — BR19, SK21, CKS17, KMS10, ATS17, St73, BKAO08; bib — BB92 (LCB99 reference list)
+Open (carried, = rest of S11a): ATS17 numeric g (host dead; lead PMC10409703 g = 0.70,
+  secondary); SK21 bias-adjustment method; CRK22 pages + fact/skill replication; Ag19 full text
+  (M75); one read-through of A1–A4 for remaining unchecked effect sizes (Bi18 0.55, Sch17,
+  SCA24, C06 in the A4 table) — not yet swept
+Decisions made: authors' own review chapters (T2) accepted for numbers of paywalled primaries
+  (DGBWR23 for RDS13), flagged as such; a quote seen only in a secondary source is replaced by
+  verified wording, not kept with a tag.
+Assumptions to review (unattended run): (1) DGBWR23 year 2023 inferred from the PDF upload path;
+  (2) KLI v5.00 manuscript (marked "do not disseminate") read for verification only, cited as
+  KCP12 with short phrases; (3) A3 row 7 upgraded to contested, not settled.
+Next sprint: S11a-rest (finish S11a, then tick it) — first action: check Bi18 / Sch17 / SCA24 /
+  C06 values in the A4 table at abstract-or-better; then ATS17 g (Europe PMC / ERIC / author
+  copy), CRK22 pages (escholarship 5cm7582q), SK21 method, Ag19. Then S11b if context allows.
 Read at start: sprints.md (hand-off + Verify backlog + Research tooling notes),
-  knowledge-base/A1-studying-vs-learning.md, A2-memory-architecture.md, A3-kinds-of-information.md,
-  A4-type-to-method.md, knowledge-base/sources.md (ID list only)
+  knowledge-base/A4-type-to-method.md, knowledge-base/sources.md (ID list only)
 ```

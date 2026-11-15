@@ -98,3 +98,12 @@
   context effect shrinks with mental reinstatement (SV01), Pomodoro dropped as a learning claim.
   Sources +16 (191). misconceptions M82-M86 new. Part B content complete (B1-B5) -> stage-1 batch
   milestone met.
+- 2026-11-16 S11a (partial) — Stage 2 verification, A1–A4. A1: RK06 numbers at full text (Exp. 2
+  1 week 61/56/40%, 5 min 83/78/71%, SSSS more confident); PR18 at full text (0.40 / 0.28 → 0.58
+  confirmed; PEESE adjusted intercept ≈ 0, worst cell −0.21 → transfer conditional on success +
+  congruency/elaboration). A2: priming row → "not hippocampus-dependent" (SS17), neocortex kept
+  `uncertain`; LTM capacity `settled` for recognition (St73, BKAO08) with recall-bottleneck
+  boundary. A3: row 2 resolved at KLI manuscript full text; row 7 `uncertain` → `contested`; CKS17
+  secondary quote replaced with abstract wording. A4: D13 moderate list at full text; BR19 words
+  g = −0.39 / expository ns; RDS13 numbers via DGBWR23; perceptual row → `contested`. BB92, CKS17,
+  SK21 bib confirmed. Sources +4 (195): SS17, St73, BKAO08, DGBWR23.
