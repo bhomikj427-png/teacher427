@@ -5,11 +5,11 @@
 > See `../../README.md`.
 
 ## Session resume
-- Last session: 2026-11-13/14 — no teaching; inbox triage (21 professor files) + built `study-pack/pdf/EDC-ETE-v1.pdf` (63 pp., all 7 ECE2106 units).
-- Where we stopped: pack delivered; learner has not worked any Check. ETE stated as about 2026-11-15.
-- Next up: **rebuild the ETE pack to `study-pack-format.md` (v1.2)**, pilot file first; the v1 pack was rejected 2026-11-14.
+- Last session: 2026-11-15 — no teaching. Built the full v1.2 EDC pack (97 pp.), then on learner feedback ("too compressed", lost at the Fermi level) rebuilt file 01 as `01a-silicon-bands-carriers` (8 steps) + `01b-fermi-level` (10 steps); combined PDF now 115 pp. Learner verdict: "this looks good".
+- Where we stopped: 01a/01b delivered; learner has not worked any Check or reported misses.
+- Next up: (1) learner's misses on 01a/01b, if any; (2) rebuild `02-carrier-transport` (rest of syllabus Unit 1) at the 01a/01b depth, one idea per step, every graph saying what it plots (spec §5.4); then ask before moving to 03.
 - Due for review today: nothing yet (no items mastered).
-- Open: U6 Feedback, U7 Oscillators and the deck extras are in the pack but not in `knowledge-base/` (no stage-2 research).
+- Open: U6 Feedback, U7 Oscillators and the deck extras are in the pack but not in `knowledge-base/` (no stage-2 research). `git push` of commit e6557a1 onward was blocked in-session; learner to run `! git push`.
 
 ## Mastery ledger
 *(empty — nothing mastered to criterion yet)*
@@ -79,3 +79,4 @@
 - [2026-11-15] KB gap found while rebuilding 01: values the deck uses but the KB lacked (Si DOS effective masses 1.08/0.56 and N_V = 1.04×10^{19}; n_i of Ge and GaAs; shallow-dopant binding energies P 45, As 54, B 45 meV). Checked by web search 2026-11-15 (Hu ch1 slides; URI/eesemi property tables; dmccreary course page; boron 45 meV from the deck and Sze, not independently confirmed this session). Appended to `knowledge-base/stage-2/01-semiconductor-physics.md` §11 + CHANGELOG line.
 - [2026-11-15] 01 rebuild **done**: `study-pack-v12/pdf/01a-silicon-bands-carriers.pdf` (8 steps, 11 pp.) and `01b-fermi-level.pdf` (10 steps, 13 pp.); old `01-semiconductors` source/HTML/PDF removed; START-HERE rows + Unit 1 map and the 02 header updated; combined PDF rebuilt (115 pp.). New `src/figs_u1.py` (15 figures, each caption says what the graph plots) and `src/verify_u1.py` (all checks pass). Both files run longer than spec §2's 4–8 pages; the learner asked for depth. Every page of 01a/01b viewed after the build; label overlaps fixed. Spec §5.4 amended (every graph says what it plots; symbols explained) + `learner-preferences.md` §3 line. **No teaching event.**
 - Where we stopped: 01a/01b delivered for the learner to work through; no Check worked yet. Next: learner's misses on 01a/01b, then 02 (rest of syllabus Unit 1) at the same depth if asked.
+- [2026-11-15] Learner sign-off on the rebuilt 01a/01b (stated): "this looks good". Session ended at learner request ("the session is getting too long"); handoff prompt given for the next session (02 rebuild at the same depth).
