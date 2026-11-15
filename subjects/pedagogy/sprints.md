@@ -75,7 +75,7 @@
 | S8a | B2 mid-century method-builders (Keller, Bloom, Gagné, Ausubel, Bruner, Engelmann, Kumon, lesson study, Oxbridge tutorial, Freire) | roster §2, A3, A4, B1 (summary only) | `B2-method-builders.md` | each entry to protocol step 8; M15 (2σ) seed written | **done 2026-11-15** |
 | S8b | B3 classroom legends (Feynman, Escalante, Collins, Khan) | roster §3, A3, A4, A8 §2 myth 7 | `B3-classroom-legends.md` | same; Feynman-technique attribution sourced | **done 2026-11-15** |
 | S9a | B4 researchers: memory & practice (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) | roster §4, A3, A4 | `B4a-researchers-memory.md` | same | **done 2026-11-15** |
-| S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) — **split S9b-1 / S9b-2** (7 + 7) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | |
+| S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) — **split S9b-1 / S9b-2** (7 + 7) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | S9b-1 **done 2026-11-15** (§1–7); S9b-2 open |
 | S10 | B5 practitioners + **full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 | `B5-practitioners.md`, `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **stage-1✓** |
 | S11 | Stage 2 — Part A verification sweep | all A files, sources | corrections in A files + CHANGELOG | every effect size checked at the paper; `uncertain` tags resolved or kept with reason | |
 | S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | |
@@ -165,6 +165,9 @@ Read at start: <exact file list = Sy Inputs>
 | MPDK16 peer-reviewed report of the PLM efficacy RCT (→ upgrade A3 row 7 / KMS10) | S9a | S11 |
 | Kel08 vol/pages; Make It Stick (2014) not read; MN19 remaining 34k chars | S9a | S12 |
 | Controlled test of SM-2 vs a fixed spacing schedule (B4a §5 `uncertain`) | S9a | S12 |
+| Engine note: principle 4 "~80% success" rests partly on correlational process-product data (Ros12) — check research/01 §5 + 03 §1 sources; any change → design sign-off | S9b-1 | S11 |
+| Kap08 abstract/full text (only TLDR seen); Ben11, Smi09 author/vol checks; ICAP independent tests | S9b-1 | S12 |
+| Mazur "30–70% first-vote" guideline — primary source | S9b-1 | S12 |
 
 ## Research tooling notes (what worked, S7a–S7b — read with the hand-off)
 
@@ -188,24 +191,23 @@ Read at start: <exact file list = Sy Inputs>
 ## Current hand-off
 
 ```
-Sprint: S9a — B4a researchers: memory & practice — done (2026-11-15)
-Written: knowledge-base/B4a-researchers-memory.md §1 Bjorks, §2 Roediger/Karpicke/McDaniel,
-  §3 Dunlosky/Rawson, §4 Rohrer/Carpenter/Kang, §5 Woźniak, §6 Matuschak/Nielsen, §7 Ericsson,
-  §8 Kellman/Massey; "Summary (B4a, all 8)" + pattern · misconceptions M64–M66 · sources +12 (131)
-Verified this sprint: full text — Woz90 (SM-2), MN19 (essay), MPDK16 (poster); abstracts — McD11,
-  RAMM11, RD11, RDS15, RDHC20, Lin14, MM19, Kel08, MHO14 (breakdown)
-Open (carried): backlog rows added S9a (PLM peer-reviewed report, Kel08 pages, SM-2 vs fixed test)
-Decisions made: B4 entries record "what the researcher made into a usable method" + its best
-  real-use test, with mechanisms pointed to Part A (no re-arguing). Tools graded below mechanisms.
-Next sprint: S9b — B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi,
-  Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall,
-  Hattie). 14 entries → split S9b-1 (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur)
-  and S9b-2 (Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie).
-  First action S9b-1: Rosenshine 2012 *American Educator* "Principles of Instruction" (open PDF —
-  list the 10 verbatim); Black & Wiliam 1998 + the Kingston & Nash 2011 re-analysis (ES ≈ 0.2);
-  Crouch & Mazur 2001 (Am. J. Phys.); Chi & Wylie 2014 ICAP; Mayer multimedia principles (Mayer
-  2009/2021 book; meta per principle where available); Sweller — point to A4 (CKS17, KACS03).
+Sprint: S9b-1 — B4b instruction researchers, Rosenshine → Mazur — done (2026-11-15)
+Written: knowledge-base/B4b-researchers-instruction.md §1 Rosenshine, §2 Sweller, §3 Mayer/Fiorella,
+  §4 Kapur, §5 Chi, §6 Wiliam, §7 Mazur + "Summary (B4b §1–7)" · misconceptions M67–M69 ·
+  sources +11 (142)
+Verified this sprint: full text — Ros12; abstracts — Swe88, CW14, KN11, Ben11, MVV13, CM01, Hak98, Smi09
+Open (carried): backlog rows added S9b-1 (engine 80% note → S11; Kap08 abstract; Mazur guideline)
+Decisions made: Wiliam graded as package T–M with the 0.4–0.7 claim X (M67). B4b summary table is
+  partial until S9b-2 extends it to all 14 + pattern.
+Next sprint: S9b-2 — §8 Wieman (Freeman et al. 2014 PNAS active-learning meta: 0.47 SD, failure
+  34% → 21% — verify; Deslauriers, Schelew & Wieman 2011 Science; Deslauriers et al. 2019 PNAS
+  "feeling of learning"), §9 Willingham (book → point to A-files; check one claim), §10 Kirschner &
+  Hendrick (book; KSC06 already), §11 Agarwal (Agarwal et al. 2021 EPR review of classroom retrieval),
+  §12 Learning Scientists (Weinstein, Madan & Sumeracki 2018 CRPI "Teaching the science of learning"),
+  §13 Nuthall (*Hidden Lives of Learners* 2007 — three encounters claim primary; closes roster lead),
+  §14 Hattie (*Visible Learning* 2009; critiques: Bergeron & Rivard 2017; Slavin; Simpson 2017
+  "effect sizes are not comparable") → then full B4b summary + pattern.
 Read at start: sprints.md (incl. Research tooling notes), knowledge-base/roster.md §4,
-  knowledge-base/A3-kinds-of-information.md §3 (table only), knowledge-base/A4-type-to-method.md §1–2,
-  knowledge-base/sources.md (ID list only)
+  knowledge-base/A4-type-to-method.md §1–2, knowledge-base/B4b-researchers-instruction.md
+  (header + "Summary (B4b §1–7)" only), knowledge-base/sources.md (ID list only)
 ```

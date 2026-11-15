@@ -76,6 +76,9 @@
 | M64 | Multiple-choice quizzes can't help learning — only recall tests or essays count | B4a | written |
 | M65 | If I can recall it once, I've learned it — move on | B4a | written |
 | M66 | Interleaving means only mixed practice, from the very first lesson | B4a | written |
+| M67 | Formative assessment reliably raises achievement by 0.4–0.7 SD | B4b | written |
+| M68 | Productive failure contradicts cognitive load theory — one of them must be wrong | B4b | written |
+| M69 | Any activity where students are busy (highlighting, copying, clicking) is "active learning" | B4b | written |
 
 ---
 
@@ -684,6 +687,40 @@
   *choice*; it does not replace learning the procedure.
 - **Exposing question:** "Can the learner already do each method on its own?"
 - **Unit:** B4a §4. Status: written.
+
+### M67 — Formative assessment reliably raises achievement by 0.4–0.7 SD
+- **Why it feels true:** the figure is repeated in training courses and attributed to Black &
+  Wiliam; checking understanding obviously helps.
+- **Correction:** Kingston & Nash 2011 found only 13 of 300+ studies usable; 42 effect sizes,
+  median 0.25, weighted mean **0.20** (ELA 0.32, maths 0.17, science 0.09) (KN11). Bennett 2011:
+  the quantitative claims derive "from untraceable, flawed, dated, or unpublished sources" (Ben11).
+  The components (feedback on task and process, every-student retrieval) are well supported; the
+  big number for the label is not.
+- **Exposing question:** "Which meta-analysis gives 0.7, and how many studies in it measured
+  achievement with a comparison group?"
+- **Unit:** B4b §6. Status: written.
+
+### M68 — Productive failure contradicts cognitive load theory — one of them must be wrong
+- **Why it feels true:** CLT says novices learn best from worked examples (KSC06); Kapur says
+  struggle first. They look like opposite advice.
+- **Correction:** they answer different questions. Worked examples win for **procedures** with
+  true novices (A4 row 4); productive failure (SK21, g = 0.36) helps **conceptual** understanding
+  when learners have prerequisites and the instruction phase uses their attempts — and reverses for
+  young learners and domain-general skills. The engine's ROUTE step encodes exactly this split.
+- **Exposing question:** "Is the goal a procedure or a concept — and do they have the
+  prerequisites?"
+- **Unit:** B4b §4 (and §2). Status: written.
+
+### M69 — Any activity where students are busy (highlighting, copying, clicking) is "active learning"
+- **Why it feels true:** "active" sounds like "doing something"; busy classrooms look engaged.
+- **Correction:** ICAP (CW14) separates **active** (manipulating given material — highlighting,
+  copying, pausing a video) from **constructive** (generating beyond it — explaining, mapping,
+  asking) and **interactive** (co-constructing with a partner). Learning is predicted to rise in
+  that order; highlighting is rated low utility (D13). The active-learning gains in physics
+  (Hak98, Smi09) come from committing to answers and arguing about them — constructive and
+  interactive work.
+- **Exposing question:** "What does the student produce that was not already on the page?"
+- **Unit:** B4b §5, §7. Status: written.
 
 ---
 

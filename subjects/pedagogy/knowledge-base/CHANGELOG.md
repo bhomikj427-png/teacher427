@@ -60,4 +60,10 @@
   interleaving RCT d = 0.83 (RDHC20); SM-2 read at primary; deliberate-practice replication failed (MM19);
   MHO14 breakdown verified at abstract (26/21/18/4/<1%); PLM RCT poster ES ≤ .48 (partly closes KMS10).
   Sources +12. misconceptions M64–M66 new.
+- [2026-11-15] S9b-1: B4b-researchers-instruction.md §1–7 written (Rosenshine, Sweller, Mayer/Fiorella, Kapur,
+  Chi, Wiliam, Mazur) + partial summary. Notable: Rosenshine's 10 principles verbatim (Ros12 full text);
+  the "80% success" figure traces to correlational process-product research (82% vs 73%) — flagged for
+  S11 as a note on engine principle 4 (no engine change; design sign-off rule); formative assessment
+  0.4–0.7 claim vs KN11 weighted 0.20; Hake 0.23 vs 0.48; Smi09 isomorphic-question test. Sources +11.
+  misconceptions M67–M69 new.
 
