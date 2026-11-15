@@ -153,3 +153,15 @@
 | Fr70 | Freire, P. (1970/2000). *Pedagogy of the Oppressed* (30th-anniversary ed.), ch. 2 | T1 (primary text) | B2 | **full text** ch. 2 (course-reader PDF) | "act of depositing"; "receiving, filing, and storing the deposits"; teacher-student with students-teachers |
 | Aus60 | Ausubel, D. P. (1960). The use of advance organizers in the learning and retention of meaningful verbal material. *Journal of Educational Psychology, 51*(5), 267–272. doi:10.1037/h0046669 | T1 (primary) | B2 | bib only (Crossref) | Origin of the advance organizer |
 | Bru60 | Bruner, J. S. (1960). *The Process of Education*. Harvard University Press | T1 (primary) | B2 | bib only (book not open) | Spiral curriculum; quoted "intellectually honest form" line → `uncertain` |
+
+## Added S8b (B3 classroom legends)
+
+| ID | Source | Tier | Unit | Verified (2026-11-15) | What we use it for |
+|---|---|---|---|---|---|
+| Fey63 | Feynman, R. P. (1963). The problem of teaching physics in Latin America. *Engineering and Science, 27*(2), 21–30 (Caltech; keynote, First Inter-American Conference on Physics Education, Rio de Janeiro, June 1963) | T1 (primary text) | B3 | **full text** (calteches.library.caltech.edu/46/2/LatinAmerica.htm) | "just words memorized without requiring understanding"; memorization does not permit application to new situations; "I am not against memorizing"; teaching has "no known satisfactory solution" |
+| CSM88 | "In city kids he finds the mathematician's mind." *Christian Science Monitor*, 24 March 1988 | T3 (journalism) | B3 | full text (S8b) | Garfield 1982: 18/18 passed, retest passed; 1987: 87 passed; contracts (daily quizzes, weekly exams, 90 min nightly), homework at the door |
+| Mat88 | Mathews, J. (1988). *Escalante: The best teacher in America*. Henry Holt | T3 | B3 | — (not read; backlog) | Definitive year-by-year Garfield numbers |
+| CR05 | "Beidler faculty welcomes new partner." *The Chicago Reporter*, 26 July 2005 | T3 (journalism) | B3 | full text (S8b) | Collins as Beidler partner from Feb 1997: reading at/above norms 10.2% → 32.5% → 13.5%; competing explanations |
+| FFL20 | Ferman, B., Finamor, L., & Lima, L. (2020). Are public schools in developing countries ready to integrate EdTech into regular instruction? MPRA Paper 105274 (draft Dec 2020; AEA RCT registry 0002456) | T1 (preregistered RCT, working paper) | B3 | **full text** (MPRA PDF) | Brazil, 157 schools, ≈15,000 grade 5/9 students: Khan Academy replacing one weekly maths class → no average effect on proficiency; better attitudes; positive with individual computers, negative when shared |
+| EB26 | Eames, T., Brunskill, E., Yamkovenko, B., Weatherholtz, K., & Oreopoulos, P. (2026). Computer-assisted learning in the real world: How Khan Academy influences student math learning. *PNAS, 123*(1). doi:10.1073/pnas.2507708123 | T1 (quasi-experimental) | B3 | bib + claim (Crossref abstract + affiliations) | > 200,000 students, 3-year panel, within-teacher variation: 6.6 h/yr → +0.031 SD; projected +0.085 SD at 30 min/week; higher achievers gain more. Yamkovenko & Weatherholtz: Khan Academy Efficacy Research (COI) |
+

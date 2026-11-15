@@ -2,9 +2,9 @@
 
 ## Session resume
 - Last session: 2026-11-15
-- Where we stopped: S8a done (B2 complete, §1–10); next = S8b (B3 classroom legends) — start from sprints.md "Current hand-off"
-- Recap: S0–S8a done: Part A (A1–A8 + README) complete; Part B: B1 historical (17) + B2 method-builders (10) complete; 113 sources; misconceptions M1–M60 all written
-- Next up: S8b — say "S8b"; read only the hand-off's "Read at start" list
+- Where we stopped: S8b done (B3 complete, §1–4); next = S9a (B4 researchers: memory & practice) — start from sprints.md "Current hand-off"
+- Recap: S0–S8a done: Part A (A1–A8 + README) complete; Part B: B1 historical (17) + B2 method-builders (10) + B3 legends (4) complete; 119 sources; misconceptions M1–M63 all written
+- Next up: S9a — say "S9a"; read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -109,6 +109,10 @@
 - [2026-11-15] S8a: verified Bl84 (full text, page images), Sl87 (full text), St18 (full text, author copy), SMS24 (working-paper full text), Fr70 ch. 2 (full text); KKB90, KKC79, VL11, NOQ24, LP17, MWW18, Ash05, FMSG14 (abstracts) → wrote knowledge-base/B2-method-builders.md §1–10 + summary + pattern.
 - [2026-11-15] S8a: misconceptions M15 (seed → written), M57–M60 new; sources +15; CHANGELOG.
 - [2026-11-15] S8a done-when checked: 10/10 entries to protocol step 8 (none dropped) ✓; M15 written ✓; misconceptions +4 ✓; orphan-ID check on B2 clean ✓. sprints.md: S8a ticked, backlog +7, S8b hand-off written.
+- [2026-11-15] S8b (B3 classroom legends) started; tree clean (f567617 pushed).
+- [2026-11-15] S8b: verified Fey63 (Caltech full text), CSM88 + CR05 (journalism, full text), FFL20 (MPRA full text), EB26 (PNAS abstract + Crossref affiliations) → wrote knowledge-base/B3-classroom-legends.md §1–4 + summary + pattern.
+- [2026-11-15] S8b: misconceptions M61–M63 new; sources +6; CHANGELOG.
+- [2026-11-15] S8b done-when checked: 4/4 entries to protocol step 8 ✓; Feynman-technique attribution re-checked against Fey63 (stays `uncertain`, leaning not-his) ✓; misconceptions +3 ✓; orphan-ID check clean ✓. sprints.md: S8b ticked, backlog +5, S9a hand-off written.
 
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
@@ -121,3 +125,4 @@
 - [2026-11-15] S7a done · B1 §1–7 Socrates → Herbart from primary texts · Rein (not Herbart) five steps · sources 79 · M49–M52 new · next: S7b (Fröbel → Skinner)
 - [2026-11-15] S7b done · B1 complete (17 entries) · Montessori tested as package (Ra23, Li25) · contingent scaffolding replication failed (Sm25) · sources 98 · M53–M56 new · next: S8a (B2 method-builders)
 - [2026-11-15] S8a done · B2 method-builders (10 entries) · 2σ = tutoring + mastery correctives, 3 weeks (Bl84 full text) · group mastery learning ≈0 on standardized tests (Sl87) · DI 0.54–0.60 (St18, COI) · sources 113 · M15 + M57–M60 · next: S8b (B3 classroom legends)
+- [2026-11-15] S8b done · B3 classroom legends (4 entries) · Feynman 1963 keynote: anti-rote, no "technique" · Khan Academy RCT null (FFL20), +0.03–0.09 SD real-world (EB26) · sources 119 · M61–M63 · next: S9a (B4 memory & practice researchers)

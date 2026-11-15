@@ -49,3 +49,9 @@
   3 weeks; Sl87 full text — group ML median +.04 on standardized tests; St18 full text — DI 0.54
   (joint 0.60), authors NIFDI-affiliated; Kumon RCT (SMS24) 0.50–1.21 SD unadjusted. Sources +15.
   misconceptions: M15 seed → written; M57–M60 new.
+- [2026-11-15] S8b: B3-classroom-legends.md written (Feynman, Escalante, Marva Collins, Sal Khan) +
+  summary + B3 pattern. Notable: Feynman's 1963 Rio keynote (full text) attacks verbatim memorization
+  but describes no "technique" — A8 myth 7 attribution leans further to "not his"; Khan Academy RCT in
+  Brazil null on average (FFL20), real-world effect +0.03–0.09 SD (EB26, Khan co-authors); Escalante
+  and Collins graded as cases. Sources +6. misconceptions M61–M63 new.
+

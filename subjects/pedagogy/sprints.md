@@ -73,7 +73,7 @@
 | S7a | B1 historical teachers: Socrates → Herbart | roster §1, A3, A4 | `B1-historical.md` §1–7 + summary | each of the 7 entries written to protocol step 8 or dropped with reason | **done 2026-11-15** |
 | S7b | B1 historical teachers: Fröbel → Skinner (10) | roster §1, A3, A4, B1 (summary only) | `B1-historical.md` §8–17 + full summary | each of the 10 entries written to protocol step 8 or dropped with reason | **done 2026-11-15** (B1 complete) |
 | S8a | B2 mid-century method-builders (Keller, Bloom, Gagné, Ausubel, Bruner, Engelmann, Kumon, lesson study, Oxbridge tutorial, Freire) | roster §2, A3, A4, B1 (summary only) | `B2-method-builders.md` | each entry to protocol step 8; M15 (2σ) seed written | **done 2026-11-15** |
-| S8b | B3 classroom legends (Feynman, Escalante, Collins, Khan) | roster §3, A3, A4, A8 §2 myth 7 | `B3-classroom-legends.md` | same; Feynman-technique attribution sourced | |
+| S8b | B3 classroom legends (Feynman, Escalante, Collins, Khan) | roster §3, A3, A4, A8 §2 myth 7 | `B3-classroom-legends.md` | same; Feynman-technique attribution sourced | **done 2026-11-15** |
 | S9a | B4 researchers: memory & practice (Bjorks, Roediger/Karpicke/McDaniel, Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman) | roster §4, A3, A4 | `B4a-researchers-memory.md` | same | |
 | S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | |
 | S10 | B5 practitioners + **full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 | `B5-practitioners.md`, `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **stage-1✓** |
@@ -157,6 +157,11 @@ Read at start: <exact file list = Sy Inputs>
 | SMS24 journal-version numbers (working paper 2020 read) | S8a | S12 |
 | Ash05 vol/pages; content-focused vs process-only PD claim (B2 §8) | S8a | S12 |
 | VL11 answer-based tutoring ES (not in abstract) | S8a | S12 |
+| Feynman *Lectures* preface + Goodstein "freshman lecture" anecdote at a primary/first-hand source | S8b | S10 |
+| Mat88 (Mathews *Escalante*) — Garfield year-by-year numbers, summer/Saturday sessions | S8b | S12 |
+| Marva Collins: any independent Westside Prep evaluation; *Marva Collins' Way* (1982) primary | S8b | S12 |
+| Systematic phonics evidence (B3 §3 mechanism, outside A3 scope) — decide include or drop | S8b | S12 |
+| Teacher-expectancy effect size (M62) — Rosenthal & Jacobson + Jussim & Harber 2005 review | S8b | S12 |
 
 ## Research tooling notes (what worked, S7a–S7b — read with the hand-off)
 
@@ -180,25 +185,23 @@ Read at start: <exact file list = Sy Inputs>
 ## Current hand-off
 
 ```
-Sprint: S8a — B2 mid-century method-builders — done (2026-11-15)
-Written: knowledge-base/B2-method-builders.md §1 Keller PSI, §2 Bloom (mastery + 2σ), §3 Gagné,
-  §4 Ausubel (evidence points to A6 §5), §5 Bruner, §6 Engelmann DI, §7 Kumon, §8 lesson study,
-  §9 Oxbridge tutorial, §10 Freire; "Summary (B2, all 10)" + B2 pattern (4 points) ·
-  misconceptions M15 written (no seeds left) + M57–M60 · sources +15 (113 total)
-Verified this sprint: full text — Bl84 (scan), Sl87, St18, SMS24 (WP), Freire ch. 2; abstracts —
-  KKB90, KKC79, VL11, NOQ24, LP17, MWW18 (ERIC), Ash05, FMSG14
-Open (carried): backlog rows added S8a (KKC79/KKB90 numbers, Keller wording, Gagné nine events
-  primary, Ausubel/Bruner quotes, SMS24 journal numbers, VL11 answer-based ES)
-Decisions made: 2σ graded X as a general claim (tutoring S but ≈0.29 SD at scale); B2 grade format
-  "method / mechanism" kept; Ausubel entry points to A6 §5 instead of duplicating evidence
-Next sprint: S8b — B3 classroom legends (Feynman, Escalante, Collins, Khan). First action: Feynman —
-  check whether Feynman himself described a "technique" (Feynman Lectures preface; Gleick *Genius*;
-  Scott Young 2011 post as the label's origin), then Escalante (Mathews 1988; AP results data),
-  Marva Collins (any outcome data; 1981 *60 Minutes*/Westside Prep controversy), Khan Academy
-  efficacy studies (e.g. SRI 2014 implementation study; Khanmigo/MAP growth reports — vendor
-  COI).
-Read at start: sprints.md (incl. Research tooling notes), knowledge-base/roster.md §3,
-  knowledge-base/A3-kinds-of-information.md §3 (table only), knowledge-base/A4-type-to-method.md §1–2,
-  knowledge-base/A8-myths.md §2 myth 7, knowledge-base/B2-method-builders.md (Summary only),
-  knowledge-base/sources.md (ID list only)
+Sprint: S8b — B3 classroom legends — done (2026-11-15)
+Written: knowledge-base/B3-classroom-legends.md §1 Feynman, §2 Escalante, §3 Marva Collins,
+  §4 Sal Khan; "Summary (B3, all 4)" + B3 pattern · misconceptions M61–M63 · sources +6 (119 total)
+Verified this sprint: full text — Fey63 (Caltech), CSM88, CR05, FFL20 (MPRA); abstract + affiliations —
+  EB26 (PNAS 2026)
+Open (carried): backlog rows added S8b (Feynman preface/Goodstein, Mathews 1988, Collins primary,
+  phonics scope decision, teacher-expectancy size)
+Decisions made: B3 legends graded T as method by design (cases); grade carried by mechanisms.
+  Feynman Technique attribution stays `uncertain`, leaning not-his (A8 myth 7 unchanged).
+Next sprint: S9a — B4 researchers, memory & practice (Bjorks, Roediger/Karpicke/McDaniel,
+  Dunlosky/Rawson, Rohrer/Carpenter, Woźniak, Matuschak/Nielsen, Ericsson, Kellman). First action:
+  most mechanisms are already sourced in Part A — write each entry as "what the researcher turned
+  into a *method*" (e.g. Woźniak → SuperMemo algorithm SM-2 primary; Rawson & Dunlosky successive
+  relearning criterion; Rohrer interleaved maths homework RCT — Rohrer, Dedrick & Stershic 2015 /
+  Rohrer et al. 2020 classroom RCT; Kellman perceptual-learning modules — closes KMS10 backlog row;
+  Ericsson deliberate practice vs MHO14); reuse Part A source IDs, add only new ones.
+Read at start: sprints.md (incl. Research tooling notes), knowledge-base/roster.md §4 (memory &
+  practice rows), knowledge-base/A3-kinds-of-information.md §3 (table only),
+  knowledge-base/A4-type-to-method.md §1–2, knowledge-base/sources.md (ID list only)
 ```

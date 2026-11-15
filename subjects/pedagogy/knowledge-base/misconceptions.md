@@ -70,6 +70,9 @@
 | M58 | Advance organizers are a strong, proven way to start a lesson | B2 | written |
 | M59 | Direct Instruction means lecturing — the teacher talks, students listen | B2 | written |
 | M60 | Letting every learner go at their own pace is always better | B2 | written |
+| M61 | A famous teacher's results prove that their method works | B3 | written |
+| M62 | Escalante's students succeeded because he believed in them — high expectations are the method | B3 | written |
+| M63 | Time spent on a learning platform (videos, Khan Academy) is learning; such platforms are proven to raise scores a lot | B3 | written |
 
 ---
 
@@ -612,6 +615,42 @@
   was individual, *schedule* was not.
 - **Exposing question:** "Self-paced on what — level, or schedule? Who sets the deadline?"
 - **Unit:** B2 §1. Status: written.
+
+### M61 — A famous teacher's results prove that their method works
+- **Why it feels true:** the results are real and dramatic (18/18 AP passes; a school off
+  probation), and a vivid story feels like evidence.
+- **Correction:** a single teacher is a case with no comparison group, selection (we hear about
+  the successes), and a method that cannot be separated from the person. Garfield's AP passes
+  fell after Escalante and his principal left; Beidler's reading gain under Marva Collins went
+  10.2% → 32.5% → 13.5% (Chicago Reporter, 2005) — and a rise from a very low base partly
+  rebounds anyway (regression to the mean). Treat the legend as a pointer to mechanisms (daily
+  retrieval, practice time), then check those in controlled studies (A4).
+- **Exposing question:** "Compared with whom — and did it last after the teacher left?"
+- **Unit:** B3 (all). Status: written.
+
+### M62 — Escalante's students succeeded because he believed in them — high expectations are the method
+- **Why it feels true:** *Stand and Deliver* centres on his belief in the students; "high
+  expectations" is the moral most retellings draw.
+- **Correction:** the expectations were enforced by a practice regime — contracts for daily
+  quizzes, weekly exams, 90 minutes of nightly study, homework checked at the door, extra hours
+  (CSM 1988). Those are retrieval practice, spacing and time on task (A4 S). Expectation
+  effects on their own are small (teacher-expectancy research; not reviewed in this KB →
+  `uncertain`); the mechanism with evidence is the practice.
+- **Exposing question:** "What exactly did his students *do* every day and every night?"
+- **Unit:** B3 §2. Status: written.
+
+### M63 — Time spent on a learning platform (videos, Khan Academy) is learning; such platforms are proven to raise scores a lot
+- **Why it feels true:** platforms report minutes and badges; vendor reports show users gaining
+  more than non-users; videos feel clear.
+- **Correction:** the randomized trial of Khan Academy replacing one weekly maths class in 157
+  Brazilian schools found **no average effect** on proficiency (FFL20); the best real-world causal
+  estimate is **+0.031 SD at ≈11 min/week, projected +0.085 SD at 30 min/week**, scaling with
+  *practice* time, with Khan Academy co-authors (EB26). Vendor "users gained more" reports are
+  correlational: motivated students both use more and gain more. Watching is passive; answered
+  practice items are the active ingredient.
+- **Exposing question:** "Was that a randomized comparison — and is it minutes watched or items
+  answered?"
+- **Unit:** B3 §4. Status: written.
 
 ---
 
