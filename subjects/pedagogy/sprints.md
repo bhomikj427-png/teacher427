@@ -79,7 +79,7 @@
 | S10a | **Full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 (pointers) | `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **done 2026-11-16** (J1–J28; Keep video found) |
 | S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | split: **S10b-1 done 2026-11-16** (§1–4 Sung, Young, Oakley, Lemov) · **S10b-2 done 2026-11-16** (§5–8 + full summary) → **stage-1✓** |
 | S11a | Stage 2 — Part A verification: **A1–A4** (+ backlog rows targeted S11 that belong to A1–A4) | sprints.md, A1–A4, sources (IDs) | corrections in A1–A4 + sources + CHANGELOG | every A1–A4 effect size checked at the paper; `uncertain` tags resolved or kept with reason | **done 2026-11-16** (partial in session 4; finished S11a-rest: A4 swept; ATS17 g + SK21 method carried to S12 with reason) |
-| S11b | Stage 2 — Part A verification: **A5–A8** (+ their S11 backlog rows; engine 80% note) | sprints.md, A5–A8, sources (IDs) | corrections in A5–A8 + sources + CHANGELOG | same for A5–A8 | split (2026-11-16, context hygiene): **S11b-1 = A5 + A6** (GH80/83, Barnett & Ceci, MBF77, NA06, Pan & Carpenter 2023, LAA80/Stone) · **S11b-2 = A7 + A8 + engine 80% note** (Z02, DR12, DB08, RT11, P08, Y19, Dek12, 10%-brain, MPDK16, Ros12/80%) · **S11b-1 partial 2026-11-16** (A5 done bar BC02 → S12; A6 rest in hand-off) |
+| S11b | Stage 2 — Part A verification: **A5–A8** (+ their S11 backlog rows; engine 80% note) | sprints.md, A5–A8, sources (IDs) | corrections in A5–A8 + sources + CHANGELOG | same for A5–A8 | split (2026-11-16, context hygiene): **S11b-1 = A5 + A6** (GH80/83, Barnett & Ceci, MBF77, NA06, Pan & Carpenter 2023, LAA80/Stone) · **S11b-2 = A7 + A8 + engine 80% note** (Z02, DR12, DB08, RT11, P08, Y19, Dek12, 10%-brain, MPDK16, Ros12/80%) · **S11b-1 done 2026-11-16** (finished as S11b-1-rest; BC02, MBF77 primary, LAA80 numeric ES → S12 with reason) |
 | S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | |
 | S13 | §0 surplus test + integrity audit | everything | audit note in CHANGELOG; 00-map stamp | surplus test recorded; zero unsourced claims | **stage-2✓** |
 | S14 | Study-pack pilot (v1.2 spec) | study-pack-format.md, reference files, A1, A3 | `study-pack/00-START-HERE` + one topic file | learner sign-off | |
@@ -103,7 +103,8 @@ Read at start: <exact file list = Sy Inputs>
 
 | Item | Raised | Close in |
 |---|---|---|
-| Nesbit & Adesope 2006 pooled ES + whether 0.82/0.37 is an NA06 subgroup (Sch17 closed S5: 30(2) 431–455; g 0.58, construct 0.72, study 0.43) | S1 | S11 (part-closed S5) |
+| S11b-1 closed: NA06 full text ✓ (all .60; .82/.37 = NA06's own Table 2, not a subgroup) · "161 undergraduates" line sourced ✓ (Cap25 thesis, full text) · LAA80 3rd author Ackerson ✓ · Stone = JEE 1983 51(4) / ED220476 ✓ | — | — |
+| LAA80 / Stone numeric mean ES (not in either abstract; only Bl84's secondary .20 held) | S11b-1 | S12 |
 | Barnett & Ceci 2002 exact dimension list (3 content + 6 context?) — S11b-1: no free full text; Klahr & Chen 2011 CMU PDF 404; LS blog lists only 3 conditions | S1 | S12 |
 | Zimmerman 2002 exact phase labels + sub-processes (Bath PDF host dead in S5) | S1 | S11 |
 | S5 closed: DR12 + RDS13 added to canon ✓ (numbers still open, rows below) | — | — |
@@ -124,8 +125,7 @@ Read at start: <exact file list = Sy Inputs>
 | DR12 numbers (overconfidence → early stopping → retention) — abstract elided by publisher | S5 | S11 |
 | DB08 mean ES 0.69 + moderators at full text | S5 | S11 |
 | RT11 cue-only vs cue-target JOL split (0.70 vs 0.03 via Tekin & Roediger 2021) | S5 | S11 |
-| Morris, Bransford & Franks 1977 transfer-appropriate processing — read primary (bib ✓ S11b-1; no free PDF found; only secondaries) | S5 | S11b-1-rest |
-| LAA80 third author spelling (Ackerson/Ackerman) + any numeric ES; Stone 1982 vs 1983 | S5 | S11 |
+| Morris, Bransford & Franks 1977 transfer-appropriate processing — read primary (bib ✓ S11b-1; no free PDF found; only secondaries; A6 §1 stays `uncertain`) | S5 | S12 |
 | S8a closed: M15 (2σ) written from Bl84 full text + VL11 + NOQ24 ✓ | — | — |
 | "10% of the brain" + coordination exercises / Brain Gym: find a primary refutation or drop from A8 | S6 | S11 |
 | P08 full text (meshing criterion wording; number of studies) | S6 | S11 |
@@ -205,22 +205,35 @@ Read at start: <exact file list = Sy Inputs>
 - **Europe PMC full text (S10b-1):** open-access papers behind publisher logins (nature.com) →
   `ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:<doi>&format=json` for the PMCID, then
   `.../rest/<PMCID>/fullTextXML`.
+- **S11b-1-rest:** Invenio repositories that 403 on WebFetch (openscholar.uga.edu) still serve
+  `curl -sL -A "Mozilla/5.0" <record>/export/xm` (MARCXML: title, author, year, abstract, PDF link).
+  Author home pages (e.g. `sfu.ca/~jcnesbit/articles/`) often host full RER PDFs. Keep each curl a
+  single command (no `;`, `&&`, `for`, pipes into python) — compounds need approval under auto.py.
 
 ## Current hand-off
 
 ```
-Sprint: S11b-1 — Stage 2 verification A5 + A6 — partial (2026-11-16; context limit, same session
-  as S11a-rest)
-S11b-1 so far: A5 §3 rewritten from GH83 full text (correction 52% → 45 vs 21%; 92% dropped) ·
-  A6 §5 PC23 (answer must follow, timing `uncertain`) · A6 §1 MBF77 bib, result `uncertain` ·
-  A6 §6 Bi18/D13 pointers · sources +2 (200: PC23, MBF77) · CHANGELOG · BC02 → S12
-S11b-1 still open (do these, then tick S11b-1): A6 §5 advance organizers — LAA80 third-author
-  spelling + Stone 1982/1983 + any numeric ES; NA06 pooled ES (Nesbit & Adesope 2006, RER 76(3));
-  A6 §3 "one experiment (161 undergraduates) found passive best" — find its source ID or cut it;
-  FM16 + CW14 + Be07 rows already full text/abstract (no action); A5 §1 CS73 / CFG81 rows are
-  abstract-level (OK for S11b-1); MBF77 primary if a copy turns up.
+Sprint: S11b-1 — Stage 2 verification A5 + A6 — done (2026-11-16; finished as S11b-1-rest,
+  session 6)
+Written: A5 §3 (GH83 full text; 45 vs 21%, earlier session) · A6 §3 ICAP challenge now sourced
+  (Cap25, T3 thesis, boundary condition) · A6 §4 NA06 full-text numbers added beside Sch17 · A6 §5
+  advance organizers (Stone's 4 anti-theory results; numeric ES `uncertain`) · sources 201 (+Cap25;
+  NA06, LAA80 rows rewritten) · CHANGELOG
+Verified this sprint: full text — Cap25 (UGA PDF), NA06 (author SFU PDF), GH83; abstracts — LAA80
+  (Crossref), Stone ED220476 (ERIC), PC23; bib — Stone 1983 JEE, LAA80 authors, MBF77
+Open (carried, all S12 in the backlog): BC02 dimension list; MBF77 primary; LAA80/Stone numeric ES
+Decisions made: an unpublished thesis that goes against a framework is written as T3 + named
+  boundary condition, never as a refutation, and never deleted for being inconvenient.
 Assumptions to review (S11b-1): (6) GH83 read from a gwern.net scan; GH80 numbers taken from the
-  authors' own recap in GH83, not GH80 itself.
+  authors' own recap in GH83. (7) Cap25 test treated as immediate (whole session ~75 min, no
+  delayed test found in the text). (8) NA06's "0.5–0.7 moderate" summary line in A6 §4 is my own
+  synthesis of NA06 + Sch17, not a figure either paper states.
+Next sprint: S11b-2 (A7 + A8 + engine 80% note) — first action: DR12 numbers (overconfidence →
+  early stopping → retention) via ERIC API / an author repository copy; then DB08, RT11, Z02, P08,
+  Y19, Dek12, 10%-brain, MPDK16, and the Ros12/80% engine note (any engine change → design sign-off,
+  log it, don't edit research/ or CLAUDE.md unattended).
+Read at start: sprints.md (hand-off + Verify backlog + Research tooling notes),
+  knowledge-base/A7-metacognition.md, knowledge-base/A8-myths.md, knowledge-base/sources.md (ID list only)
 --- previous sprint (closed) ---
 Sprint: S11a — Stage 2 Part A verification, A1–A4 — done (2026-11-16; finished as S11a-rest)
 Written: A4 rows: retrieval (YLVYS21 classroom g 0.50; Ag19 quiz-type boundary), spacing (C06

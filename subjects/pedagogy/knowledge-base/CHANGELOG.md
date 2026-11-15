@@ -121,3 +121,12 @@
   schema quality predicted transfer (91% vs 30%). A6 §5 "answer must follow" settled via PC23
   abstract (timing `uncertain`); A6 §1 MBF77 bib confirmed, result still secondary; A6 §6 updated.
   BC02 dimension list still unreadable. Sources +2 (200): PC23, MBF77.
+- [2026-11-16] S11b-1 done (S11b-1-rest): A6 §3 the unsourced "161 undergraduates, passive best"
+  line traced to **Cap25** (Capobianco 2025, UGA MA thesis, full text): passive > active >
+  interactive > constructive, overall ANOVA not significant without a prior-knowledge covariate,
+  significant with it; graded T3, framed as a boundary condition, not a refutation. A6 §4 NA06 read
+  at full text: all g .60, constructing .82, studying .37 (**the S5 "subgroup?" suspicion is wrong —
+  these are NA06's own Table 2 means**; .82 drops to .47 for U.S./Canada; fixed-effect). Sch17
+  keeps the numeric role. A6 §5 advance organizers: LAA80 third author = Ackerson (Crossref); Stone =
+  *J. Exp. Educ.* 51(4) 194–199 (1983) / ERIC ED220476 (1982), four anti-theory results written;
+  numeric ES still not in either abstract → `uncertain`, S12. Sources +1 (201): Cap25.

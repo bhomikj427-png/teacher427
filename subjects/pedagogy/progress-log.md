@@ -2,9 +2,9 @@
 
 ## Session resume
 - Last session: 2026-11-16
-- Where we stopped: S11a done; S11b-1 (A5+A6) partial — A5 done except BC02 (→ S12); A6 open items listed in sprints.md "Current hand-off"
-- Recap: S0–S10b-2 done → stage-1✓ (Part A + Part B complete; M1–M86). Stage 2: S11a verified A1–A4 (RK06, PR18, D13, KLI, DGBWR23, Bi18, Ag19 at full text); 198 sources
-- Next up: S11b-1-rest (A6: "161 undergraduates" line, LAA80/Stone, NA06), then S11b-2 — read only the hand-off's "Read at start" list
+- Where we stopped: S11b-1 done (A5 + A6 verified; BC02, MBF77 primary, LAA80 numeric ES → S12). S11b-2 not started
+- Recap: S0–S10b-2 done → stage-1✓ (Part A + Part B complete; M1–M86). Stage 2: S11a verified A1–A4; S11b-1 verified A5–A6 (GH83, NA06, Cap25 at full text); 201 sources. auto.py milestone (5 sprints from S10) reached
+- Next up: S11b-2 (A7 + A8 + engine 80% note) — read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -188,3 +188,7 @@
 - [2026-11-16] S11a partial · S11 split a/b · RK06 + PR18 + D13 + KLI checked at full text · PR18 bias-adjusted transfer ~0 without success/congruency · LTM capacity settled for recognition · BR19 words reverse · perceptual row contested · sources 195 · next: S11a-rest
 - [2026-11-16] S11a done (S11a-rest) · Bi18 + Ag19 at full text · self-explanation size depends on comparison (0.67 / 0.35 / 0.30) · higher-order quizzes don't build facts (M75 verified) · classroom quizzing g 0.50 (YLVYS21) · sources 198 · next: S11b-1 (A5 + A6)
 - [2026-11-16] S11b-1 partial · GH83 full text: two analogs 45% vs 21% (old 52% was a subgroup) · pretest answer must follow (PC23) · BC02 → S12 · sources 200 · next: S11b-1-rest
+- [2026-11-16] S11b-1-rest started (session 6) · targets: A6 §3 161-undergrad line, LAA80/Stone, NA06
+- [2026-11-16] S11b-1-rest: 161-undergrad line sourced = Cap25 (Capobianco 2025 UGA MA thesis, full text; passive>A>I>C, ns without covariate) → A6 §3 rewritten, T3 · LAA80 3rd author = Ackerson (Crossref) · Stone = JEE 1983 51(4) 194-199 / ED220476; 4 anti-theory results → A6 §5; numeric ES still uncertain → S12
+- [2026-11-16] S11b-1-rest: NA06 full text (SFU copy): all g .604, constructing .819 (US/Can .467, Africa 1.446), studying .373, fixed-effect → A6 §4; S5 subgroup suspicion wrong · sources 201 · CHANGELOG, backlog, hand-off written
+- [2026-11-16] S11b-1 done · ICAP challenge sourced (Cap25 thesis: passive best, ns w/o covariate, T3) · NA06 .60/.82/.37 = its own Table 2 · Stone 1983: 4 anti-theory results · sources 201 · milestone (5 sprints from S10) reached · next: S11b-2 (A7 + A8 + engine 80% note)

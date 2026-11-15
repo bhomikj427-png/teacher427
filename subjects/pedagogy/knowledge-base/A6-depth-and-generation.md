@@ -77,14 +77,31 @@
      use retrieval and spacing, not elaboration.
   3. **No schema to infer from:** for very unfamiliar ideas (emergence), learners cannot
      self-explain their way in → guidance first (A4 §3 rule 2).
-- **Contested:** one experiment (161 undergraduates) found passive best. ICAP is a strong first
-  cut at the *conceptual* rows, not a law for every row.
+- **Contested at the edges — one direct test went the other way (Cap25, full text, S11b-1):**
+  - A replication of ICAP itself: 161 undergraduates read a text on decision-making theories
+    (13 min), then spent **15 min** in one of four matched activities (passive = re-read a printout).
+  - Mean order on comprehension and inference tests: **passive > active > interactive >
+    constructive** — the reverse of the prediction. The overall ANOVA was *not* significant
+    without a covariate (comprehension p = .107, inference p = .068). With course history
+    (prior knowledge) as covariate it was (partial η² .05 / .06), and passive beat constructive on
+    the Bonferroni post-hoc tests.
+  - Authors' reading: high cognitive load and task difficulty in the generative tasks, and low
+    prior knowledge, outweighed the generation benefit.
+  - Weight: **T3** (an MA thesis, one lab study, immediate test, not peer-reviewed). It does not
+    overturn ICAP. It does agree with CW14's own override 3 and A4 §3: generative tasks need
+    enough prior knowledge and manageable load.
+- ICAP is a strong first cut at the *conceptual* rows, not a law for every row.
 
 ## 4. Organizing: concept maps `settled` (benefit) · `settled` (loses to retrieval)
 
 - **Sch17 (ERIC abstract):** 142 effect sizes, n = 11,814: learning with concept maps g = 0.58.
   **Constructing maps g = 0.72 > studying given maps g = 0.43**. The benefit holds in STEM and
   non-STEM subjects.
+- **The older meta (NA06, full text S11b-1)** gives the same order: all g = .60 (k 67),
+  constructing .82 (k 27), studying .37 (k 40), with large heterogeneity. Its .82 shrinks to .47 when
+  only U.S./Canada studies are counted (7 African studies average 1.45), and the model is
+  fixed-effect. So read **"constructing beats studying"** as `settled` and the exact size as
+  moderate, about 0.5–0.7.
 - **But (KB11):** retrieval practice beat concept-map construction, even on inference questions
   and even when the final test was to draw a map. Students predicted the opposite.
 - **Reading both together:**
@@ -116,9 +133,12 @@
 - **Advance organizers** (Ausubel: a short, more general frame given before the lesson, to link
   new material to what the learner knows) are a *different* pre-study move. `contested` / thin:
   - 135 studies: a **small** facilitative effect on learning and retention; the retention
-    advantage grows with time (LAA80, abstract).
-  - Stone's meta: supported overall, but *not* in the way the theory predicts — no special help
-    for low-knowledge learners; written-only and abstract organizers weaker (LAA80 row).
+    advantage grows with time (LAA80, abstract). Neither meta's abstract gives a number; the
+    only figure held is Bloom's secondary listing, about .20 (Bl84 Table I). Own ES `uncertain`.
+  - Stone's meta (1983, JEE 51(4); ERIC ED220476): supported overall, but four results go
+    *against* the theory — weaker for written-only and abstract organizers, *stronger* for
+    non-subsuming ones, no special help for low-ability or low-knowledge learners, weaker for
+    older learners (abstract, S11b-1).
   - All pre-1980 studies, older methods. Grade **T–M**: plausible, small, not modern-tested.
   - Concrete, comparative organizers (an analogy to something known) look stronger than abstract
     summaries (Kozlow 1978 via ERIC; `uncertain`). This links to A5 §3 (analogies).
