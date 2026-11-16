@@ -33,17 +33,25 @@ Two things to separate:
 generation** (A6 §5; SCA24: g = 0.54 on the asked items). (b) Making the wrong belief explicit and
 then refuting it = the structure of **refutation text** — state the misconception, refute it,
 give the correct account. Schroeder & Kucera 2022 (SK22): 44 independent comparisons, n = 3,869,
-g = 0.41 vs standard expository text. (c) A tutor who **prompts instead of explaining**: Chi et
+g = 0.41 vs standard expository text (full text, S12a: trim-and-fill adjusted g = 0.28 [0.16,
+0.39]; no text or design moderator significant — age, domain, test type, delay from same day to
+> 1 month all ns; 30 of 44 comparisons were post-secondary; the one significant moderator was
+publication type — journal g 0.45, dissertations g 0.11 ns — a file-drawer signal). (c) A tutor who **prompts instead of explaining**: Chi et
 al. 2001 (CSJ01) suppressed tutors' explanations and feedback and had them only prompt —
 "Surprisingly, students learned just as effectively", attributed to the students' own
-construction (≈ self-explanation, Bi18 g = 0.55). (d) "Better off knowing his ignorance" =
+construction (≈ self-explanation, Bi18 g = 0.55). Full text (S12a): 11 eighth-graders per
+condition, the same 11 domain-expert but untrained tutors, the prompt-only group run a week later
+with different students (two sequential groups, not randomized); post-test of 70 shallow + deep
+questions on the circulatory system. Note what the "prompts" became: tutors drifted from the
+content-free prompts they were given to **content-bearing scaffolding prompts** (hints,
+fill-in-the-blank; 31 → 100), so "only asking" still carried content — exactly as in the *Meno*. (d) "Better off knowing his ignorance" =
 **calibration** — the learner's confidence is corrected before learning (A7).
 
 **Serves:** A3 row 3 (principles/models) and the misconception problem across rows 2–3; row 6
 (metacognitive: discovering you don't know).
 
 **Grade:** **M** — the parts are evidenced (pretesting S for asked items; self-explanation S;
-refutation text M, a single meta with g = 0.41; prompting-only tutoring = one study, CSJ01). The
+refutation text M, a single meta with g = 0.41, ≈ 0.28 bias-adjusted; prompting-only tutoring = one small non-randomized study, CSJ01, 11 + 11 students). The
 whole "Socratic method" as practised in classrooms is not tested as a package. `contested` edge:
 a novice with no relevant knowledge has nothing to rebuild from — the boy could do arithmetic and
 see squares; questioning cannot create knowledge that has no parts in place (A5 schemas; KSC06).
@@ -205,8 +213,10 @@ cu31924031053709, full text searched S7a).**
   deeper insight into the subject taught" (citing Joachim Fortius, who forgot what he read within a
   month but kept what he taught). The same passage also recommends reading the lesson over morning
   and evening — rereading, which Part A grades low (A1 §6).
-- *Orbis Sensualium Pictus* (1658), a picture vocabulary book, is usually called the first
-  illustrated children's textbook — standard secondary claim, not checked at a primary source.
+- *Orbis Sensualium Pictus* (1658), a picture vocabulary book, was in use for about two centuries
+  and is the forerunner of the illustrated schoolbook (Britannica; Library of Congress) — "the
+  first" is a popular claim, hedged even in reference works ("probably the first purpose-made
+  children's picturebook"), so it is not asserted here.
 
 **Mechanism (Part A).** (a) Concrete, perceived example before abstract rule = **concrete →
 abstract** (A4; concreteness fading — sourced in Pestalozzi, §6). (b) Example + rule + *reason
@@ -263,6 +273,11 @@ enacting a physical instantiation of a concept, moves to an iconic depiction, an
 the more abstract representation"; they credit the general notion to Bruner (1966), cite
 "increasing empirical and theoretical support" (incl. the Fyfe et al. 2014 systematic review,
 FMSG14, read at bib level only), and call it "an underspecified theory of instruction".
+A bound on the claim (S12a): Braithwaite & Goldstone 2013 (BG13, two experiments, combinatorics,
+abstract) found concrete → formal fading **as good as** formal-only instruction on transfer and
+better than formal-first or concrete-only — but in Exp 2 an enhanced fading sequence still did not
+beat formal-only. So the order matters (concrete *before* formal, not after), but fading is not
+shown to beat a good abstract-only lesson for learners who can already handle the symbols.
 (b) Separating essential from accidental features = **concept induction** (A3 row 2): a category
 is learned from varied examples that differ in irrelevant features and share the defining ones
 (A4 bridge row 2). Pestalozzi saw the danger (one view misleads) but his remedy — more senses —
@@ -301,8 +316,15 @@ i.e. using and applying the system. His central aim was "many-sided interest".
 **Attribution correction.** The famous **five steps** — preparation, presentation, association,
 generalisation, application — are **not Herbart's**. Ziller reworked the four; **Wilhelm Rein**
 split Clearness into preparation + presentation and gave the five names (Ellerton & Clements 2005,
-EC05, MERGA conference paper; consistent with encyclopaedia entries — secondary, Rein not read).
-The rigid, scripted Herbartian lesson plan of the 1890s is the followers' system.
+EC05, MERGA conference paper — secondary). **Checked at Rein's own text (S12a, RV1893, pp.
+143–157):** a lesson unit has two stages, apperception then abstraction, split into five steps —
+(1) preparation of related known material, (2) presentation of the new, (3) comparison of cases,
+(4) extraction of "the essential and the generally valid", (5) application "that it may become
+ability". Rein credits Ziller with turning Herbart's abstract concepts into practical rules. The
+familiar English labels (Preparation, Presentation, Association, Generalization, Application) are
+the American translators' note. Rein himself warns: "beware of attempting to run through the five
+steps in each single hour" — so the rigid one-lesson-one-cycle plan is later practice, not even
+Rein's rule. `settled` (primary text).
 
 **Mechanism (Part A).** Clearness (one element at a time, nothing obscuring it) = **segmenting /
 low extraneous load** (A2, CLT). Association = **elaboration**, linking the new to known items
@@ -416,8 +438,15 @@ abstract; 32 children).
 - **Smit, de Kleijn, Wicherts & van de Pol 2025 (Sm25)**, preregistered direct replication of
   WWM78: 285 three-year-olds randomized to the four conditions; tutor accuracy matched the original
   (68.9% vs 70%), but contingent instruction did **not** improve the children's independent
-  problem-solving over the other conditions; Bayes factors favoured the null (university
-  research-portal abstract + secondary commentary; full text not read → S12).
+  problem-solving over the other conditions. Full text (S12a, open-access repository copy): outcome
+  F(3, 281) = 0.97, p = .41, Bayes factor 17.9 for the null ("strong"); contingent vs the rest
+  t = −0.26; activity and efficiency also null (BF 13.6, 6.8). The 1978 effects, reconstructed
+  from 8 children per cell, were d = 3.25–5.69 — the replicators judged these implausibly large and
+  powered for d ≈ 0.40 instead. Only the contingent cell differs from 1978 (the original was near
+  ceiling); the three control conditions match. How accurately a tutor followed the contingent rule
+  did not predict the child's result (r ≈ .05, BF01 ≈ 6). Limits the authors name: Dutch children
+  in 2021–22 at several sites vs one 1970s Nottingham site; contingent children asked for less help
+  ("dosage") than in 1978.
 
 **Mechanism (Part A).** What survives is the general principle the engine already uses:
 **difficulty at the edge of current ability** with support that is **faded** (A4 §1 worked
@@ -546,9 +575,12 @@ change.
 trigger for conceptual change.
 
 **The evidence (light this session).** The theory is heavily debated; Lourenço & Machado 1996
-(LM96) defend it against ten common criticisms (two confirmed via secondary sources: it ignores
-post-adolescent development; it relies on inadequate models of logic) — their existence marks
-the stage account as `contested`. Of the three educational offshoots, (c) has the clearest
+(LM96) defend it against ten common criticisms (two of the ten, as named in secondary sources:
+it ignores post-adolescent development; it relies on inadequate models of logic). Their abstract
+(read S12a) argues most criticisms come from misreadings, ignore Piaget's post-1970 revisions, and
+try to settle conceptual questions empirically — while saying the problems with the theory do not
+vanish when it is better understood. A full paper defending the theory against ten standing
+criticisms is itself the mark of a `contested` stage account. Of the three educational offshoots, (c) has the clearest
 modern support via refutation text (SK22, g = 0.41) and pretesting; (b) as *minimal guidance*
 underperforms for novices (KSC06; §11); (a) — waiting for a stage — has no tested support in
 Part A, and age-based readiness is a weaker guide than **prior knowledge** (A5; expertise reversal).

@@ -58,11 +58,11 @@
 | M46 | I can study fine while texting or watching something | A8 | written |
 | M47 | The Pomodoro technique makes you learn more | A8 | verified |
 | M48 | Teaching students a growth mindset reliably raises their grades | A8 | verified |
-| M49 | The Socratic method means the teacher never tells, only asks | B1 | written |
+| M49 | The Socratic method means the teacher never tells, only asks | B1 | verified |
 | M50 | A method used for centuries (Jesuit, Socratic, Confucian) is proven by its longevity | B1 | written |
 | M51 | Concrete, hands-on, realistic materials are always better than abstract ones | B1 | written |
-| M52 | Herbart invented the five-step lesson plan | B1 | written |
-| M53 | Scaffolding (contingent tutoring in the ZPD) is a proven effect | B1 | written |
+| M52 | Herbart invented the five-step lesson plan | B1 | verified |
+| M53 | Scaffolding (contingent tutoring in the ZPD) is a proven effect | B1 | verified |
 | M54 | Learning by doing means discovery without being told — that is what Dewey said, and it works best | B1 | written |
 | M55 | Teaching general problem-solving strategies makes you a better problem-solver in any subject | B1 | written |
 | M56 | Good instruction is errorless — learners should never be allowed to make mistakes | B1 | written |
@@ -607,7 +607,7 @@
   g = 0.41), self-explain (Bi18).
 - **Exposing question:** "Could the learner have answered your questions if they knew none of the
   pieces? Who supplied the diagonal?"
-- **Unit:** B1 §1. Status: written.
+- **Unit:** B1 §1. Status: verified (CSJ01 + SK22 full text, Meno primary — S12a).
 
 ### M50 — A method used for centuries is proven by its longevity
 - **Why it feels true:** surviving for hundreds of years looks like a long field test; famous
@@ -633,11 +633,12 @@
 ### M52 — Herbart invented the five-step lesson plan
 - **Why it feels true:** the steps are taught as "Herbart's five formal steps" in teacher-training texts.
 - **Correction:** Herbart wrote four (Clearness, Association, System, Method — *Science of Education*,
-  Felkin tr.); Ziller reworked them and Rein split Clearness into preparation + presentation (EC05).
+  Felkin tr.); Ziller reworked them and Rein split Clearness into preparation + presentation (EC05; confirmed at Rein's own *Outlines*,
+  RV1893, which also warns against running all five steps in each single lesson).
   The rigid scripted plan is the Herbartians'. More important than the name: neither version
   includes retrieval, spacing or checks for understanding.
 - **Exposing question:** "Where in the five steps does the learner recall anything a week later?"
-- **Unit:** B1 §7. Status: written.
+- **Unit:** B1 §7. Status: verified (Herb-SE + Rein RV1893 primary — S12a).
 
 
 ### M53 — Scaffolding (contingent tutoring in the ZPD) is a proven effect
@@ -649,7 +650,7 @@
   Reviews find few effectiveness studies and measurement problems (VVB10). What is evidenced is
   **fading** support as competence grows (worked examples → independent practice, A4 S).
 - **Exposing question:** "Which experiment shows contingent help beats other help, and has it been replicated?"
-- **Unit:** B1 §9. Status: written.
+- **Unit:** B1 §9. Status: verified (Sm25 full text — S12a).
 
 ### M54 — Learning by doing means discovery without being told — that is what Dewey said, and it works best
 - **Why it feels true:** "learning by doing" is Dewey's slogan; doing feels more engaging than listening.
