@@ -30,6 +30,12 @@
    the whole spec, or `progress-log.md` (it is append-only: add lines with a small Python append,
    never read it to write it). Other Inputs are read when the step that needs them starts, by section.
 2. Log the sprint start in `progress-log.md` (log first: before any other file changes).
+2b. **The soft limit is a target, not a wall.** When auto.py's context notice arrives, "the current
+   step" means: if what is left of the sprint is closing work (build, verify, page sheet, START-HERE
+   and cross-references, hand-off), **finish the sprint**: that costs far less than a new session's
+   start-up. If a whole file or a figure set is still unwritten, stop at a clean point instead. The
+   hard limit (auto.py's kill, ~30k above the soft one) is the real wall: never start a file past
+   the notice.
 2a. **One sprint = one session.** Plan the context: two files fit if the start-up stays lean. View
    at most one contact sheet per file (4 pages per image), and only figures the overlap check or a
    new figure type flags.
