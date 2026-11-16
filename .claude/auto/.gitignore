@@ -1,0 +1,15 @@
+# auto.py runtime files: live state, flags, logs, raw session streams.
+# They change every run and can be large; the record that matters is in the
+# commits and in the subject's progress-log.md / sprints.md.
+state.json
+hook-state.json
+*.tmp
+lock
+STOP
+STOP_NOW
+log.jsonl
+runs/
+run-settings.json
+review-settings.json
+tests/_work/
+__pycache__/

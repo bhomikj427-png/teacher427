@@ -309,6 +309,11 @@ another pack**. Deterministic rules:
 0b. **`git status`** — if the tree is dirty, an earlier session exited before its wrap-up commit.
    Commit that work **first, as its own commit**, reconstructing the message from the dated
    `progress-log.md` entries (never from memory), before starting anything new (§5c catch-up rule).
+0c. **`HANDOFF.md`** (root; learner-set 2026-11-16). If it holds a handoff, it is the learner's
+   opening request for this session: read it, then **reset it at once** to the empty line ("No
+   handoff pending.") and commit that reset (message quotes the task line), so it never runs twice;
+   the text survives in git history. Then do the task. Session-start recall (step 2) still runs
+   before any *teaching*. An empty handoff → proceed normally.
 1. Check `subjects/` for an active subject.
 2. **If a subject is active:** load its learner profile + progress log (incl. its *Preferences
    (overrides)*). **Integrity check first (added 2026-07-05):** compare the resume block's
@@ -364,6 +369,10 @@ another pack**. Deterministic rules:
        session's commit.
      - Exam material in `subjects/*/exam-pack/` is third-party copyrighted course material. The
        remote **stays private**; never make it public and never mirror it elsewhere.
+   - **(d) Handoff.** When the session ends with work for the next one (or the learner asks for a
+     hand-off), **overwrite** `HANDOFF.md` with only what the next session needs: the task, files to
+     read first, decisions pending. No history (that is the progress log). Write it before the (c)
+     commit so it is pushed.
 
    Because the record is built as events happen, **any** exit — full "wrap up," one word, or an
    abrupt close with nothing — leaves the same accurate, resumable state. There is no end-of-session
@@ -433,6 +442,8 @@ intuition or pop-pedagogy — stop and re-anchor to the five principles. Every m
   frozen as **`site/SITE-V1.md`** (subject → stage → chapter → group → concept tree, one concept
   card at a time, minimal visual language); subjects join via `study-pack/web/`. Delivery only —
   figure-first cards keep retrieval (warm-ups, hidden answers); never a substitute for CHECKs.
+- `HANDOFF.md` — the next session's opening task, written at session end (§5d), read and reset at
+  session start (§0c). Empty = nothing pending. Never holds history.
 - `requirements.txt` — pinned Python deps for the tools (plumbing only).
 - `README.md` + `.gitignore` — repo surface. The project is a **git repo pushed to the learner's
   private GitHub** every session (Session start §0b + §5c). `README.md` describes **protocol only**
