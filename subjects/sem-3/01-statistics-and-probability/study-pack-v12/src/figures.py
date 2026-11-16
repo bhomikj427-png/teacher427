@@ -965,4 +965,171 @@ def expo_memory():
     return FL.svg(f)
 
 
+# ---- 06 normal (v1.3)
+_NB = stats.norm(1500, 100)
+
+
+def norm_battery():
+    f, ax = FL.fig(5.6, 2.5)
+    x = np.linspace(1150, 1850, 400)
+    ax.plot(x, _NB.pdf(x), color=FL.ACC, lw=2)
+    for xv in (1300, 1400, 1500, 1600):
+        ax.plot(xv, _NB.pdf(xv), "o", color=FL.INK, ms=4)
+    ax.axvline(1500, color=FL.BAD, lw=1, ls="--"); ax.text(1508, .0042, "μ = 1500", fontsize=8.5, color=FL.BAD)
+    y = _NB.pdf(1600)
+    ax.annotate("", (1500, y), (1600, y), arrowprops=dict(arrowstyle="<->", color=FL.G1, lw=1.2))
+    ax.text(1655, y, "σ = 100", fontsize=8.5, color=FL.G1, va="center")
+    ax.set_xlim(1150, 1850); ax.set_ylim(0, .0047); ax.set_xticks(range(1200, 1801, 100)); ax.set_yticks([0, .001, .002, .003, .004])
+    FL.axes(ax, "x = battery life (hours)", "f(x)")
+    return FL.svg(f)
+
+
+def norm_xz():
+    f, ax = FL.fig(5.6, 2.7)
+    x = np.linspace(1150, 1850, 400)
+    ax.plot(x, _NB.pdf(x), color=FL.ACC, lw=2)
+    ax.axvline(1660, color=FL.BAD, lw=1, ls="--"); ax.text(1670, .0034, "1660 h\n↔ z = 1.6", fontsize=8.5, color=FL.BAD)
+    ax.set_xlim(1150, 1850); ax.set_ylim(0, .0045); ax.set_xticks(range(1200, 1801, 100)); ax.set_yticks([])
+    sec = ax.secondary_xaxis("top", functions=(lambda v: (v - 1500) / 100, lambda z: 1500 + 100 * z))
+    sec.set_xticks([-3, -2, -1, 0, 1, 2, 3]); sec.set_xlabel("z = (x − 1500)/100", fontsize=8.5, color=FL.G1)
+    sec.tick_params(colors=FL.G1, labelsize=8)
+    FL.axes(ax, "x = battery life (hours)", "")
+    return FL.svg(f)
+
+
+def norm_table():
+    f, ax = FL.fig(5.4, 2.4)
+    z = np.linspace(-3.5, 3.5, 400); y = stats.norm.pdf(z)
+    ax.plot(z, y, color=FL.ACC, lw=2)
+    s = (z >= 0) & (z <= 1.6); ax.fill_between(z[s], y[s], color=FL.G1, alpha=.45)
+    ax.text(.8, .12, "φ(1.6)\n= 0.4452", ha="center", fontsize=8.5, color=FL.INK)
+    ax.text(-1.9, .3, "left half: area 0.5", ha="center", fontsize=8.5, color=FL.MUTED)
+    ax.set_xlim(-3.5, 3.5); ax.set_ylim(0, .45); ax.set_xticks([-3, -2, -1, 0, 1, 1.6, 2, 3]); ax.set_xticklabels(["−3", "−2", "−1", "0", "1", "1.6", "2", "3"])
+    FL.axes(ax, "z", "density of Z")
+    return FL.svg(f)
+
+
+def norm_tails():
+    f, ax = FL.fig(5.6, 2.5)
+    x = np.linspace(1150, 1850, 400); y = _NB.pdf(x)
+    ax.plot(x, y, color=FL.ACC, lw=2)
+    for m_ in (x >= 1660, x <= 1380):
+        ax.fill_between(x[m_], y[m_], color=FL.BAD, alpha=.4)
+    ax.text(1730, .0009, "> 1660:\n0.0548", ha="center", fontsize=8.5, color=FL.BAD)
+    ax.text(1270, .0013, "< 1380:\n0.1151", ha="center", fontsize=8.5, color=FL.BAD)
+    ax.set_xlim(1150, 1850); ax.set_ylim(0, .0045); ax.set_xticks([1200, 1380, 1500, 1660, 1800]); ax.set_yticks([])
+    FL.axes(ax, "x = battery life (hours)", "f(x)")
+    return FL.svg(f)
+
+
+def norm_between():
+    f, ax = FL.fig(5.6, 2.5)
+    n_ = stats.norm(50, 10); x = np.linspace(15, 85, 400); y = n_.pdf(x)
+    ax.plot(x, y, color=FL.ACC, lw=2)
+    a = (x >= 45) & (x <= 50); b = (x >= 50) & (x <= 62)
+    ax.fill_between(x[a], y[a], color=FL.G2, alpha=.55); ax.fill_between(x[b], y[b], color=FL.G1, alpha=.45)
+    ax.text(47.5, .043, "0.1915", ha="center", fontsize=8, color=FL.INK, rotation=90)
+    ax.text(56, .02, "0.3849", ha="center", fontsize=8.5, color=FL.INK)
+    ax.axvline(50, color=FL.BAD, lw=1, ls="--")
+    ax.set_xlim(15, 85); ax.set_ylim(0, .046); ax.set_xticks([20, 30, 45, 50, 62, 70, 80]); ax.set_yticks([])
+    FL.axes(ax, "x (μ = 50, σ = 10)", "f(x)")
+    return FL.svg(f)
+
+
+def norm_c2():
+    f, ax = FL.fig(6.0, 2.6)
+    mu, s = 37.18, 28.23; n_ = stats.norm(mu, s); x = np.linspace(-50, 125, 500); y = n_.pdf(x)
+    ax.plot(x, y, color=FL.ACC, lw=2)
+    for lo, hi, c, a in [(-50, 30.40, FL.MUTED, .25), (30.40, 40, FL.G1, .55), (40, 75, FL.G2, .35), (75, 125, FL.BAD, .4)]:
+        m_ = (x >= lo) & (x <= hi); ax.fill_between(x[m_], y[m_], color=c, alpha=a)
+    ax.text(0, .004, "40.5%", ha="center", fontsize=8.5); ax.text(57, .004, "37%", ha="center", fontsize=8.5)
+    ax.text(97, .002, "9%", ha="center", fontsize=8.5, color=FL.BAD)
+    ax.annotate("13.5%: best quarter\nof the failures", (35.2, .011), (-38, .0155), fontsize=8, color=FL.G1,
+                arrowprops=dict(arrowstyle="->", color=FL.G1, lw=.8))
+    ax.set_xlim(-50, 125); ax.set_ylim(0, .019); ax.set_xticks([-25, 0, 30.4, 40, 75, 100]); ax.set_xticklabels(["−25", "0", "30.4", "40", "75", "100"]); ax.set_yticks([])
+    FL.axes(ax, "x = mark (μ = 37.18, σ = 28.23)", "f(x)")
+    return FL.svg(f)
+
+
+# ---- 07 sampling, SE, CLT (v1.3)
+_BLACK = set("adgi")
+_SAMPLES = ["acfh", "bdej", "cgij"]
+
+
+def ball_samples():
+    f, ax = FL.canvas(6.0, 2.6, (-1.6, 10.6), (-.6, 4.4))
+    def ball(x, y, k):
+        blk = k in _BLACK
+        ax.add_patch(_Circ((x, y), .36, fc=FL.INK if blk else "white", ec=FL.INK, lw=1))
+        ax.text(x, y, k, ha="center", va="center", fontsize=8.5, color="white" if blk else FL.INK)
+    for i, k in enumerate("abcdefghij"):
+        ball(i, 3.6, k)
+    ax.text(-.6, 3.6, "population\nN = 10", ha="right", va="center", fontsize=8.5, color=FL.MUTED)
+    ax.text(10, 3.6, "4 of 10\nblack: 0.4", ha="left", va="center", fontsize=8.5, color=FL.BAD)
+    for r, smp in enumerate(_SAMPLES):
+        y = 2.2 - r * 1.05
+        for j, k in enumerate(smp):
+            ball(1.5 + j, y, k)
+        nb = sum(k in _BLACK for k in smp)
+        ax.text(.6, y, f"sample {r + 1}", ha="right", va="center", fontsize=8.5, color=FL.MUTED)
+        ax.text(6, y, f"{nb} of 4 black: {nb / 4:g}", ha="left", va="center", fontsize=8.5, color=FL.ACC)
+    return FL.svg(f)
+
+
+def ball_sampling():
+    from math import comb
+    f, ax = FL.fig(5.4, 2.4)
+    ks = range(5); cnt = [comb(4, k) * comb(6, 4 - k) for k in ks]
+    ax.bar([k / 4 for k in ks], cnt, width=.12, color=FL.ACC)
+    for k, c in zip(ks, cnt):
+        ax.text(k / 4, c + 2, str(c), ha="center", fontsize=8.5)
+    ax.axvline(.4, color=FL.BAD, lw=1.2, ls="--"); ax.text(.8, 70, "dashed: population 0.4", fontsize=8.5, color=FL.BAD)
+    ax.set_xticks([0, .25, .5, .75, 1]); ax.set_ylim(0, 105)
+    FL.axes(ax, "proportion black in the sample", "samples (of 210)")
+    return FL.svg(f)
+
+
+def _xbar_curve(mu, se, lo, hi, shade, txt, xl, xticks):
+    f, ax = FL.fig(5.6, 2.4)
+    n_ = stats.norm(mu, se); x = np.linspace(*xl, 400); y = n_.pdf(x)
+    ax.plot(x, y, color=FL.ACC, lw=2)
+    m_ = (x >= lo) & (x <= hi); ax.fill_between(x[m_], y[m_], color=FL.BAD, alpha=.4)
+    ax.axvline(mu, color=FL.MUTED, lw=1, ls=":")
+    ax.text(*txt[0], txt[1], fontsize=8.5, color=FL.BAD)
+    ax.set_xlim(*xl); ax.set_ylim(0, n_.pdf(mu) * 1.15); ax.set_xticks(xticks); ax.set_yticks([])
+    FL.axes(ax, shade, "density of x̄")
+    return f, ax
+
+
+def atm_tail():
+    f, ax = _xbar_curve(4, 1 / 3, 4.5, 6, "x̄ = average wait of 36 customers (min)", [(4.65, .35), "P(x̄ > 4.5)\n= 0.0668"], (2.8, 5.2), [3, 3.5, 4, 4.5, 5])
+    return FL.svg(f)
+
+
+def impur_band():
+    se = 1.5 / math.sqrt(50)
+    f, ax = _xbar_curve(4, se, 3.5, 3.8, "x̄ = average impurity of 50 batches (g)", [(4.3, 1.2), "3.5 < x̄ < 3.8:\n0.1645"], (3.2, 4.8), [3.3, 3.5, 3.8, 4, 4.2, 4.5])
+    return FL.svg(f)
+
+
+def led_tail():
+    f, ax = _xbar_curve(50000, 1000, 46000, 48000, "x̄ = average life of 64 bulbs (h)", [(51200, 2.6e-4), "x̄ < 48,000:\n0.0228"], (46500, 53500), [47000, 48000, 50000, 52000, 53000])
+    ax.set_xlim(46500, 53500)
+    return FL.svg(f)
+
+
+def machine_two():
+    f, ax = FL.fig(5.6, 2.5)
+    x = np.linspace(4, 10, 500)
+    p_ = stats.norm(7, 1).pdf(x); m_ = stats.norm(7, 1 / 3).pdf(x)
+    ax.plot(x, p_, color=FL.MUTED, lw=1.6, label="one machine: σ = 1")
+    ax.plot(x, m_, color=FL.ACC, lw=2, label="x̄ of 9: SE = 1/3")
+    s = (x >= 6.4) & (x <= 7.2); ax.fill_between(x[s], m_[s], color=FL.BAD, alpha=.35)
+    ax.text(5.0, .6, "6.4 < x̄ < 7.2:\n0.6898", fontsize=8.5, color=FL.BAD)
+    ax.legend(fontsize=8, frameon=False, loc="upper right")
+    ax.set_xlim(4, 10); ax.set_ylim(0, 1.45); ax.set_yticks([])
+    FL.axes(ax, "life (years)", "density")
+    return FL.svg(f)
+
+
 ALL = {k: v for k, v in dict(globals()).items() if callable(v) and not k.startswith("_") and v.__module__ == __name__}
