@@ -2,9 +2,9 @@
 
 ## Session resume
 - Last session: 2026-11-16
-- Where we stopped: review fixes 1–8 done; S11b-2 partial (A7 §3–5 + A8 §1–2 checked; engine 80% note written to B4b §1). Open: A7/A8 new-misconception hunt + ladder (M41–M47), P08 full text
-- Recap: S0–S10b-2 done → stage-1✓ (Part A + Part B complete; M1–M86). Stage 2: S11a verified A1–A4; S11b-1 verified A5–A6 (GH83, NA06, Cap25 at full text); 201 sources. auto.py milestone (5 sprints from S10) reached
-- Next up: S11b-2-rest (misconception hunt + ladder for A7/A8, then tick S11b) → S12 — read only the hand-off's "Read at start" list
+- Where we stopped: S11b done (S11b-2 finished: M87–M93 written, ladder moves). S12 split a–e written; S12a not started
+- Recap: S0–S10b-2 done → stage-1✓ (Part A + Part B complete). Stage 2: S11a + S11b done (A1–A8 verified; M1–M93); 205 source rows. Current auto.py milestone: 1 of 5 sprints done (S11b-2)
+- Next up: S12a (B1 verification: S7a/S7b backlog rows, grade re-check, M49–M56 ladder) — read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -191,6 +191,13 @@
 - [2026-11-16] S11b-2 engine 80% note: research/ grep (read-only) — the engine's ~80% traces only to Rosenshine 2012 (research/03 §1 principle 7; 01 §5 and 05 point to 03); Ros12 basis = correlational process-product (82 vs 73%). Nearest experimental result: Wi19 (Wilson et al. 2019, Nat. Commun., abstract) — ≈85% optimal training accuracy derived for gradient-descent learners on binary classification, shown in neural-network models, not classrooms. Written to B4b §1 (edit landed a moment before this line — logging order slip, noted). Proposal for learner sign-off, nothing edited in research/ or CLAUDE.md: word principle 4 as "a high success band (~80%; observational + model-based, not a measured optimum)".
 - [2026-11-16] S11b-2: M48 → verified (Sis18 full text S6 + Y19 full text now; Y19 numbers added). Sources +2 (Hy07, Wi19; Y19/P08 rows updated) → 205 rows. Context soft limit reached → S11b-2 stopped partial; CHANGELOG, backlog, hand-off written.
 
+- [2026-11-16] Session 8 (auto.py) started; tree dirty only with auto.py + .claude/auto/ (left alone); review fixes already applied in session 7 (log lines 176–184); review sweep done in S10a today, nothing due. S11b-2-rest started (A7/A8 misconception hunt + ladder M41–M47).
+- [2026-11-16] S11b-2-rest: N13 full text (Europe PMC PMC3743825): 1011 scans, ages 7–29; "local rather than global property", no whole-brain left/right-brained phenotype → M45 → verified; sources row. Wi19 full text (PMC6831579): authors Wilson, Shenhav, Straccia, Cohen + Nat Commun 10:4646 confirmed (backlog row closed); optimum depends on the noise assumption (85% Gaussian, 82% Laplacian, 75% Cauchy), binary classification only; authors call a test in learners future work → B4b §1 note + sources row.
+- [2026-11-16] S11b-2-rest: Og25 full text (PMC12532815): 32 studies = 3 RCTs, 5 quasi-experimental, 24 observational; academic gains "typically measured through subjective assessments and self-reported measures"; one cited experiment ([6]) reported higher test scores (not read) → A8 myth 5 design line + M47 → verified with that nuance; sources row.
+- [2026-11-16] S11b-2-rest misconception hunt: new A7 M87 (silent "do I know it?" = testing; TR21 → verified), M88 (one test result makes me switch method; KoB08 → written), M89 (any study-skills programme works the same at any age; DB08 via Pan17 → written); new A8 M90 (brain knowledge protects from neuromyths; Dek12 → verified), M91 (Brain Gym integrates hemispheres; Hy07 + N13 → written), M92 (~80% is a proven optimum; Ros12 + Wi19 full text → verified), M93 (big pre-registered "significant" trial = big effect; Y19 → verified). Ladder: M41 rewritten with TR21 (stays written: RT11 abstract, DR12 unread), M42 → verified (RDS13 numbers via authors' full-text guide DGBWR23), M45 + M47 → verified; M43/M44 (Z02 unread, DB08 size), M46 (CGNA96 paywalled) stay written with reason. A7/A8 "Misconceptions owned" updated.
+- [2026-11-16] S11b-2-rest done-when: A7/A8 effect sizes checked abstract-or-better ✓ (DR12, DB08 mean, Z02 text, P08 carried to S13 with reason); ≥3 new misconceptions each ✓ (A7 3, A8 4); no `seed` in A7/A8 ✓ → S11b-2 done → **S11b done**. CHANGELOG, backlog (2 rows closed, 3 added), table, hand-off written.
+- [2026-11-16] S12 split written into the sprints.md table (edit landed just before this line — order slip): S12a B1 · S12b B2+B3 · S12c B4a+B4b · S12d B5 + Sung + Part A stragglers · S12e A↔B matrix. Session stops here at a clean point (context hygiene); next session starts S12a from the hand-off.
+
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
 - [2026-11-15] S1 map pass done · 21 anchors verified · Sung inventory J1–J22 · A3 spine decided · stage-1 · next: S2 (A1+A2)
@@ -214,3 +221,4 @@
 - [2026-11-16] S11b-1 partial · GH83 full text: two analogs 45% vs 21% (old 52% was a subgroup) · pretest answer must follow (PC23) · BC02 → S12 · sources 200 · next: S11b-1-rest
 - [2026-11-16] S11b-1 done · ICAP challenge sourced (Cap25 thesis: passive best, ns w/o covariate, T3) · NA06 .60/.82/.37 = its own Table 2 · Stone 1983: 4 anti-theory results · sources 201 · milestone (5 sprints from S10) reached · next: S11b-2 (A7 + A8 + engine 80% note)
 - [2026-11-16] Review fixes 1–8 done · S11b-2 partial · RT11 0.70/0.03 split is recall not accuracy; silent delayed JOLs < overt retrieval (TR21) · Z02 phases via Pan17; DB08 moderators · Y19 +0.10 GPA lower-achievers · Brain Gym (Hy07) · engine ~80% = Ros12 correlational + Wi19 model only → sign-off proposal · sources 205 rows · next: S11b-2-rest
+- [2026-11-16] S11b done (S11b-2-rest) · new misconceptions M87–M93 (silent judging is not testing; brain knowledge does not protect from myths; ~80% not a proven optimum; significant is not large) · M42/M45/M47 verified · N13, Wi19, Og25 at full text · S12 split a-e · next: S12a (B1)

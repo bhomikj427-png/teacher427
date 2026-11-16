@@ -79,8 +79,8 @@
 | S10a | **Full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 (pointers) | `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **done 2026-11-16** (J1–J28; Keep video found) |
 | S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | split: **S10b-1 done 2026-11-16** (§1–4 Sung, Young, Oakley, Lemov) · **S10b-2 done 2026-11-16** (§5–8 + full summary) → **stage-1✓** |
 | S11a | Stage 2 — Part A verification: **A1–A4** (+ backlog rows targeted S11 that belong to A1–A4) | sprints.md, A1–A4, sources (IDs) | corrections in A1–A4 + sources + CHANGELOG | every A1–A4 effect size checked at the paper (abstract or better; full-text gaps carried with reason — wording amended 2026-11-16 per review to match the bar applied) ; `uncertain` tags resolved or kept with reason | **done 2026-11-16** (partial in session 4; finished S11a-rest: A4 swept; ATS17 g + SK21 method carried to S12 with reason) |
-| S11b | Stage 2 — Part A verification: **A5–A8** (+ their S11 backlog rows; engine 80% note) | sprints.md, A5–A8, sources (IDs) | corrections in A5–A8 + sources + CHANGELOG | same for A5–A8 | split (2026-11-16, context hygiene): **S11b-1 = A5 + A6** (GH80/83, Barnett & Ceci, MBF77, NA06, Pan & Carpenter 2023, LAA80/Stone) · **S11b-2 = A7 + A8 + engine 80% note** (Z02, DR12, DB08, RT11, P08, Y19, Dek12, 10%-brain, MPDK16, Ros12/80%) · **S11b-1 done 2026-11-16** (finished as S11b-1-rest; BC02, MBF77 primary, LAA80 numeric ES → S12 with reason) · **S11b-2 partial 2026-11-16** (A7 §3–5, A8 §1–2, engine note done; misconception hunt/ladder → S11b-2-rest) |
-| S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | |
+| S11b | Stage 2 — Part A verification: **A5–A8** (+ their S11 backlog rows; engine 80% note) | sprints.md, A5–A8, sources (IDs) | corrections in A5–A8 + sources + CHANGELOG | same for A5–A8 | split (2026-11-16, context hygiene): **S11b-1 = A5 + A6** (GH80/83, Barnett & Ceci, MBF77, NA06, Pan & Carpenter 2023, LAA80/Stone) · **S11b-2 = A7 + A8 + engine 80% note** (Z02, DR12, DB08, RT11, P08, Y19, Dek12, 10%-brain, MPDK16, Ros12/80%) · **S11b-1 done 2026-11-16** (finished as S11b-1-rest; BC02, MBF77 primary, LAA80 numeric ES → S12 with reason) · **S11b-2 done 2026-11-16** (partial in session 7; finished S11b-2-rest in session 8: M87–M93, ladder) → **S11b done** |
+| S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | split (2026-11-16, context hygiene; ~50 backlog rows target S12): **S12a = B1** (backlog rows from S7a/S7b) · **S12b = B2 + B3** (rows from S8a/S8b) · **S12c = B4a + B4b** (rows from S9a/S9b) · **S12d = B5 + Sung + Part A stragglers** (rows from S10a/S10b + BC02, MBF77, LAA80, A2 priming, ATS17, SK21, CRK22, M85, DGBWR23) · **S12e = A↔B matrix** (`matrix.md`). Each part: re-check every grade in its files, work its backlog rows (close or carry with reason), Stage-2 ladder pass on its misconceptions |
 | S13 | §0 surplus test + integrity audit | everything | audit note in CHANGELOG; 00-map stamp | surplus test recorded; zero unsourced claims | **stage-2✓** |
 | S14 | Study-pack pilot (v1.2 spec) | study-pack-format.md, reference files, A1, A3 | `study-pack/00-START-HERE` + one topic file | learner sign-off | |
 | S15+ | Pack build in START-HERE priority order | spec + the topic's KB file | one or two topic files per session | each file passes spec checks | |
@@ -163,8 +163,9 @@ Read at start: <exact file list = Sy Inputs>
 | Teacher-expectancy effect size (M62) — Rosenthal & Jacobson + Jussim & Harber 2005 review | S8b | S12 |
 | Kel08 vol/pages; Make It Stick (2014) not read; MN19 remaining 34k chars | S9a | S12 |
 | Controlled test of SM-2 vs a fixed spacing schedule (B4a §5 `uncertain`) | S9a | S12 |
-| A7/A8 Stage-2 misconception pass: hunt ≥3 new each (candidates: "asking myself 'do I know it?' is the same as testing myself" (TR21); "knowing more brain facts protects against neuromyths" (Dek12); "~80% success is a proven optimum" (Ros12/Wi19)) + ladder M41–M47 | S11b-2 | S11b-2-rest |
-| Wi19 author list + article number (from recall) | S11b-2 | S12 |
+| S11b-2-rest closed: A7/A8 misconception pass ✓ (M87–M93 new; M42, M45, M47 → verified) · Wi19 authors + article no. ✓ (full text PMC6831579) | — | — |
+| Full text for the A7/A8 misconceptions still at `written`: RT11 (M41), KoB08 (M88), CGNA96 (M46, APA paywall), Hy07 (M91) | S11b-2-rest | S13 |
+| Og25's cited experiment [6] (Pomodoro-trained students beat fixed schedules on test performance) — identify and read | S11b-2-rest | S13 |
 | Kap08 abstract/full text (only TLDR seen); Ben11, Smi09 author/vol checks; ICAP independent tests | S9b-1 | S12 |
 | Mazur "30–70% first-vote" guideline — primary source | S9b-1 | S12 |
 | Fre14 failure rates (21.8% vs 33.8%?) at full text; DSW11 effect size | S9b-2 | S12 |
@@ -214,70 +215,40 @@ Read at start: <exact file list = Sy Inputs>
 ## Current hand-off
 
 ```
-Sprint: S11b-2 — Stage 2 verification A7 + A8 + engine 80% note — partial (2026-11-16, session 7)
-  (session 7 first applied review 20261116-002028 fixes 1–8: log lines moved, backlog closed/added,
-  S11a Done-when wording, stale verify notes, GH83 row, M19/M35 verified, table pipe, assumptions 6–8)
-Written: A7 §1 (DR12 search logged), §3 (RT11 mechanism + TR21: judging ≠ practising), §4 (RDS13
-  numbers via DGBWR23), §5 (Zimmerman phases via Pan17; DB08 moderators) · A8 §1 (Dek12 wording),
-  §2 (Brain Gym row, "10% brain" prevalence-only, myth 6 Y19 numbers), §3 item 6 · B4b §1 engine
-  ~80% note · M48 verified · sources 205 rows / 204 IDs (+TR21, Pan17, Hy07, Wi19) · CHANGELOG
-Verified this sprint: full text — TR21, Pan17, Y19, Dek12 (abstract wording); abstracts — RT11
-  (OpenAlex), Hy07, Wi19
-Open (carried): A7/A8 misconception hunt (≥3 new each; candidates in backlog) + ladder M41–M47 →
-  S11b-2-rest; DR12 numbers, DB08 mean ES, Z02 text, P08 full text → S13; Wi19 authors → S12
-Decisions made: a delayed JOL is a monitor, not a learning event (TR21) — the KB says "produce the
-  answer", never "just judge it". Engine ~80% left unedited; reword proposal awaits learner sign-off.
-Assumptions to review (S11b-2): (9) S11a Done-when reworded to the bar applied rather than
-  reopening S11a (abstract-only A4 items carried to S13 instead). (10) DB08 moderators taken from
-  Pan17's verbatim quote of DB08 p. 246 (DB08 itself unread). (11) Wi19 authors/article number
-  from memory, flagged verify. (12) "10% of the brain" kept as prevalence-only rather than dropped.
-Next sprint: S11b-2-rest — first action: write ≥3 new A7 misconceptions and ≥3 new A8 ones from
-  the S11b-2 findings (full entry format, protocol step 9), then move M41–M47 up the ladder where
-  a full-text read now backs the correction; tick S11b; then S12.
+Sprint: S11b-2 — Stage 2 verification A7 + A8 + engine 80% note — done (2026-11-16; partial in
+  session 7, finished S11b-2-rest in session 8) → S11b done
+Written: misconceptions M87–M89 (A7: silent judging ≠ testing; one test result doesn't switch
+  method; study-skills training differs by age) and M90–M93 (A8: brain knowledge doesn't protect;
+  Brain Gym; ~80% not a proven optimum; "significant" ≠ large) · ladder: M41 rewritten (TR21),
+  M42/M45/M47 → verified · A8 myth 5 Og25 design split · B4b §1 Wi19 limits · sources rows N13,
+  Wi19, Og25 (205 rows) · CHANGELOG · S12 split a–e written into the table
+Verified this sprint: full text — N13, Wi19 (authors/article no. confirmed), Og25, and earlier in
+  S11b-2 TR21, Pan17, Y19, Dek12
+Open (carried): see Verify backlog — S13: DR12, DB08 mean, Z02, P08, RT11/KoB08/CGNA96/Hy07 full
+  text, Og25 [6]; S12d: Part A stragglers
+Decisions made: S12 split into five parts by B file (a B1 · b B2+B3 · c B4a+B4b · d B5 + Sung +
+  Part A stragglers · e matrix). Engine ~80% wording still awaits learner sign-off (B4b §1).
+Assumptions to review (S11b-2-rest): (13) M42 marked verified on the authors' own full-text guide
+  (DGBWR23) rather than RDS13 itself. (14) M92 placed in A8 §3 (test kit), shared with B4b §1.
+  (15) Og25's cited test-score experiment noted as `uncertain` rather than read.
+Next sprint: S12a — Part B verification, B1 — first action: from the Verify backlog take the rows
+  first-noted S7a/S7b (EC05/Rein, RS1599 translator, Orbis Pictus, CSJ01, Vyg78/Chaiklin, Sm25/WBR76,
+  KCE80, LM96/Piaget, Fröbel/Moore/Suzuki/Pólya primaries, La14/LWW24/Sk22/Li17, SK22, FMSG14,
+  FN18/No22); close or carry each with reason; re-check every B1 grade in the Summary table against
+  its entry; Stage-2 ladder pass on M49–M56 (≥3 new misconceptions only if the sources read turn
+  them up — Part B has no fixed hunt quota). Tick S12a.
 Read at start: sprints.md (hand-off + Verify backlog + Research tooling notes),
-  knowledge-base/A7-metacognition.md, knowledge-base/A8-myths.md, knowledge-base/misconceptions.md
-  (index + M41–M48 + last entry M86 only)
+  knowledge-base/B1-historical.md (Summary §716–755 first; open single entries only as a backlog
+  row needs them), knowledge-base/misconceptions.md (index + M49–M56 only),
+  knowledge-base/sources.md (ID lookups by grep only)
 --- previous sprint (closed) ---
-Sprint: S11b-1 — Stage 2 verification A5 + A6 — done (2026-11-16; finished as S11b-1-rest,
-  session 6)
-Written: A5 §3 (GH83 full text; 45 vs 21%, earlier session) · A6 §3 ICAP challenge now sourced
-  (Cap25, T3 thesis, boundary condition) · A6 §4 NA06 full-text numbers added beside Sch17 · A6 §5
-  advance organizers (Stone's 4 anti-theory results; numeric ES `uncertain`) · sources 201 (+Cap25;
-  NA06, LAA80 rows rewritten) · CHANGELOG
-Verified this sprint: full text — Cap25 (UGA PDF), NA06 (author SFU PDF), GH83; abstracts — LAA80
-  (Crossref), Stone ED220476 (ERIC), PC23; bib — Stone 1983 JEE, LAA80 authors, MBF77
-Open (carried, all S12 in the backlog): BC02 dimension list; MBF77 primary; LAA80/Stone numeric ES
+Sprint: S11b-1 — Stage 2 verification A5 + A6 — done (2026-11-16; finished as S11b-1-rest)
+Open (carried, all S12d in the backlog): BC02 dimension list; MBF77 primary; LAA80/Stone numeric ES
 Decisions made: an unpublished thesis that goes against a framework is written as T3 + named
   boundary condition, never as a refutation, and never deleted for being inconvenient.
-Assumptions to review (S11b-1): (6) GH83 read from a gwern.net scan; GH80 numbers taken from the
-  authors' own recap in GH83. (7) Cap25 test treated as immediate (whole session ~75 min, no
-  delayed test found in the text). (8) NA06's "0.5–0.7 moderate" summary line in A6 §4 is my own
-  synthesis of NA06 + Sch17, not a figure either paper states.
-Next sprint: S11b-2 (A7 + A8 + engine 80% note) — first action: DR12 numbers (overconfidence →
-  early stopping → retention) via ERIC API / an author repository copy; then DB08, RT11, Z02, P08,
-  Y19, Dek12, 10%-brain, MPDK16, and the Ros12/80% engine note (any engine change → design sign-off,
-  log it, don't edit research/ or CLAUDE.md unattended).
-Read at start: sprints.md (hand-off + Verify backlog + Research tooling notes),
-  knowledge-base/A7-metacognition.md, knowledge-base/A8-myths.md, knowledge-base/sources.md (ID list only)
---- previous sprint (closed) ---
-Sprint: S11a — Stage 2 Part A verification, A1–A4 — done (2026-11-16; finished as S11a-rest)
-Written: A4 rows: retrieval (YLVYS21 classroom g 0.50; Ag19 quiz-type boundary), spacing (C06
-  verbal-recall-only boundary), worked examples (YF19 + RKC25 crossover), self-explanation (Bi18
-  full-text numbers by comparison), productive failure (adjustment method `uncertain`) ·
-  misconceptions M75 rewritten + verified · sources +3 (198: YLVYS21, YF19, RKC25) · CHANGELOG ·
-  S11b split into S11b-1 (A5+A6) / S11b-2 (A7+A8+engine note) in the table
-Verified this sprint: full text — Bi18 (gwern copy), Ag19 (author PDF); abstracts — C06, YLVYS21,
-  YF19 (truncated), RKC25, ATS17 (ERIC); bib — MHO14, KACS03
-Open (carried): ATS17 numeric g, SK21 adjustment method, CRK22 pages → all S12 (backlog)
-Decisions made: when a meta's number can't be read, a newer readable T1 meta takes the numeric
-  role and the old one stays for direction (ATS17 → YLVYS21); same-lab preprints = T3, support only.
-Assumptions to review (unattended run): (1) DGBWR23 year 2023 inferred from the PDF upload path;
-  (2) KLI v5.00 manuscript read for verification only (KCP12); (3) A3 row 7 → contested;
-  (4) Bi18 read from a gwern.net mirror (matches journal pagination 703–725); (5) S11b split a/b.
-Next sprint: S11b-1-rest (finish S11b-1, then tick it) — first action: find the source of A6 §3's
-  "161 undergraduates, passive best" line (grep A6/sources/CHANGELOG for it; cut if unsourced);
-  then LAA80/Stone (ERIC API), NA06. Then S11b-2 (A7 + A8 + engine 80% note) if context allows.
-Read at start: sprints.md (hand-off + Verify backlog + Research tooling notes),
-  knowledge-base/A5-schemas-expertise-transfer.md, knowledge-base/A6-depth-and-generation.md,
-  knowledge-base/sources.md (ID list only)
+Assumptions to review (S11b-1): (6) GH83 from a gwern.net scan; GH80 numbers from the authors'
+  recap in GH83. (7) Cap25 test: no delayed test reported. (8) A6 §4 range is the engine's reading.
+Assumptions to review (S11b-2, session 7): (9) S11a Done-when reworded to the bar applied.
+  (10) DB08 moderators from Pan17's quote of DB08 p. 246. (11) Wi19 authors from recall — now
+  confirmed at full text (closed). (12) "10% of the brain" kept as prevalence-only.
 ```

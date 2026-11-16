@@ -127,4 +127,4 @@
 - **J8** (encoding skills last): no sequencing evidence read in S5.
 
 ## Misconceptions owned
-M2 (shared A1), M21 (shared A1), M41, M42, M43, M44 → `misconceptions.md`.
+M2 (shared A1), M21 (shared A1), M41, M42, M43, M44, M87, M88, M89 (M87–M89 added S11b-2-rest) → `misconceptions.md`.

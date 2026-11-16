@@ -51,12 +51,12 @@
 | M39 | Deeper processing always helps, whatever the material and the test | A6 | written |
 | M40 | Studying a good mind map someone else made is as useful as making your own | A6 | written |
 | M41 | Rating how well I know it right after studying tells me what I'll remember | A7 | written |
-| M42 | Getting an item right once means I can stop studying it | A7 | written |
+| M42 | Getting an item right once means I can stop studying it | A7 | verified |
 | M43 | Metacognition means reflecting a lot; more reflection = better learning | A7 | written |
 | M44 | Being able to manage your own studying is a trait you have or don't | A7 | written |
-| M45 | People are left-brained (logical) or right-brained (creative) | A8 | written |
+| M45 | People are left-brained (logical) or right-brained (creative) | A8 | verified |
 | M46 | I can study fine while texting or watching something | A8 | written |
-| M47 | The Pomodoro technique makes you learn more | A8 | written |
+| M47 | The Pomodoro technique makes you learn more | A8 | verified |
 | M48 | Teaching students a growth mindset reliably raises their grades | A8 | verified |
 | M49 | The Socratic method means the teacher never tells, only asks | B1 | written |
 | M50 | A method used for centuries (Jesuit, Socratic, Confucian) is proven by its longevity | B1 | written |
@@ -96,6 +96,13 @@
 | M84 | The more you already know about a topic, the more you will gain from the next lesson ("knowledge is power") | B5 (A5) | written |
 | M85 | Motivation comes first: get students motivated and achievement will follow | B5 (A7) | written |
 | M86 | A very high reliability figure from a marking tool means the marks are trustworthy | B5 | written |
+| M87 | Asking myself "do I know this?" (without producing the answer) is the same as testing myself | A7 | verified |
+| M88 | Once a test shows me which study method worked better, I'll switch to it | A7 | written |
+| M89 | Any study-skills programme works the same way, at any age | A7 | written |
+| M90 | Knowing a lot about the brain protects you from neuromyths | A8 | verified |
+| M91 | Coordination exercises (e.g. Brain Gym) "integrate the hemispheres" and boost learning | A8 | written |
+| M92 | About 80% success during practice is a proven optimal rate for learning | A8 (B4b) | verified |
+| M93 | A big, pre-registered trial with a "significant" effect means the effect is large | A8 | verified |
 
 ---
 
@@ -409,17 +416,21 @@
 - **Correction:** immediate judgments read working memory and current retrieval strength.
   Judging after a delay, by attempting recall, is far more accurate at separating known from
   unknown items (relative accuracy g = 0.93, RT11). Overconfident judgments lead to stopping too
-  early (DR12).
+  early (DR12). The delay helps most when the judgment is made from the cue alone, so the learner
+  has to reach for the answer; and the judgment still has to be followed by producing the answer
+  to count as practice (TR21 full text; M87).
 - **Exposing question:** "If you close the book and wait ten minutes, can you still produce it?"
-- **Unit:** A7 §3. Status: written.
+- **Unit:** A7 §3. Status: written (S11b-2-rest: RT11 read at abstract only, DR12 unread — not
+  verified; backlog S13).
 
 ### M42 — Getting an item right once means I can stop studying it
 - **Why it feels true:** a correct answer is proof — of something.
 - **Correction:** one correct recall in a session shows current retrieval strength (A1 §3).
   Successive relearning — criterion recall repeated in later sessions — is what improved course
-  exams and long-term retention (RDS13).
+  exams and long-term retention (RDS13): exam scores >10 points over baseline, and 24 days later
+  >60% vs <20% recall (RDS13 Exp. 1, as reported in the authors' own full-text guide DGBWR23).
 - **Exposing question:** "Did you get it right on a *different day* than you studied it?"
-- **Unit:** A7 §4. Status: written.
+- **Unit:** A7 §4. Status: verified (2026-11-16, via DGBWR23 full text; RDS13 itself at abstract).
 
 ### M43 — Metacognition means reflecting a lot; more reflection = better learning
 - **Why it feels true:** "thinking about your thinking" sounds like general reflection, and reflecting feels responsible.
@@ -472,10 +483,11 @@
 - **Why it feels true:** some functions really do lean to one side (language mostly left), and
   personality labels are appealing.
 - **Correction:** in 1,011 brain scans, lateralization was local to particular networks and present
-  in everyone; there was no whole-brain "left-brained" or "right-brained" type (N13).
+  in everyone; there was no whole-brain "left-brained" or "right-brained" type (N13, full text:
+  "a local rather than global property of brain networks").
 - **Exposing question:** "If language is left-sided in almost everyone, what would a
   'right-brained' person use to talk?"
-- **Unit:** A8 §2 myth 2. Status: written.
+- **Unit:** A8 §2 myth 2. Status: verified (2026-11-16, N13 full text).
 
 ### M46 — I can study fine while texting or watching something
 - **Why it feels true:** you keep reading and the page still makes sense, so nothing seems lost.
@@ -488,11 +500,13 @@
 ### M47 — The Pomodoro technique makes you learn more
 - **Why it feels true:** timed sprints feel focused, and breaks reduce tiredness.
 - **Correction:** the evidence (32 studies, N = 5,270) mainly measured self-rated focus, fatigue and
-  motivation, not delayed learning (Og25). It may help you sit down and keep going; it is not a
+  motivation, not delayed learning (Og25; full text: 3 of the 32 were RCTs, and academic gains were
+  "typically measured through subjective assessments and self-reported measures"; one cited
+  experiment reported higher test scores — not read). It may help you sit down and keep going; it is not a
   learning method. What you *do* in the 25 minutes decides the learning (A4).
 - **Exposing question:** "What did the studies measure — your feeling of focus, or what you could
   recall a week later?"
-- **Unit:** A8 §2 myth 5. Status: written.
+- **Unit:** A8 §2 myth 5. Status: verified (2026-11-16, Og25 full text).
 
 ### M48 — Teaching students a growth mindset reliably raises their grades
 - **Why it feels true:** the message is hopeful, and believing effort matters seems obviously useful.
@@ -503,6 +517,83 @@
   not a general lever.
 - **Exposing question:** "For which students, and how big was the gain?"
 - **Unit:** A8 §2 myth 6. Status: verified (2026-11-16, Sis18 + Y19 full text).
+
+### M87 — Asking myself "do I know this?" (without producing the answer) is the same as testing myself
+- **Why it feels true:** both happen with the book closed, and in both you reach into memory; the
+  judgment even comes with a feeling of having "checked".
+- **Correction:** a delayed judgment made from the cue alone is a good *monitor* (RT11), but as a
+  learning event it is weak: in RT11's data cue-only delayed judgments gave almost no memory gain
+  (g = 0.03), and in TR21's experiments (word pairs, 2-day cued recall) they gave **poorer recall
+  than overtly retrieving the answer** (Exp. 2a/2b). The covert "yes, I know it" may never fetch
+  the whole answer.
+- **Exposing question:** "When you said 'I know it', did you actually say or write the answer?"
+- **Unit:** A7 §3. Status: verified (2026-11-16, TR21 full text; word pairs only).
+
+### M88 — Once a test shows me which study method worked better, I'll switch to it
+- **Why it feels true:** people assume that seeing their own result is the strongest possible
+  feedback.
+- **Correction:** in KoB08, spacing beat massing for most learners, yet more than 80% rated
+  massing as equal or better *after* the test (only 15% actually did better massed). The feeling
+  of fluency during massed study outweighed the result. Monitoring illusions survive feedback
+  (BDK13); the fix is a rule decided in advance (delayed self-tests, criterion recall), not a
+  hope that the result will change the feeling.
+- **Exposing question:** "Your test said spacing won — which method did you *choose* for the next
+  chapter, and why?"
+- **Unit:** A7 §2. Status: written (KoB08 at abstract).
+
+### M89 — Any study-skills programme works the same way, at any age
+- **Why it feels true:** "learning how to learn" sounds like one general skill, so one course
+  should suit everyone.
+- **Correction:** self-regulation is trainable (DB08), but what made training work differed by
+  school level: in primary school, programmes built on social-cognitive theory that also taught
+  metacognitive and motivational strategies did better; in secondary school, programmes built on
+  metacognitive theory with reflection did better — yet so did ones teaching cognitive rather than
+  metacognitive strategies (DB08 p. 246, quoted in Pan17). The picture is mixed; the overall size
+  is not readable here (`uncertain`).
+- **Exposing question:** "Was this programme tested with learners like you, and which parts of it
+  did the work?"
+- **Unit:** A7 §5. Status: written (DB08 moderators via Pan17 full text; DB08 unread).
+
+### M90 — Knowing a lot about the brain protects you from neuromyths
+- **Why it feels true:** myths look like ignorance, so more knowledge should cure them.
+- **Correction:** among 242 UK and Dutch teachers interested in brain science, more general
+  brain knowledge *predicted more* belief in neuromyths, not less (Dek12, full text). Facts about
+  the brain are not the same as the habit of asking for the evidence (A8 §3 test kit).
+- **Exposing question:** "What study would you need to see before believing this brain claim?"
+- **Unit:** A8 §1. Status: verified (2026-11-16, Dek12 full text; self-selected sample).
+
+### M91 — Coordination exercises (e.g. Brain Gym) "integrate the hemispheres" and boost learning
+- **Why it feels true:** movement breaks can feel refreshing, the programmes are sold with
+  brain diagrams, and 82–88% of the teachers in Dek12 believed it.
+- **Correction:** a review of Brain Gym's theory and its peer-reviewed studies "failed to support
+  the contentions of the promoters" (Hy07). The mechanism also conflicts with brain data: the
+  hemispheres are not separate person-level systems waiting to be joined (N13).
+- **Exposing question:** "Which controlled study compared these exercises with an ordinary break,
+  on a learning test?"
+- **Unit:** A8 §2 (Brain Gym note). Status: written (Hy07 at abstract; N13 full text).
+
+### M92 — About 80% success during practice is a proven optimal rate for learning
+- **Why it feels true:** it is a precise number, it is repeated by trusted sources (Rosenshine;
+  this engine's principle 4), and the idea behind it (hard but mostly successful) is sound.
+- **Correction:** the classroom 80% comes from process-product research — effective teachers'
+  classes happened to show about 82% vs 73% success — which is **correlational**, not a tested
+  optimum (Ros12, full text). The one formal result, the "85% rule", is a model of
+  gradient-descent learners on two-choice tasks; it shifts to 82% or 75% under other noise
+  assumptions and was not tested with human students (Wi19, full text). Keep the principle; hold
+  the number loosely.
+- **Exposing question:** "Was the 80% set by an experiment, or observed in classes that were
+  doing well?"
+- **Unit:** A8 §3 item 4 (B4b §1). Status: verified (2026-11-16, Ros12 + Wi19 full text).
+
+### M93 — A big, pre-registered trial with a "significant" effect means the effect is large
+- **Why it feels true:** "national", "pre-registered" and "significant" all sound like strength,
+  and they are strengths — of the *design*.
+- **Correction:** rigour tells you the effect is probably real, not that it is big. The national
+  growth-mindset RCT (Y19, full text) found +0.10 grade points (SMD 0.11) for lower-achieving
+  students and 0.01 (ns) for higher achievers. "Significant" means "unlikely to be zero"; the size
+  and *for whom* are separate questions.
+- **Exposing question:** "How much did the average student's grade move, and for which students?"
+- **Unit:** A8 §3 item 5. Status: verified (2026-11-16, Y19 full text).
 
 
 ### M49 — The Socratic method means the teacher never tells, only asks
