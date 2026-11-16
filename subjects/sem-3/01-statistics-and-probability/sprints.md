@@ -38,7 +38,7 @@ the blueprint, three slide sets.
 | # | Sprint | Inputs (beyond the standing list) | Outputs | Done when | Status |
 |---|---|---|---|---|---|
 | S0 | **Brief** | every file in `exam-pack/` · KB `00-map`, `exam-map` · old 00 (ranking) · `src/verify.py` (constants) | `src/brief.md`: slides transcribed (equations shown only as images viewed), question bank (every MTE/assignment/slide question → file + step), constants/tables used (z, t, χ², F values) checked against the KB, figure list per file | every assignment and MTE question is mapped; every table value the questions need is listed with its source | ✓ 2026-11-16 |
-| S1 | **01 + 02** probability basics; random variables (PMF, PDF, CDF) | old 01, 02 · KB `01` | `01-…`, `02-…` rebuilt (a/b if > 13 steps), figures in `src/figures.py`, numbers in `src/verify.py` | protocol 6–12 hold | partial 2026-11-16 (01, 02a written; 02b + verify + build left) |
+| S1 | **01 + 02** probability basics; random variables (PMF, PDF, CDF) | old 01, 02 · KB `01` | `01-…`, `02-…` rebuilt (a/b if > 13 steps), figures in `src/figures.py`, numbers in `src/verify.py` | protocol 6–12 hold | ✓ 2026-11-16 (S1 + S1b: 01, 02a, 02b) |
 | S2 | **03 + 08** expectation, variance, Chebyshev; estimator properties | old 03, 08 · KB `01`, `03` | `03-…`, `08-…` rebuilt | same | |
 | S3 | **09** method of moments and MLE (rank 1; the slides' four MLE examples) | old 09 · KB `03` · slides MLE-and-Bayesian | `09a-method-of-moments.md`, `09b-mle.md` (split expected) | same; every slide MLE example re-derived in verify | |
 | S4 | **04 + 05** binomial and Poisson; uniform and exponential | old 04, 05 · KB `02` · Assignment 2 | `04-…`, `05-…` rebuilt | same | |
@@ -60,8 +60,10 @@ sprint reads them first.
 | HT slides 20 (binomial α = 1/9, β = 11/16) and 22 (power function, α = 0.001, (0.1)⁴, (0.1)^(θ+1)) not used in v1.2 and not in `verify.py`: add checks + steps | S0 | S6 |
 | v1.2 file 07's slide tags are off (ATM is p.11–12, impurity p.13–14, LED p.15–16, machine p.17–18, SE example p.5); SE/CLT p.14 prints z = −0.4 (true −0.94): note box | S0 | S5 |
 | A5 C2(b) needs t(20) = 2.086 (not printed in the assignment): print it as the pack's value | S0 | S7 |
-| New numbers in v1.3 01 and 02a (every Check, Self-test, step answer: dice counts 11/36, 1/2, 1/12, 1/18; bolts 0.968, 0.6074; Self-test 7 = 0.1538; 02a Check 5(b) 0.3028, ST 2–7) not yet in `verify.py` | S1 | S1 (continuation) |
-| START-HERE slip table: A1 LA 2 row must say the printed row is k, 2k, 2k, 3k, 3k (differs at x = 0, 1, 3) and key (ii) 91/100 = G&K's 19/100 swapped (G&K page index 241 checked) | S1 | S1 (continuation) |
+| ~~New numbers in v1.3 01 and 02a not yet in `verify.py`~~ | S1 | **closed S1b** (`# ==== v1.3 S1` block, 558 checks pass) |
+| ~~START-HERE slip table: A1 LA 2 row~~ | S1 | **closed S1b** (row rewritten) |
+| 02a's MTE A1 line says option (a) "is in 03b": if S2 does not split 03, re-point it to "03" | S1b | S2 |
+| Pack `README.md` still says "format v1.2": update when all files are v1.3 | S1b | S9 |
 
 ## Assumptions to review (persistent — the learner confirms or overrules)
 
@@ -78,37 +80,27 @@ sprint reads them first.
 ## Current hand-off
 
 ```
-Sprint: S1 — 01 + 02a + 02b — partial (2026-11-16, auto.py; stopped at the context limit)
-Written: content/01-probability-basics.md — v1.3, 12 steps (S, events, m/n, axioms, complement,
-  addition, conditional = shrunk grid, P(A|B)=1, multiplication, independence, total prob., Bayes),
-  two-dice running example, symbol table, Exam form, Traps, Self-test 7, Answers.
-  content/02a-discrete-random-variables.md — v1.3, 9 steps (RV, discrete/continuous, PMF by
-  counting, PMF rules, find k + note box, combinations, CDF staircase + reading table, probabilities
-  from F + key note box, conditional with a PMF), 3-children running example.
-  src/figures.py — 16 new v1.3 figures at the end (on figlib): 01 uses dice_space, dice_events,
-  dice_complement, venn_union, dice_shrunk, venn_subset, aces_tree, bolt_tree, bolt_bayes; 02a uses
-  family_map, boys_pmf, boys_cdf; 02b is to use cable_pdf, cable_cdf, power_tail, life_cond (already
-  written + viewed). Overlap check on all 16: clean.
-Verified this sprint: A1 LA 2 printed row read off the page image; G&K's version + answers
-  (81/100, 19/100, 4/5; F row) read in the book (page index 241). Numbers in 01/02a: by hand only —
-  NOT yet in verify.py (backlog row 4).
-Open (carried): 02b not written · verify.py checks for 01/02a/02b · build not run (new files never
-  rendered; check the `P(A \| B)` escape in 01's symbol table renders as "|") · old
-  content/02-random-variables.md + its html/pdf still present (remove after 02b) · START-HERE rows for
-  01/02a/02b + slip-table fix (backlog row 5) · cross-refs `grep -rn "02-random\|file 02\|02 step" src/content`.
-Decisions made: 01 Bayes on bolts (Assumption 6). 02a step numbers are cited by later files as
-  "02a step N". 02b plan: 6 steps — 1 probability = area (cable f = 6x(1−x), P(0.2 ≤ X ≤ 0.5) = 0.396,
-  reading table f(0.2)=0.96, f(0.5)=1.5, f(0.8)=0.96), 2 checking a PDF (A1 SA 3(i)), 3 continuous CDF
-  F = 3x² − 2x³ (F(0.2)=0.104, F(0.5)=0.5, F(0.8)=0.896; f = F′), 4 median (SA 3(ii); 4b³ − 6b² + 1 =
-  (2b − 1)(2b² − 2b − 1), other roots (1 ± √3)/2 outside [0,1]), 5 tail (A1 SA 2, by parts, 5e⁻⁴ =
-  0.0916, key 0.0915 truncated; reading f(3)=0.1226, f(12)=0.0244, f(20)=0.0028), 6 conditional
-  (A1 LA 1: 0.1544, 0.4863; f(50)=0.01875, f(60)=0.01728, f(70)=0.01323). Checks from old 02 C5–C6.
-Assumptions to review: 6 (01 Bayes on bolts; LA 2 on G&K's row), 7 (S1 continuation = S1b)
-Next sprint: S1b (finish S1) — first action: write content/02b-continuous-random-variables.md from the
-  plan above (old content/02 steps 5–6 + Answers for the worked numbers), then add a
-  "# ==== v1.3 S1" block to verify.py before its final print (all 01/02a/02b numbers), run it,
-  `python src/build.py 01 02a 02b`, view pages, remove old 02 files, update START-HERE + slip table.
-Read at start: this hand-off · ../../../study-pack-sprint-protocol.md · content/02a (header + symbol
-  table + step 9 only, for format) · old content/02 lines 159–280 · verify.py lines 1–40 and 350–370 ·
-  00-START-HERE.md (rank / what-each-file / slip sections only)
+Sprint: S1 — 01 + 02a + 02b — done (2026-11-16; S1 then S1b, both auto.py)
+Written: content/02b-continuous-random-variables.md — v1.3, 6 steps (probability = area, checking a
+  PDF, smooth CDF + f = F', median = F(b) = 1/2, tail area by parts, conditional with a PDF), cable
+  running example, figures cable_pdf, cable_cdf, power_tail, life_cond; Exam form (discrete vs
+  continuous table), Traps, Self-test 7, Answers.
+  01 fixes after first render: map label "8 When B forces A" (a "|" inside a map label cuts the map);
+  figure dice_shrunk redrawn (C inside B, 3 cells; ruled-out rows really faded); Self-test 7 wording.
+  verify.py: "# ==== v1.3 S1" block before the final print (01 by enumerating the 36 cells / 52 cards,
+  02a by enumerating families + exact Fractions, 02b by scipy quad).
+  Old content/02-random-variables.md + html + pdf removed. Cross-refs in 03, 04, 05, 06 now point to
+  02a/02b. START-HERE: rank rows 15 (02a + 02b) and 16 (01), Unit 1 map, prerequisite line, file table,
+  A1 LA 2 slip row, "558 checks, 13 mismatches".
+Verified this sprint: numbers: verify.py, 558 checks, 0 failures, 13 key differences (all flagged).
+  Build 00 01 02a 02b: no OVERLAP; every page of 01, 02a, 02b viewed.
+Open (carried): Verify backlog rows (03b pointer → S2; README v1.2 → S9).
+Decisions made: later files cite "02a step N" / "02b step N". 02b step numbers: 1 area, 2 PDF rules,
+  3 CDF, 4 median, 5 tail, 6 conditional. Markup lesson: never put "|" in a [[map:…]] label either.
+Assumptions to review: none new.
+Next sprint: S2 — 03 + 08 — first action: read src/brief.md's sections for 03 and 08 (grep "## 03",
+  "## 08"), then old content/03 and decide the 03a/03b split (Assumption 4); log the sprint start.
+Read at start: this hand-off · ../../../study-pack-sprint-protocol.md · brief.md sections for 03, 08 ·
+  old content/03-expectation-variance-chebyshev.md, 08-estimators-properties.md · KB 01, 03 (by
+  section) · content/02b header + symbol table (format model) · verify.py lines 1–40 + the end
 ```

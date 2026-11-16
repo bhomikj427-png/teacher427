@@ -493,13 +493,15 @@ def venn_union():
 
 def dice_shrunk():
     B = lambda i, j: i == 6
+    C = lambda i, j: i + j >= 10
     f, ax = _gridcanvas(6.2, 3.3, right=4.2)
-    _grid(ax, lambda i, j: ("#c9a0ea" if j == 1 else "#fbc99a") if B(i, j) else "#f6f6f3")
-    for i in range(1, 6):
+    _grid(ax, lambda i, j: ("#c9a0ea" if C(i, j) else "#fbc99a") if B(i, j) else "#ececea", label=False)
+    for i in range(1, 7):
         for j in range(1, 7):
-            ax.add_patch(_Rect((j - 1, 6 - i), 1, 1, fc="white", alpha=.55, ec="none"))
+            ax.text(j - .5, 6.5 - i, f"{i},{j}", ha="center", va="center", fontsize=7.2,
+                    color=FL.INK if B(i, j) else "#c4c4c0")
     ax.add_patch(_Rect((0, 0), 6, 1, fill=False, ec=FL.G1, lw=2))
-    for k, (c, t) in enumerate([("#fbc99a", "new sample space B: 6 cells"), ("#c9a0ea", "A inside B: 1 cell")]):
+    for k, (c, t) in enumerate([("#fbc99a", "new sample space B: 6 cells"), ("#c9a0ea", "C inside B: 3 cells")]):
         y = 4.5 - 1.2 * k
         ax.add_patch(_Rect((6.5, y), .5, .5, fc=c, ec=FL.LINE))
         ax.text(7.2, y + .25, t, va="center", fontsize=8.5)

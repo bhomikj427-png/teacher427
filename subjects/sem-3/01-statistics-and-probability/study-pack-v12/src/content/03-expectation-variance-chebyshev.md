@@ -23,7 +23,7 @@
 
 ### 1 · Expectation: the balance point
 
-File 02 gave each value a probability. One number now summarises where the distribution sits.
+Files 02a and 02b gave each value a probability. One number now summarises where the distribution sits.
 
 :::q <span class="tag">A1 App 3</span>
 Battery life X (years) = 2, 3, 4, 5 with P(X) = 0.20, 0.30, 0.35, 0.15. Find the mean battery life.
@@ -96,7 +96,7 @@ Two unknowns need two equations. Which two facts about f give them?
 
 **Answer.** *Equation 1, total area = 1:* ∫₀¹ (ax^{2} + bx) dx = a/3 + b/2 = 1 ⇒ **2a + 3b = 6**.
 *Equation 2, mean = 0.5:* ∫₀¹ x(ax^{2} + bx) dx = a/4 + b/3 = ½ ⇒ **3a + 4b = 6**.
-Solve: multiply the first by 3 and the second by 2: 6a + 9b = 18 and 6a + 8b = 12, so b = 6, then 2a = 6 − 18, **a = −6, b = 6**. f(x) = 6x − 6x^{2} = 6x(1 − x): the cable pdf of file 02, symmetric about 0.5 ✓.
+Solve: multiply the first by 3 and the second by 2: 6a + 9b = 18 and 6a + 8b = 12, so b = 6, then 2a = 6 − 18, **a = −6, b = 6**. f(x) = 6x − 6x^{2} = 6x(1 − x): the cable pdf of file 02b, symmetric about 0.5 ✓.
 
 :::check Check 3
 For f(x) = 6x(1 − x) on (0, 1), find E(X^{2}) and Var(X).
@@ -124,7 +124,7 @@ Is E(X + Y) = E(X) + E(Y) always true? Is E(XY) = E(X)E(Y) always true? Write ye
 | Var(aX + b) = a^{2}Var(X) | no: adding b shifts, does not spread |
 | Var(X ± Y) = Var(X) + Var(Y) | **yes**; note + for X − Y too |
 
-**Answer.** **Correct** for independent X₁, X₂ (the multiplication theorem of expectation). So in MTE A1 the incorrect statement is (b), as found in file 02.
+**Answer.** **Correct** for independent X₁, X₂ (the multiplication theorem of expectation). So in MTE A1 the incorrect statement is (b), as found in file 02a step 2.
 
 **Sums without counting every case.** <span class="tag">A1 LA 3</span> 25 items, 5 defective; sample 4. Let Xᵢ = 1 if the i-th item drawn is defective. Each draw, with or without replacement, has P(defective) = 5/25 = 0.2. By the sum rule E(X) = 4 × 0.2 = **0.8 in both cases**.
 

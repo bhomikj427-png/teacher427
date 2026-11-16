@@ -4,7 +4,7 @@
 
 ## Map
 
-[[map:1 Outcomes and S > 2 Events > 3 Count and divide > 4 The three axioms > 5 Complement > 6 Addition rule > 7 Conditional: a smaller S > 8 P(A | B) = 1 > 9 Multiplication rule > 10 Independence > 11 Total probability > 12 Bayes' theorem|here=1]]
+[[map:1 Outcomes and S > 2 Events > 3 Count and divide > 4 The three axioms > 5 Complement > 6 Addition rule > 7 Conditional: a smaller S > 8 When B forces A > 9 Multiplication rule > 10 Independence > 11 Total probability > 12 Bayes' theorem|here=1]]
 
 This is the first file. It builds the language every later file speaks: an experiment, its list of outcomes, events, and the rules that turn them into numbers between 0 and 1. All of it is shown on one picture, the 36 results of throwing two dice. 02a uses the same language to define a **random variable**; 10 (Bayesian estimation) is built on step 12.
 
@@ -441,7 +441,7 @@ Read it as: **one path to D, divided by all paths to D.** (G&K §4.8.)
 4. Are the A and B of question 3 independent? Show the test.
 5. A family has two children. Given that at least one is a boy, find P(both are boys).
 6. Two dice: find P(sum is 8 | both dice are even).
-7. 1 % of people have a condition. A test is positive for 90 % of those with it and for 5 % of those without. A person tests positive. Find P(has the condition).
+7. 1 % of people have a condition. A test is positive for 90 % of those with it and for 5 % of those without. A person tests positive. Find the chance that this person has the condition.
 
 <!--ANSWERS-->
 ## Answers

@@ -1,6 +1,6 @@
 # 04 — Binomial and Poisson distributions
 
-<div class="sub">Gupta & Kapoor ch. 7 (§7.2, §7.3) · blueprint row 2 "standard probability distributions: binomial, Poisson" · 11 real questions (MTE, Assignment 2) · needs 02, 03</div>
+<div class="sub">Gupta & Kapoor ch. 7 (§7.2, §7.3) · blueprint row 2 "standard probability distributions: binomial, Poisson" · 11 real questions (MTE, Assignment 2) · needs 02a, 03</div>
 
 ## Map
 
@@ -22,7 +22,7 @@
 
 ### 1 · The binomial formula
 
-File 02 built PMFs by counting outcomes. When the same yes/no trial is repeated, one formula does the counting.
+File 02a built PMFs by counting outcomes. When the same yes/no trial is repeated, one formula does the counting.
 
 :::q <span class="tag">MTE B3 · 4 marks</span>
 An irregular six-faced die is thrown and the expectation that in 10 throws it will give 5 even numbers is twice the expectation that it will give 4 even numbers. How many times in 10000 sets of 10 throws each would you expect it to give no even number?
@@ -173,7 +173,7 @@ What is the mean number of waiting jobs among 200?
 
 ## Traps
 
-- Using the binomial when trials are drawn **without replacement** from a small lot (p changes; file 02's combinations apply).
+- Using the binomial when trials are drawn **without replacement** from a small lot (p changes; file 02a step 6's combinations apply).
 - "At least one" by adding many terms: use 1 − P(0).
 - Reading "the mean" in a Poisson question as n or p: λ is the mean for the stated interval. Rescale λ if the interval changes (rate 2 per hour → λ = 6 for 3 hours).
 - Rejecting "more than 3" with P(X ≥ 3) instead of P(X > 3) = P(X ≥ 4).

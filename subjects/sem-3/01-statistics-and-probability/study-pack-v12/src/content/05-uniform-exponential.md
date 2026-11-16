@@ -1,6 +1,6 @@
 # 05 — Uniform and exponential distributions
 
-<div class="sub">Gupta & Kapoor ch. 8 (§8.1, §8.6) · blueprint row 2 "uniform, exponential" · 13 real questions (MTE, Assignment 2) · needs 02, 03, 04 (Poisson)</div>
+<div class="sub">Gupta & Kapoor ch. 8 (§8.1, §8.6) · blueprint row 2 "uniform, exponential" · 13 real questions (MTE, Assignment 2) · needs 02b, 03, 04 (Poisson)</div>
 
 ## Map
 
@@ -25,7 +25,7 @@
 
 ### 1 · Uniform: a flat density
 
-File 02's rule P = area is easiest to see on a rectangle.
+File 02b's rule P = area is easiest to see on a rectangle.
 
 :::q <span class="tag">A2 B2</span>
 A random variable X is uniformly distributed between 10 and 20. Find the exact probability that X is greater than 16.

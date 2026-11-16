@@ -163,17 +163,17 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 </tr>
 <tr>
 <td><strong>15</strong></td>
-<td><strong>02 Random variables</strong></td>
+<td><strong>02a Discrete RVs · 02b Continuous RVs</strong></td>
 <td>Row 1; needed by 03, 08, 09</td>
-<td>02 §2, 4, 5</td>
-<td>45 min</td>
+<td>02a §3, 5, 7–8; 02b §1–3, 5</td>
+<td>60 min</td>
 </tr>
 <tr>
 <td><strong>16</strong></td>
 <td><strong>01 Probability basics</strong></td>
 <td>Row 1 definitions; Bayes' theorem feeds 10</td>
-<td>01 §4, 6</td>
-<td>30 min</td>
+<td>01 §6–7, 11–12</td>
+<td>40 min</td>
 </tr>
 <tr>
 <td><strong>last</strong></td>
@@ -187,12 +187,12 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <p>Two rules for using the ranking:</p>
 <ul>
 <li><strong>Short on time:</strong> go down the list doing only the "Do first" column, then the matching mock items.</li>
-<li><strong>Stuck in 08–09:</strong> they need E(X), Var(X) and PDFs. Go back to 02 §5 and 03 §1–4 first.</li>
+<li><strong>Stuck in 08–09:</strong> they need E(X), Var(X) and PDFs. Go back to 02b §1–3 and 03 §1–4 first.</li>
 </ul>
 <h2>The path through the pack</h2>
 <p>The order is the syllabus order, which is also the order of the assignments (1, 2, …, 5).</p>
 <p><strong>Unit 1 — probability and random variables</strong> (blueprint row 1)</p>
-<div class="map"><span class="n here">01 Probability basics</span><span class="a">→</span><span class="n">02 Random variables</span><span class="a">→</span><span class="n">03 Expectation, variance, Chebyshev</span></div>
+<div class="map"><span class="n here">01 Probability basics</span><span class="a">→</span><span class="n">02a Discrete RVs</span><span class="a">→</span><span class="n">02b Continuous RVs</span><span class="a">→</span><span class="n">03 Expectation, variance, Chebyshev</span></div>
 
 <p><strong>Unit 2 — distributions and sampling</strong> (row 2)</p>
 <div class="map"><span class="n">04 Binomial, Poisson</span><span class="a">→</span><span class="n">05 Uniform, exponential</span><span class="a">→</span><span class="n">06 Normal</span><span class="a">→</span><span class="n">07 SE and CLT</span></div>
@@ -203,7 +203,7 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <p><strong>Unit 4 — testing</strong> (rows 4 and 5)</p>
 <div class="map"><span class="n">12 Hypotheses, errors</span><span class="a">→</span><span class="n">13 t-tests</span><span class="a">→</span><span class="n">14 F-test</span><span class="a">→</span><span class="n">15 χ²</span><span class="a">→</span><span class="n">16 ANOVA</span><span class="a">→</span><span class="n">17 Mock</span></div>
 
-<p>02 needs 01's probability rules. 03 needs 02's PMF/PDF. 04–06 use 03's E and Var. 07 needs 03 (variance of a sum) and 06 (normal table). 08–09 need 03, 07 and the distributions of 04–05. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.</p>
+<p>02a needs 01's probability rules; 02b needs 02a's CDF. 03 needs 02a's PMF and 02b's PDF. 04–06 use 03's E and Var. 07 needs 03 (variance of a sum) and 06 (normal table). 08–09 need 03, 07 and the distributions of 04–05. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.</p>
 <table>
 <thead>
 <tr>
@@ -217,14 +217,20 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <tr>
 <td>01</td>
 <td>row 1 · basic terminology</td>
-<td>sample space, events, classical probability, addition, conditional, independence, Bayes</td>
+<td>sample space, events, count and divide, axioms, complement, addition, conditional, multiplication, independence, total probability, Bayes</td>
 <td>4</td>
 </tr>
 <tr>
-<td>02</td>
-<td>row 1 · RVs, PMF, PDF, CDF</td>
-<td>discrete vs continuous, PMF, building a PMF, CDF, PDF as area, conditionals</td>
-<td>11</td>
+<td>02a</td>
+<td>row 1 · discrete RVs, PMF, CDF</td>
+<td>random variable, discrete vs continuous, PMF by counting, PMF rules, finding k, combinations, CDF staircase, reading F, conditionals</td>
+<td>9</td>
+</tr>
+<tr>
+<td>02b</td>
+<td>row 1 · continuous RVs, PDF, CDF</td>
+<td>probability as area, checking a PDF, smooth CDF, median, tail areas, conditionals</td>
+<td>3</td>
 </tr>
 <tr>
 <td>03</td>
@@ -461,10 +467,10 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <td>the key's own 30.43 implies μ ≈ 37.2</td>
 </tr>
 <tr>
-<td>A1 LA 2 (02 §2, §4)</td>
-<td>P(X = 0) = k; key for P(X &gt; 6) is 81/100</td>
-<td>textbook table P(X = 0) = 0; P(X &gt; 6) = 17/100, P(X &lt; 6) = 81/100</td>
-<td>the key belongs to the textbook version</td>
+<td>A1 LA 2 (02a §5, §8)</td>
+<td>row printed as k, 2k, 2k, 3k, 3k, k², 2k², 7k² + k; key (ii) 81/100, 91/100, 4/5</td>
+<td>Gupta &amp; Kapoor's row 0, k, 2k, 2k, 3k, … (differs at x = 0, 1, 3); P(X &gt; 6) = 17/100, P(X ≥ 6) = 19/100, P(0 &lt; X &lt; 5) = 4/5</td>
+<td>the key answers G&amp;K's question: 81/100 is P(X &lt; 6), and 91/100 is 19/100 with its digits swapped. The printed row gives k ≈ 0.0782</td>
 </tr>
 <tr>
 <td>A1 LA 3 (03 §4)</td>
@@ -507,6 +513,6 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <h2>How this pack was checked</h2>
 <ul>
 <li><strong>Facts:</strong> from the subject's knowledge base (researched to both stages from Walpole, Montgomery &amp; Runger and Ross; every load-bearing claim checked against sources) and from Gupta &amp; Kapoor, the reference the slides cite. Section numbers are quoted where a formula is used.</li>
-<li><strong>Numbers:</strong> <code>src/verify.py</code> recomputes every number in the pack, more than 400 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 11 mismatches are the slips in the table above.</li>
+<li><strong>Numbers:</strong> <code>src/verify.py</code> recomputes every number in the pack, 558 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 13 mismatches are the slips in the table above.</li>
 <li><strong>Pages:</strong> every page was viewed after the final build.</li>
 </ul></body></html>

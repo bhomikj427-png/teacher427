@@ -1,6 +1,6 @@
 # 06 — The normal distribution
 
-<div class="sub">Gupta & Kapoor ch. 8 (§8.2) · blueprint row 2 "normal" · 9 real questions (MTE, Assignment 2) · needs 02, 03, 04 (binomial)</div>
+<div class="sub">Gupta & Kapoor ch. 8 (§8.2) · blueprint row 2 "normal" · 9 real questions (MTE, Assignment 2) · needs 02b, 03, 04 (binomial)</div>
 
 ## Map
 
