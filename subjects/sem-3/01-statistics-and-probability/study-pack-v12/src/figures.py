@@ -416,4 +416,257 @@ def mock_blueprint():
     return _svg(fig)
 
 
+# ================================================================ v1.3 figures (built on tools/figlib.py)
+import figlib as FL  # noqa: E402  (build.py puts tools/ on sys.path)
+from matplotlib.patches import Rectangle as _Rect, Circle as _Circ  # noqa: E402
+
+
+def _grid(ax, colour_of, label=True, fs=7.2):
+    """6 x 6 two-dice grid; row = first die (1 at top), column = second die. colour_of(i, j) -> face colour."""
+    for i in range(1, 7):
+        for j in range(1, 7):
+            x, y = j - 1, 6 - i
+            ax.add_patch(_Rect((x, y), 1, 1, fc=colour_of(i, j), ec=FL.LINE, lw=0.8))
+            if label:
+                ax.text(x + .5, y + .5, f"{i},{j}", ha="center", va="center", fontsize=fs, color=FL.INK)
+    for j in range(1, 7):
+        ax.text(j - .5, 6.25, str(j), ha="center", va="bottom", fontsize=8.5, color=FL.MUTED)
+    for i in range(1, 7):
+        ax.text(-.22, 6.5 - i, str(i), ha="right", va="center", fontsize=8.5, color=FL.MUTED)
+    ax.text(3, 6.85, "second die", ha="center", va="bottom", fontsize=9, color=FL.MUTED)
+    ax.text(-.8, 3, "first die", ha="center", va="center", rotation=90, fontsize=9, color=FL.MUTED)
+
+
+def _gridcanvas(w=4.4, h=3.3, right=0.0):
+    return FL.canvas(w, h, (-1.2, 6.1 + right), (-.15, 7.4))
+
+
+# ---- 01 probability basics (v1.3)
+def dice_space():
+    f, ax = _gridcanvas()
+    _grid(ax, lambda i, j: "white")
+    return FL.svg(f)
+
+
+def dice_events():
+    A = lambda i, j: i + j == 7
+    B = lambda i, j: i == 6
+
+    def col(i, j):
+        if A(i, j) and B(i, j):
+            return "#c9a0ea"
+        return "#b9d3fb" if A(i, j) else ("#fbc99a" if B(i, j) else "white")
+    f, ax = _gridcanvas(6.2, 3.3, right=4.2)
+    _grid(ax, col)
+    for k, (c, t) in enumerate([("#b9d3fb", "A: sum is 7 (6 cells)"), ("#fbc99a", "B: first die is 6 (6 cells)"),
+                                ("#c9a0ea", "A∩B: both (1 cell)")]):
+        y = 5.0 - 1.1 * k
+        ax.add_patch(_Rect((6.5, y), .5, .5, fc=c, ec=FL.LINE))
+        ax.text(7.2, y + .25, t, va="center", fontsize=8.5)
+    return FL.svg(f)
+
+
+def dice_complement():
+    six = lambda i, j: i == 6 or j == 6
+    f, ax = _gridcanvas(6.2, 3.3, right=4.2)
+    _grid(ax, lambda i, j: "#fbc99a" if six(i, j) else "white")
+    for k, (c, t) in enumerate([("#fbc99a", "at least one six: 11 cells"), ("white", "no six: 5 × 5 = 25 cells")]):
+        y = 4.5 - 1.2 * k
+        ax.add_patch(_Rect((6.5, y), .5, .5, fc=c, ec=FL.LINE))
+        ax.text(7.2, y + .25, t, va="center", fontsize=8.5)
+    return FL.svg(f)
+
+
+def venn_union():
+    f, ax = FL.canvas(5.4, 2.5, (-.2, 12.2), (-.3, 5.6))
+    ax.add_patch(_Rect((0, 0), 9, 5.2, fill=False, ec=FL.MUTED))
+    ax.add_patch(_Circ((3.4, 2.6), 1.9, fc=FL.ACC, alpha=.15, ec=FL.ACC))
+    ax.add_patch(_Circ((5.6, 2.6), 1.9, fc=FL.G1, alpha=.15, ec=FL.G1))
+    ax.text(2.6, 2.6, "A", fontsize=13, color=FL.ACC, ha="center", va="center")
+    ax.text(6.4, 2.6, "B", fontsize=13, color=FL.G1, ha="center", va="center")
+    ax.text(.3, 4.7, "S", fontsize=11, color=FL.MUTED)
+    FL.arrow(ax, (9.4, 1.0), (4.6, 2.3), color=FL.G3)
+    ax.text(9.5, 0.9, "A∩B: inside\nboth circles", fontsize=8.5, color=FL.G3, va="center")
+    ax.text(9.5, 3.9, "A∪B: inside\neither circle", fontsize=8.5, va="center")
+    return FL.svg(f)
+
+
+def dice_shrunk():
+    B = lambda i, j: i == 6
+    f, ax = _gridcanvas(6.2, 3.3, right=4.2)
+    _grid(ax, lambda i, j: ("#c9a0ea" if j == 1 else "#fbc99a") if B(i, j) else "#f6f6f3")
+    for i in range(1, 6):
+        for j in range(1, 7):
+            ax.add_patch(_Rect((j - 1, 6 - i), 1, 1, fc="white", alpha=.55, ec="none"))
+    ax.add_patch(_Rect((0, 0), 6, 1, fill=False, ec=FL.G1, lw=2))
+    for k, (c, t) in enumerate([("#fbc99a", "new sample space B: 6 cells"), ("#c9a0ea", "A inside B: 1 cell")]):
+        y = 4.5 - 1.2 * k
+        ax.add_patch(_Rect((6.5, y), .5, .5, fc=c, ec=FL.LINE))
+        ax.text(7.2, y + .25, t, va="center", fontsize=8.5)
+    ax.text(6.5, 1.6, "faded cells: ruled out", va="center", fontsize=8.5, color=FL.MUTED)
+    return FL.svg(f)
+
+
+def venn_subset():
+    f, ax = FL.canvas(5.0, 2.4, (-.2, 11.4), (-.3, 5.6))
+    ax.add_patch(_Rect((0, 0), 8, 5.2, fill=False, ec=FL.MUTED))
+    ax.add_patch(_Circ((4, 2.6), 2.2, fc=FL.ACC, alpha=.13, ec=FL.ACC))
+    ax.add_patch(_Circ((4.6, 2.4), 1.0, fc=FL.G1, alpha=.25, ec=FL.G1))
+    ax.text(2.6, 3.4, "A", fontsize=13, color=FL.ACC, ha="center", va="center")
+    ax.text(4.6, 2.4, "B", fontsize=12, color=FL.G1, ha="center", va="center")
+    ax.text(.3, 4.7, "S", fontsize=11, color=FL.MUTED)
+    ax.text(8.4, 2.6, "B lies wholly\ninside A:\nA∩B = B", fontsize=8.5, va="center")
+    return FL.svg(f)
+
+
+def _tree(ax, nodes, edges, fs=9):
+    for (a, b, lab, up) in edges:
+        (x1, y1), (x2, y2) = nodes[a][0], nodes[b][0]
+        ax.plot([x1 + .15, x2 - .15], [y1, y2], color=FL.MUTED, lw=1)
+        xm, ym = (x1 + x2) / 2, (y1 + y2) / 2
+        ax.text(xm, ym + (.22 if up else -.22), lab, ha="center", va="bottom" if up else "top", fontsize=fs, color=FL.ACC)
+    for k, ((x, y), t) in nodes.items():
+        if t:
+            ax.text(x, y, t, ha="left" if k != "root" else "right", va="center", fontsize=fs,
+                    bbox=dict(fc="white", ec="none", pad=1))
+
+
+def aces_tree():
+    f, ax = FL.canvas(6.4, 2.4, (-.6, 10.6), (-2.0, 2.0))
+    nodes = {"root": ((0, 0), ""), "A1": ((3, 1), "ace"), "N1": ((3, -1), "not ace"),
+             "A2": ((6, 1.5), "ace"), "N2": ((6, .5), "not ace")}
+    _tree(ax, nodes, [("root", "A1", "4/52", True), ("root", "N1", "48/52", False),
+                      ("A1", "A2", "3/51", True), ("A1", "N2", "48/51", False)])
+    ax.text(3, -1.75, "1st card", ha="center", fontsize=8.5, color=FL.MUTED)
+    ax.text(6.2, -1.75, "2nd card", ha="center", fontsize=8.5, color=FL.MUTED)
+    ax.text(7.4, 1.5, "(4/52)(3/51) = 1/221", va="center", fontsize=9, color=FL.G2)
+    return FL.svg(f)
+
+
+def bolt_tree():
+    f, ax = FL.canvas(6.6, 2.7, (-.6, 11.2), (-2.3, 2.3))
+    nodes = {"root": ((0, 0), ""), "M1": ((3, 1.2), "M₁"), "M2": ((3, -1.2), "M₂"),
+             "D1": ((6, 1.7), "defective"), "G1": ((6, .7), "good"),
+             "D2": ((6, -.7), "defective"), "G2": ((6, -1.7), "good")}
+    _tree(ax, nodes, [("root", "M1", "0.6", True), ("root", "M2", "0.4", False),
+                      ("M1", "D1", "0.02", True), ("M1", "G1", "0.98", False),
+                      ("M2", "D2", "0.05", True), ("M2", "G2", "0.95", False)])
+    ax.text(8.0, 1.7, "0.6 × 0.02 = 0.012", va="center", fontsize=9, color=FL.G2)
+    ax.text(8.0, -.7, "0.4 × 0.05 = 0.020", va="center", fontsize=9, color=FL.G2)
+    ax.text(8.0, -1.75, "P(D) = 0.032", va="center", fontsize=9.5, color=FL.INK, weight="bold")
+    return FL.svg(f)
+
+
+def bolt_bayes():
+    f, ax = FL.fig(6.0, 1.5)
+    ax.barh([0], [0.012], color=FL.ACC, height=.5)
+    ax.barh([0], [0.020], left=[0.012], color=FL.G1, height=.5)
+    ax.text(0.006, 0, "M₁: 0.012", ha="center", va="center", color="white", fontsize=9)
+    ax.text(0.022, 0, "M₂: 0.020", ha="center", va="center", color="white", fontsize=9)
+    ax.text(0.006, .45, "0.012/0.032 = 0.375", ha="center", fontsize=8.5, color=FL.ACC)
+    ax.text(0.022, .45, "0.020/0.032 = 0.625", ha="center", fontsize=8.5, color=FL.G1)
+    ax.set_yticks([]); ax.set_xlim(0, 0.034); ax.set_ylim(-.4, .8)
+    ax.set_xticks([0, 0.012, 0.032]); ax.spines["left"].set_visible(False)
+    FL.axes(ax, "probability of a defective bolt (total 0.032), split by machine")
+    return FL.svg(f)
+
+
+# ---- 02a discrete random variables (v1.3)
+def family_map():
+    fams = ["GGG", "BGG", "GBG", "GGB", "BBG", "BGB", "GBB", "BBB"]
+    xs = [0, 1, 1, 1, 2, 2, 2, 3]
+    f, ax = FL.canvas(5.6, 3.4, (-1.2, 9.4), (-.6, 8.4))
+    ax.text(0.5, 8.1, "outcome", ha="center", fontsize=9, color=FL.MUTED)
+    ax.text(6.6, 8.1, "value of X", ha="center", fontsize=9, color=FL.MUTED)
+    ys = {0: 6.6, 1: 4.6, 2: 2.6, 3: 0.6}
+    for k, (fm, xv) in enumerate(zip(fams, xs)):
+        y = 7.3 - k
+        FL.box(ax, -.2, y - .35, 1.4, .7, fm, fs=8.5)
+        FL.arrow(ax, (1.3, y), (6.0, ys[xv]), color=FL.MUTED, lw=.8)
+    for xv, y in ys.items():
+        FL.box(ax, 6.1, y - .4, 1.0, .8, str(xv), fc=FL.NCOL, fs=10, weight="bold")
+        ax.text(7.4, y, f"{[1, 3, 3, 1][xv]} outcome{'s' if xv in (1, 2) else ''}", va="center", fontsize=8.5)
+    return FL.svg(f)
+
+
+def boys_pmf():
+    f, ax = FL.fig(4.4, 2.3)
+    x = np.arange(4); p = np.array([1, 3, 3, 1]) / 8
+    ax.bar(x, p, width=.4, color=FL.ACC)
+    for xi, pi in zip(x, p):
+        ax.text(xi, pi + .012, f"{int(round(pi * 8))}/8", ha="center", fontsize=9)
+    ax.set_xticks(x); ax.set_ylim(0, .48); ax.set_yticks([0, .125, .25, .375]); ax.set_yticklabels(["0", "1/8", "2/8", "3/8"])
+    FL.axes(ax, "x = number of boys", "p(x) = P(X = x)")
+    return FL.svg(f)
+
+
+def boys_cdf():
+    f, ax = FL.fig(4.8, 2.4)
+    F = [0, 1 / 8, 4 / 8, 7 / 8, 1]
+    edges = [-1, 0, 1, 2, 3, 4]
+    for k in range(5):
+        ax.plot([edges[k], edges[k + 1]], [F[k], F[k]], color=FL.G1, lw=2)
+    for k in range(4):
+        ax.plot(k, F[k], "o", mfc="white", mec=FL.G1, ms=5)
+        ax.plot(k, F[k + 1], "o", color=FL.G1, ms=5)
+    ax.set_xticks([-1, 0, 1, 2, 3, 4]); ax.set_xlim(-1, 4); ax.set_ylim(-.05, 1.12)
+    ax.set_yticks(F); ax.set_yticklabels(["0", "1/8", "4/8", "7/8", "1"])
+    FL.axes(ax, "x", "F(x) = P(X ≤ x)")
+    return FL.svg(f)
+
+
+# ---- 02b continuous random variables (v1.3)
+def cable_pdf():
+    f, ax = FL.fig(4.8, 2.4)
+    x = np.linspace(0, 1, 300); y = 6 * x * (1 - x)
+    ax.plot(x, y, color=FL.ACC, lw=2)
+    sel = (x >= .2) & (x <= .5)
+    ax.fill_between(x[sel], y[sel], color=FL.ACC, alpha=.25)
+    for xv in (0.2, 0.5, 0.8):
+        ax.plot(xv, 6 * xv * (1 - xv), "o", color=FL.INK, ms=3.5)
+    ax.text(.35, .55, "area\n0.396", ha="center", fontsize=9)
+    ax.set_xlim(0, 1.0); ax.set_ylim(0, 1.75)
+    FL.axes(ax, "x = cable diameter", "f(x) = 6x(1 − x)")
+    return FL.svg(f)
+
+
+def cable_cdf():
+    f, ax = FL.fig(4.8, 2.4)
+    x = np.linspace(0, 1, 300); F = 3 * x**2 - 2 * x**3
+    ax.plot(x, F, color=FL.G1, lw=2)
+    ax.plot([0, .5, .5], [.5, .5, 0], color=FL.MUTED, lw=1, ls="--")
+    ax.plot(.5, .5, "o", color=FL.INK, ms=4)
+    ax.text(.53, .40, "median b = 0.5", fontsize=9)
+    ax.set_xlim(0, 1); ax.set_ylim(0, 1.05)
+    FL.axes(ax, "x = cable diameter", "F(x) = P(X ≤ x)")
+    return FL.svg(f)
+
+
+def power_tail():
+    f, ax = FL.fig(5.4, 2.4)
+    x = np.linspace(0, 30, 400); y = x * np.exp(-x / 3) / 9
+    ax.plot(x, y, color=FL.ACC, lw=2)
+    sel = x >= 12
+    ax.fill_between(x[sel], y[sel], color=FL.BAD, alpha=.3)
+    ax.axvline(12, color=FL.BAD, lw=1, ls="--")
+    ax.text(13.0, .06, "X > 12: supply inadequate\narea = 5e⁻⁴ = 0.0916", fontsize=8.5, color=FL.BAD)
+    ax.set_xlim(0, 30); ax.set_ylim(0, .135)
+    FL.axes(ax, "x = daily consumption (million kWh)", "f(x)")
+    return FL.svg(f)
+
+
+def life_cond():
+    f, ax = FL.fig(5.4, 2.4)
+    t = np.linspace(0, 100, 400); y = 3e-9 * t**2 * (100 - t) ** 2
+    ax.plot(t, y, color=FL.ACC, lw=2)
+    s1 = (t >= 60) & (t <= 100); s2 = (t >= 60) & (t <= 70)
+    ax.fill_between(t[s1], y[s1], color=FL.G1, alpha=.18)
+    ax.fill_between(t[s2], y[s2], color=FL.G1, alpha=.55)
+    ax.text(65, .0215, "60–70:\n0.1544", ha="center", fontsize=8.5)
+    ax.text(88, .0135, "all of T ≥ 60:\n0.3174", ha="center", fontsize=8.5, color=FL.G1)
+    ax.set_xlim(0, 100); ax.set_ylim(0, .026)
+    FL.axes(ax, "t = age at death (years)", "f(t)")
+    return FL.svg(f)
+
+
 ALL = {k: v for k, v in dict(globals()).items() if callable(v) and not k.startswith("_") and v.__module__ == __name__}
