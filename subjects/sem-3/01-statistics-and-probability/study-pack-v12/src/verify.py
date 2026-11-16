@@ -598,6 +598,96 @@ chk("02b ST5", q(lambda x: math.exp(-x / 4) / 4, 4, np.inf), 0.3679, tol=1e-4)
 chk("02b ST6", q(lambda x: x * math.exp(-x), 1, np.inf), 0.7358, tol=1e-4)
 chk("02b ST7", q(fc, 0, .2) / q(fc, 0, .5), 0.208)
 
+# ==== v1.3 S2 — files 03a, 03b, 08 (route: exact Fractions over enumerated tables / dice / samples; scipy for curves)
+from itertools import product as _prod
+
+
+def _EV(xs, ps):
+    m = sum(Fr(x) * p for x, p in zip(xs, ps)); return m, sum(Fr(x) ** 2 * p for x, p in zip(xs, ps)) - m * m
+
+
+_sx, _sp = [0, 1, 2, 3], [Fr(25, 100), Fr(40, 100), Fr(25, 100), Fr(10, 100)]
+m, v = _EV(_sx, _sp)
+chk("03a sensors sum p", float(sum(_sp)), 1); chk("03a sensors E", float(m), 1.2); chk("03a sensors E(X2)", float(v + m * m), 2.3)
+chk("03a 100 batches total", float(100 * m), 120)
+chk("03a balance left", float(Fr(25, 100) * Fr(12, 10) + Fr(40, 100) * Fr(2, 10)), 0.38)
+chk("03a balance right", float(Fr(25, 100) * Fr(8, 10) + Fr(10, 100) * Fr(18, 10)), 0.38)
+chk("03a sensors Var (definition)", float(sum((x - m) ** 2 * p for x, p in zip(_sx, _sp))), 0.86); chk("03a sensors sd", math.sqrt(v), 0.927, tol=5e-4)
+chk("03a (3-1.2)^2 p", 1.8 ** 2 * .1, 0.324); chk("03a (1-1.2)^2 p", .04 * .4, 0.016)
+_bx, _bp = [2, 3, 4, 5], [Fr(20, 100), Fr(30, 100), Fr(35, 100), Fr(15, 100)]
+m, v = _EV(_bx, _bp)
+chk("03a battery E", float(m), 3.45, key=3.45); chk("03a battery E(X2)", float(v + m * m), 12.85); chk("03a battery Var", float(v), 0.9475, key=0.95, ktol=0.003)
+chk("03a battery sd", math.sqrt(v), 0.973, tol=5e-4, key=0.98, ktol=0.002)
+m, v = _EV(range(1, 7), [Fr(1, 6)] * 6)
+chk("03a C1 die E", float(m), 3.5); chk("03a C5 die E(X2)", float(v + m * m), 91 / 6); chk("03a C5 die Var", float(v), 35 / 12); chk("03a C6 die sd", math.sqrt(v), 1.708, tol=5e-4)
+chk("03a C2", 0.3, 0.3)
+chk("03a C4 A", float(_EV([4, 5, 6], [Fr(1, 3)] * 3)[1]), 2 / 3); chk("03a C4 B", float(_EV([0, 5, 10], [Fr(1, 3)] * 3)[1]), 50 / 3)
+fcab = lambda x: 6 * x * (1 - x)
+sol = np.linalg.solve([[1 / 3, 1 / 2], [1 / 4, 1 / 3]], [1, .5]); chk("03a MTE B2 a", sol[0], -6, key=-6); chk("03a MTE B2 b", sol[1], 6, key=6)
+e2 = integrate.quad(lambda x: x * x * fcab(x), 0, 1)[0]
+chk("03a C7 E(X2)", e2, 0.3); chk("03a C7 Var", e2 - .25, 0.05); chk("03a C7 sd", math.sqrt(e2 - .25), 0.224, tol=5e-4)
+m, v = _EV([0, 1, 2], [Fr(3, 10), Fr(4, 10), Fr(3, 10)]); chk("03a ST1 E", float(m), 1); chk("03a ST1 E2", float(v + m * m), 1.6); chk("03a ST1 Var", float(v), .6); chk("03a ST1 sd", math.sqrt(v), .775, tol=5e-4)
+m, v = _EV([1, 2, 3], [Fr(5, 10), Fr(3, 10), Fr(2, 10)]); chk("03a ST2 E", float(m), 1.7); chk("03a ST2 Var", float(v), .61)
+chk("03a ST4 E", integrate.quad(lambda x: 2 * x * x, 0, 1)[0], 2 / 3); chk("03a ST4 Var", integrate.quad(lambda x: 2 * x ** 3, 0, 1)[0] - 4 / 9, 1 / 18)
+chk("03a ST5 k", 1 / integrate.quad(lambda x: x, 0, 2)[0], .5); chk("03a ST5 E", integrate.quad(lambda x: x * x / 2, 0, 2)[0], 4 / 3)
+sol = np.linalg.solve([[1, 1 / 2], [1 / 2, 1 / 3]], [1, .6]); chk("03a ST7 a", sol[0], .4); chk("03a ST7 b", sol[1], 1.2)
+# 03b
+_d = range(1, 7); _cells = list(_prod(_d, _d))
+chk("03b S1 E(10X-20)", float(sum(Fr(10 * x - 20, 6) for x in _d)), 15)
+vy = float(_EV([10 * x - 20 for x in _d], [Fr(1, 6)] * 6)[1]); chk("03b S1 Var Y", vy, 291.67, tol=.01); chk("03b S1 sd Y", math.sqrt(vy), 17.08, tol=.01)
+chk("03b C1", 2 * 3 - 5, 1); chk("03b C1 var", 4 * 4, 16)
+chk("03b dice sum total", sum(a + b for a, b in _cells), 252)
+m, v = _EV([a + b for a, b in _cells], [Fr(1, 36)] * 36); chk("03b dice E(S)", float(m), 7); chk("03b dice Var(S)", float(v), 35 / 6)
+chk("03b dice Var(X1-X2)", float(_EV([a - b for a, b in _cells], [Fr(1, 36)] * 36)[1]), 35 / 6)
+chk("03b dice E(X1X2)", float(sum(Fr(a * b, 36) for a, b in _cells)), 12.25)
+# LA 3: without replacement, exact hypergeometric mean; with replacement binomial mean
+chk("03b LA3 without", stats.hypergeom(25, 5, 4).mean(), 0.8, key=0.808, ktol=1e-3); chk("03b LA3 with", stats.binom(4, .2).mean(), 0.8)
+chk("03b C2", 3 * 3.5, 10.5); chk("03b C3 2X-3Y", 4 * 4 + 9 * 1, 25); chk("03b C4", 3 * 2 * 5, 30); chk("03b C4b", 2 * 5 + 2, 12)
+_ps = [sum(x * .5 ** x for x in range(1, k + 1)) for k in (1, 2, 3, 4, 5, 6, 8)]
+for k, (got, pk) in enumerate(zip(_ps, [.5, 1, 1.375, 1.625, 1.781, 1.875, 1.961])):
+    chk(f"03b SA4 partial {k}", got, pk, tol=6e-4)
+chk("03b SA4 E", stats.geom(.5).mean(), 2); chk("03b C5", stats.geom(1 / 6).mean(), 6); chk("03b ST4", stats.geom(1 / 13).mean(), 13)
+chk("03b App4", 1 - 1 / 4, 0.75, key=0.75)
+_lap = stats.laplace(70, 5 / math.sqrt(2)); _un = stats.uniform(70 - 5 * math.sqrt(3), 10 * math.sqrt(3))
+chk("03b fig bell", stats.norm(70, 5).cdf(80) - stats.norm(70, 5).cdf(60), 0.954, tol=6e-4)
+chk("03b fig peaked", _lap.cdf(80) - _lap.cdf(60), 0.941, tol=6e-4); chk("03b fig flat", _un.cdf(80) - _un.cdf(60), 1.0)
+chk("03b fig sds", _lap.std() + _un.std(), 10)
+chk("03b C6", 1 - 1 / 9, 0.889, tol=5e-4)
+chk("03b SA5 bound", (35 / 6) / 9, 35 / 54, key=35 / 54); chk("03b SA5 bound dec", 35 / 54, 0.648, tol=5e-4)
+chk("03b SA5 exact", sum(1 for a, b in _cells if abs(a + b - 7) >= 3) / 36, 1 / 3)
+m, v = _EV([1, 2, 3], [Fr(1, 4), Fr(1, 2), Fr(1, 4)]); chk("03b C7 bound", float(v), 0.5); chk("03b C7 exact", .5, .5)
+m, v = _EV([-1, 1, 3, 5], [Fr(1, 6)] * 3 + [Fr(1, 2)])
+chk("03b MTE B1 mu", float(m), 3); chk("03b MTE B1 E2", float(v + m * m), 43 / 3); chk("03b MTE B1 var", float(v), 16 / 3, key=16 / 3)
+chk("03b MTE B1 sd", math.sqrt(v), 2.31, tol=.005); chk("03b MTE B1 exact", 1 - 1 / 6, 5 / 6)
+chk("03b C8 bound", float(v) / 16, 1 / 3); chk("03b C8 exact", 1 / 6, 1 / 6)
+b6 = stats.binom(600, 1 / 6)
+chk("03b SA6 var I", 1 / 6 - 1 / 36, 5 / 36); chk("03b SA6 mu", b6.mean(), 100); chk("03b SA6 var", b6.var(), 250 / 3)
+chk("03b SA6 bound", 1 - (250 / 3) / 400, 19 / 24); chk("03b SA6 bound dec", 19 / 24, 0.792, tol=5e-4)
+chk("03b SA6 exact", b6.cdf(120) - b6.cdf(79), 0.975, tol=6e-4)
+b4 = stats.binom(400, .5); chk("03b C9", 1 - b4.var() / 400, 0.75)
+chk("03b ST3", 2 + 4 * 3, 14); b1 = stats.binom(100, .5); chk("03b ST6", 1 - b1.var() / 100, 0.75)
+# 08
+xb2 = [Fr(a + b, 2) for a, b in _cells]
+chk("08 S1 estimate", (2 + 6) / 2, 4); chk("08 S1 distinct xbar", len(set(xb2)), 11)
+chk("08 S3 xbar avg", float(sum(xb2) / 36), 3.5); chk("08 S3 xbar mode count", xb2.count(Fr(7, 2)), 6)
+chk("08 S3 max avg", sum(max(c) for c in _cells) / 36, 4.47, tol=.005); chk("08 S3 max bias", sum(max(c) for c in _cells) / 36 - 3.5, .97, tol=.005)
+chk("08 S3 max mode count", sum(1 for c in _cells if max(c) == 6), 11)
+chk("08 C3 min avg", sum(min(c) for c in _cells) / 36, 91 / 36); chk("08 C3 min avg dec", 91 / 36, 2.53, tol=.005)
+_ss = lambda t: sum((Fr(x) - Fr(sum(t), len(t))) ** 2 for x in t)
+chk("08 S5 /n avg", float(sum(_ss(c) / 2 for c in _cells) / 36), 35 / 24); chk("08 S5 /n avg dec", 35 / 24, 1.46, tol=.005)
+chk("08 S5 /(n-1) avg", float(sum(_ss(c) for c in _cells) / 36), 35 / 12); chk("08 sigma2 dec", 35 / 12, 2.92, tol=.005)
+chk("08 C5 /n", float(_ss([4, 6, 8]) / 3), 2.67, tol=.005); chk("08 C5 s2", float(_ss([4, 6, 8]) / 2), 4)
+for n, vv, sd in [(1, 2.92, 1.71), (4, .73, .85), (16, .18, .43)]:
+    chk(f"08 S6 var n={n}", 35 / 12 / n, vv, tol=.005); chk(f"08 S6 sd n={n}", math.sqrt(35 / 12 / n), sd, tol=.005)
+_tr = list(_prod(_d, _d, _d))
+m, v = _EV([a + b - c for a, b, c in _tr], [Fr(1, 216)] * 216); chk("08 S7 T1 mean", float(m), 3.5); chk("08 S7 T1 var", float(v), 8.75); chk("08 S7 T1 sd", math.sqrt(v), 2.96, tol=.005)
+m, v = _EV([Fr(a + b + c, 3) for a, b, c in _tr], [Fr(1, 216)] * 216); chk("08 S7 xbar var", float(v), 35 / 36); chk("08 S7 xbar sd", math.sqrt(v), .99, tol=.005)
+chk("08 S7 xbar var dec", 35 / 36, 0.97, tol=.005); chk("08 S7 efficiency", (35 / 36) / 8.75, 1 / 9)
+chk("08 MTE C1b E(T2) die", 3 * 3.5 + 2 * 3.5 - 3 * 3.5, 7)
+chk("08 C7 var coef", (1 + 4 + 1) / 16, 3 / 8); chk("08 C7 eff", (1 / 3) / (3 / 8), 8 / 9)
+chk("08 S8 orders", math.comb(5, 3), 10)
+chk("08 ST3 a", 13 / 25, 13 / 25); chk("08 ST6 eff", (35 / 24) / (35 / 12), .5)
+
 print(f"\n{N[0]} checks; {len(FAILS)} pack failures; {len(KEYDIFF)} key differences")
 if KEYDIFF:
     print("Key differences (flagged in the pack):", ", ".join(KEYDIFF))

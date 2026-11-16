@@ -671,4 +671,140 @@ def life_cond():
     return FL.svg(f)
 
 
+# ---- 03a expectation and variance (v1.3)
+_SX = np.arange(4); _SP = np.array([.25, .40, .25, .10])
+
+
+def sens_balance():
+    f, ax = FL.fig(4.8, 2.5)
+    ax.bar(_SX, _SP, width=.4, color=FL.ACC)
+    for xi, pi in zip(_SX, _SP):
+        ax.text(xi, pi + .012, f"{pi:.2f}", ha="center", fontsize=9)
+    ax.plot([-.4, 3.4], [0, 0], color=FL.INK, lw=2.2)
+    ax.plot([1.2], [-.035], marker="^", ms=13, color=FL.BAD, clip_on=False)
+    ax.set_xticks(_SX); ax.set_ylim(-.06, .5); ax.set_xlim(-.6, 3.6)
+    FL.axes(ax, "x = defective sensors (▲ = E(X) = 1.2)", "p(x)")
+    return FL.svg(f)
+
+
+def sens_sqdist():
+    f, ax = FL.fig(4.8, 2.5)
+    d2 = (_SX - 1.2) ** 2
+    ax.bar(_SX, d2, width=.4, color=FL.G1)
+    for xi, di, pi in zip(_SX, d2, _SP):
+        ax.text(xi, di + .07, f"{di:.2f}", ha="center", fontsize=9)
+    ax.axvline(1.2, color=FL.BAD, lw=1, ls="--")
+    ax.set_xticks(_SX); ax.set_ylim(0, 3.8); ax.set_xlim(-.6, 3.6)
+    FL.axes(ax, "x (dashed line: μ = 1.2)", "(x − 1.2)²")
+    return FL.svg(f)
+
+
+def cable_balance():
+    f, ax = FL.fig(4.8, 2.4)
+    x = np.linspace(0, 1, 300); y = 6 * x - 6 * x ** 2
+    ax.plot(x, y, color=FL.ACC, lw=2); ax.fill_between(x, y, color=FL.ACC, alpha=.12)
+    ax.plot([.5], [-.08], marker="^", ms=13, color=FL.BAD, clip_on=False)
+    ax.set_xlim(0, 1); ax.set_ylim(0, 1.75)
+    FL.axes(ax, "x (▲ = E(X) = 0.5)", "f(x) = 6x − 6x²")
+    return FL.svg(f)
+
+
+# ---- 03b rules and Chebyshev (v1.3)
+def shift_scale():
+    f, axs = FL.fig(5.6, 3.3, nrows=3, sharex=True)
+    x = np.arange(1, 7); p = np.ones(6) / 6
+    rows = [(x, FL.ACC, "X: one die"), (x + 3, FL.G2, "X + 3: moved, same spread"), (2 * x, FL.G1, "2X: spread doubled")]
+    for ax, (xs, c, lab) in zip(axs, rows):
+        ax.bar(xs, p, width=.45, color=c)
+        ax.set_ylim(0, .25); ax.set_yticks([]); ax.spines["left"].set_visible(False)
+        ax.set_title(lab, fontsize=9, loc="left")
+    axs[-1].set_xticks(range(1, 13)); axs[-1].set_xlim(.3, 12.7)
+    FL.axes(axs[-1], "value", "")
+    f.tight_layout()
+    return FL.svg(f)
+
+
+def cheb_shapes():
+    f, ax = FL.fig(5.6, 2.5)
+    x = np.linspace(45, 95, 400)
+    for y, c, lab in [(stats.norm(70, 5).pdf(x), FL.ACC, "bell"), (stats.laplace(70, 5 / math.sqrt(2)).pdf(x), FL.G3, "peaked"),
+                      (stats.uniform(70 - 5 * math.sqrt(3), 10 * math.sqrt(3)).pdf(x), FL.G2, "flat")]:
+        ax.plot(x, y, color=c, lw=1.6, label=lab)
+    ax.axvspan(60, 80, color=FL.G1, alpha=.12)
+    ax.set_ylim(0, .2); ax.set_xticks([50, 60, 70, 80, 90])
+    ax.legend(fontsize=8, frameon=False, loc="upper left", bbox_to_anchor=(1.0, 1.0))
+    FL.axes(ax, "marks x (shaded: 60 to 80)", "f(x)")
+    return FL.svg(f)
+
+
+def dice_band():
+    f, ax = FL.fig(5.4, 2.5)
+    s = np.arange(2, 13); n = 6 - np.abs(s - 7)
+    col = [FL.BAD if abs(v - 7) >= 3 else FL.ACC for v in s]
+    ax.bar(s, n / 36, width=.6, color=col)
+    for v, k in zip(s, n):
+        ax.text(v, k / 36 + .005, f"{k}", ha="center", fontsize=8.5)
+    ax.set_xticks(s); ax.set_ylim(0, .2)
+    FL.axes(ax, "sum of two dice (red: 7 − 3 or less, 7 + 3 or more)", "P(sum)")
+    return FL.svg(f)
+
+
+# ---- 08 estimators (v1.3)
+def xbar_vs_max():
+    from itertools import product
+    pairs = list(product(range(1, 7), range(1, 7)))
+    f, axs = FL.fig(6.0, 2.4, ncols=2, sharey=True)
+    xb = {}; mx = {}
+    for a, b in pairs:
+        xb[(a + b) / 2] = xb.get((a + b) / 2, 0) + 1; mx[max(a, b)] = mx.get(max(a, b), 0) + 1
+    for ax, d, c, t, avg in [(axs[0], xb, FL.ACC, "x̄ of the two throws", 3.5), (axs[1], mx, FL.G1, "larger of the two throws", 161 / 36)]:
+        ks = sorted(d); ax.bar(ks, [d[k] for k in ks], width=.35 if c == FL.ACC else .5, color=c)
+        ax.axvline(3.5, color=FL.BAD, lw=1.2, ls="--")
+        ax.plot([avg], [-0.6], marker="^", ms=10, color=FL.INK, clip_on=False)
+        ax.set_title(t, fontsize=9); ax.set_xticks(range(1, 7)); ax.set_xlim(.5, 6.5)
+    axs[0].set_ylabel("samples (of 36)")
+    axs[0].set_xlabel("▲ average 3.5"); axs[1].set_xlabel("▲ average 4.47")
+    f.tight_layout()
+    return FL.svg(f)
+
+
+def _die_mean_dist(n):
+    p = np.ones(6) / 6; d = np.array([1.0])
+    for _ in range(n):
+        d = np.convolve(d, p)
+    vals = (np.arange(len(d)) + n) / n
+    return vals, d
+
+
+def xbar_shrink():
+    f, axs = FL.fig(5.6, 3.3, nrows=3, sharex=True)
+    for ax, n, c in zip(axs, (1, 4, 16), (FL.ACC, FL.G2, FL.G1)):
+        v, d = _die_mean_dist(n)
+        ax.vlines(v, 0, d, color=c, lw=2 if n < 16 else 1.2)
+        ax.axvline(3.5, color=FL.BAD, lw=1, ls="--")
+        ax.set_yticks([]); ax.spines["left"].set_visible(False)
+        ax.set_title(f"n = {n}: SD of x̄ = {math.sqrt(35 / 12 / n):.2f}", fontsize=9, loc="left")
+    axs[-1].set_xticks(range(1, 7)); axs[-1].set_xlim(.8, 6.2)
+    FL.axes(axs[-1], "value of x̄ (dashed: μ = 3.5)", "")
+    f.tight_layout()
+    return FL.svg(f)
+
+
+def t1_vs_xbar():
+    from itertools import product
+    trip = list(product(range(1, 7), repeat=3))
+    f, axs = FL.fig(6.0, 2.4, ncols=2, sharey=True)
+    t1 = {}; xb = {}
+    for a, b, c in trip:
+        t1[a + b - c] = t1.get(a + b - c, 0) + 1; k = round((a + b + c) / 3, 4); xb[k] = xb.get(k, 0) + 1
+    for ax, d, c, t in [(axs[0], t1, FL.G1, "T₁ = X₁ + X₂ − X₃"), (axs[1], xb, FL.ACC, "x̄ = (X₁ + X₂ + X₃)/3")]:
+        ks = sorted(d); ax.vlines(ks, 0, [d[k] for k in ks], color=c, lw=2.2)
+        ax.axvline(3.5, color=FL.BAD, lw=1, ls="--")
+        ax.set_title(t, fontsize=9); ax.set_xlim(-5, 12)
+    axs[0].set_ylabel("samples (of 216)")
+    axs[0].set_xlabel("value (SD 2.96)"); axs[1].set_xlabel("value (SD 0.99)")
+    f.tight_layout()
+    return FL.svg(f)
+
+
 ALL = {k: v for k, v in dict(globals()).items() if callable(v) and not k.startswith("_") and v.__module__ == __name__}

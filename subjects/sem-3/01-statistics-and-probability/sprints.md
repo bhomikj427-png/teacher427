@@ -39,7 +39,7 @@ the blueprint, three slide sets.
 |---|---|---|---|---|---|
 | S0 | **Brief** | every file in `exam-pack/` · KB `00-map`, `exam-map` · old 00 (ranking) · `src/verify.py` (constants) | `src/brief.md`: slides transcribed (equations shown only as images viewed), question bank (every MTE/assignment/slide question → file + step), constants/tables used (z, t, χ², F values) checked against the KB, figure list per file | every assignment and MTE question is mapped; every table value the questions need is listed with its source | ✓ 2026-11-16 |
 | S1 | **01 + 02** probability basics; random variables (PMF, PDF, CDF) | old 01, 02 · KB `01` | `01-…`, `02-…` rebuilt (a/b if > 13 steps), figures in `src/figures.py`, numbers in `src/verify.py` | protocol 6–12 hold | ✓ 2026-11-16 (S1 + S1b: 01, 02a, 02b) |
-| S2 | **03 + 08** expectation, variance, Chebyshev; estimator properties | old 03, 08 · KB `01`, `03` | `03-…`, `08-…` rebuilt | same | |
+| S2 | **03 + 08** expectation, variance, Chebyshev; estimator properties | old 03, 08 · KB `01`, `03` | `03-…`, `08-…` rebuilt | same | partial 2026-11-16 (03a, 03b, 08 written + verified; build/cleanup = S2b) |
 | S3 | **09** method of moments and MLE (rank 1; the slides' four MLE examples) | old 09 · KB `03` · slides MLE-and-Bayesian | `09a-method-of-moments.md`, `09b-mle.md` (split expected) | same; every slide MLE example re-derived in verify | |
 | S4 | **04 + 05** binomial and Poisson; uniform and exponential | old 04, 05 · KB `02` · Assignment 2 | `04-…`, `05-…` rebuilt | same | |
 | S5 | **06 + 07** normal; standard error and CLT | old 06, 07 · KB `02`, `03` · slides SE-and-CLT | `06-…`, `07-…` rebuilt | same; the slides' four SE/CLT examples reproduced | |
@@ -62,7 +62,8 @@ sprint reads them first.
 | A5 C2(b) needs t(20) = 2.086 (not printed in the assignment): print it as the pack's value | S0 | S7 |
 | ~~New numbers in v1.3 01 and 02a not yet in `verify.py`~~ | S1 | **closed S1b** (`# ==== v1.3 S1` block, 558 checks pass) |
 | ~~START-HERE slip table: A1 LA 2 row~~ | S1 | **closed S1b** (row rewritten) |
-| 02a's MTE A1 line says option (a) "is in 03b": if S2 does not split 03, re-point it to "03" | S1b | S2 |
+| ~~02a's MTE A1 line says option (a) "is in 03b"~~ | S1b | **closed S2** (03 split; MTE A1(a) is 03b step 4) |
+| Old v1.2 `# ---- 03` / `# ---- 08` checks in `verify.py` still name the removed v1.2 steps (harmless, all pass); prune when old 03 is removed | S2 | S2b |
 | Pack `README.md` still says "format v1.2": update when all files are v1.3 | S1b | S9 |
 
 ## Assumptions to review (persistent — the learner confirms or overrules)
@@ -76,31 +77,42 @@ sprint reads them first.
 | 5 | Table values live in KB `04-hypothesis-testing.md` (one section for z, t, χ², F) rather than split across units | S0 | open |
 | 6 | 01's Bayes steps (11–12) use the bolts factory, not the dice: no natural "cause" on a dice grid. 02a teaches the LA 2 question on G&K's row (P(X=0) = 0), with a note box on the printed row | S1 | open |
 | 7 | S1 overran one session: the continuation (02b + verify + build) is S1b, still inside the 10-sprint budget count as part of S1 | S1 | open |
+| 8 | 08's running example is the die as a known population (36 two-throw / 216 three-throw samples enumerated) instead of the brief's bare X₁, X₂, X₃: makes "average over all samples" concrete for a novice; MTE C1(b) still asked as printed | S2 | open |
+| 9 | 03b SA 6 is solved with indicator sums (03b steps 2–3) rather than the binomial np, npq, so 03b needs nothing from 04 | S2 | open |
+| 10 | S2 overran: S2b (build + view + cleanup) counts inside S2, like S1b | S2 | open |
 
 ## Current hand-off
 
 ```
-Sprint: S1 — 01 + 02a + 02b — done (2026-11-16; S1 then S1b, both auto.py)
-Written: content/02b-continuous-random-variables.md — v1.3, 6 steps (probability = area, checking a
-  PDF, smooth CDF + f = F', median = F(b) = 1/2, tail area by parts, conditional with a PDF), cable
-  running example, figures cable_pdf, cable_cdf, power_tail, life_cond; Exam form (discrete vs
-  continuous table), Traps, Self-test 7, Answers.
-  01 fixes after first render: map label "8 When B forces A" (a "|" inside a map label cuts the map);
-  figure dice_shrunk redrawn (C inside B, 3 cells; ruled-out rows really faded); Self-test 7 wording.
-  verify.py: "# ==== v1.3 S1" block before the final print (01 by enumerating the 36 cells / 52 cards,
-  02a by enumerating families + exact Fractions, 02b by scipy quad).
-  Old content/02-random-variables.md + html + pdf removed. Cross-refs in 03, 04, 05, 06 now point to
-  02a/02b. START-HERE: rank rows 15 (02a + 02b) and 16 (01), Unit 1 map, prerequisite line, file table,
-  A1 LA 2 slip row, "558 checks, 13 mismatches".
-Verified this sprint: numbers: verify.py, 558 checks, 0 failures, 13 key differences (all flagged).
-  Build 00 01 02a 02b: no OVERLAP; every page of 01, 02a, 02b viewed.
-Open (carried): Verify backlog rows (03b pointer → S2; README v1.2 → S9).
-Decisions made: later files cite "02a step N" / "02b step N". 02b step numbers: 1 area, 2 PDF rules,
-  3 CDF, 4 median, 5 tail, 6 conditional. Markup lesson: never put "|" in a [[map:…]] label either.
-Assumptions to review: none new.
-Next sprint: S2 — 03 + 08 — first action: read src/brief.md's sections for 03 and 08 (grep "## 03",
-  "## 08"), then old content/03 and decide the 03a/03b split (Assumption 4); log the sprint start.
-Read at start: this hand-off · ../../../study-pack-sprint-protocol.md · brief.md sections for 03, 08 ·
-  old content/03-expectation-variance-chebyshev.md, 08-estimators-properties.md · KB 01, 03 (by
-  section) · content/02b header + symbol table (format model) · verify.py lines 1–40 + the end
+Sprint: S2 — 03a + 03b + 08 — partial (2026-11-16, auto.py; stopped at the context limit)
+Written: content/03a-expectation-variance.md — v1.3, 7 steps (1 long-run average, 2 balance point,
+  3 E(X²)/E(g(X)), 4 variance by definition, 5 shortcut E(X²) − μ², 6 SD, 7 continuous X = MTE B2);
+  sensors running example (A1 App 1), battery = A1 App 3 + MCQ 4; key-rounding note (SD 0.98 → 0.973).
+  content/03b-rules-and-chebyshev.md — v1.3, 9 steps (1 aX + b, 2 E of a sum = A1 LA 3 + key slip,
+  3 Var of sum/difference, 4 E(XY) = MTE A1(a) + rules table, 5 geometric = A1 SA 4, 6 Chebyshev =
+  A1 App 4 + MCQ 5/10, 7 bound vs exact = A1 SA 5, 8 bound > 1 = MTE B1, 9 lower bound = A1 SA 6).
+  content/08-estimators-properties.md — rewritten v1.3, 8 steps (1 parameter/statistic/estimate,
+  2 point vs interval, 3 unbiased (x̄ vs larger throw), 4 coefficients = MTE C1(b), 5 n − 1,
+  6 consistent = G&K Q1 (iv)/(vi), 7 efficient (T₁ vs x̄), 8 sufficient = MTE A3 + G&K Q1 (iii)).
+  figures.py: 9 new figures (block "# ---- 03a" … "# ---- 08" before ALL). verify.py: "# ==== v1.3 S2".
+Verified this sprint: numbers: verify.py 683 checks, 0 failures, 15 key differences (new two = the
+  known A1 LA 3 and A1 App 3 slips, both flagged in note boxes). G&K section numbers read from the
+  book's contents: §6.3 addition, §6.4 multiplication, §6.7 variance of a linear combination, §6.13
+  Chebyshev; §12.11 unbiased s²; §15.2–15.6, Theorem 15.2 (§15.4.2). Figures: overlap check clean.
+Open (carried): NOT DONE — (1) build `python src/build.py 00 03a 03b 08` (run from study-pack-v12/;
+  check how S1 ran it), fix every OVERLAP, view all pages of 03a/03b/08 at low res, 4 per image;
+  (2) remove old content/03-expectation-variance-chebyshev.md + its html/ and pdf/ copies;
+  (3) START-HERE: rank row 13 (03 → 03a + 03b, "03 §5–6" → "03b steps 6–8"), line 32 stuck-tip
+  ("03 §1–4" → "03a, 03b steps 1–4"), Unit 1 map label, prerequisite line 54, file table row 61 (split
+  into 03a/03b; 08 row), slip rows 130–132 (A1 LA 3 → 03b step 2, A1 App 3 → 03a step 6, MTE B1 →
+  03b step 8), "How checked" count → 683 checks, 15 mismatches; (4) cross-refs: 04 lines 66, 69, 150
+  ("file 03" → 03b steps 2–3 / step 2), 07 line 67 (→ 03b step 3), 09 line 147 (→ 08 step 5), and
+  the mock 17 if it names 03; (5) prune old v1.2 03/08 checks (backlog row); README v1.2 → S9.
+Decisions made: 03 splits into 03a (E, Var, one variable) / 03b (rules + Chebyshev). Step numbers as
+  listed above; later files cite "03a step N", "03b step N", "08 step N".
+Assumptions to review: 8, 9, 10 (new, copied to the persistent section).
+Next sprint: S2b — first action: log the S2b start, then run the build for 00 03a 03b 08.
+Read at start: this hand-off · ../../../study-pack-sprint-protocol.md (steps 11–14) ·
+  content/00-START-HERE.md · the lines named in Open (4) · src/build.py · S1's progress-log lines
+  for how the build/view was run
 ```
