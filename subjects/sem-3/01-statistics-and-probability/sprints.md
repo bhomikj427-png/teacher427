@@ -1,5 +1,8 @@
 # MAS2001 Statistics & Probability — Build Sprints (v1.3)
 
+> **ETE: 2026-11-19** (learner, 2026-11-16). This plan runs first. Files land in priority order, so a run
+> cut short by the exam leaves the highest-value files done; the learner studies the v1.2 file for any topic not yet rebuilt.
+>
 > **Learner rules:** one sprint = one session, fully finished, ending with the hand-off below.
 > **Budget: 9–10 sprints per subject, 12 fine, more only if seriously necessary** (2026-11-16).
 > This plan uses **10** (S0–S9).
