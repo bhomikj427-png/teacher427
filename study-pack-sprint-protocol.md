@@ -27,7 +27,8 @@
 1. Read only, each by line range (grep the heading for line numbers first, never the whole file):
    `sprints.md` *Current hand-off* block + this sprint's table row · spec §5 only · the brief's
    section for this sprint's files. **Do not read** `learner-preferences.md`, the whole `sprints.md`,
-   the whole spec, or `progress-log.md` (it is append-only: add lines with a small Python append,
+   the whole spec, or `progress-log.md` (it is append-only: add lines with a small Python append to
+   `subjects/<group>/<subject>/progress-log.md` by its full path, never `subjects/sem-3/progress-log.md`;
    never read it to write it). Other Inputs are read when the step that needs them starts, by section.
 2. Log the sprint start in `progress-log.md` (log first: before any other file changes).
 2b. **The soft limit is a target, not a wall.** When auto.py's context notice arrives, "the current
