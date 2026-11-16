@@ -186,11 +186,28 @@ taxonomy from observing outliers** — the same design as Rosenshine's process-p
 - *Cold Call:* DHP13 (*Journal of Management Education* 2013, abstract read; university classes
   compared high vs low cold-calling): more students answered **voluntarily** in high cold-calling
   classes, this grew over the term, and students' **comfort** participating rose — the feared
-  discomfort did not appear. Outcome = participation and comfort, **not learning**.
+  discomfort did not appear. Outcome = participation and comfort, **not learning**. Design
+  (DHP19 full text, S12d-2, same lab and course): **observational** — instructors' natural style,
+  not assigned; one required managerial-accounting course, 16 sections, 7 instructors (5 high
+  sections, 196 students; 11 low, 486); DHP19 adds that women's voluntary answers matched men's in
+  high cold-calling sections. `settled` for that setting only.
+- *Cold Call on learning* (searched S12d-2): LB14 (*JoSoTL* 2014, full text) randomized students
+  within two sections of one Harvard statistics course: web posting + cold calling raised pre-class
+  reading by about an hour but **not midterm scores**; cold calling alone ≈ web posting. Dose was
+  light (one student per class drawn from a list of ~40). Car15 (dissertation, N = 156, abstract):
+  units alternated; no overall exam difference reported, early-onset cold-calling group scored
+  **lower** than its baseline, students participated more in voluntary units and felt nervous
+  under cold calling, low participators did better under it. **Net: no controlled evidence that
+  cold calling raises learning; small single-course studies, null-to-mixed** (`contested`).
 - *How such techniques are usually adopted* — coaching with practice: KBH18 meta (*Review of
   Educational Research* 2018, 60 causal studies; abstract read): coaching changes instruction
   0.49 SD and achievement 0.18 SD, but large effectiveness trials get "only a fraction" of
-  small-trial effects. Relevant to how TLAC is trained, not a test of TLAC itself.
+  small-trial effects. Relevant to how TLAC is trained, not a test of TLAC itself. A 2026
+  scale-up case fits the same line (EW26, EdWeek report of an *EEPA* article, primary not read —
+  `uncertain` in detail): a district coaching program (ICP) adopted in five school waves, compared
+  before/after joining against non-participating schools (not randomized), found no effect on
+  state maths/reading scores or teacher retention; coaching thinned from 5–6 to 1–2 observations
+  per teacher a year as it grew.
 
 **Mechanism (pointers).** Cold Call + No Opt Out = every student must prepare an answer → retrieval
 for all, not just volunteers (A4 S; A1 §5); Check for Understanding = formative checking (B4b §6,
@@ -203,7 +220,8 @@ are "why" questions.
 
 **Grade:** the package **T** (observational, no controlled test, self-studied by the network that
 uses it); the components it delivers **M–S** via their mechanisms; Cold Call **M** for participation
-(DHP13), untested for learning.
+(DHP13/DHP19, observational, one course), **T** for learning (LB14 randomized null on midterm,
+Car15 mixed — re-checked S12d-2).
 
 **Use as learner.** In a group or class, answer every question in your head before anyone speaks
 (you are "cold-called" every time); if you were wrong, say the right answer to yourself afterwards
@@ -335,7 +353,11 @@ with **later knowledge** (r = .53) but almost not at all with **knowledge gain**
 very wide prediction interval (−.69 to .62) — "falsifies general statements such as 'knowledge is
 power' as well as 'the effect of prior knowledge is negligible.'" Furst reports this correctly and
 draws the right conclusion (it depends on the kind of prior knowledge). The deep/shallow split
-itself is her teaching frame (citing Willingham 2003, not read) → `uncertain` as a mechanism.
+is sourced: her "Willingham 2003" is Wil03 (her reference list), and Wil03 (full text, re-read
+S12d-2) does draw it — "shallow" knowledge has meaning but "no connections", deep knowledge is
+connected and harder to obtain, and comes from thinking about how ideas relate. A practitioner
+article by a T1 researcher, not an experiment: `settled` as a description, the mechanism rests on
+A5 (schemas) and A6 (relating ideas).
 *Grade:* translator **S** for this claim (accurate, cites the meta, keeps the nuance).
 
 **7b. Adam Boxer** (chemistry teacher, Head of Science, CogSciSci editor; *Teaching Secondary
@@ -419,7 +441,7 @@ Video checked: AA18, "How to Study for Exams – Spaced Repetition | Evidence-ba
 | "Every time we interrupt the forgetting curve it then takes longer for us to forget"; illustrative "forget half … now only 25%" | Direction right (A2; spacing slows forgetting). The halves/quarters are an illustration, not data → not a fact | keep the direction, **drop the numbers** |
 | After enough repetitions "the forgetting curve no longer applies" | No — retention gets very durable, but forgetting does not stop (A2) | **drop** (overclaim) |
 | Expanding intervals: today, tomorrow, 3 days, a week, a month | KBa11 (*JEP:LMC* 37(5) 1250–1257; abstract read): **total (absolute) spacing** produced large retention gains; **expanding vs equal vs contracting made no clear difference** — expanding raised difficulty during practice without better long-term retention; MMK16 (full text) likewise: fixed expanding = fixed equal at 1 week | keep "space it out"; **drop "it must expand"** — the schedule shape is not the active ingredient |
-| A "2011 study", Swahili word pairs: spaced repeated recall within one session ≫ massed repeated recall, same work | Design matches KBa11 (Swahili–English pairs, repeated tests, massed vs spaced) — identification **likely**, not confirmed from the video (no citation on screen in captions); "+50%" read off a chart → `uncertain` | keep the finding (within-session spacing of retrievals helps), not the number |
+| A "2011 study", Swahili word pairs: spaced repeated recall within one session ≫ massed repeated recall, same work | It is KBa11: the video description cites PubMed 21574747 = KBa11 (confirmed S12d-2 via yt_dlp); "+50%" read off a chart → `uncertain` (not in the abstract) | keep the finding (within-session spacing of retrievals helps), not the number |
 | Retrospective revision timetable (colour-coded spreadsheet of recall dates) | He says himself: "this particular spreadsheet system is not based on evidence … it just works for me" | **honest label — keep as a tool**, grade T; it is a manual successive-relearning log |
 | Interleaving "with evidence … from sporting studies" + his "blitz many topics" routine ("not quite evidence-based … my own personal opinion") | Interleaving S for discrimination (A4; RDHC20); his routine untested | keep interleaving; his routine T |
 

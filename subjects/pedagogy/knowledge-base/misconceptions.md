@@ -83,19 +83,19 @@
 | M71 | Students need exactly three encounters with a concept to learn it | B4b | written |
 | M72 | Hattie's effect-size rankings tell you which teaching method to choose | B4b | written |
 | M73 | If a class makes me feel I'm learning less, I am learning less | B4b | verified |
-| M74 | Flashcard apps are retrieval practice, so if flashcards disappoint, retrieval practice doesn't work | B5 | written |
+| M74 | Flashcard apps are retrieval practice, so if flashcards disappoint, retrieval practice doesn't work | B5 | verified |
 | M75 | Start at the top of Bloom's taxonomy and the facts will fill themselves in | B5 | verified |
 | M76 | Feeling confused means you're learning efficiently | B5 | written |
 | M77 | Once knowledge is well connected you don't need spaced retrieval any more | B5 | written |
 | M78 | Breaks ("diffuse mode") are themselves how the brain learns hard material — rest first, the insight comes | B5 | written |
-| M79 | Cold-calling makes students anxious and shuts down participation | B5 | written |
-| M80 | A one-person learning challenge (e.g. the MIT Challenge) shows the method will work for you | B5 | written |
-| M81 | If I can explain it simply (the "Feynman Technique"), I've mastered it — no practice problems needed | B5 | written |
+| M79 | Cold-calling makes students anxious and shuts down participation | B5 | verified |
+| M80 | A one-person learning challenge (e.g. the MIT Challenge) shows the method will work for you | B5 | verified |
+| M81 | If I can explain it simply (the "Feynman Technique"), I've mastered it — no practice problems needed | B5 | verified |
 | M82 | Spaced reviews only work on an expanding schedule (1 day, 3 days, a week, a month) | B5 | verified |
 | M83 | Review something enough times and you stop forgetting it — the forgetting curve "no longer applies" | B5 (A2) | written |
 | M84 | The more you already know about a topic, the more you will gain from the next lesson ("knowledge is power") | B5 (A5) | written |
 | M85 | Motivation comes first: get students motivated and achievement will follow | B5 (A7) | verified |
-| M86 | A very high reliability figure from a marking tool means the marks are trustworthy | B5 | written |
+| M86 | A very high reliability figure from a marking tool means the marks are trustworthy | B5 | verified |
 | M87 | Asking myself "do I know this?" (without producing the answer) is the same as testing myself | A7 | verified |
 | M88 | Once a test shows me which study method worked better, I'll switch to it | A7 | written |
 | M89 | Any study-skills programme works the same way, at any age | A7 | written |
@@ -907,7 +907,7 @@
   (BK22; Sung's own correction, JS-CO).
 - **Exposing question:** "What did your cards ask you to *do* — name a fact, or use, compare or
   explain it?"
-- **Unit:** B5 / `justin-sung-audit.md` §1. Status: written.
+- **Unit:** B5 / `justin-sung-audit.md` §1. Status: verified (2026-11-16, Ag19 full text + BK22 captions read in full + JS-CO — S12d-2).
 
 ### M75 — Start at the top of Bloom's taxonomy and the facts will fill themselves in
 - **Why it feels true:** experts reason at the top levels and seem to know the facts "for free";
@@ -961,11 +961,15 @@
   remember the one student who froze.
 - **Correction:** in university classes with high cold-calling, *voluntary* participation was
   higher and rose over the term, and students' comfort participating went **up**; in low
-  cold-calling classes comfort did not change (DHP13). Caveat: participation and comfort, not
-  learning, were measured; tone and routine matter (B5 §4).
+  cold-calling classes comfort did not change (DHP13); same pattern for women and men (DHP19,
+  full text). Caveats: observational (instructors chose how much to cold-call), one business
+  course; participation and comfort, not learning, were measured — and the learning tests are
+  null-to-mixed (LB14 randomized: no midterm gain; Car15: some students nervous, one group lower).
+  So the honest correction is narrow: cold calling does not *have* to shut participation down;
+  it is not shown to raise learning. Tone and routine matter (B5 §4).
 - **Exposing question:** "In classes where anyone might be asked, did fewer or more people
   volunteer by the end of term?"
-- **Unit:** B5 §4 (Lemov). Status: written.
+- **Unit:** B5 §4 (Lemov). Status: verified (2026-11-16, DHP19 full text for the DHP13 design + LB14 full text; DHP13 itself abstract — S12d-2).
 
 ### M80 — A one-person learning challenge shows the method will work for you
 - **Why it feels true:** a dramatic, well-documented personal result (33 MIT courses in a year)
@@ -975,7 +979,7 @@
   SY-MIT). It shows what one person did, not what caused it or whether it transfers. Same logic
   as M61 (a famous teacher's results).
 - **Exposing question:** "Who else tried it, what did they get, and compared to what?"
-- **Unit:** B5 §2 (Young). Status: written.
+- **Unit:** B5 §2 (Young). Status: verified (2026-11-16, SY-MIT project page read in full, the primary for every fact in the correction — S12d-2).
 
 ### M81 — If I can explain it simply, I've mastered it — no practice problems needed
 - **Why it feels true:** a smooth explanation feels like full understanding, and the "Feynman
@@ -986,7 +990,7 @@
   technique's author: "If you're cutting out practice in favor of self-explanations, you may end
   up worse off!" (SY-FT24). An explanation written with the book open is not a test (A1, fluency).
 - **Exposing question:** "You can explain it — now solve an unseen problem on it, closed-book."
-- **Unit:** B5 §2 (Young). Status: written.
+- **Unit:** B5 §2 (Young). Status: verified (2026-11-16, Bi18 full text + SY-FT11 full text + SY-FT24 author post — S12d-2).
 
 ### M82 — Spaced reviews only work on an expanding schedule
 - **Why it feels true:** "review just before you forget" sounds like it needs ever-growing gaps,
@@ -1048,7 +1052,7 @@
   Ask how the figure was computed, not just how high it is.
 - **Exposing question:** "Would this reliability figure still be high if the judgements were
   random?"
-- **Unit:** B5 §6 (Christodoulou). Status: written.
+- **Unit:** B5 §6 (Christodoulou). Status: verified (2026-11-16, BW15 full 3-pp. paper read; VBDD19 abstract for the non-adaptive figure — S12d-2).
 
 ---
 
