@@ -1,6 +1,6 @@
 # 06 — Special diodes: LED, photodiode, tunnel diode
 
-<div class="sub">Deck "LED, Tunnel, Photo" · beyond the syllabus text, taught on the slides · needs 03 (the junction) and 02b (recombination)</div>
+<div class="sub">Deck "LED, Tunnel, Photo" · beyond the syllabus text, taught on the slides · needs 03a (the junction) and 02b (recombination)</div>
 
 ## Map
 

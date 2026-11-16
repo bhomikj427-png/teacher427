@@ -6,7 +6,7 @@
 
 [[map:1 Series clipper > 2 Parallel clipper > 3 Clamper > 4 Voltage multipliers > 5 Breakdown, Zener regulator > 6 Schottky diode|here=1]]
 
-04 used the diode to pass one half of a wave. Here a battery shifts the level at which it switches (clippers), a capacitor shifts the whole wave (clampers), and breakdown, which 03 treated as a limit, becomes useful (Zener).
+04 used the diode to pass one half of a wave. Here a battery shifts the level at which it switches (clippers), a capacitor shifts the whole wave (clampers), and breakdown, which 03b treated as a limit, becomes useful (Zener).
 
 ## The questions this file answers
 
@@ -154,7 +154,7 @@ A **Zener diode** is built to work in breakdown; its voltage stays at V_{Z} over
 ### 6 · The Schottky diode
 
 :::guess Predict
-04's rectifiers are limited at high frequency by the stored charge of 03 (reverse recovery). What junction would store no minority charge?
+04's rectifiers are limited at high frequency by the stored charge of 03b (reverse recovery, step 12). What junction would store no minority charge?
 :::
 
 A **Schottky diode** is a metal–n-type silicon junction. Only majority carriers (electrons) take part, so there is no stored minority charge and almost no reverse recovery time: it switches very fast. Forward drop 0.2–0.4 V. The price: larger reverse leakage, lower breakdown voltage. Used in high-frequency rectifiers and fast logic.

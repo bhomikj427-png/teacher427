@@ -1,12 +1,12 @@
 # 04 — Diode circuits and rectifiers
 
-<div class="sub">Deck L08 (load line, DC diode circuits) · deck L09 (rectifiers) · syllabus Unit 2 · needs 03 (the diode curve and its 0.7 V model)</div>
+<div class="sub">Deck L08 (load line, DC diode circuits) · deck L09 (rectifiers) · syllabus Unit 2 · needs 03b (the diode curve and its 0.7 V model, step 9)</div>
 
 ## Map
 
 [[map:1 Load line > 2 The three-step method > 3 Half-wave rectifier > 4 Full-wave rectifiers|here=1]]
 
-03 built the diode and its simplified model: a 0.7 V drop when on, an open circuit when off. This file puts that model into circuits. Most of the unit's numerical marks are here.
+03b built the diode and its simplified model: a 0.7 V drop when on, an open circuit when off. This file puts that model into circuits. Most of the unit's numerical marks are here.
 
 ## The questions this file answers
 

@@ -83,6 +83,11 @@ ideas are never merged to save space.
 
 - **Start from zero.** Assume no prior knowledge of the subject unless the learner's profile says
   otherwise. Every term is defined before first use.
+- **Build up, then combine.** Every variable in a formula gets its own explanation (what it counts,
+  its unit, what sets its value, and a typical number) before the formula appears. A result that joins
+  several earlier pieces is reached in its own step that names each piece and the step it came from,
+  then puts them together line by line. A term from an earlier file is recalled in one line where it
+  is used, with the file and step it came from.
 - **Open on where the topic sits.** Each file's header and map say what it builds on; the first step
   starts from something the learner already has.
 - **Bridges.** Between steps, one sentence on why the next idea is needed.
@@ -189,3 +194,7 @@ This file is the single place the format lives. It is kept true by rule:
   - *Amended 2026-11-15.* §5.4: every graph states what it plots; every symbol in a formula is
     defined in words before use (learner, on EDC 01: "Nc and Nv are not even explained properly,
     i dont understand the graph much, what is it trying to graph?"). EDC 01 rebuilt as 01a + 01b.
+  - *Amended 2026-11-16.* §6 gains "Build up, then combine": every variable explained before its
+    formula, combined results reached in their own step, earlier terms recalled where used (learner,
+    on EDC: "its opperating on assuming i would know something already, its not a build from scratch
+    explaining every term and variable and then combining them together properly").

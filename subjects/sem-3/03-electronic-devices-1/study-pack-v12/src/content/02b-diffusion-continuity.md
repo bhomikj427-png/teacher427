@@ -6,7 +6,7 @@
 
 [[map:1 Diffusion: crowds spread > 2 Fick's law > 3 Diffusion current and signs > 4 Total current > 5 Equilibrium: drift cancels diffusion > 6 Einstein relation > 7 Generation, recombination > 8 Direct G–R > 9 Trap G–R (SRH) > 10 Lifetime τ > 11 Continuity equation > 12 Diffusion length L > 13 Poisson's equation|here=1]]
 
-02a moved carriers with a field. This file adds the second way: carriers spread from where they are crowded, with **no field at all**. Then it asks how carriers are **created and destroyed**, and puts flow and creation into one bookkeeping equation, the **continuity equation**. 03 uses every piece: the pn junction is diffusion balanced by drift, and the diode current is diffusion of carriers that recombine within a length L.
+02a moved carriers with a field. This file adds the second way: carriers spread from where they are crowded, with **no field at all**. Then it asks how carriers are **created and destroyed**, and puts flow and creation into one bookkeeping equation, the **continuity equation**. 03a and 03b use every piece: the pn junction is diffusion balanced by drift, and the diode current is diffusion of carriers that recombine within a length L.
 
 ## The questions this file answers
 
@@ -120,7 +120,7 @@ $$J_{n} = qnμ_{n}E + qD_{n}\frac{dn}{dx}      J_{p} = qpμ_{p}E − qD_{p}\frac
 | Device region | Which term carries the current |
 |---|---|
 | doped resistor (uniform) | drift only: no gradient |
-| forward-biased diode, neutral sides | diffusion of minority carriers (03) |
+| forward-biased diode, neutral sides | diffusion of minority carriers (03b) |
 | depletion region in equilibrium | huge drift and huge diffusion, cancelling (step 5) |
 
 :::note Deck slide 65
@@ -151,7 +151,7 @@ A bar is doped unevenly: 10^{17} donors per cm^{3} at the left, falling to 10^{1
 
 - **Each** carrier's current is zero separately: J_{n} = 0 and J_{p} = 0, so J_{n}^{drift} = −J_{n}^{diff} (deck slide 56, detailed balance). If only the sum were zero, electrons would pile up somewhere forever.
 - On the band diagram: **E_{F} is flat** (01b); E_{C} − E_{F} = kT ln(N_{C}/n) grows where n falls, so **the bands tilt**. A tilt of the bands **is** the built-in field: E = (1/q) dE_{C}/dx.
-- The potential step across the bar: kT/q × ln(10^{17}/10^{15}) = 0.0259 × 4.61 = **0.119 V**. 03 does the same for a pn junction.
+- The potential step across the bar: kT/q × ln(10^{17}/10^{15}) = 0.0259 × 4.61 = **0.119 V**. 03a step 8 does the same for a pn junction.
 
 **Answer to the Predict.** A current flows only for an instant. The charge it moves builds a field whose drift current cancels the diffusion current. Then J = 0 everywhere.
 
@@ -298,7 +298,7 @@ $$\frac{dΔp}{dt} = −\frac{Δp}{τ_{p}}   ⇒   Δp(t) = Δp(0) e^{−t/τ_{p}
 **Answer.** t = 1 μs = τ: 10^{14} × 0.368 = **3.68 × 10^{13} cm^{−3}**. t = 3 μs: 10^{14} × e^{−3} = **4.98 × 10^{12} cm^{−3}** (5 %).
 
 :::check Check 10
-(a) How many lifetimes until only 1 % is left? (b) How many until half is left? (c) 03 says τ sets how fast a diode switches off. Longer τ: faster or slower switch-off?
+(a) How many lifetimes until only 1 % is left? (b) How many until half is left? (c) 03b says τ sets how fast a diode switches off. Longer τ: faster or slower switch-off?
 :::
 
 ### 11 · The continuity equation: bookkeeping for a small box
@@ -341,7 +341,7 @@ The slide writes J_{p} = +qF_{n}. It should be **J_{p} = +qF_{p}** (holes' own f
 
 ### 12 · Diffusion length: how far injected carriers get
 
-The continuity equation's most-used result: holes are pushed into an n-type region at one end (as a diode does in 03). They diffuse in and recombine on the way.
+The continuity equation's most-used result: holes are pushed into an n-type region at one end (as a diode does in 03b). They diffuse in and recombine on the way.
 
 :::q <span class="tag">practice</span>
 Holes are held at Δp(0) = 10^{14} cm^{−3} at x = 0 of a long n-type Si region; no field. D_{p} = 12.4 cm^{2}/s, τ_{p} = 1 μs. Find the diffusion length L_{p} and Δp at x = 50 μm.
@@ -365,7 +365,7 @@ $$Δp(x) = Δp(0) e^{−x/L_{p}}$$
 
 **Answer.** L_{p} = √(12.4 × 10^{−6}) = 3.52 × 10^{−3} cm = **35.2 μm**. Δp(50 μm) = 10^{14} × e^{−50/35.2} = 10^{14} × 0.242 = **2.42 × 10^{13} cm^{−3}**. Almost none reach 1 mm.
 
-- The hole current at x = 0 is qD_{p}Δp(0)/L_{p}: steeper profile (short L) → more current. This is the diode current of 03.
+- The hole current at x = 0 is qD_{p}Δp(0)/L_{p}: steeper profile (short L) → more current. This is the diode current of 03b.
 
 :::check Check 12
 (a) L_{n} for D_{n} = 35 cm^{2}/s, τ_{n} = 1 μs? (b) τ is made 4 times longer. What happens to L? (c) Find the hole current density at x = 0 in the question.
@@ -385,13 +385,13 @@ Where in a device is the net charge not zero?
 **Charge density ρ(x):** net charge per cm^{3} (not resistivity; same letter). **Permittivity ε:** how strongly the material weakens a field; Si: ε = 11.7ε_{0} = 1.04 × 10^{−12} F/cm. **Potential V:** volts; the field is its downhill slope, E = −dV/dx.
 :::
 
-[[fig:poisson_stack|Three graphs against position x for a layer of − charge next to a layer of + charge (the shape of a pn junction's depletion region, 03). ① charge density; ② field: its slope is ρ/ε; ③ potential: its slope is −E.|w=92]]
+[[fig:poisson_stack|Three graphs against position x for a layer of − charge next to a layer of + charge (the shape of a pn junction's depletion region, 03a). ① charge density; ② field: its slope is ρ/ε; ③ potential: its slope is −E.|w=92]]
 
 $$\frac{dE}{dx} = \frac{ρ}{ε} = \frac{q}{ε}(p − n + N_{D}^{+} − N_{A}^{−})$$
 
 - **Four charges** (deck slide 65): holes (+), electrons (−), ionised donors (+), ionised acceptors (−).
 - **Neutral region:** they balance, ρ = 0, so the field is constant (a uniform resistor).
-- **Depletion region (03):** carriers gone, ions left, ρ ≠ 0: the field ramps up, and the potential bends. That is the built-in voltage.
+- **Depletion region (03a):** carriers gone, ions left, ρ ≠ 0: the field ramps up, and the potential bends. That is the built-in voltage.
 
 **Answer.** dE/dx = ρ/ε: the field changes in proportion to the net charge; ρ = q(p − n + N_{D}^{+} − N_{A}^{−}); ε = 11.7ε_{0} for Si; and E = −dV/dx links the field to the potential.
 

@@ -46,7 +46,7 @@ Cover the right column, write each formula from the cue, then uncover. Any row y
 | 01 Mass action, Fermi | n·p = n_{i}^{2} · n ≈ N_{D} · f(E) = 1/(1 + e^{(E − E_{F})/kT}) · E_{F} = (E_{C} + E_{V})/2 |
 | 02 Drift, diffusion | σ = q(nμ_{n} + pμ_{p}) · R_{s} = ρ/t · D/μ = V_{T} · J_{n} = qnμ_{n}E + qD_{n}dn/dx |
 | 02 Continuity, Poisson | ∂n/∂t = (1/q)∂J_{n}/∂x − (R − G) · dE/dx = ρ/ε |
-| 03 Junction, diode | V_{bi} = V_{T}ln(N_{A}N_{D}/n_{i}^{2}) · W ∝ √(V_{bi} − V_{a}) · I_{D} = I_{s}(e^{V_{D}/ηV_{T}} − 1) · r_{d} = 26 mV/I_{D} |
+| 03a, 03b Junction, diode | V_{bi} = V_{T}ln(N_{A}N_{D}/n_{i}^{2}) · W ∝ √(V_{bi} − V_{a}) · I_{D} = I_{s}(e^{V_{D}/ηV_{T}} − 1) · r_{d} = 26 mV/I_{D} |
 | 04 Rectifiers | HW 0.318V_{m}, r 1.21, η 40.6% · FW 0.636V_{m}, r 0.482, η 81.2% · PIV: V_{m} (HW, bridge), 2V_{m} (CT) |
 | 05 Clamper, Zener | start with the ON half; 5RC ≫ T/2 · Zener ON if V_{i}R_{L}/(R + R_{L}) ≥ V_{Z}; I_{Z} = I_{R} − I_{L} |
 | 07 JFET | I_{D} = I_{DSS}(1 − V_{GS}/V_{GS(off)})^{2} · μ = g_{m}r_{d} · g_{m0} = 2I_{DSS}/|V_{GS(off)}| · self-bias V_{GS} = −I_{D}R_{S} |
@@ -67,7 +67,7 @@ Cover the right column, write each formula from the cue, then uncover. Any row y
 
 1. Drift velocity per unit field, μ = v_{d}/E; cm^{2}/V·s. (02)
 2. In equilibrium n·p = n_{i}^{2}, whatever the doping. (01)
-3. Any two: larger gap, so far smaller leakage; works at higher temperature (≈ 150 °C against 75 °C); higher PIV; cheap, forms a good oxide. (01, 03)
+3. Any two: larger gap, so far smaller leakage; works at higher temperature (≈ 150 °C against 75 °C); higher PIV; cheap, forms a good oxide. (01a, 03b)
 4. The largest reverse voltage across a diode while it blocks. Bridge: **V_{m}**. (04)
 5. Zener: heavy doping, thin region, field pulls electrons from bonds, below ≈ 5 V, negative coefficient. Avalanche: light doping, wide region, multiplication by collision, above ≈ 6 V, positive coefficient. (05)
 6. The V_{DS}, at V_{GS} = 0, at which the channel pinches off and I_{D} levels at I_{DSS}; equal to |V_{GS(off)}|. (07)

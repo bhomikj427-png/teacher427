@@ -6,7 +6,7 @@
 
 [[map:1 States = seats > 2 f(E), read point by point > 3 f(E) on the band diagram > 4 Seats per energy g(E) > 5 n = seats × chance > 6 The exponential shortcut > 7 N_{C} and N_{V} > 8 n·p = n_{i}^{2} proved > 9 E_{F} at mid-gap > 10 E_{F} moves with doping|here=1]]
 
-01a counted carriers with rules of thumb: n ≈ N_{D}, p = n_{i}^{2}/n. This file explains where those rules come from, using one idea: **number of carriers = number of places an electron could sit × the chance each place is taken.** The Fermi level E_{F} is the single number that sets that chance. 03 uses it to explain the pn junction.
+01a counted carriers with rules of thumb: n ≈ N_{D}, p = n_{i}^{2}/n. This file explains where those rules come from, using one idea: **number of carriers = number of places an electron could sit × the chance each place is taken.** The Fermi level E_{F} is the single number that sets that chance. 03a uses it to explain the pn junction.
 
 ---
 
@@ -278,7 +278,7 @@ $$n = n_{i} e^{(E_{F} − E_{i})/kT}      p = n_{i} e^{(E_{i} − E_{F})/kT}$$
 
 **Answer.** E_{F} − E_{i} = 0.0259 × ln(10^{16}/10^{10}) = 0.0259 × 13.8 = **0.358 eV above mid-gap**. From the band edge directly: E_{C} − E_{F} = kT ln(N_{C}/n) = 0.0259 × ln(2.8 × 10^{19}/10^{16}) = **0.206 eV**. Check: 0.358 + 0.206 = 0.564 eV ≈ half the gap.
 
-**Why this matters next.** In equilibrium E_{F} is **the same everywhere** in a connected piece of material (deck slide 36). Join p-type (E_{F} low) to n-type (E_{F} high) and the bands must bend until the two E_{F} line up. That bending is the pn junction, in 03.
+**Why this matters next.** In equilibrium E_{F} is **the same everywhere** in a connected piece of material (deck slide 36). Join p-type (E_{F} low) to n-type (E_{F} high) and the bands must bend until the two E_{F} line up. That bending is the pn junction, in 03a step 7.
 
 :::check Check 10
 (a) p-type, N_{A} = 10^{17}, n_{i} = 10^{10}: how far is E_{F} below mid-gap? (b) An n-type sample has E_{F} 0.3 eV above E_{i}, n_{i} = 1.5 × 10^{10}. Find n. (c) Heat a doped sample until n_{i} becomes larger than N_{D}. Where does E_{F} go?

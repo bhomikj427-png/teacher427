@@ -16,7 +16,7 @@ Ranked by how much the professor's material stresses each topic: solved numerica
 | 6 | **05 Clippers, clampers, Zener** | Deck L10 with worked examples | 05 clamper rule, Zener regulator | 40 min |
 | 7 | **13 Feedback** | 51-slide deck, four topologies | 13 gain with feedback | 40 min |
 | 8 | **14 Oscillators** | Deck with RC, Wien, LC, crystal | 14 Barkhausen, RC phase-shift | 35 min |
-| 9 | **03 pn junction and diode** | Second half of the 100-slide Unit 1–2 deck | 03 built-in voltage, diode equation | 40 min |
+| 9 | **03a, 03b pn junction and diode** | Second half of the 100-slide Unit 1–2 deck (slides 66–100); deck examples on slides 77–78 | 03a steps 8, 11, 12; 03b steps 3, 8, 10, 11 | 90 min |
 | 10 | **01a, 01b, 02a, 02b Semiconductors and current flow** | First half of the same deck; definitions and short derivations (slide 38: E_{F} at mid-gap) | 01a step 8, 01b steps 7 and 9, 02a steps 5–7, 02b steps 3–6 | 120 min |
 | 11 | **10 BJT operation** | Short decks L20–L25 | 10 α, β | 25 min |
 | 12 | **06 Special diodes, 09 CMOS and FinFET** | Extra decks beyond the syllabus text | 09 CMOS gate | 30 min |
@@ -25,7 +25,7 @@ Ranked by how much the professor's material stresses each topic: solved numerica
 Two rules for using the ranking:
 
 - **Short on time:** do only the "Do first" column, top to bottom, then the matching mock-paper questions.
-- **Stuck in 07 or 08:** both lean on 03 (the reverse-biased pn junction). Go back one step and don't skip ahead.
+- **Stuck in 07 or 08:** both lean on 03a (the reverse-biased pn junction). Go back one step and don't skip ahead.
 
 ## The path through this pack
 
@@ -37,7 +37,7 @@ The order is the syllabus, unit by unit.
 
 **Unit 2 — the diode**
 
-[[map:03 pn junction, diode > 04 Diode circuits, rectifiers > 05 Clippers, clampers, Zener > 06 Special diodes]]
+[[map:03a Junction, V_bi, depletion width > 03b Diode equation, r_d, capacitances > 04 Diode circuits, rectifiers > 05 Clippers, clampers, Zener > 06 Special diodes]]
 
 **Units 3–4 — field-effect transistors**
 
@@ -49,7 +49,7 @@ The order is the syllabus, unit by unit.
 
 [[map:10 BJT operation > 11 BJT biasing > 12 h-parameters > 13 Feedback > 14 Oscillators > 15 Mock paper]]
 
-Each file needs the ones before it. 07 uses 03's depletion region. 08 reuses 07's biasing method. 11 uses 10's α and β. 13 and 14 use 12's amplifier gain. 14 is 13 with the feedback made positive.
+Each file needs the ones before it. 07 uses 03a's depletion region. 08 reuses 07's biasing method. 11 uses 10's α and β. 13 and 14 use 12's amplifier gain. 14 is 13 with the feedback made positive.
 
 | File | Syllabus item | What it teaches | Real Qs |
 |---|---|---|---|
@@ -57,7 +57,8 @@ Each file needs the ones before it. 07 uses 03's depletion region. 08 reuses 07'
 | 01b | U1 | states, Fermi–Dirac f(E), density of states, N_{C} and N_{V}, np = n_{i}^{2} proved, E_{F} at mid-gap, E_{F} with doping | deck slide 38 |
 | 02a | U1 | thermal motion, drift velocity, mobility (vs field, doping, T), drift current, σ and ρ, resistance, sheet resistance | deck slides 49–52 |
 | 02b | U1 | diffusion, Fick's law, total current, equilibrium balance, Einstein relation, G–R, SRH, lifetime, continuity, diffusion length, Poisson | deck slides 57, 61–65 |
-| 03 | U2 | junction, depletion region, built-in voltage, diode equation, resistances, capacitances | deck |
+| 03a | U2 | how a junction is made, carriers crossing, depletion region, drift–diffusion balance, band bending, V_{bi} derived, ρ(x), E(x), ψ(x), width W, bias | deck slides 77–78 |
+| 03b | U2 | I–V curve, why it is exponential, diode equation, forward/reverse limits, I_{s}, temperature, static and dynamic resistance, three models, C_{T}, C_{D}, reverse recovery | deck slides 75, 79–100 |
 | 04 | U2 | load line, series/parallel diode circuits, half- and full-wave rectifiers | L08, L09 |
 | 05 | U2 | clippers, clampers, voltage multipliers, Zener regulator, Schottky | L10 |
 | 06 | U2 extra | LED, photodiode, tunnel diode | deck |
@@ -105,9 +106,10 @@ When you reach a **Guess first** box, write a guess on paper **before** reading 
 | Unit 1–2 deck slide 64 (02b) | J_{p} = +qF_{n} | J_{p} = +qF_{p} | holes carry their own flux |
 | Unit 1–2 deck slide 65 (02b) | J_{p} = qμ_{p}pE + qD_{p}dp/dx | − qD_{p}dp/dx | slide 55 has the right sign |
 | Feedback slide 32 (13) | 98.3 for A = 5000 | 98.0 | 5000/51 = 98.0; the table's other entries are right |
+| Unit 1–2 deck slides 79 and 82 (03b) | η: "assume 1 unless noted" (79); "1 for Ge, 2 for Si" (82) | η = 1 unless the question gives it | the two slides disagree; questions state η |
 
 ## How this pack was checked
 
 - Facts: the subject knowledge base (Boylestad & Nashelsky, Sedra & Smith, Streetman, Neamen). Units 6–7 and the deck extras are not in the knowledge base yet; their formulas are the standard textbook results, each re-derived or simulated.
-- Numbers: every number in the pack was computed a second time by `verify.py` (211 checks), including numerical simulation of the oscillator networks. Files 01a–02b have their own scripts, `verify_u1.py` and `verify_u2.py`.
+- Numbers: every number in the pack was computed a second time by `verify.py` (211 checks), including numerical simulation of the oscillator networks. Files 01a–03b have their own scripts, `verify_u1.py`, `verify_u2.py` and `verify_u3.py`.
 - Where a slide has a slip, the pack uses the corrected value and says so in a Note.

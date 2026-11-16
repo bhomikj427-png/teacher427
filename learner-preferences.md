@@ -214,6 +214,11 @@ prefers minimal prose, wants diagrams described, etc.)*
   "Nc and Nv are not even explained properly, i dont understand the graph much, what is it trying to graph?", "a bit too
   compressed". → state each axis and what one point means before the prose; define a symbol by what it counts and
   what sets it; never merge several ideas into one step to save space (written into `study-pack-format.md` §5.4).
+- [stated 2026-11-16] **Build from scratch, then combine.** On EDC v1.2 files 03 onward: "its opperating on assuming i
+  would know something already, its not a build from scratch explaining every term and variable and then combining
+  them together properly". → explain each variable (meaning, unit, what sets it, typical value) before any formula;
+  reach a combined result in its own step that names its pieces; recall an earlier file's term where it is used
+  (written into `study-pack-format.md` §6).
 
 ## 4. Autonomy & choice
 - [stated 2026-10-17] **Engine does all verification; the learner only learns.** "I can only either

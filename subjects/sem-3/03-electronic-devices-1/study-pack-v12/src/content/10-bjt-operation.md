@@ -1,6 +1,6 @@
 # 10 — BJT operation
 
-<div class="sub">Decks L20–L25 · syllabus Unit 5 ("BJT characteristics and comparison with MOSFETs") · needs 03 (forward and reverse bias of a pn junction)</div>
+<div class="sub">Decks L20–L25 · syllabus Unit 5 ("BJT characteristics and comparison with MOSFETs") · needs 03a and 03b (forward and reverse bias of a pn junction)</div>
 
 ## Map
 

@@ -1,6 +1,6 @@
 # Unit 2 — Formula cheat sheet: the diode and its circuits
 
-<div class="sub">One card per formula from v1.2 files 03, 04, 05, 06 · each card: a question → the formula → every symbol defined → a figure → where it holds · answers at the end · every number recomputed in verify.py</div>
+<div class="sub">One card per formula from v1.2 files 03a, 03b, 04, 05, 06 · each card: a question → the formula → every symbol defined → a figure → where it holds · answers at the end · every number recomputed in verify.py</div>
 
 ## Map
 
@@ -14,7 +14,7 @@
 
 ### F21 · Built-in voltage: V_{bi} = V_{T} ln(N_{A}N_{D}/n_{i}^{2})
 
-:::q <span class="tag">03 Check 1</span>
+:::q <span class="tag">03a step 8</span>
 N_{A} = 10^{17}, N_{D} = 10^{16} cm^{−3}, n_{i} = 10^{10} cm^{−3}, V_{T} = 25.9 mV. Find V_{bi}.
 :::
 
@@ -46,7 +46,7 @@ $$W = √[\frac{2ε}{q}(\frac{1}{N_{A}} + \frac{1}{N_{D}})(V_{bi} − V_{a})]   
 
 ### F23 · Shockley equation: I_{D} = I_{s}(e^{V_{D}/ηV_{T}} − 1)
 
-:::q <span class="tag">03 step 2</span>
+:::q <span class="tag">03b step 3</span>
 I_{s} = 1 pA, η = 1, 300 K. Find I_{D} at 0.6 V. What does 60 mV more do?
 :::
 
@@ -62,7 +62,7 @@ $$I_{D} = I_{s}(e^{V_{D}/ηV_{T}} − 1)      V_{T} = kT/q = T/11 600 ≈ 26 mV$
 
 ### F24 · Temperature: I_{s} doubles every 10 °C
 
-:::q <span class="tag">03 Check 2</span>
+:::q <span class="tag">03b step 6</span>
 I_{s} = 10 nA at 25 °C. Find I_{s} at 55 °C.
 :::
 
@@ -78,7 +78,7 @@ I_{s} ∝ n_{i}^{2}, and n_{i} rises steeply with T (Unit 1 F2). T in °C; only 
 
 ### F25 · Static and dynamic resistance: r_{d} = ηV_{T}/I_{D}
 
-:::q <span class="tag">03 step 3</span>
+:::q <span class="tag">03b steps 7–8</span>
 A diode carries 2 mA at 0.7 V (η = 1). Find its static and dynamic resistance.
 :::
 
@@ -92,7 +92,7 @@ $$R_{D} = \frac{V_{D}}{I_{D}}      r_{d} = \frac{ηV_{T}}{I_{D}} ≈ \frac{26 mV
 
 ### F26 · Capacitances: C_{T} = εA/W, C_{D} = τI_{D}/ηV_{T}
 
-:::q <span class="tag">03 Self-test 4 + practice</span>
+:::q <span class="tag">03b steps 10–11</span>
 (a) V_{bi} = 0.85 V. By what factor does C_{T} change from 0 V to 5 V reverse? (b) τ = 1 μs, I_{D} = 1 mA, η = 1, V_{T} = 26 mV. Find C_{D}.
 :::
 

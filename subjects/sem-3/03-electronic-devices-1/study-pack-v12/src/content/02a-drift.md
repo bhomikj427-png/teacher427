@@ -6,7 +6,7 @@
 
 [[map:1 Thermal motion, no current > 2 Drift velocity, mobility > 3 Velocity saturation > 4 What sets μ > 5 Drift current J > 6 σ and ρ of pure Si > 7 Doping sets σ > 8 Resistance of a bar > 9 Sheet resistance|here=1]]
 
-01a and 01b counted the carriers: n electrons and p holes per cm^{3}. Counting is not current. A current needs carriers to **move** in one direction on average. Two things make that happen (deck slide 45): a **field** pushes them (**drift**, this file), and a **crowd** spreads out (**diffusion**, 02b). 03 joins the two at the pn junction.
+01a and 01b counted the carriers: n electrons and p holes per cm^{3}. Counting is not current. A current needs carriers to **move** in one direction on average. Two things make that happen (deck slide 45): a **field** pushes them (**drift**, this file), and a **crowd** spreads out (**diffusion**, 02b). 03a joins the two at the pn junction.
 
 ## The questions this file answers
 

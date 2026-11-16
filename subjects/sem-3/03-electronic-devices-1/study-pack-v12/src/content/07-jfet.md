@@ -1,12 +1,12 @@
 # 07 — The JFET
 
-<div class="sub">JFET deck slides 5–44 · numericals sheet Q1–Q19 · syllabus Unit 3 · "8 marks" relayed for the parameters (§3) · needs 03 (the reverse-biased pn junction and its depletion region)</div>
+<div class="sub">JFET deck slides 5–44 · numericals sheet Q1–Q19 · syllabus Unit 3 · "8 marks" relayed for the parameters (§3) · needs 03a (the reverse-biased pn junction and its depletion region)</div>
 
 ## Map
 
 [[map:1 What a JFET is > 2 Shockley's equation > 3 g_{m}, r_{d}, μ > 4 Self-bias > 5 Voltage-divider bias > 6 Amplifiers|here=1]]
 
-A diode (03) has two terminals and no control. A transistor adds a third terminal that controls the current between the other two. The JFET is the simplest one: a reverse-biased pn junction squeezes a channel of doped silicon.
+A diode (03a, 03b) has two terminals and no control. A transistor adds a third terminal that controls the current between the other two. The JFET is the simplest one: a reverse-biased pn junction squeezes a channel of doped silicon.
 
 ## The questions this file answers
 
@@ -29,7 +29,7 @@ The gate of a JFET is a pn junction that is always kept reverse biased. How much
 **Channel:** the strip of n-type silicon the current flows through. **Source, drain:** its two ends; carriers enter at the source and leave at the drain. **Gate:** the p regions on both sides of the channel, joined together.
 :::
 
-[[fig:jfet_struct|n-channel JFET. The gate–channel junctions are reverse biased, so each has a depletion region (03).|w=70]]
+[[fig:jfet_struct|n-channel JFET. The gate–channel junctions are reverse biased, so each has a depletion region (03a).|w=70]]
 
 - Making V_{GS} **more negative** widens the depletion regions, which **narrows the channel**, so the drain current I_{D} falls.
 - At V_{GS} = **V_{GS(off)}** the depletion regions meet and I_{D} = 0 (cutoff).
