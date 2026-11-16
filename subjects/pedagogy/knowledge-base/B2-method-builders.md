@@ -39,6 +39,14 @@ retrieval practice (A4, S), repeated across the course = a crude form of success
 learner building on a missing prerequisite — the A5 schema argument (new knowledge attaches to
 existing knowledge). (d) Self-pacing removes the time constraint on slow learners — which is also
 why completion drops: the procrastinators never reach the end.
+*Which part does the work (S12b, BKK91 full text):* the same group reports an earlier meta of 49
+studies in which **removing mastery testing** from Keller- and Bloom-type classes made them
+"substantially" less effective (Kulik & Kulik 1986-87, as summarized by BKK91; size not given
+there → secondary). BKK91's own meta of **frequent classroom testing** (35 studies) found a mean
+ES of **0.23** (SE 0.06) — but **0.54** against controls given no tests (11 studies) and only
+**0.15** against controls given one test: the biggest step is from no test to some test; more
+tests still add (high- vs intermediate-frequency groups 0.49 vs 0.23, 8 studies). So in PSI the unit test is the active ingredient, and its benefit is real but
+smaller than the package numbers suggest (old studies, course exams → upper bounds).
 
 **Serves:** A3 rows 1 and 4 (facts, procedures) — anything that can be cut into small units with
 a clear pass criterion; weaker fit for row 3 (principles) where "passing a unit" can be met by
@@ -94,10 +102,15 @@ organizers .20"; some entries are "averaged or estimated from correlational data
   match what the mastery class was focused on. Bloom replied in the same journal (1987); the
   dispute is about which studies count, not about the arithmetic.
 - **Mastery programs overall (KKB90):** positive on course exams; larger for weaker students (§1).
-- **Human tutoring (VL11, ERIC abstract):** VanLehn reviewed experiments comparing human tutoring,
+- **Human tutoring (VL11, ERIC abstract + table via VL11-sl):** VanLehn reviewed experiments comparing human tutoring,
   computer tutoring and no tutoring: the widely believed d ≈ 2.0 for human tutors "was much lower:
   **d = 0.79**"; step-based intelligent tutoring systems **0.76**, "nearly as effective as human
-  tutoring."
+  tutoring." *S12b (the paper's table, as reproduced in VanLehn's own 2012 MIT talk slides, VL11-sl):*
+  versus no tutoring — **answer-based** computer tutoring **0.31** (165 effects), step-based **0.76**
+  (28), substep-based **0.40** (26), **human 0.79 (only 10 effects)**; human vs step-based 0.21
+  (10 effects). So the 0.79 rests on a small set; the big pattern is that the gain flattens
+  beyond step-level feedback — not that finer interaction always helps. `settled` for the
+  direction (human ≈ step-based ITS ≫ 2.0 myth); the exact figure is one review's mean.
 - **Tutoring at scale (NOQ24, AERJ 61(1) 74–107, abstract):** systematic review and meta-analysis
   of preK–12 tutoring **randomized** field experiments: pooled **ES = 0.288 SD** (SE 0.029);
   largest with teachers or paraprofessionals as tutors, earlier grades, **≥ 3 days per week**, and
@@ -158,6 +171,13 @@ serve rows 1–4.
 this sprint (the events are a design checklist, widely used in instructional design). **M–S** for
 the components it contains (retrieval, feedback, worked guidance). The capability taxonomy is a
 framework, graded by usefulness, not effect size (A3 decision S3).
+*S12b:* still no test of the **sequence** (does the order or completeness matter?). The one
+outcome synthesis found (LY25, full text; health-professions education, 11 studies = 5 RCTs + 6
+cohort studies, 825 learners) compared nine-events teaching with **plain lecture**: knowledge
+SMD 1.55 [0.81, 2.29], practical skill 1.83 — with **I² = 95% and 90%**, small unblinded
+studies, mostly from one national literature. Sizes that large and that inconsistent are
+`suspect` (`research/07`: small studies + publication bias inflate); and beating a plain lecture
+is what almost any active, retrieval-containing lesson does. Direction only; grade unchanged.
 
 **Use as learner.** Before a session ask "which of Gagné's five is this?" — verbal information
 (self-test), intellectual skill (worked examples → practice), cognitive strategy (try it on varied
@@ -230,8 +250,9 @@ Singapore maths turned into **CPA** (concrete → pictorial → abstract). (c) A
 
 **Serves:** A3 rows 2–3 (concepts, principles) in maths and science; row 4 via CPA.
 
-**Grade:** spiral **T** (as a package) / spacing mechanism **S**; CPA / concreteness fading **M**
-(`uncertain` size); pure discovery **X** for novices (`contested` edge for guided discovery, M).
+**Grade:** spiral **T** (as a package) / spacing mechanism **S**; CPA / concreteness fading **M−**
+(`uncertain` size; lowered S12b to match B1 §6 — BG13 found fading only tied formal-only
+instruction); pure discovery **X** for novices (`contested` edge for guided discovery, M).
 
 **Use as learner.** For a new abstract idea, find (or draw) a concrete instance first, then a
 diagram, then the notation — and *drop* the concrete version once the notation makes sense
@@ -306,7 +327,9 @@ lower-ability pupils; a longer-term gain on the national Primary School Certific
 benefit-cost ratio > 1 under the authors' assumptions. **Caveats:** one trial, one country,
 very low baseline; the largest number is on Kumon's *own* timed test (aligned with what was
 practised); the Kumon Institute supplied the materials; 5 schools dropped for baseline
-mismanagement.
+mismanagement. *S12b:* the 2024 journal abstract (OpenAlex) reports the same set of results
+(maths gains, self-esteem catch-up, longer-term national-exam gain, benefits > costs); the journal
+PDF was not reachable, so the numbers above are the working paper's, labelled as such.
 
 **Mechanism (Part A).** Practice at the learner's level with many short items = **calibration to
 the edge** (engine principle 4; ~80% success); daily practice = **spacing**; repeated production
@@ -353,8 +376,13 @@ content; the English one supplied a generic talk focus. `uncertain` interpretati
 **Serves:** teacher learning (outside A3 rows); indirectly, whatever content the lesson targets.
 
 **Grade:** **T–M** (one positive RCT with content kit, one large null RCT without). Same reading
-as the general professional-development literature: content-focused PD helps more than
-process-only PD (not verified this sprint → `uncertain`).
+as part of the general professional-development literature, which is itself split (S12b,
+abstracts): a meta of 95 STEM PD and curriculum programmes found +0.21 SD on average, larger when
+PD taught teachers to use **curriculum materials** and built **content knowledge / pedagogical
+content knowledge** (LHGP19); a review of 28 rigorous PD studies found that **which idea** PD
+taught did not change its effect — **how it helped teachers enact** the idea did (Ken16). So
+"content-focused PD beats process-only PD" is `contested`; "PD tied to concrete materials teachers
+then use" has the better support.
 
 **Use as learner.** Study groups work like lesson study only if someone brings the *right content*
 (a good explanation, a solved example); pooling confusion does not produce understanding.
@@ -438,7 +466,7 @@ substitute for instruction.
 | Bloom | formative test → correctives → parallel test; 2σ | all | ML **M** aligned tests, **T** standardized (Sl87); tutoring S but ≈0.3 SD at scale (NOQ24), 0.79 lab (VL11); **2σ X** |
 | Gagné | 5 capabilities; hierarchies; nine events | A3 hub | nine events **T** / components S; taxonomy = framework |
 | Ausubel | prior knowledge first; advance organizers | 2, 3 | organizer **T–M** (LAA80, Table I .20) / prior-knowledge principle S |
-| Bruner | spiral; enactive→iconic→symbolic; discovery | 2, 3, 4 | spiral T / spacing S; CPA **M**; pure discovery **X** for novices |
+| Bruner | spiral; enactive→iconic→symbolic; discovery | 2, 3, 4 | spiral T / spacing S; CPA **M−** (S12b); pure discovery **X** for novices |
 | Engelmann (DI) | faultless example sequences, scripted, choral, mastery | 1, 2, 4 | **S** (St18 0.54–0.60; author COI) |
 | Kumon | daily worksheets at the right level, speed + accuracy | 4, 1 | **M** (one RCT, SMS24: 0.50–1.21 SD) |
 | Lesson study | teachers co-plan, observe pupils, revise | teacher learning | **T–M** (LP17 + kit positive; MWW18 null) |

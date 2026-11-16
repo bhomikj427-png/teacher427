@@ -24,7 +24,7 @@
 | M12 | Mind maps always beat linear notes | A6 | written |
 | M13 | The "Feynman Technique" was Feynman's method | A8, B3 | written |
 | M14 | The learning pyramid ("10% of what we read…") | A8 | written |
-| M15 | One-to-one tutoring reliably gives a 2-sigma gain | B2 | written |
+| M15 | One-to-one tutoring reliably gives a 2-sigma gain | B2 | verified |
 | M16 | Any difficulty is a "desirable difficulty" | A1, A4 | written |
 | M17 | Novices learn best by discovering things themselves | A4 | written |
 | M18 | If I can't recall it, I never learned it | A1 | written |
@@ -66,13 +66,13 @@
 | M54 | Learning by doing means discovery without being told — that is what Dewey said, and it works best | B1 | verified |
 | M55 | Teaching general problem-solving strategies makes you a better problem-solver in any subject | B1 | verified |
 | M56 | Good instruction is errorless — learners should never be allowed to make mistakes | B1 | verified |
-| M57 | Mastery learning reliably gives about a 1-sigma gain in ordinary schools | B2 | written |
+| M57 | Mastery learning reliably gives about a 1-sigma gain in ordinary schools | B2 | verified |
 | M58 | Advance organizers are a strong, proven way to start a lesson | B2 | written |
-| M59 | Direct Instruction means lecturing — the teacher talks, students listen | B2 | written |
+| M59 | Direct Instruction means lecturing — the teacher talks, students listen | B2 | verified |
 | M60 | Letting every learner go at their own pace is always better | B2 | written |
-| M61 | A famous teacher's results prove that their method works | B3 | written |
+| M61 | A famous teacher's results prove that their method works | B3 | verified |
 | M62 | Escalante's students succeeded because he believed in them — high expectations are the method | B3 | written |
-| M63 | Time spent on a learning platform (videos, Khan Academy) is learning; such platforms are proven to raise scores a lot | B3 | written |
+| M63 | Time spent on a learning platform (videos, Khan Academy) is learning; such platforms are proven to raise scores a lot | B3 | verified |
 | M64 | Multiple-choice quizzes can't help learning — only recall tests or essays count | B4a | written |
 | M65 | If I can recall it once, I've learned it — move on | B4a | written |
 | M66 | Interleaving means only mixed practice, from the very first lesson | B4a | written |
@@ -690,12 +690,12 @@
 - **Correction:** the 2σ came from two dissertations, grades 4–8, **11 lessons over 3 weeks**,
   tests made for the study, and the tutoring condition **also** ran mastery-learning
   feedback-correctives (Bl84, full text). Later reviews: human tutoring d = 0.79 vs no tutoring
-  (VL11, about as good as step-based computer tutors at 0.76); preK–12 randomized tutoring
-  programmes pooled **0.29 SD** (NOQ24). Tutoring works — at roughly a seventh of the famous size
-  at scale.
+  (VL11, about as good as step-based computer tutors at 0.76; the 0.79 rests on only 10 effects —
+  VL11-sl table); preK–12 randomized tutoring programmes pooled **0.29 SD** (NOQ24). Tutoring
+  works — at roughly a seventh of the famous size at scale.
 - **Exposing question:** "How long did the 2-sigma study run, on what test, and what else did the
   tutored group get?"
-- **Unit:** B2 §2. Status: written.
+- **Unit:** B2 §2. Status: verified (Bl84 full text; VL11 table via author slides — S12b).
 
 ### M57 — Mastery learning reliably gives about a 1-sigma gain in ordinary schools
 - **Why it feels true:** Bloom reported ≈1σ for mastery learning beside the 2σ for tutoring;
@@ -706,7 +706,7 @@
   short studies with generous corrective time and aligned tests. Mastery *mechanisms* (test →
   correct → retest) are well supported; the 1σ figure is not.
 - **Exposing question:** "Was that effect on a standardized test or a test written for the study?"
-- **Unit:** B2 §2. Status: written.
+- **Unit:** B2 §2. Status: verified (Sl87 full text — S12b).
 
 ### M58 — Advance organizers are a strong, proven way to start a lesson
 - **Why it feels true:** Ausubel's principle — learning depends on what the learner already knows
@@ -716,7 +716,8 @@
   table put them at .20 (Bl84). Opening with **questions the learner must answer** (pretesting,
   SCA24 g = 0.54 on asked items) has stronger evidence than opening with an overview.
 - **Exposing question:** "Did the learners *do* anything with the overview, or just read it?"
-- **Unit:** B2 §4 (evidence at A6 §5). Status: written.
+- **Unit:** B2 §4 (evidence at A6 §5). Status: written (S12b: stays — "small" rests on LAA80 /
+  Stone abstracts; numeric ES carried to S13).
 
 ### M59 — Direct Instruction means lecturing — the teacher talks, students listen
 - **Why it feels true:** "direct" and "instruction" suggest transmission; critics use "direct
@@ -727,7 +728,7 @@
   large (St18: 0.54–0.60, developer-affiliated authors). A lecture with no responses has none of
   those mechanisms.
 - **Exposing question:** "How many times per minute does each student answer in this lesson?"
-- **Unit:** B2 §6. Status: written.
+- **Unit:** B2 §6. Status: verified (St18 full text — S12b).
 
 ### M60 — Letting every learner go at their own pace is always better
 - **Why it feels true:** learners differ in speed, and forced pacing leaves some behind and bores
@@ -737,7 +738,8 @@
   procrastination win. Kumon's RCT ran a fixed 30 minutes daily inside school time (SMS24): *level*
   was individual, *schedule* was not.
 - **Exposing question:** "Self-paced on what — level, or schedule? Who sets the deadline?"
-- **Unit:** B2 §1. Status: written.
+- **Unit:** B2 §1. Status: written (S12b: stays — the completion finding is KKB90's abstract
+  sentence; full text not reachable).
 
 ### M61 — A famous teacher's results prove that their method works
 - **Why it feels true:** the results are real and dramatic (18/18 AP passes; a school off
@@ -749,7 +751,7 @@
   rebounds anyway (regression to the mean). Treat the legend as a pointer to mechanisms (daily
   retrieval, practice time), then check those in controlled studies (A4).
 - **Exposing question:** "Compared with whom — and did it last after the teacher left?"
-- **Unit:** B3 (all). Status: written.
+- **Unit:** B3 (all). Status: verified (CSM88 + CR05 full text — S12b).
 
 ### M62 — Escalante's students succeeded because he believed in them — high expectations are the method
 - **Why it feels true:** *Stand and Deliver* centres on his belief in the students; "high
@@ -757,10 +759,15 @@
 - **Correction:** the expectations were enforced by a practice regime — contracts for daily
   quizzes, weekly exams, 90 minutes of nightly study, homework checked at the door, extra hours
   (CSM 1988). Those are retrieval practice, spacing and time on task (A4 S). Expectation
-  effects on their own are small (teacher-expectancy research; not reviewed in this KB →
-  `uncertain`); the mechanism with evidence is the practice.
+  effects on their own: a 35-year review concludes classroom self-fulfilling prophecies are real
+  but "typically small", do not build up much over time, and that teacher expectations predict
+  results mostly because they are **accurate** (JH05, abstract); in 18 IQ-expectancy experiments,
+  the better teachers already knew the pupils, the smaller the effect (Ra84, abstract). The
+  mechanism with evidence is the practice. (Possible larger effects for stigmatized groups —
+  JH05 — are a real caveat for Garfield's students, not a substitute for the practice regime.)
 - **Exposing question:** "What exactly did his students *do* every day and every night?"
-- **Unit:** B3 §2. Status: written.
+- **Unit:** B3 §2. Status: written (S12b: correction now sourced at JH05 + Ra84 abstracts; full
+  texts carried to S13).
 
 ### M63 — Time spent on a learning platform (videos, Khan Academy) is learning; such platforms are proven to raise scores a lot
 - **Why it feels true:** platforms report minutes and badges; vendor reports show users gaining
@@ -773,7 +780,7 @@
   practice items are the active ingredient.
 - **Exposing question:** "Was that a randomized comparison — and is it minutes watched or items
   answered?"
-- **Unit:** B3 §4. Status: written.
+- **Unit:** B3 §4. Status: verified (FFL20 full text; EB26 numbers labelled abstract — S12b).
 
 ### M64 — Multiple-choice quizzes can't help learning — only recall tests or essays count
 - **Why it feels true:** recognition is easier than recall, and A1/A4 stress that *producing* the

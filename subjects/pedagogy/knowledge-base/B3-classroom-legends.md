@@ -51,7 +51,7 @@ draws: some things *should* be memorized (A3 row 1 facts — retrieval practice 
 
 **Grade:** as a teacher — **T** (case; the *Lectures* are famous, but their effect on Caltech
 freshmen was never measured against an alternative). The "Feynman Technique" — attribution
-`uncertain`; its parts **S** (self-explanation) / **M** (learning by teaching). His anti-rote
+`settled` as Scott Young's, not Feynman's (S10b-1; Grade line corrected S12b); its parts **S** (self-explanation) / **M** (learning by teaching). His anti-rote
 critique — consistent with S-grade evidence (A1, A5).
 
 **Use as learner.** After studying, explain the idea in plain words without notes; wherever you
@@ -89,7 +89,11 @@ problems** = massive procedure practice → fluency (A3 row 4; A82). (c) **Exten
 mastery-learning lesson (B2 §2): time is the variable that varies. (d) **Contracts, parents,
 team identity** = commitment and relatedness (SDT, engine `research/05` Part B) that keep
 the practice going. "High expectations" alone is not the mechanism; the expectations were
-enforced through a practice regime.
+enforced through a practice regime. *S12b:* the teacher-expectancy literature agrees — classroom
+self-fulfilling prophecies are real but "typically small" and mostly do not accumulate;
+expectations predict results largely because they are accurate (JH05, abstract); induced
+expectations moved IQ less the better teachers already knew the pupils (Ra84, abstract, 18
+experiments). Possible larger effects for stigmatized groups (JH05) are a caveat, not a method.
 
 **Serves:** A3 row 4 (procedures — calculus technique) and row 1 (facts/rules), at exam level.
 
@@ -124,9 +128,15 @@ credited her phonics emphasis, some teachers credited the teachers in the tested
 council chair "a combination". Pre/post, one school, no comparison — and a rise from a very low
 point is exactly where **regression to the mean** predicts some rebound anyway.
 
-**Mechanism (Part A).** **Systematic phonics** for early reading is the best-evidenced element
-(not reviewed in this KB — beginning reading is outside A3's scope; `uncertain` here, flagged for
-a later look). **Recitation and memorization** = retrieval practice (A4 S) — for facts and texts.
+**Mechanism (Part A).** **Systematic phonics** for early reading is the best-evidenced element.
+*S12b (pointer only — beginning reading is outside A3's rows):* the National Reading Panel
+meta-analysis (ENSW01, abstract; 66 comparisons from 38 experiments) found systematic phonics
+beat unsystematic or no phonics, **d = 0.41**, larger when begun early (0.55) than after first
+grade (0.27), lasting after instruction ended, and better than whole-language controls; it did
+not help low achievers with cognitive limitations. Mechanism: explicit letter–sound mappings
+turn decoding into a practised procedure (A3 row 4) instead of guessing from context. `settled`
+for direction; the size is one meta's mean (upper bound, `research/07`). Whether it explains
+*Collins'* results is untestable — no comparison data. **Recitation and memorization** = retrieval practice (A4 S) — for facts and texts.
 **Constant questioning** = elicited responses (as in DI, B2 §6). High expectations + warmth =
 relatedness (SDT). Reading classics with young children — no evidence either way found.
 
