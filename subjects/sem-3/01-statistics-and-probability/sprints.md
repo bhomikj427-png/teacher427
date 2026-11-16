@@ -84,6 +84,35 @@ sprint reads them first.
 ## Current hand-off
 
 ```
+Sprint: S3 — 09a + 09b — partial (2026-11-16, auto.py; operator stopped the run early)
+Written: nothing in the pack yet (only progress-log lines: S3 start + stop).
+Verified this sprint (G&K page images, book page index in the PDF): §15.10 methods list (idx 1165);
+  §15.11 MLE, L = Π f(xᵢ, θ) eq. 15·53 (idx 1165); Thm 15.11 consistent + remark "MLE(σ²) = s²
+  (n-divisor) consistent, not unbiased", Thm 15.13 asymptotic normality, Thm 15.14 most efficient
+  (idx 1167); Thm 15.15 MLE is a function of a sufficient estimator (idx 1168); Thm 15.17 invariance
+  (hint on idx 1190); §15.13 MoM, remarks 1–3: consistent, asymptotically normal, generally less
+  efficient than MLE, identical to MLE for exponential-family form (idx 1182–1183). Exercises idx 1192:
+  20(b) prints f(x, θ) = θe^(−θx) (v1.2 wrongly wrote α: use θ); 21 U(a, b) and 23(b) (1 + θ)x^θ as v1.2.
+Open (carried): the whole S3 build: write 09a (MoM ≈ 5–6 steps: population vs sample moments ·
+  one parameter = G&K 20(b) · Check U(0, θ) · two parameters = G&K 21 · MoM on data = G&K 23(b)(i))
+  and 09b (≈ 11 steps per brief §4 row 09b: coin-anchor likelihood · log · five steps · Ex. 12 ·
+  Ex. 13 rats 16.2 · Ex. 11a · Ex. 11b · Ex. 14 (0.3970) · 2nd-derivative · properties (the Thm
+  numbers above) · MoM vs MLE = G&K 23(b)(ii) 0.7279); figures (likelihood curve exists in v1.2 as
+  likelihood_curve; add L vs ln L, ln L for Ex. 14, moment-matching picture); verify.py block
+  "# ==== v1.3 S3" with all four slide MLE examples; build 00 09a 09b; view; remove old 09; START-HERE
+  + cross-refs (reminder below).
+Decisions made: none new.
+Next sprint: S3 (restart) — first action: log the S3 restart, then read old 09 (270 lines; v1.2 content
+  is correct apart from the α/θ label) + brief §2/§4 rows 09a/09b (lines 114–115, 156–157).
+Read at start: this hand-off · ../../../study-pack-sprint-protocol.md · src/brief.md lines 43–61 and
+  114–115, 156–157 · content/09-mom-mle.md · 08 lines 1–30 (format model) · src/build.py. The G&K
+  facts above are already verified: don't re-read the book unless a new fact is needed.
+Build/view how-to and the split reminder: as in the S2 hand-off below (scratch scripts run_build.py,
+  sheets.py and gkpage.py are in the auto.py temp folder).
+```
+
+S2 hand-off (kept for the build how-to and the 09 split reminder):
+```
 Sprint: S2 — 03a + 03b + 08 — done (2026-11-16, via S2b, auto.py)
 S2b did: build 00 03a 03b 08 (no OVERLAP; all pages viewed, no fixes); old 03 md/html/pdf removed;
   START-HERE rank rows 8 and 13, stuck tip, Unit 1 map, prerequisite line, file table, slip rows
