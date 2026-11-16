@@ -141,9 +141,12 @@ Note: that study had no separate instruction phase — the *problem solving → 
 (PS-I) tested in SK21 is the later, refined design.
 
 **Evidence.** → A4 productive-failure row: SK21 meta, 53 studies / 166 comparisons, PS-I vs I-PS
-**g = 0.36** [0.20, 0.51]; reversed for young learners (grades 2–5) and domain-general skills; the
-reported bias-adjusted g = 0.87 is an unusual *upward* correction (`contested`); depends on design
-fidelity (instruction must use the students' failed attempts).
+**g = 0.36** [0.20, 0.51] on conceptual knowledge and transfer, **−0.03** (no difference) on
+procedural knowledge (SK21 full text, S12d); reversed for young learners (grades 2–5) and
+domain-general skills; the reported "true" g = 0.87 is a p-curve estimate from significant results
+only (Egger ns, trim-and-fill added nothing; p-curve runs high under heterogeneity, VAWA16) →
+`contested`, plan with 0.36; depends on design fidelity (instruction must use the students' failed
+attempts).
 
 **Mechanism.** → A6 (pretesting/generation activates prior knowledge and shows the gap; A1
 desirable difficulty); A5 (contrasting cases highlight deep features).

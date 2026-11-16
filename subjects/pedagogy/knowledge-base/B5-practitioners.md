@@ -358,11 +358,15 @@ at, so "sow success". *At the research:* GC16 (*Child Development* 87(1) 165–1
 Grades 1–4; abstract read): **achievement predicted later intrinsic motivation in maths; intrinsic
 motivation did not predict later achievement at any time.** So the "success → motivation" half is
 supported (in early-primary maths); the opening line's "motivation → learning" half is the
-direction this study did **not** find. Mccrea's extract also cites "compelling evidence" that
-motivation declines through compulsory schooling without naming it (GFG01, Gottfried et al. 2001,
-is the likely source — bib only → `uncertain`). *Grade:* translator **M** (the usable advice —
-build success first — is supported; motivation-as-cause is stated more strongly than the evidence
-shown here).
+direction this study did **not** find. Older students differ: MPLV13 (N 3,530, grades 5–10;
+abstract) found motivation and learning strategies predicted achievement *growth*, and GC16's own
+review (full text, S12d) lists reciprocal findings — so the arrow runs both ways across ages. Mccrea's extract also cites "compelling evidence" that
+motivation declines through compulsory schooling without naming it. GFG01 (Gottfried et al. 2001,
+longitudinal; abstract read S12d) supports it: academic intrinsic motivation becomes more stable
+with age and its **mean declines**, most in maths and not significantly in social studies — so the
+decline is real but subject-dependent (whether this is the study Mccrea means is unconfirmed). *Grade:* translator **M** (the usable advice —
+build success first — is supported; motivation-as-cause holds for older students (MPLV13) but not
+in early-primary maths (GC16), and the extract states it without that boundary).
 
 **7d. Blake Harvard** (AP Psychology teacher, Alabama; blog *The Effortful Educator*; *Do I Have
 Your Attention?*). *Claim checked* (LB19 interview, 2019, read): "Research tells us that we forget
@@ -414,7 +418,7 @@ Video checked: AA18, "How to Study for Exams – Spaced Repetition | Evidence-ba
 | Review "ideally by active recall" at spaced intervals | Successive relearning (RD11, B4a §4) | **keep** — correct |
 | "Every time we interrupt the forgetting curve it then takes longer for us to forget"; illustrative "forget half … now only 25%" | Direction right (A2; spacing slows forgetting). The halves/quarters are an illustration, not data → not a fact | keep the direction, **drop the numbers** |
 | After enough repetitions "the forgetting curve no longer applies" | No — retention gets very durable, but forgetting does not stop (A2) | **drop** (overclaim) |
-| Expanding intervals: today, tomorrow, 3 days, a week, a month | KBa11 (*JEP:LMC* 37(5) 1250–1257; abstract read): **total (absolute) spacing** produced large retention gains; **expanding vs equal vs contracting made no clear difference** — expanding raised difficulty during practice without better long-term retention | keep "space it out"; **drop "it must expand"** — the schedule shape is not the active ingredient |
+| Expanding intervals: today, tomorrow, 3 days, a week, a month | KBa11 (*JEP:LMC* 37(5) 1250–1257; abstract read): **total (absolute) spacing** produced large retention gains; **expanding vs equal vs contracting made no clear difference** — expanding raised difficulty during practice without better long-term retention; MMK16 (full text) likewise: fixed expanding = fixed equal at 1 week | keep "space it out"; **drop "it must expand"** — the schedule shape is not the active ingredient |
 | A "2011 study", Swahili word pairs: spaced repeated recall within one session ≫ massed repeated recall, same work | Design matches KBa11 (Swahili–English pairs, repeated tests, massed vs spaced) — identification **likely**, not confirmed from the video (no citation on screen in captions); "+50%" read off a chart → `uncertain` | keep the finding (within-session spacing of retrievals helps), not the number |
 | Retrospective revision timetable (colour-coded spreadsheet of recall dates) | He says himself: "this particular spreadsheet system is not based on evidence … it just works for me" | **honest label — keep as a tool**, grade T; it is a manual successive-relearning log |
 | Interleaving "with evidence … from sporting studies" + his "blitz many topics" routine ("not quite evidence-based … my own personal opinion") | Interleaving S for discrimination (A4; RDHC20); his routine untested | keep interleaving; his routine T |

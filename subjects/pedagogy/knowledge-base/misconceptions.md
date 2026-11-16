@@ -75,14 +75,14 @@
 | M63 | Time spent on a learning platform (videos, Khan Academy) is learning; such platforms are proven to raise scores a lot | B3 | verified |
 | M64 | Multiple-choice quizzes can't help learning — only recall tests or essays count | B4a | written |
 | M65 | If I can recall it once, I've learned it — move on | B4a | written |
-| M66 | Interleaving means only mixed practice, from the very first lesson | B4a | written |
+| M66 | Interleaving means only mixed practice, from the very first lesson | B4a | verified |
 | M67 | Formative assessment reliably raises achievement by 0.4–0.7 SD | B4b | written |
-| M68 | Productive failure contradicts cognitive load theory — one of them must be wrong | B4b | written |
-| M69 | Any activity where students are busy (highlighting, copying, clicking) is "active learning" | B4b | written |
-| M70 | All the popular evidence-based strategies (the "six strategies") are equally proven | B4b | written |
+| M68 | Productive failure contradicts cognitive load theory — one of them must be wrong | B4b | verified |
+| M69 | Any activity where students are busy (highlighting, copying, clicking) is "active learning" | B4b | verified |
+| M70 | All the popular evidence-based strategies (the "six strategies") are equally proven | B4b | verified |
 | M71 | Students need exactly three encounters with a concept to learn it | B4b | written |
 | M72 | Hattie's effect-size rankings tell you which teaching method to choose | B4b | written |
-| M73 | If a class makes me feel I'm learning less, I am learning less | B4b | written |
+| M73 | If a class makes me feel I'm learning less, I am learning less | B4b | verified |
 | M74 | Flashcard apps are retrieval practice, so if flashcards disappoint, retrieval practice doesn't work | B5 | written |
 | M75 | Start at the top of Bloom's taxonomy and the facts will fill themselves in | B5 | verified |
 | M76 | Feeling confused means you're learning efficiently | B5 | written |
@@ -91,10 +91,10 @@
 | M79 | Cold-calling makes students anxious and shuts down participation | B5 | written |
 | M80 | A one-person learning challenge (e.g. the MIT Challenge) shows the method will work for you | B5 | written |
 | M81 | If I can explain it simply (the "Feynman Technique"), I've mastered it — no practice problems needed | B5 | written |
-| M82 | Spaced reviews only work on an expanding schedule (1 day, 3 days, a week, a month) | B5 | written |
+| M82 | Spaced reviews only work on an expanding schedule (1 day, 3 days, a week, a month) | B5 | verified |
 | M83 | Review something enough times and you stop forgetting it — the forgetting curve "no longer applies" | B5 (A2) | written |
 | M84 | The more you already know about a topic, the more you will gain from the next lesson ("knowledge is power") | B5 (A5) | written |
-| M85 | Motivation comes first: get students motivated and achievement will follow | B5 (A7) | written |
+| M85 | Motivation comes first: get students motivated and achievement will follow | B5 (A7) | verified |
 | M86 | A very high reliability figure from a marking tool means the marks are trustworthy | B5 | written |
 | M87 | Asking myself "do I know this?" (without producing the answer) is the same as testing myself | A7 | verified |
 | M88 | Once a test shows me which study method worked better, I'll switch to it | A7 | written |
@@ -832,10 +832,12 @@
 - **Correction:** they answer different questions. Worked examples win for **procedures** with
   true novices (A4 row 4); productive failure (SK21, g = 0.36) helps **conceptual** understanding
   when learners have prerequisites and the instruction phase uses their attempts — and reverses for
-  young learners and domain-general skills. The engine's ROUTE step encodes exactly this split.
+  young learners and domain-general skills. On **procedural** knowledge SK21 found no difference
+  (g = −0.03), and KSC06 itself says guidance's advantage recedes as prior knowledge rises. The
+  engine's ROUTE step encodes exactly this split.
 - **Exposing question:** "Is the goal a procedure or a concept — and do they have the
   prerequisites?"
-- **Unit:** B4b §4 (and §2). Status: written.
+- **Unit:** B4b §4 (and §2). Status: verified (2026-11-16, SK21 + KSC06 full text — S12d).
 
 ### M69 — Any activity where students are busy (highlighting, copying, clicking) is "active learning"
 - **Why it feels true:** "active" sounds like "doing something"; busy classrooms look engaged.
@@ -993,11 +995,13 @@
 - **Correction:** KBa11 (*JEP:LMC* 2011): increasing the **total** spacing of repeated tests
   produced large retention gains, but **expanding vs equal vs contracting** schedules made no
   clear difference; expanding gaps made practice harder without better long-term retention.
+  MMK16 (full text, independent lab): fixed expanding = fixed equal at a 1-week test (0.31 vs
+  0.30); what beat both was spacing **adapted** to each item's performance (0.42).
   What matters: real gaps, actual retrieval, enough total spread (C06). Expanding schedules are
   convenient, not magic.
 - **Exposing question:** "If you kept the same total time but used equal gaps, what would change
   on the final test?"
-- **Unit:** B5 §8 (Abdaal/Frank); mechanism A4. Status: written.
+- **Unit:** B5 §8 (Abdaal/Frank); mechanism A4. Status: verified (2026-11-16, MMK16 full text + KBa11 abstract — S12d).
 
 ### M83 — Review something enough times and you stop forgetting it
 - **Why it feels true:** well-practised facts (your phone number) feel permanent; popularizers
@@ -1028,10 +1032,13 @@
   later intrinsic motivation; motivation did not predict later achievement** at any point. In
   that sample the arrow ran from success to motivation. Practical rule: build early success
   (well-sequenced, ~high success rate) and motivation tends to follow (Mccrea's expectation
-  principle). One age group and subject — not a law for all ages (`contested` beyond it).
+  principle). One age group and subject — not a law for all ages (`contested` beyond it): GC16's
+  own review (full text) lists earlier studies finding motivation → achievement, reciprocal links,
+  or neither, and MPLV13 (N 3,530, grades 5–10) found motivation predicted later achievement
+  **growth**. Honest summary: the arrow is two-way, and success-first is the reliable lever to pull.
 - **Exposing question:** "Which came first in your best subject — liking it, or being good at
   it?"
-- **Unit:** B5 §7c (Mccrea); mechanism A7. Status: written.
+- **Unit:** B5 §7c (Mccrea); mechanism A7. Status: verified (2026-11-16, GC16 full text + MPLV13 abstract — S12d).
 
 ### M86 — A very high reliability figure from a marking tool means the marks are trustworthy
 - **Why it feels true:** reliability is a technical-sounding number; 0.9+ looks like proof.

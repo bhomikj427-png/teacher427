@@ -163,13 +163,24 @@ scheduling beats a simple fixed spacing schedule was tested by **Lin14** (Lindse
 Pashler & Mozer 2014): in a semester-long middle-school foreign-language course, personalized
 review (a statistical memory model per student and item) gave **16.5%** better retention on a
 post-semester cumulative exam than massed study and **10.0%** better than one-size-fits-all spaced
-review, time-matched. That is a model-based scheduler, not SM-2 itself; no controlled test of SM-2
-against a fixed schedule was found (`uncertain`).
+review, time-matched. That is a model-based scheduler, not SM-2 itself. Two more controlled tests
+point the same way (S12c-rest, 2026-11-16): **MMK16** (Mettler, Massey & Kellman 2016, full text) —
+72 undergraduates learned 24 map items, 4 presentations each in one session; an adaptive scheduler
+using response time + accuracy beat fixed **expanding** and fixed **equal** spacing at a 1-week
+delayed test (0.42 vs 0.31 vs 0.30 accuracy), with **no** difference between expanding and equal; in
+Experiment 2, fixed schedules *copied* from adaptive learners (same average spacing) still did worse,
+so the gain came from fitting each item and learner, not from longer gaps. Lab task, short material,
+the developers' own algorithm. **UZST21** (Upadhyay et al. 2021, abstract): randomized trial with
+~50,000 users of a driving-licence app — machine-learning item selection gave ~69% longer retention
+than random or difficulty-ordered selection after controlling study time, but more users quit in the
+first days. Neither tests SM-2. **No controlled test of SM-2 against a fixed schedule was found**
+(searched S9a and S12c-rest) — `uncertain`; Anki-style adaptive scheduling is supported *by
+analogy* to these adaptive schedulers, not directly.
 
 **Serves:** A3 row 1 (facts), and row 3 if cards ask for explanations, not labels.
 
-**Grade:** spaced-retrieval flashcards **S** (mechanism); personalized scheduling **M** (one
-strong classroom study, Lin14); SM-2's specific formula **T** (heuristic by the author's own
+**Grade:** spaced-retrieval flashcards **S** (mechanism); personalized scheduling **M** (Lin14
+classroom study + MMK16 lab + UZST21 field RCT, all from the schedulers' developers); SM-2's specific formula **T** (heuristic by the author's own
 account: "constructed heuristically").
 
 **Use as learner.** Use a spaced-repetition app for facts and definitions; grade yourself
@@ -193,7 +204,10 @@ shown one month of retention on ≥ 80% of the cards; ≈ 54 days of demonstrate
 question typically took about **95 minutes** of total review; in a small two-week experiment
 (16 regular-review vs 25 delayed-review users), regular review moved accuracy 89% → 96%, delayed
 91% → 87%. Their own caveats: "preliminary results, and need more investigation"; feedback
-"should be taken with a grain of salt"; one claim later "retracted" after an analysis error.
+"should be taken with a grain of salt"; one claim later "retracted" after an analysis error. The
+rest of the essay (read to the end, S12c-rest) adds no further data — only user interviews without
+numbers and the aim to "increase effective human memory by an order of magnitude", stated as a goal,
+not a result ("very early days").
 
 **Mechanism.** Retrieval + spacing (A4 S), placed *inside* the explanation so the questions
 target the text's ideas — a form of embedded prequestions/adjunct questions plus successive
@@ -295,7 +309,7 @@ feedback; mix the categories students confuse.
 | Roediger, Karpicke, McDaniel | low-stakes classroom quizzing with feedback | 1, 3 | **S** (McD11, RAMM11 to end of year) |
 | Dunlosky & Rawson | technique ranking; relearning 3 + 3 | 1, 3 | **S** (RD11, RDS13) |
 | Rohrer, Carpenter, Kang | interleaved maths homework; classroom spacing | 5, 2 | **S** maths (RDHC20 d 0.83, prereg.) / M general (BR19) |
-| Woźniak | SM-2 spaced-repetition scheduling | 1, (3) | flashcards S; adaptive scheduling M (Lin14); SM-2 formula T |
+| Woźniak | SM-2 spaced-repetition scheduling | 1, (3) | flashcards S; adaptive scheduling M (Lin14, MMK16, UZST21); SM-2 formula T, no SM-2-vs-fixed test |
 | Matuschak & Nielsen | mnemonic medium (prompts inside text) | 1, 3 | **T** / mechanism S |
 | Ericsson | deliberate practice | 4, 8 | **M** skills, T academic (MHO14 4%; MM19 non-replication); 10,000 h **X** |
 | Kellman & Massey | perceptual learning modules | 7, 2 | **M−** `uncertain` (MPDK16 poster, ES ≤ .48) |
