@@ -9,6 +9,7 @@ Measured start-up of a one-line session: 38.0k (auto.py) -> 7.6k with the cuts b
   - only the tools a sprint uses (--tools: Bash Read Edit Write Grep Glob WebSearch WebFetch)
   - no skills / slash commands (--disable-slash-commands); no claude.ai connectors (--strict-mcp-config)
 Each session's start-up cost is logged ("boot") and flagged if it is over BOOT_WARN.
+  - 5-minute prompt cache (FORCE_PROMPT_CACHING_5M=1); the contract asks for fewer, bigger steps (2026-11-17)
 State, lock, hook and stop flags are shared with auto.py (.claude/auto/), so `stop`/`status` work
 from either script and the two can never run at once.
 
@@ -201,7 +202,10 @@ HOOK = AUTO / "hook.py"
 CONTRACT = ROOT / "auto-v2-contract.md"   # pasted into every kickoff
 SESSION_TOOLS = "Bash,Read,Edit,Write,Grep,Glob,WebSearch,WebFetch"
 REVIEW_TOOLS = "Bash,Read,Grep,Glob"
-LEAN_ENV = {"CLAUDE_CODE_DISABLE_CLAUDE_MDS": "1", "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1"}
+# FORCE_PROMPT_CACHING_5M: steps are seconds apart, so a 5-minute cache is enough; 1-hour cache
+# writes cost ~2x input vs ~1.25x (tested 2026-11-17: the 5m TTL takes effect).
+LEAN_ENV = {"CLAUDE_CODE_DISABLE_CLAUDE_MDS": "1", "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1",
+            "FORCE_PROMPT_CACHING_5M": "1"}
 BOOT_WARN = 25_000   # first-call context above this = a cut stopped working
 SUBJECTS = ROOT / "subjects"
 HANDOFF_NAME = "sprints.md"          # the hand-off ("Current hand-off" block)

@@ -43,6 +43,15 @@ no preferences load unless the sprint's steps list `learner-preferences.md` as a
   quote it at length in a search. Search with your own words.
 - Never put the learner's name, email or project details in a web request.
 
+**Fewer, bigger steps (token cost).** Every tool call re-sends the whole context, so the number
+of calls is the cost. Measured 2026-11-17: a sprint took 55–75 calls, 30 of them small edits.
+- Put independent reads, greps and checks in **one message** (parallel tool calls), not one per turn.
+- Write a new or rebuilt file with **one Write** of the whole file, not a skeleton plus many Edits.
+- Several small changes across files (cross-references, START-HERE rows, renames): **one Python
+  script** in the scratch folder that applies them all and prints what it changed; not one Edit each.
+- Read a file once, by range; don't re-read what is already in context. Don't print large outputs:
+  filter build/verify output to failures and counts (`… | tail -20`, `grep -c`).
+
 **Files you must not edit:** `CLAUDE.md`, this file, `auto.py`, `auto-v2.py`, anything in
 `.claude/`. Changes needed in `tools/`, the spec or the protocol go into the hand-off for an
 interactive session.
