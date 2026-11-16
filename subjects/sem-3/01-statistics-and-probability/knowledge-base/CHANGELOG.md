@@ -27,3 +27,8 @@
   every table value the course's questions print, with exact values — why: the KB held none, and the
   study pack needs them (spec v1.3 §7.1 item 3) — trigger: study-pack sprint S0 — confidence: (new) `settled`
   (scipy computation); two key values marked as slips (A5 C6 F(12,2), A5 D1 F(4,5)).
+- `[2026-11-17]` **MLE / MoM properties (G&K ch. 15)** — added a section to `03-estimation.md`: L = Π f(xᵢ, θ) (eq. 15·53), Thms 15.11 (consistent; MLE of σ² not unbiased), 15.13 (asymptotically
+  normal), 15.14 (most efficient), 15.15 (function of a sufficient estimator), 15.17 (invariance); MoM
+  remarks (consistent, asymptotically normal, generally less efficient than MLE); ex. 20(b) prints θ — why:
+  the facts were checked in S3 session 1 but lived only in the hand-off (review backlog row) — trigger:
+  study-pack sprint S3 — confidence: (new) `settled`; G&K added to `sources.md`.

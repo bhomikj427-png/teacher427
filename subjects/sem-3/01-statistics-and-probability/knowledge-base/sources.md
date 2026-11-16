@@ -12,6 +12,11 @@
 - **Sheldon Ross — *A First Course in Probability* / *Intro to Probability & Statistics for
   Engineers & Scientists*.** Probability & RVs, limit theorems. `settled`.
 
+- **Gupta & Kapoor — *Fundamentals of Mathematical Statistics* (prescribed textbook; PDF in
+  `../books/`).** Ch. 15 §15.10–15.13 (MLE definition eq. 15·53, Thms 15.11, 15.13, 15.14, 15.15,
+  15.17; MoM + remarks) and ch. 15 exercises 20(b), 21, 23(b): read on the page images 2026-11-16
+  (sprint S3); supports `03-estimation.md` "MLE and MoM properties". `settled`.
+
 ## Tier 1/2 — Authoritative course material (verification this session, 2026-06-16)
 - **MIT OpenCourseWare 18.600 / 18.440 *Probability and Random Variables*** — confirmed the topic
   set and CLT framing. <https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/>

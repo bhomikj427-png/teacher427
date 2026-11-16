@@ -6,7 +6,7 @@
 
 [[map:1 Parameter, statistic, estimate > 2 Point and interval > 3 Unbiased > 4 Checking a formula > 5 Why s² divides by n − 1 > 6 Consistent > 7 Efficient > 8 Sufficient|here=1]]
 
-In real problems the population's mean μ and variance σ² are unknown; only a sample is seen. A formula that turns the sample into a guess for μ (or σ²) is an **estimator**. Many formulas are possible, so this file sets out how to judge one: by how its guesses behave over **all the samples you might have drawn**. To make "all the samples" something you can actually list, the running example uses a population you know completely. File 09 then builds estimators (method of moments, maximum likelihood) and file 11 turns them into intervals.
+In real problems the population's mean μ and variance σ² are unknown; only a sample is seen. A formula that turns the sample into a guess for μ (or σ²) is an **estimator**. Many formulas are possible, so this file sets out how to judge one: by how its guesses behave over **all the samples you might have drawn**. To make "all the samples" something you can actually list, the running example uses a population you know completely. Files 09a and 09b then build estimators (method of moments, maximum likelihood) and file 11 turns them into intervals.
 
 | Symbol | What it means in this file | Typical value |
 |---|---|---|
@@ -261,12 +261,12 @@ A coin with unknown P(head) = p is tossed 5 times: H T T H H. Once you know "3 h
 
 Coin example. Every sequence with 3 heads and 2 tails has the same probability, p³(1 − p)², whatever the order: HTTHH, HHHTT and the other 8 orders are all equally likely for every p. So the order says nothing about p, and the **number of heads** is sufficient for p.
 
-**Factorisation test** (used in file 09): the probability of the whole sample, written as a function of θ (the likelihood L), splits as L = g(T, θ) × h(x), where h does not contain θ. Coin: L = p³(1 − p)² depends on the data only through the count 3.
+**Factorisation test** (used in 09b Check 11): the probability of the whole sample, written as a function of θ (the likelihood L), splits as L = g(T, θ) × h(x), where h does not contain θ. Coin: L = p³(1 − p)² depends on the data only through the count 3.
 
 **Answer.** **Sufficient**: (b).
 
 :::check Check 8
-<span class="tag">G&K ch. 15 objective Q1 (iii)</span> True or false: "a maximum likelihood estimator is always unbiased." (Hint: file 09 shows that the MLE of σ² divides by n; compare step 5.)
+<span class="tag">G&K ch. 15 objective Q1 (iii)</span> True or false: "a maximum likelihood estimator is always unbiased." (Hint: 09b step 7 shows that the MLE of σ² divides by n; compare step 5.)
 :::
 
 ---

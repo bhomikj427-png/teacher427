@@ -1,6 +1,6 @@
 # 10 — Introduction to Bayesian estimation
 
-<div class="sub">Professor's LMS slides "MLE and Bayesian Estimation" (p.10–15, Example 15) · Walpole et al. ch. 18 (via the knowledge base) · blueprint row 3 "introduction of Bayesian estimation" · 1 slide example + slide definitions · needs 01 (Bayes' theorem), 04 (binomial), 09</div>
+<div class="sub">Professor's LMS slides "MLE and Bayesian Estimation" (p.10–15, Example 15) · Walpole et al. ch. 18 (via the knowledge base) · blueprint row 3 "introduction of Bayesian estimation" · 1 slide example + slide definitions · needs 01 (Bayes' theorem), 04 (binomial), 09b (likelihood, steps 1–3)</div>
 
 ## Map
 
@@ -19,7 +19,7 @@ The blueprint says "introduction of", inside the 22-mark estimation row: expect 
 
 ### 1 · Parameters as random variables
 
-Files 08–09 treated θ as a fixed unknown number. The Bayesian approach does not.
+Files 08–09b treated θ as a fixed unknown number. The Bayesian approach does not.
 
 :::q <span class="tag">Slides p.10</span>
 What is the key difference between the Bayesian approach and the classical (frequentist) approach?
@@ -59,7 +59,7 @@ $$π(θ | x) = \frac{f(x | θ) π(θ)}{g(x)}$$
 
 $$g(x) = Σ_{θ} f(x | θ)π(θ)  (θ discrete),    g(x) = ∫ f(x | θ)π(θ) dθ  (θ continuous)$$
 
-f(x | θ) is the likelihood of file 09; g(x) is the marginal probability of the data, which makes the posterior add to 1. In words: **posterior ∝ likelihood × prior**.
+f(x | θ) is the likelihood of 09b step 1; g(x) is the marginal probability of the data, which makes the posterior add to 1. In words: **posterior ∝ likelihood × prior**.
 
 **Answer.** x = 0 defectives in 2. Likelihoods: f(0 | 0.1) = 0.9^{2} = 0.81, f(0 | 0.2) = 0.8^{2} = 0.64.
 Products: 0.81 × 0.6 = 0.486; 0.64 × 0.4 = 0.256; g(0) = 0.742.
@@ -112,7 +112,7 @@ Should it be 0.1, 0.2, or something in between?
 
 **Answer.** E(p | x = 0) = 0.1 × 0.6550 + 0.2 × 0.3450 = 0.0655 + 0.0690 = **0.1345**. Compare the prior mean 0.1 × 0.6 + 0.2 × 0.4 = 0.14: the data pulled the estimate down a little.
 
-**Contrast with file 09.** The MLE from x = 0 defectives in 2 is p̂ = 0/2 = 0, which ignores the prior knowledge that p is 0.1 or 0.2. The Bayes estimate combines both.
+**Contrast with 09b.** The MLE from x = 0 defectives in 2 is p̂ = 0/2 = 0, which ignores the prior knowledge that p is 0.1 or 0.2. The Bayes estimate combines both.
 
 :::check Check 4
 Find the Bayes estimate (posterior mean) of p after x = 2 in Example 15.

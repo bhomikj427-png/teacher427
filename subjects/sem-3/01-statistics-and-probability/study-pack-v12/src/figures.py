@@ -249,15 +249,7 @@ def targets():
     return _svg(fig)
 
 
-# ---------------------------------------------------------------- 09 MLE
-def likelihood_curve():
-    rats = np.array([14, 17, 27, 18, 12, 8, 22, 13, 19, 12])
-    b = np.linspace(6, 40, 400); ll = np.array([stats.expon(scale=v).logpdf(rats).sum() for v in b])
-    fig, ax = _ax(5.8, 2.3)
-    ax.plot(b, ll, color=ACC, lw=2); ax.axvline(16.2, color=ACC2, ls="--", lw=1)
-    ax.text(17.2, ll.max() - 3.2, "peak at β̂ = x̄ = 16.2", color=ACC2, fontsize=9)
-    ax.set_xlabel("β (mean survival time, months)"); ax.set_ylabel("log-likelihood ℓ(β)")
-    return _svg(fig)
+# ---------------------------------------------------------------- 09 MLE (v1.2 likelihood_curve replaced by rats_loglik, S3)
 
 
 # ---------------------------------------------------------------- 10 Bayes
@@ -804,6 +796,77 @@ def t1_vs_xbar():
     axs[0].set_ylabel("samples (of 216)")
     axs[0].set_xlabel("value (SD 2.96)"); axs[1].set_xlabel("value (SD 0.99)")
     f.tight_layout()
+    return FL.svg(f)
+
+
+# ---- 09a method of moments (v1.3)
+def mom_match():
+    f, ax = FL.fig(5.0, 2.6)
+    t = np.linspace(.15, 1.0, 300)
+    ax.plot(t, 1 / t, color=FL.ACC, lw=2)
+    ax.axhline(3, color=FL.BAD, lw=1.1, ls="--")
+    ax.plot([1 / 3], [3], "o", color=FL.INK, ms=6)
+    ax.vlines(1 / 3, 0, 3, color=FL.INK, lw=.9, ls=":")
+    ax.text(.36, 3.4, "θ̂ = 1/3", fontsize=9)
+    ax.text(.75, 3.25, "x̄ = 3", fontsize=9, color=FL.BAD)
+    ax.set_xlim(.1, 1.02); ax.set_ylim(0, 7)
+    FL.axes(ax, "rate θ (per minute)", "model mean 1/θ (min)")
+    return FL.svg(f)
+
+
+def mom_uniform():
+    f, ax = FL.fig(5.0, 2.3)
+    a, b = 10 - math.sqrt(7.5), 10 + math.sqrt(7.5); h = 1 / (b - a)
+    ax.add_patch(_Rect((a, 0), b - a, h, fc=FL.NCOL, ec=FL.ACC, lw=1.6))
+    ax.plot([8, 9, 11, 12], [0, 0, 0, 0], "o", color=FL.G1, ms=7, clip_on=False, zorder=5)
+    ax.text(a, h + .015, "â = 7.26", ha="center", fontsize=9); ax.text(b, h + .015, "b̂ = 12.74", ha="center", fontsize=9)
+    ax.set_xlim(5, 15); ax.set_ylim(0, .26); ax.set_xticks(range(5, 16))
+    FL.axes(ax, "x (dots: the data 8, 9, 11, 12)", "f(x)")
+    return FL.svg(f)
+
+
+# ---- 09b maximum likelihood (v1.3)
+def coin_like():
+    f, ax = FL.fig(5.0, 2.5)
+    p = np.linspace(0, 1, 300)
+    ax.plot(p, p ** 2 * (1 - p), color=FL.ACC, lw=2)
+    ax.axvline(2 / 3, color=FL.BAD, lw=1, ls="--")
+    for q in (.3, .5, .8):
+        ax.plot([q], [q * q * (1 - q)], "o", color=FL.INK, ms=4.5)
+    ax.text(.69, .158, "peak: p = 2/3, L = 0.148", fontsize=9, color=FL.BAD)
+    ax.set_xlim(0, 1); ax.set_ylim(0, .18)
+    FL.axes(ax, "trial value of p", "L(p) = p²(1 − p)")
+    return FL.svg(f)
+
+
+def coin_L_lnL():
+    f, axs = FL.fig(6.0, 2.4, ncols=2)
+    p = np.linspace(.05, .97, 300); L = p ** 2 * (1 - p)
+    for ax, y, c, yl in [(axs[0], L, FL.ACC, "L(p)"), (axs[1], np.log(L), FL.G2, "ℓ(p) = ln L(p)")]:
+        ax.plot(p, y, color=c, lw=2); ax.axvline(2 / 3, color=FL.BAD, lw=1, ls="--")
+        ax.set_xlim(0, 1); FL.axes(ax, "p", yl)
+    f.tight_layout()
+    return FL.svg(f)
+
+
+def rats_loglik():
+    f, ax = FL.fig(5.2, 2.5)
+    b = np.linspace(6, 40, 400); ll = -10 * np.log(b) - 162 / b
+    ax.plot(b, ll, color=FL.ACC, lw=2); ax.axvline(16.2, color=FL.BAD, lw=1, ls="--")
+    ax.text(17.0, -44.5, "peak at β̂ = x̄ = 16.2", fontsize=9, color=FL.BAD)
+    ax.set_xlim(6, 40); ax.set_ylim(-46, -37)
+    FL.axes(ax, "β (mean survival time, months)", "ℓ(β)")
+    return FL.svg(f)
+
+
+def ex14_loglik():
+    f, ax = FL.fig(5.2, 2.5)
+    s = float(np.log([12, 11.2, 13.5, 12.3, 13.8, 11.9]).sum())
+    t = np.linspace(.05, 1.2, 400); ll = 6 * np.log(t) - (t + 1) * s
+    ax.plot(t, ll, color=FL.ACC, lw=2); ax.axvline(6 / s, color=FL.BAD, lw=1, ls="--")
+    ax.text(.43, -33.5, "peak at θ̂ = 0.397", fontsize=9, color=FL.BAD)
+    ax.set_xlim(0, 1.2); ax.set_ylim(-35, -26)
+    FL.axes(ax, "θ", "ℓ(θ)")
     return FL.svg(f)
 
 

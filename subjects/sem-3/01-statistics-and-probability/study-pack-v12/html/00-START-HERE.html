@@ -65,10 +65,10 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <tbody>
 <tr>
 <td><strong>1</strong></td>
-<td><strong>09 MoM and MLE</strong></td>
+<td><strong>09a Method of moments · 09b Maximum likelihood</strong></td>
 <td>Row 3 (22 marks): two 6-mark and one 8-mark slot; the professor's slides work four MLE examples</td>
-<td>09 §3–7, mock B3, C2</td>
-<td>70 min</td>
+<td>09b §3–8, 11; 09a §2, 4; mock B3, C2</td>
+<td>80 min</td>
 </tr>
 <tr>
 <td><strong>2</strong></td>
@@ -164,7 +164,7 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <tr>
 <td><strong>15</strong></td>
 <td><strong>02a Discrete RVs · 02b Continuous RVs</strong></td>
-<td>Row 1; needed by 03a, 08, 09</td>
+<td>Row 1; needed by 03a, 08, 09a–09b</td>
 <td>02a §3, 5, 7–8; 02b §1–3, 5</td>
 <td>60 min</td>
 </tr>
@@ -187,7 +187,7 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <p>Two rules for using the ranking:</p>
 <ul>
 <li><strong>Short on time:</strong> go down the list doing only the "Do first" column, then the matching mock items.</li>
-<li><strong>Stuck in 08–09:</strong> they need E(X), Var(X) and PDFs. Go back to 02b §1–3, 03a §1–6 and 03b §1–3 first.</li>
+<li><strong>Stuck in 08–09b:</strong> they need E(X), Var(X) and PDFs. Go back to 02b §1–3, 03a §1–6 and 03b §1–3 first.</li>
 </ul>
 <h2>The path through the pack</h2>
 <p>The order is the syllabus order, which is also the order of the assignments (1, 2, …, 5).</p>
@@ -198,12 +198,12 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <div class="map"><span class="n">04 Binomial, Poisson</span><span class="a">→</span><span class="n">05 Uniform, exponential</span><span class="a">→</span><span class="n">06 Normal</span><span class="a">→</span><span class="n">07 SE and CLT</span></div>
 
 <p><strong>Unit 3 — estimation</strong> (row 3)</p>
-<div class="map"><span class="n">08 Estimator properties</span><span class="a">→</span><span class="n">09 MoM and MLE</span><span class="a">→</span><span class="n">10 Bayesian</span><span class="a">→</span><span class="n">11 CI for the mean</span></div>
+<div class="map"><span class="n">08 Estimator properties</span><span class="a">→</span><span class="n">09a Method of moments</span><span class="a">→</span><span class="n">09b Maximum likelihood</span><span class="a">→</span><span class="n">10 Bayesian</span><span class="a">→</span><span class="n">11 CI for the mean</span></div>
 
 <p><strong>Unit 4 — testing</strong> (rows 4 and 5)</p>
 <div class="map"><span class="n">12 Hypotheses, errors</span><span class="a">→</span><span class="n">13 t-tests</span><span class="a">→</span><span class="n">14 F-test</span><span class="a">→</span><span class="n">15 χ²</span><span class="a">→</span><span class="n">16 ANOVA</span><span class="a">→</span><span class="n">17 Mock</span></div>
 
-<p>02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04–06 use 03a's E and Var. 07 needs 03b (variance of a sum) and 06 (normal table). 08–09 need 03a–03b, 07 and the distributions of 04–05. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.</p>
+<p>02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04–06 use 03a's E and Var. 07 needs 03b (variance of a sum) and 06 (normal table). 08–09b need 03a–03b, 07 and the distributions of 04–05; 09b compares its MLE with 09a's MoM. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.</p>
 <table>
 <thead>
 <tr>
@@ -275,10 +275,16 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <td>2 + textbook</td>
 </tr>
 <tr>
-<td>09</td>
-<td>row 3 · MoM, MLE</td>
-<td>one- and two-parameter MoM, the five MLE steps, four slide MLEs, both methods</td>
-<td>4 + 3 textbook</td>
+<td>09a</td>
+<td>row 3 · method of moments</td>
+<td>population vs sample moments, one parameter, an impossible estimate, two parameters, a new density</td>
+<td>3 textbook</td>
+</tr>
+<tr>
+<td>09b</td>
+<td>row 3 · maximum likelihood</td>
+<td>likelihood (coin), log-likelihood, the five steps, Poisson, exponential, normal μ and σ², product of powers, second derivative, properties, MoM against MLE</td>
+<td>4 + 1 textbook</td>
 </tr>
 <tr>
 <td>10</td>
@@ -503,10 +509,22 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <td>typo; the slide's area uses 0.94</td>
 </tr>
 <tr>
-<td>Slides MLE Ex. 14 (09 §6)</td>
+<td>Slides MLE Ex. 11 (09b §7)</td>
+<td>solves (a) and (b) jointly; writes only μ̂ = x̄</td>
+<td>(b) σ̂² = (1/n)Σ(xᵢ − μ)², from the slide's own line</td>
+<td>the second answer was left out</td>
+</tr>
+<tr>
+<td>Slides MLE Ex. 14 (09b §8)</td>
 <td>L(x₁, …, x₁₀; θ)</td>
 <td>n = 6</td>
 <td>label only</td>
+</tr>
+<tr>
+<td>G&amp;K ch. 15 ex. 20(b) (09a §2)</td>
+<td>v1.2 pack wrote α</td>
+<td>θ, as the book prints</td>
+<td>a v1.2 pack slip, not the book's</td>
 </tr>
 <tr>
 <td>ppt 8 slide 7 (12 §2)</td>
@@ -519,6 +537,6 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <h2>How this pack was checked</h2>
 <ul>
 <li><strong>Facts:</strong> from the subject's knowledge base (researched to both stages from Walpole, Montgomery &amp; Runger and Ross; every load-bearing claim checked against sources) and from Gupta &amp; Kapoor, the reference the slides cite. Section numbers are quoted where a formula is used.</li>
-<li><strong>Numbers:</strong> <code>src/verify.py</code> recomputes every number in the pack, 665 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 15 mismatches are the slips in the table above.</li>
+<li><strong>Numbers:</strong> <code>src/verify.py</code> recomputes every number in the pack, 741 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 15 mismatches are the slips in the table above.</li>
 <li><strong>Pages:</strong> every page was viewed after the final build.</li>
 </ul></body></html>

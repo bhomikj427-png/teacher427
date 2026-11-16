@@ -393,10 +393,8 @@ chk("07 C2 n", (100 / 5) ** 2, 400); chk("07 C4 z", 0.3 / se, 1.414, tol=1e-3); 
 chk("07 C5 SE", 12 / 8, 1.5); chk("07 ST3 n", (12 / 1) ** 2, 144); chk("07 ST4", 2 * 0.4772, 0.9544)
 chk("07 ST6 n", (2 * 2 / 0.5) ** 2, 64)
 # ---- 08 (v1.2 checks removed S2b; numbers are in the "v1.3 S2" block)
-# ---- 09
-chk("09 C4 rate", 1 / 16.2, 0.0617, tol=1e-4); chk("09 C2 a", 10 - math.sqrt(9), 7)
+# ---- 09 (v1.2 checks removed S3; 09a/09b numbers are in the "v1.3 S3" block)
 chk("09 MoM uniform (a,b) sim", (lambda d: d.mean() - math.sqrt(3 * d.var()))(rng.uniform(7, 13, 200000)), 7, tol=0.02)
-chk("09 ST4", 1 / np.mean([2, 3, 5, 6]), 0.25)
 # ---- 10
 chk("10 C2", .06 / .14, 0.4286, tol=1e-4); chk("10 C3", .16 / .25, 0.64)
 chk("10 C4", .1 * .2727 + .2 * .7273, 0.1727, tol=1e-4)
@@ -673,6 +671,71 @@ chk("08 MTE C1b E(T2) die", 3 * 3.5 + 2 * 3.5 - 3 * 3.5, 7)
 chk("08 C7 var coef", (1 + 4 + 1) / 16, 3 / 8); chk("08 C7 eff", (1 / 3) / (3 / 8), 8 / 9)
 chk("08 S8 orders", math.comb(5, 3), 10)
 chk("08 ST3 a", 13 / 25, 13 / 25); chk("08 ST6 eff", (35 / 24) / (35 / 12), .5)
+
+# ==== v1.3 S3 — files 09a, 09b (route: exact Fractions for moments; scipy quad for E(X); numeric maximisation
+# of each log-likelihood with optimize.minimize_scalar, independent of the hand-derived formulas)
+_mx = lambda fn, lo, hi: optimize.minimize_scalar(lambda t: -fn(t), bounds=(lo, hi), method="bounded", options={"xatol": 1e-9}).x
+# 09a
+_die = range(1, 7)
+chk("09a S1 die mu1", float(Fr(sum(_die), 6)), 3.5); chk("09a S1 die mu2", float(Fr(sum(k * k for k in _die), 6)), 15.17, tol=.005)
+chk("09a S1 m1", np.mean([2, 6, 5, 3]), 4); chk("09a S1 m2", np.mean(np.square([2, 6, 5, 3])), 18.5)
+chk("09a C1 m1", np.mean([1, 4, 4]), 3); chk("09a C1 m2", np.mean(np.square([1, 4, 4])), 11)
+_bus = [2, 5, 1, 4]; chk("09a S2 xbar", np.mean(_bus), 3)
+chk("09a S2 theta (solve E=xbar)", optimize.brentq(lambda t: stats.expon(scale=1 / t).mean() - np.mean(_bus), .01, 10), 0.333, tol=5e-4)
+for t_, mm in [(.2, 5), (.25, 4), (.5, 2)]:
+    chk(f"09a S2 table theta={t_}", stats.expon(scale=1 / t_).mean(), mm)
+chk("09a C2", 1 / np.mean([.5, 1.5, 2.0, 4.0]), 0.5)
+chk("09a S3 theta 1", 2 * np.mean([2, 5, 7, 10]), 12); chk("09a S3 theta 2", 2 * np.mean([1, 1, 10]), 8)
+chk("09a C3", 2 * np.mean([1, 2, 9]), 8)
+_u = np.array([8, 9, 11, 12]); _m2 = np.mean(_u ** 2) - _u.mean() ** 2
+chk("09a S4 xbar", _u.mean(), 10); chk("09a S4 m2'", np.mean(_u ** 2), 102.5); chk("09a S4 m2", _m2, 2.5)
+chk("09a S4 root", math.sqrt(3 * _m2), 2.739, tol=5e-4)
+_ab = optimize.fsolve(lambda v: [stats.uniform(v[0], v[1] - v[0]).mean() - 10, stats.uniform(v[0], v[1] - v[0]).var() - _m2], [6, 14])
+chk("09a S4 a (solve)", _ab[0], 7.26, tol=.005); chk("09a S4 b (solve)", _ab[1], 12.74, tol=.005)
+chk("09a C4 a", 10 - math.sqrt(9), 7); chk("09a C4 b", 10 + math.sqrt(9), 13)
+_gk = np.array([0.46, 0.38, 0.61, 0.82, 0.59, 0.53, 0.72, 0.44, 0.59, 0.60])
+_Eth = lambda t: integrate.quad(lambda x_: x_ * (1 + t) * x_ ** t, 0, 1)[0]
+chk("09a S5 sum", _gk.sum(), 5.74); chk("09a S5 xbar", _gk.mean(), 0.574)
+chk("09a S5 theta (solve)", optimize.brentq(lambda t: _Eth(t) - _gk.mean(), 0.001, 20), 0.3474, tol=1e-4)
+chk("09a S5 numerator", 2 * .574 - 1, .148); chk("09a S5 denominator", 1 - .574, .426)
+chk("09a C5", optimize.brentq(lambda t: _Eth(t) - 0.6, 0.001, 20), 0.5, tol=1e-6)
+chk("09a ST2", np.mean([2, 0, 3, 1, 4]), 2); chk("09a ST4", 2 * np.mean([3, 5, 10]), 12)
+chk("09a ST5 mu", np.mean([4, 6, 8]), 6); chk("09a ST5 m2", np.var([4, 6, 8]), 2.67, tol=.005)
+chk("09a ST6", optimize.brentq(lambda t: integrate.quad(lambda x_: x_ * t * x_ ** (t - 1), 0, 1)[0] - .75, .01, 50), 3, tol=1e-6)
+# 09b
+_HHT = lambda p: p * p * (1 - p)
+for p_, v_, l_ in [(.3, .063, -2.765), (.5, .125, -2.079), (2 / 3, .148, -1.910), (.8, .128, -2.056), (.9, .081, -2.513)]:
+    chk(f"09b S1/2 L({p_:.3g})", stats.binom.pmf(2, 3, p_) / 3, v_, tol=5e-4); chk(f"09b S2 lnL({p_:.3g})", math.log(_HHT(p_)), l_, tol=5e-4)
+chk("09b S1 peak", _mx(lambda p: math.log(_HHT(p)), .01, .99), 2 / 3, tol=1e-5); chk("09b S1 4/27", 4 / 27, .148, tol=5e-4)
+chk("09b C1 L(1/3)", (1 / 3) * (2 / 3) ** 2, .148, tol=5e-4); chk("09b C1 L(1/2)", .125, .125)
+chk("09b C2 peak", _mx(lambda p: math.log(p * (1 - p) ** 2), .01, .99), 1 / 3, tol=1e-5)
+chk("09b C3", _mx(lambda p: stats.binom.logpmf(7, 20, p), .01, .99), 0.35, tol=1e-5)
+_po = [2, 0, 3, 1, 4]; chk("09b C4 numeric", _mx(lambda l: stats.poisson(l).logpmf(_po).sum(), .01, 10), 2, tol=1e-5)
+_r = np.array([14, 17, 27, 18, 12, 8, 22, 13, 19, 12])
+chk("09b S5 sum", _r.sum(), 162); chk("09b S5 MLE numeric", _mx(lambda b: stats.expon(scale=b).logpdf(_r).sum(), 1, 100), 16.2, tol=1e-4, key=16.2)
+for b_, l_ in [(10, -39.23), (16.2, -37.85), (25, -38.67), (40, -40.94)]:
+    chk(f"09b S5 table l({b_})", stats.expon(scale=b_).logpdf(_r).sum(), l_, tol=.005)
+chk("09b C5", _mx(lambda b: stats.expon(scale=b).logpdf([900, 1100, 1000, 1300, 700]).sum(), 10, 10000), 1000, tol=.01)
+chk("09b C6", _mx(lambda m_: stats.norm(m_, 2).logpdf([4, 6, 8]).sum(), 0, 20), 6, tol=1e-5)
+chk("09b C7a", _mx(lambda v: stats.norm(5, math.sqrt(v)).logpdf([4, 6, 8]).sum(), .1, 50), 3.67, tol=.005)
+_n2 = optimize.minimize(lambda v: -stats.norm(v[0], math.sqrt(abs(v[1]))).logpdf([4, 6, 8]).sum(), [5, 2], method="Nelder-Mead", options={"xatol": 1e-8, "fatol": 1e-10}).x
+chk("09b C7b mu (joint)", _n2[0], 6, tol=1e-4); chk("09b C7b var (joint)", abs(_n2[1]), 2.67, tol=.005)
+_x14 = np.array([12, 11.2, 13.5, 12.3, 13.8, 11.9]); _ll14 = lambda t: np.log(t / _x14 ** (t + 1)).sum()
+chk("09b S8 sum ln", np.log(_x14).sum(), 15.114, tol=5e-4)
+chk("09b S8 MLE numeric", _mx(_ll14, .01, 5), 0.3970, tol=1e-4, key=0.3970, ktol=1e-4)
+for t_, l_ in [(.2, -27.79), (.397, -26.66), (.6, -27.25), (1.0, -30.23)]:
+    chk(f"09b S8 table l({t_})", _ll14(t_), l_, tol=.005)
+chk("09b C8", 4 / 2, 2)
+_h = 1e-4; _d2 = lambda fn, x0: (fn(x0 + _h) - 2 * fn(x0) + fn(x0 - _h)) / _h ** 2
+chk("09b S9 rats d2 (numeric)", _d2(lambda b: stats.expon(scale=b).logpdf(_r).sum(), 16.2), -0.0381, tol=2e-4)
+chk("09b S9 ex14 d2 (numeric)", _d2(_ll14, 0.3970), -38.07, tol=.05)
+chk("09b C9 U(0,th) MLE (grid)", (lambda g: g[np.argmax([np.sum(stats.uniform(0, t).logpdf([2, 5, 7, 10])) for t in g])])(np.linspace(5, 20, 15001)), 10, tol=1e-3)
+chk("09b S10 rate (numeric)", _mx(lambda l: stats.expon(scale=1 / l).logpdf(_r).sum(), .001, 1), 0.0617, tol=1e-4)
+chk("09b C10 sigma (numeric)", _mx(lambda s: stats.norm(6, s).logpdf([4, 6, 8]).sum(), .1, 10), 1.633, tol=5e-4)
+chk("09b S11 sum ln", np.log(_gk).sum(), -5.7873, tol=5e-4)
+chk("09b S11 MLE numeric", _mx(lambda t: np.log((1 + t) * _gk ** t).sum(), 0, 10), 0.7279, tol=1e-4)
+chk("09b ST3", _mx(lambda l: stats.expon(scale=1 / l).logpdf([2, 3, 5, 6]).sum(), .01, 5), 0.25, tol=1e-5)
+chk("09b ST6", 8 / 4, 2); chk("09b ST5 bias factor n=3", (3 - 1) / 3 * 4, 8 / 3)
 
 print(f"\n{N[0]} checks; {len(FAILS)} pack failures; {len(KEYDIFF)} key differences")
 if KEYDIFF:

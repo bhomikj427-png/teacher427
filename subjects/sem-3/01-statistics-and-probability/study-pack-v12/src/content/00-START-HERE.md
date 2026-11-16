@@ -8,7 +8,7 @@ The ranking is driven by **marks**. The ETE blueprint (official) fixes the marks
 
 | Rank | Study | Why it ranks here | Do first | Rough time |
 |---|---|---|---|---|
-| **1** | **09 MoM and MLE** | Row 3 (22 marks): two 6-mark and one 8-mark slot; the professor's slides work four MLE examples | 09 §3–7, mock B3, C2 | 70 min |
+| **1** | **09a Method of moments · 09b Maximum likelihood** | Row 3 (22 marks): two 6-mark and one 8-mark slot; the professor's slides work four MLE examples | 09b §3–8, 11; 09a §2, 4; mock B3, C2 | 80 min |
 | **2** | **11 Confidence interval for mean** | Named in row 3; Assignment 4 has five CI questions, Assignment 5 two more | 11 §2, 5, 6 | 45 min |
 | **3** | **16 ANOVA** | Row 5 holds the paper's only Part D (8 marks); Assignment 5's Part D includes an ANOVA | 16 §2–4, mock D1 | 45 min |
 | **4** | **13 t-tests** | Row 5; six t-test questions in Assignment 5, one of them Part D | 13 §2, 4, 5 | 60 min |
@@ -22,14 +22,14 @@ The ranking is driven by **marks**. The ETE blueprint (official) fixes the marks
 | **12** | **05 Uniform and exponential** | Row 2; MTE B4 (4 marks); eight short Assignment 2 items | 05 §2, 5 | 35 min |
 | **13** | **03a Expectation and variance · 03b Rules and Chebyshev** | Row 1 (10 marks); MTE B1, B2 (7 marks), MTE A1(a) | 03a §5–7; 03b §2–4, 6–8 | 60 min |
 | **14** | **10 Bayesian** | Blueprint says "introduction of"; one slide example | 10 §3 | 25 min |
-| **15** | **02a Discrete RVs · 02b Continuous RVs** | Row 1; needed by 03a, 08, 09 | 02a §3, 5, 7–8; 02b §1–3, 5 | 60 min |
+| **15** | **02a Discrete RVs · 02b Continuous RVs** | Row 1; needed by 03a, 08, 09a–09b | 02a §3, 5, 7–8; 02b §1–3, 5 | 60 min |
 | **16** | **01 Probability basics** | Row 1 definitions; Bayes' theorem feeds 10 | 01 §6–7, 11–12 | 40 min |
 | **last** | **17 Mock paper** | All rows in blueprint proportion | closed book | 3 h |
 
 Two rules for using the ranking:
 
 - **Short on time:** go down the list doing only the "Do first" column, then the matching mock items.
-- **Stuck in 08–09:** they need E(X), Var(X) and PDFs. Go back to 02b §1–3, 03a §1–6 and 03b §1–3 first.
+- **Stuck in 08–09b:** they need E(X), Var(X) and PDFs. Go back to 02b §1–3, 03a §1–6 and 03b §1–3 first.
 
 ## The path through the pack
 
@@ -45,13 +45,13 @@ The order is the syllabus order, which is also the order of the assignments (1, 
 
 **Unit 3 — estimation** (row 3)
 
-[[map:08 Estimator properties > 09 MoM and MLE > 10 Bayesian > 11 CI for the mean]]
+[[map:08 Estimator properties > 09a Method of moments > 09b Maximum likelihood > 10 Bayesian > 11 CI for the mean]]
 
 **Unit 4 — testing** (rows 4 and 5)
 
 [[map:12 Hypotheses, errors > 13 t-tests > 14 F-test > 15 χ² > 16 ANOVA > 17 Mock]]
 
-02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04–06 use 03a's E and Var. 07 needs 03b (variance of a sum) and 06 (normal table). 08–09 need 03a–03b, 07 and the distributions of 04–05. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.
+02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04–06 use 03a's E and Var. 07 needs 03b (variance of a sum) and 06 (normal table). 08–09b need 03a–03b, 07 and the distributions of 04–05; 09b compares its MLE with 09a's MoM. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.
 
 | File | Blueprint item | What it teaches | Real Qs |
 |---|---|---|---|
@@ -65,7 +65,8 @@ The order is the syllabus order, which is also the order of the assignments (1, 
 | 06 | row 2 · normal | standardising, the φ table, counts, normal + binomial, inverse problems | 9 |
 | 07 | row 2 · population, sample, SE, CLT | parameter vs statistic, SE = σ/√n, CLT and its three cases | 6 |
 | 08 | row 3 · good estimators | parameter vs estimate, point vs interval, unbiased, checking coefficients, n − 1, consistent, efficient, sufficient | 2 + textbook |
-| 09 | row 3 · MoM, MLE | one- and two-parameter MoM, the five MLE steps, four slide MLEs, both methods | 4 + 3 textbook |
+| 09a | row 3 · method of moments | population vs sample moments, one parameter, an impossible estimate, two parameters, a new density | 3 textbook |
+| 09b | row 3 · maximum likelihood | likelihood (coin), log-likelihood, the five steps, Poisson, exponential, normal μ and σ², product of powers, second derivative, properties, MoM against MLE | 4 + 1 textbook |
 | 10 | row 3 · Bayesian (intro) | prior, posterior, the slide's defectives example, posterior mean | 1 |
 | 11 | row 3 · CI for mean | meaning, z-interval, levels, function of μ, t-interval, raw data | 7 |
 | 12 | row 4 | H₀/H₁, tails, Type I/II, α, β, power, critical region, test steps | 15 |
@@ -132,11 +133,13 @@ Every answer in the assignments and the MTE key was recomputed. These differ; th
 | A1 App 3 (03a §6) | SD ≈ 0.98 | 0.973 | the key rounded the variance first |
 | MTE B1 (03b §8) | bound 16/3 | 16/3 (correct), plus: a bound above 1 says nothing; exact value 5/6 | an addition, not a correction |
 | Slides CLT p.11 (07 §4) | z = −0.4 | z = −0.94 | typo; the slide's area uses 0.94 |
-| Slides MLE Ex. 14 (09 §6) | L(x₁, …, x₁₀; θ) | n = 6 | label only |
+| Slides MLE Ex. 11 (09b §7) | solves (a) and (b) jointly; writes only μ̂ = x̄ | (b) σ̂² = (1/n)Σ(xᵢ − μ)², from the slide's own line | the second answer was left out |
+| Slides MLE Ex. 14 (09b §8) | L(x₁, …, x₁₀; θ) | n = 6 | label only |
+| G&K ch. 15 ex. 20(b) (09a §2) | v1.2 pack wrote α | θ, as the book prints | a v1.2 pack slip, not the book's |
 | ppt 8 slide 7 (12 §2) | "H₀: μ > −0.545" | H₁: μ > −0.545 | the alternative was labelled H₀ |
 
 ## How this pack was checked
 
 - **Facts:** from the subject's knowledge base (researched to both stages from Walpole, Montgomery & Runger and Ross; every load-bearing claim checked against sources) and from Gupta & Kapoor, the reference the slides cite. Section numbers are quoted where a formula is used.
-- **Numbers:** `src/verify.py` recomputes every number in the pack, 665 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 15 mismatches are the slips in the table above.
+- **Numbers:** `src/verify.py` recomputes every number in the pack, 741 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 15 mismatches are the slips in the table above.
 - **Pages:** every page was viewed after the final build.

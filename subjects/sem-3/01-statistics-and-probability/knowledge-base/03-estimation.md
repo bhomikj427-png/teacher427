@@ -24,6 +24,22 @@
   **factorization criterion** L = g(T(x),θ)·h(x)). *Mechanism:* you can throw away the rest of the
   data without losing information about θ.
 
+### MLE and MoM properties — Gupta & Kapoor ch. 15 (verified on the page images, 2026-11-16, S3)
+- §15.10 lists the methods of point estimation (MLE and MoM among them). §15.11: likelihood
+  L = Π f(xᵢ, θ) (eq. 15·53); the MLE θ̂ is the value of θ that makes L greatest. `settled`
+- Thm 15.11: under regularity conditions the MLE is **consistent**. Remark: the MLE of σ² (normal),
+  s² with divisor n, is consistent but **not unbiased**. `settled`
+- Thm 15.13: the MLE is **asymptotically normal** (large n). Thm 15.14: if a most efficient
+  estimator exists, the likelihood equation gives it. Thm 15.15: if a sufficient estimator exists,
+  the MLE is a function of it. Thm 15.17 (**invariance**): if θ̂ is the MLE of θ, then γ(θ̂) is the
+  MLE of γ(θ). `settled`
+- §15.13 MoM: equate the first k population moments μ′ᵣ (functions of the k parameters) to the
+  sample moments m′ᵣ = (1/n)Σxᵢʳ and solve. Remarks: MoM estimators are consistent and asymptotically
+  normal, but **generally less efficient than MLE**; they coincide with MLE when the density has the
+  exponential-family form. `settled`
+- Exercises (ch. 15, p. idx 1192 of the PDF): 20(b) f(x, θ) = θe^(−θx) (the book prints **θ**, not α);
+  21 U(a, b) by MoM; 23(b) f(x) = (1 + θ)x^θ, 0 < x < 1, by MoM and MLE. `settled` (as printed)
+
 ### Bayesian estimation (named in the syllabus)
 - Treat θ as random with a **prior** π(θ); update with data via Bayes to the **posterior**
   π(θ|x) ∝ L(x|θ)π(θ); the estimate is a posterior summary (mean/mode). *Mechanism:* inference is
