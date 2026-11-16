@@ -59,13 +59,13 @@
 | M47 | The Pomodoro technique makes you learn more | A8 | verified |
 | M48 | Teaching students a growth mindset reliably raises their grades | A8 | verified |
 | M49 | The Socratic method means the teacher never tells, only asks | B1 | verified |
-| M50 | A method used for centuries (Jesuit, Socratic, Confucian) is proven by its longevity | B1 | written |
-| M51 | Concrete, hands-on, realistic materials are always better than abstract ones | B1 | written |
+| M50 | A method used for centuries (Jesuit, Socratic, Confucian) is proven by its longevity | B1 | verified |
+| M51 | Concrete, hands-on, realistic materials are always better than abstract ones | B1 | verified |
 | M52 | Herbart invented the five-step lesson plan | B1 | verified |
 | M53 | Scaffolding (contingent tutoring in the ZPD) is a proven effect | B1 | verified |
-| M54 | Learning by doing means discovery without being told — that is what Dewey said, and it works best | B1 | written |
-| M55 | Teaching general problem-solving strategies makes you a better problem-solver in any subject | B1 | written |
-| M56 | Good instruction is errorless — learners should never be allowed to make mistakes | B1 | written |
+| M54 | Learning by doing means discovery without being told — that is what Dewey said, and it works best | B1 | verified |
+| M55 | Teaching general problem-solving strategies makes you a better problem-solver in any subject | B1 | verified |
+| M56 | Good instruction is errorless — learners should never be allowed to make mistakes | B1 | verified |
 | M57 | Mastery learning reliably gives about a 1-sigma gain in ordinary schools | B2 | written |
 | M58 | Advance organizers are a strong, proven way to start a lesson | B2 | written |
 | M59 | Direct Instruction means lecturing — the teacher talks, students listen | B2 | written |
@@ -618,7 +618,7 @@
   ones (public rivalry, Comenius's morning-and-evening rereading, Socrates' recollection theory).
   Grade the mechanism by Part A (A8 §3 kit: Q1 outcome, Q2 comparison).
 - **Exposing question:** "Compared with what, and measured how — a week later?"
-- **Unit:** B1 §summary. Status: written.
+- **Unit:** B1 §summary. Status: verified (Pl-Meno, RS1599, Comenius primaries read in full; S12a).
 
 ### M51 — Concrete, hands-on, realistic materials are always better than abstract ones
 - **Why it feels true:** concrete objects are easy to grasp and engaging; "learning by doing" and
@@ -627,8 +627,10 @@
   fading moves concrete → iconic → abstract and makes the link explicit (FN18); a concept that stays
   tied to its concrete form need not transfer. Pestalozzi himself warned that single views mislead
   about the "essential" features — the evidenced remedy is varied, contrasted examples (A4 §2).
+  Bound (BG13, abstract): concrete-only instruction transferred worse than concrete → formal fading,
+  and fading only *tied* formal-only — concrete is a starting point, not a superior end state.
 - **Exposing question:** "Can you solve it when the blocks are gone and the symbols are all you have?"
-- **Unit:** B1 §6 (also B2 Bruner, B1 §10 Montessori). Status: written.
+- **Unit:** B1 §6 (also B2 Bruner, B1 §10 Montessori). Status: verified (FN18 author full text; BG13 abstract — S12a).
 
 ### M52 — Herbart invented the five-step lesson plan
 - **Why it feels true:** the steps are taught as "Herbart's five formal steps" in teacher-training texts.
@@ -657,9 +659,10 @@
 - **Correction:** Dewey's own essentials of method require that the learner "possess the information
   and make the observations needed" and that the problem be "sufficiently connected with existing
   habits" (Dew-DE). Within inquiry, guidance improves outcomes (LH16, d = 0.50); minimal guidance
-  underperforms explicit instruction for novices (KSC06).
+  underperforms explicit instruction for novices (KSC06). LH16's own abstract frames inquiry as
+  beating expository teaching only "as long as students are supported adequately".
 - **Exposing question:** "Where does the learner get the information the problem needs?"
-- **Unit:** B1 §11. Status: written.
+- **Unit:** B1 §11. Status: verified (Dew-DE full text; LH16 + KSC06 at abstract — S12a).
 
 ### M55 — Teaching general problem-solving strategies makes you a better problem-solver in any subject
 - **Why it feels true:** Pólya's heuristics (work backwards, special cases) look universal, and experts
@@ -669,7 +672,7 @@
   domain-specific moves. What helped was **control** (monitoring, abandoning dead ends), trained over
   extended time inside a domain (Sch92). Transfer rides on domain knowledge (A5).
 - **Exposing question:** "Did the strategy work on a problem type you had never practised it on?"
-- **Unit:** B1 §15. Status: written.
+- **Unit:** B1 §15. Status: verified (Sch92 full text — S12a).
 
 ### M56 — Good instruction is errorless — learners should never be allowed to make mistakes
 - **Why it feels true:** errors feel like failure and might be "learned"; programmed instruction (Sk58)
@@ -679,7 +682,7 @@
   items). Easy, heavily prompted responses give high performance with little retrieval effort
   (learning ≠ performance, A1). Keep the feedback, drop the errorlessness.
 - **Exposing question:** "If they never get anything wrong, how hard were they actually retrieving?"
-- **Unit:** B1 §10. Status: written.
+- **Unit:** B1 §10. Status: verified (Sk58 + SCA24 full text — S12a).
 
 ### M15 — One-to-one tutoring reliably gives a 2-sigma gain
 - **Why it feels true:** Bloom's 1984 paper is famous, the number is memorable ("above 98% of the

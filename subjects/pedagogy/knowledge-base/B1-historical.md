@@ -287,8 +287,10 @@ first" = segmenting high element-interactivity material (CLT; A3 §2.4).
 **Serves:** A3 row 2 (concepts — number, form), row 1 (language/vocabulary), early row 3.
 
 **Grade:** **T** for the object-lesson method (no outcome data; the fame of his schools at
-Burgdorf and Yverdon is reputation, not evidence). **M** (`uncertain` on size) for concreteness
-fading — mostly maths/science studies, theory admitted to be underspecified (FN18). "More senses →
+Burgdorf and Yverdon is reputation, not evidence). **M−** (`uncertain` on size; lowered from M
+in S12a) for concreteness fading — mostly maths/science studies, theory admitted to be
+underspecified (FN18), and the one direct comparison read (BG13) has fading only tying formal-only
+instruction on transfer. "More senses →
 more accurate knowledge" is **T** as stated; see the Comenius note on learning styles (§5).
 
 **Use as learner.** Start a new abstract idea from one concrete case you can see or handle, draw
@@ -422,10 +424,14 @@ edited, and that Vygotsky's ZPD concerned **development and diagnosis** (what a 
 be able to do), not a tutoring technique (Chaiklin, secondary, not read).
 
 **The tutoring idea grew elsewhere.** "Scaffolding" is not Vygotsky's word. Wood, Bruner & Ross
-1976 (WBR76) introduced it from one tutor teaching 3- to 5-year-olds a block-construction task.
-The six tutor functions often credited to that paper (recruitment, reduction in degrees of freedom,
-direction maintenance, marking critical features, frustration control, demonstration) are in
-practice cited from it and its follow-up; the follow-up, Wood, Wood & Middleton 1978 (WWM78),
+1976 (WBR76) introduced it from one tutor teaching 30 children aged 3–5 a 21-block construction
+task (the "Tower of Nottingham"); the tutor followed a program agreed in advance — "she would always
+try to instruct verbally … before intervening more directly, only doing the latter when the child
+failed" (WBR76 p. 92, as quoted in the Sm25 full text, S12a). It was **descriptive**: no comparison
+group. The six tutor functions often credited to that paper (recruitment, reduction in degrees of
+freedom, direction maintenance, marking critical features, frustration control, demonstration) are
+in practice cited from it and its follow-up — Sm25 confirms "recruitment of interest" as WBR76's
+term; the full list is not yet seen at the paper (`uncertain` as a list); the follow-up, Wood, Wood & Middleton 1978 (WWM78),
 tested a **contingent** rule — give more help after a failure, less after a success — against three
 other strategies and reported the contingent one best ("largely confirms these predictions",
 abstract; 32 children).
@@ -497,8 +503,13 @@ fluency trap of A1 (performance ≠ learning); (c) no spacing — a linear progr
 
 **The evidence.** Kulik, Cohen & Ebeling 1980 (KCE80) meta-analysed programmed instruction in
 higher education (ERIC record confirms scope: overall effects, study features, aptitude-treatment
-studies). The commonly cited result — a small positive effect on exams, ≈ 0.2–0.3 SD — is **not
-verified this session** (no abstract numbers) → `uncertain`, backlog. Its descendants (computer
+studies). Its exact mean is still not read (no abstract number) → `uncertain`. A bound from the
+same authors (S12a, full text): their sister meta-analysis of computer-based college teaching
+(KKC80-RER, 54 studies) found d = .25 on course exams — .13 when one teacher taught both sections,
+.51 when different teachers did — and they state those effects were "comparable in size to those
+reported in studies of programmed instruction" (i.e. KCE80), with later programmed-instruction
+studies giving larger effects than earlier ones. So: small, ≈ a quarter SD, and sensitive to the
+teacher confound. Its descendants (computer
 tutors, adaptive spaced-repetition software) are graded in B4a/B4b, not here.
 
 **Serves:** A3 row 1 (facts, terms — the classic frame sequences), row 4 (procedural steps);
@@ -606,7 +617,16 @@ educationofman00froe, full text searched S7b).** §30: "Play is the highest stag
 development at this time; for it is freely active representation of the inner." The book's frame is
 religious-idealist ("free self-activity and self-determination of man"). His structured "gifts"
 (balls, cubes and blocks in set sequences) and "occupations" are described in his kindergarten
-writings, not read this session → their details are `uncertain` here.
+writings. **Read at the primary in S12a** (*Pedagogics of the Kindergarten*, tr. Josephine Jarvis,
+1895, Internet Archive friedrichfroebel03fr; Fr-PK): the first gift is the ball; the second a
+sphere and a cube ("the idea of a self-opposed unity"); the third the cube "divided once in every
+dimension" into eight small cubes; the fourth eight oblong building bricks; the fifth a cube
+divided further (its first division is into three square prisms). Fröbel insists that "each
+successive gift in the series is not only implicit in but also demanded by its predecessor", that
+each new gift should not "supersede the use of its predecessor" (the two are played alternately),
+and that play with each produces *forms of life*, *forms of beauty* and *forms of knowledge*
+(the last = number, size, part–whole relations). The justification is symbolic-idealist, not
+observational. `settled` for what he prescribed; occupations not checked.
 
 **Mechanism (Part A).** Structured manipulation of graded objects = concrete experience before
 abstraction (§6, concreteness fading) and perceptual discrimination (A3 row 7). Play itself is a
@@ -749,12 +769,12 @@ includes review of earlier material.
 
 | Teacher | Core move | Serves (A3) | Grade (method / mechanism) |
 |---|---|---|---|
-| Socrates | commit → contradiction → rebuild by prompts | 3, 6 | M / pretesting S, self-explanation S, refutation M |
+| Socrates | commit → contradiction → rebuild by prompts | 3, 6 | M / pretesting S, self-explanation S, refutation M (g 0.41 → ≈0.28 bias-adj., SK22) |
 | Confucius | learn + think; review old; learner tries first; one corner → three | 3, 6, 1 | T / spacing S, generation S, transfer (A5) |
 | Quintilian | model → imitate → own production → revise; accuracy before speed | 4, 8 | T / worked-example→fading S |
 | Jesuit *Ratio* | daily/weekly/yearly recall from memory; daily correction | 1, 3 | T / retrieval + spacing S; rivalry not supported |
 | Comenius | senses first; example + rule + reason; learn by teaching | 2, 1, 4 | T / worked examples S, teaching M (Ko19), multimedia M (No22) |
-| Pestalozzi | sense-impression → simple elements → essential features | 2, 1 | T / concreteness fading M (`uncertain` size) |
+| Pestalozzi | sense-impression → simple elements → essential features | 2, 1 | T / concreteness fading M− (`uncertain` size; ≈ formal-only in BG13) |
 | Herbart | clearness → association → system → method (Rein: 5 steps) | 2–4 (structure) | T / segmenting, elaboration; lacks retrieval & spacing |
 | Montessori | self-correcting materials ("control of error"); auto-education | 7, 4, 2, 8 | **M** package (Ra23 g 0.24 academic; Li25 RCT) / feedback S |
 | Vygotsky | ZPD (frame); scaffolding (WBR76, WWM78 — not his) | calibration, all rows | ZPD T; scaffolding M−, contested (Sm25 replication failed) |

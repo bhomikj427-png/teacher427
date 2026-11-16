@@ -80,7 +80,7 @@
 | S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | split: **S10b-1 done 2026-11-16** (§1–4 Sung, Young, Oakley, Lemov) · **S10b-2 done 2026-11-16** (§5–8 + full summary) → **stage-1✓** |
 | S11a | Stage 2 — Part A verification: **A1–A4** (+ backlog rows targeted S11 that belong to A1–A4) | sprints.md, A1–A4, sources (IDs) | corrections in A1–A4 + sources + CHANGELOG | every A1–A4 effect size checked at the paper (abstract or better; full-text gaps carried with reason — wording amended 2026-11-16 per review to match the bar applied) ; `uncertain` tags resolved or kept with reason | **done 2026-11-16** (partial in session 4; finished S11a-rest: A4 swept; ATS17 g + SK21 method carried to S12 with reason) |
 | S11b | Stage 2 — Part A verification: **A5–A8** (+ their S11 backlog rows; engine 80% note) | sprints.md, A5–A8, sources (IDs) | corrections in A5–A8 + sources + CHANGELOG | same for A5–A8 | split (2026-11-16, context hygiene): **S11b-1 = A5 + A6** (GH80/83, Barnett & Ceci, MBF77, NA06, Pan & Carpenter 2023, LAA80/Stone) · **S11b-2 = A7 + A8 + engine 80% note** (Z02, DR12, DB08, RT11, P08, Y19, Dek12, 10%-brain, MPDK16, Ros12/80%) · **S11b-1 done 2026-11-16** (finished as S11b-1-rest; BC02, MBF77 primary, LAA80 numeric ES → S12 with reason) · **S11b-2 done 2026-11-16** (partial in session 7; finished S11b-2-rest in session 8: M87–M93, ladder) → **S11b done** |
-| S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | split (2026-11-16, context hygiene; ~50 backlog rows target S12): **S12a = B1** (backlog rows from S7a/S7b) · **S12b = B2 + B3** (rows from S8a/S8b) · **S12c = B4a + B4b** (rows from S9a/S9b) · **S12d = B5 + Sung + Part A stragglers** (rows from S10a/S10b + BC02, MBF77, LAA80, A2 priming, ATS17, SK21, CRK22, M85, DGBWR23) · **S12e = A↔B matrix** (`matrix.md`). Each part: re-check every grade in its files, work its backlog rows (close or carry with reason), Stage-2 ladder pass on its misconceptions · **S12a partial 2026-11-16** (session 9: 9 backlog rows closed, M49/M52/M53 verified) → S12a-rest |
+| S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | split (2026-11-16, context hygiene; ~50 backlog rows target S12): **S12a = B1** (backlog rows from S7a/S7b) · **S12b = B2 + B3** (rows from S8a/S8b) · **S12c = B4a + B4b** (rows from S9a/S9b) · **S12d = B5 + Sung + Part A stragglers** (rows from S10a/S10b + BC02, MBF77, LAA80, A2 priming, ATS17, SK21, CRK22, M85, DGBWR23) · **S12e = A↔B matrix** (`matrix.md`). Each part: re-check every grade in its files, work its backlog rows (close or carry with reason), Stage-2 ladder pass on its misconceptions · **S12a done 2026-11-16** (partial in session 9; finished S12a-rest in session 10: grades re-checked, M49–M56 all verified, book primaries carried to S13 with reason) |
 | S13 | §0 surplus test + integrity audit | everything | audit note in CHANGELOG; 00-map stamp | surplus test recorded; zero unsourced claims | **stage-2✓** |
 | S14 | Study-pack pilot (v1.2 spec) | study-pack-format.md, reference files, A1, A3 | `study-pack/00-START-HERE` + one topic file | learner sign-off | |
 | S15+ | Pack build in START-HERE priority order | spec + the topic's KB file | one or two topic files per session | each file passes spec checks | |
@@ -134,12 +134,14 @@ Read at start: <exact file list = Sy Inputs>
 | P08 full text (meshing criterion wording; number of studies) — S11b-2: UVA + APS PDF links return HTML | S6 | S13 |
 | S10b-1 closed: Feynman Technique origin ✓ (SY-FT11 transcript full text + SY-FT24: Young's own method; Gleick not needed for attribution) | — | — |
 | S12a closed: SK22 moderators ✓ (full text) · FN18 + No22 bib ✓ · EC05/Rein ✓ (RV1893 primary) · RS1599 translator = Farrell ✓ · *Orbis Pictus* softened ✓ · CSJ01 design ✓ (full text) · La14/LWW24/Sk22/Li17 ✓ · LM96 abstract ✓ (full text closed) · Sm25 full text ✓ | — | — |
-| WBR76 six functions at the paper (Wiley pdfdirect returns HTML) | S7b | S12a-rest |
-| Piaget primary for stages (LM96 full text closed) | S7b | S12a-rest |
-| FMSG14 numbers (closed access; Goldstone lab link 404; try ERIC/author CV again) | S7a | S12a-rest |
-| KCE80 numeric effect size (EEPA closed; ERIC abstract has no number) | S7b | S12a-rest |
-| Vyg78 primary read (ZPD wording p. 86; S12a: only a ch. 2 excerpt legitimately online) + Chaiklin 2003 chapter | S7b | S12a-rest |
-| Fröbel gifts/occupations primary (*Pedagogics of the Kindergarten*); Moore method primary accounts (Parker 2005); Suzuki *Nurtured by Love*; Pólya *How to Solve It* | S7b | S12a-rest |
+| S12a-rest closed: B1 grade re-check ✓ (Pestalozzi fading → M−) · Fröbel gifts primary ✓ (Fr-PK) · WBR76 design ✓ (via Sm25 quotes) · KCE80 bounded by KKC80-RER ✓ (exact number row below) · M50/M51/M54–M56 verified ✓ | — | — |
+| WBR76 six-function list at the paper (Wiley pdfdirect returns HTML; design now confirmed via Sm25) | S7b | S13 |
+| Piaget primary for stages (LM96 full text closed; in-copyright books, no licensed open copy) | S7b | S13 |
+| FMSG14 numbers (S12a-rest: OpenAlex closed, no repository copy, web search no PDF) | S7a | S13 |
+| KCE80 exact mean ES (EEPA closed; S12a-rest web search bib only; authors say ≈ CBI's .25) | S7b | S13 |
+| Vyg78 primary read (ZPD wording p. 86; only a ch. 2 excerpt legitimately online) + Chaiklin 2003 chapter | S7b | S13 |
+| Fröbel occupations (gifts done S12a); Moore method primary (Parker 2005); Suzuki *Nurtured by Love*; Pólya *How to Solve It* — in-copyright books, no licensed open copy found | S7b | S13 |
+| LH16 full text (rug.nl PDF 403, utwente no file; abstract numbers used) | S12a-rest | S13 |
 | KKC79 numeric mean ES (PSI) + KKB90 numeric mean (abstracts give direction only) | S8a | S12 |
 | Ke68 Keller's own five-feature wording (PMC scan; try image render) | S8a | S12 |
 | Gagné nine events wording at primary (Gagné, Briggs & Wager) + any controlled test of the sequence | S8a | S12 |
@@ -209,66 +211,35 @@ Read at start: <exact file list = Sy Inputs>
 ## Current hand-off
 
 ```
-Sprint: S12a — Part B verification, B1 — partial (2026-11-16, session 9; stopped at context soft limit)
-Written: B1 §1 SK22 + CSJ01 full-text details and grade line; §5 Orbis Pictus softened; §6 BG13
-  bound on concreteness fading; §7 Rein primary (RV1893); §9 Sm25 full-text numbers; §12 LM96
-  abstract · sources +RV1893, +BG13 (207 rows), 11 rows updated · misconceptions M49/M52/M53 →
-  verified (M52 text updated) · CHANGELOG · backlog: 9 rows closed (one summary row), 4 carried rows
-  re-targeted S12a-rest
-Verified this sprint: full text — SK22, CSJ01, Sm25, Rein RV1893 (pp. 143–157); abstract — LM96,
-  BG13; bib — FN18, No22, La14, LWW24, Sk22, Li17; Kolbe intro (RS1599 = Farrell)
-Open (S12a-rest): WBR76 six functions; Vyg78 + Chaiklin; KCE80 number; FMSG14 numbers; Piaget
-  primary; Fröbel/Moore/Suzuki/Pólya primaries (try Gutenberg/IA for Fröbel *Pedagogics of the
-  Kindergarten*); **re-check every B1 grade in the Summary table** (Socrates row: refutation now
-  ≈0.28 bias-adjusted; Pestalozzi row: fading = formal-only per BG13 — consider "M−"); ladder pass
-  M50, M51 (add BG13), M54, M55, M56 (Sch92, Dew-DE, Sk58, SCA24 are full text → likely verified)
-Decisions made: a z-lib upload on Internet Archive is not used as a source (Vyg78). EC05 is no
-  longer load-bearing (Rein read directly).
-Assumptions to review (S12a): (16) RS1599 translator = Farrell inferred from his signed
-  introduction + the BC catalog record, not from a title page. (17) CSJ01 copy is the Chi lab's
-  own hosted PDF. (18) Orbis Pictus "first" dropped rather than sourced.
-Next sprint: S12a-rest — first action: re-check the B1 Summary grades (§716+) against the entries
-  edited this session, then the ladder pass M50/M51/M54–M56, then the carried rows above. Tick S12a.
-Read at start: sprints.md (hand-off + Verify backlog + tooling notes), knowledge-base/B1-historical.md
-  (Summary §~725–770 first; single entries only as needed), knowledge-base/misconceptions.md (M50,
-  M51, M54–M56 only), knowledge-base/sources.md (grep by ID). Scratch helpers in the temp dir:
-  cr.py (Crossref), oa.py (OpenAlex OA links + abstract), epmc.py (Europe PMC full text),
-  pdfgrep.py (PDF keyword windows).
---- previous sprint (closed) ---
-Sprint: S11b-2 — Stage 2 verification A7 + A8 + engine 80% note — done (2026-11-16; partial in
-  session 7, finished S11b-2-rest in session 8) → S11b done
-Written: misconceptions M87–M89 (A7: silent judging ≠ testing; one test result doesn't switch
-  method; study-skills training differs by age) and M90–M93 (A8: brain knowledge doesn't protect;
-  Brain Gym; ~80% not a proven optimum; "significant" ≠ large) · ladder: M41 rewritten (TR21),
-  M42/M45/M47 → verified · A8 myth 5 Og25 design split · B4b §1 Wi19 limits · sources rows N13,
-  Wi19, Og25 (205 rows) · CHANGELOG · S12 split a–e written into the table
-Verified this sprint: full text — N13, Wi19 (authors/article no. confirmed), Og25, and earlier in
-  S11b-2 TR21, Pan17, Y19, Dek12
-Open (carried): see Verify backlog — S13: DR12, DB08 mean, Z02, P08, RT11/KoB08/CGNA96/Hy07 full
-  text, Og25 [6]; S12d: Part A stragglers
-Decisions made: S12 split into five parts by B file (a B1 · b B2+B3 · c B4a+B4b · d B5 + Sung +
-  Part A stragglers · e matrix). Engine ~80% wording still awaits learner sign-off (B4b §1).
-Assumptions to review (S11b-2-rest): (13) M42 marked verified on the authors' own full-text guide
-  (DGBWR23) rather than RDS13 itself. (14) M92 placed in A8 §3 (test kit), shared with B4b §1.
-  (15) Og25's cited test-score experiment noted as `uncertain` rather than read.
-Next sprint: S12a — Part B verification, B1 — first action: from the Verify backlog take the rows
-  first-noted S7a/S7b (EC05/Rein, RS1599 translator, Orbis Pictus, CSJ01, Vyg78/Chaiklin, Sm25/WBR76,
-  KCE80, LM96/Piaget, Fröbel/Moore/Suzuki/Pólya primaries, La14/LWW24/Sk22/Li17, SK22, FMSG14,
-  FN18/No22); close or carry each with reason; re-check every B1 grade in the Summary table against
-  its entry; Stage-2 ladder pass on M49–M56 (≥3 new misconceptions only if the sources read turn
-  them up — Part B has no fixed hunt quota). Tick S12a.
-Read at start: sprints.md (hand-off + Verify backlog + Research tooling notes),
-  knowledge-base/B1-historical.md (Summary §716–755 first; open single entries only as a backlog
-  row needs them), knowledge-base/misconceptions.md (index + M49–M56 only),
-  knowledge-base/sources.md (ID lookups by grep only)
---- previous sprint (closed) ---
-Sprint: S11b-1 — Stage 2 verification A5 + A6 — done (2026-11-16; finished as S11b-1-rest)
-Open (carried, all S12d in the backlog): BC02 dimension list; MBF77 primary; LAA80/Stone numeric ES
-Decisions made: an unpublished thesis that goes against a framework is written as T3 + named
-  boundary condition, never as a refutation, and never deleted for being inconvenient.
-Assumptions to review (S11b-1): (6) GH83 from a gwern.net scan; GH80 numbers from the authors'
-  recap in GH83. (7) Cap25 test: no delayed test reported. (8) A6 §4 range is the engine's reading.
-Assumptions to review (S11b-2, session 7): (9) S11a Done-when reworded to the bar applied.
-  (10) DB08 moderators from Pan17's quote of DB08 p. 246. (11) Wi19 authors from recall — now
-  confirmed at full text (closed). (12) "10% of the brain" kept as prevalence-only.
+Sprint: S12a — Part B verification, B1 — done (2026-11-16; partial in session 9, finished
+  S12a-rest in session 10) — auto.py milestone sprint 2 of 5
+Written: B1 Summary (Socrates refutation ≈0.28; Pestalozzi fading M−) + §6 Grade · §9 WBR76 design
+  (via Sm25 quotes) · §10 KCE80 bound (KKC80-RER) · §13 Fröbel gifts from the primary (Fr-PK) ·
+  misconceptions M50/M51/M54/M55/M56 → verified (M51 + BG13, M54 + LH16 abstract nuance) — B1 M49–M56
+  all verified · sources +Fr-PK, +KKC80-RER (209 rows) · CHANGELOG · backlog
+Verified this sprint (S12a-rest): full text — Fr-PK, KKC80-RER, Sm25 (re-used for WBR76); abstract —
+  LH16 (OpenAlex)
+Open (carried, all S13): WBR76 six-function list; Piaget, Moore/Parker, Suzuki, Pólya books;
+  Fröbel occupations; FMSG14; KCE80 exact mean; Vyg78 + Chaiklin; LH16 full text
+Decisions made: in-copyright books with no licensed open copy are carried, not read from pirate
+  uploads (extends the S12a Vyg78 rule). A sister meta-analysis by the same authors may *bound* a
+  number, labelled as such; it never stands in for the missing number.
+Assumptions to review (open): (6) GH83 gwern scan / GH80 via recap. (7) Cap25 no delayed test.
+  (8) A6 §4 range = engine's reading. (9) S11a Done-when reworded. (10) DB08 moderators via Pan17.
+  (12) "10% brain" prevalence-only. (13) M42 verified via DGBWR23. (14) M92 placed in A8 §3.
+  (15) Og25 [6] `uncertain`. (16) RS1599 = Farrell from intro + catalog. (17) CSJ01 = Chi lab copy.
+  (18) Orbis Pictus "first" dropped. (19) Pestalozzi fading lowered to M− on one abstract-level
+  study (BG13) + an underspecified theory. (20) M50/M51/M54 marked verified where part of the
+  correction rests on abstracts (LH16, KSC06, BG13) and the load-bearing part on full text.
+Next sprint: S12b — Part B verification, B2 + B3 — first action: re-check every grade in the B2 and
+  B3 Summary tables against their entries; then work the backlog rows raised S8a/S8b (KKC79/KKB90,
+  Ke68, Gagné nine events, Ausubel/Bruner wording, SMS24, Ash05, VL11, Feynman preface, Mat88,
+  Marva Collins, phonics include/drop, M62 expectancy size, Kumon RCT lead) — close or carry each
+  with reason; Stage-2 ladder pass on M15, M57–M63. Tick S12b.
+Read at start: sprints.md (hand-off + Verify backlog + tooling notes),
+  knowledge-base/B2-method-builders.md + B3-classroom-legends.md (Summary sections first; single
+  entries only as a row needs them), knowledge-base/misconceptions.md (M15, M57–M63 only),
+  knowledge-base/sources.md (grep by ID). Scratch helpers in the temp dir: cr.py, oa.py (OpenAlex OA
+  links + abstract), epmc.py (Europe PMC full text), pdfgrep.py (PDF keyword windows); cap.py in
+  research-tools greps any text file.
 ```
