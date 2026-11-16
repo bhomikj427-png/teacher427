@@ -1,4 +1,4 @@
-"""Shared study-pack builder (format: ../study-pack-format.md, v1.2).
+"""Shared study-pack builder (format: ../study-pack-format.md, v1.3).
 
 Copied from the reference pack's own builder (subjects/sem-3/13-circuits-and-systems/study-pack/src/build.py)
 so every pack gets the reference look. A pack calls it from its own src/build.py:
@@ -27,6 +27,9 @@ from pathlib import Path
 
 import markdown
 from pypdf import PdfWriter, PdfReader
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import figlib  # noqa: E402  (overlap check on every figure drawn, spec v1.3 §7.3)
 
 warnings.filterwarnings("ignore")
 CHROME = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
@@ -105,6 +108,7 @@ def render(md_text, figures):
         for p in parts[2:]:
             if p.strip().startswith("w="):
                 w = int(p.strip()[2:])
+        figlib._current[0] = name
         svg = re.sub(r'<\?xml[^>]*\?>', "", figures[name]())
         cap_html = f"<figcaption>{inline(cap)}</figcaption>" if cap else ""
         return f'\n<figure style="max-width:{w}%">{svg}{cap_html}</figure>\n'
@@ -151,23 +155,35 @@ def build(src_dir, pack, combined, figures, extra_css="", only=()):
     html_dir.mkdir(exist_ok=True)
     pdf_dir.mkdir(exist_ok=True)
     css = (CSS % {"pack": pack}) + extra_css
-    merged = PdfWriter()
-    for md in sorted((src_dir / "content").glob("*.md")):
-        if only and not md.stem.startswith(tuple(only)):
-            continue
-        text = md.read_text(encoding="utf-8")
-        title = text.splitlines()[0].lstrip("# ").strip()
-        html_path = html_dir / (md.stem + ".html")
-        html_path.write_text(f'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>{title}</title>'
-                             f"<style>{css}</style></head><body>{render(text, figures)}</body></html>", encoding="utf-8")
+    figlib.watch()
+    figlib.REPORT.clear()
+    sources = sorted((src_dir / "content").glob("*.md"))
+    # Build the requested files (all when `only` is empty), plus any file whose PDF is missing.
+    for md in sources:
         pdf_path = pdf_dir / (md.stem + ".pdf")
-        subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
-                        f"--print-to-pdf={pdf_path}", html_path.as_uri()], check=True, capture_output=True, timeout=180)
+        if only and md.stem.startswith(tuple(only)) or not only or not pdf_path.exists():
+            text = md.read_text(encoding="utf-8")
+            title = text.splitlines()[0].lstrip("# ").strip()
+            html_path = html_dir / (md.stem + ".html")
+            html_path.write_text(f'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>{title}</title>'
+                                 f"<style>{css}</style></head><body>{render(text, figures)}</body></html>",
+                                 encoding="utf-8")
+            subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
+                            f"--print-to-pdf={pdf_path}", html_path.as_uri()], check=True, capture_output=True,
+                           timeout=180)
+            print(f"{md.stem}: {len(PdfReader(str(pdf_path)).pages)} pages")
+    # The combined PDF always holds every content file, so a partial build never shrinks it.
+    merged = PdfWriter()
+    for md in sources:
+        title = md.read_text(encoding="utf-8").splitlines()[0].lstrip("# ").strip()
         start = len(merged.pages)
-        merged.append(str(pdf_path))
+        merged.append(str(pdf_dir / (md.stem + ".pdf")))
         merged.add_outline_item(title, start)
-        print(f"{md.stem}: {len(PdfReader(str(pdf_path)).pages)} pages")
     out = pdf_dir / combined
     with open(out, "wb") as f:
         merged.write(f)
     print("combined:", out.name, len(merged.pages), "pages")
+    for name, prob in sorted(set(figlib.REPORT)):
+        print(f"OVERLAP {name}: {prob}")
+    if figlib.REPORT:
+        print(f"{len(set(figlib.REPORT))} figure overlaps: fix before delivery (spec §7.4)")

@@ -4,6 +4,7 @@
 > overwritten each session-end; Session history is append-only. See `../../README.md`.
 
 ## Session resume
+- **Study pack (2026-11-16):** rebuild to v1.3 runs in sprints: resume from `sprints.md` → *Current hand-off* (S0–S9; next: S0, the brief; `python auto.py run sem-3/01-statistics-and-probability`). The teaching lines below are unchanged.
 - Last session: 2026-06-19 (Stage-2 research pass — subject brought to the teaching gate)
 - Where we stopped: **KB complete — `stage-2✓` for all 4 units; subject is now TEACH-READY.** No
   concept taught yet (teaching gate was correctly enforced before any lesson).
@@ -70,3 +71,4 @@
   allowed to split between rows, list spacing, nested superscripts, an accidental Markdown link, 8 figure label overlaps.
   The pilot step was skipped because the learner asked for the full pack in one go. **No teaching event; mastery ledger unchanged.**
   **Where we stopped:** pack delivered; learner has not worked any Check.
+- [2026-11-16] Spec now **v1.3** (`study-pack-format.md`); the v1.2 files 01–16 are listed as not meeting it. Writing `sprints.md` (S0–S9, 10 sprints, learner's budget 9–10): S0 builds the subject brief, then 1–3 files per sprint in START-HERE priority with prerequisites first, run by `auto.py` (shared steps: `../../../study-pack-sprint-protocol.md`). **No teaching event.**

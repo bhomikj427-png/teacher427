@@ -7,7 +7,7 @@
 ## Session resume
 - Last session: 2026-11-14 — no teaching; built `study-pack/pdf-ete/DE-ETE-v1.pdf` (61 pp., all 5 units, EDC-ETE-v1 format).
 - Where we stopped: pack delivered; learner has not worked any Check. **No teaching yet; learner level undiagnosed.**
-- Next up: **rebuild the ETE pack to `study-pack-format.md` (v1.2)**, pilot file first; the v1 pack was rejected 2026-11-14.
+- Next up: **Study-pack rebuild to v1.3 runs in sprints: resume from `sprints.md` → *Current hand-off*** (S0–S9; next: S0, the brief; `python auto.py run sem-3/04-digital-electronics`).
 - Due for review today: nothing yet (no items mastered).
 - Open: ETE date and format not given; no memory deck from the professor (E6 is built from the KB).
 
@@ -177,3 +177,4 @@
 - [2026-11-15] Learner signed off both v1.2 demos. Full v1.2 build queued after EDC: files 01–12, 14–20 in START-HERE priority order, content reused from `study-pack/pdf-ete/parts/A–H.html` + `verify.py` numbers; combined PDF at the end.
 - [2026-11-15] Full v1.2 DE pack **built**: `study-pack-v12/pdf/` = 00 + files 01–20 (13 from the demo; the rest new, content from v1 parts A–E, H; numbers from v1 `verify.py`; new K-map Self-test answers checked with `qm.py`) + combined `ECE2102-DE-ETE-study-pack.pdf` (114 pp.). 23 v1 figures had no source module left; recovered from `DE-ETE-v1.html` by `src/extract_v1figs.py` → `src/v1figs.json` (an end-of-figure bug that pulled following tables into 11 and 19 was found on viewing and fixed). Pages of 11, 18, 19 viewed. **No teaching event.**
 - Where we stopped: DE v1.2 pack delivered; learner has not worked any Check.
+- [2026-11-16] Spec now **v1.3** (`study-pack-format.md`); the v1.2 files 01–19 are listed as not meeting it. Writing `sprints.md` (S0–S9, 10 sprints, learner's budget 9–10): S0 builds the subject brief, then 1–3 files per sprint in START-HERE priority with prerequisites first, run by `auto.py` (shared steps: `../../../study-pack-sprint-protocol.md`). **No teaching event.**

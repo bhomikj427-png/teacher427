@@ -219,6 +219,10 @@ prefers minimal prose, wants diagrams described, etc.)*
   them together properly". → explain each variable (meaning, unit, what sets it, typical value) before any formula;
   reach a combined result in its own step that names its pieces; recall an earlier file's term where it is used
   (written into `study-pack-format.md` §6).
+- [stated 2026-11-16] **Sprint budget: 9–10 sprints per subject, up to 12 fine, 15+ only if seriously necessary.**
+  "i cant commit 27 fucking sprints to any one subject, i can maybe commit a max of 12-15, but much better would be 9-10".
+  → plan every subject's `sprints.md` to fit 9–10; batch 1–3 files per sprint; fold research into the sprint that
+  uses it; write the reason in `sprints.md` if a plan needs more than 12 (written into `study-pack-format.md` §7.2).
 
 ## 4. Autonomy & choice
 - [stated 2026-10-17] **Engine does all verification; the learner only learns.** "I can only either
@@ -341,3 +345,4 @@ without breaking the method.)*
   generation + revision set kept).
 - 2026-11-14 — Added §3 pref: study packs follow `study-pack-format.md` (v1.2, self-regulating); the
   dense "v1" PDF format is rejected. `CLAUDE.md` gains a *Study packs* section and a file-map line.
+- 2026-11-16 — Added §3 pref: sprint budget 9–10 per subject (12 fine, 15+ only if seriously necessary); spec now v1.3.

@@ -259,19 +259,24 @@ Learner-started only. Deterministic rules:
 
 ---
 
-## Study packs (learner-set format, 2026-11-14 — full spec: `study-pack-format.md`, currently v1.2)
+## Study packs (learner-set format, 2026-11-14 — full spec: `study-pack-format.md`, currently v1.3)
 
 A study pack (PDF or `.md` the learner studies from alone) is built **to the spec, never copied from
 another pack**. Deterministic rules:
-- **Shape:** ranked `00-START-HERE` → one file per topic: Map → questions → **Build** (one idea per
-  step: question/Predict → guess line → terms → figure → short teaching → answer → Check) → Exam form →
-  Traps → Self-test → Answers at the end. The per-step Build is the default, not an upgrade.
+- **Shape:** ranked `00-START-HERE` → one file per topic: Map → opening paragraph → symbol table →
+  running example → questions → **Build** (one idea per step: bridge → question/Predict → guess line →
+  terms defined by what they count → figure with "what this graph plots" → short teaching → explicit
+  answer → Check) → Exam form → Traps → Self-test → Answers at the end. Length is set by ideas (≈ 8–13
+  steps; more → a/b split, never compressed).
+- **Build process:** a per-subject brief first (slides, question bank, constants vs KB, figure list);
+  one fresh session per 1–3 files; **sprint budget 9–10 per subject, 12 fine, more only if seriously
+  necessary**; priority order with prerequisites first.
 - **Reference:** only the three frozen files in `study-pack-reference/` (`00-START-HERE`, `01-elements-and-sources`,
   `05-superposition`).
   No other file or pack is an example, and files built later never change the format; only the learner does.
 - **"v1" is not a format.** If the learner says "v1" or "like the last one", check that pack against
   the spec first; the spec lists the packs that must not be copied.
-- **Pilot first** (`00` + one topic file, learner sign-off), then build in START-HERE priority order.
+- **Pilot first** (`00` + one topic file, learner sign-off), then build in START-HERE priority order, prerequisites first.
 - **Self-regulating:** any format preference the learner states is written into the spec the same
   session (rule edited in place, dated changelog line; a new version number only when the learner asks), before further building.
 
@@ -432,9 +437,12 @@ intuition or pop-pedagogy — stop and re-anchor to the five principles. Every m
   NPTEL-lecture → transcript path for content sourcing (§2); `make_figure.py` + `render_lesson.py`
   are the lesson-rendering path (`rendering.md`); `whiteboard_server.py` + `whiteboard.py` are the
   live-whiteboard path (`whiteboard.md`). Install deps via `requirements.txt`.
-- `study-pack-format.md` — **the study-pack format spec** (v1.2; frozen example files in `study-pack-reference/`): pack layout, START-HERE sections,
+- `study-pack-format.md` — **the study-pack format spec** (v1.3; frozen example files in `study-pack-reference/`): pack layout, START-HERE sections,
   topic-file sections, the Build step, page rules, build/verification rules, the list of
   non-conforming packs, and the self-regulation rule that keeps the spec current.
+- `study-pack-sprint-protocol.md` — the fixed steps of one study-pack sprint, shared by every
+  subject's `sprints.md` (which holds only its table, hand-off and backlog). Tools: `tools/study_pack_build.py`
+  (builder), `tools/figlib.py` (shared figure helpers), `tools/fig_overlap_check.py` (label-overlap check).
 - `marathon.md` — **the marathon protocol** (learner-designed question-driven study mode over a
   defined book; modes, curation rule, per-question page order, misses-only evidence, revision set).
   Live marathon state lives in the subject's progress log + the marathon's `manifest.md`.
