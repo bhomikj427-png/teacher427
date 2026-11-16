@@ -4,7 +4,7 @@
 > overwritten each session-end; Session history is append-only. See `../../README.md`.
 
 ## Session resume
-- **Study pack (2026-11-16):** rebuild to v1.3 runs in sprints: resume from `sprints.md` → *Current hand-off* (S0–S9; next: S0, the brief; `python auto.py run sem-3/01-statistics-and-probability`). The teaching lines below are unchanged.
+- **Study pack (2026-11-16):** rebuild to v1.3 runs in sprints: resume from `sprints.md` → *Current hand-off* (S0–S9; S0 brief done 2026-11-16; next: S1, files 01 + 02a + 02b; `python auto.py run sem-3/01-statistics-and-probability`). The teaching lines below are unchanged.
 - Last session: 2026-06-19 (Stage-2 research pass — subject brought to the teaching gate)
 - Where we stopped: **KB complete — `stage-2✓` for all 4 units; subject is now TEACH-READY.** No
   concept taught yet (teaching gate was correctly enforced before any lesson).
@@ -73,3 +73,6 @@
   **Where we stopped:** pack delivered; learner has not worked any Check.
 - [2026-11-16] Spec now **v1.3** (`study-pack-format.md`); the v1.2 files 01–16 are listed as not meeting it. Writing `sprints.md` (S0–S9, 10 sprints, learner's budget 9–10): S0 builds the subject brief, then 1–3 files per sprint in START-HERE priority with prerequisites first, run by `auto.py` (shared steps: `../../../study-pack-sprint-protocol.md`). **No teaching event.**
 - [2026-11-16] ETE dates (learner-stated): Stats 19 Nov, DE 21 Nov, EDC 24 Nov (`research-engine/exam-calendar.md`). Sprint runs in that order; `sprints.md` header gets the date. **No teaching event.**
+- [2026-11-16] **Sprint S0 (brief) started** under `auto.py` (unattended): writing `study-pack-v12/src/brief.md` from every `exam-pack/` file (slides transcribed, question bank mapped to files, table values checked against the KB, figure list). **No teaching event.**
+- [2026-11-16] S0 finding: the KB held **no statistical table values**, though the questions print 36 of them (z areas, t, χ², F). All recomputed with scipy (every printed value matches except the two known key slips, A5 C6 and A5 D1, and A5 A10's option); writing them into `knowledge-base/04-hypothesis-testing.md` (new section "Table values the course's questions use") + CHANGELOG + sources line.
+- [2026-11-16] **Sprint S0 done.** `study-pack-v12/src/brief.md` written: three decks transcribed (MLE/Bayes and hypothesis-testing equations viewed as images), slips noted (CLT p.14 z = −0.4 → −0.94; MLE Ex. 14 "x₁₀" for n = 6; HT slides 7, 18, 23); question bank maps every MTE (10), A1 (24), A2 (28), A4 (16), A5 (26) item and 15 slide examples to a file + idea; HT slides 20 and 22 found unused in v1.2 (backlog → S6); per-file idea/figure plan with expected splits 02a/b, 03a/b, 04a/b, 12a/b. `verify.py` re-run: 423 checks, 0 failures, 11 key differences. `sprints.md`: S0 ticked, 3 backlog rows, Assumptions 4–5, hand-off → S1. **No teaching event.**

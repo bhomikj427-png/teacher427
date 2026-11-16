@@ -23,3 +23,7 @@
 - `[2026-06-19]` **Misconceptions M3, M7, M11** — promoted `uncertain → settled` — why: verified against
   ed-research / pedagogical sources (AAMT Topdrawer; UT Austin statmistakes; NIH/PMC; Scribbr) + the
   settled MLE-bias fact — trigger: Stage-2 to-verify worked down — confidence: `uncertain → settled`.
+- `[2026-11-16]` **Table values (z, t, χ², F)** — added a section to `04-hypothesis-testing.md` listing
+  every table value the course's questions print, with exact values — why: the KB held none, and the
+  study pack needs them (spec v1.3 §7.1 item 3) — trigger: study-pack sprint S0 — confidence: (new) `settled`
+  (scipy computation); two key values marked as slips (A5 C6 F(12,2), A5 D1 F(4,5)).

@@ -20,6 +20,9 @@
 - **Wikipedia / CMU Stat-700 lecture notes — Chebyshev inequality exact form**
   P(|X−μ|≥ε) ≤ Var(X)/ε². <https://www.stat.cmu.edu/~larry/=stat700/Lecture6.pdf>. 2026-06-16.
 - **Wikipedia — *Poisson limit theorem*** (Binomial→Poisson mechanism). Orientation only. 2026-06-16.
+- **`scipy.stats` (norm, t, chi2, f) — exact computation** of every table value the course's questions
+  print (`04-hypothesis-testing.md` → *Table values*). Computation, not a citation; the study pack's
+  `src/verify.py` re-runs the same values. 2026-11-16.
 
 ## Tier 3/4 — Derivative (leads only, not citable as final word)
 - Study-notes aggregator search result — **MAS2001 unit list** (used to seed scope; flagged
