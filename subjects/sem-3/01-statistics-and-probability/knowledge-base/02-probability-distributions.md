@@ -49,6 +49,18 @@ continuous distribution.
 - Binomial→Poisson or Binomial→Normal approximation for large n (and when each is valid).
 - Exponential/Poisson duality problems (arrivals per hour ↔ time between arrivals).
 
+### Prescribed-textbook locations (G&K, checked on the PDF text 2026-11-17, sprint S4) — `settled`
+- §7.2 Binomial: pmf C(n, x)pˣqⁿ⁻ˣ; central moment μ₂ = npq, mean np; **Example 7.4** is the
+  MTE B3 irregular-die question verbatim (P(X = 5) = 2P(X = 4) ⇒ p = 5/8). **Example 7.7**: "mean 3,
+  variance 4" is impossible for a binomial (npq < np since q < 1).
+- §7.3 Poisson: obtained as the limit of the binomial with n → ∞, p → 0, np = λ finite; additive
+  (reproductive) property: independent P(λ₁) + P(λ₂) = P(λ₁ + λ₂); mean = variance = λ.
+- §8.1 Rectangular (uniform) distribution on (a, b): f = 1/(b − a); "rectangular" because y = f(x) is a
+  rectangle over (a, b); moments in §8.1.1 (mean (a + b)/2, variance (b − a)²/12).
+- §8.6 Exponential: **Example 8.40** "the exponential distribution lacks memory": P(Y ≥ x | X ≥ a) =
+  P(X ≥ x), Y = X − a. Ch. 8 exercise 7(a) is Assignment 2 B5 verbatim: P(X < 1 | X < 2) with mean 2,
+  printed answer (1 − e^{−θ})/(1 − e^{−2θ}), θ = ½ = 0.6225 (the assignment key's 0.5679 disagrees).
+
 ---
 **Stage 2 (deep structure) — ✓ BUILT (2026-06-19):** lives separately in
 `stage-2/02-probability-distributions.md` — kept out of this exam file on purpose. *Adds:* the exponential family and why these

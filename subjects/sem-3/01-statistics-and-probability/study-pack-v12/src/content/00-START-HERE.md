@@ -17,9 +17,9 @@ The ranking is driven by **marks**. The ETE blueprint (official) fixes the marks
 | **7** | **15 χ² independence** | Row 5; four numericals in Assignment 5 | 15 §3–4 | 40 min |
 | **8** | **08 Estimator properties** | Row 3; MTE A3 (2) and C1(b) (3) | 08 §3–4, 8, exam form | 40 min |
 | **9** | **12 Hypotheses and errors** | Row 4 (10 marks); α/β questions A4 C1–C3 fit its 6-mark slot | 12 §3, 5, 6 | 50 min |
-| **10** | **04 Binomial and Poisson** | Row 2; MTE A2, A4, B3 (8 marks) | 04 §1, 3, 4 | 40 min |
+| **10** | **04a Binomial · 04b Poisson** | Row 2; MTE A2, A4, B3 (8 marks) | 04a §3, 5, 6 · 04b §1–4 | 45 min |
 | **11** | **14 F-test** | Row 5; four Assignment 5 numericals; quick to learn | 14 §2, 4 | 30 min |
-| **12** | **05 Uniform and exponential** | Row 2; MTE B4 (4 marks); eight short Assignment 2 items | 05 §2, 5 | 35 min |
+| **12** | **05 Uniform and exponential** | Row 2; MTE B4 (4 marks); eight short Assignment 2 items | 05 §3, 4, 8, 9 | 40 min |
 | **13** | **03a Expectation and variance · 03b Rules and Chebyshev** | Row 1 (10 marks); MTE B1, B2 (7 marks), MTE A1(a) | 03a §5–7; 03b §2–4, 6–8 | 60 min |
 | **14** | **10 Bayesian** | Blueprint says "introduction of"; one slide example | 10 §3 | 25 min |
 | **15** | **02a Discrete RVs · 02b Continuous RVs** | Row 1; needed by 03a, 08, 09a–09b | 02a §3, 5, 7–8; 02b §1–3, 5 | 60 min |
@@ -41,7 +41,7 @@ The order is the syllabus order, which is also the order of the assignments (1, 
 
 **Unit 2 — distributions and sampling** (row 2)
 
-[[map:04 Binomial, Poisson > 05 Uniform, exponential > 06 Normal > 07 SE and CLT]]
+[[map:04a Binomial > 04b Poisson > 05 Uniform, exponential > 06 Normal > 07 SE and CLT]]
 
 **Unit 3 — estimation** (row 3)
 
@@ -51,7 +51,7 @@ The order is the syllabus order, which is also the order of the assignments (1, 
 
 [[map:12 Hypotheses, errors > 13 t-tests > 14 F-test > 15 χ² > 16 ANOVA > 17 Mock]]
 
-02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04–06 use 03a's E and Var. 07 needs 03b (variance of a sum) and 06 (normal table). 08–09b need 03a–03b, 07 and the distributions of 04–05; 09b compares its MLE with 09a's MoM. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.
+02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04a–06 use 03a's E and Var; 04a uses 03b's sums for np and npq, and 04b builds on 04a's formula. 07 needs 03b (variance of a sum) and 06 (normal table). 08–09b need 03a–03b, 07 and the distributions of 04–05; 09b compares its MLE with 09a's MoM. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.
 
 | File | Blueprint item | What it teaches | Real Qs |
 |---|---|---|---|
@@ -60,8 +60,9 @@ The order is the syllabus order, which is also the order of the assignments (1, 
 | 02b | row 1 · continuous RVs, PDF, CDF | probability as area, checking a PDF, smooth CDF, median, tail areas, conditionals | 3 |
 | 03a | row 1 · mathematical expectation and variance | long-run average, balance point, E(X²), variance, shortcut, SD, continuous X | 4 |
 | 03b | row 1 · rules for E and Var, Chebyshev | aX + b, sums, products, geometric, Chebyshev both forms, bound vs exact, bound above 1, a count | 9 |
-| 04 | row 2 · binomial, Poisson | formulas, mean/variance, finding λ, Poisson limit | 11 + 1 textbook |
-| 05 | row 2 · uniform, exponential | probability as length, absolute-value intervals, waiting times, memoryless | 13 |
+| 04a | row 2 · binomial | one yes/no trial, counting orders, the formula, np and npq, solving for p, expected frequency | 3 |
+| 04b | row 2 · Poisson | counts at a rate, mean = variance, λ from a probability, complements, Poisson ≈ binomial, sums | 8 + 1 textbook |
+| 05 | row 2 · uniform, exponential | flat density, length ratio, bus problem, absolute values, mean and variance, finding K, waiting times, survival, memoryless, a non-memoryless conditional | 14 |
 | 06 | row 2 · normal | standardising, the φ table, counts, normal + binomial, inverse problems | 9 |
 | 07 | row 2 · population, sample, SE, CLT | parameter vs statistic, SE = σ/√n, CLT and its three cases | 6 |
 | 08 | row 3 · good estimators | parameter vs estimate, point vs interval, unbiased, checking coefficients, n − 1, consistent, efficient, sufficient | 2 + textbook |
@@ -126,7 +127,7 @@ Every answer in the assignments and the MTE key was recomputed. These differ; th
 | A5 D2 (11 §6) | CI (24.945, 25.075) | (24.930, 25.080) | the key's half-width does not match the data's s = 0.1605 |
 | A5 A4 (13 §5) | options 1.55/2.10/3.00/3.87 | t = 3.10 | no option matches; nearest is 3.00 |
 | A5 A10 (16 §2) | options 4/5/6/8 | F = 4.44 | no option matches; nearest is 4.00 |
-| A2 B5 (05 §6) | 0.5679 | 0.6225 | recomputed two ways |
+| A2 B5 (05 §10) | 0.5679 | 0.6225 | recomputed two ways; G&K prints the same exercise (ch. 8 ex. 7(a)) with this answer |
 | A2 C2 (06 §6) | μ = 37.5 | μ = 37.18, re-exam mark 30.40 | the key's own 30.43 implies μ ≈ 37.2 |
 | A1 LA 2 (02a §5, §8) | row printed as k, 2k, 2k, 3k, 3k, k², 2k², 7k² + k; key (ii) 81/100, 91/100, 4/5 | Gupta & Kapoor's row 0, k, 2k, 2k, 3k, … (differs at x = 0, 1, 3); P(X > 6) = 17/100, P(X ≥ 6) = 19/100, P(0 < X < 5) = 4/5 | the key answers G&K's question: 81/100 is P(X < 6), and 91/100 is 19/100 with its digits swapped. The printed row gives k ≈ 0.0782 |
 | A1 LA 3 (03b §2) | 0.808 without replacement | 0.8 in both cases | expectation of a sum needs no independence |
@@ -141,5 +142,5 @@ Every answer in the assignments and the MTE key was recomputed. These differ; th
 ## How this pack was checked
 
 - **Facts:** from the subject's knowledge base (researched to both stages from Walpole, Montgomery & Runger and Ross; every load-bearing claim checked against sources) and from Gupta & Kapoor, the reference the slides cite. Section numbers are quoted where a formula is used.
-- **Numbers:** `src/verify.py` recomputes every number in the pack, 741 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 15 mismatches are the slips in the table above.
+- **Numbers:** `src/verify.py` recomputes every number in the pack, 865 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 16 mismatches are the slips in the table above (A2 B5 is checked twice).
 - **Pages:** every page was viewed after the final build.

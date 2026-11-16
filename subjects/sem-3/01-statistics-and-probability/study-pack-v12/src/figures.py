@@ -113,53 +113,7 @@ def chebyshev():
     return _svg(fig)
 
 
-# ---------------------------------------------------------------- 04 binomial / Poisson
-def binom_poisson():
-    fig, (a1, a2) = plt.subplots(1, 2, figsize=(6.6, 2.3), sharey=True)
-    k = np.arange(11)
-    a1.bar(k, stats.binom(10, 5 / 8).pmf(k), color=ACC, width=.6); a1.set_title("Binomial n = 10, p = 5/8", fontsize=9)
-    a1.set_xlabel("k = even faces in 10 throws")
-    k2 = np.arange(9)
-    a2.bar(k2, stats.poisson(2.5).pmf(k2), color=PUR, width=.6); a2.set_title("Poisson λ = 2.5", fontsize=9)
-    a2.bar(np.arange(4, 9), stats.poisson(2.5).pmf(np.arange(4, 9)), color=ACC2, width=.6)
-    a2.text(5.6, .2, "red: demand > 3\n= rejected", fontsize=8, color=ACC2); a2.set_xlabel("k = demands in a day")
-    fig.tight_layout()
-    return _svg(fig)
-
-
-def poisson_limit():
-    fig, ax = _ax(5.6, 2.2)
-    k = np.arange(8)
-    ax.bar(k - .18, stats.binom(200, .01).pmf(k), width=.36, color=ACC, label="Binomial(200, 0.01)")
-    ax.bar(k + .18, stats.poisson(2).pmf(k), width=.36, color=PUR, label="Poisson(λ = np = 2)")
-    ax.legend(fontsize=8, frameon=False); ax.set_xlabel("k = jobs that wait")
-    return _svg(fig)
-
-
-# ---------------------------------------------------------------- 05 uniform / exponential
-def uniform_bus():
-    fig, ax = _ax(6.0, 2.0)
-    ax.plot([0, 30], [1 / 30, 1 / 30], color=ACC, lw=2)
-    for lo, hi in [(10, 15), (25, 30)]:
-        ax.fill_between([lo, hi], 0, 1 / 30, color=GRN, alpha=.35)
-    for b in (0, 15, 30):
-        ax.axvline(b, color=ACC2, ls="--", lw=1)
-    ax.text(0, .043, "bus 7:00", color=ACC2, fontsize=8, ha="center"); ax.text(15, .043, "bus 7:15", color=ACC2, fontsize=8, ha="center")
-    ax.text(30, .043, "bus 7:30", color=ACC2, fontsize=8, ha="center")
-    ax.text(5, .02, "height 1/30", fontsize=8, color=ACC)
-    ax.set_xlabel("arrival time X (minutes after 7:00)"); ax.set_ylim(0, .05); ax.set_yticks([])
-    return _svg(fig)
-
-
-def expo_memoryless():
-    fig, ax = _ax(6.0, 2.2)
-    x = np.linspace(0, 14, 400); f = .5 * np.exp(-.5 * x)
-    ax.plot(x, f, color=ACC, lw=2)
-    ax.fill_between(x[x >= 8], f[x >= 8], color=GRY, alpha=.2); ax.fill_between(x[x >= 11], f[x >= 11], color=ACC2, alpha=.45)
-    ax.annotate("grey: already waited 8 h", (8.6, .015), xytext=(6.2, .24), fontsize=8, color=GRY, arrowprops=dict(arrowstyle="->", color=GRY, lw=.7))
-    ax.annotate("red: P(X > 11 | X > 8)\n= red ÷ grey = e⁻¹·⁵", (11.8, .008), xytext=(10.2, .17), fontsize=8, color=ACC2, arrowprops=dict(arrowstyle="->", color=ACC2, lw=.7))
-    ax.set_xlabel("repair time x (hours), λ = 1/2"); ax.set_ylabel("f(x)")
-    return _svg(fig)
+# ---- 04, 05: v1.2 figures removed S4 (v1.3 figures are in the 04a/04b/05 blocks below)
 
 
 # ---------------------------------------------------------------- 06 normal
@@ -867,6 +821,147 @@ def ex14_loglik():
     ax.text(.43, -33.5, "peak at θ̂ = 0.397", fontsize=9, color=FL.BAD)
     ax.set_xlim(0, 1.2); ax.set_ylim(-35, -26)
     FL.axes(ax, "θ", "ℓ(θ)")
+    return FL.svg(f)
+
+
+# ---- 04a binomial (v1.3)
+def binom_paths():
+    f, ax = FL.canvas(6.6, 3.0, (-.6, 13.0), (-4.3, 4.3))
+    lv = {1: [(3, 2.0), (3, -2.0)], 2: [(6, 3.0), (6, 1.0), (6, -1.0), (6, -3.0)]}
+    for (x0, y0), sgn in [((0, 0), 1), ((0, 0), -1)]:
+        ax.plot([.15, 2.85], [0, 2.0 * sgn], color=FL.MUTED, lw=1)
+    for i, (x0, y0) in enumerate(lv[1]):
+        for j, (x1, y1) in enumerate(lv[2][2 * i:2 * i + 2]):
+            ax.plot([x0 + .15, x1 - .15], [y0, y1], color=FL.MUTED, lw=1)
+    leaves = []
+    for i, (x0, y0) in enumerate(lv[2]):
+        for d in (.5, -.5):
+            ax.plot([x0 + .15, 8.85], [y0, y0 + d], color=FL.MUTED, lw=1)
+            leaves.append(y0 + d)
+    names = ["EEE", "EEO", "EOE", "EOO", "OEE", "OEO", "OOE", "OOO"]
+    for nm, y in zip(names, leaves):
+        two = nm.count("E") == 2
+        ax.text(9.0, y, nm, va="center", fontsize=9, color=FL.BAD if two else FL.INK, weight="bold" if two else "normal")
+        if two:
+            ax.text(10.6, y, "p²q", va="center", fontsize=9, color=FL.BAD)
+    for x, t in [(3, "throw 1"), (6, "throw 2"), (8.85, "throw 3")]:
+        ax.text(x, -4.1, t, ha="center", fontsize=8.5, color=FL.MUTED)
+    ax.text(3.0, 2.45, "E", ha="center", fontsize=9, color=FL.ACC); ax.text(3.0, -2.6, "O", ha="center", fontsize=9, color=FL.ACC)
+    ax.text(11.8, -2.4, "3 red paths\n= C(3, 2)", ha="left", va="center", fontsize=9, color=FL.BAD)
+    ax.set_xlim(-.6, 15.0)
+    return FL.svg(f)
+
+
+def binom_fair10():
+    f, ax = FL.fig(5.2, 2.5)
+    k = np.arange(11); p = stats.binom(10, .5).pmf(k)
+    ax.bar(k, p, width=.55, color=FL.ACC)
+    ax.bar([5], [p[5]], width=.55, color=FL.BAD)
+    ax.text(5.45, p[5] + .004, "252/1024\n= 0.2461", fontsize=8.5, color=FL.BAD, va="bottom")
+    ax.set_xticks(k); ax.set_ylim(0, .33)
+    FL.axes(ax, "x = even faces in 10 throws (fair die)", "P(X = x)")
+    return FL.svg(f)
+
+
+def binom_die58():
+    f, ax = FL.fig(5.2, 2.5)
+    k = np.arange(11); p = stats.binom(10, 5 / 8).pmf(k)
+    ax.bar(k, p, width=.55, color=FL.ACC)
+    ax.bar([4, 5], p[[4, 5]], width=.55, color=FL.BAD)
+    ax.text(3.0, p[5] + .02, "P(5) = 2 × P(4)", fontsize=9, color=FL.BAD, ha="center")
+    ax.annotate("P(0) = 0.000055", (0, .003), xytext=(.2, .14), fontsize=8.5, color=FL.G2,
+                arrowprops=dict(arrowstyle="->", color=FL.G2, lw=.7))
+    ax.set_xticks(k); ax.set_ylim(0, .33)
+    FL.axes(ax, "x = even faces in 10 throws (p = 5/8)", "P(X = x)")
+    return FL.svg(f)
+
+
+# ---- 04b Poisson (v1.3)
+def pois_desk():
+    f, ax = FL.fig(5.2, 2.5)
+    k = np.arange(10); p = stats.poisson(2.5).pmf(k)
+    ax.bar(k[:4], p[:4], width=.55, color=FL.ACC)
+    ax.bar(k[4:], p[4:], width=.55, color=FL.BAD)
+    ax.text(5.6, .17, "red: more than 3\n(a demand is rejected)\ntotal 0.2424", fontsize=8.5, color=FL.BAD)
+    ax.set_xticks(k); ax.set_ylim(0, .31)
+    FL.axes(ax, "x = demands in one day (λ = 2.5)", "P(X = x)")
+    return FL.svg(f)
+
+
+def pois_limit():
+    f, ax = FL.fig(5.4, 2.5)
+    k = np.arange(8)
+    ax.bar(k - .18, stats.binom(200, .01).pmf(k), width=.34, color=FL.ACC, label="binomial n = 200, p = 0.01")
+    ax.bar(k + .18, stats.poisson(2).pmf(k), width=.34, color=FL.G2, label="Poisson λ = np = 2")
+    ax.legend(fontsize=8, frameon=False, loc="upper right"); ax.set_xticks(k); ax.set_ylim(0, .36)
+    FL.axes(ax, "x = jobs that wait, out of 200", "P(X = x)")
+    return FL.svg(f)
+
+
+# ---- 05 uniform and exponential (v1.3)
+def unif_rect():
+    f, ax = FL.fig(5.2, 2.3)
+    ax.add_patch(_Rect((10, 0), 10, .1, fc=FL.NCOL, ec=FL.ACC, lw=1.6))
+    ax.add_patch(_Rect((16, 0), 4, .1, fc=FL.BAD, ec="none", alpha=.35))
+    ax.text(18, .045, "area\n4 × 0.1\n= 0.4", ha="center", fontsize=8.5, color=FL.BAD)
+    ax.text(13, .113, "height 1/(20 − 10) = 0.1", ha="center", fontsize=8.5, color=FL.ACC)
+    ax.set_xlim(7, 23); ax.set_ylim(0, .14); ax.set_xticks([10, 12, 14, 16, 18, 20])
+    FL.axes(ax, "x", "f(x)")
+    return FL.svg(f)
+
+
+def unif_bus():
+    f, ax = FL.fig(5.6, 2.3)
+    ax.add_patch(_Rect((0, 0), 30, 1 / 30, fc=FL.NCOL, ec=FL.ACC, lw=1.4))
+    for lo in (10, 25):
+        ax.add_patch(_Rect((lo, 0), 5, 1 / 30, fc=FL.G1, ec="none", alpha=.45))
+    for b_, t in [(0, "bus\n7:00"), (15, "bus\n7:15"), (30, "bus\n7:30")]:
+        ax.axvline(b_, color=FL.BAD, lw=1, ls="--"); ax.text(b_, .041, t, ha="center", fontsize=8, color=FL.BAD)
+    ax.set_xlim(-2, 32); ax.set_ylim(0, .052); ax.set_xticks([0, 5, 10, 15, 20, 25, 30]); ax.set_yticks([0, 1 / 30]); ax.set_yticklabels(["0", "1/30"])
+    FL.axes(ax, "X = arrival time (minutes after 7:00)", "f(x)")
+    return FL.svg(f)
+
+
+def unif_abs():
+    f, ax = FL.fig(5.4, 2.4)
+    ax.add_patch(_Rect((-3, 0), 6, 1 / 6, fc=FL.NCOL, ec=FL.ACC, lw=1.4))
+    ax.add_patch(_Rect((0, 0), 3, 1 / 6, fc=FL.G1, ec="none", alpha=.45))
+    ax.annotate("", (0, .215), (4, .215), arrowprops=dict(arrowstyle="<->", color=FL.INK, lw=1))
+    ax.text(2, .225, "|x − 2| < 2:  0 < x < 4", ha="center", fontsize=8.5)
+    ax.plot([3, 4], [.215, .215], color=FL.BAD, lw=2.5)
+    ax.text(3.55, .18, "outside (−3, 3)", fontsize=8, color=FL.BAD)
+    ax.set_xlim(-4, 5.5); ax.set_ylim(0, .26); ax.set_xticks(range(-3, 5)); ax.set_yticks([0, 1 / 6]); ax.set_yticklabels(["0", "1/6"])
+    FL.axes(ax, "x", "f(x)")
+    return FL.svg(f)
+
+
+def expo_tail():
+    f, ax = FL.fig(5.4, 2.4)
+    x = np.linspace(0, 10, 400); y = .5 * np.exp(-.5 * x)
+    ax.plot(x, y, color=FL.ACC, lw=2)
+    s = x >= 4
+    ax.fill_between(x[s], y[s], color=FL.BAD, alpha=.3)
+    for xv in (0, 2, 4):
+        ax.plot(xv, .5 * math.exp(-.5 * xv), "o", color=FL.INK, ms=4)
+    ax.text(5.2, .12, "area beyond 4 = e⁻² = 0.1353", fontsize=8.5, color=FL.BAD)
+    ax.axvline(2, color=FL.MUTED, lw=1, ls=":"); ax.text(2.1, .43, "mean 1/λ = 2", fontsize=8.5, color=FL.MUTED)
+    ax.set_xlim(0, 10); ax.set_ylim(0, .55)
+    FL.axes(ax, "x = waiting time (λ = 1/2, mean 2)", "f(x) = ½e^(−x/2)")
+    return FL.svg(f)
+
+
+def expo_memory():
+    f, axs = FL.fig(6.6, 2.4, ncols=2)
+    x = np.linspace(0, 16, 400); y = .5 * np.exp(-.5 * x)
+    for ax, s0, t0, ttl, xl, yl in [(axs[0], 0, 3, "from 0: P(X > 3) = e⁻¹·⁵", (0, 16), .55),
+                                    (axs[1], 8, 11, "given X > 8: P(X > 11 | X > 8) = e⁻¹·⁵", (8, 24), .55 * math.exp(-4))]:
+        x = np.linspace(xl[0], xl[1], 400); y = .5 * np.exp(-.5 * x)
+        ax.plot(x, y, color=FL.ACC, lw=1.8)
+        a = x >= s0; b = x >= t0
+        ax.fill_between(x[a], y[a], color=FL.MUTED, alpha=.2); ax.fill_between(x[b], y[b], color=FL.BAD, alpha=.45)
+        ax.set_title(ttl, fontsize=8.5); ax.set_xlim(*xl); ax.set_ylim(0, yl)
+        FL.axes(ax, "x = repair time (hours)", "f(x)")
+    f.tight_layout()
     return FL.svg(f)
 
 

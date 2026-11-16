@@ -1,6 +1,6 @@
 # 09b — Maximum likelihood
 
-<div class="sub">Professor's LMS slides "MLE and Bayesian Estimation" p.2–10 (five steps, properties, Examples 11–14) · Gupta & Kapoor §15.11 (eq. 15·53; Theorems 15.11, 15.13–15.15, 15.17), ch. 15 ex. 23(b)(ii) · blueprint row 3 "methods of estimation: MoM and MLE" · 5 real questions (slides Ex. 11–14, G&K 23(b)) · needs 02a (pmf step 2), 02b (pdf), 04 (Poisson), 05 (exponential), 06 (normal pdf), 08 (unbiased step 3, n − 1 step 5, consistent/efficient/sufficient steps 6–8), 09a (MoM, steps 2, 3, 5)</div>
+<div class="sub">Professor's LMS slides "MLE and Bayesian Estimation" p.2–10 (five steps, properties, Examples 11–14) · Gupta & Kapoor §15.11 (eq. 15·53; Theorems 15.11, 15.13–15.15, 15.17), ch. 15 ex. 23(b)(ii) · blueprint row 3 "methods of estimation: MoM and MLE" · 5 real questions (slides Ex. 11–14, G&K 23(b)) · needs 02a (pmf step 2), 02b (pdf), 04b (Poisson), 05 (exponential), 06 (normal pdf), 08 (unbiased step 3, n − 1 step 5, consistent/efficient/sufficient steps 6–8), 09a (MoM, steps 2, 3, 5)</div>
 
 ## Map
 
@@ -143,14 +143,14 @@ With n = 3, Σxᵢ = 2 this is step 1's 2/3.
 
 ### 4 · Poisson
 
-Now a count model from 04: the same five steps, a different f.
+Now a count model from 04b: the same five steps, a different f.
 
 :::q <span class="tag">Slides Ex. 12</span>
 Consider a Poisson distribution with pmf f(x | μ) = e^{−μ}μ^{x}/x!, x = 0, 1, 2, … . A random sample x₁, …, xₙ is taken. What is the maximum likelihood estimate of μ?
 :::
 
 :::guess Guess first
-μ is the Poisson mean (04). Which statistic would you expect?
+μ is the Poisson mean (04b step 2). Which statistic would you expect?
 :::
 
 **Answer**, by the five steps (slides p.5–6):

@@ -32,3 +32,4 @@
   remarks (consistent, asymptotically normal, generally less efficient than MLE); ex. 20(b) prints θ — why:
   the facts were checked in S3 session 1 but lived only in the hand-off (review backlog row) — trigger:
   study-pack sprint S3 — confidence: (new) `settled`; G&K added to `sources.md`.
+- `[2026-11-17]` **G&K locations for Unit 2 (S4)** — added "Prescribed-textbook locations" to `02-probability-distributions.md`: §7.2 (Ex. 7.4 = MTE B3, Ex. 7.7), §7.3 (limit, additive property), §8.1, §8.6 (Ex. 8.40 memoryless; ch. 8 ex. 7(a) = A2 B5, answer 0.6225) — why: the v1.3 files 04a, 04b, 05 cite the prescribed textbook — trigger: study-pack sprint S4 — confidence: `settled` (read on the PDF text layer).

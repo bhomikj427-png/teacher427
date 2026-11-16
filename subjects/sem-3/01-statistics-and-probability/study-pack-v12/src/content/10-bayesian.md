@@ -1,6 +1,6 @@
 # 10 — Introduction to Bayesian estimation
 
-<div class="sub">Professor's LMS slides "MLE and Bayesian Estimation" (p.10–15, Example 15) · Walpole et al. ch. 18 (via the knowledge base) · blueprint row 3 "introduction of Bayesian estimation" · 1 slide example + slide definitions · needs 01 (Bayes' theorem), 04 (binomial), 09b (likelihood, steps 1–3)</div>
+<div class="sub">Professor's LMS slides "MLE and Bayesian Estimation" (p.10–15, Example 15) · Walpole et al. ch. 18 (via the knowledge base) · blueprint row 3 "introduction of Bayesian estimation" · 1 slide example + slide definitions · needs 01 (Bayes' theorem), 04a (binomial), 09b (likelihood, steps 1–3)</div>
 
 ## Map
 

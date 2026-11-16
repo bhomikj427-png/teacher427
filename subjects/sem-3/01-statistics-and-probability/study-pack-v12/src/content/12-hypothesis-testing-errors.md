@@ -1,6 +1,6 @@
 # 12 — Hypotheses, critical region, Type I and Type II errors
 
-<div class="sub">Professor's slides "ppt 8 Hypothesis Testing" (26 slides) · Gupta & Kapoor §12.4–12.7, §16.2–16.3 · blueprint row 4 "null and alternative hypotheses, level of significance, critical region, Type I and Type II errors" · 15 real questions (Assignments 4, 5, slides) · needs 04, 05, 07</div>
+<div class="sub">Professor's slides "ppt 8 Hypothesis Testing" (26 slides) · Gupta & Kapoor §12.4–12.7, §16.2–16.3 · blueprint row 4 "null and alternative hypotheses, level of significance, critical region, Type I and Type II errors" · 15 real questions (Assignments 4, 5, slides) · needs 04a, 04b, 05, 07</div>
 
 ## Map
 
@@ -164,7 +164,7 @@ Region (ii) never makes a Type I error but misses H₁ three times in four.
 
 ### 6 · α and β for a discrete test
 
-With a count (file 04's binomial), the areas become sums of probabilities.
+With a count (file 04a's binomial), the areas become sums of probabilities.
 
 :::q <span class="tag">A4 C2</span>
 Let p be the probability that a coin falls heads. To test H₀: p = ½ against H₁: p = ¾, the coin is tossed 5 times and H₀ is rejected if more than 3 heads are obtained. Find the probability of Type I error (and of Type II error).

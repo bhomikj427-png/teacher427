@@ -16,6 +16,8 @@
   `../books/`).** Ch. 15 §15.10–15.13 (MLE definition eq. 15·53, Thms 15.11, 15.13, 15.14, 15.15,
   15.17; MoM + remarks) and ch. 15 exercises 20(b), 21, 23(b): read on the page images 2026-11-16
   (sprint S3); supports `03-estimation.md` "MLE and MoM properties". `settled`.
+  Ch. 7 §7.2–7.3 (Ex. 7.4, 7.7) and ch. 8 §8.1, §8.6 (Ex. 8.40, exercise 7(a)): read on the PDF text layer
+  2026-11-17 (sprint S4); supports `02-probability-distributions.md` "Prescribed-textbook locations".
 
 ## Tier 1/2 — Authoritative course material (verification this session, 2026-06-16)
 - **MIT OpenCourseWare 18.600 / 18.440 *Probability and Random Variables*** — confirmed the topic

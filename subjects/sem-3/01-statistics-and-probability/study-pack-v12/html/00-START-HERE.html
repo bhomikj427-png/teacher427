@@ -128,10 +128,10 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 </tr>
 <tr>
 <td><strong>10</strong></td>
-<td><strong>04 Binomial and Poisson</strong></td>
+<td><strong>04a Binomial · 04b Poisson</strong></td>
 <td>Row 2; MTE A2, A4, B3 (8 marks)</td>
-<td>04 §1, 3, 4</td>
-<td>40 min</td>
+<td>04a §3, 5, 6 · 04b §1–4</td>
+<td>45 min</td>
 </tr>
 <tr>
 <td><strong>11</strong></td>
@@ -144,8 +144,8 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <td><strong>12</strong></td>
 <td><strong>05 Uniform and exponential</strong></td>
 <td>Row 2; MTE B4 (4 marks); eight short Assignment 2 items</td>
-<td>05 §2, 5</td>
-<td>35 min</td>
+<td>05 §3, 4, 8, 9</td>
+<td>40 min</td>
 </tr>
 <tr>
 <td><strong>13</strong></td>
@@ -195,7 +195,7 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <div class="map"><span class="n here">01 Probability basics</span><span class="a">→</span><span class="n">02a Discrete RVs</span><span class="a">→</span><span class="n">02b Continuous RVs</span><span class="a">→</span><span class="n">03a E and Var</span><span class="a">→</span><span class="n">03b Rules, Chebyshev</span></div>
 
 <p><strong>Unit 2 — distributions and sampling</strong> (row 2)</p>
-<div class="map"><span class="n">04 Binomial, Poisson</span><span class="a">→</span><span class="n">05 Uniform, exponential</span><span class="a">→</span><span class="n">06 Normal</span><span class="a">→</span><span class="n">07 SE and CLT</span></div>
+<div class="map"><span class="n">04a Binomial</span><span class="a">→</span><span class="n">04b Poisson</span><span class="a">→</span><span class="n">05 Uniform, exponential</span><span class="a">→</span><span class="n">06 Normal</span><span class="a">→</span><span class="n">07 SE and CLT</span></div>
 
 <p><strong>Unit 3 — estimation</strong> (row 3)</p>
 <div class="map"><span class="n">08 Estimator properties</span><span class="a">→</span><span class="n">09a Method of moments</span><span class="a">→</span><span class="n">09b Maximum likelihood</span><span class="a">→</span><span class="n">10 Bayesian</span><span class="a">→</span><span class="n">11 CI for the mean</span></div>
@@ -203,7 +203,7 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <p><strong>Unit 4 — testing</strong> (rows 4 and 5)</p>
 <div class="map"><span class="n">12 Hypotheses, errors</span><span class="a">→</span><span class="n">13 t-tests</span><span class="a">→</span><span class="n">14 F-test</span><span class="a">→</span><span class="n">15 χ²</span><span class="a">→</span><span class="n">16 ANOVA</span><span class="a">→</span><span class="n">17 Mock</span></div>
 
-<p>02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04–06 use 03a's E and Var. 07 needs 03b (variance of a sum) and 06 (normal table). 08–09b need 03a–03b, 07 and the distributions of 04–05; 09b compares its MLE with 09a's MoM. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.</p>
+<p>02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04a–06 use 03a's E and Var; 04a uses 03b's sums for np and npq, and 04b builds on 04a's formula. 07 needs 03b (variance of a sum) and 06 (normal table). 08–09b need 03a–03b, 07 and the distributions of 04–05; 09b compares its MLE with 09a's MoM. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.</p>
 <table>
 <thead>
 <tr>
@@ -245,16 +245,22 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <td>9</td>
 </tr>
 <tr>
-<td>04</td>
-<td>row 2 · binomial, Poisson</td>
-<td>formulas, mean/variance, finding λ, Poisson limit</td>
-<td>11 + 1 textbook</td>
+<td>04a</td>
+<td>row 2 · binomial</td>
+<td>one yes/no trial, counting orders, the formula, np and npq, solving for p, expected frequency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>04b</td>
+<td>row 2 · Poisson</td>
+<td>counts at a rate, mean = variance, λ from a probability, complements, Poisson ≈ binomial, sums</td>
+<td>8 + 1 textbook</td>
 </tr>
 <tr>
 <td>05</td>
 <td>row 2 · uniform, exponential</td>
-<td>probability as length, absolute-value intervals, waiting times, memoryless</td>
-<td>13</td>
+<td>flat density, length ratio, bus problem, absolute values, mean and variance, finding K, waiting times, survival, memoryless, a non-memoryless conditional</td>
+<td>14</td>
 </tr>
 <tr>
 <td>06</td>
@@ -467,10 +473,10 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <td>no option matches; nearest is 4.00</td>
 </tr>
 <tr>
-<td>A2 B5 (05 §6)</td>
+<td>A2 B5 (05 §10)</td>
 <td>0.5679</td>
 <td>0.6225</td>
-<td>recomputed two ways</td>
+<td>recomputed two ways; G&amp;K prints the same exercise (ch. 8 ex. 7(a)) with this answer</td>
 </tr>
 <tr>
 <td>A2 C2 (06 §6)</td>
@@ -537,6 +543,6 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <h2>How this pack was checked</h2>
 <ul>
 <li><strong>Facts:</strong> from the subject's knowledge base (researched to both stages from Walpole, Montgomery &amp; Runger and Ross; every load-bearing claim checked against sources) and from Gupta &amp; Kapoor, the reference the slides cite. Section numbers are quoted where a formula is used.</li>
-<li><strong>Numbers:</strong> <code>src/verify.py</code> recomputes every number in the pack, 741 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 15 mismatches are the slips in the table above.</li>
+<li><strong>Numbers:</strong> <code>src/verify.py</code> recomputes every number in the pack, 865 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 16 mismatches are the slips in the table above (A2 B5 is checked twice).</li>
 <li><strong>Pages:</strong> every page was viewed after the final build.</li>
 </ul></body></html>

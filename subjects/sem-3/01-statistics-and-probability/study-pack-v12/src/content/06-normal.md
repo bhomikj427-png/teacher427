@@ -1,6 +1,6 @@
 # 06 — The normal distribution
 
-<div class="sub">Gupta & Kapoor ch. 8 (§8.2) · blueprint row 2 "normal" · 9 real questions (MTE, Assignment 2) · needs 02b, 03, 04 (binomial)</div>
+<div class="sub">Gupta & Kapoor ch. 8 (§8.2) · blueprint row 2 "normal" · 9 real questions (MTE, Assignment 2) · needs 02b, 03, 04a (binomial)</div>
 
 ## Map
 
@@ -102,7 +102,7 @@ For (i): about what percentage of batteries are more than 1.6 SD above the mean?
 
 ### 4 · A normal probability inside a binomial
 
-The 4-mark MTE question chains two files: a normal probability for one student, then file 04's binomial for three.
+The 4-mark MTE question chains two files: a normal probability for one student, then file 04a's binomial for three.
 
 :::q <span class="tag">MTE C1(a) · 4 marks</span>
 The marks obtained by students in a subject are approximately normally distributed with mean 65 and SD 5. If 3 students are selected at random from this group, what is the probability that at least one of them scored above 75? (Given: the area between Z = 0 and Z = 2 under the standard normal curve is 0.4772.)
