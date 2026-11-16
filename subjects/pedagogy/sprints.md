@@ -80,7 +80,7 @@
 | S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | split: **S10b-1 done 2026-11-16** (§1–4 Sung, Young, Oakley, Lemov) · **S10b-2 done 2026-11-16** (§5–8 + full summary) → **stage-1✓** |
 | S11a | Stage 2 — Part A verification: **A1–A4** (+ backlog rows targeted S11 that belong to A1–A4) | sprints.md, A1–A4, sources (IDs) | corrections in A1–A4 + sources + CHANGELOG | every A1–A4 effect size checked at the paper (abstract or better; full-text gaps carried with reason — wording amended 2026-11-16 per review to match the bar applied) ; `uncertain` tags resolved or kept with reason | **done 2026-11-16** (partial in session 4; finished S11a-rest: A4 swept; ATS17 g + SK21 method carried to S12 with reason) |
 | S11b | Stage 2 — Part A verification: **A5–A8** (+ their S11 backlog rows; engine 80% note) | sprints.md, A5–A8, sources (IDs) | corrections in A5–A8 + sources + CHANGELOG | same for A5–A8 | split (2026-11-16, context hygiene): **S11b-1 = A5 + A6** (GH80/83, Barnett & Ceci, MBF77, NA06, Pan & Carpenter 2023, LAA80/Stone) · **S11b-2 = A7 + A8 + engine 80% note** (Z02, DR12, DB08, RT11, P08, Y19, Dek12, 10%-brain, MPDK16, Ros12/80%) · **S11b-1 done 2026-11-16** (finished as S11b-1-rest; BC02, MBF77 primary, LAA80 numeric ES → S12 with reason) · **S11b-2 done 2026-11-16** (partial in session 7; finished S11b-2-rest in session 8: M87–M93, ladder) → **S11b done** |
-| S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | split (2026-11-16, context hygiene; ~50 backlog rows target S12): **S12a = B1** (backlog rows from S7a/S7b) · **S12b = B2 + B3** (rows from S8a/S8b) · **S12c = B4a + B4b** (rows from S9a/S9b) · **S12d = B5 + Sung + Part A stragglers** (rows from S10a/S10b + BC02, MBF77, LAA80, A2 priming, ATS17, SK21, CRK22, M85, DGBWR23) · **S12e = A↔B matrix** (`matrix.md`). Each part: re-check every grade in its files, work its backlog rows (close or carry with reason), Stage-2 ladder pass on its misconceptions · **S12a done 2026-11-16** (partial in session 9; finished S12a-rest in session 10: grades re-checked, M49–M56 all verified, book primaries carried to S13 with reason) · **S12b done 2026-11-16** (session 12: grades re-checked, Bruner CPA → M−; M15/M57/M59/M61/M63 verified; 8 sources added, 217) · **S12d partial 2026-11-16** (session 15: B5 grades 8/8; SK21 full text, M68/M82/M85 verified; open → S12d-2: rest of S10a/S10b rows + Part A stragglers) · **S12d done 2026-11-16** (S12d-2, session 16: M74/M79/M80/M81/M86 verified; Cold Call learning evidence LB14/Car15; Sung wording J8/J13/J26 at his videos; KBa11 + Wil03 identifications; rest carried to S13 with reasons) · **S12c done 2026-11-16** (partial in session 13: grades re-checked, 8 backlog rows closed, M66/M69/M70/M73 verified; finished S12c-rest in session 15: MMK16 + UZST21 added to B4a §5, SM-2-vs-fixed untested, MN19 read to the end) |
+| S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | split (2026-11-16, context hygiene; ~50 backlog rows target S12): **S12a = B1** (backlog rows from S7a/S7b) · **S12b = B2 + B3** (rows from S8a/S8b) · **S12c = B4a + B4b** (rows from S9a/S9b) · **S12d = B5 + Sung + Part A stragglers** (rows from S10a/S10b + BC02, MBF77, LAA80, A2 priming, ATS17, SK21, CRK22, M85, DGBWR23) · **S12e = A↔B matrix** (`matrix.md`). Each part: re-check every grade in its files, work its backlog rows (close or carry with reason), Stage-2 ladder pass on its misconceptions · **S12a done 2026-11-16** (partial in session 9; finished S12a-rest in session 10: grades re-checked, M49–M56 all verified, book primaries carried to S13 with reason) · **S12b done 2026-11-16** (session 12: grades re-checked, Bruner CPA → M−; M15/M57/M59/M61/M63 verified; 8 sources added, 217) · **S12d partial 2026-11-16** (session 15: B5 grades 8/8; SK21 full text, M68/M82/M85 verified; open → S12d-2: rest of S10a/S10b rows + Part A stragglers) · **S12d done 2026-11-16** (S12d-2, session 16: M74/M79/M80/M81/M86 verified; Cold Call learning evidence LB14/Car15; Sung wording J8/J13/J26 at his videos; KBa11 + Wil03 identifications; rest carried to S13 with reasons) · **S12c done 2026-11-16** (partial in session 13: grades re-checked, 8 backlog rows closed, M66/M69/M70/M73 verified; finished S12c-rest in session 15: MMK16 + UZST21 added to B4a §5, SM-2-vs-fixed untested, MN19 read to the end) · **S12e partial 2026-11-16** (session 17: `matrix.md` §1–4 written from summaries; operator stop; open → S12e-rest) |
 | S13 | §0 surplus test + integrity audit | everything | audit note in CHANGELOG; 00-map stamp | surplus test recorded; zero unsourced claims | **stage-2✓** |
 | S14 | Study-pack pilot (v1.2 spec) | study-pack-format.md, reference files, A1, A3 | `study-pack/00-START-HERE` + one topic file | learner sign-off | |
 | S15+ | Pack build in START-HERE priority order | spec + the topic's KB file | one or two topic files per session | each file passes spec checks | |
@@ -165,6 +165,7 @@ Read at start: <exact file list = Sy Inputs>
 | B4 misconceptions still `written`: M64 (McD11, RAMM11), M65 (RD11), M67 (KN11) — paywalled, no repository copy found S12c; M71 (NA93 full text); M72 (Sim17: Durham repository 403 to WebFetch + curl) | S12c | S13 |
 | S12d-2 closed: M74/M79/M80/M81/M86 verified ✓ · Cold Call learning test ✓ (LB14 randomized null on midterm, Car15 mixed; TLAC package still untested — stated in B5 §4) · Willingham 2003 = Wil03, deep/shallow is in it ✓ · Abdaal 2011 study = KBa11 ✓ · DGBWR23 year 2023 ✓ · J13 wording ✓ (JS-CC) | — | — |
 | B5 misconceptions still `written`: M76 (KGF19 paywalled), M77 + M83 (RD11 paywalled), M84 (SFD22: open copy is only an earlier conference deck) | S12d-2 | S13 |
+| S12e open: M94–M96 seeds → full entries; matrix cell spot-check vs B bodies; exact split-grade count (§3 item 3); CHANGELOG + 00-map pointer | S12e | S12e-rest |
 | EEPA primary of the ICP coaching evaluation (Doughty et al. 2026; EdWeek report read S12d-2 = EW26) | S10b-2 | S13 |
 
 ## Research tooling notes (what worked, S7a–S7b — read with the hand-off)
@@ -204,30 +205,27 @@ Read at start: <exact file list = Sy Inputs>
 ## Current hand-off
 
 ```
-Sprint: S12d — B5 + Sung + Part A stragglers — done (2026-11-16, session 16, S12d-2) — auto.py
-  milestone 5 of 5 reached (S11b-2, S12a, S12b, S12c, S12d). Run stopped here by instruction.
-Written: misconceptions M74/M80/M81/M86 → verified; M79 rewritten (observational design, learning
-  null-to-mixed) + verified · B5 §4 Cold Call learning evidence (LB14, Car15 → `contested`; grade
-  T for learning) + EW26 coaching scale-up null · B5 §7a deep/shallow sourced to Wil03 · B5 §8a
-  2011 study = KBa11 · justin-sung-audit J8/J10/J13/J26 wording · sources +DHP19 +LB14 +Car15
-  +EW26 +JS-CC +JS-IL (229 rows) · CHANGELOG · backlog
-Verified this sprint: full text — DHP19 (ERIC), LB14 (JoSoTL), Wil03 re-read; abstract — Car15;
-  captions — JS-CC, JS-IL (+3 Sung videos with no hits); video description — AA18 → KBa11
-Open (carried, all to S13 with reasons in the Verify backlog): M76/M77/M83/M84 ladder (paywalled
-  primaries); BC02, MBF77, LAA80/Stone, A2 priming, ATS17, CRK22 pages; J10/J8-"last"/J22;
-  ICS22; Chen & Oakley (no such paper found); Seven Myths/Boxer, Laming, Mccrea (books);
-  Abdaal "+50%"; EEPA primary.
-Decisions made: cold calling is graded M for participation, T for learning; a misconception is
-  verified when its correction rests on full-text sources even if one supporting cite is abstract
-  (stated in each Status line).
-Assumptions to review (open): (6)–(33) as before. New: (34) M79 verified on DHP19's description
-  of the shared design, DHP13 itself still abstract. (35) Log-first slips again for the B5 §4
-  and EW26 edits (logged right after). (36) Scribd copies of ICS22 deliberately not used
-  (third-party uploads).
-Next sprint: S12e — A↔B matrix (`matrix.md`) — NOT part of this milestone; start only when the
-  learner launches the next run. First action: read A3 table + each B file's Summary grade lines
-  and build the info-type × teacher/method × grade table.
-Read at start: sprints.md (hand-off + Verify backlog + tooling notes), knowledge-base/A3 (combined
-  table only), A4 (bridge table only), B1–B5 + B4a/B4b Summary sections only. Scratch helpers as
-  before (cr.py, oa.py, pdfgrep.py, logadd.py, ladder2.py, sub.py, rowins.py).
+Sprint: S12e — A↔B matrix — partial (2026-11-16, session 17; operator asked the run to stop)
+Written: knowledge-base/matrix.md — §1 view by A3 row (A4 mechanism + grade, then every Part B
+  teacher naming that row, grouped S → T, with section refs; frames-across-rows; outside-rows) ·
+  §2 cross-tab, 61 rows (all B summary lines) × A3 rows 1–8 + grade + section · §3 six patterns ·
+  §4 uses + two engine proposals (row 7 perceptual routine; row 6 calibration) for learner
+  sign-off · misconceptions.md: M94–M96 added as seeds · progress-log
+Verified this sprint: none external (synthesis only; cells copied from Stage-2-verified B
+  summaries + A3 §3 + A4 §1–2)
+Open (S12e-rest): (a) write M94–M96 full entries (correction sources: BR19, SK21, M50/M61 logic,
+  SY-FT/Rein/DI naming cases) + index rows in misconceptions.md; (b) spot-check matrix cells
+  against B section bodies where the summary line is terse (B5 §7 split grades, Bjork rows,
+  Lemov ○ row 3); (c) count split-grade rows exactly and restore the number in §3 item 3;
+  (d) CHANGELOG line for matrix.md; (e) pointer to matrix.md in 00-map / README-part-A;
+  (f) Done-when check ("every B grade re-checked" was done in S12a–d; "matrix complete") → tick S12.
+Decisions made: matrix is a pure synthesis file — section wins on any disagreement; a grade
+  belongs to a method × A3-row pair (stated in §3 item 6).
+Assumptions to review (open): (6)–(36) as before. New: (37) frames ("all") are kept out of the
+  row columns rather than ticking every row, to avoid overclaiming coverage. (38) Log-first slip
+  for matrix.md (written, then logged immediately).
+Next sprint: S12e-rest — first action: write M94–M96 full entries in misconceptions.md.
+Read at start: sprints.md (hand-off + backlog + tooling notes), knowledge-base/matrix.md,
+  misconceptions.md (index + last entries M86–M93 for format only), B5 §7 Summary + body
+  grade lines, CHANGELOG tail. Then S13.
 ```

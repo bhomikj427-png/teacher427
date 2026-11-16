@@ -1058,3 +1058,6 @@
 
 ## Seeds awaiting their unit (full entries written in that unit's sprint)
 - (none — M15 written S8a)
+- M94 — A method graded "strong" works for every kind of material (owner: matrix.md §3 item 6; seed, S12e)
+- M95 — If many famous teachers used a method, that adds up to strong evidence (owner: matrix.md §3; seed, S12e)
+- M96 — The best-known name for a method is the version with the evidence (owner: matrix.md §3; seed, S12e)

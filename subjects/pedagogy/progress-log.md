@@ -2,9 +2,9 @@
 
 ## Session resume
 - Last session: 2026-11-16
-- Where we stopped: S12d done (session 16, S12d-2) — hand-off for S12e written; auto.py milestone (5 sprints) reached
+- Where we stopped: S12e partial (session 17) — matrix.md written (§1–4); open: M94–M96 entries, cell spot-check, CHANGELOG → S12e-rest
 - Recap: S0–S10b-2 done → stage-1✓ (Part A + Part B complete). Stage 2: S11a + S11b + S12a–S12d done (A1–A8 + B1–B5 verified; M1–M93); 229 source rows. Remaining before stage-2✓: S12e (A↔B matrix) + S13 (surplus test + integrity audit)
-- Next up: S12e (new run, learner-launched) — read only the hand-off's "Read at start" list
+- Next up: S12e-rest — read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -255,6 +255,10 @@
 - [2026-11-16] S12d-2: Sung wording checked in 5 of his videos (captions, keyword passes): J13 = the "confusion compass" (turn confusion into a written list of questions, then answer them; nIABz0Z4IRA, 2026-08-20) → claim wording confirmed, verdict partly unchanged; J26 stated even more strongly there ("If you don't feel confusion, your brain is not figuring anything out"); J8 first half at a primary ("high quality encoding … probably the biggest bottleneck for most students", XeKMjwiF3Pc, 2024-01-31), "develop last" not found; J10 analogies not found as advice (one passing mention) → carried. Edits: audit rows J8/J10/J13/J26, sources +JS-CC +JS-IL.
 - [2026-11-16] S12d done (S12d-2). Done-when checked: B5 grades re-checked (S12d session 15, Cold Call grade split now), backlog rows closed or carried to S13 with reason, ladder pass done (M74/M79/M80/M81/M86 verified; M76/M77/M83/M84 carried with reason). CHANGELOG + backlog + sprint table + hand-off written. Milestone 5 of 5 reached; S12e not started. Where we stopped: S12e next (A↔B matrix).
 
+- [2026-11-16] S12e (A↔B matrix, `matrix.md`) started (auto.py session 17, new run); tree dirty only with auto.py + .claude/auto/ (not this subject's work — left alone); review sweep done in S10a today, nothing due. Inputs: hand-off list only (A3 combined table, A4 bridge table, B summary sections). Synthesis sprint — no new external claims; every cell cites an existing KB section.
+- [2026-11-16] S12e: wrote knowledge-base/matrix.md (log-first slip: file written just before this line) — §1 view by A3 row (mechanism + every B teacher graded, rows 1–8 + frames + outside-rows), §2 cross-tab 61 teachers × rows 1–8 with grade + section, §3 six patterns (rows 7–8 have no S-graded teacher/method; X grades are all famous numbers), §4 uses incl. two engine proposals (row 7 routine, row 6 calibration) for learner sign-off. Built from B1–B5 Summary tables + A3 §3 + A4 §1–2 only. An unverified "20 of 61" count was removed before close.
+- [2026-11-16] S12e: misconceptions M94–M96 added as seeds (Seeds section). Operator stop received → S12e partial. Open: M94–M96 full entries; spot-check matrix cells against B section bodies (not only summaries); exact split-grade count; CHANGELOG line; 00-map/README pointer to matrix.md.
+
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
 - [2026-11-15] S1 map pass done · 21 anchors verified · Sung inventory J1–J22 · A3 spine decided · stage-1 · next: S2 (A1+A2)
@@ -285,3 +289,4 @@
 - [2026-11-16] S12c partial · Mazur band is 35–70% (CM01), not 30–70% · DSW11 = 2.5 SD on an immediate test with unequal attendance · Des19 crossover +0.46 SD · Kap08 had no instruction phase · Nuthall died 2004; NA93 = origin of the 80–85% · ANB21 ran no meta · M66/M69/M70/M73 verified · CW14 duplicate merged · 218 sources · next: S12c-rest
 - [2026-11-16] S12c done (S12c-rest) · no SM-2-vs-fixed test exists; adaptive > fixed (MMK16 full text, UZST21) · S12d partial · SK21 0.87 is a p-curve estimate (Egger ns), procedural −0.03 · motivation ↔ achievement two-way across ages (GC16 full text, MPLV13) · M68/M82/M85 verified · 223 sources · next: S12d-2
 - [2026-11-16] S12d done (S12d-2) · cold calling: participation up in an observational study, learning null-to-mixed (LB14 randomized, Car15) · M74/M79/M80/M81/M86 verified · Sung confusion compass + encoding-bottleneck lines found at his videos · Abdaal 2011 study = KBa11 · Furst deep/shallow = Wil03 · 229 sources · milestone reached · next: S12e (matrix)
+- [2026-11-16] S12e partial · matrix.md written: by-row view (mechanism + graded teachers) + 61-row cross-tab + patterns · rows 7–8 (perceptual, motor) have no S-graded teacher or method · every X grade is a famous number, not a mechanism · M94–M96 seeded · operator stop · next: S12e-rest
