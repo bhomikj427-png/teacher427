@@ -39,7 +39,7 @@ the blueprint, three slide sets.
 |---|---|---|---|---|---|
 | S0 | **Brief** | every file in `exam-pack/` · KB `00-map`, `exam-map` · old 00 (ranking) · `src/verify.py` (constants) | `src/brief.md`: slides transcribed (equations shown only as images viewed), question bank (every MTE/assignment/slide question → file + step), constants/tables used (z, t, χ², F values) checked against the KB, figure list per file | every assignment and MTE question is mapped; every table value the questions need is listed with its source | ✓ 2026-11-16 |
 | S1 | **01 + 02** probability basics; random variables (PMF, PDF, CDF) | old 01, 02 · KB `01` | `01-…`, `02-…` rebuilt (a/b if > 13 steps), figures in `src/figures.py`, numbers in `src/verify.py` | protocol 6–12 hold | ✓ 2026-11-16 (S1 + S1b: 01, 02a, 02b) |
-| S2 | **03 + 08** expectation, variance, Chebyshev; estimator properties | old 03, 08 · KB `01`, `03` | `03-…`, `08-…` rebuilt | same | partial 2026-11-16 (03a, 03b, 08 written + verified; build/cleanup = S2b) |
+| S2 | **03 + 08** expectation, variance, Chebyshev; estimator properties | old 03, 08 · KB `01`, `03` | `03-…`, `08-…` rebuilt | same | ✓ 2026-11-16 (S2 + S2b: 03a, 03b, 08) |
 | S3 | **09** method of moments and MLE (rank 1; the slides' four MLE examples) | old 09 · KB `03` · slides MLE-and-Bayesian | `09a-method-of-moments.md`, `09b-mle.md` (split expected) | same; every slide MLE example re-derived in verify | |
 | S4 | **04 + 05** binomial and Poisson; uniform and exponential | old 04, 05 · KB `02` · Assignment 2 | `04-…`, `05-…` rebuilt | same | |
 | S5 | **06 + 07** normal; standard error and CLT | old 06, 07 · KB `02`, `03` · slides SE-and-CLT | `06-…`, `07-…` rebuilt | same; the slides' four SE/CLT examples reproduced | |
@@ -63,7 +63,7 @@ sprint reads them first.
 | ~~New numbers in v1.3 01 and 02a not yet in `verify.py`~~ | S1 | **closed S1b** (`# ==== v1.3 S1` block, 558 checks pass) |
 | ~~START-HERE slip table: A1 LA 2 row~~ | S1 | **closed S1b** (row rewritten) |
 | ~~02a's MTE A1 line says option (a) "is in 03b"~~ | S1b | **closed S2** (03 split; MTE A1(a) is 03b step 4) |
-| Old v1.2 `# ---- 03` / `# ---- 08` checks in `verify.py` still name the removed v1.2 steps (harmless, all pass); prune when old 03 is removed | S2 | S2b |
+| ~~Old v1.2 `# ---- 03` / `# ---- 08` checks in `verify.py`~~ | S2 | **closed S2b** (pruned; 665 checks pass) |
 | Pack `README.md` still says "format v1.2": update when all files are v1.3 | S1b | S9 |
 
 ## Assumptions to review (persistent — the learner confirms or overrules)
@@ -83,6 +83,29 @@ sprint reads them first.
 
 ## Current hand-off
 
+```
+Sprint: S2 — 03a + 03b + 08 — done (2026-11-16, via S2b, auto.py)
+S2b did: build 00 03a 03b 08 (no OVERLAP; all pages viewed, no fixes); old 03 md/html/pdf removed;
+  START-HERE rank rows 8 and 13, stuck tip, Unit 1 map, prerequisite line, file table, slip rows
+  (03b §2, 03a §6, 03b §8); cross-refs 04 (×3), 07, 09 re-pointed; old v1.2 03/08 verify checks pruned:
+  verify.py 665 checks, 0 failures, 15 key differences (START-HERE says 665 / 15). Rebuilt 00 04 07 09;
+  combined PDF 160 pp.
+Open (carried): none for S2. Backlog: README v1.2 → S9 (unchanged).
+Build/view how-to (works under auto.py): cd into study-pack-v12 alone, then run a scratch script that
+  calls `python src/build.py <prefixes>` with PYTHONIOENCODING=utf8 (scratch: run_build.py takes
+  "build.py <prefixes>" or "verify.py"); render pages with pymupdf, 4 per sheet at 55 dpi (sheets.py).
+  Both scripts sit in the auto.py temp folder and may be gone: rewrite them (≈ 20 lines each).
+Next sprint: S3 — 09 → 09a (MoM) + 09b (MLE), rank 1. First action: log the S3 start, then read old
+  09 + brief §2 rows 09a/09b (line ~114) + brief §4 rows 09a/09b (line ~156).
+Read at start: this hand-off · ../../../study-pack-sprint-protocol.md · src/brief.md lines 43–61
+  (MLE slides) and the 09a/09b rows of §2 and §4 · content/09-mom-mle.md · KB 03 (MoM/MLE section only)
+  · 08's header + symbol table (format model) · src/build.py.
+Reminder: when 09 splits, update START-HERE rank 1 row ("09 §3–7"), file table, slip row
+  "Slides MLE Ex. 14 (09 §6)", the Unit 3 map, and grep "file 09\|09 §\|09-mom" across content
+  (08 cites "file 09" for the factorisation test and Check 8; mock 17 B3/C2).
+```
+
+Previous hand-off (S2, kept for its step lists):
 ```
 Sprint: S2 — 03a + 03b + 08 — partial (2026-11-16, auto.py; stopped at the context limit)
 Written: content/03a-expectation-variance.md — v1.3, 7 steps (1 long-run average, 2 balance point,

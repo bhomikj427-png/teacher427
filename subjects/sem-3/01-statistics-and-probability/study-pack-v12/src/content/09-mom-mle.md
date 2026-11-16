@@ -144,7 +144,7 @@ For random sampling from a normal population, find the MLE of (a) the population
 (a) ∂ℓ/∂μ = Σ(xᵢ − μ)/σ^{2} = 0 ⇒ Σxᵢ − nμ = 0 ⇒ **μ̂ = x̄**.
 (b) ∂ℓ/∂σ^{2} = −\frac{n}{2σ^{2}} + \frac{1}{2σ^{4}}Σ(xᵢ − μ)^{2} = 0 ⇒ **σ̂^{2} = (1/n)Σ(xᵢ − μ)^{2}**.
 
-If μ is also unknown it is replaced by x̄, giving σ̂^{2} = (1/n)Σ(xᵢ − x̄)^{2}: the n-divisor, which file 08 showed is **biased**. MLEs are consistent but need not be unbiased.
+If μ is also unknown it is replaced by x̄, giving σ̂^{2} = (1/n)Σ(xᵢ − x̄)^{2}: the n-divisor, which 08 step 5 showed is **biased**. MLEs are consistent but need not be unbiased.
 
 :::check Check 5
 Data 4, 6, 8 from a normal population with both parameters unknown. Find μ̂ and σ̂^{2} by maximum likelihood.

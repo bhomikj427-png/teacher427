@@ -368,17 +368,7 @@ chk("02 C6", c6(.75, 1) / c6(.5, 1), 0.3125)
 chk("02 ST5 p0", stats.hypergeom(10, 3, 2).pmf(0), 7 / 15); chk("02 ST5 p1", stats.hypergeom(10, 3, 2).pmf(1), 7 / 15)
 chk("02 ST5 p2", stats.hypergeom(10, 3, 2).pmf(2), 1 / 15)
 chk("02 ST7 P(X>1)", stats.expon(scale=.5).sf(1), 0.1353, tol=1e-4)
-# ---- 03
-chk("03 C3 E[X^2] 6x(1-x)", integrate.quad(lambda t: t * t * 6 * t * (1 - t), 0, 1)[0], 0.3); chk("03 C3 Var", 0.3 - 0.25, 0.05)
-chk("03 C5 Chebyshev", 1 - 1 / 9, 8 / 9)
-x3 = np.array([1, 2, 3]); p3 = np.array([.25, .5, .25])
-chk("03 C6 var", (x3**2 * p3).sum() - 4, 0.5); chk("03 C6 exact", p3[[0, 2]].sum(), 0.5)
-x = np.array([0, 1, 2]); p = np.array([.3, .4, .3]); m_ = (x * p).sum(); v_ = (x * x * p).sum() - m_**2
-chk("03 ST2 E", m_, 1); chk("03 ST2 var", v_, 0.6); chk("03 ST2 sd", math.sqrt(v_), 0.775, tol=1e-3)
-chk("03 ST3 var 2x", integrate.quad(lambda t: t * t * 2 * t, 0, 1)[0] - (2 / 3) ** 2, 1 / 18)
-chk("03 ST6", 1 - 100 / 400, 0.75)
-chk("03 SA5 one-die var", np.var(np.arange(1, 7)), 35 / 12)
-chk("03 geometric series E", sum(k_ * .5**k_ for k_ in range(1, 200)), 2)
+# ---- 03 (v1.2 checks removed S2b; 03a/03b numbers are in the "v1.3 S2" block)
 # ---- 04
 chk("04 C1 4 heads", B(6, .5).pmf(4), 15 / 64); chk("04 C1 >=1", B(6, .5).sf(0), 63 / 64)
 chk("04 C4 lambda", optimize.brentq(lambda l: P(l).pmf(2) - 9 * P(l).pmf(4) - 90 * P(l).pmf(6), .5, 1.5), 1)
@@ -402,11 +392,7 @@ chk("06 ST2", 0.5 - 0.4332, 0.0668); chk("06 ST4", 1000 * (0.5 - 0.4772), 22.8);
 chk("07 C2 n", (100 / 5) ** 2, 400); chk("07 C4 z", 0.3 / se, 1.414, tol=1e-3); chk("07 C4 P", 0.5 - 0.4207, 0.0793)
 chk("07 C5 SE", 12 / 8, 1.5); chk("07 ST3 n", (12 / 1) ** 2, 144); chk("07 ST4", 2 * 0.4772, 0.9544)
 chk("07 ST6 n", (2 * 2 / 0.5) ** 2, 64)
-# ---- 08
-chk("08 C3 n-div", np.var([4, 6, 8]), 8 / 3); chk("08 C3 s2", np.var([4, 6, 8], ddof=1), 4)
-chk("08 C5 var coef", (1 + 4 + 1) / 16, 3 / 8); chk("08 C5 eff", (1 / 3) / (3 / 8), 8 / 9)
-chk("08 ST3", (4 + 9) / 25, 13 / 25)
-chk("08 T1 var (sim, sigma^2=4 -> 12)", (smp[:, 0] + smp[:, 1] - smp[:, 2]).var(), 12, tol=0.1)
+# ---- 08 (v1.2 checks removed S2b; numbers are in the "v1.3 S2" block)
 # ---- 09
 chk("09 C4 rate", 1 / 16.2, 0.0617, tol=1e-4); chk("09 C2 a", 10 - math.sqrt(9), 7)
 chk("09 MoM uniform (a,b) sim", (lambda d: d.mean() - math.sqrt(3 * d.var()))(rng.uniform(7, 13, 200000)), 7, tol=0.02)

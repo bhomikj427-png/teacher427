@@ -64,7 +64,7 @@ Will the spread of x̄ be more or less than 100 hours? By how much for n = 25?
 - **Sampling distribution of X̄**: the distribution of x̄ over all possible samples of size n.
 - **Standard error (SE)**: the SD of that sampling distribution (slides p.3; G&K §12.12).
 
-For independent observations (file 03: variances add, and Var(X̄) = Var(ΣXᵢ)/n^{2} = nσ^{2}/n^{2}):
+For independent observations (03b step 3: variances add, and Var(X̄) = Var(ΣXᵢ)/n^{2} = nσ^{2}/n^{2}):
 
 $$E(X̄) = μ,    SE(X̄) = \frac{σ}{√n}$$
 

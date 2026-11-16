@@ -63,10 +63,10 @@ For a binomial distribution with n = 10 and p = 0.5, what is the variance? (a) 5
 :::
 
 :::guess Guess first
-X is a sum of 10 independent 0-or-1 trials. Use file 03's rule for the variance of a sum.
+X is a sum of 10 independent 0-or-1 trials. Use 03b step 3's rule for the variance of a sum.
 :::
 
-One trial: E = p, Var = p − p^{2} = pq. A binomial is a sum of n independent trials, so by file 03's rules:
+One trial: E = p, Var = p − p^{2} = pq. A binomial is a sum of n independent trials, so by 03b steps 2–3:
 
 $$E(X) = np,    Var(X) = npq,    σ = √(npq)$$
 
@@ -147,7 +147,7 @@ What is the mean number of waiting jobs among 200?
 
 **Answer.** λ = np = 200 × 0.01 = 2. P(X = 0) ≈ e^{−2} = **0.1353**. (The exact binomial 0.99^{200} = 0.1340.)
 
-<span class="tag">A2 MCQ 12</span> X, Y independent Poisson(λ₁), Poisson(λ₂): X + Y is **Poisson with mean λ₁ + λ₂** (c). Means add (file 03), and the sum of two independent Poisson counts is again a count of rare events.
+<span class="tag">A2 MCQ 12</span> X, Y independent Poisson(λ₁), Poisson(λ₂): X + Y is **Poisson with mean λ₁ + λ₂** (c). Means add (03b step 2), and the sum of two independent Poisson counts is again a count of rare events.
 
 :::check Check 5
 2% of fuses are defective. In a box of 100, use the Poisson approximation to find P(at most 2 defective).

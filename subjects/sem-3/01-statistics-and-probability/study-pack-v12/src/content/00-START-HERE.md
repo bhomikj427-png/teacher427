@@ -15,21 +15,21 @@ The ranking is driven by **marks**. The ETE blueprint (official) fixes the marks
 | **5** | **06 Normal** | Row 2 (20 marks, one Part C); MTE C1(a) was 4 marks; five Assignment 2 numericals | 06 §2–5 | 50 min |
 | **6** | **07 SE and CLT** | Named in row 2; four worked slide examples; a Part C candidate | 07 §2–5, mock C1 | 40 min |
 | **7** | **15 χ² independence** | Row 5; four numericals in Assignment 5 | 15 §3–4 | 40 min |
-| **8** | **08 Estimator properties** | Row 3; MTE A3 (2) and C1(b) (3) | 08 §2, exam form | 35 min |
+| **8** | **08 Estimator properties** | Row 3; MTE A3 (2) and C1(b) (3) | 08 §3–4, 8, exam form | 40 min |
 | **9** | **12 Hypotheses and errors** | Row 4 (10 marks); α/β questions A4 C1–C3 fit its 6-mark slot | 12 §3, 5, 6 | 50 min |
 | **10** | **04 Binomial and Poisson** | Row 2; MTE A2, A4, B3 (8 marks) | 04 §1, 3, 4 | 40 min |
 | **11** | **14 F-test** | Row 5; four Assignment 5 numericals; quick to learn | 14 §2, 4 | 30 min |
 | **12** | **05 Uniform and exponential** | Row 2; MTE B4 (4 marks); eight short Assignment 2 items | 05 §2, 5 | 35 min |
-| **13** | **03 Expectation, variance, Chebyshev** | Row 1 (10 marks); MTE B1, B2 (7 marks) | 03 §5–6 | 45 min |
+| **13** | **03a Expectation and variance · 03b Rules and Chebyshev** | Row 1 (10 marks); MTE B1, B2 (7 marks), MTE A1(a) | 03a §5–7; 03b §2–4, 6–8 | 60 min |
 | **14** | **10 Bayesian** | Blueprint says "introduction of"; one slide example | 10 §3 | 25 min |
-| **15** | **02a Discrete RVs · 02b Continuous RVs** | Row 1; needed by 03, 08, 09 | 02a §3, 5, 7–8; 02b §1–3, 5 | 60 min |
+| **15** | **02a Discrete RVs · 02b Continuous RVs** | Row 1; needed by 03a, 08, 09 | 02a §3, 5, 7–8; 02b §1–3, 5 | 60 min |
 | **16** | **01 Probability basics** | Row 1 definitions; Bayes' theorem feeds 10 | 01 §6–7, 11–12 | 40 min |
 | **last** | **17 Mock paper** | All rows in blueprint proportion | closed book | 3 h |
 
 Two rules for using the ranking:
 
 - **Short on time:** go down the list doing only the "Do first" column, then the matching mock items.
-- **Stuck in 08–09:** they need E(X), Var(X) and PDFs. Go back to 02b §1–3 and 03 §1–4 first.
+- **Stuck in 08–09:** they need E(X), Var(X) and PDFs. Go back to 02b §1–3, 03a §1–6 and 03b §1–3 first.
 
 ## The path through the pack
 
@@ -37,7 +37,7 @@ The order is the syllabus order, which is also the order of the assignments (1, 
 
 **Unit 1 — probability and random variables** (blueprint row 1)
 
-[[map:01 Probability basics > 02a Discrete RVs > 02b Continuous RVs > 03 Expectation, variance, Chebyshev|here=1]]
+[[map:01 Probability basics > 02a Discrete RVs > 02b Continuous RVs > 03a E and Var > 03b Rules, Chebyshev|here=1]]
 
 **Unit 2 — distributions and sampling** (row 2)
 
@@ -51,19 +51,20 @@ The order is the syllabus order, which is also the order of the assignments (1, 
 
 [[map:12 Hypotheses, errors > 13 t-tests > 14 F-test > 15 χ² > 16 ANOVA > 17 Mock]]
 
-02a needs 01's probability rules; 02b needs 02a's CDF. 03 needs 02a's PMF and 02b's PDF. 04–06 use 03's E and Var. 07 needs 03 (variance of a sum) and 06 (normal table). 08–09 need 03, 07 and the distributions of 04–05. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.
+02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04–06 use 03a's E and Var. 07 needs 03b (variance of a sum) and 06 (normal table). 08–09 need 03a–03b, 07 and the distributions of 04–05. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.
 
 | File | Blueprint item | What it teaches | Real Qs |
 |---|---|---|---|
 | 01 | row 1 · basic terminology | sample space, events, count and divide, axioms, complement, addition, conditional, multiplication, independence, total probability, Bayes | 4 |
 | 02a | row 1 · discrete RVs, PMF, CDF | random variable, discrete vs continuous, PMF by counting, PMF rules, finding k, combinations, CDF staircase, reading F, conditionals | 9 |
 | 02b | row 1 · continuous RVs, PDF, CDF | probability as area, checking a PDF, smooth CDF, median, tail areas, conditionals | 3 |
-| 03 | row 1 · expectation, variance, Chebyshev | E, Var, rules for sums, Chebyshev both forms, bound vs exact | 13 |
+| 03a | row 1 · mathematical expectation and variance | long-run average, balance point, E(X²), variance, shortcut, SD, continuous X | 4 |
+| 03b | row 1 · rules for E and Var, Chebyshev | aX + b, sums, products, geometric, Chebyshev both forms, bound vs exact, bound above 1, a count | 9 |
 | 04 | row 2 · binomial, Poisson | formulas, mean/variance, finding λ, Poisson limit | 11 + 1 textbook |
 | 05 | row 2 · uniform, exponential | probability as length, absolute-value intervals, waiting times, memoryless | 13 |
 | 06 | row 2 · normal | standardising, the φ table, counts, normal + binomial, inverse problems | 9 |
 | 07 | row 2 · population, sample, SE, CLT | parameter vs statistic, SE = σ/√n, CLT and its three cases | 6 |
-| 08 | row 3 · good estimators | unbiased, n − 1, consistent, efficient, sufficient | 2 + textbook |
+| 08 | row 3 · good estimators | parameter vs estimate, point vs interval, unbiased, checking coefficients, n − 1, consistent, efficient, sufficient | 2 + textbook |
 | 09 | row 3 · MoM, MLE | one- and two-parameter MoM, the five MLE steps, four slide MLEs, both methods | 4 + 3 textbook |
 | 10 | row 3 · Bayesian (intro) | prior, posterior, the slide's defectives example, posterior mean | 1 |
 | 11 | row 3 · CI for mean | meaning, z-interval, levels, function of μ, t-interval, raw data | 7 |
@@ -127,9 +128,9 @@ Every answer in the assignments and the MTE key was recomputed. These differ; th
 | A2 B5 (05 §6) | 0.5679 | 0.6225 | recomputed two ways |
 | A2 C2 (06 §6) | μ = 37.5 | μ = 37.18, re-exam mark 30.40 | the key's own 30.43 implies μ ≈ 37.2 |
 | A1 LA 2 (02a §5, §8) | row printed as k, 2k, 2k, 3k, 3k, k², 2k², 7k² + k; key (ii) 81/100, 91/100, 4/5 | Gupta & Kapoor's row 0, k, 2k, 2k, 3k, … (differs at x = 0, 1, 3); P(X > 6) = 17/100, P(X ≥ 6) = 19/100, P(0 < X < 5) = 4/5 | the key answers G&K's question: 81/100 is P(X < 6), and 91/100 is 19/100 with its digits swapped. The printed row gives k ≈ 0.0782 |
-| A1 LA 3 (03 §4) | 0.808 without replacement | 0.8 in both cases | expectation of a sum needs no independence |
-| A1 App 3 (03 §2) | SD ≈ 0.98 | 0.973 | the key rounded the variance first |
-| MTE B1 (03 §6) | bound 16/3 | 16/3 (correct), plus: a bound above 1 says nothing; exact value 5/6 | an addition, not a correction |
+| A1 LA 3 (03b §2) | 0.808 without replacement | 0.8 in both cases | expectation of a sum needs no independence |
+| A1 App 3 (03a §6) | SD ≈ 0.98 | 0.973 | the key rounded the variance first |
+| MTE B1 (03b §8) | bound 16/3 | 16/3 (correct), plus: a bound above 1 says nothing; exact value 5/6 | an addition, not a correction |
 | Slides CLT p.11 (07 §4) | z = −0.4 | z = −0.94 | typo; the slide's area uses 0.94 |
 | Slides MLE Ex. 14 (09 §6) | L(x₁, …, x₁₀; θ) | n = 6 | label only |
 | ppt 8 slide 7 (12 §2) | "H₀: μ > −0.545" | H₁: μ > −0.545 | the alternative was labelled H₀ |
@@ -137,5 +138,5 @@ Every answer in the assignments and the MTE key was recomputed. These differ; th
 ## How this pack was checked
 
 - **Facts:** from the subject's knowledge base (researched to both stages from Walpole, Montgomery & Runger and Ross; every load-bearing claim checked against sources) and from Gupta & Kapoor, the reference the slides cite. Section numbers are quoted where a formula is used.
-- **Numbers:** `src/verify.py` recomputes every number in the pack, 558 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 13 mismatches are the slips in the table above.
+- **Numbers:** `src/verify.py` recomputes every number in the pack, 665 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 15 mismatches are the slips in the table above.
 - **Pages:** every page was viewed after the final build.
