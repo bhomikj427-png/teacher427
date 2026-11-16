@@ -31,8 +31,18 @@ fostering student achievement appears to be about 80 percent." Source type: **pr
 research** — observing which teachers' classes gained most and coding what they did. That is
 **correlational** (the 80% describes effective classrooms; it was not manipulated). Note for the
 engine: principle 4's "~80% success" (`research/01 §5`, `03`) rests partly on this strand —
-consistent, but its own evidence base is observational (→ flag for S11, no engine change; design
-sign-off rule).
+consistent, but its own evidence base is observational.
+**S11b-2 check (read-only grep of `research/`):** the engine's ~80% traces *only* to Rosenshine
+2012 (`research/03 §1` principle 7; `01 §5` and `05` point back to `03`). The nearest
+experimental result found is Wi19 (Wilson et al. 2019, abstract): for gradient-descent learners
+on binary classification, learning is fastest at ≈85% training accuracy (error ≈15.87%) — shown
+in artificial and "biologically plausible" neural-network models, **not** in classrooms or with
+human learners. So the number is a sensible band with two weak supports (correlational
+classroom data + a model result), not a measured human optimum. `uncertain` as a *number*;
+the *principle* (hard but mostly successful) stays supported by A1/A4 (desirable difficulties
+need a competence floor). Engine proposal (learner sign-off needed; nothing edited): word
+principle 4 as "aim for a high success band (~80%; observational + model-based, not a measured
+optimum)".
 
 **Mechanism (pointers).** 1 & 10 = retrieval + spacing (A4 S); 2 = segmenting / working-memory
 limits (A2, CLT); 3 & 6 = retrieval + formative checking; 4–5, 8–9 = worked examples → guided →

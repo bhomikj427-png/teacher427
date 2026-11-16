@@ -87,7 +87,7 @@
     the Bonferroni post-hoc tests.
   - Authors' reading: high cognitive load and task difficulty in the generative tasks, and low
     prior knowledge, outweighed the generation benefit.
-  - Weight: **T3** (an MA thesis, one lab study, immediate test, not peer-reviewed). It does not
+  - Weight: **T3** (an MA thesis, one lab study, no delayed test reported, not peer-reviewed). It does not
     overturn ICAP. It does agree with CW14's own override 3 and A4 §3: generative tasks need
     enough prior knowledge and manageable load.
 - ICAP is a strong first cut at the *conceptual* rows, not a law for every row.
@@ -100,8 +100,9 @@
 - **The older meta (NA06, full text S11b-1)** gives the same order: all g = .60 (k 67),
   constructing .82 (k 27), studying .37 (k 40), with large heterogeneity. Its .82 shrinks to .47 when
   only U.S./Canada studies are counted (7 African studies average 1.45), and the model is
-  fixed-effect. So read **"constructing beats studying"** as `settled` and the exact size as
-  moderate, about 0.5–0.7.
+  fixed-effect. So read **"constructing beats studying"** as `settled`. The size depends on the meta
+  and subset (≈0.47–0.82 for constructing: NA06 U.S./Canada .47, Sch17 .72, NA06 all .82); "moderate"
+  is the engine's reading of the two metas, not a figure either paper states.
 - **But (KB11):** retrieval practice beat concept-map construction, even on inference questions
   and even when the final test was to draw a map. Students predicted the opposite.
 - **Reading both together:**

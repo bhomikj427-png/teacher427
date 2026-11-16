@@ -78,8 +78,8 @@
 | S9b | B4 researchers: instruction (Rosenshine, Sweller, Mayer/Fiorella, Kapur, Chi, Wiliam, Mazur, Wieman, Willingham, Kirschner/Hendrick, Agarwal, Learning Scientists, Nuthall, Hattie) — **split S9b-1 / S9b-2** (7 + 7) | roster §4, A3, A4 | `B4b-researchers-instruction.md` | same; Hattie written as a methodology case | **done 2026-11-15** (S9b-1 §1–7, S9b-2 §8–14) |
 | S10a | **Full Justin Sung audit** | roster §5, justin-sung-claims, A1–A8 (pointers) | `justin-sung-audit.md` (each claim: verdict + evidence) | every Sung claim verdicted; rebuttal-video located or logged as not found | **done 2026-11-16** (J1–J28; Keep video found) |
 | S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | split: **S10b-1 done 2026-11-16** (§1–4 Sung, Young, Oakley, Lemov) · **S10b-2 done 2026-11-16** (§5–8 + full summary) → **stage-1✓** |
-| S11a | Stage 2 — Part A verification: **A1–A4** (+ backlog rows targeted S11 that belong to A1–A4) | sprints.md, A1–A4, sources (IDs) | corrections in A1–A4 + sources + CHANGELOG | every A1–A4 effect size checked at the paper; `uncertain` tags resolved or kept with reason | **done 2026-11-16** (partial in session 4; finished S11a-rest: A4 swept; ATS17 g + SK21 method carried to S12 with reason) |
-| S11b | Stage 2 — Part A verification: **A5–A8** (+ their S11 backlog rows; engine 80% note) | sprints.md, A5–A8, sources (IDs) | corrections in A5–A8 + sources + CHANGELOG | same for A5–A8 | split (2026-11-16, context hygiene): **S11b-1 = A5 + A6** (GH80/83, Barnett & Ceci, MBF77, NA06, Pan & Carpenter 2023, LAA80/Stone) · **S11b-2 = A7 + A8 + engine 80% note** (Z02, DR12, DB08, RT11, P08, Y19, Dek12, 10%-brain, MPDK16, Ros12/80%) · **S11b-1 done 2026-11-16** (finished as S11b-1-rest; BC02, MBF77 primary, LAA80 numeric ES → S12 with reason) |
+| S11a | Stage 2 — Part A verification: **A1–A4** (+ backlog rows targeted S11 that belong to A1–A4) | sprints.md, A1–A4, sources (IDs) | corrections in A1–A4 + sources + CHANGELOG | every A1–A4 effect size checked at the paper (abstract or better; full-text gaps carried with reason — wording amended 2026-11-16 per review to match the bar applied) ; `uncertain` tags resolved or kept with reason | **done 2026-11-16** (partial in session 4; finished S11a-rest: A4 swept; ATS17 g + SK21 method carried to S12 with reason) |
+| S11b | Stage 2 — Part A verification: **A5–A8** (+ their S11 backlog rows; engine 80% note) | sprints.md, A5–A8, sources (IDs) | corrections in A5–A8 + sources + CHANGELOG | same for A5–A8 | split (2026-11-16, context hygiene): **S11b-1 = A5 + A6** (GH80/83, Barnett & Ceci, MBF77, NA06, Pan & Carpenter 2023, LAA80/Stone) · **S11b-2 = A7 + A8 + engine 80% note** (Z02, DR12, DB08, RT11, P08, Y19, Dek12, 10%-brain, MPDK16, Ros12/80%) · **S11b-1 done 2026-11-16** (finished as S11b-1-rest; BC02, MBF77 primary, LAA80 numeric ES → S12 with reason) · **S11b-2 partial 2026-11-16** (A7 §3–5, A8 §1–2, engine note done; misconception hunt/ladder → S11b-2-rest) |
 | S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | |
 | S13 | §0 surplus test + integrity audit | everything | audit note in CHANGELOG; 00-map stamp | surplus test recorded; zero unsourced claims | **stage-2✓** |
 | S14 | Study-pack pilot (v1.2 spec) | study-pack-format.md, reference files, A1, A3 | `study-pack/00-START-HERE` + one topic file | learner sign-off | |
@@ -106,9 +106,9 @@ Read at start: <exact file list = Sy Inputs>
 | S11b-1 closed: NA06 full text ✓ (all .60; .82/.37 = NA06's own Table 2, not a subgroup) · "161 undergraduates" line sourced ✓ (Cap25 thesis, full text) · LAA80 3rd author Ackerson ✓ · Stone = JEE 1983 51(4) / ED220476 ✓ | — | — |
 | LAA80 / Stone numeric mean ES (not in either abstract; only Bl84's secondary .20 held) | S11b-1 | S12 |
 | Barnett & Ceci 2002 exact dimension list (3 content + 6 context?) — S11b-1: no free full text; Klahr & Chen 2011 CMU PDF 404; LS blog lists only 3 conditions | S1 | S12 |
-| Zimmerman 2002 exact phase labels + sub-processes (Bath PDF host dead in S5) | S1 | S11 |
+| Zimmerman 2002 text itself (phase labels now confirmed via Pan17 full text, S11b-2; Bath host redirects, no Wayback copy) | S1 | S13 |
 | S5 closed: DR12 + RDS13 added to canon ✓ (numbers still open, rows below) | — | — |
-| A2: priming → neocortex placement (S11a: not-hippocampus settled via SS17; Squire full texts 403) | S2 | S12
+| A2: priming → neocortex placement (S11a: not-hippocampus settled via SS17; Squire full texts 403) | S2 | S12 |
 | S10a closed: response video located (BK22 Keep 2022 + JS-CO) ✓; digest claims caption-checked except J8, J10, J13 (row below) | — | — |
 | Sung J8 (course), J10, J13 (interview/summary) wording at a primary video; J22 SuperMemo page (404 on supermemo.guru) | S10a | S12 |
 | ICS22 *Report on Learning* (iCanStudy 2022) — read if obtainable; any later peer-reviewed Sung outcome study | S10a | S12 |
@@ -117,21 +117,22 @@ Read at start: <exact file list = Sy Inputs>
 | S2 closed: Squire vol/issue ✓, BB92 + KB11 + PR18 added to canon ✓ | — | — |
 | S3 closed: Krathwohl procedural wording ✓ (full text) · KLI typology ✓ (CRK22 full text) · Gagné ✓ (G84 full text replaces 1985 edition) | — | — |
 | CRK22 proceedings page numbers (escholarship PDF returned empty S11a-rest; replication part closed) | S3 | S12 |
-| KMS10 perceptual-learning efficacy (A3 row 7 is `uncertain`) | S3 | S11 (not closed in S4) |
+| S11a closed: KMS10 perceptual-learning efficacy → A3 row 7 `contested` (developer-lab evidence); peer-reviewed RCT question stays on the MPDK16 row | — | — |
+| A4 items checked only at abstract in S11a (S11a Done-when amended to "abstract or better"): ATS17, C06, BR19, YLVYS21, YF19 — read at full text where obtainable | review 2026-11-16 | S13 |
+| Misconception status-ladder pass: move every `written` entry whose correction now rests on a full-text read to `verified` (M19, M35 done 2026-11-16) | review 2026-11-16 | S13 |
+| M85 `contested` beyond early-primary maths rests on one study (GC16) — check the wider reciprocal-effects (motivation ↔ achievement) literature | review 2026-11-16 | S12 |
+| DGBWR23 year 2023 inferred from the PDF path — confirm at the e-book front matter | review 2026-11-16 | S12 |
 | ATS17 numeric g (WSU 403, ERIC abstract has no number; numeric role moved to YLVYS21 in S11a-rest — row stays for completeness only) | S4 | S12 |
 | SK21 how the bias-adjusted g = 0.87 was computed (paywalled; lead: Sinha's ETH 2020 thesis "Problem-Solving Followed by Instruction", research-collection 500 in S11a-rest) | S4 | S12 |
 | S11a-rest closed: Bi18 full text ✓ · C06 abstract ✓ · MHO14 vol/pages ✓ · KACS03 bib ✓ · Ag19 full text ✓ (M75 verified) · CRK22 fact/skill replication ✓ (YF19 independent lab + RKC25 preprint) | — | — |
 | S11b-1 closed: GH80/83 percentages ✓ (GH83 full text; 52% corrected to 45 vs 21%) · Pan & Carpenter 2023 ✓ (PC23 abstract; timing part stays `uncertain`) | — | — |
-| DR12 numbers (overconfidence → early stopping → retention) — abstract elided by publisher | S5 | S11 |
-| DB08 mean ES 0.69 + moderators at full text | S5 | S11 |
-| RT11 cue-only vs cue-target JOL split (0.70 vs 0.03 via Tekin & Roediger 2021) | S5 | S11 |
+| DR12 numbers (overconfidence → early stopping → retention) — abstract elided; S11b-2: Crossref/OpenAlex/S2/web all failed | S5 | S13 |
+| DB08 mean ES (0.61 vs 0.69 in secondaries) — S11b-2: moderators closed via Pan17; Dignath 2009 thesis PDF bot-blocked (publikationen.ub.uni-frankfurt.de/files/6984/Dissertation.pdf) | S5 | S13 |
+| S11b-2 closed: RT11 split ✓ (TR21 full text: it is the *recall* split; cue-only delayed JOLs < overt retrieval) · Dek12 wording ✓ · Y19 effect sizes ✓ (full text) · Brain Gym ✓ (Hy07) · "10% brain" kept prevalence-only ✓ · MPDK16 peer-reviewed report: none found ✓ · engine 80% note ✓ (B4b §1; proposal awaits learner sign-off) | — | — |
 | Morris, Bransford & Franks 1977 transfer-appropriate processing — read primary (bib ✓ S11b-1; no free PDF found; only secondaries; A6 §1 stays `uncertain`) | S5 | S12 |
 | S8a closed: M15 (2σ) written from Bl84 full text + VL11 + NOQ24 ✓ | — | — |
-| "10% of the brain" + coordination exercises / Brain Gym: find a primary refutation or drop from A8 | S6 | S11 |
-| P08 full text (meshing criterion wording; number of studies) | S6 | S11 |
-| Y19 effect sizes (grades, lower-achievers) at full text | S6 | S11 |
+| P08 full text (meshing criterion wording; number of studies) — S11b-2: UVA + APS PDF links return HTML | S6 | S13 |
 | S10b-1 closed: Feynman Technique origin ✓ (SY-FT11 transcript full text + SY-FT24: Young's own method; Gleick not needed for attribution) | — | — |
-| Dek12 "commercial programmes" link — confirm wording in abstract | S6 | S11 |
 | SK22 moderators (text type, delay, age) at full text | S7a | S12 |
 | FMSG14 numbers (how many studies, outcomes) — abstract elided by publisher | S7a | S12 |
 | FN18 vol/pages (Educational Review 71(4) 403–422 from recall); No22 author list beyond first | S7a | S12 |
@@ -160,10 +161,10 @@ Read at start: <exact file list = Sy Inputs>
 | Marva Collins: any independent Westside Prep evaluation; *Marva Collins' Way* (1982) primary | S8b | S12 |
 | Systematic phonics evidence (B3 §3 mechanism, outside A3 scope) — decide include or drop | S8b | S12 |
 | Teacher-expectancy effect size (M62) — Rosenthal & Jacobson + Jussim & Harber 2005 review | S8b | S12 |
-| MPDK16 peer-reviewed report of the PLM efficacy RCT (→ upgrade A3 row 7 / KMS10) | S9a | S11 |
 | Kel08 vol/pages; Make It Stick (2014) not read; MN19 remaining 34k chars | S9a | S12 |
 | Controlled test of SM-2 vs a fixed spacing schedule (B4a §5 `uncertain`) | S9a | S12 |
-| Engine note: principle 4 "~80% success" rests partly on correlational process-product data (Ros12) — check research/01 §5 + 03 §1 sources; any change → design sign-off | S9b-1 | S11 |
+| A7/A8 Stage-2 misconception pass: hunt ≥3 new each (candidates: "asking myself 'do I know it?' is the same as testing myself" (TR21); "knowing more brain facts protects against neuromyths" (Dek12); "~80% success is a proven optimum" (Ros12/Wi19)) + ladder M41–M47 | S11b-2 | S11b-2-rest |
+| Wi19 author list + article number (from recall) | S11b-2 | S12 |
 | Kap08 abstract/full text (only TLDR seen); Ben11, Smi09 author/vol checks; ICAP independent tests | S9b-1 | S12 |
 | Mazur "30–70% first-vote" guideline — primary source | S9b-1 | S12 |
 | Fre14 failure rates (21.8% vs 33.8%?) at full text; DSW11 effect size | S9b-2 | S12 |
@@ -213,6 +214,30 @@ Read at start: <exact file list = Sy Inputs>
 ## Current hand-off
 
 ```
+Sprint: S11b-2 — Stage 2 verification A7 + A8 + engine 80% note — partial (2026-11-16, session 7)
+  (session 7 first applied review 20261116-002028 fixes 1–8: log lines moved, backlog closed/added,
+  S11a Done-when wording, stale verify notes, GH83 row, M19/M35 verified, table pipe, assumptions 6–8)
+Written: A7 §1 (DR12 search logged), §3 (RT11 mechanism + TR21: judging ≠ practising), §4 (RDS13
+  numbers via DGBWR23), §5 (Zimmerman phases via Pan17; DB08 moderators) · A8 §1 (Dek12 wording),
+  §2 (Brain Gym row, "10% brain" prevalence-only, myth 6 Y19 numbers), §3 item 6 · B4b §1 engine
+  ~80% note · M48 verified · sources 205 rows / 204 IDs (+TR21, Pan17, Hy07, Wi19) · CHANGELOG
+Verified this sprint: full text — TR21, Pan17, Y19, Dek12 (abstract wording); abstracts — RT11
+  (OpenAlex), Hy07, Wi19
+Open (carried): A7/A8 misconception hunt (≥3 new each; candidates in backlog) + ladder M41–M47 →
+  S11b-2-rest; DR12 numbers, DB08 mean ES, Z02 text, P08 full text → S13; Wi19 authors → S12
+Decisions made: a delayed JOL is a monitor, not a learning event (TR21) — the KB says "produce the
+  answer", never "just judge it". Engine ~80% left unedited; reword proposal awaits learner sign-off.
+Assumptions to review (S11b-2): (9) S11a Done-when reworded to the bar applied rather than
+  reopening S11a (abstract-only A4 items carried to S13 instead). (10) DB08 moderators taken from
+  Pan17's verbatim quote of DB08 p. 246 (DB08 itself unread). (11) Wi19 authors/article number
+  from memory, flagged verify. (12) "10% of the brain" kept as prevalence-only rather than dropped.
+Next sprint: S11b-2-rest — first action: write ≥3 new A7 misconceptions and ≥3 new A8 ones from
+  the S11b-2 findings (full entry format, protocol step 9), then move M41–M47 up the ladder where
+  a full-text read now backs the correction; tick S11b; then S12.
+Read at start: sprints.md (hand-off + Verify backlog + Research tooling notes),
+  knowledge-base/A7-metacognition.md, knowledge-base/A8-myths.md, knowledge-base/misconceptions.md
+  (index + M41–M48 + last entry M86 only)
+--- previous sprint (closed) ---
 Sprint: S11b-1 — Stage 2 verification A5 + A6 — done (2026-11-16; finished as S11b-1-rest,
   session 6)
 Written: A5 §3 (GH83 full text; 45 vs 21%, earlier session) · A6 §3 ICAP challenge now sourced

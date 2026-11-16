@@ -16,8 +16,10 @@
   wrong decision, even with a good method available.
 - **Example (DR12):** students who judged themselves to know definitions they didn't stopped
   studying those items too early, and that predicted lower retention. Overconfidence costs
-  learning *through* control. (Numbers `uncertain` — abstract not available; claim via citing
-  papers.)
+  learning *through* control. (Numbers `uncertain` — abstract elided by the publisher and no
+  open copy found in S5 or S11b-2 (Crossref, OpenAlex, Semantic Scholar, web search); the claim
+  stands on how citing papers describe it, e.g. "prematurely stop studying materials that they
+  believe they know already".)
 
 ## 2. Why monitoring fails `settled`
 
@@ -37,11 +39,21 @@
   rather than immediately, makes judgments much better at telling known from unknown items:
   **relative accuracy g = 0.93** (112 effect sizes, N = 4,554). Memory itself gains slightly
   (g = 0.08, 98 ES).
-- **Mechanism:** a delayed judgment involves a retrieval attempt from long-term memory, which
-  matches the conditions of the real test. An immediate judgment reads what is still active
-  in working memory.
-  - Boundary (`uncertain`, secondary): the gain appears when the judgment is made from the cue
-    alone (so the learner must try to recall the answer), not when the answer is visible.
+- **Mechanism:** a delayed judgment draws on long-term memory, which matches the conditions of
+  the real test. An immediate judgment reads what is still active in working memory. RT11's own
+  reading (abstract, S11b-2): the data fit best with "access to more diagnostic information from
+  long-term memory", rather than the judgment being a by-product of a retrieval opportunity;
+  cue-match accounts also stay viable. `settled` (direction) · mechanism `contested`.
+  - Boundary (`uncertain`, classic literature not read at source): the accuracy gain is usually
+    described for judgments made from the cue alone (the learner must try to recall the answer),
+    not with the answer visible.
+- **Judging is not the same as practising (S11b-2, TR21 full text):** RT11's memory gain from
+  delayed JOLs (g = 0.08, 98 ES) was carried by *cue-target* delayed JOLs (g = 0.70); *cue-only*
+  delayed JOLs gave g = 0.03 (RT11 figures as reported in TR21). In TR21's own experiments
+  (2-day cued recall), cue-only delayed JOLs did not reliably beat restudy in Exp. 1 and gave
+  **poorer recall than overt retrieval** in Exp. 2a/2b. So a silent "do I know it?" is a good
+  *monitor* but a weak *learning event*: produce the answer out loud or on paper. `settled` for
+  word pairs (one lab, 3 experiments); untested for complex material.
 - **Practical form:** don't ask "Do I get this?" with the page open. Close it, wait, and try to
   produce the answer. A delayed self-test is the honest monitor. That is retrieval practice used
   for monitoring as well as learning.
@@ -55,12 +67,16 @@
   rests on a demonstrated recall, repeated across days. One correct recall in a session shows
   current retrieval strength only (A1 §3); repeated recall across spaced sessions is evidence
   of storage.
-- Exact gains (e.g. "≈40% higher a month later") are from a later review by the same group →
-  verify S11.
+- Exact gains (S11a, authors' guide DGBWR23, full text; T2, same group): in RDS13 Exp. 1 exam
+  scores rose by more than 10 points over baseline, and 24 days later successive-relearning items
+  were recalled at >60% vs <20% for the comparison. The old "≈40% higher a month later" line is
+  replaced by these figures.
 
 ## 5. Self-regulated learning: the whole cycle `settled` (framework) · `uncertain` (training size)
 
-- **Zimmerman's cycle (Z02; phase labels at secondary level, full text S11):**
+- **Zimmerman's cycle (Z02; phase labels and contents confirmed in Pan17, a full-text open
+  review of six SRL models, S11b-2; Z02 itself still unread — Bath host now redirects, no
+  archive copy):**
   1. **Forethought** — analyse the task, set goals, plan strategies; motivation beliefs
      (self-efficacy, interest).
   2. **Performance** — self-control (using the strategies) and self-observation (tracking what
@@ -68,8 +84,16 @@
   3. **Self-reflection** — judge the result, attribute causes, react; this feeds the next
      forethought.
 - **Can it be taught?** A meta-analysis of school interventions (DB08) reports positive effects
-  on achievement (mean ES ≈ 0.69 from a search snippet — `uncertain`; moderators unread). Treat
-  as "trainable, size unknown here" until S11.
+  on achievement. The mean size is still `uncertain`: S11b-2 found 0.61 and 0.69 attributed to
+  the 2008 Dignath papers in different secondaries, and neither the abstract nor the full text
+  was readable (publisher elides the abstract; Dignath's 2009 thesis repository blocks bots).
+  **Moderators, quoted from DB08 p. 246 in Pan17 (full text):** in primary school, effects were
+  larger when the training was based on social-cognitive theory (B = 0.33) and also taught
+  metacognitive (B = 0.39) and motivational (B = 0.36) strategies; in secondary school, larger when
+  based on metacognitive theory and focused on metacognitive reflection (B = 0.82) or motivation
+  (B = 0.56) — yet also larger for training that taught cognitive rather than metacognitive
+  *strategies* (B = −0.64), so the moderator picture is mixed. Treat as "trainable; works best when strategy teaching is paired with reflection on
+  it; overall size unknown here".
 - **Link to A3:** row 6 has two parts. *Knowledge* (that rereading creates false fluency) is
   learned like any principle. *Regulation* (actually changing behaviour mid-session) is learned
   like a skill, through practice with feedback (A3 §3 row 6).

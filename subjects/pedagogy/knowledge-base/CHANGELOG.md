@@ -130,3 +130,10 @@
   keeps the numeric role. A6 §5 advance organizers: LAA80 third author = Ackerson (Crossref); Stone =
   *J. Exp. Educ.* 51(4) 194–199 (1983) / ERIC ED220476 (1982), four anti-theory results written;
   numeric ES still not in either abstract → `uncertain`, S12. Sources +1 (201): Cap25.
+- [2026-11-16] Review fixes (session 7, review 20261116-002028): sources — own GH83 row (GH80 row now
+  1980 only; 202 rows), MHO14 "verify" note closed, KMS10 note `contested`, KCP12 cites the
+  published version (manuscript = access route). A5 §3 BC02 note → S12; GH80 percentages tagged
+  "via GH83 recap". A6 §3 Cap25 "immediate test" → "no delayed test reported"; A6 §4 concept-map size
+  widened to ≈0.47–0.82 by meta/subset, "moderate" labelled as the engine's reading. misconceptions
+  M19 + M35 → verified. sprints.md: S11a Done-when wording amended; backlog rows closed/added.
+- [2026-11-16] S11b-2 (partial): A7 §1 DR12 search logged (no open copy); §3 RT11 mechanism per its abstract + TR21 full text (0.70/0.03 = recall split; cue-only delayed JOLs < overt retrieval → judging ≠ practising); §4 RDS13 numbers from DGBWR23; §5 Zimmerman phases via Pan17, DB08 moderators (p. 246 via Pan17), mean ES still uncertain. A8 §1 Dek12 wording (knowledge predicted *more* myth belief; commercial programmes); Brain Gym row (Hy07); "10% brain" kept prevalence-only; myth 6 Y19 full-text numbers. B4b §1 engine ~80% note (Ros12 correlational + Wi19 model result; sign-off proposal). M48 verified. Sources +4 (TR21, Pan17, Hy07, Wi19) → 205 rows / 204 unique IDs.

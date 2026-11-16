@@ -44,10 +44,10 @@
 - Barnett & Ceci argue a single effect size for far transfer is misguided, and classify transfer
   distance along **content** dimensions (what is transferred) and **context** dimensions (where, when,
   in what social and physical setting, in what format).
-- Exact dimension list: `uncertain` (3 content + 6 context per a secondary source; verify S11).
+- Exact dimension list: `uncertain` (3 content + 6 context per a secondary source; no free full text in S11b-1 → verify S12).
 
-**The analogy bottleneck is noticing, not reasoning (GH80)** `settled` (pattern and percentages —
-the authors' own recap in GH83, full text, S11b-1)
+**The analogy bottleneck is noticing, not reasoning (GH80)** `settled` (pattern) · percentages
+`settled` via the GH83 recap (GH83 full text, S11b-1; GH80 itself not read)
 - Duncker's radiation problem: a tumour must be destroyed by rays that would also burn healthy
   tissue on the way in.
 - Few people solve it unaided: no more than 10% in any no-story or irrelevant-story control.

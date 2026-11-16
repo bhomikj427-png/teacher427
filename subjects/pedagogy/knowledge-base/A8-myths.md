@@ -17,8 +17,11 @@
   - coordination exercises integrate the two hemispheres: 88 / 82
   - "we use only 10% of our brain": 48 / 46
 - **"Possessing greater general knowledge about the brain does not appear to protect teachers
-  from believing in neuromyths"** (Dek12). Knowing more brain facts is not the same as knowing
-  how to test a claim (§3).
+  from believing in neuromyths"** (Dek12). In fact more general brain knowledge *predicted more*
+  myth belief in this sample (Dek12 abstract, rechecked S11b-2). Knowing more brain facts is not
+  the same as knowing how to test a claim (§3).
+- The most-believed myths were "particularly myths related to commercialized educational
+  programs" (Dek12 abstract) — e.g. Brain Gym and VAK learning-style programmes.
 - Limit: a self-selected sample, not a national estimate.
 
 ## 2. The myths
@@ -30,12 +33,17 @@
 | 3 | **Learning pyramid:** we retain 10% of what we read … 90% of what we teach | Neat round numbers; matches the true idea that doing beats watching | Versions are over 160 years old, so they did not come from research; no data behind the percentages (LH18). The kernel that *is* true (constructive > passive) comes from ICAP, without the numbers (CW14) | **X** `settled` | A6 §3 |
 | 4 | **Multitasking while studying is fine** ("I study better with my phone / TV") | You still *perform* the reading; it feels unaffected | Dividing attention *at encoding* causes large memory losses; at retrieval it mostly slows you (CGNA96) | **X** `settled` | A2 §4 (encoding needs attention) |
 | 5 | **Pomodoro is a learning technique** | Short sprints feel focused and productive | 32 studies, N = 5,270: outcomes were mostly *self-rated* focus, fatigue and motivation; academic outcomes usually self-report (Og25). A possible scheduling aid, not evidence of learning | **T** for learning (engine: excluded) | A1 (performance/feelings ≠ learning) |
-| 6 | **Growth-mindset training reliably raises grades** | The message is hopeful; effort does matter | Mindset–achievement r = .10; interventions d = 0.08 overall, ≈ 0.03 for middle/upper-SES students, d = 0.34 for low-SES (7 effect sizes) (Sis18). A national RCT found gains for **lower-achieving** students, where peer norms supported the message (Y19) | `contested` — small, conditional | A7 (beliefs → regulation); praise process, not person (engine) |
+| 6 | **Growth-mindset training reliably raises grades** | The message is hopeful; effort does matter | Mindset–achievement r = .10; interventions d = 0.08 overall, ≈ 0.03 for middle/upper-SES students, d = 0.34 for low-SES (7 effect sizes) (Sis18). A national RCT (Y19, full text S11b-2; pre-registered, independent data collection) found, for **lower-achieving** 9th-graders, +0.10 grade points on core GPA (SMD 0.11, 95% CI 0.04–0.16); higher achievers 0.01 (ns); 0.14–0.18 points in lower/medium-achieving schools whose peer norms supported challenge-seeking. The authors call 0.20 SD "large" for field studies — but it is still a tenth of a grade point | `contested` — small, conditional | A7 (beliefs → regulation); praise process, not person (engine) |
 | 7 | **The Feynman Technique is Feynman's method** | Named after him; matches his reputation for clear explanation | The named 4-step method is Scott Young's (2011 transcript SY-FT11; in 2024: "the most popular piece of studying advice I've ever come up with", "only loosely based on Richard Feynman's practices", SY-FT24 — `settled`, S10b-1); no Feynman text describing it was found. Its parts *are* evidenced: self-explanation g = 0.55 (Bi18), teaching as a generative strategy (FM16) — and Young himself warns it is no substitute for practice problems | Myth **X** (attribution `settled`: Young's, 2011); method **S** via its parts | A6 §6, A4 |
 | 8 | **Rereading, highlighting, summarizing are good study** | Fluency; visible effort | Rated low utility (D13); covered in A4 and M6 | **T** `settled` | A1 §6 |
 
-**Not covered here (prevalence only, no refutation read):** "10% of the brain", coordination
-exercises / Brain Gym → backlog S11 (find a primary refutation or drop).
+**Coordination exercises / Brain Gym** (S11b-2): a review of Brain Gym's theory and the
+peer-reviewed studies "failed to support the contentions of the promoters" (Hy07, abstract;
+T1 review, single author, 2007). **X** `settled` at review level; the mechanism claim (exercises
+"integrate the hemispheres") also conflicts with myth 2 (N13).
+**"We use only 10% of our brain"** stays a **prevalence item only** (§1; Dek12 classes it as a
+neuromyth after OECD 2002). No refutation paper was read, so no correction is written here; it
+is not taught as a myth row.
 
 ## 3. A test kit for any learning claim (what all eight failures share)
 
@@ -49,7 +57,8 @@ Ask, in order:
    warning sign (myth 3).
 5. **How big, for whom?** Overall effect vs subgroups; how many studies; publication bias (myth 6;
    engine `research/07`).
-6. **Who is selling it?** Commercial programmes carry the most-believed myths (Dek12 abstract).
+6. **Who is selling it?** Myths tied to commercialised programmes were the most believed (Dek12
+   abstract; Brain Gym, Hy07).
 7. **Does a known mechanism predict it?** If the claim contradicts A1–A7 (attention, WM,
    retrieval, generation), the bar is higher.
 

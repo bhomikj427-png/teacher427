@@ -2,9 +2,9 @@
 
 ## Session resume
 - Last session: 2026-11-16
-- Where we stopped: S11b-1 done (A5 + A6 verified; BC02, MBF77 primary, LAA80 numeric ES → S12). S11b-2 not started
+- Where we stopped: review fixes 1–8 done; S11b-2 partial (A7 §3–5 + A8 §1–2 checked; engine 80% note written to B4b §1). Open: A7/A8 new-misconception hunt + ladder (M41–M47), P08 full text
 - Recap: S0–S10b-2 done → stage-1✓ (Part A + Part B complete; M1–M86). Stage 2: S11a verified A1–A4; S11b-1 verified A5–A6 (GH83, NA06, Cap25 at full text); 201 sources. auto.py milestone (5 sprints from S10) reached
-- Next up: S11b-2 (A7 + A8 + engine 80% note) — read only the hand-off's "Read at start" list
+- Next up: S11b-2-rest (misconception hunt + ladder for A7/A8, then tick S11b) → S12 — read only the hand-off's "Read at start" list
 - Due for review today: none (no teaching yet — gate)
 
 ## Mastery ledger
@@ -167,6 +167,30 @@
 - [2026-11-16] S11b-1: PC23 (Pan & Carpenter 2023, abstract) → A6 §5 condition settled, timing uncertain; MBF77 bib confirmed, result secondary-only → A6 §1; A6 §6 pointers updated. Sources +2 (200).
 - [2026-11-16] S11b-1 stopped at context limit → partial. Done-when: A5 ✓ except BC02 (carried with reason); A6 open: advance organizers (LAA80/Stone), NA06, the "161 undergraduates" line. CHANGELOG, backlog, hand-off written.
 
+- [2026-11-16] S11b-1-rest started (session 6) · targets: A6 §3 161-undergrad line, LAA80/Stone, NA06
+- [2026-11-16] S11b-1-rest: 161-undergrad line sourced = Cap25 (Capobianco 2025 UGA MA thesis, full text; passive>A>I>C, ns without covariate) → A6 §3 rewritten, T3 · LAA80 3rd author = Ackerson (Crossref) · Stone = JEE 1983 51(4) 194-199 / ED220476; 4 anti-theory results → A6 §5; numeric ES still uncertain → S12
+- [2026-11-16] S11b-1-rest: NA06 full text (SFU copy): all g .604, constructing .819 (US/Can .467, Africa 1.446), studying .373, fixed-effect → A6 §4; S5 subgroup suspicion wrong · sources 201 · CHANGELOG, backlog, hand-off written
+  (these 3 lines moved here from Session history on 2026-11-16, session 7, per review item 1)
+
+- [2026-11-16] Session 7 (auto.py) started; tree dirty only with auto.py + .claude/auto/ (left alone); review sweep done in S10a today, nothing due. First step: fix the 20261116-002028 review's bookkeeping items (each logged below before its edit).
+- [2026-11-16] Review fix 1: moved the 3 session-6 detail lines from Session history to the Live log (above).
+- [2026-11-16] Review fix 2: sprints.md backlog KMS10 row closed (S11a: A3 row 7 → `contested`; peer-reviewed RCT question stays on the MPDK16 row).
+- [2026-11-16] Review fix 3: S11a Done-when amended to the bar actually applied ("abstract or better; full-text gaps carried with reason") + new backlog row listing the abstract-only A4 items (ATS17, C06, BR19, YLVYS21, YF19) for full text in S13.
+- [2026-11-16] Review fix 4: stale verify notes updated — sources MHO14 row (vol/pages confirmed S11a-rest), sources KMS10 row (`contested` S11a), A5 §3 BC02 line ("verify S11" → S12).
+- [2026-11-16] Review fix 5: sources.md gets its own GH83 row (GH80 row keeps 1980 only).
+- [2026-11-16] Review fix 6: misconception ladder — M19 (RK06 full text) and M35 (GH83 full text) → `verified`; backlog row added for a full ladder pass in S13.
+- [2026-11-16] Review fix 7: sprints.md backlog row (A2 priming) closing pipe added.
+- [2026-11-16] Review fix 8 (assumptions): A5 GH80 tag → "settled via GH83 recap" wording; A6 §3 Cap25 "immediate test" → "no delayed test reported"; A6 §4 "0.5–0.7" labelled as the engine's reading and widened to ≈0.47–0.82 by meta/subset; sources KCP12 row: published Cognitive Science version is the citation, manuscript = access route only; backlog rows added for M85 reciprocal-effects check and DGBWR23 year (S12).
+- [2026-11-16] Review fixes 1–8 applied (CHANGELOG entry written). Source rows now 202 = 201 unique IDs (CW14 listed twice, A6 + B4b — merge in S13 audit).
+- [2026-11-16] S11b-2 (Stage 2 verification A7 + A8 + engine 80% note) started; inputs: sprints.md hand-off/backlog, A7, A8, sources IDs.
+- [2026-11-16] S11b-2: RT11 abstract read (OpenAlex) + TR21 full text (Europe PMC): the 0.70/0.03 cue-target/cue-only split is RT11's *recall* split, not accuracy; cue-only delayed JOLs < overt retrieval for recall → A7 §3 rewritten (judging ≠ practising). RDS13 numbers → A7 §4 from DGBWR23.
+- [2026-11-16] S11b-2: Z02 full text still unobtainable (Bath host redirects, no Wayback copy); phase model confirmed in Pan17 (full text, T2); DB08 mean ES still not readable (0.61 vs 0.69 in secondaries; thesis bot-blocked) but p. 246 moderators quoted via Pan17 → A7 §5. DR12 no open copy (4 routes) → stays uncertain. Sources +2 (TR21, Pan17).
+- [2026-11-16] S11b-2: Dek12 abstract wording confirmed (full text XML: "particularly myths related to commercialized educational programs"; more general knowledge *predicted more* myth belief) → A8 §1/§3; Brain Gym refutation = Hy07 (Hyatt 2007, RASE 28(2) 117–124, abstract) → A8 §2 note; "10% brain" kept as prevalence-only. Next: Y19 full text (PMC6786290), P08.
+- [2026-11-16] S11b-2: Y19 full text (Europe PMC PMC6786290): lower-achievers core GPA +0.10 grade points (95% CI 0.04–0.16, SMD 0.11, n 6,320, k 65); higher-achievers 0.01 (ns); CATE 0.14–0.18 in low/medium-achieving schools with top-half challenge norms; advanced maths 33→36% (exploratory) → A8 myth 6 + sources row.
+- [2026-11-16] S11b-2: P08 full text not obtainable (UVA copy + APS PDF return HTML; USF repo no file) → A8 row 1 stays at abstract level, backlog → S13. MPDK16: no peer-reviewed report found (IES award page + 2016 posters only) → backlog row closed as not found.
+- [2026-11-16] S11b-2 engine 80% note: research/ grep (read-only) — the engine's ~80% traces only to Rosenshine 2012 (research/03 §1 principle 7; 01 §5 and 05 point to 03); Ros12 basis = correlational process-product (82 vs 73%). Nearest experimental result: Wi19 (Wilson et al. 2019, Nat. Commun., abstract) — ≈85% optimal training accuracy derived for gradient-descent learners on binary classification, shown in neural-network models, not classrooms. Written to B4b §1 (edit landed a moment before this line — logging order slip, noted). Proposal for learner sign-off, nothing edited in research/ or CLAUDE.md: word principle 4 as "a high success band (~80%; observational + model-based, not a measured optimum)".
+- [2026-11-16] S11b-2: M48 → verified (Sis18 full text S6 + Y19 full text now; Y19 numbers added). Sources +2 (Hy07, Wi19; Y19/P08 rows updated) → 205 rows. Context soft limit reached → S11b-2 stopped partial; CHANGELOG, backlog, hand-off written.
+
 ## Session history
 - [2026-11-15] created pedagogy subject · S0 scaffold + roster (~60) done · sprint plan S1–S15 written · next: S1 map pass
 - [2026-11-15] S1 map pass done · 21 anchors verified · Sung inventory J1–J22 · A3 spine decided · stage-1 · next: S2 (A1+A2)
@@ -188,7 +212,5 @@
 - [2026-11-16] S11a partial · S11 split a/b · RK06 + PR18 + D13 + KLI checked at full text · PR18 bias-adjusted transfer ~0 without success/congruency · LTM capacity settled for recognition · BR19 words reverse · perceptual row contested · sources 195 · next: S11a-rest
 - [2026-11-16] S11a done (S11a-rest) · Bi18 + Ag19 at full text · self-explanation size depends on comparison (0.67 / 0.35 / 0.30) · higher-order quizzes don't build facts (M75 verified) · classroom quizzing g 0.50 (YLVYS21) · sources 198 · next: S11b-1 (A5 + A6)
 - [2026-11-16] S11b-1 partial · GH83 full text: two analogs 45% vs 21% (old 52% was a subgroup) · pretest answer must follow (PC23) · BC02 → S12 · sources 200 · next: S11b-1-rest
-- [2026-11-16] S11b-1-rest started (session 6) · targets: A6 §3 161-undergrad line, LAA80/Stone, NA06
-- [2026-11-16] S11b-1-rest: 161-undergrad line sourced = Cap25 (Capobianco 2025 UGA MA thesis, full text; passive>A>I>C, ns without covariate) → A6 §3 rewritten, T3 · LAA80 3rd author = Ackerson (Crossref) · Stone = JEE 1983 51(4) 194-199 / ED220476; 4 anti-theory results → A6 §5; numeric ES still uncertain → S12
-- [2026-11-16] S11b-1-rest: NA06 full text (SFU copy): all g .604, constructing .819 (US/Can .467, Africa 1.446), studying .373, fixed-effect → A6 §4; S5 subgroup suspicion wrong · sources 201 · CHANGELOG, backlog, hand-off written
 - [2026-11-16] S11b-1 done · ICAP challenge sourced (Cap25 thesis: passive best, ns w/o covariate, T3) · NA06 .60/.82/.37 = its own Table 2 · Stone 1983: 4 anti-theory results · sources 201 · milestone (5 sprints from S10) reached · next: S11b-2 (A7 + A8 + engine 80% note)
+- [2026-11-16] Review fixes 1–8 done · S11b-2 partial · RT11 0.70/0.03 split is recall not accuracy; silent delayed JOLs < overt retrieval (TR21) · Z02 phases via Pan17; DB08 moderators · Y19 +0.10 GPA lower-achievers · Brain Gym (Hy07) · engine ~80% = Ros12 correlational + Wi19 model only → sign-off proposal · sources 205 rows · next: S11b-2-rest

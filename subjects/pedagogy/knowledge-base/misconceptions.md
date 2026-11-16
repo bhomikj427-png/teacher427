@@ -28,7 +28,7 @@
 | M16 | Any difficulty is a "desirable difficulty" | A1, A4 | written |
 | M17 | Novices learn best by discovering things themselves | A4 | written |
 | M18 | If I can't recall it, I never learned it | A1 | written |
-| M19 | Doing well right after studying proves the method works | A1 | written |
+| M19 | Doing well right after studying proves the method works | A1 | verified |
 | M20 | For deep understanding, elaborating (e.g. concept mapping) beats testing yourself | A1, A6 | written |
 | M21 | I can tell which study method works for me by how it feels | A1, A7 | written |
 | M22 | Brain-training games expand working memory and make you smarter | A2 | written |
@@ -44,7 +44,7 @@
 | M32 | Interleaving always beats blocking | A4 | written |
 | M33 | Productive failure means letting students struggle without help | A4 | written |
 | M34 | 10,000 hours of practice makes anyone an expert | A5 | written |
-| M35 | Once you've seen an example, you'll recognise when to use it | A5 | written |
+| M35 | Once you've seen an example, you'll recognise when to use it | A5 | verified |
 | M36 | Experts follow the same steps as novices, just faster | A5 | written |
 | M37 | Active learning means being busy: highlighting, copying, rewriting notes | A6 | written |
 | M38 | Pre-reading or "priming" a chapter makes all of it stick better | A6 | written |
@@ -57,7 +57,7 @@
 | M45 | People are left-brained (logical) or right-brained (creative) | A8 | written |
 | M46 | I can study fine while texting or watching something | A8 | written |
 | M47 | The Pomodoro technique makes you learn more | A8 | written |
-| M48 | Teaching students a growth mindset reliably raises their grades | A8 | written |
+| M48 | Teaching students a growth mindset reliably raises their grades | A8 | verified |
 | M49 | The Socratic method means the teacher never tells, only asks | B1 | written |
 | M50 | A method used for centuries (Jesuit, Socratic, Confucian) is proven by its longevity | B1 | written |
 | M51 | Concrete, hands-on, realistic materials are always better than abstract ones | B1 | written |
@@ -164,9 +164,10 @@
 ### M19 — Doing well right after studying proves the method works
 - **Why it feels true:** immediate scores are real numbers, and they look like evidence.
 - **Correction:** immediate tests favour massing and restudy; in RK06 restudy won at 5 minutes
-  and lost at 2 days and 1 week. Only delayed tests measure learning (SB15).
+  and lost at 2 days and 1 week (RK06 full text, S11a: Exp. 2 at 5 min 83/78/71%, at 1 week
+  40/56/61% for SSSS/SSST/STTT). Only delayed tests measure learning (SB15).
 - **Exposing question:** "What would the score be in a week?"
-- **Unit:** A1 §2. Status: written.
+- **Unit:** A1 §2. Status: verified (2026-11-16, RK06 full text).
 
 ### M20 — For deep understanding, elaborating (e.g. concept mapping) beats testing yourself
 - **Why it feels true:** elaboration *looks* deep (connections drawn, effort visible); retrieval
@@ -337,9 +338,10 @@
 - **Why it feels true:** the example felt clear and memorable.
 - **Correction:** in GH80, most people did not apply an analogous solution they had just read
   until hinted. Retrieval needs a matching cue (TT73). Comparing two or more analogs builds an
-  abstract schema that new problems can trigger (Gick & Holyoak 1983).
+  abstract schema that new problems can trigger (GH83 full text: two analogs + comparison → 45%
+  unprompted transfer vs 21% with one analog).
 - **Exposing question:** "Would you recognise the same principle in a problem that looks completely different?"
-- **Unit:** A5 §3. Status: written.
+- **Unit:** A5 §3. Status: verified (2026-11-16, GH83 full text; GH80 numbers via GH83 recap).
 
 ### M36 — Experts follow the same steps as novices, just faster
 - **Why it feels true:** expert performance looks like sped-up novice performance.
@@ -497,9 +499,10 @@
 - **Correction:** across 43 studies, interventions gave d = 0.08 overall and about zero for
   middle- and upper-SES students; larger effects for low-SES (d = 0.34, 7 effect sizes) (Sis18).
   A national RCT found gains for lower-achieving students where peer norms supported the message
-  (Y19). Small and conditional, not a general lever.
+  (Y19 full text: +0.10 grade points, SMD 0.11; higher achievers 0.01 ns). Small and conditional,
+  not a general lever.
 - **Exposing question:** "For which students, and how big was the gain?"
-- **Unit:** A8 §2 myth 6. Status: written.
+- **Unit:** A8 §2 myth 6. Status: verified (2026-11-16, Sis18 + Y19 full text).
 
 
 ### M49 — The Socratic method means the teacher never tells, only asks
