@@ -20,14 +20,19 @@
 ## Steps (every sprint, fixed order)
 
 **Entry**
-0. `CLAUDE.md` session start 0–0b (load `learner-preferences.md`; `git status`; under `auto.py`, no
-   commit). No start-of-session recall: nothing has been taught; the hand-off is the resume.
+0. `CLAUDE.md` session start 0b only (`git status`; under `auto.py`, no
+   commit). Pack sprints skip step 0 (`learner-preferences.md`): the spec already holds its pack rules. No start-of-session recall: nothing has been taught; the hand-off is the resume.
 
-**Start (context hygiene)**
-1. Read only: `sprints.md` → *Current hand-off* → the sprint's **Inputs** → the brief's sections for
-   this sprint's files. Read long files by section (grep the heading, read that range). Don't read
-   other files "for context".
+**Start (lean: the start-up reads must stay under ~10k tokens; learner, 2026-11-16: "68k is outragous")**
+1. Read only, each by line range (grep the heading for line numbers first, never the whole file):
+   `sprints.md` *Current hand-off* block + this sprint's table row · spec §5 only · the brief's
+   section for this sprint's files. **Do not read** `learner-preferences.md`, the whole `sprints.md`,
+   the whole spec, or `progress-log.md` (it is append-only: add lines with a small Python append,
+   never read it to write it). Other Inputs are read when the step that needs them starts, by section.
 2. Log the sprint start in `progress-log.md` (log first: before any other file changes).
+2a. **One sprint = one session.** Plan the context: two files fit if the start-up stays lean. View
+   at most one contact sheet per file (4 pages per image), and only figures the overlap check or a
+   new figure type flags.
 
 **Research (only when the sprint's row says so, or a fact is missing from the KB)**
 3. Every load-bearing claim (definition, formula, mechanism, constant) is verified (above) and
