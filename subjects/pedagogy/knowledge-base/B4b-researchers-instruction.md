@@ -131,9 +131,14 @@ to the parts they describe, and let learners control the pace of complex animati
 
 **What he built.** Learners first attempt a **complex, ill-structured problem** designed to
 activate prior knowledge and expose its limits, *before* instruction; then the teacher builds the
-canonical solution by comparing and contrasting the students' attempts (Kap08, *Cognition and
-Instruction* 26(3) 379–424 — "existence proof": unsupported group problem solving followed by
-instruction outperformed well-structured, scaffolded problem solving on later problems).
+canonical solution by comparing and contrasting the students' attempts. The first study (Kap08,
+*Cognition and Instruction* 26(3) 379–424, abstract checked S12c) was an "existence proof":
+11th-grade physics students (Newtonian kinematics), randomly assigned, solved **ill-structured**
+problems in groups without support and then well-structured problems alone, vs a group that
+solved well-structured problems throughout; the first groups "struggled" and produced poor
+solutions, yet beat the comparison on later individual **near- and far-transfer** problems.
+Note: that study had no separate instruction phase — the *problem solving → instruction* form
+(PS-I) tested in SK21 is the later, refined design.
 
 **Evidence.** → A4 productive-failure row: SK21 meta, 53 studies / 166 comparisons, PS-I vs I-PS
 **g = 0.36** [0.20, 0.51]; reversed for young learners (grades 2–5) and domain-general skills; the
@@ -165,7 +170,7 @@ early-years learners or for teaching a procedure.
 **What she built.** (a) The **self-explanation effect** (Chi et al. 1989; prompting it → Bi18
 g = 0.55). (b) **Novice vs expert categorization** (CFG81: novices sort by surface features,
 experts by deep principles → A5). (c) Tutoring studies (CSJ01: prompting-only tutors as effective
-— B1 §1). (d) The **ICAP framework** (CW14, Chi & Wylie 2014, abstract): engagement modes
+— B1 §1). (d) The **ICAP framework** (CW14, Chi & Wylie 2014; full text read S11b-1 → A6 §3): engagement modes
 **Interactive > Constructive > Active > Passive**, defined by overt behaviour; the ICAP
 hypothesis predicts learning increases along that order; validated by reviewing studies on note
 taking, concept mapping and self-explaining; also a tool to "dictate the proper choice of a
@@ -180,7 +185,9 @@ explaining, mapping), interactive (co-constructing with a partner who also contr
 rows.
 
 **Grade:** self-explanation **S**; ICAP **M** (a framework supported by the authors' review of
-three activity types; independent tests of the full ordering not reviewed here → `uncertain`).
+three activity types, CW14 full text — A6 §3; the one direct independent replication read so far,
+Cap25, did **not** reproduce the ordering on a text-reading task — A6 §3 `contested` edges; S12c).
+Use ICAP as a first cut for conceptual material, not as a law.
 
 **Use as learner.** Check your study activity's ICAP level: copying notes is *active*, not
 *constructive*; explaining why each step works, or arguing it with a partner who pushes back, is
@@ -267,8 +274,10 @@ mechanism-isolating experiment (Smi09), and the underlying active-learning meta 
 **Use as learner.** In a study group: everyone answers a conceptual question silently first,
 then argues, then answers a *different* question on the same idea alone.
 
-**Use as teacher.** Pick questions where 30–70% get it right on the first vote (discussion is
-most productive there — Mazur's practice guideline, `uncertain` source); always revote, and
+**Use as teacher.** Pick questions where **35–70%** get it right on the first vote — after
+discussion the share correct rises substantially in that band, most when ~50% start correct;
+below 35% the question may be ambiguous or too few students understand enough to discuss (CM01,
+full text, S12c — developer data, a practice rule rather than a tested threshold); always revote, and
 follow with an isomorphic question to check it was understanding, not copying.
 
 ---
@@ -281,24 +290,31 @@ with peer discussion, small-group tasks with immediate feedback, the instructor 
 what students produce ("deliberate practice" framing in class).
 
 **Evidence.**
-- **DSW11** (Deslauriers, Schelew & Wieman 2011, *Science*, abstract): two large sections
+- **DSW11** (Deslauriers, Schelew & Wieman 2011, *Science*, full text S12c): two large sections
   (N = 267, 271) of introductory physics; one week (3 hours) taught by an experienced, highly
   rated lecturer vs a trained but inexperienced instructor using research-based active
   instruction: "increased student attendance, higher engagement, and **more than twice the
-  learning**". Caveats: one week, one topic set, test written by the researchers, the active
-  instructors were co-authors.
+  learning**". Numbers: 12-question multiple-choice test, mean **41% vs 74%** (random guessing
+  23%), SD ≈ 13% in both → **effect size 2.5 SD** (the authors note other classroom studies
+  report < 1.0). Caveats from the paper itself: one week, one topic set, test written by the
+  researchers and given once, right after the unit (no delayed test); **171 vs 211** students
+  sat it (unequal attendance — a selection risk); the active instructors were co-authors.
+  The 2.5 is a demonstration, not an expected size.
 - **Fre14** (Freeman et al. 2014, *PNAS*, abstract — the meta Wieman's movement relies on):
   225 studies of undergraduate STEM: exam/concept-inventory scores **+0.47 SD** under active
   learning (158 studies); odds ratio for failing **1.95** under lecturing (67 studies) — "1.5
   times more likely to fail"; holds across disciplines and class sizes (largest in classes ≤ 50);
   trim-and-fill and fail-safe N "suggest that the results are not due to publication bias";
-  robust to study rigor. (Roster's "failure 34% → 21%" is the paper's body, not abstract →
-  backlog.)
-- **Des19** (Deslauriers et al. 2019, *PNAS*, abstract): randomized students, identical content,
-  active vs passive instruction (passive = "lectures by experienced and highly rated
-  instructors"): students in the active classroom **learned more but felt they learned less**;
-  the gap was partly caused by the greater cognitive effort; an early intervention explaining
-  this to students helped.
+  robust to study rigor. Body (full text, S12c): average failure rates **21.8%** under active
+  learning vs **33.8%** under lecturing.
+- **Des19** (Deslauriers et al. 2019, *PNAS*, full text S12c): 149 Harvard calculus-physics
+  students, randomized, **crossover** (each student got both conditions, two topics, week 12,
+  repeated in fall and spring), identical content and handouts; active vs passive instruction
+  (passive = "lectures by experienced and highly rated instructors"): on the end-of-class test
+  the active classroom scored **+0.46 SD** (p < 0.001) while students **felt they learned less**;
+  the gap was partly caused by the greater cognitive effort; a 20-minute early-semester
+  explanation to students helped. Caveat: the test was taken at the end of each class — no
+  delayed test.
 
 **Mechanism.** Retrieval + feedback + interactive/constructive engagement (B4b §5, §7); the
 Des19 result is A1's fluency illusion measured in a real course — effortful learning feels worse
@@ -328,7 +344,10 @@ scientific support for these theories is lacking"; educators' time is "better sp
 theories."
 
 **Mechanism.** Points to Part A: memory as "the residue of thought" (what you think about is what
-you remember — A6 depth of processing; book claim, wording `uncertain`), background knowledge as
+you remember — A6 depth of processing). The idea is checked at **Wil03** (Willingham 2003,
+*American Educator* Summer, full text, S12c): "one factor that trumps most others in determining
+what is remembered: what you think about when you encounter the material"; the exact "residue of
+thought" phrase is from his 2009 book (not read → wording `uncertain`). Background knowledge as
 the basis of critical thinking (A5), learning styles unsupported (A8).
 
 **Serves:** A3 rows 1–3 and 6 (the knowledge-first message).
@@ -376,7 +395,10 @@ read). Key review: **ANB21** (Agarwal, Nunes & Blunt 2021, *Educational Psycholo
 1409–1453, abstract): narrow definition of "classroom research"; ≈2,000 abstracts screened;
 **50 experiments, 49 effect sizes, n = 5,374; 57% showed medium or large benefits**; benefits
 across education levels, subjects, designs, delays, formats and feedback timing; **only 6% of
-experiments in non-WEIRD countries**.
+experiments in non-WEIRD countries**. Full text (preprint, S12c): the 50 experiments come from
+37 studies; 24 comparisons were too poorly reported to compute an effect size; the authors
+deliberately ran **no meta-analysis** (conditions "too varied"), so there is no pooled number —
+the 57% is a count of effect sizes by size band.
 
 **Mechanism.** → A4 retrieval-practice row; A1.
 
@@ -420,9 +442,10 @@ have several problem types; use elaboration and examples for understanding.
 
 ---
 
-## 13. Graham Nuthall (1935–2001*) — *The Hidden Lives of Learners*
+## 13. Graham Nuthall (1935–2004) — *The Hidden Lives of Learners*
 
-*\*Year of death: summaries say 2004; roster's 2001 is unverified → backlog.*
+*Dates per the University of Canterbury's Nuthall Trust page (S12c); 2001, in the first draft, was
+his retirement year.*
 
 **What he did.** Decades of fine-grained classroom observation in New Zealand: individual
 microphones on students, recording everything each student heard, said and did during a unit,
@@ -436,10 +459,16 @@ schemas."
 **The "three encounters" claim.** In *The Hidden Lives of Learners* (2007, posthumous; not read),
 p. 63 as quoted by a secondary source (Watson, Learning & the Brain blog — T3): a student needed to
 encounter the **full set of information** about a concept on **at least three different
-occasions** to learn it; the same secondary source notes p. 126 says **four**. Wexler (T3)
-reports Nuthall's rule predicted learning with **80–85%** accuracy. Status: `uncertain` — the
-count and accuracy come from very small observational samples, and the exact wording is
-unverified at the book (backlog).
+occasions** to learn it; the same secondary source notes p. 126 says **four**. The peer-reviewed
+origin is **NA93** (Nuthall & Alton-Lee 1993, *AERJ* 30(4) 799–840, abstract, S12c): from
+continuous recordings of individual students in three curriculum-unit studies (science and
+social studies, elementary and middle school), a model that "defines the number of instances and
+types of relevant experience required" and "the time intervals within which the experiences must
+occur"; its rules predicted which test items each student learned with **80–85% success**.
+Status: the model and the 80–85% are `settled` *as reported* (T1 abstract); the exact count
+("three" vs "four") is `uncertain` until the book or NA93's full text is read (S13). Caveat: the
+prediction rate comes from rules built on the same three studies — no independent test set is
+mentioned in the abstract.
 
 **Mechanism.** Repeated encounters spaced across a unit = **spacing** + multiple retrieval or
 re-encoding opportunities (A4 S); "full set of information" = complete schema components (A5);

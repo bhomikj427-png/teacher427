@@ -81,7 +81,7 @@
 | Paul Kirschner, Carl Hendrick | *How Learning Happens*; anti-minimal-guidance (KSC 2006) | translation | M (synthesis) |
 | Pooja Agarwal | Retrieval practice in classrooms (retrievalpractice.org) | factual/conceptual | S–M |
 | The Learning Scientists (Weinstein, Sumeracki, Caviglioli) | Six strategies; dual-coding graphics | translation | M |
-| Graham Nuthall (1935–2001) | *Hidden Lives of Learners*: ~3 encounters needed to learn a concept | all | T–M (verify claim) |
+| Graham Nuthall (1935–2004) | *Hidden Lives of Learners*: ~3 encounters needed to learn a concept | all | T–M (verify claim) |
 | John Hattie | *Visible Learning* effect-size league tables | — | contested (methodology critiques) — teach as a cautionary case |
 | Piotr Woźniak | SuperMemo / SM-2 spaced-repetition algorithm | factual | S (mechanism) |
 | Andy Matuschak & Michael Nielsen | Mnemonic medium (*Quantum Country*): SRS prompts inside a text | conceptual | T (preliminary, self-reported) |
@@ -104,7 +104,7 @@
 ## Open search leads (deep pass)
 - Locate the Learning-Sciences-PhD response video to Justin Sung; list Sung's claims one by one.
 - Mazur peer instruction meta-evidence; Montessori meta (Randolph et al. 2023); Kumon RCT full text.
-- Nuthall "three encounters" claim — primary source.
+- Nuthall "three encounters" claim — primary source. (S12c: NA93 found — model + 80–85% at T1; exact count at the book → S13)
 - Gagné's five learned-capability types and Krathwohl 2002 — anchor of Part A's taxonomy.
 - Suzuki & Moore method evidence (none found 2026-11-15 search).
 - Non-Western traditions beyond Confucius (gurukul, Talmudic *chavruta* paired study) — check for evidence.

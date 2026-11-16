@@ -806,11 +806,13 @@
 - **Why it feels true:** "mixing beats blocking" is the headline of the interleaving research.
 - **Correction:** in Rohrer's classroom studies the new skill was still introduced in its lesson;
   interleaving rearranged a **portion of the practice problems** across earlier units (RDS15,
-  RDHC20). Novices need a few blocked examples to form the method before they can choose between
-  methods (engine rule: block first, then interleave; BR19 moderators). Interleaving helps the
-  *choice*; it does not replace learning the procedure.
+  RDHC20). In RDHC20 (full text) that was nine 8-problem worksheets over four months in 54
+  seventh-grade classes — 60.7% vs 37.6% on a test a month later (d = 0.83). Novices need a few
+  blocked examples to form the method before they can choose between methods (engine rule: block
+  first, then interleave; BR19 moderators). Interleaving helps the *choice*; it does not replace
+  learning the procedure.
 - **Exposing question:** "Can the learner already do each method on its own?"
-- **Unit:** B4a §4. Status: written.
+- **Unit:** B4a §4. Status: verified (2026-11-16, RDHC20 + BR19 full text).
 
 ### M67 — Formative assessment reliably raises achievement by 0.4–0.7 SD
 - **Why it feels true:** the figure is repeated in training courses and attributed to Black &
@@ -842,9 +844,11 @@
   asking) and **interactive** (co-constructing with a partner). Learning is predicted to rise in
   that order; highlighting is rated low utility (D13). The active-learning gains in physics
   (Hak98, Smi09) come from committing to answers and arguing about them — constructive and
-  interactive work.
+  interactive work. Boundary: the ordering is a prediction, not a law — one independent test on a
+  text-reading task did not reproduce it (Cap25, A6 §3) — but no evidence makes highlighting or
+  copying count as more than *active*.
 - **Exposing question:** "What does the student produce that was not already on the page?"
-- **Unit:** B4b §5, §7. Status: written.
+- **Unit:** B4b §5, §7. Status: verified (2026-11-16, CW14 full text; Cap25 boundary).
 
 ### M70 — All the popular evidence-based strategies (the "six strategies") are equally proven
 - **Why it feels true:** they are presented together, in matching posters, all labelled
@@ -855,7 +859,7 @@
   on narrower or mixed evidence (concreteness fading `uncertain` size; No22 for multimedia).
   WMS18 describes "robust support" — true for some more than others.
 - **Exposing question:** "Which meta-analysis supports *this* one, and what are its moderators?"
-- **Unit:** B4b §12. Status: written.
+- **Unit:** B4b §12. Status: verified (2026-11-16, ANB21 + BR19 full text; D13 lists S11a).
 
 ### M71 — Students need exactly three encounters with a concept to learn it
 - **Why it feels true:** Nuthall's "three encounters" is quoted widely as a rule from careful
@@ -883,11 +887,12 @@
 ### M73 — If a class makes me feel I'm learning less, I am learning less
 - **Why it feels true:** a polished lecture feels clear and complete; active work feels confusing
   and slow.
-- **Correction:** in a randomized comparison with identical content, students in the active
-  class **learned more but felt they learned less**, partly because of the extra cognitive effort
-  (Des19). Feelings of fluency track ease of processing, not learning (A1 §6; Bjork B4a §1).
+- **Correction:** in a randomized crossover with identical content (149 students, each taught
+  both ways), students in the active class **learned more (+0.46 SD on the end-of-class test) but
+  felt they learned less**, partly because of the extra cognitive effort (Des19, full text).
+  Feelings of fluency track ease of processing, not learning (A1 §6; Bjork B4a §1).
 - **Exposing question:** "What did the delayed test say — not how did it feel?"
-- **Unit:** B4b §8. Status: written.
+- **Unit:** B4b §8. Status: verified (2026-11-16, Des19 full text).
 
 
 ### M74 — Flashcard apps are retrieval practice, so if flashcards disappoint, retrieval practice doesn't work

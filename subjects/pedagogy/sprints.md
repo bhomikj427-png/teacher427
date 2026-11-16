@@ -80,7 +80,7 @@
 | S10b | B5 practitioners (Sung entry from audit §5; Oakley, Scott Young + Feynman-technique items, Sherrington, Lemov, Christodoulou, Furst/Boxer/Mccrea/Harvard, Abdaal/Frank) | roster §5, justin-sung-audit §5, A3, A4, A8 §3 | `B5-practitioners.md` | each entry to protocol step 8 or dropped with reason; Feynman backlog rows closed or carried | split: **S10b-1 done 2026-11-16** (§1–4 Sung, Young, Oakley, Lemov) · **S10b-2 done 2026-11-16** (§5–8 + full summary) → **stage-1✓** |
 | S11a | Stage 2 — Part A verification: **A1–A4** (+ backlog rows targeted S11 that belong to A1–A4) | sprints.md, A1–A4, sources (IDs) | corrections in A1–A4 + sources + CHANGELOG | every A1–A4 effect size checked at the paper (abstract or better; full-text gaps carried with reason — wording amended 2026-11-16 per review to match the bar applied) ; `uncertain` tags resolved or kept with reason | **done 2026-11-16** (partial in session 4; finished S11a-rest: A4 swept; ATS17 g + SK21 method carried to S12 with reason) |
 | S11b | Stage 2 — Part A verification: **A5–A8** (+ their S11 backlog rows; engine 80% note) | sprints.md, A5–A8, sources (IDs) | corrections in A5–A8 + sources + CHANGELOG | same for A5–A8 | split (2026-11-16, context hygiene): **S11b-1 = A5 + A6** (GH80/83, Barnett & Ceci, MBF77, NA06, Pan & Carpenter 2023, LAA80/Stone) · **S11b-2 = A7 + A8 + engine 80% note** (Z02, DR12, DB08, RT11, P08, Y19, Dek12, 10%-brain, MPDK16, Ros12/80%) · **S11b-1 done 2026-11-16** (finished as S11b-1-rest; BC02, MBF77 primary, LAA80 numeric ES → S12 with reason) · **S11b-2 done 2026-11-16** (partial in session 7; finished S11b-2-rest in session 8: M87–M93, ladder) → **S11b done** |
-| S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | split (2026-11-16, context hygiene; ~50 backlog rows target S12): **S12a = B1** (backlog rows from S7a/S7b) · **S12b = B2 + B3** (rows from S8a/S8b) · **S12c = B4a + B4b** (rows from S9a/S9b) · **S12d = B5 + Sung + Part A stragglers** (rows from S10a/S10b + BC02, MBF77, LAA80, A2 priming, ATS17, SK21, CRK22, M85, DGBWR23) · **S12e = A↔B matrix** (`matrix.md`). Each part: re-check every grade in its files, work its backlog rows (close or carry with reason), Stage-2 ladder pass on its misconceptions · **S12a done 2026-11-16** (partial in session 9; finished S12a-rest in session 10: grades re-checked, M49–M56 all verified, book primaries carried to S13 with reason) · **S12b done 2026-11-16** (session 12: grades re-checked, Bruner CPA → M−; M15/M57/M59/M61/M63 verified; 8 sources added, 217) |
+| S12 | Stage 2 — Part B verification + A↔B matrix | all B files, A3, A4 | `matrix.md` (info type × teacher/method × grade) | every B grade re-checked; matrix complete | split (2026-11-16, context hygiene; ~50 backlog rows target S12): **S12a = B1** (backlog rows from S7a/S7b) · **S12b = B2 + B3** (rows from S8a/S8b) · **S12c = B4a + B4b** (rows from S9a/S9b) · **S12d = B5 + Sung + Part A stragglers** (rows from S10a/S10b + BC02, MBF77, LAA80, A2 priming, ATS17, SK21, CRK22, M85, DGBWR23) · **S12e = A↔B matrix** (`matrix.md`). Each part: re-check every grade in its files, work its backlog rows (close or carry with reason), Stage-2 ladder pass on its misconceptions · **S12a done 2026-11-16** (partial in session 9; finished S12a-rest in session 10: grades re-checked, M49–M56 all verified, book primaries carried to S13 with reason) · **S12b done 2026-11-16** (session 12: grades re-checked, Bruner CPA → M−; M15/M57/M59/M61/M63 verified; 8 sources added, 217) · **S12c partial 2026-11-16** (session 13: grades re-checked, 8 backlog rows closed, M66/M69/M70/M73 verified; open → S12c-rest: SM-2 controlled test, MN19 rest) |
 | S13 | §0 surplus test + integrity audit | everything | audit note in CHANGELOG; 00-map stamp | surplus test recorded; zero unsourced claims | **stage-2✓** |
 | S14 | Study-pack pilot (v1.2 spec) | study-pack-format.md, reference files, A1, A3 | `study-pack/00-START-HERE` + one topic file | learner sign-off | |
 | S15+ | Pack build in START-HERE priority order | spec + the topic's KB file | one or two topic files per session | each file passes spec checks | |
@@ -153,21 +153,21 @@ Read at start: <exact file list = Sy Inputs>
 | Any controlled test of *Teach Like a Champion* training or of Cold Call on learning (not participation) | S10b-1 | S12 |
 | Mat88 (Mathews *Escalante*) — Garfield year-by-year numbers, summer/Saturday sessions (in-copyright book) | S8b | S13 |
 | Marva Collins: any independent Westside Prep evaluation (none found); *Marva Collins' Way* (1982, in-copyright) | S8b | S13 |
-| Kel08 vol/pages; Make It Stick (2014) not read; MN19 remaining 34k chars | S9a | S12 |
-| Controlled test of SM-2 vs a fixed spacing schedule (B4a §5 `uncertain`) | S9a | S12 |
+| S12c closed: Kel08 bib ✓ (Crossref) · Kap08 abstract ✓ (design corrected) · Ben11 + Smi09 bib ✓ · ICAP independent test ✓ (Cap25, contrary) · Mazur band ✓ (CM01 full text: 35–70%) · Fre14 21.8/33.8% ✓ · DSW11 2.5 SD ✓ (full text) · Nuthall 1935–2004 ✓ (UC) · Willingham idea ✓ (Wil03; phrase = 2009 book) | — | — |
+| MN19 remaining ~34k chars (S12c-rest) · *Make It Stick* (2014, in-copyright book, not read) | S9a | S12c-rest / S13 |
+| Controlled test of SM-2 vs a fixed spacing schedule (B4a §5 `uncertain`) | S9a | S12c-rest |
 | S11b-2-rest closed: A7/A8 misconception pass ✓ (M87–M93 new; M42, M45, M47 → verified) · Wi19 authors + article no. ✓ (full text PMC6831579) | — | — |
 | Full text for the A7/A8 misconceptions still at `written`: RT11 (M41), KoB08 (M88), CGNA96 (M46, APA paywall), Hy07 (M91) | S11b-2-rest | S13 |
 | Og25's cited experiment [6] (Pomodoro-trained students beat fixed schedules on test performance) — identify and read | S11b-2-rest | S13 |
-| Kap08 abstract/full text (only TLDR seen); Ben11, Smi09 author/vol checks; ICAP independent tests | S9b-1 | S12 |
-| Mazur "30–70% first-vote" guideline — primary source | S9b-1 | S12 |
-| Fre14 failure rates (21.8% vs 33.8%?) at full text; DSW11 effect size | S9b-2 | S12 |
-| Nut07 three/four encounters at the book (pp. 63, 126); Nuthall death year (2001 vs 2004) | S9b-2 | S12 |
-| Hat09 "800+ metas" + d = 0.40 hinge at the book; Willingham "residue of thought" wording | S9b-2 | S12 |
+| Nut07 three/four encounters at the book (pp. 63, 126) or NA93 full text (AERJ, closed) | S9b-2 | S13 |
+| Hat09 d = 0.40 hinge at the book ("over 800" is its subtitle); Willingham 2009 book "residue of thought" wording | S9b-2 | S13 |
 | *Seven Myths* chapter-level source check (book not read; EAP17 review only); *Teaching Secondary Science* (Boxer) claim at the book (LB-AB review only) | S10b-2 | S12 |
 | Laming *Human Judgment* (2004) "no absolute judgement" rationale for CJ — read or soften (B5 §6 `uncertain`) | S10b-2 | S12 |
 | GFG01 abstract/full text (motivation decline through school); Mccrea's expectation principle in his own words (only reviewer summaries) | S10b-2 | S12 |
 | Abdaal's "2011 Swahili study" = KBa11? (design matches; confirm from video description/on-screen citation) + the "+50%" figure; TF19 description links | S10b-2 | S12 |
 | Willingham 2003 deep/shallow knowledge (cited by Furst, EF26) — read | S10b-2 | S12 |
+| B4 misconceptions still `written`: M64 (McD11, RAMM11), M65 (RD11), M67 (KN11) — paywalled, no repository copy found S12c; M71 (NA93 full text); M72 (Sim17: Durham repository 403 to WebFetch + curl) | S12c | S13 |
+| M68 to `verified` needs SK21 full text (already an S12d row) | S12c | S12d |
 | Lead: EdWeek Oct 2026 report of an *EEPA* coaching RCT (ICP) with null effects on scores — check primary; may update KBH18 "shrinks at scale" line | S10b-2 | S12 |
 
 ## Research tooling notes (what worked, S7a–S7b — read with the hand-off)
@@ -207,41 +207,40 @@ Read at start: <exact file list = Sy Inputs>
 ## Current hand-off
 
 ```
-Sprint: S12b — Part B verification, B2 + B3 — done (2026-11-16, session 12) — auto.py milestone
-  sprint 3 of 5
-Written: B2 §1 (BKK91 frequent-testing mechanism) · §2 VL11 table · §3 Gagné LY25 note · §5 Bruner
-  CPA M− (+ Summary) · §7 SMS24 journal note · §8 PD `contested` · B3 §1 Grade-line tag fixed ·
-  §2 expectancy (JH05, Ra84) · §3 phonics pointer (ENSW01) · misconceptions M15/M57/M59/M61/M63 →
-  verified, M62 rewritten · sources +8 (217 rows) · CHANGELOG · backlog
-Verified this sprint: full text — BKK91, LY25, VL11-sl (author slides); abstract — JH05, Ra84,
-  ENSW01, LHGP19, Ken16, SMS24 journal; bib — Ash05
-Open (carried, all S13): KKC79/KKB90 numbers; Ke68 wording; Gagné/Ausubel/Bruner book wording;
-  Feynman preface; Mat88; Collins; JH05/Ra84 full text; M58/M60/M62 to verified
-Decisions made: same mechanism → same grade across B files (Bruner CPA follows Pestalozzi M−).
-  A pooled meta with I² ≥ 90% on small unblinded studies gives direction only; size `suspect`.
-  Out-of-scope evidence (phonics) is included as a short pointer, not a new unit.
+Sprint: S12c — Part B verification, B4a + B4b — partial (2026-11-16, session 13) — auto.py
+  milestone still 3 of 5 (S12c counts when S12c-rest finishes it)
+Written: B4b §4 Kap08 design corrected (no instruction phase in 2008) · §5 ICAP grade reason (CW14
+  full text + Cap25 contrary) · §7 Mazur band 35–70% (CM01) · §8 DSW11 2.5 SD, Fre14 21.8/33.8%,
+  Des19 crossover +0.46 SD · §9 Wil03 · §11 ANB21 no-meta note · §13 Nuthall 1935–2004 + NA93 ·
+  misconceptions M66/M69/M70/M73 → verified · sources +NA93, +Wil03, CW14 duplicate merged
+  (218 unique IDs) · roster Nuthall dates · CHANGELOG · backlog
+Verified this sprint: full text — Fre14 (PMC), DSW11, Des19, RDHC20, ANB21 (preprint), KSC06, CM01,
+  Wil03; abstract — Kap08, NA93; bib — Ben11, Smi09, Kel08, NAL95; UC page — Nuthall dates
+Open (carried): S12c-rest — SM-2 vs fixed-schedule controlled test (search); MN19 remaining text.
+  S13 — M64/M65/M67 sources paywalled; M71 NA93 full text; M72 Sim17 (403); Nut07, Hat09,
+  Willingham 2009, Make It Stick (books). S12d — SK21 full text (also lifts M68).
+Decisions made: a misconception goes to `verified` only when its load-bearing source is read at
+  full text (M68 held back on SK21 abstract). A developer's practice rule found at the primary is
+  written as "practice rule, not a tested threshold" (Mazur band).
 Assumptions to review (open): (6) GH83 gwern scan / GH80 via recap. (7) Cap25 no delayed test.
   (8) A6 §4 range = engine's reading. (9) S11a Done-when reworded. (10) DB08 moderators via Pan17.
   (12) "10% brain" prevalence-only. (13) M42 verified via DGBWR23. (14) M92 placed in A8 §3.
   (15) Og25 [6] `uncertain`. (16) RS1599 = Farrell from intro + catalog. (17) CSJ01 = Chi lab copy.
   (18) Orbis Pictus "first" dropped. (19) Pestalozzi fading lowered to M− on one abstract-level
-  study (BG13) + an underspecified theory. (20) M50/M51/M54 marked verified where part of the
-  correction rests on abstracts (LH16, KSC06, BG13) and the load-bearing part on full text.
-  (21) VL11 table taken from VanLehn's own talk slides, not the paper. (22) M15/M63 verified on the
-  same rule as (20). (23) LY25 author initials from the paper header (Chinese name order may be
-  reversed). (24) Phonics included as a pointer rather than dropped. (25) Log-first slip on the
-  VL11 edit (KB written seconds before its log line, same step).
-Next sprint: S12c — Part B verification, B4a + B4b — first action: re-check every grade in the B4a
-  and B4b Summary tables against their entries; then work the backlog rows raised S9a/S9b (Kel08,
-  Make It Stick, MN19, SM-2 vs fixed schedule, Kap08/Ben11/Smi09/ICAP, Mazur 30–70%, Fre14/DSW11,
-  Nut07 + Nuthall death year, Hat09 + Willingham wording) — close or carry each with reason;
-  Stage-2 ladder pass on B4a/B4b misconceptions (M64 onward; check the index for their range).
-  Tick S12c.
+  study (BG13) + an underspecified theory. (20) M50/M51/M54 verified where part of the correction
+  rests on abstracts and the load-bearing part on full text. (21) VL11 table from VanLehn's own
+  slides. (22) M15/M63 verified on the same rule as (20). (23) LY25 author initials from the
+  paper header. (24) Phonics included as a pointer. (25) Log-first slip on the S12b VL11 edit. New:
+  (26) ANB21 numbers taken from the PsyArXiv preprint, not the journal version. (27) KSC06 read
+  from a course-reading copy (davidlewisphd.com). (28) Nuthall death year from the University of
+  Canterbury trust page (no obituary read). (29) M70 verified with D13 lists checked only in S11a.
+Next sprint: S12c-rest — first action: search for a controlled test of SM-2 (or any adaptive
+  scheduler) vs a fixed expanding schedule on delayed retention; write the result into B4a §5;
+  then read the rest of MN19 (numinous.productions/ttft) for any further numbers/caveats → B4a §6;
+  close both rows; Done-when check; tick S12c (milestone 4 of 5); then S12d.
 Read at start: sprints.md (hand-off + Verify backlog + tooling notes),
-  knowledge-base/B4a-researchers-memory.md + B4b-researchers-instruction.md (Summary sections first;
-  single entries only as a row needs them), knowledge-base/misconceptions.md (index + B4 entries
-  only), knowledge-base/sources.md (grep by ID). Note: curl downloads now often return HTML —
-  WebFetch saves real PDFs to tool-results (then pdfgrep.py); Europe PMC via epmc.py works. Scratch helpers in the temp dir: cr.py, oa.py (OpenAlex OA
-  links + abstract), epmc.py (Europe PMC full text), pdfgrep.py (PDF keyword windows); cap.py in
-  research-tools greps any text file.
+  knowledge-base/B4a-researchers-memory.md §5–§6 only, knowledge-base/sources.md (grep by ID).
+  Scratch helpers in the temp dir: cr.py, oa.py, epmc.py, pdfgrep.py, logadd.py (+ add.txt),
+  rowsub.py (edit one sources row), rowins.py (insert a row after an ID), dedup.py; cap.py lives
+  in subjects/pedagogy/research-tools (use the absolute path).
 ```
