@@ -57,12 +57,18 @@ import figs_u1  # noqa: E402  (v1.3 unit-1 figures, S1)
 ALL.update(figs_u1.FIGS)
 import figs_u3  # noqa: E402  (v1.3 unit-3 figures, S2: waveforms + figs_u3_sch schematics)
 ALL.update(figs_u3.FIGS)
+import figs_u3c  # noqa: E402  (v1.3 unit-3 counter figures, S3)
+ALL.update(figs_u3c.FIGS)
 import matplotlib.pyplot as _plt  # noqa: E402  the v1 modules select the svg backend on import; figlib's check needs Agg
 _plt.switch_backend("Agg")
 
 ALL["adder_sub"] = lambda: figs1.ripple_adder(True)
 ALL["km_T1"] = lambda: _km([1, 3, 5, 7], [([1, 3, 5, 7], "T1 = Q0")])
 ALL["km_T2"] = lambda: _km([3, 7], [([3, 7], "T2 = Q1Q0")])
+ALL["km_D1_down"] = lambda: _km([0, 3, 4, 7], [([0, 4], "Q1'Q0'"), ([3, 7], "Q1Q0")])
+ALL["km_D2_down"] = lambda: _km([0, 5, 6, 7], [([6, 7], "Q2Q1"), ([5, 7], "Q2Q0"), ([0], "Q2'Q1'Q0'")])
+ALL["km_J0_gray"] = lambda: _km([0, 6], [([0, 1], "Q2'Q1'"), ([6, 7], "Q2Q1")], dcs=[1, 3, 5, 7])
+ALL["km_K0_gray"] = lambda: _km([3, 5], [([2, 3], "Q2'Q1"), ([4, 5], "Q2Q1'")], dcs=[0, 2, 4, 6])
 
 # K-map classes from the site stylesheet (the renderer is shared with the site), light theme only.
 KCSS = "\n".join(l for l in (ROOT / "site" / "static" / "style.css").read_text(encoding="utf-8").splitlines()

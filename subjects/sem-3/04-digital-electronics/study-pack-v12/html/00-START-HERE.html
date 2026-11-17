@@ -97,8 +97,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>1</td>
 <td><strong>13 Synchronous counters</strong></td>
 <td>The mid-term's only 8-mark question; practice set 2 Q4–Q6; deck 10</td>
-<td>13 §2–§3</td>
-<td>60 min</td>
+<td>13 steps 6–7 (MTE Q8)</td>
+<td>75 min</td>
 </tr>
 <tr>
 <td>2</td>
@@ -146,8 +146,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>8</td>
 <td><strong>11, 12 Registers, ripple counters</strong></td>
 <td>Decks 09–10</td>
-<td>12 MOD-N reset</td>
-<td>40 min</td>
+<td>12 steps 6–7 (MOD-N by reset)</td>
+<td>45 min</td>
 </tr>
 <tr>
 <td>9</td>
@@ -299,13 +299,13 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <tr>
 <td>12</td>
 <td>U3</td>
-<td>ripple up/down, MOD-N by reset, cascading</td>
-<td>deck 10</td>
+<td>ripple up and down counters, frequency division, ripple delay, MOD-N by reset, decade, cascading</td>
+<td>deck 10 slide 14</td>
 </tr>
 <tr>
 <td>13</td>
 <td>U3</td>
-<td>synchronous counter design with T, JK, D; MOD-N; any sequence</td>
+<td>synchronous counter design with D, T, JK; down; decade; unused states; up/down; Gray</td>
 <td>MTE Q8, set 2 Q4–Q6</td>
 </tr>
 <tr>
@@ -433,6 +433,24 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>three variables have only minterms 0–7</td>
 </tr>
 <tr>
+<td>Deck 10 slide 6 (12)</td>
+<td>"3-bit down counter" clocked from Q0, Q1 (negative edge)</td>
+<td>clock from Q0', Q1'</td>
+<td>negative-edge stages clocked from Q count up; slide 15 has the right circuit</td>
+</tr>
+<tr>
+<td>Deck 10 slides 12–13 (12)</td>
+<td>flip-flops D, C, B, A with D the LSB; slide 12's NAND wire runs over D</td>
+<td>Q0–Q3, NAND on Q3, Q1</td>
+<td>same circuit, usual bit order; slide 13 draws the wire from C</td>
+</tr>
+<tr>
+<td>Deck 10 slide 36 (13)</td>
+<td>J1 = Q2'Q0', K1 = Q2Q0' (as transcribed; <code>uncertain</code>)</td>
+<td>J1 = Q2'Q0, K1 = Q2Q0</td>
+<td>FF1 sets only at 001 and resets only at 111; slide 37 agrees</td>
+</tr>
+<tr>
 <td>Deck header vs paper</td>
 <td>ECE 2105</td>
 <td>ECE2102</td>
@@ -443,6 +461,6 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <h2>How this pack was checked</h2>
 <ul>
 <li>Facts: the subject knowledge base (Anand Kumar, Jain, Brown &amp; Vranesic, Mano).</li>
-<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 <code>verify.py</code>, 192 checks, plus <code>src/verify.py</code>: 237 checks: every expression in 01–03, and every latch/flip-flop table, conversion and waveform answer in 09–10 simulated).</li>
+<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 <code>verify.py</code>, 192 checks, plus <code>src/verify.py</code>: 311 checks: every expression in 01–03; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated).</li>
 <li>Where a slide has a slip, the pack uses the corrected version and says so in a Note.</li>
 </ul></body></html>

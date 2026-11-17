@@ -199,3 +199,6 @@
 - 2026-11-17 auto session 6: S2 done. 09/10 section check (13 + 7 steps), build 09 10 00 no OVERLAP, agy page check 30 pp no problems (1st run timed out, retry ok), START-HERE how-checked = 237 checks, MTE Q7 sentence fixed. Next up: S3 (12 + 13 counters).
 
 - 2026-11-17 S3 start (session 7): rebuild 12 ripple counters + 13 synchronous counters to v1.3; figures to Sonnet subagent.
+
+- 2026-11-17 auto session 8: resumed S3 after session 7 crash (usage limit). Session 7 left only verify.py u3c (64 checks; one syntax slip in the 12 s6 check fixed, now 0 failures); no content or figures written. Writing 12 (8 steps) + 13 (12 steps, no a/b split); figures to a Sonnet subagent.
+- 2026-11-17 auto session 8: S3 done. 12 (8 steps) + 13 (12 steps, no split) rebuilt; figs_u3c.py (Sonnet) + 4 K-maps; verify 311 checks 0 failures; build 12 13 00 no OVERLAP; agy page check: 3 raw \qquad lines fixed; START-HERE ranks/table/slips/how-checked updated. Next up: S4 (15 + 16 FSM, reduction, ASM).

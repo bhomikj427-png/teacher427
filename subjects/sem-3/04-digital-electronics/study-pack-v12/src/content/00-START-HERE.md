@@ -8,14 +8,14 @@ Ranked by the professor's own material: the 2025 mid-term paper (30 marks: 2-mar
 
 | Rank | Study | Why it ranks here | Do first | Rough time |
 |---|---|---|---|---|
-| 1 | **13 Synchronous counters** | The mid-term's only 8-mark question; practice set 2 Q4–Q6; deck 10 | 13 §2–§3 | 60 min |
+| 1 | **13 Synchronous counters** | The mid-term's only 8-mark question; practice set 2 Q4–Q6; deck 10 | 13 steps 6–7 (MTE Q8) | 75 min |
 | 2 | **15 FSM design** | Deck 11, with five practice detectors on its last slide; Unit 4 is not yet examined | 15 the 1101 detector | 60 min |
 | 3 | **02 K-map** | Mid-term Q4 (4 marks); practice set 1 Q1, Q4 | 02 §7 don't-cares (MTE Q4) | 60 min |
 | 4 | **05 MUX, DEMUX** | Mid-term Q5 (4 marks); practice set 1 Q3, Q5, Q6 | 05 n variables on a smaller MUX | 40 min |
 | 5 | **06 Decoder, encoder** | Mid-term Q6 (4 marks); practice set 1 Q7, Q8 | 06 function from a decoder | 30 min |
 | 6 | **09, 10 Flip-flops and waveforms** | Mid-term Q3 (2) and Q7 (4); practice set 2 Q1–Q3 | 10 the waveform procedure | 50 min |
 | 7 | **16 State reduction, ASM** | Decks 12–13, worked tables | 16 partitioning | 45 min |
-| 8 | **11, 12 Registers, ripple counters** | Decks 09–10 | 12 MOD-N reset | 40 min |
+| 8 | **11, 12 Registers, ripple counters** | Decks 09–10 | 12 steps 6–7 (MOD-N by reset) | 45 min |
 | 9 | **19 Memories, PLDs** | Deck 15, with PAL and PLA design examples | 19 PLA table | 40 min |
 | 10 | **18 Logic families** | Deck 14 | 18 noise margin, fan-out | 35 min |
 | 11 | **04 Adders, subtractors** | Deck 03; mid-term Q6 used the full adder | 04 full adder | 30 min |
@@ -64,8 +64,8 @@ Each file needs the ones before it. 02 is Boolean algebra drawn as a grid. 05–
 | 09 | U3 | SR latch, D latch, SR/D/JK/T flip-flops, master–slave, excitation, conversion | MTE Q3, set 2 Q1 |
 | 10 | U3 | drawing flip-flop and latch waveforms | MTE Q7, set 2 Q2–Q3 |
 | 11 | U3 | SISO, SIPO, PISO, PIPO, universal register, ring, Johnson | deck 09 |
-| 12 | U3 | ripple up/down, MOD-N by reset, cascading | deck 10 |
-| 13 | U3 | synchronous counter design with T, JK, D; MOD-N; any sequence | MTE Q8, set 2 Q4–Q6 |
+| 12 | U3 | ripple up and down counters, frequency division, ripple delay, MOD-N by reset, decade, cascading | deck 10 slide 14 |
+| 13 | U3 | synchronous counter design with D, T, JK; down; decade; unused states; up/down; Gray | MTE Q8, set 2 Q4–Q6 |
 | 14 | U3 | setup, hold, propagation delay, f_{max} | practice |
 | 15 | U4 | Moore and Mealy, sequence detectors, state assignment | deck 11 |
 | 16 | U4 | partitioning, implication tables, compatibles, ASM charts | decks 12–13 |
@@ -109,10 +109,13 @@ When you reach a **Guess first** box, write a guess on paper **before** reading 
 | Deck 02 slide 28 (02) | F(a, b, c) = Σm(2, 4, 5, 7) under the map | Σm(2, 3, 6, 7) | the map and slide 27 both use 2, 3, 6, 7 |
 | Deck 01 slide 41 (03) | circuit output labelled Z | F | Z is already an input of the circuit |
 | Deck 15 slide 28 (19) | F_{2}(A, B, C), F_{3}(A, B, C) with minterms up to 15 | functions of A, B, C, D | three variables have only minterms 0–7 |
+| Deck 10 slide 6 (12) | "3-bit down counter" clocked from Q0, Q1 (negative edge) | clock from Q0', Q1' | negative-edge stages clocked from Q count up; slide 15 has the right circuit |
+| Deck 10 slides 12–13 (12) | flip-flops D, C, B, A with D the LSB; slide 12's NAND wire runs over D | Q0–Q3, NAND on Q3, Q1 | same circuit, usual bit order; slide 13 draws the wire from C |
+| Deck 10 slide 36 (13) | J1 = Q2'Q0', K1 = Q2Q0' (as transcribed; `uncertain`) | J1 = Q2'Q0, K1 = Q2Q0 | FF1 sets only at 001 and resets only at 111; slide 37 agrees |
 | Deck header vs paper | ECE 2105 | ECE2102 | same syllabus; the deck code is stale |
 
 ## How this pack was checked
 
 - Facts: the subject knowledge base (Anand Kumar, Jain, Brown & Vranesic, Mano).
-- Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 `verify.py`, 192 checks, plus `src/verify.py`: 237 checks: every expression in 01–03, and every latch/flip-flop table, conversion and waveform answer in 09–10 simulated).
+- Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 `verify.py`, 192 checks, plus `src/verify.py`: 311 checks: every expression in 01–03; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated).
 - Where a slide has a slip, the pack uses the corrected version and says so in a Note.

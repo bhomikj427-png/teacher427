@@ -635,7 +635,7 @@ def u3c():
     ok("12 c5 4-bit 25 ns -> 100 ns, 10 MHz; worst edges 0111->1000 and 1111->0000 change 4 stages",
        abs(1 / 100e-9 - 10e6) < 1 and len(ripple_trace(4, 7)) == 4 and len(ripple_trace(4, 15)) == 4)
     seq, tmp = run_ripple_mod(3, [1, 2], [0, 1, 2], steps=12)
-    ok("12 s6 MOD-6 (NAND on Q2,Q1 -> all CLR'): 0..5,0 twice; momentary 110", seq == [0, 1, 2, 3, 4, 5, 0] * 2 [:13] and tmp == [6, 6], (seq, tmp))
+    ok("12 s6 MOD-6 (NAND on Q2,Q1 -> all CLR'): 0..5,0 twice; momentary 110", seq == [0, 1, 2, 3, 4, 5] * 2 + [0] and tmp == [6, 6], (seq, tmp))
     seq, tmp = run_ripple_mod(4, [1, 3], [0, 1, 2, 3], steps=11)
     ok("12 s7 decade (NAND on Q3,Q1): 0..9,0,1; momentary 1010", seq == list(range(10)) + [0, 1] and tmp == [10], (seq, tmp))
     ok("12 s7 MOD-10: Q3 high for counts 8, 9 -> 1 kHz at 10 kHz clock, high 2 of 10 periods = 20 %",
@@ -716,6 +716,20 @@ def u3c():
     check_sop("13 s12 J0 (Q0=1 rows free)", "Q2Q1 + Q2'Q1'", j0, Q3, [1, 3, 5, 7])
     check_sop("13 s12 K0 (Q0=0 rows free)", "Q2Q1' + Q2'Q1", k0, Q3, [0, 2, 4, 6])
     ok("13 c12 Gray 110 -> 111: only FF0", gn[6] == 7)
+    # session 8 additions (numbers printed in the rebuilt 12/13)
+    ok("13 s1 ripple 4-bit 4 x 10 = 40 ns -> 25 MHz", abs(1 / 40e-9 - 25e6) < 1)
+    ok("13 c7a 3-bit up JK: J=K=1, Q0, Q1Q0",
+       run_sync("JK", [{"J": "Q1Q0", "K": "Q1Q0"}, {"J": "Q0", "K": "Q0"}, {"J": "1", "K": "1"}], 0, 8, Q3) == list(range(8)) + [0])
+    check_sop("13 c3 2-bit down D1", "Q1'Q0' + Q1Q0", [s for s in range(4) if ((s - 1) % 4) >> 1 & 1], Q2)
+    ok("13 c4 2-bit down T columns 11,01,11,01", [s ^ ((s - 1) % 4) for s in range(4)] == [3, 1, 3, 1])
+    seq = run_sync("T", [{"T": "0"}, {"T": "Q0Q1U + Q0'Q1'U'"}, {"T": "Q0U + Q0'U'"}, {"T": "1"}], 4, 1, ["U", "Q2", "Q1", "Q0"])
+    ok("13 c11 Up=0 at 100 -> 011", [s & 7 for s in seq] == [4, 3], seq)
+    ok("13 c6 rows 101->110 T=011, 110->111 T=001", tcols[5] == 3 and tcols[6] == 1)
+    ok("13 c9 binary T1 = Q0 at 1001 toggles Q1 (decade needs 0)", (9 & 1) == 1 and ((9 ^ 0) >> 1 & 1) == 0)
+    ok("12 st7 decade x decade = MOD-100; 1 MHz -> 10 kHz", 10 * 10 == 100 and 1e6 / 100 == 1e4)
+    ok("12 c8b 24 = 3x8 = 4x6 = 2x12; 60 = 6x10 = 4x15 = 5x12", 3 * 8 == 4 * 6 == 2 * 12 == 24 and 6 * 10 == 4 * 15 == 5 * 12 == 60)
+    ok("12 c4 edge/clock-source rule: pos-edge from Q -> down; pos-edge from Q' -> up (= neg-edge from Q)",
+       run_ripple(3, False, 0, 3) == [0, 7, 6, 5] and run_ripple(2, True, 0, 4) == [0, 1, 2, 3, 0])
 
 
 UNITS = {"u0": u0, "u1": u1, "u3": u3, "u3c": u3c}

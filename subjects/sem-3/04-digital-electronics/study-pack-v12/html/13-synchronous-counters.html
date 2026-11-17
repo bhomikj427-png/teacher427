@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>13 — Designing synchronous counters</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>13 — Synchronous counters</title><style>
 @page { size: A4; margin: 16mm 15mm 16mm 15mm;
   @bottom-left { content: "ECE2102 Digital Electronics · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
   @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
@@ -77,297 +77,99 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 .c1 .k-grp, .c1 .k-chip { fill: var(--g1); stroke: var(--g1); } .c1 .k-chip-t, .g-term.c1 { fill: var(--g1); }
 .c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
 .c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
-.c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>13 — Designing synchronous counters</h1>
-<div class="sub">Deck 10 slides 18–37 · practice set 2 Q4–Q6 · 2025 mid-term Q8 (8 marks) · syllabus Unit 3 · needs 09 (flip-flops, excitation tables) and 12 (ripple counters)</div>
+.c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>13 — Synchronous counters</h1>
+<div class="sub">Deck 10 (slides 18–37) · syllabus Unit 3 (synchronous counters, up/down counters, MOD-N counters) · 4 real questions: MTE 2025 Q8 (8 marks), practice set 2 Q4, Q5, Q6 · needs 09 step 12 (excitation tables), 02 steps 1–5 and 7 (K-maps, don't-cares), 12 steps 5–7 (ripple delay, MOD-N, decade counter)</div>
 
 <h2>Map</h2>
-<div class="map"><span class="n here">1 Why synchronous</span><span class="a">→</span><span class="n">2 State table and excitation</span><span class="a">→</span><span class="n">3 K-maps and circuit</span><span class="a">→</span><span class="n">4 Other flip-flop types</span><span class="a">→</span><span class="n">5 MOD-N, unused states</span><span class="a">→</span><span class="n">6 Any sequence</span></div>
+<div class="map"><span class="n here">1 Why one shared clock</span><span class="a">→</span><span class="n">2 State diagram and state table</span><span class="a">→</span><span class="n">3 D flip-flops</span><span class="a">→</span><span class="n">4 T flip-flops</span><span class="a">→</span><span class="n">5 JK flip-flops</span><span class="a">→</span><span class="n">6 MTE Q8: the 3-bit table</span><span class="a">→</span><span class="n">7 MTE Q8: K-maps and circuit</span><span class="a">→</span><span class="n">8 Down counters</span><span class="a">→</span><span class="n">9 MOD-N: the decade counter</span><span class="a">→</span><span class="n">10 Unused states, self-starting</span><span class="a">→</span><span class="n">11 Up/down counters</span><span class="a">→</span><span class="n">12 Any sequence: Gray code</span></div>
 
-<p>12 built a counter by letting each flip-flop clock the next. This file gives every flip-flop the same clock and lets gates decide which ones change. The method is the same one 15 uses for every state machine.</p>
-<h2>The questions this file answers</h2>
-<ul>
-<li><span class="tag">MTE 2025 Q8 · 8 marks</span> Design a synchronous counter that counts clock pulses from 0–7 using negative edge triggered T flip-flops.</li>
-<li><span class="tag">Set 2 Q4</span> Design 2-bit synchronous up counter.</li>
-<li><span class="tag">Set 2 Q5, Q6</span> 2-bit synchronous down counter using TFF; 3-bit synchronous down counter using DFF.</li>
-<li><span class="tag">Deck 10 slides 34–37</span> MOD counters and a Gray-code counter with JK flip-flops.</li>
-</ul>
-<hr />
-<h2>Build</h2>
-<h3>1 · Why synchronous</h3>
-<div class="box guess">
-<div class="bh">Predict</div>
-<p>A 3-bit ripple counter goes from 011 to 100. All three bits must change. Do they change at the same instant?</p>
-</div>
-
-<figure style="max-width:100%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 485.64 151.98266" xmlns="http://www.w3.org/2000/svg" version="1.1">
- <metadata>
-  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-   <cc:Work>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:10.666329</dc:date>
-    <dc:format>image/svg+xml</dc:format>
-    <dc:creator>
-     <cc:Agent>
-      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
-     </cc:Agent>
-    </dc:creator>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
- <defs>
-  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
- </defs>
- <g id="figure_1">
-  <g id="patch_1">
-   <path d="M 0 151.98266 
-L 485.64 151.98266 
-L 485.64 0 
-L 0 0 
-L 0 151.98266 
-z
-" style="fill: none"/>
-  </g>
-  <g id="axes_1">
-   <g id="patch_2">
-    <path d="M 245.4 144.29786 
-L 263.976 144.29786 
-L 263.976 9.76346 
-L 245.4 9.76346 
-z
-" clip-path="url(#pf752390f3b)" style="fill: #d92d20; opacity: 0.13"/>
-   </g>
-   <g id="line2d_1">
-    <path d="M 39 48.20186 
-L 64.8 48.20186 
-L 64.8 28.98266 
-L 90.6 28.98266 
-L 90.6 48.20186 
-L 116.4 48.20186 
-L 116.4 28.98266 
-L 142.2 28.98266 
-L 142.2 48.20186 
-L 168 48.20186 
-L 168 28.98266 
-L 193.8 28.98266 
-L 193.8 48.20186 
-L 219.6 48.20186 
-L 219.6 28.98266 
-L 245.4 28.98266 
-L 245.4 48.20186 
-L 271.2 48.20186 
-L 271.2 28.98266 
-L 297 28.98266 
-L 297 48.20186 
-L 322.8 48.20186 
-L 322.8 28.98266 
-L 348.6 28.98266 
-L 348.6 48.20186 
-L 374.4 48.20186 
-L 374.4 28.98266 
-L 400.2 28.98266 
-L 400.2 48.20186 
-L 426 48.20186 
-L 426 28.98266 
-L 451.8 28.98266 
-L 451.8 48.20186 
-L 477.6 48.20186 
-" clip-path="url(#pf752390f3b)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_2">
-    <path d="M 39 77.03066 
-L 96.792 77.03066 
-L 96.792 57.81146 
-L 148.392 57.81146 
-L 148.392 77.03066 
-L 199.992 77.03066 
-L 199.992 57.81146 
-L 251.592 57.81146 
-L 251.592 77.03066 
-L 303.192 77.03066 
-L 303.192 57.81146 
-L 354.792 57.81146 
-L 354.792 77.03066 
-L 406.392 77.03066 
-L 406.392 57.81146 
-L 457.992 57.81146 
-L 457.992 77.03066 
-L 477.6 77.03066 
-" clip-path="url(#pf752390f3b)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_3">
-    <path d="M 39 105.85946 
-L 154.584 105.85946 
-L 154.584 86.64026 
-L 257.784 86.64026 
-L 257.784 105.85946 
-L 360.984 105.85946 
-L 360.984 86.64026 
-L 464.184 86.64026 
-L 464.184 105.85946 
-L 477.6 105.85946 
-" clip-path="url(#pf752390f3b)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_4">
-    <path d="M 39 134.68826 
-L 263.976 134.68826 
-L 263.976 115.46906 
-L 470.376 115.46906 
-L 470.376 134.68826 
-L 477.6 134.68826 
-" clip-path="url(#pf752390f3b)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_5">
-    <path d="M 245.4 149.10266 
-L 245.4 4.95866 
-" clip-path="url(#pf752390f3b)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
-   </g>
-   <g id="text_1">
-    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="32.55" y="41.016244" transform="rotate(-0 32.55 41.016244)">CLK</text>
-   </g>
-   <g id="text_2">
-    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="32.55" y="69.845044" transform="rotate(-0 32.55 69.845044)">Q0</text>
-   </g>
-   <g id="text_3">
-    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="32.55" y="98.673844" transform="rotate(-0 32.55 98.673844)">Q1</text>
-   </g>
-   <g id="text_4">
-    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="32.55" y="127.502644" transform="rotate(-0 32.55 127.502644)">Q2</text>
-   </g>
-   <g id="text_5">
-    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="245.4" y="8.8025" transform="rotate(-0 245.4 8.8025)">edge 4: 011 → 100</text>
-   </g>
-  </g>
- </g>
- <defs>
-  <clipPath id="pf752390f3b">
-   <rect x="2.88" y="4.95866" width="479.88" height="144.144"/>
-  </clipPath>
- </defs>
-</svg>
-<figcaption>A ripple counter (12): after the 4th edge the outputs pass through 010 and 000 before settling at 100 (shaded).</figcaption></figure>
-
-<p>In a ripple counter each flip-flop waits for the one before it, so the outputs settle one flip-flop delay t<sub>pd</sub> after another. For n bits the worst wait is <strong>n·t<sub>pd</sub></strong>, and anything reading the outputs sees false counts on the way.</p>
-<div class="box note">
-<div class="bh">Terms</div>
-<p><strong>Synchronous counter:</strong> every flip-flop gets the same clock, so all outputs change together, one t<sub>pd</sub> after the edge. <strong>Flip-flop input logic:</strong> the gates in front of each flip-flop that decide whether it changes at the next edge.</p>
-</div>
-<p><strong>Answer.</strong> No. Q0 changes first, then Q1, then Q2, so the counter briefly shows 010 and 000. A synchronous counter changes all three together.</p>
-<div class="box check">
-<div class="bh">Check 1</div>
-<p>(a) A 4-bit ripple counter uses flip-flops with t<sub>pd</sub> = 25 ns. Find its worst settling time and its highest usable clock frequency. (b) Why can a decoder on a ripple counter's outputs give false pulses?</p>
-</div>
-<h3>2 · State table and excitation</h3>
-<p>All flip-flops now share the clock, so each one needs its own input logic. The design finds that logic from a table.</p>
-<div class="box q">
-<div class="bh"><span class="tag">MTE 2025 Q8 · 8 marks</span></div>
-<p>Design a synchronous counter that counts clock pulses from 0–7 using negative edge triggered T flip-flops.</p>
-</div>
-<div class="box guess">
-<div class="bh">Guess first</div>
-<p>In the count 011 → 100 all three bits change. What do the lower bits look like every time the top bit has to change?</p>
-</div>
-<p><strong>The design procedure</strong> (the same for every counter, and for every state machine in 15):</p>
-<ol>
-<li>Number of flip-flops: the smallest n with 2<sup>n</sup> ≥ number of states.</li>
-<li>State table: each present state and the next state.</li>
-<li>For each flip-flop, write its inputs from the excitation table (09), row by row.</li>
-<li>K-map each input as a function of the present state. Unused states are don't-cares.</li>
-<li>Draw the circuit: one common clock, gates from step 4.</li>
-<li>If there are unused states, check that each one leads back into the count.</li>
-</ol>
-<p>A T flip-flop toggles when T = 1 and holds when T = 0, so its excitation is simple: <strong>T = 1 exactly where the bit changes.</strong></p>
+<p>File 12 built counters by letting each flip-flop clock the next; they need no gates, but the outputs settle one stage after another and show false counts on the way. This file gives <strong>every flip-flop the same clock</strong> and puts gates in front of each flip-flop to decide whether it changes at the next edge. Finding those gates is a fixed procedure: state table → excitation table (09 step 12) → K-maps (02) → circuit. The procedure works for any count order and any flip-flop type, and file 15 reuses it unchanged for every state machine.</p>
+<h2>Symbols</h2>
 <table>
 <thead>
 <tr>
-<th>present Q2 Q1 Q0</th>
-<th>next Q2 Q1 Q0</th>
-<th>T2 T1 T0</th>
+<th>Symbol</th>
+<th>What it means in this file</th>
+<th>Typical value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>0 0 0</td>
-<td>0 0 1</td>
-<td>0 0 1</td>
+<td>CLK</td>
+<td>the clock; in this file it goes to every flip-flop</td>
+<td>1 – 100 MHz</td>
 </tr>
 <tr>
-<td>0 0 1</td>
-<td>0 1 0</td>
-<td>0 1 1</td>
+<td>Q0, Q1, Q2, Q3</td>
+<td>flip-flop outputs; Q0 is the least significant bit; the count is read Q2 Q1 Q0</td>
+<td>0 or 1</td>
 </tr>
 <tr>
-<td>0 1 0</td>
-<td>0 1 1</td>
-<td>0 0 1</td>
+<td>Q⁺ (Q1⁺, …)</td>
+<td>the value a Q takes after the next clock edge (next state)</td>
+<td>0 or 1</td>
 </tr>
 <tr>
-<td>0 1 1</td>
-<td>1 0 0</td>
-<td>1 1 1</td>
+<td>present state</td>
+<td>the count Q2 Q1 Q0 now, before the edge</td>
+<td>000 – 111</td>
 </tr>
 <tr>
-<td>1 0 0</td>
-<td>1 0 1</td>
-<td>0 0 1</td>
+<td>D, T, J, K</td>
+<td>flip-flop inputs (D0 = the D input of FF0, …)</td>
+<td>0 or 1</td>
 </tr>
 <tr>
-<td>1 0 1</td>
-<td>1 1 0</td>
-<td>0 1 1</td>
+<td>X (in a table or K-map)</td>
+<td>don't-care: either value gives the required result</td>
+<td>—</td>
 </tr>
 <tr>
-<td>1 1 0</td>
-<td>1 1 1</td>
-<td>0 0 1</td>
+<td>Dn, Up</td>
+<td>direction inputs of up/down counters: Dn = 1 counts down (deck 10 slides 29–32 call it X); Up = 1 counts up (slide 33)</td>
+<td>0 or 1</td>
 </tr>
 <tr>
-<td>1 1 1</td>
-<td>0 0 0</td>
-<td>1 1 1</td>
+<td>t<sub>pd</sub></td>
+<td>flip-flop delay, clock edge → Q</td>
+<td>10 ns</td>
+</tr>
+<tr>
+<td>t<sub>su</sub></td>
+<td>setup time: how long before the edge a flip-flop's input must be steady (file 14)</td>
+<td>5 ns</td>
 </tr>
 </tbody>
 </table>
-<p>8 states, so 3 flip-flops. Each T column is the next state XOR the present state.</p>
-<div class="box check">
-<div class="bh">Check 2</div>
-<p>(a) Give the T, D and JK inputs that take a flip-flop from Q = 1 to Q = 0. (b) How many flip-flops does a MOD-10 counter need?</p>
-</div>
-<h3>3 · K-maps and the circuit</h3>
-<p>The T columns are three functions of Q2 Q1 Q0. Each one goes on a K-map.</p>
+<h2>Running example</h2>
+<p><strong>MTE 2025 Q8's counter: 3 bits, counting 0 → 7 → 0, negative-edge T flip-flops.</strong> Steps 2–5 practise the procedure on its 2-bit version (00 → 11); steps 6–7 solve Q8 in full (T0 = 1, T1 = Q0, T2 = Q1Q0); step 8 runs the same table backwards; steps 9–12 change only the state table.</p>
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">MTE 2025 Q8 · 8 marks</span> Design a synchronous counter that counts clock pulses from 0-7 using negative edge triggered T flipflop.</li>
+<li><span class="tag">Practice set 2 Q4</span> Design 2-bit synchronous up counter.</li>
+<li><span class="tag">Practice set 2 Q5</span> Design 2-bit synchronous down counter using TFF.</li>
+<li><span class="tag">Practice set 2 Q6</span> Design 3-bit synchronous down counter using DFF.</li>
+<li><span class="tag">Deck 10 slides 26–37</span> Synchronous decade counter; up/down counters; 3-bit Gray-code counter with JK flip-flops.</li>
+</ul>
+<hr />
+<h2>Build</h2>
+<h3>1 · Why one shared clock</h3>
+<p>12 step 5 timed the ripple counter: each stage waits t<sub>pd</sub> for the one before, so a 4-bit chain needs 4 t<sub>pd</sub> to settle and shows false counts meanwhile.</p>
 <div class="box guess">
-<div class="bh">Guess first</div>
-<p>Before drawing a map, read the table: when is T1 equal to 1? When is T2?</p>
+<div class="bh">Predict</div>
+<p>Flip-flops with t<sub>pd</sub> = 10 ns. A 4-bit ripple counter needs 4 × 10 = 40 ns per count. A synchronous counter clocks all four flip-flops together but needs an AND gate (5 ns) in front of some of them, and each input must be steady 5 ns before the edge. Which one can run faster?</p>
 </div>
-<div class="two">
-
-
-
-
-<figure style="max-width:100%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 220" style="max-width:288px"><text class="k-var" x="50" y="26" text-anchor="end">Q₂</text><text class="k-var" x="62" y="26">Q₁Q₀</text><line class="k-diag" x1="22" y1="12" x2="62" y2="56"/><text class="k-lab" x="87.0" y="44" text-anchor="middle">00</text><text class="k-lab" x="129.0" y="44" text-anchor="middle">01</text><text class="k-lab" x="171.0" y="44" text-anchor="middle">11</text><text class="k-lab" x="213.0" y="44" text-anchor="middle">10</text><text class="k-lab" x="50" y="86.0" text-anchor="end">0</text><text class="k-lab" x="50" y="128.0" text-anchor="end">1</text><rect class="k-cell" x="66" y="60" width="42" height="42"/><text class="k-zero" x="87.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="70" y="71">0</text><rect class="k-cell" x="108" y="60" width="42" height="42"/><text class="k-one" x="129.0" y="87.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="112" y="71">1</text><rect class="k-cell" x="150" y="60" width="42" height="42"/><text class="k-one" x="171.0" y="87.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="71">3</text><rect class="k-cell" x="192" y="60" width="42" height="42"/><text class="k-zero" x="213.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="71">2</text><rect class="k-cell" x="66" y="102" width="42" height="42"/><text class="k-zero" x="87.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="70" y="113">4</text><rect class="k-cell" x="108" y="102" width="42" height="42"/><text class="k-one" x="129.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="112" y="113">5</text><rect class="k-cell" x="150" y="102" width="42" height="42"/><text class="k-one" x="171.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="113">7</text><rect class="k-cell" x="192" y="102" width="42" height="42"/><text class="k-zero" x="213.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="113">6</text><g class="kg c0"><rect class="k-grp" x="113" y="65" width="74" height="74" rx="12"/></g><g class="kg c0"><rect class="k-chip" x="8" y="160" width="98.39999999999999" height="22" rx="11"/><text class="k-chip-t" x="20" y="175.5">T1 = Q0</text></g></svg><figcaption>T1 is 1 in every row with Q0 = 1.</figcaption></figure>
-
-
-
-
-
-
-
-<figure style="max-width:100%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 220" style="max-width:288px"><text class="k-var" x="50" y="26" text-anchor="end">Q₂</text><text class="k-var" x="62" y="26">Q₁Q₀</text><line class="k-diag" x1="22" y1="12" x2="62" y2="56"/><text class="k-lab" x="87.0" y="44" text-anchor="middle">00</text><text class="k-lab" x="129.0" y="44" text-anchor="middle">01</text><text class="k-lab" x="171.0" y="44" text-anchor="middle">11</text><text class="k-lab" x="213.0" y="44" text-anchor="middle">10</text><text class="k-lab" x="50" y="86.0" text-anchor="end">0</text><text class="k-lab" x="50" y="128.0" text-anchor="end">1</text><rect class="k-cell" x="66" y="60" width="42" height="42"/><text class="k-zero" x="87.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="70" y="71">0</text><rect class="k-cell" x="108" y="60" width="42" height="42"/><text class="k-zero" x="129.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="112" y="71">1</text><rect class="k-cell" x="150" y="60" width="42" height="42"/><text class="k-one" x="171.0" y="87.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="71">3</text><rect class="k-cell" x="192" y="60" width="42" height="42"/><text class="k-zero" x="213.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="71">2</text><rect class="k-cell" x="66" y="102" width="42" height="42"/><text class="k-zero" x="87.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="70" y="113">4</text><rect class="k-cell" x="108" y="102" width="42" height="42"/><text class="k-zero" x="129.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="112" y="113">5</text><rect class="k-cell" x="150" y="102" width="42" height="42"/><text class="k-one" x="171.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="113">7</text><rect class="k-cell" x="192" y="102" width="42" height="42"/><text class="k-zero" x="213.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="113">6</text><g class="kg c0"><rect class="k-grp" x="155" y="65" width="32" height="74" rx="12"/></g><g class="kg c0"><rect class="k-chip" x="8" y="160" width="116.8" height="22" rx="11"/><text class="k-chip-t" x="20" y="175.5">T2 = Q1Q0</text></g></svg><figcaption>T2 is 1 only when Q1 = Q0 = 1.</figcaption></figure>
-
-
-
-
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Synchronous (parallel) counter:</strong> every flip-flop is clocked by the same clock pulse at the same time (deck 10 slide 18). <strong>Flip-flop input logic:</strong> the gates in front of each flip-flop; they look at the present count and set each input so that the flip-flop changes at the next edge only if its bit must change.</p>
 </div>
 
-<p>T0 is 1 in every row, so it needs no map.</p>
-<div class="eq">T0 = 1&emsp;&emsp;&emsp;T1 = Q0&emsp;&emsp;&emsp;T2 = Q1·Q0</div>
-
-
-<figure style="max-width:100%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 449.289125 147.8175" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<figure style="max-width:82%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 449.289125 147.8175" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:10.735307</dc:date>
+    <dc:date>2026-11-17T18:00:51.082249</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -402,7 +204,7 @@ Q 63.33 27.06 63.33 28.57125
 L 63.33 79.95375 
 Q 63.33 81.465 64.84125 81.465 
 z
-" clip-path="url(#pc34935f573)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 84.4875 81.465 
@@ -410,7 +212,7 @@ L 90.5325 73.90875
 L 96.5775 81.465 
 L 84.4875 81.465 
 z
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 90.5325 88.1145 
@@ -423,7 +225,7 @@ C 87.558067 83.062277 87.20775 83.908016 87.20775 84.78975
 C 87.20775 85.671484 87.558067 86.517223 88.181547 87.140703 
 C 88.805027 87.764183 89.650766 88.1145 90.5325 88.1145 
 z
-" clip-path="url(#pc34935f573)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 191.78625 81.465 
@@ -436,7 +238,7 @@ Q 190.275 27.06 190.275 28.57125
 L 190.275 79.95375 
 Q 190.275 81.465 191.78625 81.465 
 z
-" clip-path="url(#pc34935f573)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 211.4325 81.465 
@@ -444,7 +246,7 @@ L 217.4775 73.90875
 L 223.5225 81.465 
 L 211.4325 81.465 
 z
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 217.4775 88.1145 
@@ -457,7 +259,7 @@ C 214.503067 83.062277 214.15275 83.908016 214.15275 84.78975
 C 214.15275 85.671484 214.503067 86.517223 215.126547 87.140703 
 C 215.750027 87.764183 216.595766 88.1145 217.4775 88.1145 
 z
-" clip-path="url(#pc34935f573)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_8">
     <path d="M 318.73125 81.465 
@@ -470,7 +272,7 @@ Q 317.22 27.06 317.22 28.57125
 L 317.22 79.95375 
 Q 317.22 81.465 318.73125 81.465 
 z
-" clip-path="url(#pc34935f573)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
     <path d="M 338.3775 81.465 
@@ -478,7 +280,7 @@ L 344.4225 73.90875
 L 350.4675 81.465 
 L 338.3775 81.465 
 z
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_10">
     <path d="M 344.4225 88.1145 
@@ -491,7 +293,7 @@ C 341.448067 83.062277 341.09775 83.908016 341.09775 84.78975
 C 341.09775 85.671484 341.448067 86.517223 342.071547 87.140703 
 C 342.695027 87.764183 343.540766 88.1145 344.4225 88.1145 
 z
-" clip-path="url(#pc34935f573)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_11">
     <path d="M 283.9725 70.88625 
@@ -504,56 +306,56 @@ Q 274.905 31.59375 274.905 40.66125
 L 274.905 61.81875 
 Q 274.905 70.88625 283.9725 70.88625 
 z
-" clip-path="url(#pc34935f573)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="line2d_1">
     <path d="M 90.5325 88.1145 
 L 90.5325 120.7575 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_2">
     <path d="M 117.735 39.15 
 L 135.87 39.15 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_3">
     <path d="M 217.4775 88.1145 
 L 217.4775 120.7575 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_4">
     <path d="M 244.68 39.15 
 L 262.815 39.15 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_5">
     <path d="M 344.4225 88.1145 
 L 344.4225 120.7575 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_6">
     <path d="M 371.625 39.15 
 L 389.76 39.15 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_7">
     <path d="M 27.06 120.7575 
 L 344.4225 120.7575 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_8">
     <path d="M 39.15 39.15 
 L 63.33 39.15 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_9">
     <path d="M 135.87 39.15 
 L 190.275 39.15 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_10">
     <defs>
-     <path id="m9dff495caa" d="M 0 1.75 
+     <path id="me0e87e3664" d="M 0 1.75 
 C 0.464105 1.75 0.909265 1.565609 1.237437 1.237437 
 C 1.565609 0.909265 1.75 0.464105 1.75 0 
 C 1.75 -0.464105 1.565609 -0.909265 1.237437 -1.237437 
@@ -565,36 +367,36 @@ C -0.909265 1.565609 -0.464105 1.75 0 1.75
 z
 " style="stroke: #1c1f24"/>
     </defs>
-    <g clip-path="url(#pc34935f573)">
-     <use xlink:href="#m9dff495caa" x="150.9825" y="39.15" style="fill: #1c1f24; stroke: #1c1f24"/>
+    <g clip-path="url(#p7fb379bd0e)">
+     <use xlink:href="#me0e87e3664" x="150.9825" y="39.15" style="fill: #1c1f24; stroke: #1c1f24"/>
     </g>
    </g>
    <g id="line2d_11">
     <path d="M 150.9825 39.15 
 L 150.9825 64.84125 
 L 274.905 64.84125 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_12">
     <path d="M 262.815 39.15 
 L 262.815 43.68375 
 L 274.905 43.68375 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_13">
-    <g clip-path="url(#pc34935f573)">
-     <use xlink:href="#m9dff495caa" x="262.815" y="39.15" style="fill: #1c1f24; stroke: #1c1f24"/>
+    <g clip-path="url(#p7fb379bd0e)">
+     <use xlink:href="#me0e87e3664" x="262.815" y="39.15" style="fill: #1c1f24; stroke: #1c1f24"/>
     </g>
    </g>
    <g id="line2d_14">
     <path d="M 303.61875 51.24 
 L 317.22 51.24 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_15">
     <path d="M 317.22 51.24 
 L 317.22 39.15 
-" clip-path="url(#pc34935f573)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7fb379bd0e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="text_1">
     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="67.86375" y="41.573984" transform="rotate(-0 67.86375 41.573984)">T</text>
@@ -647,141 +449,2032 @@ L 317.22 39.15
   </g>
  </g>
  <defs>
-  <clipPath id="pc34935f573">
+  <clipPath id="p7fb379bd0e">
    <rect x="2.88" y="2.88" width="435.24" height="142.0575"/>
   </clipPath>
  </defs>
 </svg>
-<figcaption>The finished counter. The bubble on each clock input marks negative-edge triggering.</figcaption></figure>
+<figcaption>A synchronous counter (the answer to step 7): one CLK line reaches every flip-flop; the AND gate decides when FF2 toggles. Nothing is clocked by another flip-flop's output.</figcaption></figure>
 
-<p><strong>Answer.</strong> State table and T columns as in step 2; K-maps above; <strong>T0 = 1, T1 = Q0, T2 = Q1·Q0</strong>, one 2-input AND gate, one shared negative-edge clock. All 8 states are used, so there are no unused states to check. The pattern continues: each bit toggles when every lower bit is 1 (a 4-bit counter adds T3 = Q2Q1Q0).</p>
+<p>At the edge, every flip-flop that must change starts at the same instant and finishes one t<sub>pd</sub> later: <strong>no stage waits for another</strong>, so there are no false counts. Before the next edge the input logic must recompute the inputs from the new count, and the inputs must then be steady for t<sub>su</sub>. One clock period must hold all three:</p>
+<div class="eq">T<sub>min</sub> = t<sub>pd</sub> + t<sub>gate</sub> + t<sub>su</sub></div>
+
+<p><em>flip-flop delay, then the gates' delay, then the setup margin.</em> Unlike the ripple's n · t<sub>pd</sub>, this does not grow with the number of bits (only the gate in front can get wider). File 14 treats this timing in full.</p>
+<p><strong>Answer to the Predict.</strong> Synchronous: T<sub>min</sub> = 10 + 5 + 5 = 20 ns, f<sub>max</sub> = 1 / 20 ns = <strong>50 MHz</strong>. Ripple: 40 ns, f<sub>max</sub> = <strong>25 MHz</strong>. The synchronous counter is twice as fast here and never shows a false count.</p>
 <div class="box check">
-<div class="bh">Check 3</div>
-<p><span class="tag">Set 2 Q5</span> Design a 2-bit synchronous down counter using T flip-flops.</p>
+<div class="bh">Check 1</div>
+<p>(a) Give two drawbacks of a ripple counter that a synchronous counter does not have. (b) What does the synchronous counter pay instead?</p>
 </div>
-<h3>4 · Other flip-flop types</h3>
-<p>The procedure does not change with the flip-flop. Only step 3's excitation table does.</p>
+<h3>2 · State diagram and state table</h3>
+<p>Step 1 said the input logic decides which flip-flops change. To design it, first write down what the counter must do, edge by edge.</p>
 <div class="box q">
-<div class="bh"><span class="tag">Set 2 Q4</span></div>
-<p>Design 2-bit synchronous up counter. (Use JK flip-flops, then repeat with D.)</p>
+<div class="bh"><span class="tag">Practice set 2 Q4</span></div>
+<p>Design 2-bit synchronous up counter.</p>
 </div>
 <div class="box guess">
 <div class="bh">Guess first</div>
-<p>A JK flip-flop with J = K = 1 toggles. What does that make J and K equal to, if you already know the T answer?</p>
+<p>Write the four counts of a 2-bit up counter in order. For each one, what must the next count be?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>State:</strong> the stored count Q1 Q0. <strong>State diagram:</strong> one circle per state and one arrow per clock edge, from the present state to the next. <strong>State table:</strong> the same information as rows: present state → next state (deck 10 slide 19).</p>
+</div>
+
+<figure style="max-width:46%"><div style="width:117mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 262.44 144.342969" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T18:00:51.139178</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 144.342969 
+L 262.44 144.342969 
+L 262.44 0 
+L 0 0 
+L 0 144.342969 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 142.070554 44.898522 
+Q 153.244076 56.072045 163.441355 66.269324 
+" clip-path="url(#p51ca5c257d)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 162.276709 61.777116 
+L 163.441355 66.269324 
+L 158.949147 65.104678 
+z
+" clip-path="url(#p51ca5c257d)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 165.009446 89.538522 
+Q 153.835924 100.712045 143.638645 110.909324 
+" clip-path="url(#p51ca5c257d)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 148.130853 109.744678 
+L 143.638645 110.909324 
+L 144.803291 106.417116 
+z
+" clip-path="url(#p51ca5c257d)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 120.369446 112.477415 
+Q 109.195924 101.303893 98.998645 91.106613 
+" clip-path="url(#p51ca5c257d)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 100.163291 95.598821 
+L 98.998645 91.106613 
+L 103.490853 92.27126 
+z
+" clip-path="url(#p51ca5c257d)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 97.430554 67.837415 
+Q 108.604076 56.663893 118.801355 46.466613 
+" clip-path="url(#p51ca5c257d)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 114.309147 47.63126 
+L 118.801355 46.466613 
+L 117.636709 50.958821 
+z
+" clip-path="url(#p51ca5c257d)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 131.22 49.392969 
+C 135.289542 49.392969 139.192953 47.776123 142.070554 44.898522 
+C 144.948154 42.020922 146.565 38.11751 146.565 34.047969 
+C 146.565 29.978427 144.948154 26.075016 142.070554 23.197415 
+C 139.192953 20.319815 135.289542 18.702969 131.22 18.702969 
+C 127.150458 18.702969 123.247047 20.319815 120.369446 23.197415 
+C 117.491846 26.075016 115.875 29.978427 115.875 34.047969 
+C 115.875 38.11751 117.491846 42.020922 120.369446 44.898522 
+C 123.247047 47.776123 127.150458 49.392969 131.22 49.392969 
+z
+" clip-path="url(#p51ca5c257d)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 175.86 94.032969 
+C 179.929542 94.032969 183.832953 92.416123 186.710554 89.538522 
+C 189.588154 86.660922 191.205 82.75751 191.205 78.687969 
+C 191.205 74.618427 189.588154 70.715016 186.710554 67.837415 
+C 183.832953 64.959815 179.929542 63.342969 175.86 63.342969 
+C 171.790458 63.342969 167.887047 64.959815 165.009446 67.837415 
+C 162.131846 70.715016 160.515 74.618427 160.515 78.687969 
+C 160.515 82.75751 162.131846 86.660922 165.009446 89.538522 
+C 167.887047 92.416123 171.790458 94.032969 175.86 94.032969 
+z
+" clip-path="url(#p51ca5c257d)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 131.22 138.672969 
+C 135.289542 138.672969 139.192953 137.056123 142.070554 134.178522 
+C 144.948154 131.300922 146.565 127.39751 146.565 123.327969 
+C 146.565 119.258427 144.948154 115.355016 142.070554 112.477415 
+C 139.192953 109.599815 135.289542 107.982969 131.22 107.982969 
+C 127.150458 107.982969 123.247047 109.599815 120.369446 112.477415 
+C 117.491846 115.355016 115.875 119.258427 115.875 123.327969 
+C 115.875 127.39751 117.491846 131.300922 120.369446 134.178522 
+C 123.247047 137.056123 127.150458 138.672969 131.22 138.672969 
+z
+" clip-path="url(#p51ca5c257d)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 86.58 94.032969 
+C 90.649542 94.032969 94.552953 92.416123 97.430554 89.538522 
+C 100.308154 86.660922 101.925 82.75751 101.925 78.687969 
+C 101.925 74.618427 100.308154 70.715016 97.430554 67.837415 
+C 94.552953 64.959815 90.649542 63.342969 86.58 63.342969 
+C 82.510458 63.342969 78.607047 64.959815 75.729446 67.837415 
+C 72.851846 70.715016 71.235 74.618427 71.235 78.687969 
+C 71.235 82.75751 72.851846 86.660922 75.729446 89.538522 
+C 78.607047 92.416123 82.510458 94.032969 86.58 94.032969 
+z
+" clip-path="url(#p51ca5c257d)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="131.22" y="36.216797" transform="rotate(-0 131.22 36.216797)">00</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="175.86" y="80.856797" transform="rotate(-0 175.86 80.856797)">01</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="131.22" y="125.496797" transform="rotate(-0 131.22 125.496797)">10</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="86.58" y="80.856797" transform="rotate(-0 86.58 80.856797)">11</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #6a707a; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="2.88" y="9.912969" transform="rotate(-0 2.88 9.912969)">2-bit up counter: one arrow per clock edge</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p51ca5c257d">
+   <rect x="2.88" y="15.912969" width="256.68" height="125.55"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>What this graph plots: each circle is a state Q1 Q0; each arrow is one clock edge, from the present state to the next state (deck 10 slide 19).</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Present Q1 Q0</th>
+<th>Next Q1⁺ Q0⁺</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 0</td>
+<td>0 1</td>
+</tr>
+<tr>
+<td>0 1</td>
+<td>1 0</td>
+</tr>
+<tr>
+<td>1 0</td>
+<td>1 1</td>
+</tr>
+<tr>
+<td>1 1</td>
+<td>0 0</td>
+</tr>
+</tbody>
+</table>
+<p>This table is the whole specification. The rest of the design answers one question per flip-flop and per row: <strong>what must its input be so that Q becomes Q⁺?</strong> The steps, for every counter in this file:</p>
+<ol>
+<li>Flip-flops: the smallest n with 2<sup>n</sup> ≥ number of states (12 step 7).</li>
+<li>State diagram and state table.</li>
+<li>For each flip-flop, its input in each row, from its excitation table (09 step 12).</li>
+<li>A K-map per input, variables = the present state; unused states are don't-cares (02 step 7).</li>
+<li>Circuit: one common clock; gates from step 4.</li>
+<li>If any state is unused, check where it leads (step 10).</li>
+</ol>
+<p><strong>Answer</strong> (first half; steps 3–5 finish it). 4 states, so <strong>2 flip-flops</strong>; state diagram and table above.</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>(a) How many flip-flops does a counter with 6 states need? With 10? (b) Write the state table of a 2-bit down counter.</p>
+</div>
+<h3>3 · D flip-flops: the input is the next state</h3>
+<p>The state table gives Q⁺. A D flip-flop copies D at the edge: Q⁺ = D.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Practice set 2 Q4 · deck 10 slide 19</span></div>
+<p>Design 2-bit synchronous up counter (with D flip-flops).</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>If Q⁺ = D, what is the D1 column of the table, and what is the D0 column?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Excitation (input) column:</strong> for one flip-flop, the input value needed in each row of the state table. <strong>For D:</strong> D = Q⁺, row by row (09 step 12).</p>
 </div>
 <table>
 <thead>
 <tr>
+<th>Q1 Q0</th>
+<th>Q1⁺ Q0⁺</th>
+<th>D1</th>
+<th>D0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 0</td>
+<td>0 1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0 1</td>
+<td>1 0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1 0</td>
+<td>1 1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1 1</td>
+<td>0 0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>D0 = 1, 0, 1, 0: it is 1 exactly when Q0 = 0, so <strong>D0 = Q0'</strong>.</li>
+<li>D1 = 0, 1, 1, 0: 1 when Q1 and Q0 differ, the XOR pattern (01 step 8): <strong>D1 = Q1 ⊕ Q0</strong>.</li>
+<li>Read back: Q0 flips every edge; Q1 takes "Q1 with a carry from Q0 added", which is how a 2-bit binary number counts.</li>
+</ol>
+<p><strong>Answer.</strong> <strong>D0 = Q0', D1 = Q1 ⊕ Q0</strong>: two D flip-flops on one clock, Q0' wired to D0, an XOR of Q1 and Q0 into D1.</p>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>Using D flip-flops, give D1 and D0 for the 2-bit down counter of Check 2(b).</p>
+</div>
+<h3>4 · T flip-flops: T = 1 where the bit changes</h3>
+<p>The same counter with T flip-flops needs a different column: T does not say what Q becomes, only whether it changes.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 10 slides 20–21</span></div>
+<p>2-bit synchronous binary counter using TFF.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>In each row, which bits change between Q and Q⁺? Those are the rows where that flip-flop's T must be 1.</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>T excitation:</strong> T = 1 when Q must change, T = 0 when it must stay: <strong>T = Q ⊕ Q⁺</strong> (09 step 12: 0→0: 0, 0→1: 1, 1→0: 1, 1→1: 0).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Q1 Q0</th>
+<th>Q1⁺ Q0⁺</th>
+<th>T1</th>
+<th>T0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 0</td>
+<td>0 1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0 1</td>
+<td>1 0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1 0</td>
+<td>1 1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1 1</td>
+<td>0 0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Q0 changes in every row: <strong>T0 = 1</strong>.</li>
+<li>Q1 changes in the rows where Q0 = 1: <strong>T1 = Q0</strong>.</li>
+</ol>
+<p>Read it back: <em>the low bit always toggles; the next bit toggles when the bit below it is 1</em>, exactly the carry rule of binary counting.</p>
+<p><strong>Answer.</strong> <strong>T0 = 1, T1 = Q0</strong> (deck 10 slide 21): T0 tied high, Q0 wired straight to T1, one clock for both. No gate at all.</p>
+<div class="box check">
+<div class="bh">Check 4</div>
+<p><span class="tag">Practice set 2 Q5</span> Design a 2-bit synchronous down counter using T flip-flops: T0 and T1.</p>
+</div>
+<h3>5 · JK flip-flops: the don't-cares help</h3>
+<p>A JK flip-flop has two inputs, and for every wanted change one of them does not matter.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 10 slide 22</span></div>
+<p>2-bit synchronous binary counter using JK flip-flops.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>To take Q from 0 to 1, J must be 1. Does K matter? To take Q from 1 to 1, which input must be 0?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>JK excitation</strong> (09 step 12): 0→0: J K = 0 X · 0→1: 1 X · 1→0: X 1 · 1→1: X 0. Each row fixes one input and leaves the other free.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Q1 Q0</th>
+<th>Q1⁺ Q0⁺</th>
+<th>J1 K1</th>
+<th>J0 K0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 0</td>
+<td>0 1</td>
+<td>0 X</td>
+<td>1 X</td>
+</tr>
+<tr>
+<td>0 1</td>
+<td>1 0</td>
+<td>1 X</td>
+<td>X 1</td>
+</tr>
+<tr>
+<td>1 0</td>
+<td>1 1</td>
+<td>X 0</td>
+<td>1 X</td>
+</tr>
+<tr>
+<td>1 1</td>
+<td>0 0</td>
+<td>X 1</td>
+<td>X 1</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>J0 = 1, X, 1, X: set every X to 1 → <strong>J0 = 1</strong>. K0 = X, 1, X, 1 → <strong>K0 = 1</strong>.</li>
+<li>J1 = 0, 1, X, X: 1 where Q0 = 1, with the X's chosen to match → <strong>J1 = Q0</strong>. K1 = X, X, 0, 1 → <strong>K1 = Q0</strong>.</li>
+</ol>
+<p>J = K = the T answer of step 4. That is no accident: a JK with J = K behaves as a T flip-flop (09 step 10).</p>
+<table>
+<thead>
+<tr>
 <th>Flip-flop</th>
-<th>Excitation rule</th>
+<th>Input rule</th>
 <th>2-bit up counter</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>T</strong></td>
-<td>T = 1 where the bit changes</td>
+<td>D</td>
+<td>D = Q⁺</td>
+<td>D0 = Q0', D1 = Q1 ⊕ Q0</td>
+</tr>
+<tr>
+<td>T</td>
+<td>T = Q ⊕ Q⁺</td>
 <td>T0 = 1, T1 = Q0</td>
 </tr>
 <tr>
-<td><strong>JK</strong></td>
-<td>0→0: 0X · 0→1: 1X · 1→0: X1 · 1→1: X0</td>
+<td>JK</td>
+<td>table above, X's free</td>
 <td>J0 = K0 = 1, J1 = K1 = Q0</td>
-</tr>
-<tr>
-<td><strong>D</strong></td>
-<td>D = the next state</td>
-<td>D0 = Q0', D1 = Q1 ⊕ Q0</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Answer.</strong> States 00 → 01 → 10 → 11 → 00. JK excitation (J1 K1, J0 K0) per row: 00: 0X, 1X · 01: 1X, X1 · 10: X0, 1X · 11: X1, X1. The K-maps give <strong>J0 = K0 = 1, J1 = K1 = Q0</strong>. With D: <strong>D0 = Q0', D1 = Q1 ⊕ Q0</strong>. The X's in the JK table are why JK designs need the fewest gates; D designs need the most.</p>
-<div class="box check">
-<div class="bh">Check 4</div>
-<p><span class="tag">Set 2 Q6</span> Design a 3-bit synchronous down counter using D flip-flops.</p>
-</div>
-<h3>5 · MOD-N counters and unused states</h3>
-<p>A counter with fewer than 2<sup>n</sup> states leaves some codes unused. The design treats them as don't-cares, which leaves one question open.</p>
-<div class="box q">
-<div class="bh"><span class="tag">Deck 10 slide 34</span></div>
-<p>Design a MOD-6 synchronous up counter (0 to 5) using JK flip-flops, and check whether it is self-starting.</p>
-</div>
-<div class="box guess">
-<div class="bh">Guess first</div>
-<p>The counter never visits 110 or 111. What happens if it powers up in one of them?</p>
-</div>
-<p>3 flip-flops; states 6 and 7 are don't-cares in every K-map. The procedure gives:</p>
-<div class="eq">J0 = K0 = 1&emsp;&emsp;&emsp;J1 = Q2'Q0,&emsp;&emsp;&emsp;K1 = Q0&emsp;&emsp;&emsp;J2 = Q1Q0,&emsp;&emsp;&emsp;K2 = Q0</div>
-
-<p><strong>Self-starting</strong> means every unused state leads back into the count. Check each one with the equations:</p>
-<ul>
-<li>From <strong>110</strong>: Q0 = 0, so J1 = K1 = 0 and J2 = K2 = 0; only FF0 toggles → <strong>111</strong>.</li>
-<li>From <strong>111</strong>: FF0 toggles to 0; J1 = 0, K1 = 1 resets FF1; J2 = K2 = 1 toggles FF2 to 0 → <strong>000</strong>.</li>
-</ul>
-<p><strong>Answer.</strong> Equations above. Both unused states return to the count (110 → 111 → 000), so the counter <strong>is self-starting</strong>. If one had led to a loop outside the count (a <strong>lock-out</strong>), the fix is to choose different values for that state's don't-cares and redo its K-maps.</p>
+<p><strong>Answer.</strong> <strong>J0 = K0 = 1, J1 = K1 = Q0.</strong> The X's let the K-map choose, which is why JK designs tend to need the fewest gates.</p>
 <div class="box check">
 <div class="bh">Check 5</div>
-<p>Why must the unused states be checked in a MOD-6 counter but not in the 0–7 counter of steps 2–3?</p>
+<p>Give the J and K needed to (a) keep Q at 1, (b) take Q from 1 to 0.</p>
 </div>
-<h3>6 · Any sequence</h3>
-<p>Nothing in the procedure requires counting in binary. The state table can list any order.</p>
+<h3>6 · MTE Q8, part 1: the 3-bit table</h3>
+<p>Steps 3–5 designed 2 bits. MTE Q8 asks for 3, with T flip-flops.</p>
 <div class="box q">
-<div class="bh"><span class="tag">Deck 10 slides 35–37</span></div>
-<p>Design a 3-bit Gray-code counter using JK flip-flops. (Sequence 000, 001, 011, 010, 110, 111, 101, 100.)</p>
+<div class="bh"><span class="tag">MTE 2025 Q8 · 8 marks</span></div>
+<p>Design a synchronous counter that counts clock pulses from 0-7 using negative edge triggered T flipflop.</p>
 </div>
 <div class="box guess">
 <div class="bh">Guess first</div>
-<p>In a Gray sequence only one bit changes per step. How many flip-flops toggle at each clock?</p>
+<p>In 011 → 100 all three bits change. Look at the lower bits whenever Q2 must change: what are they?</p>
 </div>
-<p>Same six steps, with the Gray order in the state table and the JK excitation table:</p>
-<div class="eq">J2 = Q1Q0',&emsp;&emsp;&emsp;K2 = Q1'Q0'&emsp;&emsp;&emsp;J1 = Q2'Q0,&emsp;&emsp;&emsp;K1 = Q2Q0</div>
-
-<div class="eq">J0 = (Q2 ⊕ Q1)',&emsp;&emsp;&emsp;K0 = Q2 ⊕ Q1</div>
-
-<p><strong>Answer.</strong> The equations above (deck 10 slide 36). Exactly one flip-flop toggles per clock, so a decoder on the outputs never sees two bits changing at once. The same method gives up/down counters: add the direction input X as one more K-map variable, e.g. a 2-bit up/down counter with D flip-flops has D0 = Q0', D1 = Q1 ⊕ Q0 ⊕ X (X = 0 up, X = 1 down; deck 10 slide 31).</p>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Next-state column:</strong> the count plus 1, with 111 → 000. <strong>T column:</strong> present XOR next, bit by bit (step 4).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Present Q2 Q1 Q0</th>
+<th>Next Q2⁺ Q1⁺ Q0⁺</th>
+<th>T2</th>
+<th>T1</th>
+<th>T0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 0 0</td>
+<td>0 0 1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0 0 1</td>
+<td>0 1 0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0 1 0</td>
+<td>0 1 1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0 1 1</td>
+<td>1 0 0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1 0 0</td>
+<td>1 0 1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1 0 1</td>
+<td>1 1 0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1 1 0</td>
+<td>1 1 1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1 1 1</td>
+<td>0 0 0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>8 states (0–7): 2<sup>3</sup> = 8, so <strong>3 flip-flops</strong>, and every code is used.</li>
+<li>T0 is 1 in all 8 rows; T1 in 4 rows (where Q0 = 1); T2 in 2 rows (where Q1 = Q0 = 1).</li>
+<li>Pattern: <strong>a bit toggles when every bit below it is 1</strong>, the binary carry rule again.</li>
+</ol>
+<p><strong>Answer to the Guess.</strong> Every time Q2 must change (rows 011 and 111), <strong>Q1 = Q0 = 1</strong>.</p>
 <div class="box check">
 <div class="bh">Check 6</div>
-<p>In the Gray counter, which flip-flop toggles when the count goes from 110 to 111? Check it with the equations.</p>
+<p>Write the T columns' rows for 101 → 110 and 110 → 111, and say which flip-flops toggle in each.</p>
+</div>
+<h3>7 · MTE Q8, part 2: K-maps and the circuit</h3>
+<p>The T columns are three functions of Q2 Q1 Q0. Each goes on a 3-variable K-map (02 step 3).</p>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Without a map: T1 is 1 in the rows 1, 3, 5, 7. Which single variable is 1 in exactly those rows?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>K-map cell:</strong> one present state (row Q2, column Q1 Q0 in Gray order 00, 01, 11, 10); a 1 means the flip-flop must toggle from that state. <strong>Group:</strong> a block of 1s that gives one product term (02 step 2).</p>
+</div>
+<div class="two">
+
+
+
+
+<figure style="max-width:100%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 220" style="max-width:288px"><text class="k-var" x="50" y="26" text-anchor="end">Q₂</text><text class="k-var" x="62" y="26">Q₁Q₀</text><line class="k-diag" x1="22" y1="12" x2="62" y2="56"/><text class="k-lab" x="87.0" y="44" text-anchor="middle">00</text><text class="k-lab" x="129.0" y="44" text-anchor="middle">01</text><text class="k-lab" x="171.0" y="44" text-anchor="middle">11</text><text class="k-lab" x="213.0" y="44" text-anchor="middle">10</text><text class="k-lab" x="50" y="86.0" text-anchor="end">0</text><text class="k-lab" x="50" y="128.0" text-anchor="end">1</text><rect class="k-cell" x="66" y="60" width="42" height="42"/><text class="k-zero" x="87.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="70" y="71">0</text><rect class="k-cell" x="108" y="60" width="42" height="42"/><text class="k-one" x="129.0" y="87.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="112" y="71">1</text><rect class="k-cell" x="150" y="60" width="42" height="42"/><text class="k-one" x="171.0" y="87.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="71">3</text><rect class="k-cell" x="192" y="60" width="42" height="42"/><text class="k-zero" x="213.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="71">2</text><rect class="k-cell" x="66" y="102" width="42" height="42"/><text class="k-zero" x="87.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="70" y="113">4</text><rect class="k-cell" x="108" y="102" width="42" height="42"/><text class="k-one" x="129.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="112" y="113">5</text><rect class="k-cell" x="150" y="102" width="42" height="42"/><text class="k-one" x="171.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="113">7</text><rect class="k-cell" x="192" y="102" width="42" height="42"/><text class="k-zero" x="213.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="113">6</text><g class="kg c0"><rect class="k-grp" x="113" y="65" width="74" height="74" rx="12"/></g><g class="kg c0"><rect class="k-chip" x="8" y="160" width="98.39999999999999" height="22" rx="11"/><text class="k-chip-t" x="20" y="175.5">T1 = Q0</text></g></svg><figcaption>What this graph plots: one cell per present state (row Q2, columns Q1 Q0); 1 = FF1 must toggle. The four 1s form the column pair Q0 = 1: T1 = Q0.</figcaption></figure>
+
+
+
+
+
+
+
+<figure style="max-width:100%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 220" style="max-width:288px"><text class="k-var" x="50" y="26" text-anchor="end">Q₂</text><text class="k-var" x="62" y="26">Q₁Q₀</text><line class="k-diag" x1="22" y1="12" x2="62" y2="56"/><text class="k-lab" x="87.0" y="44" text-anchor="middle">00</text><text class="k-lab" x="129.0" y="44" text-anchor="middle">01</text><text class="k-lab" x="171.0" y="44" text-anchor="middle">11</text><text class="k-lab" x="213.0" y="44" text-anchor="middle">10</text><text class="k-lab" x="50" y="86.0" text-anchor="end">0</text><text class="k-lab" x="50" y="128.0" text-anchor="end">1</text><rect class="k-cell" x="66" y="60" width="42" height="42"/><text class="k-zero" x="87.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="70" y="71">0</text><rect class="k-cell" x="108" y="60" width="42" height="42"/><text class="k-zero" x="129.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="112" y="71">1</text><rect class="k-cell" x="150" y="60" width="42" height="42"/><text class="k-one" x="171.0" y="87.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="71">3</text><rect class="k-cell" x="192" y="60" width="42" height="42"/><text class="k-zero" x="213.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="71">2</text><rect class="k-cell" x="66" y="102" width="42" height="42"/><text class="k-zero" x="87.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="70" y="113">4</text><rect class="k-cell" x="108" y="102" width="42" height="42"/><text class="k-zero" x="129.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="112" y="113">5</text><rect class="k-cell" x="150" y="102" width="42" height="42"/><text class="k-one" x="171.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="113">7</text><rect class="k-cell" x="192" y="102" width="42" height="42"/><text class="k-zero" x="213.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="113">6</text><g class="kg c0"><rect class="k-grp" x="155" y="65" width="32" height="74" rx="12"/></g><g class="kg c0"><rect class="k-chip" x="8" y="160" width="116.8" height="22" rx="11"/><text class="k-chip-t" x="20" y="175.5">T2 = Q1Q0</text></g></svg><figcaption>Same map for FF2: 1 only in states 011 and 111, a pair: T2 = Q1 Q0.</figcaption></figure>
+
+
+
+
+</div>
+
+<div class="eq">T0 = 1&emsp;&emsp;&emsp;·&emsp;&emsp;&emsp;T1 = Q0&emsp;&emsp;&emsp;·&emsp;&emsp;&emsp;T2 = Q1·Q0</div>
+
+<p><strong>Circuit</strong> (figure in step 1): three T flip-flops, each with a <strong>bubble on its clock input</strong> (negative-edge triggered, as Q8 asks); one CLK line to all three; T0 tied to 1; Q0 wired to T1; one 2-input AND of Q1 and Q0 into T2.</p>
+<ol>
+<li>All 8 states are in the count, so step 6 of the procedure (unused states) has nothing to check.</li>
+<li>The pattern extends: a 4-bit counter adds <strong>T3 = Q2 Q1 Q0</strong> (deck 10 slide 25), one more AND input per bit.</li>
+<li>Over one cycle of 8 edges FF0 toggles 8 times, FF1 4 times, FF2 2 times: Q1 runs at f<sub>CLK</sub>/4, Q2 at f<sub>CLK</sub>/8, the same divider as 12 step 3 but with all changes on the same edge.</li>
+</ol>
+<p><strong>Answer (MTE Q8, 8 marks).</strong> (i) 3 flip-flops; (ii) state table and T columns as in step 6; (iii) K-maps above; (iv) <strong>T0 = 1, T1 = Q0, T2 = Q1 Q0</strong>; (v) circuit: negative-edge T flip-flops, common clock, one AND gate.</p>
+<div class="box check">
+<div class="bh">Check 7</div>
+<p>(a) Design a 3-bit synchronous up counter with JK flip-flops: J and K of each stage. (b) Write T3 for a 4-bit counter.</p>
+</div>
+<h3>8 · Down counters</h3>
+<p>Steps 6–7 counted up. Counting down only changes the next-state column; the procedure is the same.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Practice set 2 Q6</span></div>
+<p>Design 3-bit synchronous down counter using DFF.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Counting down, a bit must change when every bit below it is 0 (the borrow rule). With D flip-flops, though, you need the next state, not the change. What is D0?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Down count:</strong> next = present − 1, with 000 → 111. <strong>Borrow:</strong> a bit changes when all lower bits are 0 (12 step 4).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Present Q2 Q1 Q0</th>
+<th>Next = D2 D1 D0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 0 0</td>
+<td>1 1 1</td>
+</tr>
+<tr>
+<td>0 0 1</td>
+<td>0 0 0</td>
+</tr>
+<tr>
+<td>0 1 0</td>
+<td>0 0 1</td>
+</tr>
+<tr>
+<td>0 1 1</td>
+<td>0 1 0</td>
+</tr>
+<tr>
+<td>1 0 0</td>
+<td>0 1 1</td>
+</tr>
+<tr>
+<td>1 0 1</td>
+<td>1 0 0</td>
+</tr>
+<tr>
+<td>1 1 0</td>
+<td>1 0 1</td>
+</tr>
+<tr>
+<td>1 1 1</td>
+<td>1 1 0</td>
+</tr>
+</tbody>
+</table>
+<div class="two">
+
+
+
+
+<figure style="max-width:100%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 220" style="max-width:288px"><text class="k-var" x="50" y="26" text-anchor="end">Q₂</text><text class="k-var" x="62" y="26">Q₁Q₀</text><line class="k-diag" x1="22" y1="12" x2="62" y2="56"/><text class="k-lab" x="87.0" y="44" text-anchor="middle">00</text><text class="k-lab" x="129.0" y="44" text-anchor="middle">01</text><text class="k-lab" x="171.0" y="44" text-anchor="middle">11</text><text class="k-lab" x="213.0" y="44" text-anchor="middle">10</text><text class="k-lab" x="50" y="86.0" text-anchor="end">0</text><text class="k-lab" x="50" y="128.0" text-anchor="end">1</text><rect class="k-cell" x="66" y="60" width="42" height="42"/><text class="k-one" x="87.0" y="87.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="70" y="71">0</text><rect class="k-cell" x="108" y="60" width="42" height="42"/><text class="k-zero" x="129.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="112" y="71">1</text><rect class="k-cell" x="150" y="60" width="42" height="42"/><text class="k-one" x="171.0" y="87.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="71">3</text><rect class="k-cell" x="192" y="60" width="42" height="42"/><text class="k-zero" x="213.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="71">2</text><rect class="k-cell" x="66" y="102" width="42" height="42"/><text class="k-one" x="87.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="70" y="113">4</text><rect class="k-cell" x="108" y="102" width="42" height="42"/><text class="k-zero" x="129.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="112" y="113">5</text><rect class="k-cell" x="150" y="102" width="42" height="42"/><text class="k-one" x="171.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="113">7</text><rect class="k-cell" x="192" y="102" width="42" height="42"/><text class="k-zero" x="213.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="113">6</text><g class="kg c0"><rect class="k-grp" x="71" y="65" width="32" height="74" rx="12"/></g><g class="kg c1"><rect class="k-grp" x="159" y="69" width="24" height="66" rx="12"/></g><g class="kg c0"><rect class="k-chip" x="8" y="160" width="89.19999999999999" height="22" rx="11"/><text class="k-chip-t" x="20" y="175.5">Q1'Q0'</text></g><g class="kg c1"><rect class="k-chip" x="105.19999999999999" y="160" width="70.8" height="22" rx="11"/><text class="k-chip-t" x="117.19999999999999" y="175.5">Q1Q0</text></g></svg><figcaption>What this graph plots: one cell per present state; 1 = D1 must be 1 (next Q1 = 1). Two pairs: Q1'Q0' and Q1Q0.</figcaption></figure>
+
+
+
+
+
+
+
+<figure style="max-width:100%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 248" style="max-width:288px"><text class="k-var" x="50" y="26" text-anchor="end">Q₂</text><text class="k-var" x="62" y="26">Q₁Q₀</text><line class="k-diag" x1="22" y1="12" x2="62" y2="56"/><text class="k-lab" x="87.0" y="44" text-anchor="middle">00</text><text class="k-lab" x="129.0" y="44" text-anchor="middle">01</text><text class="k-lab" x="171.0" y="44" text-anchor="middle">11</text><text class="k-lab" x="213.0" y="44" text-anchor="middle">10</text><text class="k-lab" x="50" y="86.0" text-anchor="end">0</text><text class="k-lab" x="50" y="128.0" text-anchor="end">1</text><rect class="k-cell" x="66" y="60" width="42" height="42"/><text class="k-one" x="87.0" y="87.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="70" y="71">0</text><rect class="k-cell" x="108" y="60" width="42" height="42"/><text class="k-zero" x="129.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="112" y="71">1</text><rect class="k-cell" x="150" y="60" width="42" height="42"/><text class="k-zero" x="171.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="154" y="71">3</text><rect class="k-cell" x="192" y="60" width="42" height="42"/><text class="k-zero" x="213.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="71">2</text><rect class="k-cell" x="66" y="102" width="42" height="42"/><text class="k-zero" x="87.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="70" y="113">4</text><rect class="k-cell" x="108" y="102" width="42" height="42"/><text class="k-one" x="129.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="112" y="113">5</text><rect class="k-cell" x="150" y="102" width="42" height="42"/><text class="k-one" x="171.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="113">7</text><rect class="k-cell" x="192" y="102" width="42" height="42"/><text class="k-one" x="213.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="196" y="113">6</text><g class="kg c0"><rect class="k-grp" x="155" y="107" width="74" height="32" rx="12"/></g><g class="kg c1"><rect class="k-grp" x="117" y="111" width="66" height="24" rx="12"/></g><g class="kg c2"><rect class="k-grp" x="79" y="73" width="16" height="16" rx="12"/></g><g class="kg c0"><rect class="k-chip" x="8" y="160" width="70.8" height="22" rx="11"/><text class="k-chip-t" x="20" y="175.5">Q2Q1</text></g><g class="kg c1"><rect class="k-chip" x="86.8" y="160" width="70.8" height="22" rx="11"/><text class="k-chip-t" x="98.8" y="175.5">Q2Q0</text></g><g class="kg c2"><rect class="k-chip" x="8" y="188" width="116.8" height="22" rx="11"/><text class="k-chip-t" x="20" y="203.5">Q2'Q1'Q0'</text></g></svg><figcaption>Same for D2: pairs Q2Q1 and Q2Q0, and the lone 1 at 000 (the wrap 000 → 111): Q2'Q1'Q0'.</figcaption></figure>
+
+
+
+
+</div>
+
+<ol>
+<li>D0 column = 1, 0, 1, 0, …: <strong>D0 = Q0'</strong> (no map needed).</li>
+<li>D1 ones at 000, 011, 100, 111: <strong>D1 = Q1'Q0' + Q1Q0</strong> (= Q1 XNOR Q0).</li>
+<li>D2 ones at 000, 101, 110, 111: <strong>D2 = Q2Q1 + Q2Q0 + Q2'Q1'Q0'</strong>.</li>
+</ol>
+<p>With T flip-flops the same counter is shorter, because the borrow rule is the T rule: T0 = 1, <strong>T1 = Q0'</strong>, <strong>T2 = Q1'Q0'</strong>.</p>
+<p><strong>Answer.</strong> Three D flip-flops on one clock with <strong>D0 = Q0', D1 = Q1'Q0' + Q1Q0, D2 = Q2Q1 + Q2Q0 + Q2'Q1'Q0'</strong>; it counts 0, 7, 6, … 1, 0.</p>
+<div class="box check">
+<div class="bh">Check 8</div>
+<p><span class="tag">Practice set 2 Q5</span> Write the T-column table of the 2-bit down counter and confirm T1 = Q0', T0 = 1.</p>
+</div>
+<h3>9 · MOD-N: the synchronous decade counter</h3>
+<p>A count of fewer than 2<sup>n</sup> states leaves some codes unused. They never occur in the count, so their inputs can be anything.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 10 slides 26–27 (EX 10.26–10.27)</span></div>
+<p>Synchronous decade/BCD counter (T flip-flops).</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>A decade counter uses 0000 – 1001. Which six codes are unused, and what goes in their K-map cells?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Unused states:</strong> codes the count never visits (1010 – 1111 here). <strong>Don't-care cells:</strong> their cells in every K-map are X, so groups may include them (02 step 7).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Present Q3 Q2 Q1 Q0</th>
+<th>Next</th>
+<th>T3</th>
+<th>T2</th>
+<th>T1</th>
+<th>T0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0000 (0)</td>
+<td>0001</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0001 (1)</td>
+<td>0010</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0010 (2)</td>
+<td>0011</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0011 (3)</td>
+<td>0100</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0100 (4)</td>
+<td>0101</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0101 (5)</td>
+<td>0110</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0110 (6)</td>
+<td>0111</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0111 (7)</td>
+<td>1000</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1000 (8)</td>
+<td>1001</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1001 (9)</td>
+<td>0000</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1010 – 1111</td>
+<td>—</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>T0 = 1</strong> (every row).</li>
+<li>T1 is 1 in rows 1, 3, 5, 7 but <strong>not 9</strong>: Q0 = 1 and Q3 = 0. With 11, 13, 15 as X: <strong>T1 = Q3'Q0</strong>.</li>
+<li>T2 is 1 in rows 3, 7: <strong>T2 = Q1Q0</strong> (the X at 11 and 15 allow the pair).</li>
+<li>T3 is 1 in rows 7 and 9. Row 9 groups with the X's 11, 13, 15 into <strong>Q3Q0</strong>; row 7 groups with X 15 into <strong>Q2Q1Q0</strong>: <strong>T3 = Q2Q1Q0 + Q3Q0</strong>.</li>
+</ol>
+<p>Compare the binary 4-bit counter (T1 = Q0, T3 = Q2Q1Q0): the extra Q3' in T1 stops Q1 at 1001 → 0000, and the extra Q3Q0 in T3 resets Q3 there.</p>
+<p><strong>Answer.</strong> <strong>T0 = 1, T1 = Q3'Q0, T2 = Q1Q0, T3 = Q2Q1Q0 + Q3Q0</strong> (deck 10 slides 26–27). Unlike 12 step 7, no clear pulse and no momentary 1010: 1001 goes straight to 0000 on one edge.</p>
+<div class="box check">
+<div class="bh">Check 9</div>
+<p>Why is T1 = Q0 (the binary answer) wrong for the decade counter? Name the row where it fails and what it would do there.</p>
+</div>
+<h3>10 · Unused states and self-starting</h3>
+<p>Step 9 let the K-maps fill the unused cells with whatever made the groups largest. At power-up a counter can wake in any code, including an unused one.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>The decade counter of step 9 wakes up at 1010. Apply T0 = 1, T1 = Q3'Q0, T2 = Q1Q0, T3 = Q2Q1Q0 + Q3Q0. Where does it go, and does it ever reach the count?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Self-starting:</strong> every unused state leads into the main count within a few clocks. <strong>Lock-out:</strong> an unused state (or a loop of them) that never leads into the count; the counter is stuck there for ever.</p>
+</div>
+
+<figure style="max-width:70%"><div style="width:130mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 364.101484 317.423906" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T18:00:51.272542</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 317.423906 
+L 364.101484 317.423906 
+L 364.101484 0 
+L 0 0 
+L 0 317.423906 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 160.321003 86.320772 
+Q 169.927837 89.442221 178.221626 92.137037 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 175.144499 88.663189 
+L 178.221626 92.137037 
+L 173.690302 93.138749 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 203.944231 109.97855 
+Q 209.881581 118.15061 215.007425 125.205729 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 214.559853 120.586637 
+L 215.007425 125.205729 
+L 210.752714 123.352685 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 225.330471 154.759184 
+Q 225.330471 164.860406 225.330471 173.581013 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 227.683413 169.581013 
+L 225.330471 173.581013 
+L 222.97753 169.581013 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 216.310907 203.557994 
+Q 210.373557 211.730055 205.247713 218.785174 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 209.502424 216.93213 
+L 205.247713 218.785174 
+L 205.695285 214.166082 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 180.330704 237.735494 
+Q 170.723871 240.856944 162.430081 243.55176 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 166.961406 244.553472 
+L 162.430081 243.55176 
+L 165.507208 240.077911 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 131.133079 244.23704 
+Q 121.526245 241.115591 113.232456 238.420775 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 116.309583 241.894623 
+L 113.232456 238.420775 
+L 117.76378 237.419063 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 87.509851 220.579263 
+Q 81.572501 212.407202 76.446657 205.352083 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 76.894229 209.971175 
+L 76.446657 205.352083 
+L 80.701368 207.205127 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 66.123611 175.798629 
+Q 66.123611 165.697406 66.123611 156.9768 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 63.770669 160.9768 
+L 66.123611 156.9768 
+L 68.476552 160.9768 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 75.143175 126.999818 
+Q 81.080525 118.827757 86.206369 111.772638 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 81.951658 113.625682 
+L 86.206369 111.772638 
+L 85.758797 116.391731 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 111.123378 92.822318 
+Q 120.730211 89.700869 129.024001 87.006053 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 124.492676 86.004341 
+L 129.024001 87.006053 
+L 125.946874 90.479901 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 130.717366 293.218501 
+Q 119.468708 290.827525 109.570495 288.723595 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 112.993882 291.856766 
+L 109.570495 288.723595 
+L 113.97229 287.253718 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #d92d20; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 93.607029 269.775328 
+Q 94.427394 259.450061 95.138411 250.501072 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 92.476051 254.302147 
+L 95.138411 250.501072 
+L 97.16715 254.674865 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #d92d20; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 262.766582 219.089465 
+Q 257.016602 229.048722 251.95693 237.812331 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 255.994637 235.5247 
+L 251.95693 237.812331 
+L 251.919223 233.171759 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #d92d20; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 229.003074 247.139154 
+Q 219.436668 243.168257 211.145391 239.72665 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 213.937714 243.433302 
+L 211.145391 239.72665 
+L 215.741819 239.086978 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #d92d20; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 233.07113 70.596065 
+Q 240.766105 79.142201 247.537268 86.662339 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 246.609322 82.115335 
+L 247.537268 86.662339 
+L 243.11217 85.264185 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #d92d20; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 249.314472 111.3749 
+Q 242.581743 119.246018 236.746435 126.067977 
+" clip-path="url(#p72a7d64a53)" style="fill: none; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 241.134545 124.557738 
+L 236.746435 126.067977 
+L 237.558445 121.498844 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #d92d20; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 145.727041 96.923906 
+C 149.796583 96.923906 153.699994 95.30706 156.577595 92.42946 
+C 159.455195 89.551859 161.072041 85.648448 161.072041 81.578906 
+C 161.072041 77.509365 159.455195 73.605953 156.577595 70.728353 
+C 153.699994 67.850752 149.796583 66.233906 145.727041 66.233906 
+C 141.657499 66.233906 137.754088 67.850752 134.876487 70.728353 
+C 131.998887 73.605953 130.382041 77.509365 130.382041 81.578906 
+C 130.382041 85.648448 131.998887 89.551859 134.876487 92.42946 
+C 137.754088 95.30706 141.657499 96.923906 145.727041 96.923906 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 194.924667 112.909184 
+C 198.994208 112.909184 202.89762 111.292338 205.77522 108.414737 
+C 208.652821 105.537137 210.269667 101.633725 210.269667 97.564184 
+C 210.269667 93.494642 208.652821 89.591231 205.77522 86.71363 
+C 202.89762 83.83603 198.994208 82.219184 194.924667 82.219184 
+C 190.855125 82.219184 186.951713 83.83603 184.074113 86.71363 
+C 181.196513 89.591231 179.579667 93.494642 179.579667 97.564184 
+C 179.579667 101.633725 181.196513 105.537137 184.074113 108.414737 
+C 186.951713 111.292338 190.855125 112.909184 194.924667 112.909184 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_20">
+    <path d="M 225.330471 154.759184 
+C 229.400013 154.759184 233.303425 153.142338 236.181025 150.264737 
+C 239.058625 147.387137 240.675471 143.483725 240.675471 139.414184 
+C 240.675471 135.344642 239.058625 131.441231 236.181025 128.56363 
+C 233.303425 125.68603 229.400013 124.069184 225.330471 124.069184 
+C 221.26093 124.069184 217.357518 125.68603 214.479918 128.56363 
+C 211.602317 131.441231 209.985471 135.344642 209.985471 139.414184 
+C 209.985471 143.483725 211.602317 147.387137 214.479918 150.264737 
+C 217.357518 153.142338 221.26093 154.759184 225.330471 154.759184 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_21">
+    <path d="M 225.330471 206.488629 
+C 229.400013 206.488629 233.303425 204.871783 236.181025 201.994182 
+C 239.058625 199.116582 240.675471 195.21317 240.675471 191.143629 
+C 240.675471 187.074087 239.058625 183.170676 236.181025 180.293075 
+C 233.303425 177.415475 229.400013 175.798629 225.330471 175.798629 
+C 221.26093 175.798629 217.357518 177.415475 214.479918 180.293075 
+C 211.602317 183.170676 209.985471 187.074087 209.985471 191.143629 
+C 209.985471 195.21317 211.602317 199.116582 214.479918 201.994182 
+C 217.357518 204.871783 221.26093 206.488629 225.330471 206.488629 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_22">
+    <path d="M 194.924667 248.338629 
+C 198.994208 248.338629 202.89762 246.721783 205.77522 243.844182 
+C 208.652821 240.966582 210.269667 237.06317 210.269667 232.993629 
+C 210.269667 228.924087 208.652821 225.020676 205.77522 222.143075 
+C 202.89762 219.265475 198.994208 217.648629 194.924667 217.648629 
+C 190.855125 217.648629 186.951713 219.265475 184.074113 222.143075 
+C 181.196513 225.020676 179.579667 228.924087 179.579667 232.993629 
+C 179.579667 237.06317 181.196513 240.966582 184.074113 243.844182 
+C 186.951713 246.721783 190.855125 248.338629 194.924667 248.338629 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_23">
+    <path d="M 145.727041 264.323906 
+C 149.796583 264.323906 153.699994 262.70706 156.577595 259.82946 
+C 159.455195 256.951859 161.072041 253.048448 161.072041 248.978906 
+C 161.072041 244.909365 159.455195 241.005953 156.577595 238.128353 
+C 153.699994 235.250752 149.796583 233.633906 145.727041 233.633906 
+C 141.657499 233.633906 137.754088 235.250752 134.876487 238.128353 
+C 131.998887 241.005953 130.382041 244.909365 130.382041 248.978906 
+C 130.382041 253.048448 131.998887 256.951859 134.876487 259.82946 
+C 137.754088 262.70706 141.657499 264.323906 145.727041 264.323906 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_24">
+    <path d="M 96.529415 248.338629 
+C 100.598957 248.338629 104.502368 246.721783 107.379969 243.844182 
+C 110.257569 240.966582 111.874415 237.06317 111.874415 232.993629 
+C 111.874415 228.924087 110.257569 225.020676 107.379969 222.143075 
+C 104.502368 219.265475 100.598957 217.648629 96.529415 217.648629 
+C 92.459874 217.648629 88.556462 219.265475 85.678862 222.143075 
+C 82.801261 225.020676 81.184415 228.924087 81.184415 232.993629 
+C 81.184415 237.06317 82.801261 240.966582 85.678862 243.844182 
+C 88.556462 246.721783 92.459874 248.338629 96.529415 248.338629 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_25">
+    <path d="M 66.123611 206.488629 
+C 70.193152 206.488629 74.096564 204.871783 76.974164 201.994182 
+C 79.851765 199.116582 81.468611 195.21317 81.468611 191.143629 
+C 81.468611 187.074087 79.851765 183.170676 76.974164 180.293075 
+C 74.096564 177.415475 70.193152 175.798629 66.123611 175.798629 
+C 62.054069 175.798629 58.150657 177.415475 55.273057 180.293075 
+C 52.395457 183.170676 50.778611 187.074087 50.778611 191.143629 
+C 50.778611 195.21317 52.395457 199.116582 55.273057 201.994182 
+C 58.150657 204.871783 62.054069 206.488629 66.123611 206.488629 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_26">
+    <path d="M 66.123611 154.759184 
+C 70.193152 154.759184 74.096564 153.142338 76.974164 150.264737 
+C 79.851765 147.387137 81.468611 143.483725 81.468611 139.414184 
+C 81.468611 135.344642 79.851765 131.441231 76.974164 128.56363 
+C 74.096564 125.68603 70.193152 124.069184 66.123611 124.069184 
+C 62.054069 124.069184 58.150657 125.68603 55.273057 128.56363 
+C 52.395457 131.441231 50.778611 135.344642 50.778611 139.414184 
+C 50.778611 143.483725 52.395457 147.387137 55.273057 150.264737 
+C 58.150657 153.142338 62.054069 154.759184 66.123611 154.759184 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_27">
+    <path d="M 96.529415 112.909184 
+C 100.598957 112.909184 104.502368 111.292338 107.379969 108.414737 
+C 110.257569 105.537137 111.874415 101.633725 111.874415 97.564184 
+C 111.874415 93.494642 110.257569 89.591231 107.379969 86.71363 
+C 104.502368 83.83603 100.598957 82.219184 96.529415 82.219184 
+C 92.459874 82.219184 88.556462 83.83603 85.678862 86.71363 
+C 82.801261 89.591231 81.184415 93.494642 81.184415 97.564184 
+C 81.184415 101.633725 82.801261 105.537137 85.678862 108.414737 
+C 88.556462 111.292338 92.459874 112.909184 96.529415 112.909184 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_28">
+    <path d="M 92.391665 300.417122 
+C 96.461207 300.417122 100.364618 298.800276 103.242219 295.922676 
+C 106.119819 293.045075 107.736665 289.141664 107.736665 285.072122 
+C 107.736665 281.002581 106.119819 277.099169 103.242219 274.221569 
+C 100.364618 271.343968 96.461207 269.727122 92.391665 269.727122 
+C 88.322123 269.727122 84.418712 271.343968 81.541111 274.221569 
+C 78.663511 277.099169 77.046665 281.002581 77.046665 285.072122 
+C 77.046665 289.141664 78.663511 293.045075 81.541111 295.922676 
+C 84.418712 298.800276 88.322123 300.417122 92.391665 300.417122 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #ffffff; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_29">
+    <path d="M 145.727041 311.753906 
+C 149.796583 311.753906 153.699994 310.13706 156.577595 307.25946 
+C 159.455195 304.381859 161.072041 300.478448 161.072041 296.408906 
+C 161.072041 292.339365 159.455195 288.435953 156.577595 285.558353 
+C 153.699994 282.680752 149.796583 281.063906 145.727041 281.063906 
+C 141.657499 281.063906 137.754088 282.680752 134.876487 285.558353 
+C 131.998887 288.435953 130.382041 292.339365 130.382041 296.408906 
+C 130.382041 300.478448 131.998887 304.381859 134.876487 307.25946 
+C 137.754088 310.13706 141.657499 311.753906 145.727041 311.753906 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #ffffff; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_30">
+    <path d="M 243.175622 268.367003 
+C 247.245164 268.367003 251.148575 266.750157 254.026176 263.872556 
+C 256.903776 260.994956 258.520622 257.091544 258.520622 253.022003 
+C 258.520622 248.952461 256.903776 245.04905 254.026176 242.171449 
+C 251.148575 239.293849 247.245164 237.677003 243.175622 237.677003 
+C 239.10608 237.677003 235.202669 239.293849 232.325068 242.171449 
+C 229.447468 245.04905 227.830622 248.952461 227.830622 253.022003 
+C 227.830622 257.091544 229.447468 260.994956 232.325068 263.872556 
+C 235.202669 266.750157 239.10608 268.367003 243.175622 268.367003 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #ffffff; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_31">
+    <path d="M 270.439082 221.145305 
+C 274.508624 221.145305 278.412035 219.528459 281.289636 216.650858 
+C 284.167236 213.773258 285.784082 209.869846 285.784082 205.800305 
+C 285.784082 201.730763 284.167236 197.827352 281.289636 194.949751 
+C 278.412035 192.072151 274.508624 190.455305 270.439082 190.455305 
+C 266.36954 190.455305 262.466129 192.072151 259.588528 194.949751 
+C 256.710928 197.827352 255.094082 201.730763 255.094082 205.800305 
+C 255.094082 209.869846 256.710928 213.773258 259.588528 216.650858 
+C 262.466129 219.528459 266.36954 221.145305 270.439082 221.145305 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #ffffff; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_32">
+    <path d="M 259.288952 115.058906 
+C 263.358494 115.058906 267.261905 113.44206 270.139506 110.56446 
+C 273.017106 107.686859 274.633952 103.783448 274.633952 99.713906 
+C 274.633952 95.644365 273.017106 91.740953 270.139506 88.863353 
+C 267.261905 85.985752 263.358494 84.368906 259.288952 84.368906 
+C 255.219411 84.368906 251.315999 85.985752 248.438399 88.863353 
+C 245.560798 91.740953 243.943952 95.644365 243.943952 99.713906 
+C 243.943952 103.783448 245.560798 107.686859 248.438399 110.56446 
+C 251.315999 113.44206 255.219411 115.058906 259.288952 115.058906 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #ffffff; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_33">
+    <path d="M 222.803321 74.537508 
+C 226.872863 74.537508 230.776274 72.920662 233.653875 70.043061 
+C 236.531475 67.165461 238.148321 63.262049 238.148321 59.192508 
+C 238.148321 55.122966 236.531475 51.219555 233.653875 48.341954 
+C 230.776274 45.464354 226.872863 43.847508 222.803321 43.847508 
+C 218.73378 43.847508 214.830368 45.464354 211.952768 48.341954 
+C 209.075167 51.219555 207.458321 55.122966 207.458321 59.192508 
+C 207.458321 63.262049 209.075167 67.165461 211.952768 70.043061 
+C 214.830368 72.920662 218.73378 74.537508 222.803321 74.537508 
+z
+" clip-path="url(#p72a7d64a53)" style="fill: #ffffff; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="145.727041" y="83.747734" transform="rotate(-0 145.727041 83.747734)">0000</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="194.924667" y="99.733012" transform="rotate(-0 194.924667 99.733012)">0001</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="225.330471" y="141.583012" transform="rotate(-0 225.330471 141.583012)">0010</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="225.330471" y="193.312457" transform="rotate(-0 225.330471 193.312457)">0011</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="194.924667" y="235.162457" transform="rotate(-0 194.924667 235.162457)">0100</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="145.727041" y="251.147734" transform="rotate(-0 145.727041 251.147734)">0101</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="96.529415" y="235.162457" transform="rotate(-0 96.529415 235.162457)">0110</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="66.123611" y="193.312457" transform="rotate(-0 66.123611 193.312457)">0111</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="66.123611" y="141.583012" transform="rotate(-0 66.123611 141.583012)">1000</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="96.529415" y="99.733012" transform="rotate(-0 96.529415 99.733012)">1001</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="92.391665" y="287.24095" transform="rotate(-0 92.391665 287.24095)">1011</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="145.727041" y="298.577734" transform="rotate(-0 145.727041 298.577734)">1010</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="243.175622" y="255.190831" transform="rotate(-0 243.175622 255.190831)">1101</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="270.439082" y="207.969133" transform="rotate(-0 270.439082 207.969133)">1100</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="259.288952" y="101.882734" transform="rotate(-0 259.288952 101.882734)">1111</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="222.803321" y="61.361336" transform="rotate(-0 222.803321 61.361336)">1110</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #6a707a; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="2.88" y="10.013906" transform="rotate(-0 2.88 10.013906)">decade counter: every unused state reaches the count within two clocks (self-starting)</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p72a7d64a53">
+   <rect x="2.88" y="16.013906" width="285.694082" height="298.53"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>What this graph plots: each circle is a state Q3 Q2 Q1 Q0, each arrow one clock edge. Solid ring: the count 0000 – 1001. Dashed: the six unused states and where the equations send them.</figcaption></figure>
+
+<p>Apply the equations to each unused state (T = 1 flips that bit):</p>
+<table>
+<thead>
+<tr>
+<th>From</th>
+<th>T3 T2 T1 T0</th>
+<th>To</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1010 (10)</td>
+<td>0 0 0 1</td>
+<td>1011 (11)</td>
+</tr>
+<tr>
+<td>1011 (11)</td>
+<td>1 1 0 1</td>
+<td>0110 (6)</td>
+</tr>
+<tr>
+<td>1100 (12)</td>
+<td>0 0 0 1</td>
+<td>1101 (13)</td>
+</tr>
+<tr>
+<td>1101 (13)</td>
+<td>1 0 0 1</td>
+<td>0100 (4)</td>
+</tr>
+<tr>
+<td>1110 (14)</td>
+<td>0 0 0 1</td>
+<td>1111 (15)</td>
+</tr>
+<tr>
+<td>1111 (15)</td>
+<td>1 1 0 1</td>
+<td>0010 (2)</td>
+</tr>
+</tbody>
+</table>
+<p>Every unused state reaches the count within two clocks: the counter is <strong>self-starting</strong>. Had one led into a loop of unused states (lock-out), the fix is to choose that state's next state yourself (for example, send it to 0000), replace its X's with the matching inputs, and redo the K-maps.</p>
+<p><strong>Answer to the Predict.</strong> <strong>1010 → 1011 → 0110 (6)</strong>: two clocks, then it counts normally.</p>
+<div class="box check">
+<div class="bh">Check 10</div>
+<p>A MOD-6 synchronous counter (0–5) with JK flip-flops has J2 = Q1Q0, K2 = Q0, J1 = Q2'Q0, K1 = Q0, J0 = K0 = 1. Where do 110 and 111 go? Is it self-starting?</p>
+</div>
+<h3>11 · Up/down counters</h3>
+<p>So far the state table had one next state per row. An up/down counter has a direction input, and the input becomes one more K-map variable.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 10 slides 29–32</span></div>
+<p>2-bit Up/Down counter: counter outputs 00, 01, 10, 11; a single input X (pack: Dn): Dn = 0 the counter counts up; Dn = 1 the counter counts down. Use D flip-flops.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>D0 for both directions: does Q0 flip every clock whether counting up or down?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Up/down (bidirectional) counter:</strong> a counter with a control input that sets the direction (deck 10 slide 28). <strong>Dn:</strong> the direction input; Dn = 0 up, Dn = 1 down (the deck calls it X).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Dn</th>
+<th>Q1 Q0</th>
+<th>Q1⁺ Q0⁺ = D1 D0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>00</td>
+<td>01</td>
+</tr>
+<tr>
+<td>0</td>
+<td>01</td>
+<td>10</td>
+</tr>
+<tr>
+<td>0</td>
+<td>10</td>
+<td>11</td>
+</tr>
+<tr>
+<td>0</td>
+<td>11</td>
+<td>00</td>
+</tr>
+<tr>
+<td>1</td>
+<td>00</td>
+<td>11</td>
+</tr>
+<tr>
+<td>1</td>
+<td>01</td>
+<td>00</td>
+</tr>
+<tr>
+<td>1</td>
+<td>10</td>
+<td>01</td>
+</tr>
+<tr>
+<td>1</td>
+<td>11</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>D0 = 1 whenever Q0 = 0, in both halves: <strong>D0 = Q0'</strong> (deck 10 slide 31 asks why: the low bit alternates in either direction).</li>
+<li>D1 on a 3-variable map (Dn, Q1, Q0) is a checkerboard: 1 when an odd number of Dn, Q1, Q0 are 1: <strong>D1 = Q1 ⊕ Q0 ⊕ Dn</strong>.</li>
+<li>Read back: Dn = 0 gives D1 = Q1 ⊕ Q0 (step 3's up counter); Dn = 1 inverts it, giving Q1 XNOR Q0 (step 8's down counter).</li>
+</ol>
+<p>With T flip-flops and an Up input (Up = 1 counts up; deck 10 slide 33), the carry rule and the borrow rule are joined by OR: <strong>T0 = 1, T1 = Q0·Up + Q0'·Up', T2 = Q0Q1·Up + Q0'Q1'·Up'</strong>.</p>
+<p><strong>Answer.</strong> <strong>D0 = Q0', D1 = Q1 ⊕ Q0 ⊕ Dn</strong> (deck 10 slides 31–32): a 3-input XOR into D1, Q0' into D0, one clock.</p>
+<div class="box check">
+<div class="bh">Check 11</div>
+<p>In the 3-bit T up/down counter, Up = 0 and the count is 100. Find T2, T1, T0 and the next count.</p>
+</div>
+<h3>12 · Any sequence: the Gray-code counter</h3>
+<p>Nothing in the procedure needs the states to be in binary order. The state table can list any order.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 10 slides 35–37 (EX 10.35–10.37)</span></div>
+<p>A 3-bit Gray code counter (using JK flip-flops): 000, 001, 011, 010, 110, 111, 101, 100.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>In a Gray sequence only one bit changes per step. How many flip-flops change at each clock edge?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Gray code:</strong> an order of the codes in which neighbours differ in exactly one bit (01 step 1's code table). <strong>Any-sequence counter:</strong> the state table lists the wanted order; everything after it is the usual procedure (deck 10 slide 34).</p>
+</div>
+
+<figure style="max-width:52%"><div style="width:117mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 262.44 188.982969" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T18:00:51.384139</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 188.982969 
+L 262.44 188.982969 
+L 262.44 0 
+L 0 0 
+L 0 188.982969 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 145.396931 39.920246 
+Q 154.507291 43.693881 162.342129 46.939177 
+" clip-path="url(#pf6825c76fb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 159.547042 43.234609 
+L 162.342129 46.939177 
+L 157.746179 47.582277 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 184.440147 67.83703 
+Q 188.213782 76.94739 191.459078 84.782227 
+" clip-path="url(#pf6825c76fb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 192.102178 80.186278 
+L 191.459078 84.782227 
+L 187.75451 81.987141 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 192.307723 115.1849 
+Q 188.534088 124.29526 185.288792 132.130098 
+" clip-path="url(#pf6825c76fb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 188.99336 129.335011 
+L 185.288792 132.130098 
+L 184.645692 127.534148 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 164.390939 154.228116 
+Q 155.280579 158.001751 147.445741 161.247047 
+" clip-path="url(#pf6825c76fb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 152.041691 161.890147 
+L 147.445741 161.247047 
+L 150.240828 157.542479 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 117.043069 162.095691 
+Q 107.932709 158.322057 100.097871 155.076761 
+" clip-path="url(#pf6825c76fb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 102.892958 158.781329 
+L 100.097871 155.076761 
+L 104.693821 154.43366 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 77.999853 134.178907 
+Q 74.226218 125.068547 70.980922 117.23371 
+" clip-path="url(#pf6825c76fb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 70.337822 121.82966 
+L 70.980922 117.23371 
+L 74.68549 120.028797 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 70.132277 86.831037 
+Q 73.905912 77.720677 77.151208 69.88584 
+" clip-path="url(#pf6825c76fb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 73.44664 72.680926 
+L 77.151208 69.88584 
+L 77.794308 74.48179 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 98.049061 47.787821 
+Q 107.159421 44.014187 114.994259 40.768891 
+" clip-path="url(#pf6825c76fb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 110.398309 40.12579 
+L 114.994259 40.768891 
+L 112.199172 44.473459 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 131.22 49.392969 
+C 135.289542 49.392969 139.192953 47.776123 142.070554 44.898522 
+C 144.948154 42.020922 146.565 38.11751 146.565 34.047969 
+C 146.565 29.978427 144.948154 26.075016 142.070554 23.197415 
+C 139.192953 20.319815 135.289542 18.702969 131.22 18.702969 
+C 127.150458 18.702969 123.247047 20.319815 120.369446 23.197415 
+C 117.491846 26.075016 115.875 29.978427 115.875 34.047969 
+C 115.875 38.11751 117.491846 42.020922 120.369446 44.898522 
+C 123.247047 47.776123 127.150458 49.392969 131.22 49.392969 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 178.56787 69.005099 
+C 182.637412 69.005099 186.540823 67.388253 189.418424 64.510652 
+C 192.296024 61.633052 193.91287 57.72964 193.91287 53.660099 
+C 193.91287 49.590557 192.296024 45.687146 189.418424 42.809545 
+C 186.540823 39.931945 182.637412 38.315099 178.56787 38.315099 
+C 174.498328 38.315099 170.594917 39.931945 167.717317 42.809545 
+C 164.839716 45.687146 163.22287 49.590557 163.22287 53.660099 
+C 163.22287 57.72964 164.839716 61.633052 167.717317 64.510652 
+C 170.594917 67.388253 174.498328 69.005099 178.56787 69.005099 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 198.18 116.352969 
+C 202.249542 116.352969 206.152953 114.736123 209.030554 111.858522 
+C 211.908154 108.980922 213.525 105.07751 213.525 101.007969 
+C 213.525 96.938427 211.908154 93.035016 209.030554 90.157415 
+C 206.152953 87.279815 202.249542 85.662969 198.18 85.662969 
+C 194.110458 85.662969 190.207047 87.279815 187.329446 90.157415 
+C 184.451846 93.035016 182.835 96.938427 182.835 101.007969 
+C 182.835 105.07751 184.451846 108.980922 187.329446 111.858522 
+C 190.207047 114.736123 194.110458 116.352969 198.18 116.352969 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 178.56787 163.700839 
+C 182.637412 163.700839 186.540823 162.083993 189.418424 159.206392 
+C 192.296024 156.328792 193.91287 152.42538 193.91287 148.355839 
+C 193.91287 144.286297 192.296024 140.382886 189.418424 137.505285 
+C 186.540823 134.627685 182.637412 133.010839 178.56787 133.010839 
+C 174.498328 133.010839 170.594917 134.627685 167.717317 137.505285 
+C 164.839716 140.382886 163.22287 144.286297 163.22287 148.355839 
+C 163.22287 152.42538 164.839716 156.328792 167.717317 159.206392 
+C 170.594917 162.083993 174.498328 163.700839 178.56787 163.700839 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 131.22 183.312969 
+C 135.289542 183.312969 139.192953 181.696123 142.070554 178.818522 
+C 144.948154 175.940922 146.565 172.03751 146.565 167.967969 
+C 146.565 163.898427 144.948154 159.995016 142.070554 157.117415 
+C 139.192953 154.239815 135.289542 152.622969 131.22 152.622969 
+C 127.150458 152.622969 123.247047 154.239815 120.369446 157.117415 
+C 117.491846 159.995016 115.875 163.898427 115.875 167.967969 
+C 115.875 172.03751 117.491846 175.940922 120.369446 178.818522 
+C 123.247047 181.696123 127.150458 183.312969 131.22 183.312969 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 83.87213 163.700839 
+C 87.941672 163.700839 91.845083 162.083993 94.722683 159.206392 
+C 97.600284 156.328792 99.21713 152.42538 99.21713 148.355839 
+C 99.21713 144.286297 97.600284 140.382886 94.722683 137.505285 
+C 91.845083 134.627685 87.941672 133.010839 83.87213 133.010839 
+C 79.802588 133.010839 75.899177 134.627685 73.021576 137.505285 
+C 70.143976 140.382886 68.52713 144.286297 68.52713 148.355839 
+C 68.52713 152.42538 70.143976 156.328792 73.021576 159.206392 
+C 75.899177 162.083993 79.802588 163.700839 83.87213 163.700839 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 64.26 116.352969 
+C 68.329542 116.352969 72.232953 114.736123 75.110554 111.858522 
+C 77.988154 108.980922 79.605 105.07751 79.605 101.007969 
+C 79.605 96.938427 77.988154 93.035016 75.110554 90.157415 
+C 72.232953 87.279815 68.329542 85.662969 64.26 85.662969 
+C 60.190458 85.662969 56.287047 87.279815 53.409446 90.157415 
+C 50.531846 93.035016 48.915 96.938427 48.915 101.007969 
+C 48.915 105.07751 50.531846 108.980922 53.409446 111.858522 
+C 56.287047 114.736123 60.190458 116.352969 64.26 116.352969 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 83.87213 69.005099 
+C 87.941672 69.005099 91.845083 67.388253 94.722683 64.510652 
+C 97.600284 61.633052 99.21713 57.72964 99.21713 53.660099 
+C 99.21713 49.590557 97.600284 45.687146 94.722683 42.809545 
+C 91.845083 39.931945 87.941672 38.315099 83.87213 38.315099 
+C 79.802588 38.315099 75.899177 39.931945 73.021576 42.809545 
+C 70.143976 45.687146 68.52713 49.590557 68.52713 53.660099 
+C 68.52713 57.72964 70.143976 61.633052 73.021576 64.510652 
+C 75.899177 67.388253 79.802588 69.005099 83.87213 69.005099 
+z
+" clip-path="url(#pf6825c76fb)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="131.22" y="36.216797" transform="rotate(-0 131.22 36.216797)">000</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="178.56787" y="55.828927" transform="rotate(-0 178.56787 55.828927)">001</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="198.18" y="103.176797" transform="rotate(-0 198.18 103.176797)">011</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="178.56787" y="150.524667" transform="rotate(-0 178.56787 150.524667)">010</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="131.22" y="170.136797" transform="rotate(-0 131.22 170.136797)">110</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="83.87213" y="150.524667" transform="rotate(-0 83.87213 150.524667)">111</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="64.26" y="103.176797" transform="rotate(-0 64.26 103.176797)">101</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="83.87213" y="55.828927" transform="rotate(-0 83.87213 55.828927)">100</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #6a707a; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="2.88" y="9.912969" transform="rotate(-0 2.88 9.912969)">3-bit Gray counter: one bit changes on every arrow</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pf6825c76fb">
+   <rect x="2.88" y="15.912969" width="256.68" height="170.19"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>What this graph plots: each circle is a state Q2 Q1 Q0, each arrow one clock edge (deck 10 slide 35). Exactly one bit differs across every arrow.</figcaption></figure>
+
+<p>Rows in Gray order, JK inputs from 09 step 12 (only FF0 shown; FF1 and FF2 the same way):</p>
+<table>
+<thead>
+<tr>
+<th>Q2 Q1 Q0</th>
+<th>Next</th>
+<th>J0 K0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>000</td>
+<td>001</td>
+<td>1 X</td>
+</tr>
+<tr>
+<td>001</td>
+<td>011</td>
+<td>X 0</td>
+</tr>
+<tr>
+<td>011</td>
+<td>010</td>
+<td>X 1</td>
+</tr>
+<tr>
+<td>010</td>
+<td>110</td>
+<td>0 X</td>
+</tr>
+<tr>
+<td>110</td>
+<td>111</td>
+<td>1 X</td>
+</tr>
+<tr>
+<td>111</td>
+<td>101</td>
+<td>X 0</td>
+</tr>
+<tr>
+<td>101</td>
+<td>100</td>
+<td>X 1</td>
+</tr>
+<tr>
+<td>100</td>
+<td>000</td>
+<td>0 X</td>
+</tr>
+</tbody>
+</table>
+<div class="two">
+
+
+
+
+<figure style="max-width:100%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 220" style="max-width:288px"><text class="k-var" x="50" y="26" text-anchor="end">Q₂</text><text class="k-var" x="62" y="26">Q₁Q₀</text><line class="k-diag" x1="22" y1="12" x2="62" y2="56"/><text class="k-lab" x="87.0" y="44" text-anchor="middle">00</text><text class="k-lab" x="129.0" y="44" text-anchor="middle">01</text><text class="k-lab" x="171.0" y="44" text-anchor="middle">11</text><text class="k-lab" x="213.0" y="44" text-anchor="middle">10</text><text class="k-lab" x="50" y="86.0" text-anchor="end">0</text><text class="k-lab" x="50" y="128.0" text-anchor="end">1</text><rect class="k-cell" x="66" y="60" width="42" height="42"/><text class="k-one" x="87.0" y="87.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="70" y="71">0</text><rect class="k-cell" x="108" y="60" width="42" height="42"/><text class="k-x" x="129.0" y="87.3504" text-anchor="middle" style="font-size:18px">X</text><text class="k-idx" x="112" y="71">1</text><rect class="k-cell" x="150" y="60" width="42" height="42"/><text class="k-x" x="171.0" y="87.3504" text-anchor="middle" style="font-size:18px">X</text><text class="k-idx" x="154" y="71">3</text><rect class="k-cell" x="192" y="60" width="42" height="42"/><text class="k-zero" x="213.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="71">2</text><rect class="k-cell" x="66" y="102" width="42" height="42"/><text class="k-zero" x="87.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="70" y="113">4</text><rect class="k-cell" x="108" y="102" width="42" height="42"/><text class="k-x" x="129.0" y="129.3504" text-anchor="middle" style="font-size:18px">X</text><text class="k-idx" x="112" y="113">5</text><rect class="k-cell" x="150" y="102" width="42" height="42"/><text class="k-x" x="171.0" y="129.3504" text-anchor="middle" style="font-size:18px">X</text><text class="k-idx" x="154" y="113">7</text><rect class="k-cell" x="192" y="102" width="42" height="42"/><text class="k-one" x="213.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="196" y="113">6</text><g class="kg c0"><rect class="k-grp" x="71" y="65" width="74" height="32" rx="12"/></g><g class="kg c1"><rect class="k-grp" x="159" y="111" width="66" height="24" rx="12"/></g><g class="kg c0"><rect class="k-chip" x="8" y="160" width="89.19999999999999" height="22" rx="11"/><text class="k-chip-t" x="20" y="175.5">Q2'Q1'</text></g><g class="kg c1"><rect class="k-chip" x="105.19999999999999" y="160" width="70.8" height="22" rx="11"/><text class="k-chip-t" x="117.19999999999999" y="175.5">Q2Q1</text></g></svg><figcaption>What this graph plots: one cell per present state; 1 = J0 must be 1, X = free (Q0 already 1). Pairs Q2'Q1' and Q2Q1.</figcaption></figure>
+
+
+
+
+
+
+
+<figure style="max-width:100%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 220" style="max-width:288px"><text class="k-var" x="50" y="26" text-anchor="end">Q₂</text><text class="k-var" x="62" y="26">Q₁Q₀</text><line class="k-diag" x1="22" y1="12" x2="62" y2="56"/><text class="k-lab" x="87.0" y="44" text-anchor="middle">00</text><text class="k-lab" x="129.0" y="44" text-anchor="middle">01</text><text class="k-lab" x="171.0" y="44" text-anchor="middle">11</text><text class="k-lab" x="213.0" y="44" text-anchor="middle">10</text><text class="k-lab" x="50" y="86.0" text-anchor="end">0</text><text class="k-lab" x="50" y="128.0" text-anchor="end">1</text><rect class="k-cell" x="66" y="60" width="42" height="42"/><text class="k-x" x="87.0" y="87.3504" text-anchor="middle" style="font-size:18px">X</text><text class="k-idx" x="70" y="71">0</text><rect class="k-cell" x="108" y="60" width="42" height="42"/><text class="k-zero" x="129.0" y="87.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="112" y="71">1</text><rect class="k-cell" x="150" y="60" width="42" height="42"/><text class="k-one" x="171.0" y="87.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="71">3</text><rect class="k-cell" x="192" y="60" width="42" height="42"/><text class="k-x" x="213.0" y="87.3504" text-anchor="middle" style="font-size:18px">X</text><text class="k-idx" x="196" y="71">2</text><rect class="k-cell" x="66" y="102" width="42" height="42"/><text class="k-x" x="87.0" y="129.3504" text-anchor="middle" style="font-size:18px">X</text><text class="k-idx" x="70" y="113">4</text><rect class="k-cell" x="108" y="102" width="42" height="42"/><text class="k-one" x="129.0" y="129.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="112" y="113">5</text><rect class="k-cell" x="150" y="102" width="42" height="42"/><text class="k-zero" x="171.0" y="129.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="154" y="113">7</text><rect class="k-cell" x="192" y="102" width="42" height="42"/><text class="k-x" x="213.0" y="129.3504" text-anchor="middle" style="font-size:18px">X</text><text class="k-idx" x="196" y="113">6</text><g class="kg c0"><rect class="k-grp" x="155" y="65" width="74" height="32" rx="12"/></g><g class="kg c1"><rect class="k-grp" x="75" y="111" width="66" height="24" rx="12"/></g><g class="kg c0"><rect class="k-chip" x="8" y="160" width="80.0" height="22" rx="11"/><text class="k-chip-t" x="20" y="175.5">Q2'Q1</text></g><g class="kg c1"><rect class="k-chip" x="96.0" y="160" width="80.0" height="22" rx="11"/><text class="k-chip-t" x="108.0" y="175.5">Q2Q1'</text></g></svg><figcaption>K0: 1 = FF0 must reset, X = free (Q0 = 0). Pairs Q2'Q1 and Q2Q1'.</figcaption></figure>
+
+
+
+
+</div>
+
+<div class="eq">J0 = Q2Q1 + Q2'Q1' = (Q2 ⊕ Q1)'&emsp;&emsp;&emsp;·&emsp;&emsp;&emsp;K0 = Q2'Q1 + Q2Q1' = Q2 ⊕ Q1</div>
+
+<div class="eq">J1 = Q2'Q0,&emsp;&emsp;&emsp;K1 = Q2Q0&emsp;&emsp;&emsp;·&emsp;&emsp;&emsp;J2 = Q1Q0',&emsp;&emsp;&emsp;K2 = Q1'Q0'</div>
+
+<div class="box note">
+<div class="bh">Slip in deck 10 slide 36 (as transcribed)</div>
+<p>Slide 36's maps read J1 = Q2'Q0' and K1 = Q2Q0'. FF1 must set only in state 001 (→ 011) and reset only in 111 (→ 101), both with Q0 = 1, so the correct terms are <strong>J1 = Q2'Q0, K1 = Q2Q0</strong>, as slide 37's circuit has them. <code>uncertain</code>: the slide image was not re-viewed this session; the pack uses slide 37's equations, which verify.py checks by simulating the counter.</p>
+</div>
+<p><strong>Answer.</strong> The six equations above (deck 10 slide 37). Simulated from 000 the counter goes 001, 011, 010, 110, 111, 101, 100, 000, with <strong>exactly one flip-flop toggling per clock</strong>, so a decoder on the outputs never sees two bits changing at once.</p>
+<div class="box check">
+<div class="bh">Check 12</div>
+<p>The Gray counter is at 110. Use the equations to find which flip-flop changes at the next edge.</p>
 </div>
 <hr />
 <h2>Exam form</h2>
-<p><strong>Procedure (write it as numbered steps).</strong> 1. Flip-flops: smallest n with 2<sup>n</sup> ≥ states. 2. State table. 3. Excitation for each flip-flop. 4. K-map each input (unused states = X). 5. Circuit with one common clock. 6. Self-start check of unused states.</p>
-<p><strong>Excitation tables.</strong> T: 1 where the bit changes. JK: 0→0 0X, 0→1 1X, 1→0 X1, 1→1 X0. D: the next state. SR: 0→0 0X, 0→1 10, 1→0 01, 1→1 X0.</p>
-<p><strong>Results to remember.</strong> 3-bit up (T): T0 = 1, T1 = Q0, T2 = Q1Q0. 3-bit up (JK): J = K = the same as T. 3-bit down (T): T0 = 1, T1 = Q0', T2 = Q1'Q0'. Decade (T): T0 = 1, T1 = Q3'Q0, T2 = Q1Q0, T3 = Q2Q1Q0 + Q3Q0.</p>
-<p><strong>Ripple vs synchronous.</strong> Clock to first flip-flop only vs to all · delay n·t<sub>pd</sub> vs one t<sub>pd</sub> · false states vs none · simplest vs extra gates · binary only vs any sequence.</p>
+<p><strong>Design procedure (write it as numbered steps; MTE Q8 gives marks for each).</strong>
+1. Flip-flops: smallest n with 2<sup>n</sup> ≥ number of states.
+2. State diagram and state table (present → next).
+3. Excitation columns from the flip-flop's table: D = Q⁺ · T = Q ⊕ Q⁺ · JK: 0→0 0X, 0→1 1X, 1→0 X1, 1→1 X0.
+4. One K-map per input; unused states = X.
+5. Circuit: one common clock to every flip-flop (bubble if negative-edge), gates from step 4.
+6. Unused states: apply the equations; show each reaches the count (self-starting).</p>
+<p><strong>Results to remember.</strong>
+- Binary up (T): T0 = 1, T1 = Q0, T2 = Q1Q0, T3 = Q2Q1Q0. JK: J = K = the same.
+- Binary down (T): T0 = 1, T1 = Q0', T2 = Q1'Q0'. Down (D, 3-bit): D0 = Q0', D1 = Q1'Q0' + Q1Q0, D2 = Q2Q1 + Q2Q0 + Q2'Q1'Q0'.
+- 2-bit up (D): D0 = Q0', D1 = Q1 ⊕ Q0. Up/down (D): D1 = Q1 ⊕ Q0 ⊕ Dn.
+- Decade (T): T0 = 1, T1 = Q3'Q0, T2 = Q1Q0, T3 = Q2Q1Q0 + Q3Q0.</p>
+<p><strong>Ripple vs synchronous.</strong> Clock to FF0 only vs to all · settling n · t<sub>pd</sub> vs t<sub>pd</sub> + t<sub>gate</sub> · false states vs none · no gates vs input logic · binary (or reset) counts only vs any sequence.</p>
 <h2>Traps</h2>
 <ul>
-<li>Writing the next-state column in the T column: T is next XOR present, not the next state.</li>
-<li>Forgetting that unused states are don't-cares, which gives larger, wrong-looking equations.</li>
+<li>Copying the next-state column into the T column: T = Q ⊕ Q⁺, not Q⁺.</li>
+<li>Filling unused-state cells with 0 instead of X: larger, wrong-looking equations.</li>
 <li>Skipping the self-start check for a MOD-N counter.</li>
-<li>Clocking the flip-flops from each other: that is a ripple counter, not a synchronous one.</li>
-<li>Drawing a positive-edge clock when the question says negative edge: put the bubble on every clock input.</li>
-<li>Reading a K-map row order as 00, 01, 10, 11: it is 00, 01, 11, 10.</li>
+<li>Clocking one flip-flop from another's output in a "synchronous" design: that is a ripple counter.</li>
+<li>Leaving out the clock bubbles when the question says negative edge.</li>
+<li>K-map columns in the order 00, 01, 10, 11 instead of 00, 01, 11, 10.</li>
 </ul>
 <h2>Self-test</h2>
 <ol>
 <li>Write the six steps of the design procedure from memory.</li>
-<li>Design a 3-bit synchronous up counter with JK flip-flops.</li>
 <li>Design a 3-bit synchronous down counter with T flip-flops.</li>
-<li>A synchronous counter has t<sub>pd</sub> = 10 ns, one 5 ns AND gate between flip-flops and setup time 5 ns. Find f<sub>max</sub>.</li>
-<li>Write D1 for a 2-bit up/down counter (X = 0 up, X = 1 down) using D flip-flops.</li>
+<li>A synchronous counter: t<sub>pd</sub> = 10 ns, one AND gate of 5 ns, setup time 5 ns. f<sub>max</sub>?</li>
+<li>Design a MOD-6 synchronous up counter (0–5) with JK flip-flops and check it is self-starting.</li>
+<li>Write D1 and D0 for a 2-bit up/down counter with D flip-flops (Dn = 1 down).</li>
+<li>In the decade counter, why does T3 contain the term Q3Q0?</li>
 <li>Give three differences between ripple and synchronous counters.</li>
 </ol>
 <div class="answers">
 <h2>Answers</h2>
-<p><strong>Check 1.</strong> (a) 4 × 25 = <strong>100 ns</strong>; f<sub>max</sub> = 1/100 ns = <strong>10 MHz</strong>. (b) While the ripple settles, the outputs pass through false codes for a few nanoseconds; a decoder reads them as real counts.</p>
-<p><strong>Check 2.</strong> (a) T = 1; D = 0; J K = X 1. (b) 2<sup>3</sup> = 8 &lt; 10 ≤ 16, so <strong>4</strong>.</p>
-<p><strong>Check 3.</strong> States 11 → 10 → 01 → 00 → 11. Q0 changes every time: <strong>T0 = 1</strong>. Q1 changes when Q0 = 0: <strong>T1 = Q0'</strong>.</p>
-<p><strong>Check 4.</strong> D = next state. <strong>D0 = Q0'</strong>, <strong>D1 = Q1'Q0' + Q1Q0</strong> (= Q1 ⊙ Q0), <strong>D2 = Q2Q1 + Q2Q0 + Q2'Q1'Q0'</strong>.</p>
-<p><strong>Check 5.</strong> The MOD-6 counter has two unused states (6, 7) whose don't-cares were chosen by the K-maps, so where they lead is not known until checked. The 0–7 counter uses all 8 states.</p>
-<p><strong>Check 6.</strong> Present 110: Q2 = 1, Q1 = 1, Q0 = 0. J0 = (1 ⊕ 1)' = 1 and K0 = 0, so FF0 sets to 1; J1 = 0, K1 = 0 holds FF1; J2 = Q1Q0' = 1, K2 = 0 holds FF2 at 1. Only <strong>FF0</strong> changes: 110 → 111 ✓.</p>
+<p><strong>Check 1.</strong> (a) Settling time grows with the number of bits (n · t<sub>pd</sub>), and the outputs pass through false counts that a decoder can catch. (b) Gates in front of the flip-flops (the input logic), and a design procedure to find them.</p>
+<p><strong>Check 2.</strong> (a) 6 states: 2<sup>3</sup> = 8 ≥ 6, <strong>3</strong>; 10 states: <strong>4</strong>. (b) 00 → 11, 01 → 00, 10 → 01, 11 → 10.</p>
+<p><strong>Check 3.</strong> D = next: D0 = 1, 0, 1, 0 → <strong>D0 = Q0'</strong>; D1 = 1, 0, 0, 1 → <strong>D1 = Q1'Q0' + Q1Q0</strong> (Q1 XNOR Q0).</p>
+<p><strong>Check 4.</strong> Down: 00 → 11 (both change), 01 → 00 (Q0), 10 → 01 (both), 11 → 10 (Q0). <strong>T0 = 1</strong>, T1 = 1 in rows 00 and 10, where Q0 = 0: <strong>T1 = Q0'</strong>.</p>
+<p><strong>Check 5.</strong> (a) <strong>J K = X 0</strong>. (b) <strong>J K = X 1</strong>.</p>
+<p><strong>Check 6.</strong> 101 → 110: T2 T1 T0 = <strong>0 1 1</strong>: FF1 and FF0 toggle. 110 → 111: <strong>0 0 1</strong>: FF0 only.</p>
+<p><strong>Check 7.</strong> (a) <strong>J0 = K0 = 1, J1 = K1 = Q0, J2 = K2 = Q1Q0</strong>. (b) <strong>T3 = Q2Q1Q0</strong>.</p>
+<p><strong>Check 8.</strong> 00 → 11: T1 T0 = 1 1; 01 → 00: 0 1; 10 → 01: 1 1; 11 → 10: 0 1. T0 = 1 everywhere; T1 = 1 where Q0 = 0: <strong>T1 = Q0'</strong> ✓.</p>
+<p><strong>Check 9.</strong> It fails in row <strong>1001</strong>: Q0 = 1, so T1 = Q0 = 1 would toggle Q1 to 1, and the next state could not be 0000. The decade count needs Q1 to stay 0 on 1001 → 0000; the factor Q3' makes T1 = 0 there.</p>
+<p><strong>Check 10.</strong> From <strong>110</strong>: Q0 = 0, so J2 = K2 = 0 and J1 = K1 = 0 (hold); J0 = K0 = 1 toggles FF0 → <strong>111</strong>. From <strong>111</strong>: K2 = 1, J2 = 1 → FF2 toggles to 0; J1 = 0, K1 = 1 → FF1 resets; FF0 toggles to 0 → <strong>000</strong>. Both reach the count: <strong>self-starting</strong>.</p>
+<p><strong>Check 11.</strong> Up = 0, Q2 Q1 Q0 = 1 0 0: T0 = 1; T1 = Q0·Up + Q0'·Up' = 0 + 1 = <strong>1</strong>; T2 = Q0Q1·Up + Q0'Q1'·Up' = 0 + 1 = <strong>1</strong>. All three toggle: <strong>011</strong> (4 → 3, counting down).</p>
+<p><strong>Check 12.</strong> Q2 Q1 Q0 = 1 1 0. J0 = (1 ⊕ 1)' = 1, K0 = 0 → FF0 sets to 1. J1 = Q2'Q0 = 0, K1 = Q2Q0 = 0 → FF1 holds. J2 = Q1Q0' = 1, K2 = 0 → FF2 stays 1. Only <strong>FF0</strong> changes: 110 → <strong>111</strong>.</p>
 <p><strong>Self-test.</strong></p>
 <ol>
-<li>Flip-flops → state table → excitation → K-maps (unused = X) → circuit with one clock → self-start check.</li>
-<li><strong>J0 = K0 = 1, J1 = K1 = Q0, J2 = K2 = Q1Q0.</strong></li>
-<li><strong>T0 = 1, T1 = Q0', T2 = Q1'Q0'.</strong></li>
-<li>T = 10 + 5 + 5 = 20 ns, so <strong>f<sub>max</sub> = 50 MHz</strong>.</li>
-<li><strong>D1 = Q1 ⊕ Q0 ⊕ X</strong> (D0 = Q0').</li>
-<li>Clock to one flip-flop vs to all; delay n·t<sub>pd</sub> vs one t<sub>pd</sub>; false states vs none; binary only vs any sequence; fewer gates vs extra gates (any three).</li>
+<li>Flip-flops → state table → excitation columns → K-maps (unused = X) → circuit with one clock → self-start check.</li>
+<li><strong>T0 = 1, T1 = Q0', T2 = Q1'Q0'</strong>; one clock; counts 0, 7, 6, … 1, 0.</li>
+<li>10 + 5 + 5 = 20 ns, <strong>f<sub>max</sub> = 50 MHz</strong>.</li>
+<li>3 flip-flops; 110, 111 = X. <strong>J0 = K0 = 1, J1 = Q2'Q0, K1 = Q0, J2 = Q1Q0, K2 = Q0.</strong> Unused: 110 → 111 → 000: self-starting (Check 10).</li>
+</ol>
+
+<figure style="max-width:46%"><div style="width:117mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 262.44 257.11226" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T18:00:51.480222</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 257.11226 
+L 262.44 257.11226 
+L 262.44 0 
+L 0 0 
+L 0 257.11226 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 144.50916 86.995583 
+Q 155.019677 93.063833 164.334546 98.441775 
+" clip-path="url(#p8cadcc492d)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 162.046915 94.404068 
+L 164.334546 98.441775 
+L 159.693974 98.479482 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 179.544218 122.568083 
+Q 179.544218 134.704583 179.544218 145.460467 
+" clip-path="url(#p8cadcc492d)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 181.897159 141.460467 
+L 179.544218 145.460467 
+L 177.191276 141.460467 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 166.255058 170.695583 
+Q 155.74454 176.763833 146.429671 182.141775 
+" clip-path="url(#p8cadcc492d)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 151.070244 182.179482 
+L 146.429671 182.141775 
+L 148.717302 178.104068 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 117.93084 183.250583 
+Q 107.420323 177.182333 98.105454 171.804391 
+" clip-path="url(#p8cadcc492d)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 100.393085 175.842098 
+L 98.105454 171.804391 
+L 102.746026 171.766684 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 82.895782 147.678083 
+Q 82.895782 135.541583 82.895782 124.785699 
+" clip-path="url(#p8cadcc492d)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 80.542841 128.785699 
+L 82.895782 124.785699 
+L 85.248724 128.785699 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 96.184942 99.550583 
+Q 106.69546 93.482333 116.010329 88.104391 
+" clip-path="url(#p8cadcc492d)" style="fill: none; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 111.369756 88.066684 
+L 116.010329 88.104391 
+L 113.722698 92.142098 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 84.561283 45.366885 
+Q 89.767784 43.048802 93.713028 41.292266 
+" clip-path="url(#p8cadcc492d)" style="fill: none; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 89.101819 40.769693 
+L 93.713028 41.292266 
+L 91.015874 45.068731 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #d92d20; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 116.342402 48.009106 
+Q 120.309044 56.357989 123.68321 63.459846 
+" clip-path="url(#p8cadcc492d)" style="fill: none; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 124.091925 58.837154 
+L 123.68321 63.459846 
+L 119.84139 60.856628 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #d92d20; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 131.22 94.668083 
+C 135.289542 94.668083 139.192953 93.051237 142.070554 90.173637 
+C 144.948154 87.296036 146.565 83.392625 146.565 79.323083 
+C 146.565 75.253542 144.948154 71.35013 142.070554 68.47253 
+C 139.192953 65.594929 135.289542 63.978083 131.22 63.978083 
+C 127.150458 63.978083 123.247047 65.594929 120.369446 68.47253 
+C 117.491846 71.35013 115.875 75.253542 115.875 79.323083 
+C 115.875 83.392625 117.491846 87.296036 120.369446 90.173637 
+C 123.247047 93.051237 127.150458 94.668083 131.22 94.668083 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 179.544218 122.568083 
+C 183.613759 122.568083 187.517171 120.951237 190.394771 118.073637 
+C 193.272372 115.196036 194.889218 111.292625 194.889218 107.223083 
+C 194.889218 103.153542 193.272372 99.25013 190.394771 96.37253 
+C 187.517171 93.494929 183.613759 91.878083 179.544218 91.878083 
+C 175.474676 91.878083 171.571264 93.494929 168.693664 96.37253 
+C 165.816064 99.25013 164.199218 103.153542 164.199218 107.223083 
+C 164.199218 111.292625 165.816064 115.196036 168.693664 118.073637 
+C 171.571264 120.951237 175.474676 122.568083 179.544218 122.568083 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 179.544218 178.368083 
+C 183.613759 178.368083 187.517171 176.751237 190.394771 173.873637 
+C 193.272372 170.996036 194.889218 167.092625 194.889218 163.023083 
+C 194.889218 158.953542 193.272372 155.05013 190.394771 152.17253 
+C 187.517171 149.294929 183.613759 147.678083 179.544218 147.678083 
+C 175.474676 147.678083 171.571264 149.294929 168.693664 152.17253 
+C 165.816064 155.05013 164.199218 158.953542 164.199218 163.023083 
+C 164.199218 167.092625 165.816064 170.996036 168.693664 173.873637 
+C 171.571264 176.751237 175.474676 178.368083 179.544218 178.368083 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 131.22 206.268083 
+C 135.289542 206.268083 139.192953 204.651237 142.070554 201.773637 
+C 144.948154 198.896036 146.565 194.992625 146.565 190.923083 
+C 146.565 186.853542 144.948154 182.95013 142.070554 180.07253 
+C 139.192953 177.194929 135.289542 175.578083 131.22 175.578083 
+C 127.150458 175.578083 123.247047 177.194929 120.369446 180.07253 
+C 117.491846 182.95013 115.875 186.853542 115.875 190.923083 
+C 115.875 194.992625 117.491846 198.896036 120.369446 201.773637 
+C 123.247047 204.651237 127.150458 206.268083 131.22 206.268083 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 82.895782 178.368083 
+C 86.965324 178.368083 90.868736 176.751237 93.746336 173.873637 
+C 96.623936 170.996036 98.240782 167.092625 98.240782 163.023083 
+C 98.240782 158.953542 96.623936 155.05013 93.746336 152.17253 
+C 90.868736 149.294929 86.965324 147.678083 82.895782 147.678083 
+C 78.826241 147.678083 74.922829 149.294929 72.045229 152.17253 
+C 69.167628 155.05013 67.550782 158.953542 67.550782 163.023083 
+C 67.550782 167.092625 69.167628 170.996036 72.045229 173.873637 
+C 74.922829 176.751237 78.826241 178.368083 82.895782 178.368083 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 82.895782 122.568083 
+C 86.965324 122.568083 90.868736 120.951237 93.746336 118.073637 
+C 96.623936 115.196036 98.240782 111.292625 98.240782 107.223083 
+C 98.240782 103.153542 96.623936 99.25013 93.746336 96.37253 
+C 90.868736 93.494929 86.965324 91.878083 82.895782 91.878083 
+C 78.826241 91.878083 74.922829 93.494929 72.045229 96.37253 
+C 69.167628 99.25013 67.550782 103.153542 67.550782 107.223083 
+C 67.550782 111.292625 69.167628 115.196036 72.045229 118.073637 
+C 74.922829 120.951237 78.826241 122.568083 82.895782 122.568083 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 109.757276 49.493906 
+C 113.826818 49.493906 117.730229 47.87706 120.60783 44.99946 
+C 123.48543 42.121859 125.102276 38.218448 125.102276 34.148906 
+C 125.102276 30.079365 123.48543 26.175953 120.60783 23.298353 
+C 117.730229 20.420752 113.826818 18.803906 109.757276 18.803906 
+C 105.687735 18.803906 101.784323 20.420752 98.906723 23.298353 
+C 96.029122 26.175953 94.412276 30.079365 94.412276 34.148906 
+C 94.412276 38.218448 96.029122 42.121859 98.906723 44.99946 
+C 101.784323 47.87706 105.687735 49.493906 109.757276 49.493906 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #ffffff; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 70.542928 66.953259 
+C 74.61247 66.953259 78.515882 65.336413 81.393482 62.458812 
+C 84.271082 59.581212 85.887928 55.6778 85.887928 51.608259 
+C 85.887928 47.538717 84.271082 43.635306 81.393482 40.757705 
+C 78.515882 37.880105 74.61247 36.263259 70.542928 36.263259 
+C 66.473387 36.263259 62.569975 37.880105 59.692375 40.757705 
+C 56.814774 43.635306 55.197928 47.538717 55.197928 51.608259 
+C 55.197928 55.6778 56.814774 59.581212 59.692375 62.458812 
+C 62.569975 65.336413 66.473387 66.953259 70.542928 66.953259 
+z
+" clip-path="url(#p8cadcc492d)" style="fill: #ffffff; stroke-dasharray: 4.2,2.8; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="131.22" y="81.491911" transform="rotate(-0 131.22 81.491911)">000</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="179.544218" y="109.391911" transform="rotate(-0 179.544218 109.391911)">001</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="179.544218" y="165.191911" transform="rotate(-0 179.544218 165.191911)">010</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="131.22" y="193.091911" transform="rotate(-0 131.22 193.091911)">011</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="82.895782" y="165.191911" transform="rotate(-0 82.895782 165.191911)">100</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #1c1f24; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="82.895782" y="109.391911" transform="rotate(-0 82.895782 109.391911)">101</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="109.757276" y="36.317734" transform="rotate(-0 109.757276 36.317734)">111</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="70.542928" y="53.777087" transform="rotate(-0 70.542928 53.777087)">110</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #6a707a; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="2.88" y="10.013906" transform="rotate(-0 2.88 10.013906)">MOD-6: 110 → 111 → 000, self-starting</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p8cadcc492d">
+   <rect x="2.88" y="16.013906" width="256.68" height="238.218354"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>What this graph plots: each circle is a state Q2 Q1 Q0, each arrow one clock edge. Solid: the MOD-6 count; dashed: the unused states 110 → 111 → 000.</figcaption></figure>
+
+<ol start="5">
+<li><strong>D0 = Q0', D1 = Q1 ⊕ Q0 ⊕ Dn.</strong></li>
+<li>At 1001 Q3 must return to 0, so T3 must be 1 there; Q2Q1Q0 is 0 at 1001, so the extra term <strong>Q3Q0</strong> (1 at 1001, X at 1011, 1101, 1111) supplies it.</li>
+<li>Clock to one flip-flop vs to all; settling n · t<sub>pd</sub> vs t<sub>pd</sub> + t<sub>gate</sub>; false states vs none; no gates vs input logic; binary only vs any sequence (any three).</li>
 </ol>
 </div></body></html>
