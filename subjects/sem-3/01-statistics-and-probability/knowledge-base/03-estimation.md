@@ -45,6 +45,18 @@
   π(θ|x) ∝ L(x|θ)π(θ); the estimate is a posterior summary (mean/mode). *Mechanism:* inference is
   belief-updating; contrast with the frequentist MLE/MoM view (this contrast is itself worth
   teaching — not one side as "the truth").
+- **Verified S9 (2026-11-17).** G&K Fundamentals has no Bayesian *estimation*; its §4·9 (Bayes'
+  theorem, PDF p. 469) names the three pieces in remarks 1–3: P(Eᵢ) = **a priori** probabilities (exist
+  before any information from the experiment), P(A | Eᵢ) = **likelihoods**, P(Eᵢ | A) = **posterior**
+  probabilities (after the result is known); denominator ΣP(Eᵢ)P(A | Eᵢ) (eq. 4·12a = total probability).
+  Exercise 4(d) Q3(f) (PDF p. 475) is the two-shipments problem (10% vs 5% defective, one picked at random,
+  two parts good). `settled` (text layer).
+- Posterior density π(θ | x) = f(x | θ)π(θ)/m(x), m(x) = ∫ f(x | θ)π(θ)dθ the **marginal** of the data
+  (Balakrishnan, CMU 36-705 lecture 16, eq. 16.10); discrete θ: K = Σ_θ f_θ(x₁)…f_θ(xₙ)π(θ), posterior =
+  product/K (Chan, Rutgers Math 170S §6.8, where Θ is a random variable with a pmf). **Bayes estimate under
+  squared-error loss = posterior mean**; absolute-error loss → posterior median (Balakrishnan Thm 16.5;
+  Chan §6.8, same two statements); 0–1 loss → mode (Balakrishnan Thm 16.5, single source here; also
+  stage-2 §6). `settled` (two university-author notes agree).
 
 ### Interval estimation — confidence intervals for a mean
 - **σ known (or n large, CLT):** CI for μ is **x̄ ± z_{α/2}·σ/√n**. *Mechanism:* X̄ ~ N(μ, σ²/n) by

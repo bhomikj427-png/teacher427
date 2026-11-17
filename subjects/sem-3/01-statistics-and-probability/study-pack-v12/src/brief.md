@@ -128,7 +128,7 @@ A2 28, A4 16, A5 26, slide examples 13 + 2 unused in v1.2: HT slides 20, 22). "S
 
 ## 3. Constants and table values
 
-No physical constants. **Every table value** the questions and slides print (36) is recomputed and
+No physical constants. **Every table value** the questions and slides print (31; recounted in S9, the S0 count of 36 was wrong) is recomputed and
 listed in `../../knowledge-base/04-hypothesis-testing.md` → *Table values the course's questions use*
 (added this sprint; all match except the two key slips). The pack prints the question's own value,
 and the exact value where they differ. Needed but not printed: t(20) two-sided 5% = 2.086 (A5 C2).

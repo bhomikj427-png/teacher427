@@ -1647,4 +1647,70 @@ def income_dots():
     return FL.svg(f)
 
 
+# ---- 10 Bayesian (v1.3)
+def two_views():
+    f, (a, b) = FL.fig(6.6, 2.3, ncols=2)
+    for ax in (a, b):
+        ax.set_xlim(0, .3); ax.set_xticks([0, .1, .2, .3]); ax.set_xticklabels(["0", "0.1", "0.2", "0.3"])
+        ax.set_xlabel("possible value of p")
+    a.set_ylim(0, 1); a.set_yticks([]); a.spines["left"].set_visible(False)
+    a.text(.15, .35, "?", ha="center", va="center", fontsize=22, color=FL.MUTED)
+    a.text(.15, .12, "one fixed value; no probability on it", ha="center", va="center", fontsize=8, color=FL.MUTED)
+    a.set_title("classical: p is fixed, not known", fontsize=9, pad=6)
+    b.bar([.1, .2], [.6, .4], width=.035, color=FL.ACC)
+    b.set_ylim(0, .8); b.set_ylabel("probability (belief)")
+    for x, h in ((.1, .6), (.2, .4)):
+        b.text(x, h + .02, f"{h}", ha="center", va="bottom", fontsize=8.5)
+    b.set_title("Bayesian: p has a distribution", fontsize=9, pad=6)
+    f.tight_layout()
+    return FL.svg(f)
+
+
+def bayes_tree():
+    f, ax = FL.canvas(6.6, 2.7, (-.6, 11.8), (-2.3, 2.3))
+    nodes = {"root": ((0, 0), ""), "M1": ((3, 1.2), "p = 0.1"), "M2": ((3, -1.2), "p = 0.2"),
+             "D1": ((6, 1.7), "both good"), "G1": ((6, .7), "≥ 1 defective"),
+             "D2": ((6, -.7), "both good"), "G2": ((6, -1.7), "≥ 1 defective")}
+    _tree(ax, nodes, [("root", "M1", "0.6", True), ("root", "M2", "0.4", False),
+                      ("M1", "D1", "0.81", True), ("M1", "G1", "0.19", False),
+                      ("M2", "D2", "0.64", True), ("M2", "G2", "0.36", False)])
+    ax.text(8.6, 1.7, "0.6 × 0.81 = 0.486", va="center", fontsize=9, color=FL.G2)
+    ax.text(8.6, -.7, "0.4 × 0.64 = 0.256", va="center", fontsize=9, color=FL.G2)
+    ax.text(8.6, -1.75, "g(0) = 0.742", va="center", fontsize=9.5, color=FL.INK, weight="bold")
+    return FL.svg(f)
+
+
+def bayes_update0():
+    f, ax = FL.fig(4.6, 2.4)
+    w = .34
+    ax.bar([-w / 2, 1 - w / 2], [.6, .4], w, color=FL.MUTED, label="prior")
+    ax.bar([w / 2, 1 + w / 2], [.6550, .3450], w, color=FL.ACC, label="posterior after 2 good items")
+    for x, v, t in ((-w / 2, .6, "0.6"), (w / 2, .655, "0.655"), (1 - w / 2, .4, "0.4"), (1 + w / 2, .345, "0.345")):
+        ax.text(x, v + .015, t, ha="center", va="bottom", fontsize=8.5)
+    ax.set_xticks([0, 1]); ax.set_xticklabels(["p = 0.1", "p = 0.2"])
+    ax.set_xlim(-.6, 1.6); ax.set_ylim(0, .85)
+    ax.legend(loc="upper right", frameon=False, fontsize=8.5)
+    FL.axes(ax, "", "probability")
+    return FL.svg(f)
+
+
+def bayes_means():
+    f, ax = FL.fig(6.4, 1.6)
+    ax.set_xlim(.09, .21); ax.set_ylim(-.6, .75)
+    ax.set_xticks([.10, .12, .14, .16, .18, .20]); ax.set_xticklabels(["0.10", "0.12", "0.14", "0.16", "0.18", "0.20"])
+    ax.set_yticks([]); ax.spines["left"].set_visible(False)
+    ax.axhline(0, color=FL.MUTED, lw=.8)
+    for x in (.1, .2):
+        ax.plot([x, x], [-.15, .15], color=FL.MUTED, lw=1.4)
+        ax.text(x, .19, "possible value", ha="center", va="bottom", fontsize=8.5, color=FL.MUTED)
+    ax.plot([.14], [0], "o", color=FL.MUTED, ms=7, zorder=3)
+    ax.text(.135, .22, "prior 0.14", ha="center", va="bottom", fontsize=8.5, color=FL.MUTED)
+    for x, t, up, dx in ((.1345, "x = 0: 0.1345", False, -.006), (.1542, "x = 1: 0.1542", True, .01),
+                         (.1727, "x = 2: 0.1727", False, 0)):
+        ax.plot([x], [0], "o", color=FL.ACC, ms=7, zorder=3)
+        ax.text(x + dx, .22 if up else -.2, t, ha="center", va="bottom" if up else "top", fontsize=8.5, color=FL.ACC)
+    FL.axes(ax, "estimate of p", "")
+    return FL.svg(f)
+
+
 ALL = {k: v for k, v in dict(globals()).items() if callable(v) and not k.startswith("_") and v.__module__ == __name__}

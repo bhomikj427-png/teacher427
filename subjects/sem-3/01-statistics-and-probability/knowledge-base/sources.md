@@ -36,6 +36,16 @@
   author, based on the course textbook): SS(TO), SS(T), SS(E) definitions and computational forms, ANOVA table
   with df m − 1, n − m, n − 1, F = MS(T)/MS(E) vs F_α(m − 1, n − m), normal equal-variance assumption. Read
   2026-11-17 (S8). Supports KB 04 §14.5.11 bullet and study-pack file 16. `settled` (with Lockhart).
+- **S. Balakrishnan, CMU 36-705 Intermediate Statistics, lecture 16 (Fall 2019; university author)**:
+  posterior π(θ | xⁿ) = p(xⁿ | θ)π(θ)/m(xⁿ), m = marginal (eq. 16.10); Thm 16.5: squared-error Bayes
+  estimator = posterior mean, absolute error → posterior median. Read 2026-11-17 (S9, PDF text layer).
+  Supports KB 03 "Verified S9" bullets and study-pack file 10. `settled` (with Chan §6.8).
+- **S. H. Chan, Rutgers Math 170S lecture notes §6.8 "Bayesian estimate"** (2020; university author):
+  discrete Bayesian inference (K = Σ likelihood × prior; posterior = product/K; Θ a random variable with a
+  pmf), worked coin example; squared-error loss → mean of the posterior, absolute → median. Read 2026-11-17
+  (S9). Supports the same bullets. `settled` (with Balakrishnan).
+- Gupta & Kapoor §4·9 remarks 1–3 (a priori / likelihood / posterior) and exercise 4(d) Q3(f): read on the
+  PDF text layer 2026-11-17 (S9); support KB 03 and study-pack file 10 step 3 and Check 5.
 - **R. Lockhart, SFU STAT 330 lecture 20** (1998; university author): total SS = treatment SS + error SS after
   subtracting the grand-mean term; df I − 1, n − I, n − 1. Read 2026-11-17 (S8); agrees with Chan.
 

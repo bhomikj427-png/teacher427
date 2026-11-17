@@ -21,7 +21,7 @@ The ranking is driven by **marks**. The ETE blueprint (official) fixes the marks
 | **11** | **14 F-test** | Row 5; four Assignment 5 numericals; quick to learn | 14 §2, 4 | 30 min |
 | **12** | **05 Uniform and exponential** | Row 2; MTE B4 (4 marks); eight short Assignment 2 items | 05 §3, 4, 8, 9 | 40 min |
 | **13** | **03a Expectation and variance · 03b Rules and Chebyshev** | Row 1 (10 marks); MTE B1, B2 (7 marks), MTE A1(a) | 03a §5–7; 03b §2–4, 6–8 | 60 min |
-| **14** | **10 Bayesian** | Blueprint says "introduction of"; one slide example | 10 §3 | 25 min |
+| **14** | **10 Bayesian** | Blueprint says "introduction of"; slide definitions and one slide example (Ex. 15) | 10 §1–2, 5–7 | 30 min |
 | **15** | **02a Discrete RVs · 02b Continuous RVs** | Row 1; needed by 03a, 08, 09a–09b | 02a §3, 5, 7–8; 02b §1–3, 5 | 60 min |
 | **16** | **01 Probability basics** | Row 1 definitions; Bayes' theorem feeds 10 | 01 §6–7, 11–12 | 40 min |
 | **last** | **17 Mock paper** | All rows in blueprint proportion | closed book | 3 h |
@@ -68,7 +68,7 @@ The order is the syllabus order, which is also the order of the assignments (1, 
 | 08 | row 3 · good estimators | parameter vs estimate, point vs interval, unbiased, checking coefficients, n − 1, consistent, efficient, sufficient | 2 + textbook |
 | 09a | row 3 · method of moments | population vs sample moments, one parameter, an impossible estimate, two parameters, a new density | 3 textbook |
 | 09b | row 3 · maximum likelihood | likelihood (coin), log-likelihood, the five steps, Poisson, exponential, normal μ and σ², product of powers, second derivative, properties, MoM against MLE | 4 + 1 textbook |
-| 10 | row 3 · Bayesian (intro) | prior, posterior, the slide's defectives example, posterior mean | 1 |
+| 10 | row 3 · Bayesian (intro) | two views of a parameter, the prior, likelihood, the marginal g(x), the posterior, the slide's full table, the posterior mean | 1 + 1 textbook |
 | 11 | row 3 · CI for mean | point vs interval, x̄ ± 1.96 SE derived, what 95% means, other levels, width and sample size, an interval for 2μ + 7, the t-interval, raw data | 7 |
 | 12a | row 4 · hypotheses and errors | hypothesis and test of significance, H₀ and H₁, writing them from a claim, one- and two-tailed, Type I and II, α and the critical region, β and power, the steps of a test (battery example) | 13 |
 | 12b | row 4 · computing α and β | areas under uniform and exponential densities, a region with α = 0, binomial sums for high and low counts, the power function (slides 20–22 added) | 6 |
@@ -85,12 +85,12 @@ A question that opens a step is quoted from the professor's material where one e
 | Tag | Source | Questions used |
 |---|---|---|
 | <span class="tag">MTE A1</span> … | Mid-term exam, Jul–Nov 2026 (30 marks) and its marking scheme | all 10 parts |
-| <span class="tag">A1</span> <span class="tag">A2</span> <span class="tag">A4</span> <span class="tag">A5</span> | Assignments 1, 2, 4, 5 (no Assignment 3 was available) | ~100 |
-| <span class="tag">Slides</span> | LMS slides: "Sampling & Limit Theorems", "MLE and Bayesian Estimation", "ppt 8 Hypothesis Testing" | 13 |
+| <span class="tag">A1</span> <span class="tag">A2</span> <span class="tag">A4</span> <span class="tag">A5</span> | Assignments 1, 2, 4, 5 (no Assignment 3 was available) | 80 |
+| <span class="tag">Slides</span> | LMS slides: "Sampling & Limit Theorems", "MLE and Bayesian Estimation", "ppt 8 Hypothesis Testing" | 19 |
 | <span class="tag">G&K</span> | Gupta & Kapoor, *Fundamentals of Mathematical Statistics* (the reference the slides cite) | 6 |
 | Predict | no real question exists for that idea; labelled "Predict" | — |
 
-**P1 (professor's papers, assignments, slides): about 120 questions. P2 (textbook): 6.** The mock paper's 19 items are practice questions written in the professor's forms and say which form each copies.
+**P1 (professor's papers, assignments, slides): 110 questions. P2 (textbook): 6.** (Counted from the question lists at the top of files 01–16.) The mock paper's 19 items are practice questions written in the professor's forms and say which form each copies.
 
 ## How each file runs
 
@@ -143,6 +143,6 @@ Every answer in the assignments and the MTE key was recomputed. These differ; th
 
 ## How this pack was checked
 
-- **Facts:** from the subject's knowledge base (researched to both stages from Walpole, Montgomery & Runger and Ross; every load-bearing claim checked against sources) and from Gupta & Kapoor, the reference the slides cite. Section numbers are quoted where a formula is used.
-- **Numbers:** `src/verify.py` recomputes every number in the pack, 1157 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 18 mismatches are the slips in the table above (A2 B5 and A2 C2's μ and mark are checked twice).
-- **Pages:** every page was viewed after the final build.
+- **Facts:** from the subject's knowledge base (researched to both stages from Walpole, Montgomery & Runger and Ross; every load-bearing claim checked against sources) and from Gupta & Kapoor, the reference the slides cite. Section numbers are quoted where a formula is used. Where Gupta & Kapoor has no treatment (the ANOVA formulas in 16, Bayesian estimation in 10), two university-author lecture notes that agree are used instead, named in the file's header.
+- **Numbers:** `src/verify.py` recomputes every number in the pack, 1492 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 19 differences are the slips in the table above (A2 B5 and A2 C2's μ and mark are checked twice, and A5 D1's table value is checked again in file 14).
+- **Pages:** each file's pages were checked after that file's last build, by eye or by an automated page review whose flagged pages were then viewed by eye. The final full build reports no overlapping labels.

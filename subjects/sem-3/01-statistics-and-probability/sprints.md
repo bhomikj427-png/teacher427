@@ -46,7 +46,7 @@ the blueprint, three slide sets.
 | S6 | **11 + 12** confidence interval for the mean; hypotheses and errors (α, β) | old 11, 12 · KB `03`, `04` · Assignment 4 · slides 08 | `11-…`, `12-…` rebuilt | same; Assignment 4 answers compared | ✓ 2026-11-17 (11 8 steps, 12a 8 steps, 12b 7 steps; A4 B1–B5, C1–C3 compared with the key; HT slides 20–22 added; 6 figure-label fixes left, see hand-off) |
 | S7 | **13 + 14** t-tests; F-test | old 13, 14 · KB `04` · Assignment 5 | `13-…`, `14-…` rebuilt | same | ✓ 2026-11-17 (sessions 13 + 14: 13 7 steps, 14 6 steps; every A5 t/F item worked; S6's six figure labels fixed) |
 | S8 | **15 + 16** χ² independence; ANOVA (the paper's only Part D) | old 15, 16 · KB `04` · Assignment 5 | `15-…`, `16-…` rebuilt | same; Assignment 5 answers compared | ✓ 2026-11-17 (session 17: 15 8 steps, 16 8 steps; all 12 A5 χ²/ANOVA items worked and compared with the printed values/options) |
-| S9 | **10 + integration** Bayesian; mock paper re-pointed; START-HERE ranks, times, map, slip table | old 10, 17 · `00-START-HERE.md` · KB `03` | `10-…` rebuilt; 00 and 17 updated; full build | grep finds no reference to a removed file; `verify.py` passes; build prints no `OVERLAP` | |
+| S9 | **10 + integration** Bayesian; mock paper re-pointed; START-HERE ranks, times, map, slip table | old 10, 17 · `00-START-HERE.md` · KB `03` | `10-…` rebuilt; 00 and 17 updated; full build | grep finds no reference to a removed file; `verify.py` passes; build prints no `OVERLAP` | ✓ 2026-11-17 (session 18: 10 7 steps; START-HERE, mock key, README, brief count; 1492 checks, 0 failures; full build 263 pp., 0 flagged) |
 
 **Learner check-ins are not sprints:** report misses on any delivered file whenever you like; the next
 sprint reads them first.
@@ -59,8 +59,8 @@ sprint reads them first.
 |---|---|---|
 | ~~Textbook facts checked in S3 session 1 are only in the hand-off: write them into KB 03 + CHANGELOG~~ | review 2026-11-16 | **closed S3** (KB 03 "MLE and MoM properties", CHANGELOG, `sources.md` G&K entry) |
 | ~~G&K ch. 15 ex. 20(b) prints θ, old 09 writes α~~ | review 2026-11-16 | **closed S3** (09a step 2 uses θ + note box; slip-table row) |
-| Table-value count: brief.md:131 and S0 log say 36, KB 04 table has ≈ 32 (t(20) not printed); A5 A10 is a computed F ratio, not a table value: recount and correct | review 2026-11-16 | S9 |
-| START-HERE:142 claims every page viewed; 04, 07, 09 rebuilt in S2b were not logged as viewed | review 2026-11-16 | S9 |
+| ~~Table-value count: brief.md:131 and S0 log say 36, KB 04 table has ≈ 32~~ | review 2026-11-16 | **closed S9** (KB 04 table recounted: 32 values, 31 printed + t(20) needed; brief:131 corrected) |
+| ~~START-HERE:142 claims every page viewed; 04, 07, 09 not logged as viewed~~ | review 2026-11-16 | **closed S9** (all were rebuilt later and page-checked per the log, S3–S5; the line now says each file was checked after its last build) |
 | ~~HT slides 20 (binomial α = 1/9, β = 11/16) and 22 (power function, α = 0.001, (0.1)⁴, (0.1)^(θ+1)) not used in v1.2 and not in `verify.py`~~ | S0 | **closed S6** (12b steps 4, 7; `# ==== v1.3 S6` block) |
 | ~~v1.2 file 07's slide tags are off; SE/CLT p.14 prints z = −0.4 (true −0.94): note box~~ | S0 | **closed S5** (07 re-tagged p.5, p.11–18; note box in 07 step 10; slip row) |
 | ~~A5 C2(b) needs t(20) = 2.086 (not printed in the assignment): print it as the pack's value~~ | S0 | **closed S7** (13 steps 5–6 print it; `13 S5 t(20)` in verify) |
@@ -68,8 +68,8 @@ sprint reads them first.
 | ~~START-HERE slip table: A1 LA 2 row~~ | S1 | **closed S1b** (row rewritten) |
 | ~~02a's MTE A1 line says option (a) "is in 03b"~~ | S1b | **closed S2** (03 split; MTE A1(a) is 03b step 4) |
 | ~~Old v1.2 `# ---- 03` / `# ---- 08` checks in `verify.py`~~ | S2 | **closed S2b** (pruned; 665 checks pass) |
-| Pack `README.md` still says "format v1.2": update when all files are v1.3 | S1b | S9 |
-| START-HERE "how checked" line (≈ line 147) says verify has 1157 checks and 18 key mismatches; verify now prints 1420 checks and 19 key differences (`14 S5 F(4,4)` repeats the A5 D1 slip): rewrite the line | S8 | S9 |
+| ~~Pack `README.md` still says "format v1.2"~~ | S1b | **closed S9** (v1.3) |
+| START-HERE "how checked" line (≈ line 147) says verify has 1157 checks and 18 key mismatches; verify now prints 1420 checks and 19 key differences (`14 S5 F(4,4)` repeats the A5 D1 slip): rewrite the line | S8 | **closed S9** (1492 checks, 19 differences, the repeat named) |
 
 ## Assumptions to review (persistent — the learner confirms or overrules)
 
@@ -98,49 +98,37 @@ sprint reads them first.
 | 22 | Session 13 crashed after writing 13 and 14; session 14 accepted the text after reading both in full and recomputing every number in verify (one fix: 14 step 2's F₀.₀₁(7, 10) 3.95 → 5.20) | S7 | open |
 | 23 | Pack-made items in 15/16: 15 step 1's Predict and Check 1, Check 3(b), Check 7 (500 students), Self-test; 16 step 1's two-panel data (tight F = 128, wide F = 1.29), step 2's classification table and Check 2, step 3's Predict (person reducing by 15), all Checks; 16 step 2 states F = t² for two groups, shown on numbers in Self-test 5 (verify `16 ST5 t^2 = F`), not cited to a text | S8 | open |
 | 24 | G&K Fundamentals has no ANOVA formulas (§14.5.11 only names the technique), so 16 rests on two university-author notes: Chan (Rutgers Math 170S §9.3: SS definitions, computational forms, df, F, assumptions) and Lockhart (SFU STAT 330 lecture 20: decomposition and df only). F = MSB/MSW and the assumptions are therefore single-sourced at Chan, plus G&K §14.5.5's F ratio and KB stage-2 §3 | S8 | open |
+| 25 | 10's pack-made items: step 1's two_views picture, the Predicts of steps 3, 4, 5, 7, Checks 1–4, 6, 7 and Self-test 3–5 (3–4 carried from v1.2). Slide tags moved p.10 → p.11 per brief §1.2. G&K ex. 4(d) Q3(f) is answered with independent draws; drawing from the finite shipments gives the same 0.4730 (in verify). Step 7 names the posterior median for absolute-error loss in one sentence (Balakrishnan, Chan) | S9 | open |
+| 26 | Mock re-pointing = a "Where each item is taught" table at the top of the key; no mock question changed and no Bayesian item added (v1.2's mock had none; row 3 already has 4 items) | S9 | open |
+| 27 | START-HERE's "Pages" line was rewritten to what the logs show (each file checked after its last build) instead of re-viewing all 263 pages; only 10, 00 and 17 were page-checked in S9 | S9 | open |
 | 17 | Session 10 crashed after writing 06; session 11 accepted its 06 after reading it in full, recomputing every number (one rounding fix: MTE C1(a) 0.0669) and agy's page check, without re-reading G&K §8.2 | S5 | open |
 
 ## Current hand-off
 
 ```
-Sprint: S8 — 15 + 16 — done (2026-11-17, auto.py session 17)
-Written: content/15-chi-square-independence.md — v1.3, 8 steps (running example A5 C3 smokers, χ² 14.06, 1 df, 3.841):
-  1 counts in a table (Predict; smoke_split), 2 expected frequency (A5 A7; Check A5 D3's E's), 3 χ² statistic (A5 A6,
-  A3; obs_exp), 4 df (A5 A8; derivation from G&K's note; chi_df_curves), 5 a 2 × 2 test (A5 C3; conditions G&K §13.5;
-  chi_curve), 6 the 2 × 2 shortcut (A5 D3; derivation from G&K Ex. 13·17), 7 table from a story (A5 B5), 8 3 × 3
-  (A5 B6 at 1%; oil_contrib).
-  content/16-anova.md — v1.3, 8 steps (running example A5 C6, F 9.17, (2, 12), 3.89): 1 between vs within spread
-  (Predict; anova_spread_pair), 2 assumptions + one-way classification, 3 SST = SSB + SSW by deviations (anova_dots,
-  ss_split), 4 computing from totals (CF), 5 df and mean squares (A5 A9; MSW = pooled variance), 6 ANOVA table and F
-  (A5 A10 + options note), 7 equal groups (A5 C6; anova_f_curve; 19.41 slip note), 8 unequal groups (A5 D4; income_dots).
-  figures.py (Sonnet helper): 10 functions smoke_split, obs_exp, chi_df_curves, chi_curve, oil_contrib, anova_dots,
-  anova_spread_pair, ss_split, anova_f_curve, income_dots (old obs_exp/chi_curve/anova_dots replaced); 0 OVERLAP.
-  verify.py: block "# ==== v1.3 S8"; old "---- 15/16" pack checks pruned (13). START-HERE: rank rows 3 and 7 re-pointed
-  (16 §3–8, 15 §2–6), what-each-file rows 15/16, slip rows A5 C6 → 16 §7, A5 A10 → 16 §6.
-  KB 04 "Prescribed-textbook locations" + §13.7.3/§13.5/Ex. 13·16–17 and §14.5.11 bullets; sources.md; CHANGELOG.
-Verified this sprint: G&K §13.7.3 (eq. 13·16, 13·16a), note on df, Ex. 13·16–13·17 on the PDF text layer; §13.5
-  remark 2 (N > 50, E ≥ 5) on the page image. ANOVA: Chan (Rutgers notes §9.3) + Lockhart (SFU STAT 330 l.20).
-  Numbers: verify.py 1420 checks, 0 failures, 19 key differences (unchanged list). A5 answers compared: C3 14.06,
-  D3 22.5, B5 15.24, B6 58.00 (13.28 = χ²₀.₀₁(4) ✓), A6 (C), A7 (C), A8 (C), A9 (B), A10 4.44 (key 4.00: slip,
-  known), C6 F 9.17 (printed 19.41 = F(12, 2): slip, known), D4 F 38.55 (6.36 = F₀.₀₁(2, 15) ✓).
-  Build 15 16: 0 flagged lines; 15 = 14 pp., 16 = 14 pp.; combined PDF 257 pp.
-  agy page check (28 pages, report <temp>/agy8-report.md): 27 of 28 clean; one flag: 16 p.5 anova_dots, the grand-mean dashed line crossed the "mean 7.6" label. Fixed in figures.py (label moved below the line), 16 rebuilt (0 flagged lines, combined 257 pp.), page re-viewed by Opus: clean.
-Open (carried): START-HERE "how checked" line (backlog row, S9).
-Decisions made: later files cite "15 step 6" (2 × 2 shortcut), "16 step 7" (full ANOVA test). Mock D1 still points to
-  file 16 by topic, not step: S9 re-points it.
-Helpers: Sonnet = 10 figure functions + overlap check (1 job). agy = page check (agy8-report.md). Haiku: none.
-  Own calls ≈ 45.
-Assumptions to review: 23, 24 (new, in the persistent section).
-Next sprint: S9 — 10 + integration. First action: log the S9 start, then read brief rows 10 and 17 (grep "^| 1[07] "
-  in src/brief.md), content/10-… and 17-mock-paper.md, KB 03 Bayesian section, 16 lines 1–30 (format model).
-Read at start: this hand-off · ../../../study-pack-sprint-protocol.md · spec §5 (study-pack-format.md lines 68–95)
-  · brief rows 10/17 · content/10-…, 17-…, 00-START-HERE.md by section · the Verify backlog rows for S9 · slides
-  MLE-and-Bayesian (Bayesian pages only). Do not re-read src/build.py.
-Build/view how-to (scratch scripts in the auto.py temp folder, rewrite if gone):
-  `python -I -X utf8 <temp>/run_build.py verify.py` and `... run_build.py build.py <prefixes>` (prints OVERLAP/FAIL
-  lines; build with no prefixes for the full pack); `<temp>/agy8prep.py` pattern (renders named PDFs at 80 dpi) then
-  agy as in the contract. Progress log: Write <temp>/line.txt, run `python -I -X utf8 <temp>/logline.py <temp>/line.txt`.
-  Edits of several strings: a script in <temp> that asserts each match once (<temp>/s8_xref.py). verify.py: insert a
-  block before the final summary print (pattern: <temp>/s8_verify.py). Markup: no ASCII "|" inside a table cell or
-  a [[fig:…]] caption (use "∣"); no Greek in box titles.
+Sprint: S9 — 10 + integration — done (2026-11-17, auto.py session 18). ALL SPRINTS S0–S9 DONE.
+Written: content/10-bayesian.md — v1.3, 7 steps (running example slides Ex. 15, prior 0.6/0.4, n = 2): 1 two views of a
+  parameter (slides p.11; two_views), 2 the prior (p.11–12), 3 likelihood (bayes_tree), 4 marginal g(x) (p.13),
+  5 posterior (p.13; bayes_update0; Check 5(b) = G&K ex. 4(d) Q3(f), 0.4730), 6 full table (Ex. 15; prior_posterior
+  reused), 7 posterior mean (bayes_means; MLE contrast; prior washing out at n = 20).
+  figures.py (Sonnet): two_views, bayes_tree, bayes_update0, bayes_means. verify.py: block "# ==== v1.3 S9"; old
+  "---- 10" checks pruned (LMS Ex15 key checks kept).
+  00-START-HERE: rank 14 row (10 §1–2, 5–7, 30 min), what-each-file row 10, question counts recounted from the files'
+  question lists (A 80, Slides 19, G&K 6, P1 110), facts line (two university notes where G&K is silent), how-checked
+  (1492 checks, 19 differences), pages line. 17-mock-paper: "Where each item is taught" table in the key.
+  README format v1.3. brief.md:131 table-value count 36 → 31.
+  KB 03 "Verified S9" bullets; sources.md (Balakrishnan CMU 36-705 l.16; Chan Rutgers 170S §6.8; G&K §4·9); CHANGELOG.
+Verified this sprint: G&K §4·9 remarks 1–3 and ex. 4(d) Q3(f) (PDF text layer; G&K has no Bayesian estimation);
+  posterior = likelihood × prior / marginal and Bayes estimate = posterior mean under squared-error loss, median under
+  absolute error: Balakrishnan Thm 16.5 + eq. 16.10, Chan §6.8 (both read as PDF text). Numbers: verify.py 1492 checks,
+  0 failures, 19 key differences (unchanged list). Full build: 0 flagged lines, combined 263 pp.
+  Done-when: no reference to a removed file (script scan of content, README, build.py, figures.py; no stale html/pdf).
+  agy page check of 10 (12 pp.), 00 (7 pp.), 17 (5 pp.): 24 of 24 clean, no fixes (report <temp>/agy9-report.md).
+Open (carried): none from S9. Persistent assumptions 1, 3–5, 8–9, 11–27 await the learner.
+Decisions made: file 10 cites "10 §5" (posterior), "10 §7" (posterior mean). Mock pointers live in the key table.
+Helpers: Sonnet = 4 figures + verify block + builds (1 job). agy = page check of 10, 00, 17 (agy9-report.md).
+  Haiku: none. Own calls ≈ 40.
+Assumptions to review: 25, 26, 27 (new, in the persistent section).
+Next sprint: none — the plan (S0–S9) is finished. Next work is the learner's: study from 00-START-HERE, report misses
+  (a learner check-in, not a sprint), and confirm or overrule the open assumptions.
 ```

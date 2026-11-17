@@ -79,6 +79,21 @@ Test at the 5% level whether the mean outputs differ. Present the ANOVA table. (
 <!--ANSWERS-->
 ## Key and marking
 
+**Where each item is taught** (file § step): go there if an answer below surprises you.
+
+| Item | Taught in | Item | Taught in |
+|---|---|---|---|
+| A1 | 03a §2, §4–5 | B1 | 02b §2, 03a §7 |
+| A2 | 03b §6 | B2 | 06 §6, §8 |
+| A3 | 04b §3 | B3 | 09b §8–9 |
+| A4 | 05 §9 | B4 | 11 §7 |
+| A5 | 07 §5–6 | B5 | 12b §5 |
+| A6 | 08 §3–4, 03b §1–3 | B6 | 15 §5–6 |
+| A7 | 12a §3–4 | C1 | 07 §7, §9–10 |
+| A8 | 12a §5, §7 | C2 | 09b §4, §10; 08 §3, §6 |
+| A9 | 13 §7 | D1 | 16 §4–7 |
+| A10 | 16 §5–6 | | |
+
 **A1.** E = 0.5 + 0.6 = **1.1**; E(X^{2}) = 0.5 + 1.2 = 1.7; Var = 1.7 − 1.21 = **0.49**. (1 + 1)
 
 **A2.** 32–48 = μ ± 2σ: P ≥ 1 − 1/4 = **0.75**. (1 + 1)

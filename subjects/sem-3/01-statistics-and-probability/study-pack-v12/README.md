@@ -1,6 +1,6 @@
-# MAS2001 Statistics & Probability — ETE study pack (format v1.2)
+# MAS2001 Statistics & Probability — ETE study pack (format v1.3)
 
-Built to `study-pack-format.md` (v1.2). Start with `pdf/00-START-HERE.pdf`, or use the combined, bookmarked
+Built to `study-pack-format.md` (v1.3). Start with `pdf/00-START-HERE.pdf`, or use the combined, bookmarked
 `pdf/MAS2001-Statistics-and-Probability-ETE-study-pack.pdf` (121 pages).
 
 | Path | What |

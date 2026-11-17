@@ -377,11 +377,7 @@ chk("02 ST7 P(X>1)", stats.expon(scale=.5).sf(1), 0.1353, tol=1e-4)
 # ---- 09 (v1.2 checks removed S3; 09a/09b numbers are in the "v1.3 S3" block)
 chk("09 MoM uniform (a,b) sim", (lambda d: d.mean() - math.sqrt(3 * d.var()))(rng.uniform(7, 13, 200000)), 7, tol=0.02)
 # ---- 10
-chk("10 C2", .06 / .14, 0.4286, tol=1e-4); chk("10 C3", .16 / .25, 0.64)
-chk("10 C4", .1 * .2727 + .2 * .7273, 0.1727, tol=1e-4)
-pst = .24 / .59
-chk("10 ST4", pst, 0.4068, tol=1e-4); chk("10 ST5", .5 * (1 - pst) + .8 * pst, 0.6220, tol=1e-4)
-chk("10 prior mean", .1 * .6 + .2 * .4, 0.14)
+# ---- 10 (v1.2 checks removed S9; numbers are in the "v1.3 S9" block)
 # ---- 11 (v1.2 checks removed S6; numbers are in the "v1.3 S6" block)
 # ---- 12 (v1.2 checks removed S6; 12a/12b numbers are in the "v1.3 S6" block)
 # ---- 13 (v1.2 checks removed S7; numbers are in the "v1.3 S7" block)
@@ -1221,7 +1217,77 @@ chk("16 ST5 t", abs(stats.ttest_ind([2, 4, 6], [6, 8, 10]).statistic), 2.449, to
 chk("16 ST5 t^2 = F", stats.ttest_ind([2, 4, 6], [6, 8, 10]).statistic ** 2, 6, tol=1e-9)
 chk("16 ST5 SE", math.sqrt(4 * (1 / 3 + 1 / 3)), 1.633, tol=5e-4)
 
-print(f"\n{N[0]} checks; {len(FAILS)} pack failures; {len(KEYDIFF)} key differences")
+# ==== v1.3 S9 — file 10 (route: scipy.stats.binom / hypergeom pmf, exact sums)
+_B9 = stats.binom
+_L = lambda x, n, p: _B9(n, p).pmf(x)
+
+
+def _post9(prior, lik):
+    pr = [a * b for a, b in zip(prior, lik)]; g_ = sum(pr)
+    return pr, g_, [v / g_ for v in pr]
+
+
+_pi = (.6, .4); _ps = (.1, .2)
+_l0 = [_L(0, 2, p) for p in _ps]; _l1 = [_L(1, 2, p) for p in _ps]; _l2 = [_L(2, 2, p) for p in _ps]
+_p0, _g0, _q0 = _post9(_pi, _l0); _p1, _g1, _q1 = _post9(_pi, _l1); _p2, _g2, _q2 = _post9(_pi, _l2)
+chk("10 S3 f(0|0.1)", _l0[0], .81, tol=5e-3); chk("10 S3 f(0|0.2)", _l0[1], .64, tol=5e-3)
+chk("10 S3 ratio", _l0[0] / _l0[1], 1.27, tol=5e-3)
+chk("10 C2 rescale 0.6364", .7 / 1.1, .6364, tol=5e-5); chk("10 C2 rescale 0.3636", .4 / 1.1, .3636, tol=5e-5)
+chk("10 C3 f(1|0.1)", _l1[0], .18, tol=5e-3); chk("10 C3 f(1|0.2)", _l1[1], .32, tol=5e-3)
+chk("10 C3 ratio", _l1[1] / _l1[0], 1.78, tol=5e-3)
+chk("10 S4 product 0.1", _p0[0], .486, tol=5e-4); chk("10 S4 product 0.2", _p0[1], .256, tol=5e-4)
+chk("10 S4 g(0)", _g0, .742, tol=5e-4)
+chk("10 C4 g(1)", _g1, .236, tol=5e-4); chk("10 C4 product1 0.1", _p1[0], .108, tol=5e-4)
+chk("10 C4 product1 0.2", _p1[1], .128, tol=5e-4)
+chk("10 C4 f(2|0.1)", _l2[0], .01, tol=5e-3); chk("10 C4 f(2|0.2)", _l2[1], .04, tol=5e-3)
+chk("10 C4 g(2)", _g2, .022, tol=5e-4); chk("10 C4 product2 0.1", _p2[0], .006, tol=5e-4)
+chk("10 C4 product2 0.2", _p2[1], .016, tol=5e-4)
+chk("10 C4 sum g", _g0 + _g1 + _g2, 1, tol=1e-12)
+chk("10 S5 post 0.1", _q0[0], .6550, tol=5e-5); chk("10 S5 post 0.2", _q0[1], .3450, tol=5e-5)
+chk("10 S6 table 0.1|1", _q1[0], .4576, tol=5e-5); chk("10 S6 table 0.2|1", _q1[1], .5424, tol=5e-5)
+chk("10 S6 table 0.1|2", _q2[0], .2727, tol=5e-5); chk("10 S6 table 0.2|2", _q2[1], .7273, tol=5e-5)
+chk("10 S6 LR x=2", _l2[1] / _l2[0], 4, tol=1e-9)
+_a, _b, _c5 = _post9(_pi, [_L(1, 1, p) for p in _ps])
+chk("10 C5a product 0.1", _a[0], .06, tol=5e-3); chk("10 C5a product 0.2", _a[1], .08, tol=5e-3)
+chk("10 C5a g", _b, .14, tol=5e-3); chk("10 C5a post", _c5[0], .4286, tol=5e-5)
+_a, _b, _c5 = _post9((.5, .5), [.9 ** 2, .95 ** 2])
+chk("10 C5b lik 0.9^2", .9 ** 2, .81, tol=5e-3); chk("10 C5b lik 0.95^2", .95 ** 2, .9025, tol=5e-5)
+chk("10 C5b product 0.405", _a[0], .405, tol=5e-4); chk("10 C5b product 0.45125", _a[1], .45125, tol=5e-6)
+chk("10 C5b g", _b, .85625, tol=5e-6); chk("10 C5b post", _c5[0], .4730, tol=5e-5)
+_hh = {}
+for _N in (1000, 2000):
+    _hh[_N] = stats.hypergeom(_N, 100, 2).pmf(0)
+    chk(f"10 C5b hypergeom {_N} P(2 good)", _hh[_N], (_N - 100) * (_N - 101) / (_N * (_N - 1)), tol=1e-12)
+chk("10 C5b without replacement post", _post9((.5, .5), [_hh[1000], _hh[2000]])[2][0], .4730, tol=5e-5)
+_a, _b, _c5 = _post9((.5, .5), _l1)
+chk("10 C6 product 0.1", _a[0], .09, tol=5e-3); chk("10 C6 product 0.2", _a[1], .16, tol=5e-3)
+chk("10 C6 g", _b, .25, tol=5e-3); chk("10 C6 post", _c5[1], .64, tol=5e-3)
+_E9 = lambda q: sum(p * w for p, w in zip(_ps, q))
+chk("10 S7 prior mean", _E9(_pi), .14, tol=5e-3)
+chk("10 S7 mean x=0", _E9(_q0), .1345, tol=5e-5); chk("10 S7 mean x=1", _E9(_q1), .1542, tol=5e-5)
+chk("10 S7 mean x=2", _E9(_q2), .1727, tol=5e-5)
+chk("10 S7 piece 0.0655", .1 * .6550, .0655, tol=5e-5); chk("10 S7 piece 0.0690", .2 * .3450, .0690, tol=5e-5)
+chk("10 C7a pieces 0.02727", .1 * .2727, .02727, tol=5e-6); chk("10 C7a pieces 0.14546", .2 * .7273, .14546, tol=5e-6)
+chk("10 C7a mean", .1 * .2727 + .2 * .7273, .1727, tol=5e-5); chk("10 C7a MLE", 2 / 2, 1)
+_t = [_L(0, 20, p) for p in _ps]
+chk("10 C7b 0.9^20", _t[0], .12158, tol=5e-6); chk("10 C7b 0.8^20", _t[1], .011529, tol=5e-7)
+_a, _b, _c20 = _post9(_pi, _t)
+chk("10 C7b product 0.1", _a[0], .072946, tol=5e-7); chk("10 C7b product 0.2", _a[1], .0046117, tol=5e-8)
+chk("10 C7b sum", _b, .077558, tol=5e-7); chk("10 C7b post 0.6/0.4", _c20[0], .9405, tol=5e-5)
+_c20h = _post9((.5, .5), _t)[2]; _c2h = _post9((.5, .5), _l0)[2]
+chk("10 C7b post 0.5/0.5", _c20h[0], .9134, tol=5e-5); chk("10 C7b n=2 0.5/0.5", _c2h[0], .5586, tol=5e-5)
+chk("10 C7b gap n=20", _c20[0] - _c20h[0], .027, tol=5e-4); chk("10 C7b gap n=2", _q0[0] - _c2h[0], .096, tol=5e-4)
+_a, _b, _c3 = _post9((.7, .3), [_L(1, 1, .5), _L(1, 1, .8)])
+chk("10 ST3 product 0.5", _a[0], .35, tol=5e-3); chk("10 ST3 product 0.8", _a[1], .24, tol=5e-3)
+chk("10 ST3 g", _b, .59, tol=5e-3); chk("10 ST3 P(0.8|H)", _c3[1], .4068, tol=5e-5)
+chk("10 ST4 mean", .5 * _c3[0] + .8 * _c3[1], .6220, tol=5e-5); chk("10 ST4 P(0.5|H)", _c3[0], .5932, tol=5e-5)
+_l3 = [_L(1, 3, p) for p in _ps]; _a, _b, _c5 = _post9(_pi, _l3)
+chk("10 ST5 f(1|0.1)", _l3[0], .243, tol=5e-4); chk("10 ST5 f(1|0.2)", _l3[1], .384, tol=5e-4)
+chk("10 ST5 product 0.1", _a[0], .1458, tol=5e-5); chk("10 ST5 product 0.2", _a[1], .1536, tol=5e-5)
+chk("10 ST5 g", _b, .2994, tol=5e-5); chk("10 ST5 post 0.1", _c5[0], .4870, tol=5e-5)
+chk("10 ST5 post 0.2", _c5[1], .5130, tol=5e-5); chk("10 ST5 mean", _E9(_c5), .1513, tol=5e-5)
+
+print(f"\n{N[0]} checks;{len(FAILS)} pack failures; {len(KEYDIFF)} key differences")
 if KEYDIFF:
     print("Key differences (flagged in the pack):", ", ".join(KEYDIFF))
 if FAILS:
