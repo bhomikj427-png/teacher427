@@ -49,6 +49,11 @@ of calls is the cost. Measured 2026-11-17: a sprint took 55–75 calls, 30 of th
 - Write a new or rebuilt file with **one Write** of the whole file, not a skeleton plus many Edits.
 - Several small changes across files (cross-references, START-HERE rows, renames): **one Python
   script** in the scratch folder that applies them all and prints what it changed; not one Edit each.
+- **Bash shapes that get blocked (each one wastes a call; measured 2026-11-17):** never start a
+  command with `cd` (the cwd is already the repo root; use repo-relative or absolute paths); never
+  chain `cd` with `git`, or two `cd`s; never chain `printf … ; python …` or several greps/seds with
+  `;`/`&&` into one line (write a small script in the scratch folder and run it instead); no zsh
+  `<N-M>` globs. Paths outside the repo and the scratch folder are refused.
 - Read a file once, by range; don't re-read what is already in context. Don't print large outputs:
   filter build/verify output to failures and counts (`… | tail -20`, `grep -c`).
 
