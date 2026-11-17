@@ -41,17 +41,16 @@
 - Files: `GEMINI.md` (rules + Flash-suited jobs: transcription, visual page checks, mechanical edits,
   inventories; never teaching text or truth calls) · `GEMINI-TASK.md` (current task: **DE S0a** —
   transcribe 15 decks + MTE + 2 practice sets into `study-pack-v12/src/brief.md` §1, question bank §2).
-- **Driving agy from Claude:** `agy -p "<prompt>"` works headless but needs
-  `--dangerously-skip-permissions` to read/write; Claude Code's auto-mode classifier **denied** that
-  ("Undermining Oversight"). Learner said "allow auto-mode for gemini". Claude must not grant its own
-  permission: give the learner this to run (adds a project-local allow rule):
-  `! python -c "import json,os;p='.claude/settings.local.json';d=json.load(open(p)) if os.path.exists(p) else {};d.setdefault('permissions',{}).setdefault('allow',[]).append('Bash(agy *)');json.dump(d,open(p,'w'),indent=2)"`
-  Then test: `agy -p "<task>" --dangerously-skip-permissions --add-dir <scratch> --log-file <scratch>/agy.log`.
-  Notes from the test: stdout came back **empty** in print mode (output only in the log / files it
-  writes), so make every agy job write its result to a file; check the model in use (log line
-  "Propagating selected model override"), switch it to a Gemini Flash model (find how: `agy help`,
-  settings, or `/model` interactively); `~/.gemini/config/mcp_config.json` is empty/invalid (harmless
-  error in the log).
+- **Driving agy from Claude: WORKS (tested 2026-11-17 ~06:10).** The learner added `Bash(agy *)` to
+  `.claude/settings.local.json`. Command:
+  `agy -p "<task>" --dangerously-skip-permissions --add-dir <scratch> --log-file <scratch>/agy.log`
+  (run with `timeout`, `< /dev/null`; default `--print-timeout` is 5 min — raise it for long jobs).
+  Test result: model **Gemini 3.8 Flash (High)** (learner set it via `/model` interactively; it carries
+  over to `-p`), read GEMINI.md correctly, wrote its answer to a file. **stdout is empty in print mode**:
+  every job must write its result to a file. Check the model per job: log line "Propagating selected
+  model override". `~/.gemini/config/mcp_config.json` is empty/invalid (harmless log error).
+- **Next step:** run DE S0a through agy one deck at a time (one `agy -p` per deck, a few minutes each),
+  spot-check each against the PDF pages, then the MTE paper and practice sets; then review + commit.
 - **Review rule:** every agy job → Claude reviews `git diff` (spot-check transcriptions against the
   source pages), then commits. Its facts are leads, not verified.
 - **Planned agy jobs:** DE S0a (now) · EDC E0 transcription · page-render visual checks for every
