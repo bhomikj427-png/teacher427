@@ -149,7 +149,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 </tr>
 <tr>
 <td>06 Decoder, encoder</td>
-<td>output j = m<sub>j</sub>; OR (NAND if active-low) · y<sub>1</sub> = w<sub>3</sub> + w<sub>2</sub>, y<sub>0</sub> = w<sub>3</sub> + w<sub>2</sub>'w<sub>1</sub></td>
+<td>output j = m<sub>j</sub>; OR (NAND if active-low) · x = D<sub>2</sub> + D<sub>3</sub>, y = D<sub>3</sub> + D<sub>1</sub>D<sub>2</sub>', V = D<sub>0</sub> + D<sub>1</sub> + D<sub>2</sub> + D<sub>3</sub></td>
 </tr>
 <tr>
 <td>07 Display, comparator, parity</td>
@@ -204,7 +204,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <li>(X + Y)' = X'Y' and (XY)' = X' + Y'. (01)</li>
 <li><strong>ΠM(0, 2, 4, 5, 7)</strong>. (01)</li>
 <li>NOT, AND and OR can each be built from NANDs alone, so any function can. (03)</li>
-<li><strong>4</strong> select lines; <strong>five</strong> 4:1 MUXes. (05)</li>
+<li><strong>4</strong> select lines; <strong>five</strong> 4:1 MUXes. (05 steps 2, 7)</li>
 <li>Four 1s (even): odd parity bit <strong>1</strong>. (07)</li>
 <li>Latch: level-triggered, transparent while enabled, passes glitches. Flip-flop: edge-triggered, samples once per clock. (09)</li>
 <li><strong>4</strong> flip-flops; <strong>4</strong> unused states. (12)</li>
@@ -215,8 +215,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <p><strong>Part B.</strong></p>
 <ol start="11">
 <li>F = 1 for minterms 3, 6, 7, 11, 12, 13, 14, 15. K-map: three quads, <strong>F = AB + BC + CD</strong>: three 2-input ANDs and a 3-input OR (or NAND–NAND).</li>
-<li>P, Q, R on the selects. I<sub>0</sub> = <strong>S'</strong>, I<sub>1</sub> = <strong>S'</strong>, I<sub>2</sub> = <strong>S</strong>, I<sub>3</sub> = <strong>0</strong>, I<sub>4</sub> = <strong>S</strong>, I<sub>5</sub> = <strong>S</strong>, I<sub>6</sub> = <strong>S'</strong>, I<sub>7</sub> = <strong>1</strong>. (05)</li>
-<li>A 4:16 decoder (two 3:8s, a enabling one directly and the other through an inverter); <strong>OR outputs 0, 1, 2, 5, 6, 8, 9, 15</strong> (8-input NAND if active-low). (06)</li>
+<li>P, Q, R on the selects. I<sub>0</sub> = <strong>S'</strong>, I<sub>1</sub> = <strong>S'</strong>, I<sub>2</sub> = <strong>S</strong>, I<sub>3</sub> = <strong>0</strong>, I<sub>4</sub> = <strong>S</strong>, I<sub>5</sub> = <strong>S</strong>, I<sub>6</sub> = <strong>S'</strong>, I<sub>7</sub> = <strong>1</strong>. (05 step 5, Check 5)</li>
+<li>A 4:16 decoder (two 3:8s, a enabling one directly and the other through an inverter); <strong>OR outputs 0, 1, 2, 5, 6, 8, 9, 15</strong> (8-input NAND if active-low). (06 steps 4, 8)</li>
 <li>00 → 01 → 10 → 11 → 00. Excitation (J<sub>1</sub>K<sub>1</sub>, J<sub>0</sub>K<sub>0</sub>): 00: 0X, 1X · 01: 1X, X1 · 10: X0, 1X · 11: X1, X1. <strong>J<sub>0</sub> = K<sub>0</sub> = 1, J<sub>1</sub> = K<sub>1</sub> = Q<sub>0</sub></strong>. (13)</li>
 <li>P<sub>1</sub>: (ADFG)(BCEH). P<sub>2</sub>: on x = 1, D → B (other block): D separates → (AFG)(BCEH)(D). P<sub>3</sub>: A, F → D but G → G: G separates; on x = 1, E → F but B, C, H → D: E separates → (AF)(BCH)(D)(E)(G). P<sub>4</sub> = P<sub>3</sub>. <strong>A ≡ F, B ≡ C ≡ H</strong>: 8 states become 5. (16)</li>
 <li>Circuit and operation: 18 §2. Fan-out: 8/0.4 = 20 and 400/20 = 20: <strong>20</strong>.</li>

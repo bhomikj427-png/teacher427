@@ -65,6 +65,12 @@
 - **Code converters / Gray code / excess-3 self-complementing — `settled (standard)`** (standard texts
   + NPTEL Digital Circuits week-5 outline).
 
+## Tier 1 — MSI chip data (S5, 2026-11-17)
+- **'151 8:1 MUX strobe — `settled` (primary):** a high level at the strobe G forces Y low and W high;
+  G low enables, Y = D(CBA), W = Y'. — TI SN54ALS151/SN74ALS151/SN74AS151 datasheet, description +
+  function table (ti.com/lit/gpn/SN74ALS151), read 2026-11-17. The LS part's own sheet was not readable
+  (no text layer); same '151 function. Used in 05 step 9.
+
 ## Cross-check sources (syllabus completeness pass, 2026-06-27)
 - **NPTEL "Digital Circuits" (IIT Kharagpur, S. Chattopadhyay)** — onlinecourses.nptel.ac.in/noc21_ee75,
   nptel.ac.in/courses/108105113. Week outline used to cross-check scope (surfaced: clock-gen hardware,

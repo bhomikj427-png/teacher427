@@ -78,40 +78,848 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 .c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
 .c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
 .c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>06 — Decoder and encoder</h1>
-<div class="sub">Deck 05 (slides 4–43) · mid-term 2025 Q6 (4 marks) · practice set 1 Q7–Q8 · syllabus Unit 2 · needs 01 (minterms) and 04 (full adder)</div>
+<div class="sub">Deck 05 (slides 2–43) · syllabus Unit 2 (decoder, encoder, priority encoder, function realisation) · 3 real questions: MTE 2025 Q6 (4 marks), practice set 1 Q7, Q8 · needs 01 step 7 (minterms, Σm and ΠM), 03 step 1 (NAND/NOR), 05 steps 2, 9, 10 (select minterms, enable, demultiplexer)</div>
 
 <h2>Map</h2>
-<div class="map"><span class="n here">1 Decoder-based design</span><span class="a">→</span><span class="n">2 Bigger decoders</span><span class="a">→</span><span class="n">3 Priority encoder</span></div>
+<div class="map"><span class="n here">1 2:4 decoder</span><span class="a">→</span><span class="n">2 3:8 decoder</span><span class="a">→</span><span class="n">3 Enable, active-low</span><span class="a">→</span><span class="n">4 Bigger decoders</span><span class="a">→</span><span class="n">5 Decoder + OR</span><span class="a">→</span><span class="n">6 MTE Q6 full adder</span><span class="a">→</span><span class="n">7 Zeros: NOR, AND</span><span class="a">→</span><span class="n">8 Four variables</span><span class="a">→</span><span class="n">9 Encoder</span><span class="a">→</span><span class="n">10 Priority encoder</span></div>
 
-<p>05's MUX picks one input. A decoder does the opposite job: it turns a code into one active line out of many. Each line is a minterm, so a decoder plus an OR gate is any function.</p>
+<p>File 05's demultiplexer sent one data bit to the output named by the select code. Drop the data bit and keep only the naming: a <strong>decoder</strong> turns an n-bit code into one active line out of 2<sup>n</sup>. Each line is one minterm, so a decoder plus an OR gate realises any function, which is how MTE Q6 builds a full adder. The file ends with the <strong>encoder</strong>, the decoder run backwards. Decoders return in file 07 (BCD to 7-segment) and in file 19 (memory address decoding).</p>
+<h2>Symbols</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>What it means in this file</th>
+<th>Typical value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A, B / x, y, z / w</td>
+<td>decoder code inputs (the binary number); the first listed is the most significant bit</td>
+<td>—</td>
+</tr>
+<tr>
+<td>D<sub>j</sub> (or W, X, Y, Z)</td>
+<td>decoder output j: 1 only when the input code is j; it is minterm m<sub>j</sub></td>
+<td>one of 2<sup>n</sup> is 1</td>
+</tr>
+<tr>
+<td>En, E</td>
+<td>enable: when inactive, no output is active</td>
+<td>high or low level</td>
+</tr>
+<tr>
+<td>active-low</td>
+<td>a signal whose "on" value is 0; drawn with a bubble, written with a bar or a prime</td>
+<td>74138 outputs</td>
+</tr>
+<tr>
+<td>D<sub>0</sub> … D<sub>7</sub> (encoder)</td>
+<td>encoder inputs: the lines, one of which is expected to be 1</td>
+<td>—</td>
+</tr>
+<tr>
+<td>x, y, z / y<sub>1</sub>, y<sub>0</sub></td>
+<td>encoder outputs: the binary number of the active input</td>
+<td>—</td>
+</tr>
+<tr>
+<td>V</td>
+<td>valid output: 1 when at least one encoder input is 1</td>
+<td>0 or 1</td>
+</tr>
+</tbody>
+</table>
+<h2>Running example</h2>
+<p><strong>MTE 2025 Q6: the full adder</strong> (inputs x, y and carry-in z; sum S = Σm(1, 2, 4, 7), carry C = Σm(3, 5, 6, 7), file 04). Step 6 builds it from a 3:8 decoder, then from two 2:4 decoders; step 6's Check reads it on one input row.</p>
 <h2>The questions this file answers</h2>
 <ul>
-<li><span class="tag">MTE 2025 Q6 · 4 marks</span> Design a full adder using a suitable decoder.</li>
-<li><span class="tag">Set 1 Q7</span> Realise Y = ΠM(0, 3, 5, 6, 7) with a decoder and one NOR gate.</li>
-<li><span class="tag">Deck 05 slides 36–43</span> Design a 4-to-2 priority encoder with a valid output.</li>
+<li><span class="tag">MTE 2025 Q6 · 4 marks</span> Design Full Adder using suitable decoder.</li>
+<li><span class="tag">Practice set 1 Q7</span> Realize the Boolean function Y = ΠM(0, 3, 5, 6, 7) with a Decoder and one NOR gate.</li>
+<li><span class="tag">Practice set 1 Q8</span> Implement the following function using suitable decoder. F(a, b, c, d) = Σm(0, 1, 2, 5, 6, 8, 9, 15)</li>
+<li><span class="tag">Deck 05 slides 14–26, 36–43</span> Decoder cascading (EX 5.14–5.16), decoder function realisation (EX 5.18–5.26), the 4-to-2 priority encoder.</li>
 </ul>
 <hr />
 <h2>Build</h2>
-<h3>1 · Decoder-based design</h3>
+<h3>1 · The 2:4 decoder: a code lights one line</h3>
+<p>A lift has four floors and a 2-bit floor code. Above the doors, four lamps; exactly the lamp whose number the code spells is lit.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 05 slides 6–7</span></div>
+<p>Draw the 2-to-4 active-high decoder: block, truth table and output equations.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Inputs A (most significant) and B. Write the condition "the code is 10" as one AND term in A and B.</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Decoder (n-to-2<sup>n</sup>):</strong> n code inputs, 2<sup>n</sup> outputs; output j is 1 exactly when the input code equals j, all others 0. <strong>Active-high output:</strong> the selected output is the one at 1 (the others at 0).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>A B</th>
+<th>W = D<sub>0</sub></th>
+<th>X = D<sub>1</sub></th>
+<th>Y = D<sub>2</sub></th>
+<th>Z = D<sub>3</sub></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0 1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1 0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1 1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Each output is 1 on one row only, so each is one minterm (file 01 step 7):</p>
+<div class="eq">W = A'B'&emsp;&emsp;&emsp;X = A'B&emsp;&emsp;&emsp;Y = AB'&emsp;&emsp;&emsp;Z = AB</div>
+
+<p>Read it: "Y is 1 when A is 1 <strong>and</strong> B is 0, that is, when the code is 10". Gates: two inverters and four 2-input ANDs.</p>
+<p><strong>Answer to the Guess.</strong> <strong>AB'</strong> (output Y = D<sub>2</sub>).</p>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>Inputs A = 0, B = 1. Which output is 1, and what are the other three?</p>
+</div>
+<h3>2 · The 3:8 decoder: every output is a minterm</h3>
+<p>Step 1 used 2 bits. With 3 bits the same idea gives 8 outputs, and the claim "output j = minterm m<sub>j</sub>" becomes the tool for the rest of the file.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>A 3:8 decoder has inputs x, y, z (x most significant). Which output is 1 for xyz = 101, and what is its equation?</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Output</th>
+<th>D<sub>0</sub></th>
+<th>D<sub>1</sub></th>
+<th>D<sub>2</sub></th>
+<th>D<sub>3</sub></th>
+<th>D<sub>4</sub></th>
+<th>D<sub>5</sub></th>
+<th>D<sub>6</sub></th>
+<th>D<sub>7</sub></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Equation (slide 9)</td>
+<td>x'y'z'</td>
+<td>x'y'z</td>
+<td>x'yz'</td>
+<td>x'yz</td>
+<td>xy'z'</td>
+<td>xy'z</td>
+<td>xyz'</td>
+<td>xyz</td>
+</tr>
+<tr>
+<td>1 only on row</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p>Gates: three inverters and eight 3-input ANDs, one per minterm. In general an n-to-2<sup>n</sup> decoder is <strong>every minterm of n variables at once</strong>: D<sub>j</sub> = m<sub>j</sub>.</p>
+<p>Slide 4 shows why the block exists: an 8:3 encoder at the sender squeezes 8 lines into 3 wires, and a 3:8 decoder at the receiver opens them back into 8.</p>
+<p><strong>Answer to the Predict.</strong> 101 = 5: <strong>D<sub>5</sub> = xy'z</strong> is 1, all others 0.</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>Which 3:8 output is 1 for xyz = 011? Write its equation.</p>
+</div>
+<h3>3 · Enable and active-low outputs</h3>
+<p>Step 2's decoder always lights one line. Cascading decoders (step 4) and using one as a demultiplexer (file 05 step 10) need a pin that switches all lines off.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 05 slides 10–13</span></div>
+<p>Draw the 2-to-4 decoder with an enable, first with a high-level enable, then with active-low outputs and an active-low enable (NAND version).</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>In the NAND version the selected output is the one at <strong>0</strong>. With the enable switched off, what do all four outputs show?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Enable En:</strong> a control input; while it is inactive no output is active. <strong>High-level (active-high) enable:</strong> works when En = 1. <strong>Low-level (active-low) enable E':</strong> works when E' = 0. <strong>Active-low output:</strong> the selected output is 0 and the rest are 1.</p>
+</div>
+<ol>
+<li><strong>High-level enable (slide 11).</strong> Each AND gets En as one more input: W = En·A'B', …, Z = En·AB. En = 0 → all outputs 0.</li>
+<li><strong>Active-low outputs, active-low enable (slide 13).</strong> Each output is a NAND of E (inverted), and the code literals: D<sub>0</sub> = (E'A'B')', …. With E = 1 every NAND sees a 0 and outputs 1: all off. With E = 0, only the NAND whose code matches outputs 0.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>E</th>
+<th>A B</th>
+<th>D<sub>0</sub> D<sub>1</sub> D<sub>2</sub> D<sub>3</sub></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>X X</td>
+<td>1 1 1 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0 0</td>
+<td>0 1 1 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0 1</td>
+<td>1 0 1 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1 0</td>
+<td>1 1 0 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1 1</td>
+<td>1 1 1 0</td>
+</tr>
+</tbody>
+</table>
+<p>An X on the input side means "either value".</p>
+<p><strong>The decoder with enable is a demultiplexer.</strong> Feed the data bit D into En: the output named by A B copies D, the others stay off. That is file 05 step 10's Y<sub>j</sub> = D·m<sub>j</sub>.</p>
+<p><strong>Answer to the Guess.</strong> <strong>1 1 1 1</strong>: "off" for an active-low output is 1.</p>
+<div class="box note">
+<div class="bh">Note</div>
+<p>Deck 05 slides 44–48 (the tri-state buffer: output = input when enabled, disconnected, "high impedance", when not) are taught with the logic families in file 18.</p>
+</div>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>The slide-13 decoder has E = 0, A = 1, B = 0. Give D<sub>0</sub>, D<sub>1</sub>, D<sub>2</sub>, D<sub>3</sub>.</p>
+</div>
+<h3>4 · Bigger decoders from smaller ones</h3>
+<p>Step 3's enable is what makes this work: the extra input bit decides which small decoder is allowed to light a line.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 05 slides 14–15 (EX 5.14, 5.15)</span></div>
+<p>Build a 4×16 decoder using 3×8 decoders; then using 2×4 decoders.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Two 3:8 decoders share x, y, z. The fourth bit w (most significant) must enable exactly one of them. What goes to each enable?</p>
+</div>
+
+<figure style="max-width:52%"><div style="width:104mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 231.9552 263.0016" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:05.156501</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 263.0016 
+L 231.9552 263.0016 
+L 231.9552 0 
+L 0 0 
+L 0 263.0016 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 97.79328 127.0656 
+L 147.46752 127.0656 
+Q 149.2416 127.0656 149.2416 125.29152 
+L 149.2416 40.13568 
+Q 149.2416 38.3616 147.46752 38.3616 
+L 97.79328 38.3616 
+Q 96.0192 38.3616 96.0192 40.13568 
+L 96.0192 125.29152 
+Q 96.0192 127.0656 97.79328 127.0656 
+z
+" clip-path="url(#peffd02e87a)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 97.79328 229.0752 
+L 147.46752 229.0752 
+Q 149.2416 229.0752 149.2416 227.30112 
+L 149.2416 142.14528 
+Q 149.2416 140.3712 147.46752 140.3712 
+L 97.79328 140.3712 
+Q 96.0192 140.3712 96.0192 142.14528 
+L 96.0192 227.30112 
+Q 96.0192 229.0752 97.79328 229.0752 
+z
+" clip-path="url(#peffd02e87a)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 69.408 53.8848 
+Q 82.7136 53.8848 94.7372 53.8848 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 90.7372 51.531859 
+L 94.7372 53.8848 
+L 90.7372 56.237741 
+z
+" clip-path="url(#peffd02e87a)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 69.408 151.4592 
+Q 82.7136 151.4592 94.7372 151.4592 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 90.7372 149.106259 
+L 94.7372 151.4592 
+L 90.7372 153.812141 
+z
+" clip-path="url(#peffd02e87a)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 56.1024 64.9728 
+Q 76.0608 64.9728 94.7372 64.9728 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 90.7372 62.619859 
+L 94.7372 64.9728 
+L 90.7372 67.325741 
+z
+" clip-path="url(#peffd02e87a)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 56.1024 162.5472 
+Q 76.0608 162.5472 94.7372 162.5472 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 90.7372 160.194259 
+L 94.7372 162.5472 
+L 90.7372 164.900141 
+z
+" clip-path="url(#peffd02e87a)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 42.7968 76.0608 
+Q 69.408 76.0608 94.7372 76.0608 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 90.7372 73.707859 
+L 94.7372 76.0608 
+L 90.7372 78.413741 
+z
+" clip-path="url(#peffd02e87a)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 42.7968 173.6352 
+Q 69.408 173.6352 94.7372 173.6352 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 90.7372 171.282259 
+L 94.7372 173.6352 
+L 90.7372 175.988141 
+z
+" clip-path="url(#peffd02e87a)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 122.6304 20.6208 
+Q 122.6304 29.4912 122.6304 37.0796 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #12925a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 124.983341 33.0796 
+L 122.6304 37.0796 
+L 120.277459 33.0796 
+z
+" clip-path="url(#peffd02e87a)" style="fill: #12925a; stroke: #12925a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 122.6304 246.816 
+Q 122.6304 237.9456 122.6304 230.3572 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #12925a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 120.277459 234.3572 
+L 122.6304 230.3572 
+L 124.983341 234.3572 
+z
+" clip-path="url(#peffd02e87a)" style="fill: #12925a; stroke: #12925a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 162.5472 83.8224 
+Q 169.2 83.8224 174.5708 83.8224 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 170.5708 81.469459 
+L 174.5708 83.8224 
+L 170.5708 86.175341 
+z
+" clip-path="url(#peffd02e87a)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 162.5472 185.832 
+Q 169.2 185.832 174.5708 185.832 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 170.5708 183.479059 
+L 174.5708 185.832 
+L 170.5708 188.184941 
+z
+" clip-path="url(#peffd02e87a)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 18.4032 53.8848 
+L 96.0192 53.8848 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 69.408 53.8848 
+L 69.408 151.4592 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 18.4032 64.9728 
+L 96.0192 64.9728 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 56.1024 64.9728 
+L 56.1024 162.5472 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 18.4032 76.0608 
+L 96.0192 76.0608 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 42.7968 76.0608 
+L 42.7968 173.6352 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 149.2416 45.0144 
+L 162.5472 45.0144 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 149.2416 56.1024 
+L 162.5472 56.1024 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 149.2416 67.1904 
+L 162.5472 67.1904 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 149.2416 78.2784 
+L 162.5472 78.2784 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 149.2416 89.3664 
+L 162.5472 89.3664 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 149.2416 100.4544 
+L 162.5472 100.4544 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 149.2416 111.5424 
+L 162.5472 111.5424 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_14">
+    <path d="M 149.2416 122.6304 
+L 162.5472 122.6304 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_15">
+    <path d="M 162.5472 122.6304 
+L 162.5472 45.0144 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_16">
+    <path d="M 149.2416 147.024 
+L 162.5472 147.024 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_17">
+    <path d="M 149.2416 158.112 
+L 162.5472 158.112 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_18">
+    <path d="M 149.2416 169.2 
+L 162.5472 169.2 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_19">
+    <path d="M 149.2416 180.288 
+L 162.5472 180.288 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_20">
+    <path d="M 149.2416 191.376 
+L 162.5472 191.376 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_21">
+    <path d="M 149.2416 202.464 
+L 162.5472 202.464 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_22">
+    <path d="M 149.2416 213.552 
+L 162.5472 213.552 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_23">
+    <path d="M 149.2416 224.64 
+L 162.5472 224.64 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_24">
+    <path d="M 162.5472 224.64 
+L 162.5472 147.024 
+" clip-path="url(#peffd02e87a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(116.234775 79.977319)">3:8</text>
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(105.4854 90.042694)">decoder</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(116.234775 181.986919)">3:8</text>
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(105.4854 192.052294)">decoder</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="16.1856" y="56.436363" transform="rotate(-0 16.1856 56.436363)">x</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="16.1856" y="67.475925" transform="rotate(-0 16.1856 67.475925)">y</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="16.1856" y="78.612363" transform="rotate(-0 16.1856 78.612363)">z</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #12925a; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="122.6304" y="16.1032" transform="rotate(-0 122.6304 16.1032)">w'</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="122.6304" y="48.275113" transform="rotate(-0 122.6304 48.275113)">EN</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #12925a; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="122.6304" y="256.436725" transform="rotate(-0 122.6304 256.436725)">w</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="122.6304" y="222.938" transform="rotate(-0 122.6304 222.938)">EN</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="178.0704" y="86.246384" transform="rotate(-0 178.0704 86.246384)">D0 … D7</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="178.0704" y="188.255984" transform="rotate(-0 178.0704 188.255984)">D8 … D15</text>
+   </g>
+   <g id="line2d_25">
+    <defs>
+     <path id="m009dca4d7b" d="M 0 1.8 
+C 0.477366 1.8 0.935244 1.610341 1.272792 1.272792 
+C 1.610341 0.935244 1.8 0.477366 1.8 0 
+C 1.8 -0.477366 1.610341 -0.935244 1.272792 -1.272792 
+C 0.935244 -1.610341 0.477366 -1.8 0 -1.8 
+C -0.477366 -1.8 -0.935244 -1.610341 -1.272792 -1.272792 
+C -1.610341 -0.935244 -1.8 -0.477366 -1.8 0 
+C -1.8 0.477366 -1.610341 0.935244 -1.272792 1.272792 
+C -0.935244 1.610341 -0.477366 1.8 0 1.8 
+z
+" style="stroke: #1c1f24"/>
+    </defs>
+    <g clip-path="url(#peffd02e87a)">
+     <use xlink:href="#m009dca4d7b" x="69.408" y="53.8848" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_26">
+    <g clip-path="url(#peffd02e87a)">
+     <use xlink:href="#m009dca4d7b" x="56.1024" y="64.9728" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_27">
+    <g clip-path="url(#peffd02e87a)">
+     <use xlink:href="#m009dca4d7b" x="42.7968" y="76.0608" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="peffd02e87a">
+   <rect x="2.88" y="2.88" width="226.1952" height="257.2416"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>4:16 decoder from two 3:8 decoders: x, y, z go to both; w' enables the top decoder (outputs D0–D7), w enables the bottom one (D8–D15).</figcaption></figure>
+
+<ol>
+<li>Codes 0–7 have w = 0; codes 8–15 have w = 1. The low three bits xyz are the position inside each half.</li>
+<li>Top decoder: EN = <strong>w'</strong> (one inverter), so it works for codes 0–7.</li>
+<li>Bottom decoder: EN = <strong>w</strong>, so it works for codes 8–15; its output j is overall output 8 + j.</li>
+<li><strong>With 2:4 decoders (slide 15):</strong> a first 2:4 on the two most significant bits w<sub>3</sub>w<sub>2</sub> drives the enables of four second-stage 2:4 decoders, each fed w<sub>1</sub>w<sub>0</sub>: <strong>five</strong> 2:4 decoders, no inverter.</li>
+</ol>
+<p><strong>Answer to the Guess.</strong> Top: <strong>w'</strong>; bottom: <strong>w</strong>.</p>
+<div class="box check">
+<div class="bh">Check 4</div>
+<p>(a) How many 2:4 decoders does a 4:16 decoder take in the slide-15 layout? (b) How many 3:8 decoders make a 5:32 decoder, and what drives their enables?</p>
+</div>
+<h3>5 · Decoder + OR: any function from its minterm list</h3>
+<p>Step 2 said output j is minterm m<sub>j</sub>. A function in Σm form is an OR of minterms, so it is an OR of decoder outputs.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 05 slides 18, 20 (EX 5.18, 5.20)</span></div>
+<p>Realise F = Σm(0, 2) with a 2:4 decoder. Then: design a circuit, using a 3-to-8 Decoder to realize F(X, Y, Z) = Σm(1, 2, 5, 7).</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>F = Σm(0, 2) with inputs A, B. Which two decoder outputs go into the OR gate? Simplify the result.</p>
+</div>
+
+<figure style="max-width:48%"><div style="width:117mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 262.44 83.198548" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:05.199713</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 83.198548 
+L 262.44 83.198548 
+L 262.44 0 
+L 0 0 
+L 0 83.198548 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 49.686353 63.332371 
+L 91.963059 63.332371 
+Q 93.472941 63.332371 93.472941 61.822489 
+L 93.472941 15.771077 
+Q 93.472941 14.261195 91.963059 14.261195 
+L 49.686353 14.261195 
+Q 48.176471 14.261195 48.176471 15.771077 
+L 48.176471 61.822489 
+Q 48.176471 63.332371 49.686353 63.332371 
+z
+" clip-path="url(#p229c533cbb)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 29.302941 31.247371 
+Q 38.739706 31.247371 46.89447 31.247371 
+" clip-path="url(#p229c533cbb)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 42.89447 28.89443 
+L 46.89447 31.247371 
+L 42.89447 33.600312 
+z
+" clip-path="url(#p229c533cbb)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 29.302941 46.346195 
+Q 38.739706 46.346195 46.89447 46.346195 
+" clip-path="url(#p229c533cbb)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 42.89447 43.993254 
+L 46.89447 46.346195 
+L 42.89447 48.699136 
+z
+" clip-path="url(#p229c533cbb)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 174.629118 50.120901 
+L 191.615294 50.120901 
+Q 197.277353 50.120901 197.277353 44.458842 
+L 197.277353 33.134724 
+Q 197.277353 27.472665 191.615294 27.472665 
+L 174.629118 27.472665 
+Q 168.967059 27.472665 168.967059 33.134724 
+L 168.967059 44.458842 
+Q 168.967059 50.120901 174.629118 50.120901 
+z
+" clip-path="url(#p229c533cbb)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 197.277353 38.796783 
+Q 204.826765 38.796783 211.094176 38.796783 
+" clip-path="url(#p229c533cbb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 207.094176 36.443842 
+L 211.094176 38.796783 
+L 207.094176 41.149724 
+z
+" clip-path="url(#p229c533cbb)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 93.472941 22.754283 
+L 104.797059 22.754283 
+" clip-path="url(#p229c533cbb)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 93.472941 33.134724 
+L 104.797059 33.134724 
+" clip-path="url(#p229c533cbb)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 93.472941 43.515165 
+L 104.797059 43.515165 
+" clip-path="url(#p229c533cbb)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 93.472941 53.895607 
+L 104.797059 53.895607 
+" clip-path="url(#p229c533cbb)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 104.797059 22.754283 
+L 112.346471 22.754283 
+L 112.346471 30.869901 
+L 168.967059 30.869901 
+" clip-path="url(#p229c533cbb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <defs>
+     <path id="mc1eea7d519" d="M 0 1.5 
+C 0.397805 1.5 0.77937 1.341951 1.06066 1.06066 
+C 1.341951 0.77937 1.5 0.397805 1.5 0 
+C 1.5 -0.397805 1.341951 -0.77937 1.06066 -1.06066 
+C 0.77937 -1.341951 0.397805 -1.5 0 -1.5 
+C -0.397805 -1.5 -0.77937 -1.341951 -1.06066 -1.06066 
+C -1.341951 -0.77937 -1.5 -0.397805 -1.5 0 
+C -1.5 0.397805 -1.341951 0.77937 -1.06066 1.06066 
+C -0.77937 1.341951 -0.397805 1.5 0 1.5 
+z
+" style="stroke: #2f5bea"/>
+    </defs>
+    <g clip-path="url(#p229c533cbb)">
+     <use xlink:href="#mc1eea7d519" x="104.797059" y="22.754283" style="fill: #2f5bea; stroke: #2f5bea"/>
+    </g>
+   </g>
+   <g id="line2d_7">
+    <path d="M 104.797059 43.515165 
+L 117.064853 43.515165 
+L 117.064853 46.723665 
+L 168.967059 46.723665 
+" clip-path="url(#p229c533cbb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <g clip-path="url(#p229c533cbb)">
+     <use xlink:href="#mc1eea7d519" x="104.797059" y="43.515165" style="fill: #2f5bea; stroke: #2f5bea"/>
+    </g>
+   </g>
+   <g id="text_1">
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="70.824706" y="9.542812" transform="rotate(-0 70.824706 9.542812)">2:4 decoder</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="27.415588" y="33.798934" transform="rotate(-0 27.415588 33.798934)">A</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="27.415588" y="48.897757" transform="rotate(-0 27.415588 48.897757)">B</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="91.585588" y="24.923111" transform="rotate(-0 91.585588 24.923111)">m0</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="91.585588" y="35.303552" transform="rotate(-0 91.585588 35.303552)">m1</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="91.585588" y="45.683994" transform="rotate(-0 91.585588 45.683994)">m2</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="91.585588" y="56.064435" transform="rotate(-0 91.585588 56.064435)">m3</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="183.122206" y="41.093189" transform="rotate(-0 183.122206 41.093189)">OR</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="214.263529" y="41.220767" transform="rotate(-0 214.263529 41.220767)">F</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p229c533cbb">
+   <rect x="2.88" y="2.937077" width="256.68" height="77.381471"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>Slide 18 solved: a 2:4 decoder on A (MSB) and B; outputs 0 and 2 go into an OR gate, so F = A'B' + AB' = B'.</figcaption></figure>
+
+<p><strong>Recipe.</strong></p>
+<ol>
+<li>Decoder with one input per variable, the most significant variable on the most significant input.</li>
+<li>One OR gate per output function; its inputs are the decoder outputs numbered in that function's Σm list.</li>
+<li>Several functions of the same variables share <strong>one</strong> decoder; each gets its own OR.</li>
+</ol>
+<p><strong>Answer.</strong> Σm(0, 2): <strong>OR of D<sub>0</sub>, D<sub>2</sub></strong> = A'B' + AB' = <strong>B'</strong>. Σm(1, 2, 5, 7): <strong>3:8 decoder (X MSB), 4-input OR of D<sub>1</sub>, D<sub>2</sub>, D<sub>5</sub>, D<sub>7</sub></strong>.</p>
+<div class="box note">
+<div class="bh">Slip in the slides</div>
+<p>Slide 18's block diagram wires A<sub>0</sub> = Y and A<sub>1</sub> = X, while its table names the inputs A, B. The pack uses the table (A most significant). With the slide's wiring the same OR gives Y'.</p>
+</div>
+<div class="box check">
+<div class="bh">Check 5</div>
+<p>(a) <span class="tag">Deck 05 slide 26 (EX 5.26)</span> Realise F(X, Y, Z) = Σm(1, 2, 5, 7) with two 2:4 decoders, X, Y on their code inputs and Z on the enables (decoder A enabled by Z', decoder B by Z). Which outputs go into the OR? (b) <span class="tag">Deck 05 slide 21</span> Design a half adder with one 2:4 decoder.</p>
+</div>
+<h3>6 · MTE Q6: the full adder from a decoder</h3>
+<p>Step 5's recipe with two functions of the same three variables.</p>
 <div class="box q">
 <div class="bh"><span class="tag">MTE 2025 Q6 · 4 marks</span></div>
 <p>Design Full Adder using suitable decoder.</p>
 </div>
 <div class="box guess">
 <div class="bh">Guess first</div>
-<p>A full adder has 3 inputs. How many outputs must the decoder have, and what is each output in the language of 01?</p>
+<p>A full adder has three inputs and two outputs. Which decoder size, and how many OR gates?</p>
 </div>
-<div class="box note">
-<div class="bh">Terms</div>
-<p><strong>Decoder (n to 2<sup>n</sup>):</strong> exactly one output is active, the one numbered by the input code; output j is minterm m<sub>j</sub>. <strong>Enable:</strong> switches all outputs off when inactive. <strong>Active-low:</strong> the selected output goes to 0 (drawn with a bubble).</p>
-</div>
+<ol>
+<li>Inputs x, y, z (z = carry in): three variables → <strong>3:8 decoder</strong>, x on the most significant input.</li>
+<li>Truth table (file 04): S = 1 when an odd number of inputs is 1 → <strong>S = Σm(1, 2, 4, 7)</strong>; C = 1 when two or more are 1 → <strong>C = Σm(3, 5, 6, 7)</strong>.</li>
+<li>One 4-input OR per output (step 5's recipe); D<sub>7</sub> feeds both. D<sub>0</sub> is unused.</li>
+</ol>
 
-<figure style="max-width:65%"><div style="width:152mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 340.56 160.851176" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<figure style="max-width:62%"><div style="width:152mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 340.56 160.851176" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:03.698572</dc:date>
+    <dc:date>2026-11-17T23:28:05.252481</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -146,37 +954,37 @@ Q 61.962353 17.650588 61.962353 19.62
 L 61.962353 133.845882 
 Q 61.962353 135.815294 63.931765 135.815294 
 z
-" clip-path="url(#p7862a10e27)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p18574ecf45)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 37.344706 39.806471 
 Q 49.653529 39.806471 60.680353 39.806471 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 56.680353 37.453529 
 L 60.680353 39.806471 
 L 56.680353 42.159412 
 z
-" clip-path="url(#p7862a10e27)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_4">
     <path d="M 37.344706 59.500588 
 Q 49.653529 59.500588 60.680353 59.500588 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 56.680353 57.147647 
 L 60.680353 59.500588 
 L 56.680353 61.853529 
 z
-" clip-path="url(#p7862a10e27)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_5">
     <path d="M 37.344706 79.194706 
 Q 49.653529 79.194706 60.680353 79.194706 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 56.680353 76.841765 
 L 60.680353 79.194706 
 L 56.680353 81.547647 
 z
-" clip-path="url(#p7862a10e27)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_6">
     <path d="M 226.900588 61.962353 
@@ -189,17 +997,17 @@ Q 219.515294 32.421176 219.515294 39.806471
 L 219.515294 54.577059 
 Q 219.515294 61.962353 226.900588 61.962353 
 z
-" clip-path="url(#p7862a10e27)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p18574ecf45)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 256.441765 47.191765 
 Q 266.288824 47.191765 274.853882 47.191765 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 270.853882 44.838824 
 L 274.853882 47.191765 
 L 270.853882 49.544706 
 z
-" clip-path="url(#p7862a10e27)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_8">
     <path d="M 226.900588 121.044706 
@@ -212,68 +1020,68 @@ Q 219.515294 91.503529 219.515294 98.888824
 L 219.515294 113.659412 
 Q 219.515294 121.044706 226.900588 121.044706 
 z
-" clip-path="url(#p7862a10e27)" style="fill: #ffffff; stroke: #e0661b; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p18574ecf45)" style="fill: #ffffff; stroke: #e0661b; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
     <path d="M 256.441765 106.274118 
 Q 266.288824 106.274118 274.853882 106.274118 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 270.853882 103.921176 
 L 274.853882 106.274118 
 L 270.853882 108.627059 
 z
-" clip-path="url(#p7862a10e27)" style="fill: #e0661b; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: #e0661b; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_1">
     <path d="M 121.044706 28.728529 
 L 135.815294 28.728529 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
    </g>
    <g id="line2d_2">
     <path d="M 121.044706 42.268235 
 L 135.815294 42.268235 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
    </g>
    <g id="line2d_3">
     <path d="M 121.044706 55.807941 
 L 135.815294 55.807941 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
    </g>
    <g id="line2d_4">
     <path d="M 121.044706 69.347647 
 L 135.815294 69.347647 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
    </g>
    <g id="line2d_5">
     <path d="M 121.044706 82.887353 
 L 135.815294 82.887353 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
    </g>
    <g id="line2d_6">
     <path d="M 121.044706 96.427059 
 L 135.815294 96.427059 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
    </g>
    <g id="line2d_7">
     <path d="M 121.044706 109.966765 
 L 135.815294 109.966765 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
    </g>
    <g id="line2d_8">
     <path d="M 121.044706 123.506471 
 L 135.815294 123.506471 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
    </g>
    <g id="line2d_9">
     <path d="M 135.815294 42.268235 
 L 145.662353 42.268235 
 L 145.662353 36.852353 
 L 219.515294 36.852353 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
    </g>
    <g id="line2d_10">
     <defs>
-     <path id="m1d95f65334" d="M 0 1.5 
+     <path id="m81333f6fb7" d="M 0 1.5 
 C 0.397805 1.5 0.77937 1.341951 1.06066 1.06066 
 C 1.341951 0.77937 1.5 0.397805 1.5 0 
 C 1.5 -0.397805 1.341951 -0.77937 1.06066 -1.06066 
@@ -285,8 +1093,8 @@ C -0.77937 1.341951 -0.397805 1.5 0 1.5
 z
 " style="stroke: #2f5bea"/>
     </defs>
-    <g clip-path="url(#p7862a10e27)">
-     <use xlink:href="#m1d95f65334" x="135.815294" y="42.268235" style="fill: #2f5bea; stroke: #2f5bea"/>
+    <g clip-path="url(#p18574ecf45)">
+     <use xlink:href="#m81333f6fb7" x="135.815294" y="42.268235" style="fill: #2f5bea; stroke: #2f5bea"/>
     </g>
    </g>
    <g id="line2d_11">
@@ -294,11 +1102,11 @@ z
 L 151.816765 55.807941 
 L 151.816765 43.745294 
 L 219.515294 43.745294 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
    </g>
    <g id="line2d_12">
-    <g clip-path="url(#p7862a10e27)">
-     <use xlink:href="#m1d95f65334" x="135.815294" y="55.807941" style="fill: #2f5bea; stroke: #2f5bea"/>
+    <g clip-path="url(#p18574ecf45)">
+     <use xlink:href="#m81333f6fb7" x="135.815294" y="55.807941" style="fill: #2f5bea; stroke: #2f5bea"/>
     </g>
    </g>
    <g id="line2d_13">
@@ -306,11 +1114,11 @@ L 219.515294 43.745294
 L 157.971176 82.887353 
 L 157.971176 50.638235 
 L 219.515294 50.638235 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
    </g>
    <g id="line2d_14">
-    <g clip-path="url(#p7862a10e27)">
-     <use xlink:href="#m1d95f65334" x="135.815294" y="82.887353" style="fill: #2f5bea; stroke: #2f5bea"/>
+    <g clip-path="url(#p18574ecf45)">
+     <use xlink:href="#m81333f6fb7" x="135.815294" y="82.887353" style="fill: #2f5bea; stroke: #2f5bea"/>
     </g>
    </g>
    <g id="line2d_15">
@@ -318,11 +1126,11 @@ L 219.515294 50.638235
 L 164.125588 123.506471 
 L 164.125588 57.531176 
 L 219.515294 57.531176 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
    </g>
    <g id="line2d_16">
-    <g clip-path="url(#p7862a10e27)">
-     <use xlink:href="#m1d95f65334" x="135.815294" y="123.506471" style="fill: #2f5bea; stroke: #2f5bea"/>
+    <g clip-path="url(#p18574ecf45)">
+     <use xlink:href="#m81333f6fb7" x="135.815294" y="123.506471" style="fill: #2f5bea; stroke: #2f5bea"/>
     </g>
    </g>
    <g id="line2d_17">
@@ -330,11 +1138,11 @@ L 219.515294 57.531176
 L 164.125588 69.347647 
 L 164.125588 95.934706 
 L 219.515294 95.934706 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #e0661b; stroke-width: 1.1; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #e0661b; stroke-width: 1.1; stroke-linecap: round"/>
    </g>
    <g id="line2d_18">
     <defs>
-     <path id="m4c4c23492c" d="M 0 1.5 
+     <path id="m663af4b1cd" d="M 0 1.5 
 C 0.397805 1.5 0.77937 1.341951 1.06066 1.06066 
 C 1.341951 0.77937 1.5 0.397805 1.5 0 
 C 1.5 -0.397805 1.341951 -0.77937 1.06066 -1.06066 
@@ -346,8 +1154,8 @@ C -0.77937 1.341951 -0.397805 1.5 0 1.5
 z
 " style="stroke: #e0661b"/>
     </defs>
-    <g clip-path="url(#p7862a10e27)">
-     <use xlink:href="#m4c4c23492c" x="135.815294" y="69.347647" style="fill: #e0661b; stroke: #e0661b"/>
+    <g clip-path="url(#p18574ecf45)">
+     <use xlink:href="#m663af4b1cd" x="135.815294" y="69.347647" style="fill: #e0661b; stroke: #e0661b"/>
     </g>
    </g>
    <g id="line2d_19">
@@ -355,11 +1163,11 @@ z
 L 170.28 96.427059 
 L 170.28 102.827647 
 L 219.515294 102.827647 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #e0661b; stroke-width: 1.1; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #e0661b; stroke-width: 1.1; stroke-linecap: round"/>
    </g>
    <g id="line2d_20">
-    <g clip-path="url(#p7862a10e27)">
-     <use xlink:href="#m4c4c23492c" x="135.815294" y="96.427059" style="fill: #e0661b; stroke: #e0661b"/>
+    <g clip-path="url(#p18574ecf45)">
+     <use xlink:href="#m663af4b1cd" x="135.815294" y="96.427059" style="fill: #e0661b; stroke: #e0661b"/>
     </g>
    </g>
    <g id="line2d_21">
@@ -367,11 +1175,11 @@ L 219.515294 102.827647
 L 176.434412 109.966765 
 L 176.434412 109.720588 
 L 219.515294 109.720588 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #e0661b; stroke-width: 1.1; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #e0661b; stroke-width: 1.1; stroke-linecap: round"/>
    </g>
    <g id="line2d_22">
-    <g clip-path="url(#p7862a10e27)">
-     <use xlink:href="#m4c4c23492c" x="135.815294" y="109.966765" style="fill: #e0661b; stroke: #e0661b"/>
+    <g clip-path="url(#p18574ecf45)">
+     <use xlink:href="#m663af4b1cd" x="135.815294" y="109.966765" style="fill: #e0661b; stroke: #e0661b"/>
     </g>
    </g>
    <g id="line2d_23">
@@ -379,30 +1187,24 @@ L 219.515294 109.720588
 L 182.588824 123.506471 
 L 182.588824 116.613529 
 L 219.515294 116.613529 
-" clip-path="url(#p7862a10e27)" style="fill: none; stroke: #e0661b; stroke-width: 1.1; stroke-linecap: round"/>
+" clip-path="url(#p18574ecf45)" style="fill: none; stroke: #e0661b; stroke-width: 1.1; stroke-linecap: round"/>
    </g>
    <g id="line2d_24">
-    <g clip-path="url(#p7862a10e27)">
-     <use xlink:href="#m4c4c23492c" x="135.815294" y="123.506471" style="fill: #e0661b; stroke: #e0661b"/>
+    <g clip-path="url(#p18574ecf45)">
+     <use xlink:href="#m663af4b1cd" x="135.815294" y="123.506471" style="fill: #e0661b; stroke: #e0661b"/>
     </g>
    </g>
    <g id="text_1">
     <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="91.503529" y="11.496176" transform="rotate(-0 91.503529 11.496176)">3:8 decoder</text>
    </g>
    <g id="text_2">
-    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.882941" y="42.358033" transform="rotate(-0 34.882941 42.358033)">A</text>
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.882941" y="42.358033" transform="rotate(-0 34.882941 42.358033)">x</text>
    </g>
    <g id="text_3">
-    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.882941" y="62.052151" transform="rotate(-0 34.882941 62.052151)">B</text>
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.882941" y="62.003713" transform="rotate(-0 34.882941 62.003713)">y</text>
    </g>
    <g id="text_4">
-    <!-- $\mathrm{C}_{\mathrm{in}}$ -->
-    <g style="fill: #1c1f24" transform="translate(22.682941 81.746268)">
-     <text>
-      <tspan style="font: 10px 'Segoe UI'" x="0" y="-0.875">C</tspan>
-      <tspan style="font: 7px 'Segoe UI'" x="6.278906 7.974219" y="0.625">in</tspan>
-     </text>
-    </g>
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.882941" y="81.746268" transform="rotate(-0 34.882941 81.746268)">z</text>
    </g>
    <g id="text_5">
     <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="118.582941" y="30.897358" transform="rotate(-0 118.582941 30.897358)">m0</text>
@@ -438,59 +1240,694 @@ L 219.515294 116.613529
     <text style="fill: #e0661b; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="237.978529" y="108.570524" transform="rotate(-0 237.978529 108.570524)">OR</text>
    </g>
    <g id="text_16">
-    <!-- $\mathrm{C}_{\mathrm{out}}$ -->
-    <g style="fill: #e0661b" transform="translate(278.597647 108.698102)">
-     <text>
-      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.875">C</tspan>
-      <tspan style="font: 6.65px 'Segoe UI'" x="5.969336 9.86582 13.629175" y="0.625">out</tspan>
-     </text>
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="278.597647" y="108.698102" transform="rotate(-0 278.597647 108.698102)">C</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p18574ecf45">
+   <rect x="2.88" y="2.88" width="334.8" height="155.091176"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>MTE Q6 / deck 05 slide 22: a 3:8 decoder on x, y, z; outputs 1, 2, 4, 7 into the OR that makes S; outputs 3, 5, 6, 7 into the OR that makes C.</figcaption></figure>
+
+<p><strong>With two 2:4 decoders (slide 23).</strong> The most significant bit A<sub>2</sub> goes to the enables (A<sub>2</sub>' on the first, A<sub>2</sub> on the second), as in step 4; together they are one 3:8 decoder (D<sub>0</sub>–D<sub>3</sub> and D<sub>4</sub>–D<sub>7</sub>), and the same two ORs follow.</p>
+<p><strong>Answer.</strong> <strong>3:8 decoder; S = D<sub>1</sub> + D<sub>2</sub> + D<sub>4</sub> + D<sub>7</sub>; C = D<sub>3</sub> + D<sub>5</sub> + D<sub>6</sub> + D<sub>7</sub></strong> (two 4-input ORs). For full marks: the truth table, both Σm lists, and the circuit.</p>
+<div class="box check">
+<div class="bh">Check 6</div>
+<p>On the row x y z = 1 1 0: which decoder output is 1, and what are S and C?</p>
+</div>
+<h3>7 · Using the zeros: NOR, and active-low outputs with AND</h3>
+<p>Step 6 ORed the rows where F = 1. A function given as ΠM lists its rows where F = 0; the decoder handles it without converting.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Practice set 1 Q7</span></div>
+<p>Realize the Boolean function Y = ΠM(0, 3, 5, 6, 7) with a Decoder and one NOR gate.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>The OR of D<sub>0</sub>, D<sub>3</sub>, D<sub>5</sub>, D<sub>6</sub>, D<sub>7</sub> is 1 exactly where Y = 0. What does a NOR of the same five outputs give?</p>
+</div>
+
+<figure style="max-width:60%"><div style="width:152mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 340.56 160.851176" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:05.350723</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 160.851176 
+L 340.56 160.851176 
+L 340.56 0 
+L 0 0 
+L 0 160.851176 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 63.931765 135.815294 
+L 119.075294 135.815294 
+Q 121.044706 135.815294 121.044706 133.845882 
+L 121.044706 19.62 
+Q 121.044706 17.650588 119.075294 17.650588 
+L 63.931765 17.650588 
+Q 61.962353 17.650588 61.962353 19.62 
+L 61.962353 133.845882 
+Q 61.962353 135.815294 63.931765 135.815294 
+z
+" clip-path="url(#pcda702989e)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 37.344706 39.806471 
+Q 49.653529 39.806471 60.680353 39.806471 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 56.680353 37.453529 
+L 60.680353 39.806471 
+L 56.680353 42.159412 
+z
+" clip-path="url(#pcda702989e)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 37.344706 59.500588 
+Q 49.653529 59.500588 60.680353 59.500588 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 56.680353 57.147647 
+L 60.680353 59.500588 
+L 56.680353 61.853529 
+z
+" clip-path="url(#pcda702989e)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 37.344706 79.194706 
+Q 49.653529 79.194706 60.680353 79.194706 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 56.680353 76.841765 
+L 60.680353 79.194706 
+L 56.680353 81.547647 
+z
+" clip-path="url(#pcda702989e)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 226.900588 91.503529 
+L 249.056471 91.503529 
+Q 256.441765 91.503529 256.441765 84.118235 
+L 256.441765 69.347647 
+Q 256.441765 61.962353 249.056471 61.962353 
+L 226.900588 61.962353 
+Q 219.515294 61.962353 219.515294 69.347647 
+L 219.515294 84.118235 
+Q 219.515294 91.503529 226.900588 91.503529 
+z
+" clip-path="url(#pcda702989e)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 256.441765 76.732941 
+Q 266.288824 76.732941 274.853882 76.732941 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 270.853882 74.38 
+L 274.853882 76.732941 
+L 270.853882 79.085882 
+z
+" clip-path="url(#pcda702989e)" style="fill: #2f5bea; stroke: #2f5bea; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 121.044706 28.728529 
+L 135.815294 28.728529 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 121.044706 42.268235 
+L 135.815294 42.268235 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 121.044706 55.807941 
+L 135.815294 55.807941 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 121.044706 69.347647 
+L 135.815294 69.347647 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 121.044706 82.887353 
+L 135.815294 82.887353 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 121.044706 96.427059 
+L 135.815294 96.427059 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 121.044706 109.966765 
+L 135.815294 109.966765 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 121.044706 123.506471 
+L 135.815294 123.506471 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #6a707a; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 135.815294 28.728529 
+L 145.662353 28.728529 
+L 145.662353 66.393529 
+L 219.515294 66.393529 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <defs>
+     <path id="m151b413740" d="M 0 1.5 
+C 0.397805 1.5 0.77937 1.341951 1.06066 1.06066 
+C 1.341951 0.77937 1.5 0.397805 1.5 0 
+C 1.5 -0.397805 1.341951 -0.77937 1.06066 -1.06066 
+C 0.77937 -1.341951 0.397805 -1.5 0 -1.5 
+C -0.397805 -1.5 -0.77937 -1.341951 -1.06066 -1.06066 
+C -1.341951 -0.77937 -1.5 -0.397805 -1.5 0 
+C -1.5 0.397805 -1.341951 0.77937 -1.06066 1.06066 
+C -0.77937 1.341951 -0.397805 1.5 0 1.5 
+z
+" style="stroke: #2f5bea"/>
+    </defs>
+    <g clip-path="url(#pcda702989e)">
+     <use xlink:href="#m151b413740" x="135.815294" y="28.728529" style="fill: #2f5bea; stroke: #2f5bea"/>
+    </g>
+   </g>
+   <g id="line2d_11">
+    <path d="M 135.815294 69.347647 
+L 151.816765 69.347647 
+L 151.816765 71.563235 
+L 219.515294 71.563235 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_12">
+    <g clip-path="url(#pcda702989e)">
+     <use xlink:href="#m151b413740" x="135.815294" y="69.347647" style="fill: #2f5bea; stroke: #2f5bea"/>
+    </g>
+   </g>
+   <g id="line2d_13">
+    <path d="M 135.815294 96.427059 
+L 157.971176 96.427059 
+L 157.971176 76.732941 
+L 219.515294 76.732941 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_14">
+    <g clip-path="url(#pcda702989e)">
+     <use xlink:href="#m151b413740" x="135.815294" y="96.427059" style="fill: #2f5bea; stroke: #2f5bea"/>
+    </g>
+   </g>
+   <g id="line2d_15">
+    <path d="M 135.815294 109.966765 
+L 164.125588 109.966765 
+L 164.125588 81.902647 
+L 219.515294 81.902647 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_16">
+    <g clip-path="url(#pcda702989e)">
+     <use xlink:href="#m151b413740" x="135.815294" y="109.966765" style="fill: #2f5bea; stroke: #2f5bea"/>
+    </g>
+   </g>
+   <g id="line2d_17">
+    <path d="M 135.815294 123.506471 
+L 170.28 123.506471 
+L 170.28 87.072353 
+L 219.515294 87.072353 
+" clip-path="url(#pcda702989e)" style="fill: none; stroke: #2f5bea; stroke-width: 1.1; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_18">
+    <g clip-path="url(#pcda702989e)">
+     <use xlink:href="#m151b413740" x="135.815294" y="123.506471" style="fill: #2f5bea; stroke: #2f5bea"/>
+    </g>
+   </g>
+   <g id="text_1">
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="91.503529" y="11.496176" transform="rotate(-0 91.503529 11.496176)">3:8 decoder</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.882941" y="42.358033" transform="rotate(-0 34.882941 42.358033)">A</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.882941" y="62.052151" transform="rotate(-0 34.882941 62.052151)">B</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.882941" y="81.746268" transform="rotate(-0 34.882941 81.746268)">C</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="118.582941" y="30.897358" transform="rotate(-0 118.582941 30.897358)">m0</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="118.582941" y="44.437063" transform="rotate(-0 118.582941 44.437063)">m1</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="118.582941" y="57.976769" transform="rotate(-0 118.582941 57.976769)">m2</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="118.582941" y="71.516475" transform="rotate(-0 118.582941 71.516475)">m3</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="118.582941" y="85.056181" transform="rotate(-0 118.582941 85.056181)">m4</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="118.582941" y="98.595887" transform="rotate(-0 118.582941 98.595887)">m5</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="118.582941" y="112.135593" transform="rotate(-0 118.582941 112.135593)">m6</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="118.582941" y="125.675299" transform="rotate(-0 118.582941 125.675299)">m7</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="237.978529" y="79.029347" transform="rotate(-0 237.978529 79.029347)">NOR</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="278.597647" y="79.156926" transform="rotate(-0 278.597647 79.156926)">Y</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pcda702989e">
+   <rect x="2.88" y="2.88" width="334.8" height="155.091176"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>Practice set 1 Q7: a 3:8 decoder on A, B, C; outputs 0, 3, 5, 6, 7 (the maxterm rows) into one NOR gate.</figcaption></figure>
+
+<ol>
+<li>OR(D<sub>0</sub>, D<sub>3</sub>, D<sub>5</sub>, D<sub>6</sub>, D<sub>7</sub>) = 1 on rows 0, 3, 5, 6, 7 = <strong>Y'</strong>.</li>
+<li>NOR = NOT of that OR = <strong>Y</strong>.</li>
+<li>Y is 1 on the remaining rows: Y = ΠM(0, 3, 5, 6, 7) = <strong>Σm(1, 2, 4)</strong>.</li>
+</ol>
+<p>The four ways to finish a decoder circuit:</p>
+<table>
+<thead>
+<tr>
+<th>Decoder outputs</th>
+<th>Feed the rows where F = 1 into</th>
+<th>Feed the rows where F = 0 into</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>active-high</td>
+<td>OR</td>
+<td>NOR</td>
+</tr>
+<tr>
+<td>active-low (74138)</td>
+<td>NAND</td>
+<td>AND</td>
+</tr>
+</tbody>
+</table>
+<p>Active-low outputs are complemented minterms m<sub>j</sub>'; NAND(m<sub>1</sub>', m<sub>2</sub>', m<sub>4</sub>') = m<sub>1</sub> + m<sub>2</sub> + m<sub>4</sub> by De Morgan (file 01 step 5), so NAND plays the OR's role. Pick the column with fewer rows: it gives the smaller gate.</p>
+<p><strong>Answer.</strong> <strong>3:8 decoder (A MSB) and one 5-input NOR of D<sub>0</sub>, D<sub>3</sub>, D<sub>5</sub>, D<sub>6</sub>, D<sub>7</sub></strong>; Y = Σm(1, 2, 4).</p>
+<div class="box check">
+<div class="bh">Check 7</div>
+<p><span class="tag">Deck 05 slides 24–25 (EX 5.24)</span> Realise f<sub>1</sub>(x<sub>2</sub>, x<sub>1</sub>, x<sub>0</sub>) = ΠM(0, 3, 5) and f<sub>2</sub> = ΠM(2, 3, 4) with one 3:8 decoder with active-low outputs and two AND gates. Which outputs feed each AND?</p>
+</div>
+<h3>8 · A four-variable function: build the decoder first</h3>
+<p>Practice set 1 Q8 has four variables, so it needs a 4:16 decoder, which step 4 builds from two 3:8s.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Practice set 1 Q8</span></div>
+<p>Implement the following function using suitable decoder. F(a, b, c, d) = Σm(0, 1, 2, 5, 6, 8, 9, 15)</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>F has 8 ones out of 16 rows. Is an OR of the 1-rows cheaper than a NOR of the 0-rows here?</p>
+</div>
+<ol>
+<li>Four variables → <strong>4:16 decoder</strong>: two 3:8 decoders, b c d on both, <strong>a' on the first enable, a on the second</strong> (step 4's figure with w = a).</li>
+<li>Outputs 0–7 come from the first decoder, 8–15 from the second (output j of the second is overall 8 + j).</li>
+<li>OR the outputs in the list: <strong>0, 1, 2, 5, 6</strong> (first decoder) and <strong>8, 9, 15</strong> (second decoder's 0, 1, 7).</li>
+</ol>
+<p><strong>Answer.</strong> Two 3:8 decoders (enables a', a) and <strong>one 8-input OR of outputs 0, 1, 2, 5, 6, 8, 9, 15</strong>. Answer to the Guess: neither: 8 ones and 8 zeros, so the OR and the NOR both need 8 inputs.</p>
+<div class="box check">
+<div class="bh">Check 8</div>
+<p>How many ones and zeros does F have, and how many inputs would the NOR version's gate need?</p>
+</div>
+<h3>9 · The encoder: the decoder run backwards</h3>
+<p>A keypad has ten keys but sends a 4-bit code (slide 35). The block that turns "which line is on" into a binary number is an encoder.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 05 slides 36–37</span></div>
+<p>Draw the 4-to-2 encoder; write the output equations of the 8-to-3 (octal-to-binary) encoder.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>In a 4:2 encoder, output y<sub>1</sub> is the high bit of the active input's number. For which inputs (w<sub>0</sub> … w<sub>3</sub>) is it 1?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Encoder (2<sup>n</sup>-to-n):</strong> 2<sup>n</sup> inputs, of which exactly <strong>one</strong> is assumed to be 1; the n outputs give that input's number in binary.</p>
+</div>
+
+<figure style="max-width:52%"><div style="width:113mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 252.57888 136.15488" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:05.401807</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 136.15488 
+L 252.57888 136.15488 
+L 252.57888 0 
+L 0 0 
+L 0 136.15488 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 182.17296 40.13568 
+Q 192.65112 40.13568 201.84728 40.13568 
+" clip-path="url(#p7a48b39b03)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 197.84728 37.782739 
+L 201.84728 40.13568 
+L 197.84728 42.488621 
+z
+" clip-path="url(#p7a48b39b03)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 182.17296 93.69072 
+Q 192.65112 93.69072 201.84728 93.69072 
+" clip-path="url(#p7a48b39b03)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 197.84728 91.337779 
+L 201.84728 93.69072 
+L 197.84728 96.043661 
+z
+" clip-path="url(#p7a48b39b03)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 35.47872 19.17936 
+L 119.304 19.17936 
+L 119.304 34.31448 
+L 155.232446 34.31448 
+" clip-path="url(#p7a48b39b03)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 35.47872 47.12112 
+L 112.31856 47.12112 
+L 112.31856 45.95688 
+L 155.232446 45.95688 
+" clip-path="url(#p7a48b39b03)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 35.47872 75.06288 
+L 128.61792 75.06288 
+L 128.61792 87.86952 
+L 155.232446 87.86952 
+" clip-path="url(#p7a48b39b03)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 96.0192 19.17936 
+L 96.0192 99.51192 
+L 155.232446 99.51192 
+" clip-path="url(#p7a48b39b03)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 35.47872 109.99008 
+L 65.74896 109.99008 
+" clip-path="url(#p7a48b39b03)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="33.15024" y="21.730922" transform="rotate(-0 33.15024 21.730922)">w3</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="33.15024" y="49.672682" transform="rotate(-0 33.15024 49.672682)">w2</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="33.15024" y="77.614442" transform="rotate(-0 33.15024 77.614442)">w1</text>
+   </g>
+   <g id="patch_4">
+    <path d="M 151.90272 28.49328 
+L 153.405721 28.513492 
+L 154.887702 28.57413 
+L 156.348661 28.675192 
+L 157.7886 28.81668 
+L 159.207517 28.998592 
+L 160.605414 29.22093 
+L 161.982289 29.483692 
+L 163.338144 29.78688 
+L 164.672977 30.130492 
+L 165.98679 30.51453 
+L 167.279582 30.938992 
+L 168.551352 31.40388 
+L 169.802101 31.909192 
+L 171.03183 32.45493 
+L 172.240537 33.041092 
+L 173.428224 33.66768 
+L 174.594889 34.334692 
+L 175.740534 35.04213 
+L 176.865157 35.789992 
+L 177.96876 36.57828 
+L 179.051341 37.406992 
+L 180.112902 38.27613 
+L 181.153441 39.185692 
+L 182.17296 40.13568 
+L 182.17296 40.13568 
+L 181.153441 41.085667 
+L 180.112902 41.99523 
+L 179.051341 42.864367 
+L 177.96876 43.69308 
+L 176.865157 44.481367 
+L 175.740534 45.22923 
+L 174.594889 45.936667 
+L 173.428224 46.60368 
+L 172.240537 47.230267 
+L 171.03183 47.81643 
+L 169.802101 48.362167 
+L 168.551352 48.86748 
+L 167.279582 49.332367 
+L 165.98679 49.75683 
+L 164.672978 50.140867 
+L 163.338144 50.48448 
+L 161.982289 50.787667 
+L 160.605414 51.05043 
+L 159.207517 51.272767 
+L 157.7886 51.45468 
+L 156.348661 51.596167 
+L 154.887702 51.69723 
+L 153.405721 51.757867 
+L 151.90272 51.77808 
+L 151.90272 51.77808 
+L 152.627944 50.80788 
+L 153.290106 49.83768 
+L 153.889204 48.86748 
+L 154.42524 47.89728 
+L 154.898212 46.92708 
+L 155.308122 45.95688 
+L 155.654968 44.98668 
+L 155.938752 44.01648 
+L 156.159472 43.04628 
+L 156.31713 42.07608 
+L 156.411724 41.10588 
+L 156.443256 40.13568 
+L 156.411724 39.16548 
+L 156.31713 38.19528 
+L 156.159472 37.22508 
+L 155.938752 36.25488 
+L 155.654968 35.28468 
+L 155.308122 34.31448 
+L 154.898212 33.34428 
+L 154.42524 32.37408 
+L 153.889204 31.40388 
+L 153.290106 30.43368 
+L 152.627944 29.46348 
+z
+" clip-path="url(#p7a48b39b03)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 151.90272 82.04832 
+L 153.405721 82.068532 
+L 154.887702 82.12917 
+L 156.348661 82.230232 
+L 157.7886 82.37172 
+L 159.207517 82.553632 
+L 160.605414 82.77597 
+L 161.982289 83.038732 
+L 163.338144 83.34192 
+L 164.672977 83.685532 
+L 165.98679 84.06957 
+L 167.279582 84.494032 
+L 168.551352 84.95892 
+L 169.802101 85.464232 
+L 171.03183 86.00997 
+L 172.240537 86.596132 
+L 173.428224 87.22272 
+L 174.594889 87.889732 
+L 175.740534 88.59717 
+L 176.865157 89.345032 
+L 177.96876 90.13332 
+L 179.051341 90.962032 
+L 180.112902 91.83117 
+L 181.153441 92.740732 
+L 182.17296 93.69072 
+L 182.17296 93.69072 
+L 181.153441 94.640707 
+L 180.112902 95.55027 
+L 179.051341 96.419407 
+L 177.96876 97.24812 
+L 176.865157 98.036407 
+L 175.740534 98.78427 
+L 174.594889 99.491707 
+L 173.428224 100.15872 
+L 172.240537 100.785307 
+L 171.03183 101.37147 
+L 169.802101 101.917207 
+L 168.551352 102.42252 
+L 167.279582 102.887407 
+L 165.98679 103.31187 
+L 164.672978 103.695907 
+L 163.338144 104.03952 
+L 161.982289 104.342707 
+L 160.605414 104.60547 
+L 159.207517 104.827807 
+L 157.7886 105.00972 
+L 156.348661 105.151207 
+L 154.887702 105.25227 
+L 153.405721 105.312907 
+L 151.90272 105.33312 
+L 151.90272 105.33312 
+L 152.627944 104.36292 
+L 153.290106 103.39272 
+L 153.889204 102.42252 
+L 154.42524 101.45232 
+L 154.898212 100.48212 
+L 155.308122 99.51192 
+L 155.654968 98.54172 
+L 155.938752 97.57152 
+L 156.159472 96.60132 
+L 156.31713 95.63112 
+L 156.411724 94.66092 
+L 156.443256 93.69072 
+L 156.411724 92.72052 
+L 156.31713 91.75032 
+L 156.159472 90.78012 
+L 155.938752 89.80992 
+L 155.654968 88.83972 
+L 155.308122 87.86952 
+L 154.898212 86.89932 
+L 154.42524 85.92912 
+L 153.889204 84.95892 
+L 153.290106 83.98872 
+L 152.627944 83.01852 
+z
+" clip-path="url(#p7a48b39b03)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_4">
+    <text style="fill: #6a707a; font: 8.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="70.40592" y="112.184424" transform="rotate(-0 70.40592 112.184424)">w0 not used</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="205.45776" y="42.763961" transform="rotate(-0 205.45776 42.763961)">y1</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="205.45776" y="96.319001" transform="rotate(-0 205.45776 96.319001)">y0</text>
+   </g>
+   <g id="line2d_6">
+    <defs>
+     <path id="m2fb5a7ca13" d="M 0 1.8 
+C 0.477366 1.8 0.935244 1.610341 1.272792 1.272792 
+C 1.610341 0.935244 1.8 0.477366 1.8 0 
+C 1.8 -0.477366 1.610341 -0.935244 1.272792 -1.272792 
+C 0.935244 -1.610341 0.477366 -1.8 0 -1.8 
+C -0.477366 -1.8 -0.935244 -1.610341 -1.272792 -1.272792 
+C -1.610341 -0.935244 -1.8 -0.477366 -1.8 0 
+C -1.8 0.477366 -1.610341 0.935244 -1.272792 1.272792 
+C -0.935244 1.610341 -0.477366 1.8 0 1.8 
+z
+" style="stroke: #1c1f24"/>
+    </defs>
+    <g clip-path="url(#p7a48b39b03)">
+     <use xlink:href="#m2fb5a7ca13" x="96.0192" y="19.17936" style="fill: #1c1f24; stroke: #1c1f24"/>
     </g>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="p7862a10e27">
-   <rect x="2.88" y="2.88" width="334.8" height="155.091176"/>
+  <clipPath id="p7a48b39b03">
+   <rect x="2.88" y="2.88" width="246.81888" height="130.39488"/>
   </clipPath>
  </defs>
 </svg>
-</div><figcaption>3:8 decoder with two OR gates: the full adder.</figcaption></figure>
+</div><figcaption>The 4:2 encoder: y1 = w3 + w2, y0 = w3 + w1. w0 is not wired: its code is 00, the same as "no input".</figcaption></figure>
 
-<p>Any function = decoder + one OR per output, ORing the minterms in its Σm list. With active-low outputs (74138), each output is m<sub>j</sub>', so use a <strong>NAND</strong>: NAND(m<sub>1</sub>', m<sub>2</sub>') = m<sub>1</sub> + m<sub>2</sub>.</p>
-<p><strong>Answer.</strong> 3:8 decoder, inputs A, B, C<sub>in</sub> (A MSB). From 04: S = Σm(1, 2, 4, 7), C<sub>out</sub> = Σm(3, 5, 6, 7). <strong>OR outputs 1, 2, 4, 7 for S; OR outputs 3, 5, 6, 7 for C<sub>out</sub>.</strong> Active-low decoder: two 4-input NANDs.</p>
+<p>Each output bit is 1 for the inputs whose number has a 1 in that position, so each is an OR:</p>
+<table>
+<thead>
+<tr>
+<th>Encoder</th>
+<th>Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4:2</td>
+<td>y<sub>1</sub> = w<sub>2</sub> + w<sub>3</sub> · y<sub>0</sub> = w<sub>1</sub> + w<sub>3</sub></td>
+</tr>
+<tr>
+<td>8:3</td>
+<td>x = D<sub>4</sub> + D<sub>5</sub> + D<sub>6</sub> + D<sub>7</sub> · y = D<sub>2</sub> + D<sub>3</sub> + D<sub>6</sub> + D<sub>7</sub> · z = D<sub>1</sub> + D<sub>3</sub> + D<sub>5</sub> + D<sub>7</sub></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The two faults (slide 33's questions).</strong></p>
+<ol>
+<li><strong>Two inputs on.</strong> D<sub>3</sub> and D<sub>6</sub> together: x = 1, y = 1, z = 1 → <strong>111 = 7</strong>, a key nobody pressed.</li>
+<li><strong>No input on.</strong> All ORs give <strong>000</strong>, the same as D<sub>0</sub> alone.</li>
+</ol>
+<p><strong>Answer to the Guess.</strong> w<sub>2</sub> and w<sub>3</sub> (numbers 10 and 11): <strong>y<sub>1</sub> = w<sub>2</sub> + w<sub>3</sub></strong>.</p>
 <div class="box check">
-<div class="bh">Check 1</div>
-<p>(a) <span class="tag">Set 1 Q7</span> Realise Y = ΠM(0, 3, 5, 6, 7) with a decoder and one NOR gate. (b) <span class="tag">Deck 05 slide 20</span> Realise F(X, Y, Z) = Σm(1, 2, 5, 7) with an active-low 3:8 decoder.</p>
+<div class="bh">Check 9</div>
+<p>An 8:3 encoder has only D<sub>5</sub> active. Give x y z, and say which three ORs produced the 1s.</p>
 </div>
-<h3>2 · Bigger decoders from smaller ones</h3>
-<div class="box guess">
-<div class="bh">Predict</div>
-<p>You have two 3:8 decoders with enables. How would you make a 4:16 decoder?</p>
-</div>
-<p><strong>Deck 05 slide 14.</strong> The low three bits go to both decoders; the top bit enables one directly and the other through an inverter. A decoder with enable is also a <strong>demultiplexer</strong> (05): the code inputs are the selects and the data drives the enable.</p>
-<p><strong>Answer.</strong> Two 3:8 decoders and one inverter: w<sub>3</sub> = 0 enables the low decoder (outputs 0–7), w<sub>3</sub> = 1 the high one (8–15).</p>
-<div class="box check">
-<div class="bh">Check 2</div>
-<p>How many 2:4 decoders with enables, and what else, make a 3:8 decoder?</p>
-</div>
-<h3>3 · Encoder and priority encoder</h3>
+<h3>10 · The priority encoder and the valid bit</h3>
+<p>Step 9's two faults are fixed by two rules: the highest active input wins, and a separate output says whether any input is active.</p>
 <div class="box q">
-<div class="bh"><span class="tag">Deck 05 slides 36–43</span></div>
-<p>Design a 4-to-2 priority encoder with a valid output.</p>
+<div class="bh"><span class="tag">Deck 05 slides 38–43</span></div>
+<p>Design a 4-to-2 priority encoder with a valid output: truth table, K-maps, circuit.</p>
 </div>
 <div class="box guess">
 <div class="bh">Guess first</div>
-<p>A plain encoder assumes only one input is 1. What should happen if two are 1 at once?</p>
+<p>D<sub>1</sub> and D<sub>2</sub> are both 1 (D<sub>3</sub> = 0). Which number must come out, and how must the equation for the low bit y stop D<sub>1</sub> from setting it?</p>
 </div>
 <div class="box note">
 <div class="bh">Terms</div>
-<p><strong>Encoder (2<sup>n</sup> to n):</strong> outputs the active input's number in binary. <strong>Priority encoder:</strong> with several active, outputs the highest-numbered. <strong>Valid V:</strong> 1 when at least one input is active.</p>
+<p><strong>Priority encoder:</strong> when several inputs are 1, outputs the number of the <strong>highest</strong> one. <strong>Valid bit V:</strong> 1 when at least one input is 1; V = 0 marks the output as meaningless (no input).</p>
 </div>
 <table>
 <thead>
 <tr>
-<th>w<sub>3</sub> w<sub>2</sub> w<sub>1</sub> w<sub>0</sub></th>
-<th>y<sub>1</sub> y<sub>0</sub></th>
+<th>D<sub>3</sub> D<sub>2</sub> D<sub>1</sub> D<sub>0</sub></th>
+<th>x y</th>
 <th>V</th>
 </tr>
 </thead>
@@ -522,45 +1959,74 @@ L 219.515294 116.613529
 </tr>
 </tbody>
 </table>
-<p>An X on the input side means "whatever": once w<sub>3</sub> = 1 the lower inputs are ignored. A plain encoder (y<sub>1</sub> = w<sub>2</sub> + w<sub>3</sub>, y<sub>0</sub> = w<sub>1</sub> + w<sub>3</sub>) gives 11 for w<sub>1</sub> and w<sub>2</sub> together, and 00 for both "w<sub>0</sub>" and "nothing". Priority and V fix both.</p>
-<p><strong>Answer.</strong></p>
-<div class="eq">y<sub>1</sub> = w<sub>3</sub> + w<sub>2</sub>&emsp;&emsp;&emsp;y<sub>0</sub> = w<sub>3</sub> + w<sub>2</sub>'w<sub>1</sub>&emsp;&emsp;&emsp;V = w<sub>3</sub> + w<sub>2</sub> + w<sub>1</sub> + w<sub>0</sub></div>
+<p>Each X row stands for several rows: once D<sub>3</sub> = 1 the lower inputs do not matter. The output X X with V = 0 is a don't-care, since V already says "ignore x y".</p>
 
-<p>The w<sub>2</sub>' in y<sub>0</sub> is the priority: w<sub>1</sub> counts only if w<sub>2</sub> is off. Uses: keyboard encoding (decimal-to-BCD), interrupt handling.</p>
+<figure style="max-width:70%"><div style="display:flex;gap:8mm;justify-content:center;flex-wrap:wrap"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 322" style="max-width:288px"><text class="k-title" x="150.0" y="30" text-anchor="middle">x</text><text class="k-var" x="50" y="44" text-anchor="end">D₃D₂</text><text class="k-var" x="62" y="44">D₁D₀</text><line class="k-diag" x1="22" y1="30" x2="62" y2="74"/><text class="k-lab" x="87.0" y="62" text-anchor="middle">00</text><text class="k-lab" x="129.0" y="62" text-anchor="middle">01</text><text class="k-lab" x="171.0" y="62" text-anchor="middle">11</text><text class="k-lab" x="213.0" y="62" text-anchor="middle">10</text><text class="k-lab" x="50" y="104.0" text-anchor="end">00</text><text class="k-lab" x="50" y="146.0" text-anchor="end">01</text><text class="k-lab" x="50" y="188.0" text-anchor="end">11</text><text class="k-lab" x="50" y="230.0" text-anchor="end">10</text><rect class="k-cell" x="66" y="78" width="42" height="42"/><text class="k-x" x="87.0" y="105.3504" text-anchor="middle" style="font-size:18px">X</text><text class="k-idx" x="70" y="89">0</text><rect class="k-cell" x="108" y="78" width="42" height="42"/><text class="k-zero" x="129.0" y="105.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="112" y="89">1</text><rect class="k-cell" x="150" y="78" width="42" height="42"/><text class="k-zero" x="171.0" y="105.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="154" y="89">3</text><rect class="k-cell" x="192" y="78" width="42" height="42"/><text class="k-zero" x="213.0" y="105.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="89">2</text><rect class="k-cell" x="66" y="120" width="42" height="42"/><text class="k-one" x="87.0" y="147.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="70" y="131">4</text><rect class="k-cell" x="108" y="120" width="42" height="42"/><text class="k-one" x="129.0" y="147.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="112" y="131">5</text><rect class="k-cell" x="150" y="120" width="42" height="42"/><text class="k-one" x="171.0" y="147.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="131">7</text><rect class="k-cell" x="192" y="120" width="42" height="42"/><text class="k-one" x="213.0" y="147.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="196" y="131">6</text><rect class="k-cell" x="66" y="162" width="42" height="42"/><text class="k-one" x="87.0" y="189.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="70" y="173">12</text><rect class="k-cell" x="108" y="162" width="42" height="42"/><text class="k-one" x="129.0" y="189.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="112" y="173">13</text><rect class="k-cell" x="150" y="162" width="42" height="42"/><text class="k-one" x="171.0" y="189.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="173">15</text><rect class="k-cell" x="192" y="162" width="42" height="42"/><text class="k-one" x="213.0" y="189.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="196" y="173">14</text><rect class="k-cell" x="66" y="204" width="42" height="42"/><text class="k-one" x="87.0" y="231.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="70" y="215">8</text><rect class="k-cell" x="108" y="204" width="42" height="42"/><text class="k-one" x="129.0" y="231.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="112" y="215">9</text><rect class="k-cell" x="150" y="204" width="42" height="42"/><text class="k-one" x="171.0" y="231.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="215">11</text><rect class="k-cell" x="192" y="204" width="42" height="42"/><text class="k-one" x="213.0" y="231.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="196" y="215">10</text><g class="kg c0"><rect class="k-grp" x="71" y="125" width="158" height="74" rx="12"/></g><g class="kg c1"><rect class="k-grp" x="75" y="171" width="150" height="66" rx="12"/></g><g class="kg c0"><rect class="k-chip" x="8" y="262" width="52.4" height="22" rx="11"/><text class="k-chip-t" x="20" y="277.5">D2</text></g><g class="kg c1"><rect class="k-chip" x="68.4" y="262" width="52.4" height="22" rx="11"/><text class="k-chip-t" x="80.4" y="277.5">D3</text></g></svg><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 322" style="max-width:288px"><text class="k-title" x="150.0" y="30" text-anchor="middle">y</text><text class="k-var" x="50" y="44" text-anchor="end">D₃D₂</text><text class="k-var" x="62" y="44">D₁D₀</text><line class="k-diag" x1="22" y1="30" x2="62" y2="74"/><text class="k-lab" x="87.0" y="62" text-anchor="middle">00</text><text class="k-lab" x="129.0" y="62" text-anchor="middle">01</text><text class="k-lab" x="171.0" y="62" text-anchor="middle">11</text><text class="k-lab" x="213.0" y="62" text-anchor="middle">10</text><text class="k-lab" x="50" y="104.0" text-anchor="end">00</text><text class="k-lab" x="50" y="146.0" text-anchor="end">01</text><text class="k-lab" x="50" y="188.0" text-anchor="end">11</text><text class="k-lab" x="50" y="230.0" text-anchor="end">10</text><rect class="k-cell" x="66" y="78" width="42" height="42"/><text class="k-x" x="87.0" y="105.3504" text-anchor="middle" style="font-size:18px">X</text><text class="k-idx" x="70" y="89">0</text><rect class="k-cell" x="108" y="78" width="42" height="42"/><text class="k-zero" x="129.0" y="105.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="112" y="89">1</text><rect class="k-cell" x="150" y="78" width="42" height="42"/><text class="k-one" x="171.0" y="105.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="89">3</text><rect class="k-cell" x="192" y="78" width="42" height="42"/><text class="k-one" x="213.0" y="105.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="196" y="89">2</text><rect class="k-cell" x="66" y="120" width="42" height="42"/><text class="k-zero" x="87.0" y="147.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="70" y="131">4</text><rect class="k-cell" x="108" y="120" width="42" height="42"/><text class="k-zero" x="129.0" y="147.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="112" y="131">5</text><rect class="k-cell" x="150" y="120" width="42" height="42"/><text class="k-zero" x="171.0" y="147.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="154" y="131">7</text><rect class="k-cell" x="192" y="120" width="42" height="42"/><text class="k-zero" x="213.0" y="147.3504" text-anchor="middle" style="font-size:18px">0</text><text class="k-idx" x="196" y="131">6</text><rect class="k-cell" x="66" y="162" width="42" height="42"/><text class="k-one" x="87.0" y="189.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="70" y="173">12</text><rect class="k-cell" x="108" y="162" width="42" height="42"/><text class="k-one" x="129.0" y="189.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="112" y="173">13</text><rect class="k-cell" x="150" y="162" width="42" height="42"/><text class="k-one" x="171.0" y="189.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="173">15</text><rect class="k-cell" x="192" y="162" width="42" height="42"/><text class="k-one" x="213.0" y="189.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="196" y="173">14</text><rect class="k-cell" x="66" y="204" width="42" height="42"/><text class="k-one" x="87.0" y="231.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="70" y="215">8</text><rect class="k-cell" x="108" y="204" width="42" height="42"/><text class="k-one" x="129.0" y="231.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="112" y="215">9</text><rect class="k-cell" x="150" y="204" width="42" height="42"/><text class="k-one" x="171.0" y="231.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="154" y="215">11</text><rect class="k-cell" x="192" y="204" width="42" height="42"/><text class="k-one" x="213.0" y="231.3504" text-anchor="middle" style="font-size:18px">1</text><text class="k-idx" x="196" y="215">10</text><g class="kg c0"><rect class="k-grp" x="71" y="167" width="158" height="74" rx="12"/></g><g class="kg c1"><rect class="k-grp" x="159" y="213" width="66" height="40.139999999999986" rx="12"/><rect class="k-grp" x="159" y="70.86" width="66" height="40.14" rx="12"/></g><g class="kg c0"><rect class="k-chip" x="8" y="262" width="52.4" height="22" rx="11"/><text class="k-chip-t" x="20" y="277.5">D3</text></g><g class="kg c1"><rect class="k-chip" x="68.4" y="262" width="80.0" height="22" rx="11"/><text class="k-chip-t" x="80.4" y="277.5">D1D2'</text></g></svg></div><figcaption>What these maps plot: x (left) and y (right) of the priority encoder. Rows D3 D2, columns D1 D0; a cell is one input combination; X at cell 0 is the don't-care (no input). Groups: x = D2 + D3; y = D3 + D1D2'.</figcaption></figure>
+
+<ol>
+<li>x = 1 when D<sub>2</sub> or D<sub>3</sub> wins: <strong>x = D<sub>2</sub> + D<sub>3</sub></strong>.</li>
+<li>y = 1 when D<sub>3</sub> wins, or D<sub>1</sub> wins (D<sub>1</sub> = 1 and D<sub>2</sub> = 0, D<sub>3</sub> = 0): y = D<sub>3</sub> + D<sub>1</sub>D<sub>2</sub>'D<sub>3</sub>'; the map drops D<sub>3</sub>' (D<sub>3</sub> + D<sub>3</sub>'P = D<sub>3</sub> + P): <strong>y = D<sub>3</sub> + D<sub>1</sub>D<sub>2</sub>'</strong>.</li>
+<li><strong>V = D<sub>0</sub> + D<sub>1</sub> + D<sub>2</sub> + D<sub>3</sub></strong>.</li>
+</ol>
+<p>The D<sub>2</sub>' in y is the priority: D<sub>1</sub> counts only when D<sub>2</sub> is off.</p>
+<div class="box note">
+<div class="bh">Slip in the slides</div>
+<p>Slide 39 names the valid bit <strong>d</strong>; slides 40–43 call it <strong>V</strong>. The pack uses V. Slide 42's maps put D<sub>0</sub>D<sub>1</sub> on the rows and D<sub>2</sub>D<sub>3</sub> on the columns; the pack's maps put the most significant inputs D<sub>3</sub>D<sub>2</sub> on the rows. Same groups, same equations.</p>
+</div>
+<p><strong>Answer to the Guess.</strong> D<sub>2</sub> wins: <strong>x y = 1 0</strong>. The term D<sub>1</sub>D<sub>2</sub>' is 0 because D<sub>2</sub> = 1, so y stays 0.</p>
 <div class="box check">
-<div class="bh">Check 3</div>
-<p>(a) Inputs 0110: y<sub>1</sub>y<sub>0</sub> and V? (b) Write y<sub>0</sub> for a plain 8-to-3 encoder. (c) Why is V needed?</p>
+<div class="bh">Check 10</div>
+<p>D<sub>0</sub> = D<sub>1</sub> = D<sub>2</sub> = 1, D<sub>3</sub> = 0. Give x, y, V.</p>
 </div>
 <hr />
 <h2>Exam form</h2>
-<p><strong>Decoder.</strong> Block and truth table; output j = m<sub>j</sub>; function = OR of its minterms (NAND for active-low; NOR for the ΠM rows).</p>
-<p><strong>Expansion.</strong> 4:16 from two 3:8s and an inverter.</p>
-<p><strong>Priority encoder.</strong> Table with Xs; y<sub>1</sub>, y<sub>0</sub>, V; why priority and V are needed.</p>
+<p><strong>Decoder.</strong> Block · truth table · D<sub>j</sub> = m<sub>j</sub> (2:4: W = A'B', X = A'B, Y = AB', Z = AB) · gates: inverters + 2<sup>n</sup> ANDs (NANDs for active-low).</p>
+<p><strong>Function from a decoder</strong> (MTE Q6 recipe, 4 marks):</p>
+<ol>
+<li>Truth table → Σm list for each output (full adder: S = Σm(1, 2, 4, 7), C = Σm(3, 5, 6, 7)).</li>
+<li>Decoder size = number of variables; MSB on the top input.</li>
+<li>One OR per output on its Σm outputs (NOR on ΠM rows; NAND / AND for active-low outputs).</li>
+<li>Draw it, label every output number.</li>
+</ol>
+<p><strong>Expansion.</strong> 4:16 = two 3:8 + enables w', w (or five 2:4: first stage on the two MSBs drives the enables).</p>
+<p><strong>Priority encoder (4:2).</strong> Table with X rows · x = D<sub>2</sub> + D<sub>3</sub> · y = D<sub>3</sub> + D<sub>1</sub>D<sub>2</sub>' · V = D<sub>0</sub> + D<sub>1</sub> + D<sub>2</sub> + D<sub>3</sub> · why priority and V.</p>
 <h2>Traps</h2>
 <ul>
-<li>Using OR with active-low outputs: it needs NAND.</li>
-<li>ΠM with a NOR: NOR the rows where F = 0 (the maxterm rows), not the Σm rows.</li>
-<li>Forgetting the X rows in the priority table stand for many rows.</li>
+<li>ORing active-low outputs: active-low needs NAND (rows where F = 1) or AND (rows where F = 0).</li>
+<li>ΠM with a NOR: NOR the <strong>maxterm</strong> rows (F = 0), not the Σm rows.</li>
+<li>Putting the least significant variable on the decoder's MSB input: the output numbers no longer match the minterm numbers.</li>
+<li>Building 4:16 with both enables tied to w: one needs w'.</li>
+<li>Plain encoder with two inputs active: the output is the OR of both codes, not either one.</li>
+<li>Forgetting V: without it, "D<sub>0</sub> only" and "nothing" both give 00.</li>
 </ul>
 <h2>Self-test</h2>
 <ol>
-<li>Realise F(A, B, C) = Σm(0, 3, 5) with a 3:8 decoder and one gate.</li>
-<li>Design a full subtractor with a 3:8 decoder.</li>
-<li>Priority encoder input w<sub>3</sub>w<sub>2</sub>w<sub>1</sub>w<sub>0</sub> = 1011: y<sub>1</sub>y<sub>0</sub> and V?</li>
-<li>Write y<sub>2</sub> of an 8-to-3 priority encoder.</li>
-<li>Give one use each for a decoder and a priority encoder.</li>
+<li>Write y<sub>2</sub>, y<sub>1</sub>, y<sub>0</sub> of an 8-to-3 priority encoder (D<sub>7</sub> highest).</li>
+<li>Slide 18's wiring: A<sub>1</sub> = X, A<sub>0</sub> = Y on a 2:4 decoder, OR of outputs 0 and 2. What is F?</li>
+<li>Realise practice set 1 Q7's Y = ΠM(0, 3, 5, 6, 7) with an active-low 3:8 decoder and one NAND gate.</li>
+<li>A 4:2 priority encoder has only D<sub>0</sub> active. Give x, y, V. What changes if no input is active?</li>
+<li>A full adder from a 3:8 decoder: why is output D<sub>0</sub> not connected?</li>
+<li>Why does a priority encoder need the V output? Answer in one line.</li>
 </ol>
 <div class="answers">
 <h2>Answers</h2>
-<p><strong>Check 1.</strong> (a) Y = 0 on rows 0, 3, 5, 6, 7: <strong>NOR outputs 0, 3, 5, 6, 7</strong> (= Σm(1, 2, 4)). (b) A <strong>4-input NAND</strong> on outputs 1, 2, 5, 7.</p>
-<p><strong>Check 2.</strong> <strong>Two 2:4 decoders</strong> with enables and <strong>one inverter</strong> for the top bit.</p>
-<p><strong>Check 3.</strong> (a) w<sub>2</sub> is highest: <strong>10, V = 1</strong>. (b) y<sub>0</sub> = <strong>w<sub>1</sub> + w<sub>3</sub> + w<sub>5</sub> + w<sub>7</sub></strong>. (c) 00 could mean "input 0" or "nothing"; V tells them apart.</p>
+<p><strong>Check 1.</strong> Code 01: <strong>X = D<sub>1</sub> = 1</strong>; W, Y, Z = <strong>0</strong>.</p>
+<p><strong>Check 2.</strong> 011 = 3: <strong>D<sub>3</sub> = x'yz</strong>.</p>
+<p><strong>Check 3.</strong> Selected code 10 → D<sub>2</sub> = 0: <strong>D<sub>0</sub> D<sub>1</sub> D<sub>2</sub> D<sub>3</sub> = 1 1 0 1</strong>.</p>
+<p><strong>Check 4.</strong> (a) <strong>Five</strong> (one first stage, four second stage). (b) <strong>Four</strong> 3:8 decoders; their enables come from a <strong>2:4 decoder</strong> on the two most significant bits (each 2:4 output enables one 3:8).</p>
+<p><strong>Check 5.</strong> (a) Minterm number = 4X + 2Y + Z. m<sub>1</sub> = 001 → Z = 1, XY = 00 → <strong>B0</strong>; m<sub>2</sub> = 010 → Z = 0, XY = 01 → <strong>A1</strong>; m<sub>5</sub> = 101 → <strong>B2</strong>; m<sub>7</sub> = 111 → <strong>B3</strong>. F = <strong>A1 + B0 + B2 + B3</strong> (one 4-input OR). (b) Inputs A, B: sum S = Σm(1, 2) → <strong>OR of D<sub>1</sub>, D<sub>2</sub></strong>; carry C = Σm(3) → <strong>D<sub>3</sub> directly</strong>, no gate.</p>
+<p><strong>Check 6.</strong> 110 = 6: <strong>D<sub>6</sub> = 1</strong>. 6 is not in S's list (1, 2, 4, 7): <strong>S = 0</strong>; 6 is in C's list (3, 5, 6, 7): <strong>C = 1</strong>. (1 + 1 + 0 = 10 in binary.)</p>
+<p><strong>Check 7.</strong> Active-low outputs + AND uses the rows where f = 0: <strong>f<sub>1</sub> = AND of outputs 0, 3, 5</strong>; <strong>f<sub>2</sub> = AND of outputs 2, 3, 4</strong>.</p>
+<p><strong>Check 8.</strong> <strong>8 ones, 8 zeros</strong>; the NOR would also need <strong>8 inputs</strong> (outputs 3, 4, 7, 10, 11, 12, 13, 14).</p>
+<p><strong>Check 9.</strong> 5 = 101: <strong>x y z = 1 0 1</strong>. x's OR (D<sub>4</sub> + D<sub>5</sub> + D<sub>6</sub> + D<sub>7</sub>) and z's OR (D<sub>1</sub> + D<sub>3</sub> + D<sub>5</sub> + D<sub>7</sub>) contain D<sub>5</sub>; y's does not.</p>
+<p><strong>Check 10.</strong> Highest active is D<sub>2</sub>: <strong>x = 1, y = 0, V = 1</strong> (y: D<sub>3</sub> = 0 and D<sub>1</sub>D<sub>2</sub>' = 1·0 = 0).</p>
 <p><strong>Self-test.</strong></p>
 <ol>
-<li>OR of outputs <strong>0, 3, 5</strong>.</li>
-<li>D = Σm(1, 2, 4, 7), B<sub>out</sub> = Σm(1, 2, 3, 7): <strong>OR outputs 1, 2, 4, 7</strong> and <strong>OR outputs 1, 2, 3, 7</strong>.</li>
-<li><strong>11, V = 1</strong> (w<sub>3</sub> wins).</li>
-<li>y<sub>2</sub> = <strong>w<sub>4</sub> + w<sub>5</sub> + w<sub>6</sub> + w<sub>7</sub></strong>.</li>
-<li>Decoder: memory address decoding, or a function generator. Priority encoder: interrupt priority, keyboard encoding.</li>
+<li><strong>y<sub>2</sub> = D<sub>4</sub> + D<sub>5</sub> + D<sub>6</sub> + D<sub>7</sub></strong>; <strong>y<sub>1</sub> = D<sub>7</sub> + D<sub>6</sub> + D<sub>5</sub>'D<sub>4</sub>'(D<sub>3</sub> + D<sub>2</sub>)</strong>; <strong>y<sub>0</sub> = D<sub>7</sub> + D<sub>6</sub>'D<sub>5</sub> + D<sub>6</sub>'D<sub>4</sub>'D<sub>3</sub> + D<sub>6</sub>'D<sub>4</sub>'D<sub>2</sub>'D<sub>1</sub></strong>. (Each lower input counts only when every higher input that would change that bit is off.)</li>
+<li>Outputs 0, 2 are codes XY = 00, 10: X'Y' + XY' = <strong>Y'</strong>.</li>
+<li>Y is 1 on rows 1, 2, 4: <strong>one 3-input NAND of active-low outputs 1, 2, 4</strong> (NAND of m<sub>1</sub>', m<sub>2</sub>', m<sub>4</sub>' = m<sub>1</sub> + m<sub>2</sub> + m<sub>4</sub>).</li>
+<li>D<sub>0</sub> only: <strong>x = 0, y = 0, V = 1</strong>. No input: x y = 0 0 too, but <strong>V = 0</strong>, so the output is marked invalid.</li>
+<li>Row 0 (x = y = z = 0) has S = 0 and C = 0: minterm 0 is in neither list.</li>
+<li>Without V, "only D<sub>0</sub> active" and "no input active" give the same output 00.</li>
 </ol>
 </div></body></html>

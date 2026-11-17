@@ -78,51 +78,853 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 .c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
 .c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
 .c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>05 — Multiplexer and demultiplexer</h1>
-<div class="sub">Deck 04 (slides 4–29) · mid-term 2025 Q5 (4 marks) · practice set 1 Q3, Q5, Q6 · syllabus Unit 2 · needs 01 (minterms)</div>
+<div class="sub">Deck 04 (slides 3–39) · syllabus Unit 2 (multiplexer, demultiplexer, function generation) · 4 real questions: MTE 2025 Q5 (4 marks), practice set 1 Q3, Q5, Q6 · needs 01 step 7 (minterms, Σm), 02 (K-map pairs), 03 step 1 (gates)</div>
 
 <h2>Map</h2>
-<div class="map"><span class="n here">1 MUX as a truth table</span><span class="a">→</span><span class="n">2 n variables on a smaller MUX</span><span class="a">→</span><span class="n">3 MUX tree, demultiplexer</span></div>
+<div class="map"><span class="n here">1 2:1 MUX</span><span class="a">→</span><span class="n">2 4:1 MUX, select count</span><span class="a">→</span><span class="n">3 n variables on 2ⁿ:1</span><span class="a">→</span><span class="n">4 n variables on 2ⁿ⁻¹:1</span><span class="a">→</span><span class="n">5 MTE Q5 on 8:1</span><span class="a">→</span><span class="n">6 Two variables left over</span><span class="a">→</span><span class="n">7 MUX tree</span><span class="a">→</span><span class="n">8 Only 4:1 MUXes</span><span class="a">→</span><span class="n">9 Enable, 74LS151</span><span class="a">→</span><span class="n">10 Demultiplexer</span></div>
 
-<p>01–04 built circuits gate by gate. Some circuits are needed so often they are sold as single chips (MSI). The new skill here is building a function from a block without drawing its gates.</p>
-<h2>The questions this file answers</h2>
-<ul>
-<li><span class="tag">MTE 2025 Q5 · 4 marks</span> Implement F(P, Q, R, S) = Σm(0, 1, 3, 4, 8, 9, 10, 11, 13, 15) with a single 8:1 MUX.</li>
-<li><span class="tag">Set 1 Q3, Q5</span> Functions on 8:1 and on 4:1 MUXes only.</li>
-<li><span class="tag">Deck 04 slides 26–29</span> Build a larger MUX from smaller ones; the demultiplexer.</li>
-</ul>
-<hr />
-<h2>Build</h2>
-<h3>1 · The MUX is a truth table in hardware</h3>
-<div class="box guess">
-<div class="bh">Predict</div>
-<p>A 4:1 MUX has two select lines and four data inputs. If you put x and y on the selects and tie each data input to 0 or 1, what have you built?</p>
-</div>
-<div class="box note">
-<div class="bh">Terms</div>
-<p><strong>Multiplexer:</strong> many data inputs I<sub>0</sub>, I<sub>1</sub>, …, one output. <strong>Select lines:</strong> a binary number that picks which input reaches the output. A 2<sup>n</sup>:1 MUX has n select lines.</p>
-</div>
-<div class="eq">4:1 MUX: Y = S<sub>1</sub>'S<sub>0</sub>'I<sub>0</sub> + S<sub>1</sub>'S<sub>0</sub>I<sub>1</sub> + S<sub>1</sub>S<sub>0</sub>'I<sub>2</sub> + S<sub>1</sub>S<sub>0</sub>I<sub>3</sub></div>
-
-<p>Each data input is one row: input I<sub>j</sub> reaches the output exactly when the selects spell j.</p>
-<p><strong>Answer.</strong> Any function of x and y: tie I<sub>j</sub> to F's value on row j. With n variables on a 2<sup>n</sup>:1 MUX, each I<sub>j</sub> is the constant from row j.</p>
-<div class="box check">
-<div class="bh">Check 1</div>
-<p>Implement F(x, y, z) = Σm(1, 2, 4, 7) on an 8:1 MUX.</p>
-</div>
-<h3>2 · n variables on a 2<sup>n−1</sup>:1 MUX</h3>
-<div class="box q">
-<div class="bh"><span class="tag">MTE 2025 Q5 · 4 marks</span></div>
-<p>Implement the following function using single 8:1 Multiplexer. F(P, Q, R, S) = Σm(0, 1, 3, 4, 8, 9, 10, 11, 13, 15)</p>
-</div>
-<div class="box guess">
-<div class="bh">Guess first</div>
-<p>An 8:1 MUX has 3 select lines but the function has 4 variables. Where does the fourth go?</p>
-</div>
-<p>Put n − 1 variables on the selects. Each select code now covers two rows (last variable = 0 and = 1). Compare F in those two rows with the last variable:</p>
+<p>Files 01–03 built every circuit gate by gate from a minimal expression. Some blocks are needed so often that they are sold as one chip (medium-scale integration, MSI). This file teaches the first of them, the <strong>multiplexer (MUX)</strong>: a switch that a binary number turns. It ends with the switch run backwards, the <strong>demultiplexer</strong>. File 06 builds the decoder, which is a demultiplexer seen from another side, and file 08 uses MUXes inside the shifter and ALU.</p>
+<h2>Symbols</h2>
 <table>
 <thead>
 <tr>
-<th>F at S = 0, S = 1</th>
+<th>Symbol</th>
+<th>What it means in this file</th>
+<th>Typical value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I<sub>0</sub>, I<sub>1</sub>, …</td>
+<td>data inputs: the signals the MUX chooses between; I<sub>j</sub> is the one passed when the select code is j</td>
+<td>0, 1, a variable, or its complement</td>
+</tr>
+<tr>
+<td>S, S<sub>1</sub>, S<sub>0</sub></td>
+<td>select lines: a binary number (S<sub>1</sub> the more significant bit) that says which data input reaches the output</td>
+<td>—</td>
+</tr>
+<tr>
+<td>n</td>
+<td>number of select lines; a MUX with n selects has 2<sup>n</sup> data inputs (a 2<sup>n</sup>:1 MUX)</td>
+<td>1, 2, 3</td>
+</tr>
+<tr>
+<td>Y, Z, F</td>
+<td>the MUX output; F when the MUX realises a function</td>
+<td>—</td>
+</tr>
+<tr>
+<td>residue</td>
+<td>what F does on the rows that share one select code, written in the variables left off the selects</td>
+<td>0, 1, D, D'</td>
+</tr>
+<tr>
+<td>G'</td>
+<td>active-low enable (strobe): 0 lets the MUX work, 1 forces its output Y to 0</td>
+<td>tied to 0</td>
+</tr>
+<tr>
+<td>D, Y<sub>j</sub></td>
+<td>in a demultiplexer: the one data input D and the outputs Y<sub>0</sub> … Y<sub>3</sub> it is routed to</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2>Running example</h2>
+<p><strong>MTE 2025 Q5: F(P, Q, R, S) = Σm(0, 1, 3, 4, 8, 9, 10, 11, 13, 15).</strong> Step 5 puts it on one 8:1 MUX, step 6's Check on one 4:1 MUX, step 8's Check on 4:1 MUXes only.</p>
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">MTE 2025 Q5 · 4 marks</span> Implement the following function using single 8:1 Multiplexer. F(P, Q, R, S) = Σm(0, 1, 3, 4, 8, 9, 10, 11, 13, 15)</li>
+<li><span class="tag">Practice set 1 Q3</span> Implement the following Boolean Function Using 8:1 Multiplexer. F(a, b, c, d) = Σm(0, 1, 3, 5, 7, 9, 15)</li>
+<li><span class="tag">Practice set 1 Q5</span> Design a combinational circuit to implement the following Boolean function using only 4:1 Multiplexer. Take 'D' as input variable. F(A, B, C, D) = Σm(0, 2, 7, 8, 9, 11, 13, 14, 15)</li>
+<li><span class="tag">Practice set 1 Q6</span> Implement the following Boolean Function Using 8:1 Multiplexer. F(P, Q, R, S) = Σm(0, 2, 5, 9, 11, 12, 14, 15)</li>
+<li><span class="tag">Deck 04 slides 13–29</span> Function generation on 8:1 and 4:1 MUXes (EX 4.13–4.24); MUX trees; the 74LS151.</li>
+</ul>
+<hr />
+<h2>Build</h2>
+<h3>1 · The 2:1 MUX: a switch turned by one bit</h3>
+<p>A home cinema amplifier has one speaker output and a button that picks the source: the TV or the music player. The button does not carry sound; it only decides which source reaches the speaker.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 04 slides 5–8</span></div>
+<p>Design a 2×1 MUX: block diagram, truth table, and the gate circuit.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>The output equals I<sub>0</sub> when S = 0 and I<sub>1</sub> when S = 1. Write that sentence as one Boolean expression.</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Data input</strong> I<sub>0</sub>, I<sub>1</sub>: the signals that can reach the output (the sources). <strong>Select line</strong> S: the one bit that decides which data input is passed; nothing else about it reaches the output. <strong>Multiplexer (data selector):</strong> the block that passes exactly the data input whose number the select lines spell.</p>
+</div>
+
+<figure style="max-width:78%"><div style="width:136mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 302.9184 107.7696" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:03.612064</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 107.7696 
+L 302.9184 107.7696 
+L 302.9184 0 
+L 0 0 
+L 0 107.7696 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 38.3616 73.8432 
+L 38.3616 25.056 
+L 71.6256 33.9264 
+L 71.6256 64.9728 
+z
+" clip-path="url(#pae4dd6500c)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 71.6256 49.4496 
+Q 81.6048 49.4496 90.302 49.4496 
+" clip-path="url(#pae4dd6500c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 86.302 47.096659 
+L 90.302 49.4496 
+L 86.302 51.802541 
+z
+" clip-path="url(#pae4dd6500c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 271.2096 49.4496 
+Q 276.7536 49.4496 281.0156 49.4496 
+" clip-path="url(#pae4dd6500c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 277.0156 47.096659 
+L 281.0156 49.4496 
+L 277.0156 51.802541 
+z
+" clip-path="url(#pae4dd6500c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 25.056 37.2528 
+L 38.3616 37.2528 
+" clip-path="url(#pae4dd6500c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 25.056 61.6464 
+L 38.3616 61.6464 
+" clip-path="url(#pae4dd6500c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 54.9936 87.1488 
+L 54.9936 69.408 
+" clip-path="url(#pae4dd6500c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 153.6768 26.1648 
+L 193.5936 26.1648 
+" clip-path="url(#pae4dd6500c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 153.6768 37.2528 
+L 193.5936 37.2528 
+" clip-path="url(#pae4dd6500c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 153.6768 72.7344 
+L 193.5936 72.7344 
+" clip-path="url(#pae4dd6500c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 166.9824 37.2528 
+L 166.9824 61.6464 
+L 171.4176 61.6464 
+" clip-path="url(#pae4dd6500c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 188.27136 61.6464 
+L 193.5936 61.6464 
+" clip-path="url(#pae4dd6500c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 220.2048 31.7088 
+L 231.2928 31.7088 
+L 231.2928 43.9056 
+L 247.525632 43.9056 
+" clip-path="url(#pae4dd6500c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 220.2048 67.1904 
+L 231.2928 67.1904 
+L 231.2928 54.9936 
+L 247.525632 54.9936 
+" clip-path="url(#pae4dd6500c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="22.8384" y="39.676784" transform="rotate(-0 22.8384 39.676784)">I0</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="22.8384" y="64.070384" transform="rotate(-0 22.8384 64.070384)">I1</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="59.4288" y="51.49085" transform="rotate(-0 59.4288 51.49085)">2:1</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="54.9936" y="96.399369" transform="rotate(-0 54.9936 96.399369)">S</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="93.8016" y="52.128741" transform="rotate(-0 93.8016 52.128741)">Z</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #6a707a; font: 16px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="124.848" y="53.5321" transform="rotate(-0 124.848 53.5321)">=</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 193.5936 42.7968 
+L 206.8992 42.7968 
+L 208.337788 42.731802 
+L 209.759511 42.537569 
+L 211.147698 42.216378 
+L 212.486076 41.771996 
+L 213.758953 41.209632 
+L 214.951406 40.53588 
+L 216.049454 39.758638 
+L 217.040223 38.887019 
+L 217.912099 37.931242 
+L 218.654858 36.902513 
+L 219.259793 35.812892 
+L 219.719811 34.675154 
+L 220.029519 33.502639 
+L 220.185286 32.309092 
+L 220.185286 31.108508 
+L 220.029519 29.914961 
+L 219.719811 28.742446 
+L 219.259793 27.604708 
+L 218.654858 26.515087 
+L 217.912099 25.486358 
+L 217.040223 24.530581 
+L 216.049454 23.658962 
+L 214.951406 22.88172 
+L 213.758953 22.207968 
+L 212.486076 21.645604 
+L 211.147698 21.201222 
+L 209.759511 20.880031 
+L 208.337788 20.685798 
+L 206.8992 20.6208 
+L 193.5936 20.6208 
+z
+" clip-path="url(#pae4dd6500c)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 193.5936 78.2784 
+L 206.8992 78.2784 
+L 208.337788 78.213402 
+L 209.759511 78.019169 
+L 211.147698 77.697978 
+L 212.486076 77.253596 
+L 213.758953 76.691232 
+L 214.951406 76.01748 
+L 216.049454 75.240238 
+L 217.040223 74.368619 
+L 217.912099 73.412842 
+L 218.654858 72.384113 
+L 219.259793 71.294492 
+L 219.719811 70.156754 
+L 220.029519 68.984239 
+L 220.185286 67.790692 
+L 220.185286 66.590108 
+L 220.029519 65.396561 
+L 219.719811 64.224046 
+L 219.259793 63.086308 
+L 218.654858 61.996687 
+L 217.912099 60.967958 
+L 217.040223 60.012181 
+L 216.049454 59.140562 
+L 214.951406 58.36332 
+L 213.758953 57.689568 
+L 212.486076 57.127204 
+L 211.147698 56.682822 
+L 209.759511 56.361631 
+L 208.337788 56.167398 
+L 206.8992 56.1024 
+L 193.5936 56.1024 
+z
+" clip-path="url(#pae4dd6500c)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 244.5984 38.3616 
+L 245.91972 38.38085 
+L 247.22256 38.4386 
+L 248.50692 38.53485 
+L 249.7728 38.6696 
+L 251.0202 38.84285 
+L 252.24912 39.0546 
+L 253.45956 39.30485 
+L 254.65152 39.5936 
+L 255.825 39.92085 
+L 256.98 40.2866 
+L 258.11652 40.69085 
+L 259.23456 41.1336 
+L 260.33412 41.61485 
+L 261.4152 42.1346 
+L 262.4778 42.69285 
+L 263.52192 43.2896 
+L 264.54756 43.92485 
+L 265.55472 44.5986 
+L 266.5434 45.31085 
+L 267.5136 46.0616 
+L 268.46532 46.85085 
+L 269.39856 47.6786 
+L 270.31332 48.54485 
+L 271.2096 49.4496 
+L 271.2096 49.4496 
+L 270.31332 50.35435 
+L 269.39856 51.2206 
+L 268.46532 52.04835 
+L 267.5136 52.8376 
+L 266.5434 53.58835 
+L 265.55472 54.3006 
+L 264.54756 54.97435 
+L 263.52192 55.6096 
+L 262.4778 56.20635 
+L 261.4152 56.7646 
+L 260.33412 57.28435 
+L 259.23456 57.7656 
+L 258.11652 58.20835 
+L 256.98 58.6126 
+L 255.825 58.97835 
+L 254.65152 59.3056 
+L 253.45956 59.59435 
+L 252.24912 59.8446 
+L 251.0202 60.05635 
+L 249.7728 60.2296 
+L 248.50692 60.36435 
+L 247.22256 60.4606 
+L 245.91972 60.51835 
+L 244.5984 60.5376 
+L 244.5984 60.5376 
+L 245.23596 59.6136 
+L 245.81808 58.6896 
+L 246.34476 57.7656 
+L 246.816 56.8416 
+L 247.2318 55.9176 
+L 247.59216 54.9936 
+L 247.89708 54.0696 
+L 248.14656 53.1456 
+L 248.3406 52.2216 
+L 248.4792 51.2976 
+L 248.56236 50.3736 
+L 248.59008 49.4496 
+L 248.56236 48.5256 
+L 248.4792 47.6016 
+L 248.3406 46.6776 
+L 248.14656 45.7536 
+L 247.89708 44.8296 
+L 247.59216 43.9056 
+L 247.2318 42.9816 
+L 246.816 42.0576 
+L 246.34476 41.1336 
+L 245.81808 40.2096 
+L 245.23596 39.2856 
+z
+" clip-path="url(#pae4dd6500c)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_7">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="151.4592" y="28.588784" transform="rotate(-0 151.4592 28.588784)">I1</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="151.4592" y="39.676784" transform="rotate(-0 151.4592 39.676784)">S</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="151.4592" y="75.158384" transform="rotate(-0 151.4592 75.158384)">I0</text>
+   </g>
+   <g id="patch_8">
+    <path d="M 171.4176 67.1904 
+L 171.4176 56.1024 
+L 184.7232 61.6464 
+z
+" clip-path="url(#pae4dd6500c)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 186.49728 63.42048 
+C 186.967772 63.42048 187.419056 63.233552 187.751744 62.900864 
+C 188.084432 62.568176 188.27136 62.116892 188.27136 61.6464 
+C 188.27136 61.175908 188.084432 60.724624 187.751744 60.391936 
+C 187.419056 60.059248 186.967772 59.87232 186.49728 59.87232 
+C 186.026788 59.87232 185.575504 60.059248 185.242816 60.391936 
+C 184.910128 60.724624 184.7232 61.175908 184.7232 61.6464 
+C 184.7232 62.116892 184.910128 62.568176 185.242816 62.900864 
+C 185.575504 63.233552 186.026788 63.42048 186.49728 63.42048 
+z
+" clip-path="url(#pae4dd6500c)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_10">
+    <text style="fill: #6a707a; font: 8.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="179.1792" y="50.798" transform="rotate(-0 179.1792 50.798)">S'</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="284.5152" y="52.128741" transform="rotate(-0 284.5152 52.128741)">Z</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #2f5bea; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="215.7696" y="94.181769" transform="rotate(-0 215.7696 94.181769)">Z = S'I0 + SI1</text>
+   </g>
+   <g id="line2d_11">
+    <defs>
+     <path id="mc5e8bd1631" d="M 0 1.8 
+C 0.477366 1.8 0.935244 1.610341 1.272792 1.272792 
+C 1.610341 0.935244 1.8 0.477366 1.8 0 
+C 1.8 -0.477366 1.610341 -0.935244 1.272792 -1.272792 
+C 0.935244 -1.610341 0.477366 -1.8 0 -1.8 
+C -0.477366 -1.8 -0.935244 -1.610341 -1.272792 -1.272792 
+C -1.610341 -0.935244 -1.8 -0.477366 -1.8 0 
+C -1.8 0.477366 -1.610341 0.935244 -1.272792 1.272792 
+C -0.935244 1.610341 -0.477366 1.8 0 1.8 
+z
+" style="stroke: #1c1f24"/>
+    </defs>
+    <g clip-path="url(#pae4dd6500c)">
+     <use xlink:href="#mc5e8bd1631" x="166.9824" y="37.2528" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pae4dd6500c">
+   <rect x="2.88" y="2.88" width="297.1584" height="102.0096"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>Left: the 2:1 MUX block (data inputs I0, I1, select S, output Z). Right: its gates. S' opens the lower AND for I0, S opens the upper AND for I1, and the OR passes whichever is open.</figcaption></figure>
+
+<p>"Z = I<sub>0</sub> when S = 0, Z = I<sub>1</sub> when S = 1" becomes one SOP, one term per case:</p>
+<div class="eq">Z = S'I<sub>0</sub> + SI<sub>1</sub></div>
+
+<p>Read it in words: the term S'I<sub>0</sub> is "S is 0 <strong>and</strong> I<sub>0</sub> is 1"; the term SI<sub>1</sub> is "S is 1 <strong>and</strong> I<sub>1</sub> is 1". Exactly one of S', S is 1, so exactly one AND gate is open at a time.</p>
+<p>Slide 6's truth table lists all 8 rows of (S, D<sub>1</sub>, D<sub>0</sub>); the output is 1 on rows 1, 3, 6, 7: D<sub>0</sub> where S = 0, D<sub>1</sub> where S = 1.</p>
+<div class="box note">
+<div class="bh">Slip in the slides</div>
+<p>Deck 04 slide 7 draws the K-map of this table with 1s in cells 2, 3, 5, 7 (rows D<sub>0</sub>, columns SD<sub>1</sub>). The table on slide 6 and the formula O = S'D<sub>0</sub> + SD<sub>1</sub> put the 1s at rows 1, 3, 6, 7. The pack uses the table and the formula.</p>
+</div>
+<p><strong>Answer.</strong> Block: two data inputs, one select, one output. Equation <strong>Z = S'I<sub>0</sub> + SI<sub>1</sub></strong>. Gates: an inverter for S', two 2-input ANDs (S'·I<sub>0</sub> and S·I<sub>1</sub>), one 2-input OR.</p>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>(a) Tie I<sub>0</sub> = 0 and I<sub>1</sub> = 1. What function of S is Z? (b) Tie I<sub>0</sub> = 1 and I<sub>1</sub> = 0. What is Z now?</p>
+</div>
+<h3>2 · The 4:1 MUX, and how many select lines</h3>
+<p>One select bit chooses between two inputs. More inputs need a longer select number.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>A MUX has 16 data inputs. How many select lines does it need? And 32?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>n select lines</strong> spell a number from 0 to 2<sup>n</sup> − 1, so they can name 2<sup>n</sup> data inputs: a <strong>2<sup>n</sup>:1 MUX</strong>. <strong>Minterm of the selects:</strong> S<sub>1</sub>'S<sub>0</sub>' is 1 only for code 00, S<sub>1</sub>'S<sub>0</sub> only for 01, and so on (file 01 step 7).</p>
+</div>
+
+<figure style="max-width:40%"><div style="width:66mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 150.84 109.876235" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:03.658556</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 109.876235 
+L 150.84 109.876235 
+L 150.84 0 
+L 0 0 
+L 0 109.876235 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 58.351765 74.993294 
+L 58.351765 17.814706 
+L 94.621765 29.549118 
+L 94.621765 63.258882 
+z
+" clip-path="url(#pdb7428a868)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 94.621765 46.404 
+Q 104.222647 46.404 112.541529 46.404 
+" clip-path="url(#pdb7428a868)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 108.541529 44.051059 
+L 112.541529 46.404 
+L 108.541529 48.756941 
+z
+" clip-path="url(#pdb7428a868)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 43.417059 24.962029 
+L 58.351765 24.962029 
+" clip-path="url(#pdb7428a868)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 43.417059 39.256676 
+L 58.351765 39.256676 
+" clip-path="url(#pdb7428a868)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 43.417059 53.551324 
+L 58.351765 53.551324 
+" clip-path="url(#pdb7428a868)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 43.417059 67.845971 
+L 58.351765 67.845971 
+" clip-path="url(#pdb7428a868)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 65.819118 89.928 
+L 65.819118 72.577386 
+" clip-path="url(#pdb7428a868)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 89.287941 89.928 
+L 89.287941 64.984531 
+" clip-path="url(#pdb7428a868)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="26.901217" transform="rotate(-0 60.912 26.901217)">I0</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="27.386014" transform="rotate(-0 41.283529 27.386014)">I0</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="41.195864" transform="rotate(-0 60.912 41.195864)">I1</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="41.680661" transform="rotate(-0 41.283529 41.680661)">I1</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="55.490511" transform="rotate(-0 60.912 55.490511)">I2</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="55.975308" transform="rotate(-0 41.283529 55.975308)">I2</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="69.785158" transform="rotate(-0 60.912 69.785158)">I3</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="70.269955" transform="rotate(-0 41.283529 70.269955)">I3</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="115.957059" y="49.083141" transform="rotate(-0 115.957059 49.083141)">Y</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="65.819118" y="100.161263" transform="rotate(-0 65.819118 100.161263)">S1</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.287941" y="100.161263" transform="rotate(-0 89.287941 100.161263)">S0</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="76.486765" y="12.480882" transform="rotate(-0 76.486765 12.480882)">4:1 MUX</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pdb7428a868">
+   <rect x="2.88" y="2.88" width="145.08" height="104.116235"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>The 4:1 MUX: data inputs I0–I3, selects S1 (more significant) and S0, output Y.</figcaption></figure>
+
+<p>Step 1's equation extends with one AND term per data input: data input I<sub>j</sub> is ANDed with the select minterm m<sub>j</sub>.</p>
+<div class="eq">Y = S<sub>1</sub>'S<sub>0</sub>'I<sub>0</sub> + S<sub>1</sub>'S<sub>0</sub>I<sub>1</sub> + S<sub>1</sub>S<sub>0</sub>'I<sub>2</sub> + S<sub>1</sub>S<sub>0</sub>I<sub>3</sub></div>
+
+<p>Read it: "select code 00 opens I<sub>0</sub>'s gate, 01 opens I<sub>1</sub>'s, 10 opens I<sub>2</sub>'s, 11 opens I<sub>3</sub>'s". In the general form, Y = Σ m<sub>j</sub>·I<sub>j</sub>: every select minterm gates one input.</p>
+<table>
+<thead>
+<tr>
+<th>Select code S<sub>1</sub>S<sub>0</sub></th>
+<th>00</th>
+<th>01</th>
+<th>10</th>
+<th>11</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Y</td>
+<td>I<sub>0</sub></td>
+<td>I<sub>1</sub></td>
+<td>I<sub>2</sub></td>
+<td>I<sub>3</sub></td>
+</tr>
+</tbody>
+</table>
+<p>Uses (slide 11): many computers sharing one line, choosing one radio channel, routing data inside a processor, and <strong>function generation</strong>, which is the rest of this file.</p>
+<p><strong>Answer to the Predict.</strong> 2<sup>n</sup> = 16 gives <strong>n = 4</strong>; 2<sup>n</sup> = 32 gives <strong>n = 5</strong>.</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>How many select lines do a 4:1, a 16:1 and a 32:1 MUX need?</p>
+</div>
+<h3>3 · n variables on a 2ⁿ:1 MUX: the truth table in hardware</h3>
+<p>Step 2's equation has one term per row of a table. If the function's variables drive the selects, each data input becomes one row of that function's truth table.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 04 slide 15 (EX 4.15)</span></div>
+<p>Using an 8-to-1 multiplexer, design a logic circuit to realize the following Boolean function F(A, B, C) = Σm(2, 3, 5, 6, 7).</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>A, B, C go on the three selects (A most significant). For select code 010 = row 2, which data input is passed, and what must it be tied to?</p>
+</div>
+
+<figure style="max-width:46%"><div style="width:66mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 150.84 154.253647" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:03.704177</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 154.253647 
+L 150.84 154.253647 
+L 150.84 0 
+L 0 0 
+L 0 154.253647 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 58.351765 119.370706 
+L 58.351765 17.814706 
+L 94.621765 29.549118 
+L 94.621765 107.636294 
+z
+" clip-path="url(#p41e5e3d5e1)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 94.621765 68.592706 
+Q 104.222647 68.592706 112.541529 68.592706 
+" clip-path="url(#p41e5e3d5e1)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 108.541529 66.239765 
+L 112.541529 68.592706 
+L 108.541529 70.945647 
+z
+" clip-path="url(#p41e5e3d5e1)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 43.417059 24.161956 
+L 58.351765 24.161956 
+" clip-path="url(#p41e5e3d5e1)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 43.417059 36.856456 
+L 58.351765 36.856456 
+" clip-path="url(#p41e5e3d5e1)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 43.417059 49.550956 
+L 58.351765 49.550956 
+" clip-path="url(#p41e5e3d5e1)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 43.417059 62.245456 
+L 58.351765 62.245456 
+" clip-path="url(#p41e5e3d5e1)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 43.417059 74.939956 
+L 58.351765 74.939956 
+" clip-path="url(#p41e5e3d5e1)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 43.417059 87.634456 
+L 58.351765 87.634456 
+" clip-path="url(#p41e5e3d5e1)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 43.417059 100.328956 
+L 58.351765 100.328956 
+" clip-path="url(#p41e5e3d5e1)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 43.417059 113.023456 
+L 58.351765 113.023456 
+" clip-path="url(#p41e5e3d5e1)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 65.819118 134.305412 
+L 65.819118 116.954798 
+" clip-path="url(#p41e5e3d5e1)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 77.553529 134.305412 
+L 77.553529 113.15837 
+" clip-path="url(#p41e5e3d5e1)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 89.287941 134.305412 
+L 89.287941 109.361943 
+" clip-path="url(#p41e5e3d5e1)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="26.101143" transform="rotate(-0 60.912 26.101143)">I0</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="26.58594" transform="rotate(-0 41.283529 26.58594)">0</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="38.795643" transform="rotate(-0 60.912 38.795643)">I1</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="39.28044" transform="rotate(-0 41.283529 39.28044)">0</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="51.490143" transform="rotate(-0 60.912 51.490143)">I2</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="51.97494" transform="rotate(-0 41.283529 51.97494)">1</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="64.184643" transform="rotate(-0 60.912 64.184643)">I3</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="64.66944" transform="rotate(-0 41.283529 64.66944)">1</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="76.879143" transform="rotate(-0 60.912 76.879143)">I4</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="77.36394" transform="rotate(-0 41.283529 77.36394)">0</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="89.573643" transform="rotate(-0 60.912 89.573643)">I5</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="90.05844" transform="rotate(-0 41.283529 90.05844)">1</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="102.268143" transform="rotate(-0 60.912 102.268143)">I6</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="102.75294" transform="rotate(-0 41.283529 102.75294)">1</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="114.962643" transform="rotate(-0 60.912 114.962643)">I7</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="115.44744" transform="rotate(-0 41.283529 115.44744)">1</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="115.957059" y="71.271847" transform="rotate(-0 115.957059 71.271847)">F</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="65.819118" y="144.538675" transform="rotate(-0 65.819118 144.538675)">A</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="77.553529" y="144.538675" transform="rotate(-0 77.553529 144.538675)">B</text>
+   </g>
+   <g id="text_20">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.287941" y="144.538675" transform="rotate(-0 89.287941 144.538675)">C</text>
+   </g>
+   <g id="text_21">
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="76.486765" y="12.480882" transform="rotate(-0 76.486765 12.480882)">8:1 MUX</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p41e5e3d5e1">
+   <rect x="2.88" y="2.88" width="145.08" height="148.493647"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>EX 4.15: selects A, B, C (A most significant); each data input is tied to F's value on its row: 0, 0, 1, 1, 0, 1, 1, 1.</figcaption></figure>
+
+<ol>
+<li>With A, B, C on the selects, the select code <strong>is</strong> the row number: code ABC = 010 passes I<sub>2</sub>.</li>
+<li>On row 2 the output must equal F(row 2). So tie I<sub>2</sub> to F(row 2) = 1.</li>
+<li>Do this for all 8 rows: I<sub>j</sub> = F(row j). The data inputs are the F column of the truth table, top to bottom.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Row j</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I<sub>j</sub> = F</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer.</strong> I<sub>0</sub> … I<sub>7</sub> = <strong>0, 0, 1, 1, 0, 1, 1, 1</strong> (1 for each minterm in the list, 0 otherwise). No gates and no minimisation are needed.</p>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>(a) <span class="tag">Deck 04 slide 24 (EX 4.24)</span> An 8:1 MUX has A, B, C on S<sub>2</sub>, S<sub>1</sub>, S<sub>0</sub> and data inputs 0, 0, 1, 0, 0, 1, 1, 1. Find F as Σm and as a minimal SOP. (b) <span class="tag">Deck 04 slide 14 (EX 4.14)</span> Implement the half adder (sum and carry) on two 4:1 MUXes with A, B on the selects.</p>
+</div>
+<h3>4 · n variables on a 2ⁿ⁻¹:1 MUX: one variable becomes data</h3>
+<p>Step 3 spends one data input per row. Half the MUX does the job if one variable moves from the selects to the data inputs.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 04 slide 16 (EX 4.16)</span></div>
+<p>Implement F(x, y, z) = Σm(1, 2, 6, 7) using a 4×1 mux.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>x and y go on the selects; z is left over. On the two rows with xy = 00, F is 0 then 1. Which signal, built from z, has those two values?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Pair of rows:</strong> the two rows that share one select code; they differ only in the last variable (here z), which is 0 in the first row and 1 in the second. <strong>Residue:</strong> F on that pair, written as a function of the last variable: one of 0, 1, z, z'.</p>
+</div>
+<p>For each pair, compare F with z. There are only four patterns:</p>
+<table>
+<thead>
+<tr>
+<th>F on the pair (z = 0, z = 1)</th>
 <th>0, 0</th>
 <th>0, 1</th>
 <th>1, 0</th>
@@ -131,18 +933,192 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 </thead>
 <tbody>
 <tr>
-<td>Connect</td>
+<td>Tie the data input to</td>
 <td>0</td>
-<td>S</td>
-<td>S'</td>
+<td>z</td>
+<td>z'</td>
 <td>1</td>
 </tr>
 </tbody>
 </table>
+
+<figure style="max-width:40%"><div style="width:66mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 150.84 109.876235" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:03.738027</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 109.876235 
+L 150.84 109.876235 
+L 150.84 0 
+L 0 0 
+L 0 109.876235 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 58.351765 74.993294 
+L 58.351765 17.814706 
+L 94.621765 29.549118 
+L 94.621765 63.258882 
+z
+" clip-path="url(#pa2d7f76574)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 94.621765 46.404 
+Q 104.222647 46.404 112.541529 46.404 
+" clip-path="url(#pa2d7f76574)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 108.541529 44.051059 
+L 112.541529 46.404 
+L 108.541529 48.756941 
+z
+" clip-path="url(#pa2d7f76574)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 43.417059 24.962029 
+L 58.351765 24.962029 
+" clip-path="url(#pa2d7f76574)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 43.417059 39.256676 
+L 58.351765 39.256676 
+" clip-path="url(#pa2d7f76574)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 43.417059 53.551324 
+L 58.351765 53.551324 
+" clip-path="url(#pa2d7f76574)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 43.417059 67.845971 
+L 58.351765 67.845971 
+" clip-path="url(#pa2d7f76574)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 65.819118 89.928 
+L 65.819118 72.577386 
+" clip-path="url(#pa2d7f76574)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 89.287941 89.928 
+L 89.287941 64.984531 
+" clip-path="url(#pa2d7f76574)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="26.901217" transform="rotate(-0 60.912 26.901217)">I0</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="27.386014" transform="rotate(-0 41.283529 27.386014)">z</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="41.195864" transform="rotate(-0 60.912 41.195864)">I1</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="41.680661" transform="rotate(-0 41.283529 41.680661)">z'</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="55.490511" transform="rotate(-0 60.912 55.490511)">I2</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="55.975308" transform="rotate(-0 41.283529 55.975308)">0</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="69.785158" transform="rotate(-0 60.912 69.785158)">I3</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="70.269955" transform="rotate(-0 41.283529 70.269955)">1</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="115.957059" y="49.083141" transform="rotate(-0 115.957059 49.083141)">F</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="65.819118" y="100.161263" transform="rotate(-0 65.819118 100.161263)">x</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.287941" y="100.115247" transform="rotate(-0 89.287941 100.115247)">y</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="76.486765" y="12.480882" transform="rotate(-0 76.486765 12.480882)">4:1 MUX</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pa2d7f76574">
+   <rect x="2.88" y="2.88" width="145.08" height="104.116235"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>EX 4.16: x and y on the selects; data inputs z, z', 0, 1 (the residues of the four pairs).</figcaption></figure>
+
 <table>
 <thead>
 <tr>
-<th>Input</th>
+<th>Select xy</th>
+<th>00</th>
+<th>01</th>
+<th>10</th>
+<th>11</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rows</td>
+<td>0, 1</td>
+<td>2, 3</td>
+<td>4, 5</td>
+<td>6, 7</td>
+</tr>
+<tr>
+<td>F on the pair</td>
+<td>0, 1</td>
+<td>1, 0</td>
+<td>0, 0</td>
+<td>1, 1</td>
+</tr>
+<tr>
+<td>Data input</td>
+<td>z</td>
+<td>z'</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer.</strong> Selects x (S<sub>1</sub>), y (S<sub>0</sub>); <strong>I<sub>0</sub> = z, I<sub>1</sub> = z', I<sub>2</sub> = 0, I<sub>3</sub> = 1</strong>. The only extra part is one inverter for z'.</p>
+<div class="box check">
+<div class="bh">Check 4</div>
+<p><span class="tag">Deck 04 slide 17 (EX 4.17)</span> Use a 4:1 MUX with A, B on the selects to generate F(A, B, C) = Σm(2, 5, 6, 7).</p>
+</div>
+<h3>5 · MTE Q5: four variables on one 8:1 MUX</h3>
+<p>Step 4's pairing works for any number of variables: the first n − 1 go on the selects, the last one becomes data.</p>
+<div class="box q">
+<div class="bh"><span class="tag">MTE 2025 Q5 · 4 marks</span></div>
+<p>Implement the following function using single 8:1 Multiplexer. F(P, Q, R, S) = Σm(0, 1, 3, 4, 8, 9, 10, 11, 13, 15)</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>P, Q, R go on the selects. Select code 001 covers which two minterms? Is F 1 on both, one, or neither?</p>
+</div>
+<p>Select code PQR = k covers minterms 2k and 2k + 1 (S = 0, then S = 1). Mark each minterm 1 if it is in the list:</p>
+<table>
+<thead>
+<tr>
+<th>Data input</th>
 <th>I<sub>0</sub></th>
 <th>I<sub>1</sub></th>
 <th>I<sub>2</sub></th>
@@ -155,7 +1131,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 </thead>
 <tbody>
 <tr>
-<td>Minterms</td>
+<td>Minterms (S = 0, S = 1)</td>
 <td>0, 1</td>
 <td>2, 3</td>
 <td>4, 5</td>
@@ -166,7 +1142,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>14, 15</td>
 </tr>
 <tr>
-<td>F</td>
+<td>F on the pair</td>
 <td>1, 1</td>
 <td>0, 1</td>
 <td>1, 0</td>
@@ -177,7 +1153,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>0, 1</td>
 </tr>
 <tr>
-<td>Connect</td>
+<td>Tie to (step 4 table)</td>
 <td>1</td>
 <td>S</td>
 <td>S'</td>
@@ -190,33 +1166,394 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 </tbody>
 </table>
 
-<figure style="max-width:55%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 150.84 154.253647" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:39.558097</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 154.253647 L 150.84 154.253647 L 150.84 0 L 0 0 L 0 154.253647 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 58.351765 119.370706 L 58.351765 17.814706 L 94.621765 29.549118 L 94.621765 107.636294 z " clip-path="url(#p87cef7dc67)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/> </g> <g id="patch_3"> <path d="M 94.621765 68.592706 Q 104.222647 68.592706 112.541529 68.592706 " clip-path="url(#p87cef7dc67)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 108.541529 66.239765 L 112.541529 68.592706 L 108.541529 70.945647 z " clip-path="url(#p87cef7dc67)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_1"> <path d="M 43.417059 24.161956 L 58.351765 24.161956 " clip-path="url(#p87cef7dc67)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 43.417059 36.856456 L 58.351765 36.856456 " clip-path="url(#p87cef7dc67)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_3"> <path d="M 43.417059 49.550956 L 58.351765 49.550956 " clip-path="url(#p87cef7dc67)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_4"> <path d="M 43.417059 62.245456 L 58.351765 62.245456 " clip-path="url(#p87cef7dc67)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_5"> <path d="M 43.417059 74.939956 L 58.351765 74.939956 " clip-path="url(#p87cef7dc67)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_6"> <path d="M 43.417059 87.634456 L 58.351765 87.634456 " clip-path="url(#p87cef7dc67)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_7"> <path d="M 43.417059 100.328956 L 58.351765 100.328956 " clip-path="url(#p87cef7dc67)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_8"> <path d="M 43.417059 113.023456 L 58.351765 113.023456 " clip-path="url(#p87cef7dc67)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_9"> <path d="M 65.819118 134.305412 L 65.819118 116.954798 " clip-path="url(#p87cef7dc67)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_10"> <path d="M 77.553529 134.305412 L 77.553529 113.15837 " clip-path="url(#p87cef7dc67)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_11"> <path d="M 89.287941 134.305412 L 89.287941 109.361943 " clip-path="url(#p87cef7dc67)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="text_1"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="26.101143" transform="rotate(-0 60.912 26.101143)">I0</text> </g> <g id="text_2"> <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="26.58594" transform="rotate(-0 41.283529 26.58594)">1</text> </g> <g id="text_3"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="38.795643" transform="rotate(-0 60.912 38.795643)">I1</text> </g> <g id="text_4"> <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="39.28044" transform="rotate(-0 41.283529 39.28044)">S</text> </g> <g id="text_5"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="51.490143" transform="rotate(-0 60.912 51.490143)">I2</text> </g> <g id="text_6"> <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="51.97494" transform="rotate(-0 41.283529 51.97494)">S'</text> </g> <g id="text_7"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="64.184643" transform="rotate(-0 60.912 64.184643)">I3</text> </g> <g id="text_8"> <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="64.66944" transform="rotate(-0 41.283529 64.66944)">0</text> </g> <g id="text_9"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="76.879143" transform="rotate(-0 60.912 76.879143)">I4</text> </g> <g id="text_10"> <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="77.36394" transform="rotate(-0 41.283529 77.36394)">1</text> </g> <g id="text_11"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="89.573643" transform="rotate(-0 60.912 89.573643)">I5</text> </g> <g id="text_12"> <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="90.05844" transform="rotate(-0 41.283529 90.05844)">1</text> </g> <g id="text_13"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="102.268143" transform="rotate(-0 60.912 102.268143)">I6</text> </g> <g id="text_14"> <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="102.75294" transform="rotate(-0 41.283529 102.75294)">S</text> </g> <g id="text_15"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="114.962643" transform="rotate(-0 60.912 114.962643)">I7</text> </g> <g id="text_16"> <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="115.44744" transform="rotate(-0 41.283529 115.44744)">S</text> </g> <g id="text_17"> <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="115.957059" y="71.271847" transform="rotate(-0 115.957059 71.271847)">F</text> </g> <g id="text_18"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="65.819118" y="144.538675" transform="rotate(-0 65.819118 144.538675)">P</text> </g> <g id="text_19"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="77.553529" y="144.538675" transform="rotate(-0 77.553529 144.538675)">Q</text> </g> <g id="text_20"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.287941" y="144.538675" transform="rotate(-0 89.287941 144.538675)">R</text> </g> <g id="text_21"> <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="76.486765" y="12.480882" transform="rotate(-0 76.486765 12.480882)">8:1 MUX</text> </g> </g> </g> <defs> <clipPath id="p87cef7dc67"> <rect x="2.88" y="2.88" width="145.08" height="148.493647"/> </clipPath> </defs> </svg><figcaption>The finished circuit: P, Q, R on the selects (P most significant), one inverter for S'.</figcaption></figure>
-
-<p><strong>Answer.</strong> P, Q, R → selects. I<sub>0</sub> = 1, I<sub>1</sub> = S, I<sub>2</sub> = S', I<sub>3</sub> = 0, I<sub>4</sub> = 1, I<sub>5</sub> = 1, I<sub>6</sub> = S, I<sub>7</sub> = S.</p>
-<div class="box check">
-<div class="bh">Check 2</div>
-<p>(a) <span class="tag">Set 1 Q3</span> Implement F(a, b, c, d) = Σm(0, 1, 3, 5, 7, 9, 15) on an 8:1 MUX. (b) <span class="tag">Deck 04 slide 16</span> Implement F(x, y, z) = Σm(1, 2, 6, 7) on a 4:1 MUX.</p>
-</div>
-<h3>3 · MUX tree and the demultiplexer</h3>
-<div class="box q">
-<div class="bh"><span class="tag">Set 1 Q5</span></div>
-<p>Implement F(A, B, C, D) = Σm(0, 2, 7, 8, 9, 11, 13, 14, 15) using only 4:1 multiplexers. Take D as the input variable.</p>
-</div>
-<div class="box guess">
-<div class="bh">Guess first</div>
-<p>Three variables remain for selects, but a 4:1 MUX has only two select lines. How do you get a third?</p>
-</div>
-<div class="two">
-
-
-
-
-<figure style="max-width:100%"><div style="width:127mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 252.199742 149.904" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<figure style="max-width:46%"><div style="width:66mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 150.84 154.253647" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:02.732144</dc:date>
+    <dc:date>2026-11-17T23:28:03.784639</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 154.253647 
+L 150.84 154.253647 
+L 150.84 0 
+L 0 0 
+L 0 154.253647 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 58.351765 119.370706 
+L 58.351765 17.814706 
+L 94.621765 29.549118 
+L 94.621765 107.636294 
+z
+" clip-path="url(#p1c84c75b60)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 94.621765 68.592706 
+Q 104.222647 68.592706 112.541529 68.592706 
+" clip-path="url(#p1c84c75b60)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 108.541529 66.239765 
+L 112.541529 68.592706 
+L 108.541529 70.945647 
+z
+" clip-path="url(#p1c84c75b60)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 43.417059 24.161956 
+L 58.351765 24.161956 
+" clip-path="url(#p1c84c75b60)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 43.417059 36.856456 
+L 58.351765 36.856456 
+" clip-path="url(#p1c84c75b60)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 43.417059 49.550956 
+L 58.351765 49.550956 
+" clip-path="url(#p1c84c75b60)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 43.417059 62.245456 
+L 58.351765 62.245456 
+" clip-path="url(#p1c84c75b60)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 43.417059 74.939956 
+L 58.351765 74.939956 
+" clip-path="url(#p1c84c75b60)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 43.417059 87.634456 
+L 58.351765 87.634456 
+" clip-path="url(#p1c84c75b60)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 43.417059 100.328956 
+L 58.351765 100.328956 
+" clip-path="url(#p1c84c75b60)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 43.417059 113.023456 
+L 58.351765 113.023456 
+" clip-path="url(#p1c84c75b60)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 65.819118 134.305412 
+L 65.819118 116.954798 
+" clip-path="url(#p1c84c75b60)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 77.553529 134.305412 
+L 77.553529 113.15837 
+" clip-path="url(#p1c84c75b60)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 89.287941 134.305412 
+L 89.287941 109.361943 
+" clip-path="url(#p1c84c75b60)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="26.101143" transform="rotate(-0 60.912 26.101143)">I0</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="26.58594" transform="rotate(-0 41.283529 26.58594)">1</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="38.795643" transform="rotate(-0 60.912 38.795643)">I1</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="39.28044" transform="rotate(-0 41.283529 39.28044)">S</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="51.490143" transform="rotate(-0 60.912 51.490143)">I2</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="51.97494" transform="rotate(-0 41.283529 51.97494)">S'</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="64.184643" transform="rotate(-0 60.912 64.184643)">I3</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="64.66944" transform="rotate(-0 41.283529 64.66944)">0</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="76.879143" transform="rotate(-0 60.912 76.879143)">I4</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="77.36394" transform="rotate(-0 41.283529 77.36394)">1</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="89.573643" transform="rotate(-0 60.912 89.573643)">I5</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="90.05844" transform="rotate(-0 41.283529 90.05844)">1</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="102.268143" transform="rotate(-0 60.912 102.268143)">I6</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="102.75294" transform="rotate(-0 41.283529 102.75294)">S</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="114.962643" transform="rotate(-0 60.912 114.962643)">I7</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="115.44744" transform="rotate(-0 41.283529 115.44744)">S</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="115.957059" y="71.271847" transform="rotate(-0 115.957059 71.271847)">F</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="65.819118" y="144.538675" transform="rotate(-0 65.819118 144.538675)">P</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="77.553529" y="144.538675" transform="rotate(-0 77.553529 144.538675)">Q</text>
+   </g>
+   <g id="text_20">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.287941" y="144.538675" transform="rotate(-0 89.287941 144.538675)">R</text>
+   </g>
+   <g id="text_21">
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="76.486765" y="12.480882" transform="rotate(-0 76.486765 12.480882)">8:1 MUX</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p1c84c75b60">
+   <rect x="2.88" y="2.88" width="145.08" height="148.493647"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>MTE Q5 finished: P, Q, R on the selects (P most significant); data inputs 1, S, S', 0, 1, 1, S, S.</figcaption></figure>
+
+<p><strong>Answer.</strong></p>
+<ol>
+<li>Selects: P → S<sub>2</sub>, Q → S<sub>1</sub>, R → S<sub>0</sub>.</li>
+<li>Pair table above (10 minterms → 8 pairs).</li>
+<li><strong>I<sub>0</sub> = 1, I<sub>1</sub> = S, I<sub>2</sub> = S', I<sub>3</sub> = 0, I<sub>4</sub> = 1, I<sub>5</sub> = 1, I<sub>6</sub> = S, I<sub>7</sub> = S</strong>; one inverter makes S'.</li>
+<li>Check one row: PQRS = 0101 (m<sub>5</sub>). Code PQR = 010 passes I<sub>2</sub> = S' = 0, and 5 is not in the list. ✓</li>
+</ol>
+<div class="box check">
+<div class="bh">Check 5</div>
+<p>(a) <span class="tag">Practice set 1 Q6</span> Implement F(P, Q, R, S) = Σm(0, 2, 5, 9, 11, 12, 14, 15) on an 8:1 MUX (P, Q, R on the selects). (b) <span class="tag">Deck 04 slide 18 (EX 4.18)</span> Implement F(A, B, C, D) = Σm(1, 3, 4, 11, 12, 13, 14, 15) on an 8:1 MUX (A, B, C on the selects).</p>
+</div>
+<h3>6 · Two variables left over: one 4:1 MUX for a 4-variable function</h3>
+<p>Step 5 left one variable off the selects. Leave two off and each select code covers four rows; the residue is then a function of two variables, built with a gate or two.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 04 slide 19 (EX 4.19)</span></div>
+<p>F(A, B, C, D) = Σm(1, 3, 4, 11, 12–15) using 4×1 mux. (The slide gives no solution.)</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>A, B go on the selects. For AB = 00, the four rows are CD = 00, 01, 10, 11, and F is 1 on rows 1 and 3. What function of C and D is that?</p>
+</div>
+
+<figure style="max-width:40%"><div style="width:66mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 150.84 109.876235" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:03.814286</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 109.876235 
+L 150.84 109.876235 
+L 150.84 0 
+L 0 0 
+L 0 109.876235 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 58.351765 74.993294 
+L 58.351765 17.814706 
+L 94.621765 29.549118 
+L 94.621765 63.258882 
+z
+" clip-path="url(#p356b95c628)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 94.621765 46.404 
+Q 104.222647 46.404 112.541529 46.404 
+" clip-path="url(#p356b95c628)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 108.541529 44.051059 
+L 112.541529 46.404 
+L 108.541529 48.756941 
+z
+" clip-path="url(#p356b95c628)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 43.417059 24.962029 
+L 58.351765 24.962029 
+" clip-path="url(#p356b95c628)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 43.417059 39.256676 
+L 58.351765 39.256676 
+" clip-path="url(#p356b95c628)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 43.417059 53.551324 
+L 58.351765 53.551324 
+" clip-path="url(#p356b95c628)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 43.417059 67.845971 
+L 58.351765 67.845971 
+" clip-path="url(#p356b95c628)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 65.819118 89.928 
+L 65.819118 72.577386 
+" clip-path="url(#p356b95c628)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 89.287941 89.928 
+L 89.287941 64.984531 
+" clip-path="url(#p356b95c628)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="26.901217" transform="rotate(-0 60.912 26.901217)">I0</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="27.386014" transform="rotate(-0 41.283529 27.386014)">D</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="41.195864" transform="rotate(-0 60.912 41.195864)">I1</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="41.680661" transform="rotate(-0 41.283529 41.680661)">C'D'</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="55.490511" transform="rotate(-0 60.912 55.490511)">I2</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="55.975308" transform="rotate(-0 41.283529 55.975308)">CD</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="69.785158" transform="rotate(-0 60.912 69.785158)">I3</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="70.269955" transform="rotate(-0 41.283529 70.269955)">1</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="115.957059" y="49.083141" transform="rotate(-0 115.957059 49.083141)">F</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="65.819118" y="100.161263" transform="rotate(-0 65.819118 100.161263)">A</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.287941" y="100.161263" transform="rotate(-0 89.287941 100.161263)">B</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="76.486765" y="12.480882" transform="rotate(-0 76.486765 12.480882)">4:1 MUX</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p356b95c628">
+   <rect x="2.88" y="2.88" width="145.08" height="104.116235"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>EX 4.19 on one 4:1 MUX: A, B on the selects; data inputs D, C'D', CD, 1, each a residue in C and D.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Select AB</th>
+<th>00</th>
+<th>01</th>
+<th>10</th>
+<th>11</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rows</td>
+<td>0–3</td>
+<td>4–7</td>
+<td>8–11</td>
+<td>12–15</td>
+</tr>
+<tr>
+<td>Minterms of F there</td>
+<td>1, 3</td>
+<td>4</td>
+<td>11</td>
+<td>12, 13, 14, 15</td>
+</tr>
+<tr>
+<td>CD values where F = 1</td>
+<td>01, 11</td>
+<td>00</td>
+<td>11</td>
+<td>all</td>
+</tr>
+<tr>
+<td>Residue</td>
+<td><strong>D</strong></td>
+<td><strong>C'D'</strong></td>
+<td><strong>CD</strong></td>
+<td><strong>1</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Read each residue off the CD values: 01 and 11 share D = 1, so D; 00 alone is C'D'; 11 alone is CD; all four is 1.</p>
+<p><strong>Answer.</strong> Selects A, B; <strong>I<sub>0</sub> = D, I<sub>1</sub> = C'D', I<sub>2</sub> = CD, I<sub>3</sub> = 1</strong>. Cost: one 4:1 MUX, two AND gates and inverters for C', D'. Step 5's 8:1 version needed only one inverter: a smaller MUX moves the work into gates.</p>
+<div class="box check">
+<div class="bh">Check 6</div>
+<p>Put the running example, F(P, Q, R, S) = Σm(0, 1, 3, 4, 8, 9, 10, 11, 13, 15), on one 4:1 MUX with P, Q on the selects. Give the four residues.</p>
+</div>
+<h3>7 · A MUX tree: big MUXes from small ones</h3>
+<p>Steps 3–6 assumed one MUX of the right size. When only small MUXes are available, they are stacked in levels.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 04 slides 26–28 (EX 4.26–4.28)</span></div>
+<p>Use three 2-1 MUX to make one 4-1 MUX. Construct an 8-to-1 multiplexer using 2-to-1 multiplexers; then using one 2-to-1 and two 4-to-1 multiplexers.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>In a 4:1 MUX built from 2:1 MUXes, the first level picks within each pair (I<sub>0</sub> or I<sub>1</sub>, I<sub>2</sub> or I<sub>3</sub>). Which select bit drives the first level: S<sub>0</sub> or S<sub>1</sub>?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>MUX tree:</strong> MUXes in levels; each level halves (or quarters) the number of signals. <strong>Level:</strong> all the MUXes that share one select bit; the <strong>least</strong> significant select bit drives the level nearest the data inputs.</p>
+</div>
+
+<figure style="max-width:55%"><div style="width:127mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 252.199742 149.904" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:03.846462</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -243,7 +1580,7 @@ z
    <g id="line2d_1">
     <path d="M 54.027871 130.749677 
 L 54.027871 49.843045 
-" clip-path="url(#pa7b0a32921)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: square"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: square"/>
    </g>
    <g id="patch_2">
     <path d="M 40.078452 54.027871 
@@ -251,7 +1588,7 @@ L 40.078452 12.179613
 L 67.97729 20.316774 
 L 67.97729 45.89071 
 z
-" clip-path="url(#pa7b0a32921)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 40.078452 109.825548 
@@ -259,7 +1596,7 @@ L 40.078452 67.97729
 L 67.97729 76.114452 
 L 67.97729 101.688387 
 z
-" clip-path="url(#pa7b0a32921)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 137.724387 84.251613 
@@ -267,56 +1604,56 @@ L 137.724387 37.753548
 L 165.623226 45.89071 
 L 165.623226 76.114452 
 z
-" clip-path="url(#pa7b0a32921)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 165.623226 61.002581 
 Q 176.08529 61.002581 185.265354 61.002581 
-" clip-path="url(#pa7b0a32921)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 181.265354 58.649639 
 L 185.265354 61.002581 
 L 181.265354 63.355522 
 z
-" clip-path="url(#pa7b0a32921)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_2">
     <path d="M 23.804129 22.641677 
 L 40.078452 22.641677 
-" clip-path="url(#pa7b0a32921)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_3">
     <path d="M 23.804129 43.565806 
 L 40.078452 43.565806 
-" clip-path="url(#pa7b0a32921)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_4">
     <path d="M 23.804129 78.439355 
 L 40.078452 78.439355 
-" clip-path="url(#pa7b0a32921)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_5">
     <path d="M 23.804129 99.363484 
 L 40.078452 99.363484 
-" clip-path="url(#pa7b0a32921)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_6">
     <path d="M 67.97729 33.103742 
 L 109.825548 33.103742 
 L 109.825548 49.378065 
 L 137.724387 49.378065 
-" clip-path="url(#pa7b0a32921)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_7">
     <path d="M 67.97729 88.901419 
 L 109.825548 88.901419 
 L 109.825548 72.627097 
 L 137.724387 72.627097 
-" clip-path="url(#pa7b0a32921)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_8">
     <path d="M 151.673806 130.749677 
 L 151.673806 80.066787 
-" clip-path="url(#pa7b0a32921)" style="fill: none; stroke: #12925a; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p7aa6483ff3)" style="fill: none; stroke: #12925a; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="text_1">
     <text style="fill: #2f5bea; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="54.027871" y="35.144992" transform="rotate(-0 54.027871 35.144992)">2:1</text>
@@ -351,25 +1688,887 @@ L 151.673806 80.066787
   </g>
  </g>
  <defs>
-  <clipPath id="pa7b0a32921">
+  <clipPath id="p7aa6483ff3">
    <rect x="2.88" y="2.88" width="246.439742" height="144.144"/>
   </clipPath>
  </defs>
 </svg>
-</div><figcaption>4:1 MUX from three 2:1 MUXes: S<sub>0</sub> picks within each pair, S<sub>1</sub> picks the pair.</figcaption></figure>
+</div><figcaption>A 4:1 MUX from three 2:1 MUXes: S0 picks within each pair (I0/I1, I2/I3), S1 picks between the two pair winners.</figcaption></figure>
 
+<ol>
+<li>Data inputs I<sub>0</sub>, I<sub>1</sub> differ only in S<sub>0</sub> (codes 00, 01); so do I<sub>2</sub>, I<sub>3</sub>. So <strong>S<sub>0</sub> drives the first level</strong>: two 2:1 MUXes.</li>
+<li>The two winners differ in S<sub>1</sub>: <strong>S<sub>1</sub> drives the second level</strong>: one 2:1 MUX. Total <strong>3</strong>.</li>
+<li>8:1 from 2:1: levels of 4, 2, 1 MUXes on S<sub>0</sub>, S<sub>1</sub>, S<sub>2</sub>: <strong>7</strong>.</li>
+<li>8:1 from 4:1: two 4:1 MUXes on S<sub>1</sub>S<sub>0</sub> (one for I<sub>0</sub>–I<sub>3</sub>, one for I<sub>4</sub>–I<sub>7</sub>), then one 2:1 on S<sub>2</sub>.</li>
+</ol>
+<p>The count rule: divide the number of signals by the MUX size, level after level, until one signal is left; add the levels' MUX counts. If the last level has fewer signals than the MUX has inputs (8:1 from 4:1 leaves 2), use a smaller MUX there, or a 4:1 with its unused select tied to 0.</p>
+<p><strong>Answer to the Guess.</strong> <strong>S<sub>0</sub></strong>: it is the bit in which neighbouring inputs differ.</p>
+<div class="box check">
+<div class="bh">Check 7</div>
+<p>How many 2:1 MUXes make a 16:1 MUX? How many 4:1 MUXes?</p>
+</div>
+<h3>8 · Only 4:1 MUXes for a 4-variable function</h3>
+<p>Step 7's tree turns step 5's single 8:1 MUX into small parts. Practice set 1 Q5 asks for exactly that.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Practice set 1 Q5</span></div>
+<p>Design a combinational circuit to implement the following Boolean function using only 4:1 Multiplexer. Take 'D' as input variable. F(A, B, C, D) = Σm(0, 2, 7, 8, 9, 11, 13, 14, 15)</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>"D as input variable" means D goes on the data inputs, so A, B, C must all be selects. One 4:1 MUX has two select lines. How many 4:1 MUXes, and which variable drives the last one?</p>
+</div>
+<ol>
+<li>Treat it first as one 8:1 MUX (step 5) with A, B, C on the selects; residues in D:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Select ABC</th>
+<th>000</th>
+<th>001</th>
+<th>010</th>
+<th>011</th>
+<th>100</th>
+<th>101</th>
+<th>110</th>
+<th>111</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minterms (D = 0, D = 1)</td>
+<td>0, 1</td>
+<td>2, 3</td>
+<td>4, 5</td>
+<td>6, 7</td>
+<td>8, 9</td>
+<td>10, 11</td>
+<td>12, 13</td>
+<td>14, 15</td>
+</tr>
+<tr>
+<td>F on the pair</td>
+<td>1, 0</td>
+<td>1, 0</td>
+<td>0, 0</td>
+<td>0, 1</td>
+<td>1, 1</td>
+<td>0, 1</td>
+<td>0, 1</td>
+<td>1, 1</td>
+</tr>
+<tr>
+<td>Residue</td>
+<td>D'</td>
+<td>D'</td>
+<td>0</td>
+<td>D</td>
+<td>1</td>
+<td>D</td>
+<td>D</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li>Build that 8:1 MUX the step-7 way: MUX 1 takes the first four residues (A = 0), MUX 2 the last four (A = 1); both use <strong>B, C</strong> as selects.</li>
+<li>MUX 3 picks MUX 1 or MUX 2 by A. It is a 4:1 MUX used as a 2:1: S<sub>1</sub> = 0, S<sub>0</sub> = A, I<sub>0</sub> = MUX 1, I<sub>1</sub> = MUX 2, I<sub>2</sub> = I<sub>3</sub> = 0.</li>
+</ol>
 
-
-
-
-
-
-<figure style="max-width:100%"><div style="width:86mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 195.48 114.501951" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<figure style="max-width:62%"><div style="width:108mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 240.8256 192.675765" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:02.773130</dc:date>
+    <dc:date>2026-11-17T23:28:03.914847</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 192.675765 
+L 240.8256 192.675765 
+L 240.8256 0 
+L 0 0 
+L 0 192.675765 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 195.8112 91.9625 
+Q 205.7904 91.9625 214.4876 91.9625 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 210.4876 89.609559 
+L 214.4876 91.9625 
+L 210.4876 94.315441 
+z
+" clip-path="url(#pb1be7d469b)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 47.232 69.7865 
+L 47.232 16.5641 
+L 80.496 25.4345 
+L 80.496 60.9161 
+z
+" clip-path="url(#pb1be7d469b)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 33.9264 23.2169 
+L 47.232 23.2169 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 33.9264 36.5225 
+L 47.232 36.5225 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 33.9264 49.8281 
+L 47.232 49.8281 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 33.9264 63.1337 
+L 47.232 63.1337 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 55.88064 80.785796 
+L 55.88064 67.480196 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 72.51264 76.350596 
+L 72.51264 63.044996 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 47.232 167.3609 
+L 47.232 114.1385 
+L 80.496 123.0089 
+L 80.496 158.4905 
+z
+" clip-path="url(#pb1be7d469b)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 33.9264 120.7913 
+L 47.232 120.7913 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 33.9264 134.0969 
+L 47.232 134.0969 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 33.9264 147.4025 
+L 47.232 147.4025 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 33.9264 160.7081 
+L 47.232 160.7081 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 55.88064 178.360196 
+L 55.88064 165.054596 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 72.51264 173.924996 
+L 72.51264 160.619396 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 162.5472 118.5737 
+L 162.5472 65.3513 
+L 195.8112 74.2217 
+L 195.8112 109.7033 
+z
+" clip-path="url(#pb1be7d469b)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 149.2416 72.0041 
+L 162.5472 72.0041 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_14">
+    <path d="M 149.2416 85.3097 
+L 162.5472 85.3097 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_15">
+    <path d="M 149.2416 98.6153 
+L 162.5472 98.6153 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_16">
+    <path d="M 149.2416 111.9209 
+L 162.5472 111.9209 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_17">
+    <path d="M 171.19584 129.572996 
+L 171.19584 116.267396 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_18">
+    <path d="M 187.82784 125.137796 
+L 187.82784 111.832196 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_19">
+    <path d="M 80.496 43.1753 
+L 122.6304 43.1753 
+L 122.6304 72.0041 
+L 149.2416 72.0041 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_20">
+    <path d="M 80.496 140.7497 
+L 133.7184 140.7497 
+L 133.7184 85.3097 
+L 149.2416 85.3097 
+" clip-path="url(#pb1be7d469b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.7088" y="25.640884" transform="rotate(-0 31.7088 25.640884)">D'</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.7088" y="38.946484" transform="rotate(-0 31.7088 38.946484)">D'</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.7088" y="52.252084" transform="rotate(-0 31.7088 52.252084)">0</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.7088" y="65.557684" transform="rotate(-0 31.7088 65.557684)">D</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="55.88064" y="90.036365" transform="rotate(-0 55.88064 90.036365)">B</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="72.51264" y="85.601165" transform="rotate(-0 72.51264 85.601165)">C</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.7088" y="123.215284" transform="rotate(-0 31.7088 123.215284)">1</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.7088" y="136.520884" transform="rotate(-0 31.7088 136.520884)">D</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.7088" y="149.826484" transform="rotate(-0 31.7088 149.826484)">D</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.7088" y="163.132084" transform="rotate(-0 31.7088 163.132084)">1</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="55.88064" y="187.610765" transform="rotate(-0 55.88064 187.610765)">B</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="72.51264" y="183.175565" transform="rotate(-0 72.51264 183.175565)">C</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="171.19584" y="138.823565" transform="rotate(-0 171.19584 138.823565)">0</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="187.82784" y="134.388365" transform="rotate(-0 187.82784 134.388365)">A</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="63.864" y="8.8025" transform="rotate(-0 63.864 8.8025)">MUX1</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="63.864" y="106.3769" transform="rotate(-0 63.864 106.3769)">MUX2</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="179.1792" y="56.4809" transform="rotate(-0 179.1792 56.4809)">MUX3</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="147.024" y="101.039284" transform="rotate(-0 147.024 101.039284)">0</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="147.024" y="114.344884" transform="rotate(-0 147.024 114.344884)">0</text>
+   </g>
+   <g id="text_20">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="217.9872" y="94.641641" transform="rotate(-0 217.9872 94.641641)">F</text>
+   </g>
+   <g id="text_21">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="49.4496" y="25.105056" transform="rotate(-0 49.4496 25.105056)">I0</text>
+   </g>
+   <g id="text_22">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="49.4496" y="38.410656" transform="rotate(-0 49.4496 38.410656)">I1</text>
+   </g>
+   <g id="text_23">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="49.4496" y="51.716256" transform="rotate(-0 49.4496 51.716256)">I2</text>
+   </g>
+   <g id="text_24">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="49.4496" y="65.021856" transform="rotate(-0 49.4496 65.021856)">I3</text>
+   </g>
+   <g id="text_25">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="69.18624" y="45.21655" transform="rotate(-0 69.18624 45.21655)">4:1</text>
+   </g>
+   <g id="text_26">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="49.4496" y="122.679456" transform="rotate(-0 49.4496 122.679456)">I0</text>
+   </g>
+   <g id="text_27">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="49.4496" y="135.985056" transform="rotate(-0 49.4496 135.985056)">I1</text>
+   </g>
+   <g id="text_28">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="49.4496" y="149.290656" transform="rotate(-0 49.4496 149.290656)">I2</text>
+   </g>
+   <g id="text_29">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="49.4496" y="162.596256" transform="rotate(-0 49.4496 162.596256)">I3</text>
+   </g>
+   <g id="text_30">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="69.18624" y="142.79095" transform="rotate(-0 69.18624 142.79095)">4:1</text>
+   </g>
+   <g id="text_31">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="164.7648" y="73.892256" transform="rotate(-0 164.7648 73.892256)">I0</text>
+   </g>
+   <g id="text_32">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="164.7648" y="87.197856" transform="rotate(-0 164.7648 87.197856)">I1</text>
+   </g>
+   <g id="text_33">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="164.7648" y="100.503456" transform="rotate(-0 164.7648 100.503456)">I2</text>
+   </g>
+   <g id="text_34">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="164.7648" y="113.809056" transform="rotate(-0 164.7648 113.809056)">I3</text>
+   </g>
+   <g id="text_35">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="184.50144" y="94.00375" transform="rotate(-0 184.50144 94.00375)">4:1</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pb1be7d469b">
+   <rect x="2.88" y="3.2585" width="235.0656" height="186.2784"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>Practice set 1 Q5 with 4:1 MUXes only. MUX1 (A = 0 half): D', D', 0, D. MUX2 (A = 1 half): 1, D, D, 1. Both on selects B, C. MUX3 on selects 0, A picks one of them.</figcaption></figure>
+
+<p><strong>Answer.</strong> Three 4:1 MUXes: <strong>MUX 1 = D', D', 0, D; MUX 2 = 1, D, D, 1</strong> (selects B, C); <strong>MUX 3: S<sub>1</sub> = 0, S<sub>0</sub> = A, I<sub>0</sub> = MUX 1, I<sub>1</sub> = MUX 2</strong>. One inverter makes D'.</p>
+<div class="box check">
+<div class="bh">Check 8</div>
+<p>Build the running example (MTE Q5) the same way, from 4:1 MUXes only with S as the data variable. Give the data inputs of the two first-level MUXes.</p>
+</div>
+<h3>9 · Enable, and the 74LS151 chip</h3>
+<p>Step 8's third MUX did a 2:1 job. A chip with an <strong>enable</strong> pin does it with an OR gate instead.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 04 slides 20–21, 29 (EX 4.20, 4.29)</span></div>
+<p>Exercise 1: Implement the logic circuit function specified in the table by using the 74LS151 8-input data selector/multiplexer (Y = 1 on rows 1, 3, 5, 6 of A<sub>2</sub>A<sub>1</sub>A<sub>0</sub>). Then: construct an 8-to-1 multiplexer using only two 4-to-1 multiplexers and basic gates.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Two 4:1 MUXes both see S<sub>1</sub>S<sub>0</sub>. If the lower-half MUX could be switched off whenever S<sub>2</sub> = 1 and the upper-half one whenever S<sub>2</sub> = 0, what single gate combines their outputs?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Enable (strobe) G':</strong> a control pin; with the bar it is <strong>active-low</strong>: G' = 0 lets the MUX work, G' = 1 switches it off. <strong>Disabled output:</strong> what the output shows when switched off. For the '151 family a high strobe forces Y low (Y = 0) and its complement output W high (TI SN74ALS151 function table).</p>
+</div>
+
+<figure style="max-width:46%"><div style="width:66mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 150.84 154.253647" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:03.976659</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 154.253647 
+L 150.84 154.253647 
+L 150.84 0 
+L 0 0 
+L 0 154.253647 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 58.351765 119.370706 
+L 58.351765 17.814706 
+L 94.621765 29.549118 
+L 94.621765 107.636294 
+z
+" clip-path="url(#p3c9397fd9c)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 94.621765 68.592706 
+Q 104.222647 68.592706 112.541529 68.592706 
+" clip-path="url(#p3c9397fd9c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 108.541529 66.239765 
+L 112.541529 68.592706 
+L 108.541529 70.945647 
+z
+" clip-path="url(#p3c9397fd9c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 43.417059 24.161956 
+L 58.351765 24.161956 
+" clip-path="url(#p3c9397fd9c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 43.417059 36.856456 
+L 58.351765 36.856456 
+" clip-path="url(#p3c9397fd9c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 43.417059 49.550956 
+L 58.351765 49.550956 
+" clip-path="url(#p3c9397fd9c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 43.417059 62.245456 
+L 58.351765 62.245456 
+" clip-path="url(#p3c9397fd9c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 43.417059 74.939956 
+L 58.351765 74.939956 
+" clip-path="url(#p3c9397fd9c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 43.417059 87.634456 
+L 58.351765 87.634456 
+" clip-path="url(#p3c9397fd9c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 43.417059 100.328956 
+L 58.351765 100.328956 
+" clip-path="url(#p3c9397fd9c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 43.417059 113.023456 
+L 58.351765 113.023456 
+" clip-path="url(#p3c9397fd9c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 65.819118 134.305412 
+L 65.819118 116.954798 
+" clip-path="url(#p3c9397fd9c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 77.553529 134.305412 
+L 77.553529 113.15837 
+" clip-path="url(#p3c9397fd9c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 89.287941 134.305412 
+L 89.287941 109.361943 
+" clip-path="url(#p3c9397fd9c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="26.101143" transform="rotate(-0 60.912 26.101143)">I0</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="26.58594" transform="rotate(-0 41.283529 26.58594)">0</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="38.795643" transform="rotate(-0 60.912 38.795643)">I1</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="39.28044" transform="rotate(-0 41.283529 39.28044)">1</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="51.490143" transform="rotate(-0 60.912 51.490143)">I2</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="51.97494" transform="rotate(-0 41.283529 51.97494)">0</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="64.184643" transform="rotate(-0 60.912 64.184643)">I3</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="64.66944" transform="rotate(-0 41.283529 64.66944)">1</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="76.879143" transform="rotate(-0 60.912 76.879143)">I4</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="77.36394" transform="rotate(-0 41.283529 77.36394)">0</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="89.573643" transform="rotate(-0 60.912 89.573643)">I5</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="90.05844" transform="rotate(-0 41.283529 90.05844)">1</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="102.268143" transform="rotate(-0 60.912 102.268143)">I6</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="102.75294" transform="rotate(-0 41.283529 102.75294)">1</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="114.962643" transform="rotate(-0 60.912 114.962643)">I7</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="115.44744" transform="rotate(-0 41.283529 115.44744)">0</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="115.957059" y="71.271847" transform="rotate(-0 115.957059 71.271847)">Y</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="65.819118" y="144.538675" transform="rotate(-0 65.819118 144.538675)">A2</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="77.553529" y="144.538675" transform="rotate(-0 77.553529 144.538675)">A1</text>
+   </g>
+   <g id="text_20">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.287941" y="144.538675" transform="rotate(-0 89.287941 144.538675)">A0</text>
+   </g>
+   <g id="text_21">
+    <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="76.486765" y="12.480882" transform="rotate(-0 76.486765 12.480882)">74LS151, G' = 0</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p3c9397fd9c">
+   <rect x="2.88" y="2.88" width="145.08" height="148.493647"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>Slide 21's answer: a 74LS151 with G' tied to 0 (enabled), selects A2, A1, A0, data inputs 0, 1, 0, 1, 0, 1, 1, 0: data input j is F on row j.</figcaption></figure>
+
+<p>The 74LS151 is step 3's 8:1 MUX in one package: tie G' = 0 and wire the truth-table column to D<sub>0</sub>–D<sub>7</sub>. Its SOP, Y = A<sub>2</sub>'A<sub>1</sub>'A<sub>0</sub> + A<sub>2</sub>'A<sub>1</sub>A<sub>0</sub> + A<sub>2</sub>A<sub>1</sub>'A<sub>0</sub> + A<sub>2</sub>A<sub>1</sub>A<sub>0</sub>', is Σm(1, 3, 5, 6).</p>
+
+<figure style="max-width:50%"><div style="width:93mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 209.33568 233.28576" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:04.037164</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 233.28576 
+L 209.33568 233.28576 
+L 209.33568 0 
+L 0 0 
+L 0 233.28576 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 160.55136 108.65952 
+Q 169.53264 108.65952 177.23192 108.65952 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 173.23192 106.306579 
+L 177.23192 108.65952 
+L 173.23192 111.012461 
+z
+" clip-path="url(#pc136563b6a)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 42.7968 82.7136 
+L 42.7968 34.81344 
+L 72.7344 42.7968 
+L 72.7344 74.73024 
+z
+" clip-path="url(#pc136563b6a)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 30.82176 40.80096 
+L 42.7968 40.80096 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 30.82176 52.776 
+L 42.7968 52.776 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 30.82176 64.75104 
+L 42.7968 64.75104 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 30.82176 76.72608 
+L 42.7968 76.72608 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 50.580576 92.612966 
+L 50.580576 80.637926 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 65.549376 88.621286 
+L 65.549376 76.646246 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 42.7968 182.5056 
+L 42.7968 134.60544 
+L 72.7344 142.5888 
+L 72.7344 174.52224 
+z
+" clip-path="url(#pc136563b6a)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 30.82176 140.59296 
+L 42.7968 140.59296 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 30.82176 152.568 
+L 42.7968 152.568 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 30.82176 164.54304 
+L 42.7968 164.54304 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 30.82176 176.51808 
+L 42.7968 176.51808 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 50.580576 192.404966 
+L 50.580576 180.429926 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 65.549376 188.413286 
+L 65.549376 176.438246 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 60.75936 39.603456 
+L 60.75936 28.626336 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #12925a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_14">
+    <path d="M 60.75936 139.395456 
+L 60.75936 128.418336 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #12925a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_15">
+    <path d="M 72.7344 58.76352 
+L 114.64704 58.76352 
+L 114.64704 103.17096 
+L 137.459491 103.17096 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_16">
+    <path d="M 72.7344 158.55552 
+L 114.64704 158.55552 
+L 114.64704 114.14808 
+L 137.459491 114.14808 
+" clip-path="url(#pc136563b6a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="28.82592" y="43.224944" transform="rotate(-0 28.82592 43.224944)">I0</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="28.82592" y="55.199984" transform="rotate(-0 28.82592 55.199984)">I1</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="28.82592" y="67.175024" transform="rotate(-0 28.82592 67.175024)">I2</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="28.82592" y="79.150064" transform="rotate(-0 28.82592 79.150064)">I3</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="50.580576" y="101.641775" transform="rotate(-0 50.580576 101.641775)">S1</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="65.549376" y="97.650095" transform="rotate(-0 65.549376 97.650095)">S0</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="28.82592" y="143.016944" transform="rotate(-0 28.82592 143.016944)">I4</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="28.82592" y="154.991984" transform="rotate(-0 28.82592 154.991984)">I5</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="28.82592" y="166.967024" transform="rotate(-0 28.82592 166.967024)">I6</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="28.82592" y="178.942064" transform="rotate(-0 28.82592 178.942064)">I7</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="50.580576" y="201.433775" transform="rotate(-0 50.580576 201.433775)">S1</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="65.549376" y="197.442095" transform="rotate(-0 65.549376 197.442095)">S0</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="60.75936" y="24.445496" transform="rotate(-0 60.75936 24.445496)">G' = S2</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="60.75936" y="124.237496" transform="rotate(-0 60.75936 124.237496)">G' = S2'</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 134.60544 97.6824 
+L 135.893727 97.701457 
+L 137.163996 97.75863 
+L 138.416247 97.853917 
+L 139.65048 97.98732 
+L 140.866695 98.158838 
+L 142.064892 98.36847 
+L 143.245071 98.616218 
+L 144.407232 98.90208 
+L 145.551375 99.226057 
+L 146.6775 99.58815 
+L 147.785607 99.988357 
+L 148.875696 100.42668 
+L 149.947767 100.903117 
+L 151.00182 101.41767 
+L 152.037855 101.970337 
+L 153.055872 102.56112 
+L 154.055871 103.190017 
+L 155.037852 103.85703 
+L 156.001815 104.562157 
+L 156.94776 105.3054 
+L 157.875687 106.086757 
+L 158.785596 106.90623 
+L 159.677487 107.763817 
+L 160.55136 108.65952 
+L 160.55136 108.65952 
+L 159.677487 109.555222 
+L 158.785596 110.41281 
+L 157.875687 111.232282 
+L 156.94776 112.01364 
+L 156.001815 112.756883 
+L 155.037852 113.46201 
+L 154.055871 114.129022 
+L 153.055872 114.75792 
+L 152.037855 115.348703 
+L 151.00182 115.90137 
+L 149.947767 116.415922 
+L 148.875696 116.89236 
+L 147.785607 117.330682 
+L 146.6775 117.73089 
+L 145.551375 118.092982 
+L 144.407232 118.41696 
+L 143.245071 118.702822 
+L 142.064892 118.95057 
+L 140.866695 119.160202 
+L 139.65048 119.33172 
+L 138.416247 119.465122 
+L 137.163996 119.56041 
+L 135.893727 119.617582 
+L 134.60544 119.63664 
+L 134.60544 119.63664 
+L 135.227061 118.72188 
+L 135.794628 117.80712 
+L 136.308141 116.89236 
+L 136.7676 115.9776 
+L 137.173005 115.06284 
+L 137.524356 114.14808 
+L 137.821653 113.23332 
+L 138.064896 112.31856 
+L 138.254085 111.4038 
+L 138.38922 110.48904 
+L 138.470301 109.57428 
+L 138.497328 108.65952 
+L 138.470301 107.74476 
+L 138.38922 106.83 
+L 138.254085 105.91524 
+L 138.064896 105.00048 
+L 137.821653 104.08572 
+L 137.524356 103.17096 
+L 137.173005 102.2562 
+L 136.7676 101.34144 
+L 136.308141 100.42668 
+L 135.794628 99.51192 
+L 135.227061 98.59716 
+z
+" clip-path="url(#pc136563b6a)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_15">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="180.50976" y="111.338661" transform="rotate(-0 180.50976 111.338661)">F</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="148.57632" y="134.65085" transform="rotate(-0 148.57632 134.65085)">OR</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="122.6304" y="227.089372" transform="rotate(-0 122.6304 227.089372)">disabled MUX outputs 0</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="62.555616" y="60.80477" transform="rotate(-0 62.555616 60.80477)">4:1</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="62.555616" y="160.59677" transform="rotate(-0 62.555616 160.59677)">4:1</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pc136563b6a">
+   <rect x="2.88" y="2.88" width="203.57568" height="227.52576"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>Slide 29 solved: two 4:1 MUXes share S1, S0; S2 drives the top MUX's G' and S2' the bottom one's, so only one is enabled; the OR passes the enabled output because the disabled one outputs 0.</figcaption></figure>
+
+<ol>
+<li>S<sub>2</sub> = 0: top MUX (I<sub>0</sub>–I<sub>3</sub>) enabled (G' = S<sub>2</sub> = 0), bottom MUX disabled (G' = S<sub>2</sub>' = 1), output 0.</li>
+<li>OR(x, 0) = x: F = the top MUX's choice, I<sub>(S1S0)</sub>.</li>
+<li>S<sub>2</sub> = 1: roles swap; F = I<sub>(4 + S1S0)</sub>.</li>
+</ol>
+<p><strong>Answer.</strong> 74LS151: <strong>G' = 0, D<sub>0</sub>…D<sub>7</sub> = 0, 1, 0, 1, 0, 1, 1, 0</strong>. 8:1 from two 4:1: <strong>S<sub>2</sub> to one enable, S<sub>2</sub>' to the other, one 2-input OR</strong>. The OR works only because a disabled MUX outputs 0.</p>
+<div class="box check">
+<div class="bh">Check 9</div>
+<p>Which 8:1 data input reaches F when S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> = 110 in the two-MUX circuit? Which MUX is enabled?</p>
+</div>
+<h3>10 · The demultiplexer: the switch run backwards</h3>
+<p>A MUX gathers many sources onto one line. At the far end of that line, something must hand the signal back out to the right destination (slide 31: a MUX and a DEMUX sharing a one-bit bus).</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 04 slides 36–38</span></div>
+<p>Draw the 1-to-4 demultiplexer and write its output equations.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>In a 1:4 DEMUX the selects say which output gets the data D. What value must the other three outputs hold?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Demultiplexer (data distributor):</strong> one data input D, 2<sup>n</sup> outputs; the select code j routes D to output Y<sub>j</sub>. Every other output stays 0.</p>
+</div>
+
+<figure style="max-width:55%"><div style="width:86mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 195.48 114.501951" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T23:28:04.082848</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -399,67 +2598,67 @@ L 63.035122 29.487073
 L 102.367317 16.761951 
 L 102.367317 76.917073 
 z
-" clip-path="url(#pa9afd103ed)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+" clip-path="url(#pc91ffccc42)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 39.898537 46.839512 
 Q 51.466829 46.839512 61.753122 46.839512 
-" clip-path="url(#pa9afd103ed)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pc91ffccc42)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 57.753122 44.486571 
 L 61.753122 46.839512 
 L 57.753122 49.192453 
 z
-" clip-path="url(#pa9afd103ed)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pc91ffccc42)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_4">
     <path d="M 102.367317 23.702927 
 Q 112.77878 23.702927 121.908244 23.702927 
-" clip-path="url(#pa9afd103ed)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pc91ffccc42)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 117.908244 21.349986 
 L 121.908244 23.702927 
 L 117.908244 26.055868 
 z
-" clip-path="url(#pa9afd103ed)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pc91ffccc42)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_5">
     <path d="M 102.367317 38.973073 
 Q 112.77878 38.973073 121.908244 38.973073 
-" clip-path="url(#pa9afd103ed)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pc91ffccc42)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 117.908244 36.620132 
 L 121.908244 38.973073 
 L 117.908244 41.326014 
 z
-" clip-path="url(#pa9afd103ed)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pc91ffccc42)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_6">
     <path d="M 102.367317 54.24322 
 Q 112.77878 54.24322 121.908244 54.24322 
-" clip-path="url(#pa9afd103ed)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pc91ffccc42)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 117.908244 51.890278 
 L 121.908244 54.24322 
 L 117.908244 56.596161 
 z
-" clip-path="url(#pa9afd103ed)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pc91ffccc42)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_7">
     <path d="M 102.367317 69.513366 
 Q 112.77878 69.513366 121.908244 69.513366 
-" clip-path="url(#pa9afd103ed)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pc91ffccc42)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 117.908244 67.160425 
 L 121.908244 69.513366 
 L 117.908244 71.866307 
 z
-" clip-path="url(#pa9afd103ed)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pc91ffccc42)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_1">
     <path d="M 76.917073 93.112683 
 L 76.917073 68.683171 
-" clip-path="url(#pa9afd103ed)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pc91ffccc42)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_2">
     <path d="M 89.642195 93.112683 
 L 89.642195 72.800122 
-" clip-path="url(#pa9afd103ed)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pc91ffccc42)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="text_1">
     <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="37.584878" y="49.391075" transform="rotate(-0 37.584878 49.391075)">D</text>
@@ -488,54 +2687,73 @@ L 89.642195 72.800122
   </g>
  </g>
  <defs>
-  <clipPath id="pa9afd103ed">
+  <clipPath id="pc91ffccc42">
    <rect x="2.88" y="2.88" width="189.72" height="108.741951"/>
   </clipPath>
  </defs>
 </svg>
-</div><figcaption>1:4 demultiplexer: D goes to the output chosen by the selects.</figcaption></figure>
+</div><figcaption>The 1:4 demultiplexer: D enters four AND gates; each gate is also fed one select minterm, so only output Y(S1S0) can follow D.</figcaption></figure>
 
+<p>Each output is D gated by its select minterm (step 2's minterms again):</p>
+<div class="eq">Y<sub>0</sub> = S<sub>1</sub>'S<sub>0</sub>'D&emsp;&emsp;&emsp;Y<sub>1</sub> = S<sub>1</sub>'S<sub>0</sub>D&emsp;&emsp;&emsp;Y<sub>2</sub> = S<sub>1</sub>S<sub>0</sub>'D&emsp;&emsp;&emsp;Y<sub>3</sub> = S<sub>1</sub>S<sub>0</sub>D</div>
 
-
-
-</div>
-
-<p><strong>MUX tree.</strong> Small MUXes build a larger one: an 8:1 is two 4:1s (selects S<sub>1</sub>S<sub>0</sub>) and a 2:1 (select S<sub>2</sub>) (deck 04 slides 26–29). <strong>Demultiplexer:</strong> the reverse: one data input D is routed to the selected output; the others stay 0. A decoder with an enable is a demultiplexer (06).</p>
-<p><strong>Answer.</strong> Three 4:1 MUXes. MUX 1 (A = 0) and MUX 2 (A = 1) use B, C as selects. MUX 1: <strong>D', D', 0, D</strong> (rows 0–1, 2–3, 4–5, 6–7). MUX 2: <strong>1, D, D, 1</strong> (rows 8–15). MUX 3: A on one select, the other grounded: I<sub>0</sub> = MUX 1, I<sub>1</sub> = MUX 2.</p>
+<p>Read it: "Y<sub>2</sub> copies D when the select code is 10, and is 0 otherwise". A 1:8 DEMUX (slide 38) has eight such gates with 3-variable minterms.</p>
+<p><strong>Answer to the Guess.</strong> <strong>0</strong>. <strong>Answer.</strong> Four 3-input ANDs, each fed D and one minterm of S<sub>1</sub>, S<sub>0</sub> (two inverters make S<sub>1</sub>', S<sub>0</sub>'); equations above. File 06 step 3 shows the same circuit is a 2:4 decoder whose enable carries D.</p>
 <div class="box check">
-<div class="bh">Check 3</div>
-<p>(a) How many 2:1 MUXes make an 8:1 MUX? (b) Write the four output equations of a 1:4 demultiplexer.</p>
+<div class="bh">Check 10</div>
+<p>A 1:4 DEMUX has S<sub>1</sub>S<sub>0</sub> = 10 and D = 1. Give Y<sub>0</sub>, Y<sub>1</sub>, Y<sub>2</sub>, Y<sub>3</sub>.</p>
 </div>
 <hr />
 <h2>Exam form</h2>
-<p><strong>MUX.</strong> Block, select table, 4:1 equation.</p>
-<p><strong>Function on a MUX.</strong> Selects ← n − 1 variables; the pair table (0, S, S', 1); draw the MUX with every input labelled.</p>
-<p><strong>Tree, DEMUX.</strong> 8:1 from 4:1s + 2:1; DEMUX equations Y<sub>j</sub> = D·(select code j).</p>
+<p><strong>MUX (2:1, 4:1).</strong> Block (data, selects, output) · truth table · Y = Σ m<sub>j</sub>I<sub>j</sub>, e.g. Y = S<sub>1</sub>'S<sub>0</sub>'I<sub>0</sub> + S<sub>1</sub>'S<sub>0</sub>I<sub>1</sub> + S<sub>1</sub>S<sub>0</sub>'I<sub>2</sub> + S<sub>1</sub>S<sub>0</sub>I<sub>3</sub> · gates: one AND per input, one OR.</p>
+<p><strong>Function on a MUX</strong> (MTE Q5 recipe, 4 marks):</p>
+<ol>
+<li>Write which variables go on the selects, most significant first.</li>
+<li>Draw the pair table: data input · minterms covered · F on the pair · residue.</li>
+<li>Residues: (0, 0) → 0; (0, 1) → X; (1, 0) → X'; (1, 1) → 1 (X = the variable left over).</li>
+<li>Draw the MUX with every data input labelled and the inverter for X'.</li>
+<li>Check one row by hand.</li>
+</ol>
+<p><strong>Smaller MUX</strong> (two variables left over): four rows per code, residue a 2-variable function (EX 4.19).</p>
+<p><strong>Tree:</strong> first level on S<sub>0</sub>; 8:1 = 7 × 2:1 or 2 × 4:1 + 1 × 2:1; with enables: 2 × 4:1 + OR, S<sub>2</sub> to the enables.</p>
+<p><strong>DEMUX:</strong> Y<sub>j</sub> = D·m<sub>j</sub>(selects); others 0.</p>
 <h2>Traps</h2>
 <ul>
-<li>Putting the most significant variable on S<sub>0</sub>: check which select is the MSB.</li>
-<li>Pairing rows wrongly: the pairs differ in the last variable only (0–1, 2–3, …).</li>
-<li>Forgetting the inverter that makes S'.</li>
+<li>Putting the most significant variable on S<sub>0</sub>: the select code must spell the row number, MSB on the highest select.</li>
+<li>Pairing the wrong rows: a pair differs only in the variable left over (0–1, 2–3, …), so that variable must be the <strong>last</strong> one in F's list.</li>
+<li>Swapping X and X': (0, 1) → X, (1, 0) → X'.</li>
+<li>Forgetting the inverter that makes X'.</li>
+<li>In a tree, putting S<sub>2</sub> on the first level: the first level uses the least significant select.</li>
+<li>Combining two enabled MUXes with an OR while both are enabled: the enables must be opposite.</li>
 </ul>
 <h2>Self-test</h2>
 <ol>
-<li>Implement F(x, y, z) = Σm(0, 3, 5, 6) on a 4:1 MUX (x, y on selects).</li>
-<li>Implement F(A, B, C, D) = Σm(1, 3, 4, 11, 12, 13, 14, 15) on an 8:1 MUX (A, B, C on selects).</li>
-<li>How many 4:1 MUXes make a 16:1 MUX?</li>
-<li>Why is a MUX called a "universal" combinational block?</li>
-<li>What is the difference between a demultiplexer and a decoder with enable?</li>
+<li><span class="tag">Practice set 1 Q3</span> Implement F(a, b, c, d) = Σm(0, 1, 3, 5, 7, 9, 15) on an 8:1 MUX (a, b, c on the selects).</li>
+<li>Implement F(A, B, C) = Σm(0, 2, 5, 7) on a 4:1 MUX with A, B on the selects.</li>
+<li>Implement the same F with A, C on the selects and B as the data variable. What do the residues tell you about F?</li>
+<li>Implement the full adder's sum S = Σm(1, 2, 4, 7) and carry C = Σm(3, 5, 6, 7) on two 4:1 MUXes with x, y on the selects (z = carry in).</li>
+<li>Why can any function of n variables be built from one 2<sup>n−1</sup>:1 MUX and at most one inverter?</li>
+<li>What is the difference between a 1:4 DEMUX and a 2:4 decoder with an enable?</li>
 </ol>
 <div class="answers">
 <h2>Answers</h2>
-<p><strong>Check 1.</strong> I<sub>0</sub>…I<sub>7</sub> = <strong>0, 1, 1, 0, 1, 0, 0, 1</strong>.</p>
-<p><strong>Check 2.</strong> (a) Selects a, b, c: I<sub>0</sub> = <strong>1</strong>, I<sub>1</sub> = <strong>d</strong>, I<sub>2</sub> = <strong>d</strong>, I<sub>3</sub> = <strong>d</strong>, I<sub>4</sub> = <strong>d</strong>, I<sub>5</sub> = <strong>0</strong>, I<sub>6</sub> = <strong>0</strong>, I<sub>7</sub> = <strong>d</strong>. (b) Selects x, y: I<sub>0</sub> = <strong>z</strong>, I<sub>1</sub> = <strong>z'</strong>, I<sub>2</sub> = <strong>0</strong>, I<sub>3</sub> = <strong>1</strong>.</p>
-<p><strong>Check 3.</strong> (a) <strong>Seven</strong> (4 + 2 + 1). (b) Y<sub>0</sub> = DS<sub>1</sub>'S<sub>0</sub>', Y<sub>1</sub> = DS<sub>1</sub>'S<sub>0</sub>, Y<sub>2</sub> = DS<sub>1</sub>S<sub>0</sub>', Y<sub>3</sub> = DS<sub>1</sub>S<sub>0</sub>.</p>
+<p><strong>Check 1.</strong> (a) Z = S'·0 + S·1 = <strong>S</strong>. (b) Z = S'·1 + S·0 = <strong>S'</strong> (a 2:1 MUX makes an inverter).</p>
+<p><strong>Check 2.</strong> <strong>2, 4, 5</strong> (2<sup>2</sup> = 4, 2<sup>4</sup> = 16, 2<sup>5</sup> = 32).</p>
+<p><strong>Check 3.</strong> (a) Rows with data 1: 2, 5, 6, 7, so F = <strong>Σm(2, 5, 6, 7)</strong>. Map (file 02): pair m<sub>5</sub>, m<sub>7</sub> → AC and pair m<sub>2</sub>, m<sub>6</sub> → BC'; F = <strong>AC + BC'</strong>. (b) Sum S = Σm(1, 2): <strong>I<sub>0</sub>…I<sub>3</sub> = 0, 1, 1, 0</strong>. Carry C = Σm(3): <strong>0, 0, 0, 1</strong>.</p>
+<p><strong>Check 4.</strong> Pairs (C = 0, 1): AB = 00 → rows 0, 1 → 0, 0 → <strong>0</strong>; 01 → rows 2, 3 → 1, 0 → <strong>C'</strong>; 10 → rows 4, 5 → 0, 1 → <strong>C</strong>; 11 → rows 6, 7 → 1, 1 → <strong>1</strong>. Data inputs <strong>0, C', C, 1</strong>.</p>
+<p><strong>Check 5.</strong> (a) Pairs (S = 0, 1): (0, 1) 1, 0 → S'; (2, 3) 1, 0 → S'; (4, 5) 0, 1 → S; (6, 7) 0, 0 → 0; (8, 9) 0, 1 → S; (10, 11) 0, 1 → S; (12, 13) 1, 0 → S'; (14, 15) 1, 1 → 1. Data inputs <strong>S', S', S, 0, S, S, S', 1</strong>. (b) Pairs (D = 0, 1): (0, 1) 0, 1 → D; (2, 3) 0, 1 → D; (4, 5) 1, 0 → D'; (6, 7) → 0; (8, 9) → 0; (10, 11) 0, 1 → D; (12, 13) → 1; (14, 15) → 1. Data inputs <strong>D, D, D', 0, 0, D, 1, 1</strong>.</p>
+<p><strong>Check 6.</strong> PQ = 00: minterms 0, 1, 3 → RS = 00, 01, 11 → R'S' + R'S + RS = <strong>R' + S</strong>. PQ = 01: minterm 4 → RS = 00 → <strong>R'S'</strong>. PQ = 10: 8, 9, 10, 11 → <strong>1</strong>. PQ = 11: 13, 15 → RS = 01, 11 → <strong>S</strong>. Data inputs <strong>R' + S, R'S', 1, S</strong> (one OR, one AND, inverters).</p>
+<p><strong>Check 7.</strong> 2:1: 8 + 4 + 2 + 1 = <strong>15</strong>. 4:1: 4 + 1 = <strong>5</strong>.</p>
+<p><strong>Check 8.</strong> Step 5's residues split in two: first MUX (P = 0, selects Q, R) <strong>1, S, S', 0</strong>; second MUX (P = 1) <strong>1, 1, S, S</strong>. A third 4:1 MUX with S<sub>1</sub> = 0, S<sub>0</sub> = P picks between them.</p>
+<p><strong>Check 9.</strong> S<sub>2</sub> = 1: the top MUX has G' = S<sub>2</sub> = 1 (disabled, outputs 0); the <strong>bottom MUX</strong> has G' = S<sub>2</sub>' = 0 (enabled). S<sub>1</sub>S<sub>0</sub> = 10 selects its third input: <strong>I<sub>6</sub></strong> (4 + 2).</p>
+<p><strong>Check 10.</strong> <strong>Y<sub>0</sub> = 0, Y<sub>1</sub> = 0, Y<sub>2</sub> = 1, Y<sub>3</sub> = 0</strong>.</p>
 <p><strong>Self-test.</strong></p>
 <ol>
-<li>I<sub>0</sub> = <strong>z'</strong>, I<sub>1</sub> = <strong>z</strong>, I<sub>2</sub> = <strong>z</strong>, I<sub>3</sub> = <strong>z'</strong>.</li>
-<li>I<sub>0</sub> = <strong>D</strong>, I<sub>1</sub> = <strong>D</strong>, I<sub>2</sub> = <strong>D'</strong>, I<sub>3</sub> = <strong>0</strong>, I<sub>4</sub> = <strong>0</strong>, I<sub>5</sub> = <strong>D</strong>, I<sub>6</sub> = <strong>1</strong>, I<sub>7</sub> = <strong>1</strong>.</li>
-<li><strong>Five</strong> (four, then one).</li>
-<li>Any function of n variables fits on a 2<sup>n−1</sup>:1 MUX with at most one inverter.</li>
-<li>None in hardware: the decoder's enable is the DEMUX data input and its code inputs are the selects.</li>
+<li>Pairs (d = 0, 1): (0, 1) 1, 1 → 1; (2, 3) 0, 1 → d; (4, 5) 0, 1 → d; (6, 7) 0, 1 → d; (8, 9) 0, 1 → d; (10, 11) → 0; (12, 13) → 0; (14, 15) 0, 1 → d. Data inputs <strong>1, d, d, d, d, 0, 0, d</strong>.</li>
+<li>AB = 00: rows 0, 1 → 1, 0 → C'; 01: rows 2, 3 → 1, 0 → C'; 10: rows 4, 5 → 0, 1 → C; 11: rows 6, 7 → 0, 1 → C. Data inputs <strong>C', C', C, C</strong> (F = A'C' + AC).</li>
+<li>Selects A, C; each code covers B = 0, 1. AC = 00: rows 0, 2 → 1, 1 → <strong>1</strong>; 01: rows 1, 3 → <strong>0</strong>; 10: rows 4, 6 → <strong>0</strong>; 11: rows 5, 7 → <strong>1</strong>. Data inputs <strong>1, 0, 0, 1</strong>: all constants, so F does not depend on B at all: F = A'C' + AC (A XNOR C).</li>
+<li>Sum: xy = 00 → rows 0, 1 → 0, 1 → z; 01 → 1, 0 → z'; 10 → 1, 0 → z'; 11 → 0, 1 → z: <strong>z, z', z', z</strong>. Carry: 00 → <strong>0</strong>; 01 → rows 2, 3 → 0, 1 → <strong>z</strong>; 10 → rows 4, 5 → <strong>z</strong>; 11 → <strong>1</strong>: <strong>0, z, z, 1</strong>.</li>
+<li>With n − 1 variables on the selects, each select code covers two rows that differ only in the last variable X; F on those two rows is one of four patterns, so the data input is 0, 1, X or X'. Only X' needs a gate: one inverter.</li>
+<li>None in hardware. The decoder's code inputs are the DEMUX selects, and its enable is the DEMUX data input D (file 06 step 3).</li>
 </ol>
 </div></body></html>

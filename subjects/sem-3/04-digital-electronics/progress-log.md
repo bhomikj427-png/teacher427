@@ -6,8 +6,8 @@
 
 ## Session resume
 - Last session: 2026-11-14 — no teaching; built `study-pack/pdf-ete/DE-ETE-v1.pdf` (61 pp., all 5 units, EDC-ETE-v1 format).
-- Where we stopped: pack delivered; learner has not worked any Check. **No teaching yet; learner level undiagnosed.**
-- Next up: **Study-pack rebuild to v1.3 runs in sprints: resume from `sprints.md` → *Current hand-off*** (S0–S9; next: S0, the brief; `python auto.py run sem-3/04-digital-electronics`).
+- Where we stopped: v1.3 rebuild S0–S5 done (00–03, 05, 06, 09, 10, 12, 13, 15, 16 rebuilt); learner has not worked any Check. **No teaching yet; learner level undiagnosed.**
+- Next up: **Study-pack rebuild to v1.3 runs in sprints: resume from `sprints.md` → *Current hand-off*** (S0–S9; next: S6, files 04 + 07 + 08; `python auto.py run sem-3/04-digital-electronics`).
 - Due for review today: nothing yet (no items mastered).
 - Open: ETE date and format not given; no memory deck from the professor (E6 is built from the KB).
 
@@ -214,3 +214,5 @@
 - 2026-11-17 session 10: S4 START-HERE rows/slips/how-checked done (00, 15, 16 rebuilt, no OVERLAP); agy page check run 1 timed out (exit 124), retry on contact sheets running. S5 start: verify_u2.py (63 checks, 0 failures) wired as unit u2; Sonnet wrote figs_u2.py (15 figures). 74LS151 disabled-output = 0 not checked (TI PDF has no text layer): uncertain.
 
 - 2026-11-17 session 11 (auto-v2): rebuilt state from 5b1e6ae (session 10 crashed, usage limit): S4 START-HERE rows/slips/how-checked committed; agy page check of 15/16 result not recorded (retry was running at crash); S5 started: verify_u2.py (63 checks) + figs_u2.py (15 figures) wired, content 05/06 not yet written. Operator stop request at session start: hand-off rewritten only, no other work.
+- 2026-11-17 session 12 (auto-v2): S5 continue: write 05 + 06 to v1.3 from verify_u2.py and figs_u2.py; build; page check.
+- 2026-11-18 session 12: S5 done: 05 (10 steps) and 06 (10 steps) rebuilt to v1.3; verify 450/0; build no OVERLAP; agy page checks 05, 06, 15, 16 clean; START-HERE, mock, sources.md updated. Next: S6.

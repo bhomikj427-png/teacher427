@@ -49,7 +49,7 @@ Cover the right column, write each line from the cue, then uncover. Any row you 
 | 03 Universal | SOP → NAND–NAND · POS → NOR–NOR · XOR = 4 NAND |
 | 04 Adders | S = A ⊕ B ⊕ C_{in}, C_{out} = AB + C_{in}(A ⊕ B) · C_{i+1} = G_{i} + P_{i}C_{i} · ripple (2n + 1)T · BCD: + 0110 if K + Z_{3}Z_{2} + Z_{3}Z_{1} |
 | 05 MUX | n variables on 2^{n−1}:1: inputs 0, 1, x, x' per row pair |
-| 06 Decoder, encoder | output j = m_{j}; OR (NAND if active-low) · y_{1} = w_{3} + w_{2}, y_{0} = w_{3} + w_{2}'w_{1} |
+| 06 Decoder, encoder | output j = m_{j}; OR (NAND if active-low) · x = D_{2} + D_{3}, y = D_{3} + D_{1}D_{2}', V = D_{0} + D_{1} + D_{2} + D_{3} |
 | 07 Display, comparator, parity | common anode lit by 0 · G = A_{1}B_{1}' + x_{1}A_{0}B_{0}' · P_{even} = XOR of data |
 | 08 Shifts, ALU | arithmetic right copies sign · Y_{i} = B_{i}S_{0} + B_{i}'S_{1}, F = A + Y + C_{in} |
 | 09 Flip-flops | Q⁺ = JQ' + K'Q · Q⁺ = D · Q⁺ = T ⊕ Q · excitation table |
@@ -71,7 +71,7 @@ Cover the right column, write each line from the cue, then uncover. Any row you 
 1. (X + Y)' = X'Y' and (XY)' = X' + Y'. (01)
 2. **ΠM(0, 2, 4, 5, 7)**. (01)
 3. NOT, AND and OR can each be built from NANDs alone, so any function can. (03)
-4. **4** select lines; **five** 4:1 MUXes. (05)
+4. **4** select lines; **five** 4:1 MUXes. (05 steps 2, 7)
 5. Four 1s (even): odd parity bit **1**. (07)
 6. Latch: level-triggered, transparent while enabled, passes glitches. Flip-flop: edge-triggered, samples once per clock. (09)
 7. **4** flip-flops; **4** unused states. (12)
@@ -82,8 +82,8 @@ Cover the right column, write each line from the cue, then uncover. Any row you 
 **Part B.**
 
 11. F = 1 for minterms 3, 6, 7, 11, 12, 13, 14, 15. K-map: three quads, **F = AB + BC + CD**: three 2-input ANDs and a 3-input OR (or NAND–NAND).
-12. P, Q, R on the selects. I_{0} = **S'**, I_{1} = **S'**, I_{2} = **S**, I_{3} = **0**, I_{4} = **S**, I_{5} = **S**, I_{6} = **S'**, I_{7} = **1**. (05)
-13. A 4:16 decoder (two 3:8s, a enabling one directly and the other through an inverter); **OR outputs 0, 1, 2, 5, 6, 8, 9, 15** (8-input NAND if active-low). (06)
+12. P, Q, R on the selects. I_{0} = **S'**, I_{1} = **S'**, I_{2} = **S**, I_{3} = **0**, I_{4} = **S**, I_{5} = **S**, I_{6} = **S'**, I_{7} = **1**. (05 step 5, Check 5)
+13. A 4:16 decoder (two 3:8s, a enabling one directly and the other through an inverter); **OR outputs 0, 1, 2, 5, 6, 8, 9, 15** (8-input NAND if active-low). (06 steps 4, 8)
 14. 00 → 01 → 10 → 11 → 00. Excitation (J_{1}K_{1}, J_{0}K_{0}): 00: 0X, 1X · 01: 1X, X1 · 10: X0, 1X · 11: X1, X1. **J_{0} = K_{0} = 1, J_{1} = K_{1} = Q_{0}**. (13)
 15. P_{1}: (ADFG)(BCEH). P_{2}: on x = 1, D → B (other block): D separates → (AFG)(BCEH)(D). P_{3}: A, F → D but G → G: G separates; on x = 1, E → F but B, C, H → D: E separates → (AF)(BCH)(D)(E)(G). P_{4} = P_{3}. **A ≡ F, B ≡ C ≡ H**: 8 states become 5. (16)
 16. Circuit and operation: 18 §2. Fan-out: 8/0.4 = 20 and 400/20 = 20: **20**.

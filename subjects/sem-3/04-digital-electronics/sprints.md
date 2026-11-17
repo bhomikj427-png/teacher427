@@ -42,8 +42,8 @@ in `exam-pack/` (index: `exam-pack/README.md`): MTE 2025 paper, practice sets 1�
 | S1 | **01 + 02 + 03** Boolean algebra; K-maps; NAND/NOR | old 01–03 · KB `01` · decks 01, 02 · MTE Q1, Q4 · set 1 Q1, Q2, Q4 | `01-…`, `02-…`, `03-…` rebuilt (a/b if > 13 steps), `src/figs_u1.py` | protocol 6–12 hold; every minimisation checked by truth table in verify | **done** 2026-11-17 (01: 10 steps, 02: 10, 03: 7; no split) |
 | S2 | **09 + 10** latches and flip-flops; waveforms | old 09, 10 · KB `03` · deck 08 · MTE Q3, Q7 · set 2 Q1–Q3 | `09-…`, `10-…` rebuilt, `src/figs_u3.py` | same; every waveform answer simulated in verify | **done** 2026-11-17 (sessions 4–6; 09: 13 steps, 10: 7; no split) |
 | S3 | **12 + 13** ripple counters; synchronous counters (rank 1: the MTE's only 8-mark question) | old 12, 13 · KB `03` · deck 10 · set 2 Q4–Q6 | `12-…`, `13-…` rebuilt (13a/13b likely) | same; every counter's state sequence simulated in verify | **done** 2026-11-17 (sessions 7–8; 12: 8 steps, 13: 12 steps; no 13a/13b split) |
-| S4 | **15 + 16** FSM design; state reduction, ASM | old 15, 16 · KB `04` · decks 11, 12, 13 | `15-…`, `16-…` rebuilt, `src/figs_u4.py` | same; the five detectors on deck 11's last slide simulated in verify |**done** 2026-11-17 (sessions 9-10; 15: 12 steps, 16: 12; no split; START-HERE rows + slips done; agy page check result not recorded, redo in S5) |
-| S5 | **05 + 06** MUX/DEMUX; decoder/encoder | old 05, 06 · KB `02` · decks 04, 05 · MTE Q5, Q6 · set 1 Q3, Q5–Q8 | `05-…`, `06-…` rebuilt, `src/figs_u2.py` | same | **partial** (session 10: verify_u2.py 63 checks + figs_u2.py 15 figures; text not written) |
+| S4 | **15 + 16** FSM design; state reduction, ASM | old 15, 16 · KB `04` · decks 11, 12, 13 | `15-…`, `16-…` rebuilt, `src/figs_u4.py` | same; the five detectors on deck 11's last slide simulated in verify |**done** 2026-11-17 (sessions 9-10; 15: 12 steps, 16: 12; no split; START-HERE rows + slips done; agy page check of 15, 16 done in S5 session 12: clean) |
+| S5 | **05 + 06** MUX/DEMUX; decoder/encoder | old 05, 06 · KB `02` · decks 04, 05 · MTE Q5, Q6 · set 1 Q3, Q5–Q8 | `05-…`, `06-…` rebuilt, `src/figs_u2.py` | same | **done** 2026-11-17/18 (sessions 10-12; 05: 10 steps, 06: 10 steps; no split; agy page check 05, 06 clean) |
 | S6 | **04 + 07 + 08** adders/subtractors; display, comparator, parity; shifter, ALU | old 04, 07, 08 · KB `01`, `02` · decks 03, 06, 07 · MTE Q2 · set 1 Q9–Q10 | `04-…`, `07-…`, `08-…` rebuilt | same | |
 | S7 | **11 + 14** registers; timing analysis | old 11, 14 · KB `03` · deck 09 | `11-…`, `14-…` rebuilt | same | |
 | S8 | **18 + 19** logic families; memories and PLDs | old 18, 19 · KB `05` · decks 14, 15 | `18-…`, `19-…` rebuilt, `src/figs_u5.py` | same; noise margins and fan-out in verify; PLA/PAL tables checked | |
@@ -82,29 +82,33 @@ sprint reads them first.
 ## Current hand-off
 
 ```
-Sprint: S5 — 05 + 06 MUX/DEMUX; decoder/encoder — partial (2026-11-17, sessions 10-11).
-  Session 10 crashed (usage limit; work in 5b1e6ae); session 11 rebuilt state and was stopped by
-  the operator at start, so only this hand-off and the log line were written.
-State (from 5b1e6ae): S4 closing done: 00-START-HERE ranks 2/7 re-timed, file-table rows 15/16,
-  four slip rows (deck 11 s27, deck 13 s8, s9, s18), how-checked = 387 checks; 00/15/16 rebuilt,
-  no OVERLAP. S5 begun: src/verify_u2.py (unit u2, 63 checks, 0 failures at the time) wired into
-  verify.py UNITS; src/figs_u2.py (15 figures, written by Sonnet) imported in build.py. Content
-  05-…md and 06-…md NOT yet rebuilt (still v1.2).
-Open: (1) agy page check of 15 and 16: run 1 timed out (exit 124); the retry on contact sheets
-  was running when session 10 crashed, its report (scratch) was never read -> check the scratch
-  folder for the report, else rerun once; (2) 74LS151 disabled output = 0 not checked (TI PDF has
-  no text layer) -> `uncertain`, add a Verify-backlog row when 05 is written; (3) mock re-point
-  for 15/16 (grep cross-references) not confirmed done; (4) deck-14 numbers (backlog -> S8);
-  deck 10 slide 36 (backlog -> S9)
-Decisions made: none new
+Sprint: S5 — 05 + 06 MUX/DEMUX; decoder/encoder — done (2026-11-18, sessions 10-12).
+Written: 05-mux-demux.md: 10 steps (2:1 MUX, 4:1 + select count, n vars on 2^n:1, n vars on
+    2^(n-1):1, MTE Q5 on 8:1 (running example), two vars left over (EX 4.19), MUX tree, 4:1-only
+    (PS1 Q5), enable + 74LS151 + 2x4:1+OR, DEMUX); slip note deck 04 slide 7.
+  06-decoder-encoder.md: 10 steps (2:4, 3:8 = minterms, enable/active-low + decoder=DEMUX, 4:16
+    cascades, decoder+OR, MTE Q6 full adder (running example), NOR/AND on zeros (PS1 Q7, slide 25),
+    PS1 Q8 on 4:16, encoder, priority encoder + V); slip notes deck 05 slides 18, 39/42.
+  00-START-HERE: rank 4/5 "Do first" + times, 3 slip rows, how-checked = 450 checks.
+  20-mock-paper: 06 formula row now x/y/V with D names; answers 4, 12, 13 re-pointed to steps.
+  KB sources.md: '151 strobe row (TI SN74ALS151 datasheet). progress-log resume lines updated.
+Verified this sprint: numbers: verify.py 450 checks (387 + u2 63), 0 failures; every printed MUX
+  data list, residue, decoder output set and encoder equation is one of the u2 checks.
+  '151 disabled output: strobe high -> Y low, W high (TI SN74ALS151/AS151 datasheet, read this
+  session; LS sheet itself has no text layer). Build 05 06 00 20: no OVERLAP.
+  agy page checks (4-5 sheets per run): 05, 06, 15, 16 all clean.
+Open (carried): deck-14 numbers (backlog -> S8); deck 10 slide 36 (backlog -> S9).
+Decisions made: tri-state buffer (deck 05 slides 44-48) is left to file 18 (06 step 3 says so):
+  S8 must teach it. agy: one run with 8 sheets timed out (exit 124, 900 s); runs of 4-5 sheets
+  finish in a few minutes -> batch agy at <= 5 sheets per call.
 Assumptions to review: none new
-Helpers: session 10: Sonnet wrote figs_u2.py (15 figures); agy run for 15/16 (timed out once);
-  session 11: none
-Next sprint: continue S5 — first action: run src/verify.py (expect 450 = 387 + 63, 0 failures)
-  and read figs_u2.py FIGS keys (grep) to learn the figure names; look for the agy report in
-  scratch; then write 05 and 06 to format v1.3 using the u2 checks and figures; build 05 06 00;
-  agy page check 05, 06 (and 15, 16 if no report); START-HERE rows for 05/06
-Read at start: this hand-off + S5 row · ../../../study-pack-sprint-protocol.md · verify_u2.py
-  (it holds the worked values) · figs_u2.py FIGS keys · brief 1.4-1.5 (decks 04, 05) by range ·
-  old 05, 06 by heading ranges · KB 02
+Helpers: agy x5 (1 timeout, 4 clean reports); no subagent (no new figures this session:
+  figs_u2.py was written by Sonnet in session 10).
+Next sprint: S6 — 04 + 07 + 08 adders/subtractors; display, comparator, parity; shifter, ALU —
+  first action: run src/verify.py (expect 450, 0 failures), then grep brief sections 1.3, 1.6, 1.7
+  and §2 rows for 04/07/08.
+Read at start: this hand-off + S6 row · ../../../study-pack-sprint-protocol.md · spec §4-§6
+  (study-pack-format.md lines 52-120) · brief 1.3, 1.6, 1.7 (print rows truncated to ~330 chars
+  with a script: the rows are long) · old 04, 07, 08 · KB 01, 02 by heading · 05 or 06 as the
+  v1.3 format model (one of them, by range)
 ```

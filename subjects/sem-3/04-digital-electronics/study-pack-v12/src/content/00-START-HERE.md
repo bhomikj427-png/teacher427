@@ -11,8 +11,8 @@ Ranked by the professor's own material: the 2025 mid-term paper (30 marks: 2-mar
 | 1 | **13 Synchronous counters** | The mid-term's only 8-mark question; practice set 2 Q4–Q6; deck 10 | 13 steps 6–7 (MTE Q8) | 75 min |
 | 2 | **15 FSM design** | Deck 11, with five practice detectors on its last slide; Unit 4 is not yet examined | 15 steps 2–7 (the 1101 detector, word to circuit) | 75 min |
 | 3 | **02 K-map** | Mid-term Q4 (4 marks); practice set 1 Q1, Q4 | 02 §7 don't-cares (MTE Q4) | 60 min |
-| 4 | **05 MUX, DEMUX** | Mid-term Q5 (4 marks); practice set 1 Q3, Q5, Q6 | 05 n variables on a smaller MUX | 40 min |
-| 5 | **06 Decoder, encoder** | Mid-term Q6 (4 marks); practice set 1 Q7, Q8 | 06 function from a decoder | 30 min |
+| 4 | **05 MUX, DEMUX** | Mid-term Q5 (4 marks); practice set 1 Q3, Q5, Q6 | 05 steps 4–6 (n variables on a smaller MUX, MTE Q5) | 50 min |
+| 5 | **06 Decoder, encoder** | Mid-term Q6 (4 marks); practice set 1 Q7, Q8 | 06 steps 5–7 (decoder + OR, MTE Q6 full adder) | 45 min |
 | 6 | **09, 10 Flip-flops and waveforms** | Mid-term Q3 (2) and Q7 (4); practice set 2 Q1–Q3 | 10 the waveform procedure | 50 min |
 | 7 | **16 State reduction, ASM** | Decks 12–13, worked tables | 16 steps 3–5 (partitioning, implication table) | 60 min |
 | 8 | **11, 12 Registers, ripple counters** | Decks 09–10 | 12 steps 6–7 (MOD-N by reset) | 45 min |
@@ -107,6 +107,9 @@ When you reach a **Guess first** box, write a guess on paper **before** reading 
 |---|---|---|---|
 | Deck 01 slide 31 (01) | last term a'bc | a'bc' | the expansion of bc' gives a'bc' (row 2); a'bc is row 3, where f = 0 |
 | Deck 02 slide 28 (02) | F(a, b, c) = Σm(2, 4, 5, 7) under the map | Σm(2, 3, 6, 7) | the map and slide 27 both use 2, 3, 6, 7 |
+| Deck 04 slide 7 (05) | 2:1 MUX K-map with 1s in cells 2, 3, 5, 7 | 1s at rows 1, 3, 6, 7 | slide 6's table and O = S'D0 + SD1 both give 1, 3, 6, 7 |
+| Deck 05 slide 18 (06) | block wires A0 = Y, A1 = X; table names inputs A, B | A most significant | the table's order; with the slide's wiring the OR gives Y' |
+| Deck 05 slide 39 (06) | valid bit named d | V | slides 40–43 call it V |
 | Deck 01 slide 41 (03) | circuit output labelled Z | F | Z is already an input of the circuit |
 | Deck 15 slide 28 (19) | F_{2}(A, B, C), F_{3}(A, B, C) with minterms up to 15 | functions of A, B, C, D | three variables have only minterms 0–7 |
 | Deck 10 slide 6 (12) | "3-bit down counter" clocked from Q0, Q1 (negative edge) | clock from Q0', Q1' | negative-edge stages clocked from Q count up; slide 15 has the right circuit |
@@ -121,5 +124,5 @@ When you reach a **Guess first** box, write a guess on paper **before** reading 
 ## How this pack was checked
 
 - Facts: the subject knowledge base (Anand Kumar, Jain, Brown & Vranesic, Mano).
-- Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 `verify.py`, 192 checks, plus `src/verify.py`: 387 checks: every expression in 01–03; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).
+- Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 `verify.py`, 192 checks, plus `src/verify.py`: 450 checks: every expression in 01–03; every MUX data list, decoder circuit and encoder equation in 05–06 evaluated on every input row; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).
 - Where a slide has a slip, the pack uses the corrected version and says so in a Note.
