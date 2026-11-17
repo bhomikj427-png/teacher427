@@ -78,34 +78,22 @@ sprint reads them first.
 ## Current hand-off
 
 ```
-Sprint: S1 — 01 + 02 + 03 Boolean algebra, K-maps, NAND/NOR — done (2026-11-17, auto)
-Written: content/01-boolean-algebra.md v1.3: 10 steps (AND/OR/NOT switch anchor, 2^n rows, gates,
-  laws, De Morgan, simplification, minterms, maxterms, Σm↔ΠM, standard→canonical); running example
-  deck 01 slide 18 F(x,y,z) = x'y + xz = Σm(2,3,5,7) = ΠM(0,1,4,6); 10 Checks, 7 self-test
-  content/02-k-map.md v1.3: 10 steps (2-var, Gray order, reading groups, largest groups, PI/EPI,
-  4-var, don't-cares = MTE Q4, POS from 0s, 5-var = PS1 Q1, words→map = PS1 Q4); running example MTE Q4
-  content/03-nand-nor.md v1.3: 7 steps (NAND universal, NOR universal = MTE Q1, SOP→NAND-NAND,
-  multi-level NAND (slide 42 table, 6 gates), POS→NOR-NOR, map→NAND = PS1 Q2 + PS1 Q1 circuit, XOR 4 NAND)
-  src/figs_u1.py: 25 figures (K-maps, two-level AND/NAND/NOR circuits, universal_nor) via v1 figs1
-  drawers; build.py imports it. src/verify.py: unit u1 (helpers eq, rows_of, pos_min, nbrs)
-  00-START-HERE: rank rows 3 and 12, what-each-file rows 02/03, slip table +2 (deck 02 slide 28,
-  deck 01 slide 41), how-checked line
-Verified this sprint: python src/verify.py → 153 checks, 0 failures (u1: every expression, Σm/ΠM
-  list, minimal cover vs QM cost, POS literal minimum, every NAND/NOR network row by row). Facts used
-  are all `settled` in KB01 §1–§2 (no new KB facts). Build: 01 12 pp, 02 15 pp, 03 10 pp, combined
-  135 pp, no OVERLAP lines.
-  Page check: agy run 1 timed out (exit 124, no report); retry ok: all 10 contact sheets 'ok'. Viewed 03 pp.1-4 myself (new universal_nor figure): clean; zoomed 03 p.4 NAND-NAND: 3-input labels tight, readable, no overlap.
-Open (carried): deck-14 numbers (backlog → S8); question-bank row EX 2.69 lists d(3,5,7,9,11) but the
-  slide 69 transcription (brief §1.2) gives d(3,4,9): pack uses d(3,4,9)
-Decisions made: 02's running example is MTE Q4 (3-var steps use 01's F); 5-var step opens on PS1 Q1
-  with slide 58 as the worked warm-up; PS1 Q1's universal-gate half is answered in 03 step 6
+Sprint: S2 — 09 + 10 latches/flip-flops, waveforms — IN PROGRESS (session 4 crashed at token limit;
+  session 5 rebuilt state, then stopped on operator request)
+Written (session 4, commit 51f85be): content/09-latches-flip-flops.md and content/10-waveforms.md
+  rebuilt to v1.3; src/figs_u3.py + src/figs_u3_sch.py (build.py imports them); verify.py unit u3;
+  html/pdf for 09, 10 and the combined PDF rebuilt
+Verified (session 5): python src/verify.py -> 237 checks, 0 failures (153 u1 + 84 u3)
+Not yet checked: whether 09/10 have every step, Check, self-test and Exam form the protocol asks
+  (read each file's header/map + grep '^## ' to confirm, step counts, a/b split if > 13 steps);
+  build output for OVERLAP lines; agy contact-sheet check of 09 and 10; 00-START-HERE rows for
+  09/10 + how-checked line; S2 row in the sprint table marked done
+Open (carried): deck-14 numbers (backlog -> S8); EX 2.69 d-list (pack uses d(3,4,9))
 Assumptions to review: 6, 7 (persistent section)
-Helpers: agy (Gemini Flash) = contact-sheet check of 01–03; no Sonnet/Haiku subagents (all work was
-  teaching text or truth calls)
-Next sprint: S2 — first action: read brief §2 rows 09–10, §4 rows 09–10, §5 rows 09–10 and grep
-  brief §1.8 (deck 08) slide titles; then rebuild 09-latches-flip-flops.md to v1.3 with u3 checks
-  (ff_next, qm.edge_ff / qm.d_latch for every waveform) and figures in src/figs_u3.py
-Read at start: this hand-off · S2 row · ../../../study-pack-sprint-protocol.md · spec §5 ·
-  brief §2/§4/§5 rows 09–10 · old 09, 10 (v1.2) · KB 03 by section · 01-boolean-algebra.md lines 1–30
-  (format model: header, map, symbols, running example)
+Helpers: none this session (state rebuild only)
+Next: finish S2 — first action: grep '^## |^### ' in content/09 and content/10 to see what was
+  written; complete any missing section; run build (filter for OVERLAP), agy page check of 09+10,
+  update START-HERE, mark S2 done; then S3 (12 + 13 counters)
+Read at start: this hand-off · S2 row · ../../../study-pack-sprint-protocol.md · content/09, 10
+  by heading ranges only (do not re-read whole; session 4 died from context size)
 ```

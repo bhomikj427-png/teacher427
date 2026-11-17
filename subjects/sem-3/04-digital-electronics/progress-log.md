@@ -192,3 +192,5 @@
 - 2026-11-17 (auto) S1 done: 01 (10 steps), 02 (10), 03 (7) rebuilt to v1.3; src/figs_u1.py (25 figures); verify u1 -> 153 checks, 0 failures; build 12+15+10 pp, no OVERLAP; agy page check ok (2nd try); START-HERE rows/slips updated. Where we stopped: S1 complete. Next up: S2 (09 latches/flip-flops, 10 waveforms).
 
 - 2026-11-17 S2 start (auto): rebuild 09-latches-flip-flops + 10-waveforms to v1.3, src/figs_u3.py, verify u3.
+
+- 2026-11-17 (auto) session 5: rebuilt state after session 4 crash (token limit). Commit 51f85be holds 09 + 10 content rebuilt, src/figs_u3.py, src/figs_u3_sch.py, build.py import, verify u3; python src/verify.py -> 237 checks, 0 failures; 09/10 PDFs and combined PDF rebuilt. Not yet done: agy page check of 09/10, START-HERE rows, S2 sign-off. Operator stop requested; no further edits.
