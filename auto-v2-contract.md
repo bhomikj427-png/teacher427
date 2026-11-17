@@ -53,7 +53,8 @@ of calls is the cost. Measured 2026-11-17: a sprint took 55–75 calls, 30 of th
   command with `cd` (the cwd is already the repo root; use repo-relative or absolute paths); never
   chain `cd` with `git`, or two `cd`s; never chain `printf … ; python …` or several greps/seds with
   `;`/`&&` into one line (write a small script in the scratch folder and run it instead); no zsh
-  `<N-M>` globs. Paths outside the repo and the scratch folder are refused.
+  `<N-M>` globs. Never prefix a command with `VAR=value` (e.g. `PYTHONIOENCODING=utf8 python …`):
+  the prefix makes the allow rule miss, and PYTHONIOENCODING is already utf-8 in the session env. Paths outside the repo and the scratch folder are refused.
 - Read a file once, by range; don't re-read what is already in context. Don't print large outputs:
   filter build/verify output to failures and counts (`… | tail -20`, `grep -c`).
 
@@ -63,6 +64,10 @@ limit running out before the syllabus is done.
 - **You (Opus) keep:** all teaching text (Map, opening, Build steps, Predicts, explanations, answers,
   Traps, Exam form), every truth call and KB fact, choosing what goes in, and the final check of
   anything a helper produced. Never delegate prose a learner studies from.
+- **Delegation is mandatory, not optional** (measured 2026-11-17: DE S1 wrote 25 figures in Opus,
+  0 subagents, $5.01). Every sprint that adds figures sends the figure code to a Sonnet subagent:
+  you write the spec (function names, values, labels, axes, style helpers), it writes the code and
+  runs the build, you check the rendered result. Doing it yourself needs a reason in the hand-off.
 - **Sonnet subagent** (`Agent` tool, `model: "sonnet"`): mechanical, fully specified work. Figure
   code from your exact spec (values, labels, axes) in `figures.py` via `tools/figlib.py`; `verify.py`
   check blocks from values you list; running build + verify + overlap check and reporting failures
