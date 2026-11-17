@@ -212,3 +212,5 @@
 - 2026-11-17 session 10 (auto-v2): resumed after session 9 crash (hard token limit); 89d7d05 holds 15/16 built + verified (387 checks). Mock Q17 (1011 Moore) equations checked by hand against 15 step 12 table: match. Doing S4 closing: START-HERE rows/slips/how-checked, agy page check; then S5.
 
 - 2026-11-17 session 10: S4 START-HERE rows/slips/how-checked done (00, 15, 16 rebuilt, no OVERLAP); agy page check run 1 timed out (exit 124), retry on contact sheets running. S5 start: verify_u2.py (63 checks, 0 failures) wired as unit u2; Sonnet wrote figs_u2.py (15 figures). 74LS151 disabled-output = 0 not checked (TI PDF has no text layer): uncertain.
+
+- 2026-11-17 session 11 (auto-v2): rebuilt state from 5b1e6ae (session 10 crashed, usage limit): S4 START-HERE rows/slips/how-checked committed; agy page check of 15/16 result not recorded (retry was running at crash); S5 started: verify_u2.py (63 checks) + figs_u2.py (15 figures) wired, content 05/06 not yet written. Operator stop request at session start: hand-off rewritten only, no other work.

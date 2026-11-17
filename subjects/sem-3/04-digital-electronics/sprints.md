@@ -42,8 +42,8 @@ in `exam-pack/` (index: `exam-pack/README.md`): MTE 2025 paper, practice sets 1�
 | S1 | **01 + 02 + 03** Boolean algebra; K-maps; NAND/NOR | old 01–03 · KB `01` · decks 01, 02 · MTE Q1, Q4 · set 1 Q1, Q2, Q4 | `01-…`, `02-…`, `03-…` rebuilt (a/b if > 13 steps), `src/figs_u1.py` | protocol 6–12 hold; every minimisation checked by truth table in verify | **done** 2026-11-17 (01: 10 steps, 02: 10, 03: 7; no split) |
 | S2 | **09 + 10** latches and flip-flops; waveforms | old 09, 10 · KB `03` · deck 08 · MTE Q3, Q7 · set 2 Q1–Q3 | `09-…`, `10-…` rebuilt, `src/figs_u3.py` | same; every waveform answer simulated in verify | **done** 2026-11-17 (sessions 4–6; 09: 13 steps, 10: 7; no split) |
 | S3 | **12 + 13** ripple counters; synchronous counters (rank 1: the MTE's only 8-mark question) | old 12, 13 · KB `03` · deck 10 · set 2 Q4–Q6 | `12-…`, `13-…` rebuilt (13a/13b likely) | same; every counter's state sequence simulated in verify | **done** 2026-11-17 (sessions 7–8; 12: 8 steps, 13: 12 steps; no 13a/13b split) |
-| S4 | **15 + 16** FSM design; state reduction, ASM | old 15, 16 · KB `04` · decks 11, 12, 13 | `15-…`, `16-…` rebuilt, `src/figs_u4.py` | same; the five detectors on deck 11's last slide simulated in verify |**partial** 2026-11-17 (session 9; 15: 12 steps, 16: 12; no split; built + verified; START-HERE rows, slip rows, page check left) |
-| S5 | **05 + 06** MUX/DEMUX; decoder/encoder | old 05, 06 · KB `02` · decks 04, 05 · MTE Q5, Q6 · set 1 Q3, Q5–Q8 | `05-…`, `06-…` rebuilt, `src/figs_u2.py` | same | |
+| S4 | **15 + 16** FSM design; state reduction, ASM | old 15, 16 · KB `04` · decks 11, 12, 13 | `15-…`, `16-…` rebuilt, `src/figs_u4.py` | same; the five detectors on deck 11's last slide simulated in verify |**done** 2026-11-17 (sessions 9-10; 15: 12 steps, 16: 12; no split; START-HERE rows + slips done; agy page check result not recorded, redo in S5) |
+| S5 | **05 + 06** MUX/DEMUX; decoder/encoder | old 05, 06 · KB `02` · decks 04, 05 · MTE Q5, Q6 · set 1 Q3, Q5–Q8 | `05-…`, `06-…` rebuilt, `src/figs_u2.py` | same | **partial** (session 10: verify_u2.py 63 checks + figs_u2.py 15 figures; text not written) |
 | S6 | **04 + 07 + 08** adders/subtractors; display, comparator, parity; shifter, ALU | old 04, 07, 08 · KB `01`, `02` · decks 03, 06, 07 · MTE Q2 · set 1 Q9–Q10 | `04-…`, `07-…`, `08-…` rebuilt | same | |
 | S7 | **11 + 14** registers; timing analysis | old 11, 14 · KB `03` · deck 09 | `11-…`, `14-…` rebuilt | same | |
 | S8 | **18 + 19** logic families; memories and PLDs | old 18, 19 · KB `05` · decks 14, 15 | `18-…`, `19-…` rebuilt, `src/figs_u5.py` | same; noise margins and fan-out in verify; PLA/PAL tables checked | |
@@ -82,40 +82,29 @@ sprint reads them first.
 ## Current hand-off
 
 ```
-Sprint: S4 — 15 + 16 FSM design; state reduction, ASM — partial (2026-11-17, session 9): files
-  built and verified; closing items left (context limit)
-Written: content/15-fsm-design.md (12 steps: what a state remembers, 1101 chain + overlap arc,
-  completing arcs, overlap vs non-overlap (1010; slide-27 slip), state table, counting-order D
-  (cost 22), Gray D + circuit (cost 9), T + JK (cost 10), Mealy vs Moore, 111 both ways + false-
-  output timing, Moore 1101 (3 FFs, y = Y2), slide 43's five detectors (table of state counts;
-  1011 Moore solved, others in Self-test/Answers)); content/16-state-reduction-asm.md (12 steps:
-  equivalence via response table, inspection, Moore partition (slide 8), Mealy partition = running
-  example, implication table, implication loops (8-state), compatibility, maximal compatibles +
-  closed cover (5 -> 2), ASM elements, ASM 1010 + equations (slide-8 slip), Moore-output counter
-  (slides 9/18 slips), serial adder); src/figs_u4.py (13 figures) + 7 K-maps (_kmy) in build.py;
-  src/verify_u4.py (unit u4, 76 checks, wired into verify.py UNITS)
-Verified this sprint: numbers: src/verify.py 387 checks, 0 failures; every detector table
-  simulated against a reference detector on all strings <= 9 bits; all deck 12 partitions,
-  implication tables, maximal compatibles and closures recomputed; build 15 16 00: no OVERLAP
-Slips found (put in START-HERE slip table): deck 11 slide 27 (empty Overlapping panel; same
-  diagram for 110); deck 13 slide 8 (image viewed: D0 = X(y0)', D1 = X'm1 + Xm2 printed; correct
-  D0 = X, D1 = X'm1 + Xm2 + X'm3); deck 13 slide 9 (no hold terms; D0 = X xor y0); deck 13 slide
-  18 (redundant decision after S3). Brief §1.12 p.4: response-table columns are 00, 01, 10, 11
-  (brief header says 00, 01, 11, 10; values match 00, 01, 10, 11 by simulation)
-Open (carried): S4 closing items: (1) 00-START-HERE: rank rows, file-table rows 15/16, the slip
-  rows above, how-checked = 387 checks; (2) agy page check of 15 (19 pp) and 16 (19 pp);
-  (3) grep cross-references to 15/16 and re-point mock rows; deck-14 numbers (backlog -> S8);
+Sprint: S5 — 05 + 06 MUX/DEMUX; decoder/encoder — partial (2026-11-17, sessions 10-11).
+  Session 10 crashed (usage limit; work in 5b1e6ae); session 11 rebuilt state and was stopped by
+  the operator at start, so only this hand-off and the log line were written.
+State (from 5b1e6ae): S4 closing done: 00-START-HERE ranks 2/7 re-timed, file-table rows 15/16,
+  four slip rows (deck 11 s27, deck 13 s8, s9, s18), how-checked = 387 checks; 00/15/16 rebuilt,
+  no OVERLAP. S5 begun: src/verify_u2.py (unit u2, 63 checks, 0 failures at the time) wired into
+  verify.py UNITS; src/figs_u2.py (15 figures, written by Sonnet) imported in build.py. Content
+  05-…md and 06-…md NOT yet rebuilt (still v1.2).
+Open: (1) agy page check of 15 and 16: run 1 timed out (exit 124); the retry on contact sheets
+  was running when session 10 crashed, its report (scratch) was never read -> check the scratch
+  folder for the report, else rerun once; (2) 74LS151 disabled output = 0 not checked (TI PDF has
+  no text layer) -> `uncertain`, add a Verify-backlog row when 05 is written; (3) mock re-point
+  for 15/16 (grep cross-references) not confirmed done; (4) deck-14 numbers (backlog -> S8);
   deck 10 slide 36 (backlog -> S9)
-Decisions made: no 16a/16b split (12 steps each); 16's running example = deck 12's 5-state
-  machine (assumption 9); 15 uses plain Y1, Y2 (Y2 Y1 Y0 in step 11); reused v1 figures:
-  fsm_blocks, moore_1101, implication_chart; mealy_1101 replaced by u4_mealy_1101 (overlap fix)
-Assumptions to review: 9 (16 running example), 10 (practice detectors overlapping)
-Helpers: Sonnet subagent wrote figs_u4.py (12 figures) + build.py K-map registrations from my spec,
-  viewed all 12 as PNG; I wrote all teaching text and verify_u4.py (written as the computation tool
-  while checking the deck's tables, so not delegated); agy not run (context limit)
-Next sprint: S4 closing, then S5 — first action: one Python script that adds the START-HERE rows
-  and slip rows above (grep '^## |^\| 1[3-7]' in content/00-START-HERE.md first), then render 15
-  and 16 to PNG contact sheets for the agy page check; then start S5 (05 + 06)
-Read at start: this hand-off + S5 row · ../../../study-pack-sprint-protocol.md · 00-START-HERE
-  headings · brief 1.4-1.5 (decks 04, 05) by range · old 05, 06 by heading ranges · KB 02
+Decisions made: none new
+Assumptions to review: none new
+Helpers: session 10: Sonnet wrote figs_u2.py (15 figures); agy run for 15/16 (timed out once);
+  session 11: none
+Next sprint: continue S5 — first action: run src/verify.py (expect 450 = 387 + 63, 0 failures)
+  and read figs_u2.py FIGS keys (grep) to learn the figure names; look for the agy report in
+  scratch; then write 05 and 06 to format v1.3 using the u2 checks and figures; build 05 06 00;
+  agy page check 05, 06 (and 15, 16 if no report); START-HERE rows for 05/06
+Read at start: this hand-off + S5 row · ../../../study-pack-sprint-protocol.md · verify_u2.py
+  (it holds the worked values) · figs_u2.py FIGS keys · brief 1.4-1.5 (decks 04, 05) by range ·
+  old 05, 06 by heading ranges · KB 02
 ```
