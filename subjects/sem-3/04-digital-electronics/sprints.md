@@ -72,14 +72,15 @@ sprint reads them first.
 ## Current hand-off
 
 ```
-Sprint: plan — done (2026-11-16, interactive)
-Written: sprints.md (S0–S9, 10 sprints) · spec v1.3 · shared protocol ../../../study-pack-sprint-protocol.md
-Verified this sprint: —
+Sprint: S0a — done (2026-11-17, interactive; transcription by agy/Gemini Flash, coverage checked by script)
+Written: src/brief.md §1 (15 decks, 561 pp., MTE Q1–Q8, PS1 Q1–Q10, PS2 Q1–Q6) · §2 question bank
+  (237 items → files 01–19, each once, 0 unmapped)
+Verified this sprint: page coverage + tag coverage by script; spot-checks (deck 07 full; 01 p.30, 03 p.12,
+  08 p.41; MTE word-for-word; PS1 vs image) all match. Every transcribed fact is a lead, not verified.
 Open (carried): learner has not worked any v1.2 Check; no misses reported
-Decisions made: Assumptions 1–3
-Assumptions to review: 1–3
-Next sprint: S0 — brief — first action: read exam-pack/README.md, then render the MTE paper and both
-  practice-set images; start src/brief.md with the question bank.
+Next sprint: S0b — review §1–§2 where a later file depends on them (spot-check, don't re-transcribe),
+  then write §3 (constants vs KB), §4 (file plan: per-file step counts, splits), §5 (figure list: reuse
+  v1 figs1/figs2 or v1figs.json, or new), and start src/verify.py importing the v1 checks.
 Read at start: this hand-off · S0 row · ../../../study-pack-sprint-protocol.md · spec §7.1 ·
-  exam-pack/README.md · knowledge-base/exam-map.md
+  src/brief.md by grep/range (it is ~1070 lines: never whole) · knowledge-base/exam-map.md
 ```
