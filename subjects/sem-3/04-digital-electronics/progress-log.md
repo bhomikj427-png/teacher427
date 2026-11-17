@@ -186,3 +186,7 @@
 - 2026-11-17 auto S0b start: review brief §1-§2 by spot-check; write §3 constants, §4 file plan, §5 figure list; start src/verify.py importing v1 checks.
 - 2026-11-17 auto S0b resumed (session 2; session 1 crashed after its start line, no other changes): writing brief §3-§5 and src/verify.py. **No teaching event.**
 - 2026-11-17 auto **Sprint S0b done**: brief §3 (deck-14 constants vs KB05: 4 match, 7 open → S8), §4 file plan, §5 figure list; src/verify.py (v1 checks via Part 0 + helpers + u0) → 12 checks, 0 failures. KB05 Open block (uncertain), sources leads, CHANGELOG. Where we stopped: S0 done. Next up: S1 (files 01–03). **No teaching event.**
+
+- 2026-11-17 (auto) S1 start: rebuild 01-03 (Boolean algebra, K-maps, NAND/NOR) to v1.3 + u1 checks in src/verify.py.
+
+- 2026-11-17 (auto) S1 done: 01 (10 steps), 02 (10), 03 (7) rebuilt to v1.3; src/figs_u1.py (25 figures); verify u1 -> 153 checks, 0 failures; build 12+15+10 pp, no OVERLAP; agy page check ok (2nd try); START-HERE rows/slips updated. Where we stopped: S1 complete. Next up: S2 (09 latches/flip-flops, 10 waveforms).

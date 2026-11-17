@@ -39,7 +39,7 @@ in `exam-pack/` (index: `exam-pack/README.md`): MTE 2025 paper, practice sets 1�
 | # | Sprint | Inputs (beyond the standing list) | Outputs | Done when | Status |
 |---|---|---|---|---|---|
 | S0 | **Brief**; plus `src/verify.py` started (v1.2 relies on the v1 pack's `study-pack/pdf-ete/verify.py`) | every file in `exam-pack/` · KB `00-map`, `exam-map` · old 00 (ranking) · v1 `verify.py` | `src/brief.md`: decks transcribed (diagram slides viewed), question bank (MTE + practice sets + deck examples → file + step), figure list per file (reuse from v1 `figs1/figs2` or `v1figs.json`, or new); `src/verify.py` skeleton importing the v1 checks | every MTE and practice-set question is mapped; v1 checks run from `src/verify.py` | split 2026-11-17: **S0a** Gemini transcribes decks/MTE/practice sets → brief §1–§2 (`GEMINI-TASK.md`); **S0b** Claude reviews S0a, writes §3–§5 + `src/verify.py` · **done** 2026-11-17 (S0a + S0b) |
-| S1 | **01 + 02 + 03** Boolean algebra; K-maps; NAND/NOR | old 01–03 · KB `01` · decks 01, 02 · MTE Q1, Q4 · set 1 Q1, Q2, Q4 | `01-…`, `02-…`, `03-…` rebuilt (a/b if > 13 steps), `src/figs_u1.py` | protocol 6–12 hold; every minimisation checked by truth table in verify | |
+| S1 | **01 + 02 + 03** Boolean algebra; K-maps; NAND/NOR | old 01–03 · KB `01` · decks 01, 02 · MTE Q1, Q4 · set 1 Q1, Q2, Q4 | `01-…`, `02-…`, `03-…` rebuilt (a/b if > 13 steps), `src/figs_u1.py` | protocol 6–12 hold; every minimisation checked by truth table in verify | **done** 2026-11-17 (01: 10 steps, 02: 10, 03: 7; no split) |
 | S2 | **09 + 10** latches and flip-flops; waveforms | old 09, 10 · KB `03` · deck 08 · MTE Q3, Q7 · set 2 Q1–Q3 | `09-…`, `10-…` rebuilt, `src/figs_u3.py` | same; every waveform answer simulated in verify | |
 | S3 | **12 + 13** ripple counters; synchronous counters (rank 1: the MTE's only 8-mark question) | old 12, 13 · KB `03` · deck 10 · set 2 Q4–Q6 | `12-…`, `13-…` rebuilt (13a/13b likely) | same; every counter's state sequence simulated in verify | |
 | S4 | **15 + 16** FSM design; state reduction, ASM | old 15, 16 · KB `04` · decks 11, 12, 13 | `15-…`, `16-…` rebuilt, `src/figs_u4.py` | same; the five detectors on deck 11's last slide simulated in verify | |
@@ -72,28 +72,40 @@ sprint reads them first.
 | 3 | The pack gets its own `src/verify.py` in S0 (spec §7.4: the script lives in the pack's `src/`) | plan | open |
 | 4 | One `src/verify.py` with a function per unit (`u1`, `u3`, …) instead of separate `verify_*.py` files; Part 0 runs the v1 `verify.py` unchanged until S9 | S0b | open |
 | 5 | New K-maps, gate circuits and waveforms are drawn by calling the v1 drawers (`figs1.km/km5/two_level/mux_fig`, `figs2` waveform code) with new arguments from `figs_uN.py`, since `tools/figlib.py` has no K-map/gate/timing primitives; matplotlib (figlib) only for graphs | S0b | open |
+| 6 | PS1 Q4 "two consecutive input bits are 1" read as "at least one adjacent pair (A,B), (B,C), (C,D) is 11" → F = AB + BC + CD (02 step 10 states the reading and the alternative) | S1 | open |
+| 7 | Gate counts in 03 assume complemented inputs are available; the text adds the inverter count each time | S1 | open |
 
 ## Current hand-off
 
 ```
-Sprint: S0b — Brief §3–§5 + src/verify.py — done (2026-11-17, auto; session 1 crashed after its log line, redone in session 2)
-Written: src/brief.md §3 constants vs KB05 (deck 14 is the only source of physical numbers; 4 match,
-  7 open → S8) · §4 file plan (est. steps, splits: 13a/13b likely, 16a/b only if > 13 steps; running
-  examples) · §5 figure list (reuse source per figure; new figures per file)
-  src/verify.py: Part 0 runs the v1 pdf-ete/verify.py (192 checks); helpers fn/same/check_sop (truth
-  table + QM cost)/check_pos, ff_next, run_sync, run_ripple, run_fsm, detect; unit u0 self-test
-  KB05: *Open — deck-14 numbers* block (uncertain); sources.md leads; CHANGELOG line
-  sprints.md: S1 and S6 Inputs gain PS1 Q4 and PS1 Q9–Q10 (§2 maps them there)
-Verified this sprint: python src/verify.py → 12 checks, 0 failures (incl. v1 verify exit 0).
-  KB05 TTL NM 0.4/0.4 V and fan-out 10 recomputed. §1–§2 not re-transcribed (S0a spot-checks stand);
-  §2 vs sprint rows cross-checked: every MTE/PS question sits in a file of the sprint that uses it.
-Open (carried): deck-14 numbers (backlog, close in S8); learner has not worked any v1.2 Check
-Decisions made: verify is one file with a function per unit (assumption 4); new logic figures call the
-  v1 SVG drawers with new arguments (assumption 5); 13 likely splits 13a/13b in S3
-Assumptions to review: 4, 5 (persistent section)
-Next sprint: S1 — first action: read brief §1.1–1.2 by grep (decks 01, 02 rows only where the file's
-  steps need them), §2 rows 01–03, §4 rows 01–03, §5 rows 01–03; then rebuild 01-boolean-algebra.md
-  to v1.3, adding u1 checks in src/verify.py (every minimisation via check_sop).
-Read at start: this hand-off · S1 row · ../../../study-pack-sprint-protocol.md · spec §5 ·
-  brief §2/§4/§5 rows 01–03 · old 01–03 (v1.2) · KB 01 by section · EDC 01b-fermi-level.md lines 1–100 (format depth only)
+Sprint: S1 — 01 + 02 + 03 Boolean algebra, K-maps, NAND/NOR — done (2026-11-17, auto)
+Written: content/01-boolean-algebra.md v1.3: 10 steps (AND/OR/NOT switch anchor, 2^n rows, gates,
+  laws, De Morgan, simplification, minterms, maxterms, Σm↔ΠM, standard→canonical); running example
+  deck 01 slide 18 F(x,y,z) = x'y + xz = Σm(2,3,5,7) = ΠM(0,1,4,6); 10 Checks, 7 self-test
+  content/02-k-map.md v1.3: 10 steps (2-var, Gray order, reading groups, largest groups, PI/EPI,
+  4-var, don't-cares = MTE Q4, POS from 0s, 5-var = PS1 Q1, words→map = PS1 Q4); running example MTE Q4
+  content/03-nand-nor.md v1.3: 7 steps (NAND universal, NOR universal = MTE Q1, SOP→NAND-NAND,
+  multi-level NAND (slide 42 table, 6 gates), POS→NOR-NOR, map→NAND = PS1 Q2 + PS1 Q1 circuit, XOR 4 NAND)
+  src/figs_u1.py: 25 figures (K-maps, two-level AND/NAND/NOR circuits, universal_nor) via v1 figs1
+  drawers; build.py imports it. src/verify.py: unit u1 (helpers eq, rows_of, pos_min, nbrs)
+  00-START-HERE: rank rows 3 and 12, what-each-file rows 02/03, slip table +2 (deck 02 slide 28,
+  deck 01 slide 41), how-checked line
+Verified this sprint: python src/verify.py → 153 checks, 0 failures (u1: every expression, Σm/ΠM
+  list, minimal cover vs QM cost, POS literal minimum, every NAND/NOR network row by row). Facts used
+  are all `settled` in KB01 §1–§2 (no new KB facts). Build: 01 12 pp, 02 15 pp, 03 10 pp, combined
+  135 pp, no OVERLAP lines.
+  Page check: agy run 1 timed out (exit 124, no report); retry ok: all 10 contact sheets 'ok'. Viewed 03 pp.1-4 myself (new universal_nor figure): clean; zoomed 03 p.4 NAND-NAND: 3-input labels tight, readable, no overlap.
+Open (carried): deck-14 numbers (backlog → S8); question-bank row EX 2.69 lists d(3,5,7,9,11) but the
+  slide 69 transcription (brief §1.2) gives d(3,4,9): pack uses d(3,4,9)
+Decisions made: 02's running example is MTE Q4 (3-var steps use 01's F); 5-var step opens on PS1 Q1
+  with slide 58 as the worked warm-up; PS1 Q1's universal-gate half is answered in 03 step 6
+Assumptions to review: 6, 7 (persistent section)
+Helpers: agy (Gemini Flash) = contact-sheet check of 01–03; no Sonnet/Haiku subagents (all work was
+  teaching text or truth calls)
+Next sprint: S2 — first action: read brief §2 rows 09–10, §4 rows 09–10, §5 rows 09–10 and grep
+  brief §1.8 (deck 08) slide titles; then rebuild 09-latches-flip-flops.md to v1.3 with u3 checks
+  (ff_next, qm.edge_ff / qm.d_latch for every waveform) and figures in src/figs_u3.py
+Read at start: this hand-off · S2 row · ../../../study-pack-sprint-protocol.md · spec §5 ·
+  brief §2/§4/§5 rows 09–10 · old 09, 10 (v1.2) · KB 03 by section · 01-boolean-algebra.md lines 1–30
+  (format model: header, map, symbols, running example)
 ```

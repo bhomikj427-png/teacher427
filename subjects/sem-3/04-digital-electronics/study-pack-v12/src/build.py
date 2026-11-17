@@ -50,6 +50,9 @@ _ARGS = [k for k in _V1 if k.startswith(("km(", "km5(", "mux_fig(", "two_level("
 for _i, _k in enumerate(_ARGS):
     ALL[f"v1arg{_i}"] = (lambda s: (lambda: s))(_V1[_k])
 
+import figs_u1  # noqa: E402  (v1.3 unit-1 figures, S1)
+ALL.update(figs_u1.FIGS)
+
 ALL["adder_sub"] = lambda: figs1.ripple_adder(True)
 ALL["km_T1"] = lambda: _km([1, 3, 5, 7], [([1, 3, 5, 7], "T1 = Q0")])
 ALL["km_T2"] = lambda: _km([3, 7], [([3, 7], "T2 = Q1Q0")])

@@ -227,7 +227,153 @@ def u0():
     ok("KB05 TTL fan-out = min(16/1.6, 400/40) = 10", min(round(IOL / IIL, 9), round(IOH / IIH, 9)) == 10)
 
 
-UNITS = {"u0": u0}
+def eq(label, e1, e2, names, dcs=()):
+    """Two printed expressions agree on every row (don't-care rows skipped)."""
+    ok(f"{label}: {e1} = {e2}", same(e1, minterms(e2, names), names, dcs))
+
+
+def rows_of(label, expr, want, names):
+    ok(f"{label}: {expr} is 1 on rows {want}", minterms(expr, names) == list(want), minterms(expr, names))
+
+
+def pos_min(label, expr, ones, names, dcs=()):
+    """A printed POS is 0 exactly on the 0-rows and has the QM-minimum literal count."""
+    zeros = [m for m in range(2 ** len(names)) if m not in ones and m not in dcs]
+    check_pos(label, expr, zeros, names, dcs)
+    lits = lambda s: sum(ch.isalpha() for ch in s)
+    best = min(lits(p) for p in qm.pos(list(ones), list(dcs), list(names)))
+    ok(f"{label}: {lits(expr)} literals = QM POS minimum {best}", lits(expr) == best)
+
+
+def nbrs(m, n):
+    return sorted(m ^ (1 << i) for i in range(n))
+
+
+def u1():
+    """Files 01-03 (S1): every expression, list and gate network printed in 01, 02, 03."""
+    # ---- 01 Boolean algebra
+    X3 = "xyz"
+    eq("01 run: as written = Σm(2,3,5,7)", "x'yz + x'yz' + xz", "x'yz'+x'yz+xy'z+xyz", X3)
+    check_sop("01 s6 running example", "x'y + xz", [2, 3, 5, 7], X3)
+    ok("01 s3 running example as written costs 3 terms, 8 literals", cost("x'yz + x'yz' + xz") == (3, 8))
+    check_pos("01 s8 ΠM(0,1,4,6)", "(x+y+z)(x+y+z')(x'+y+z)(x'+y'+z)", [0, 1, 4, 6], X3)
+    check_pos("01 s10 short POS", "(x+y)(x'+z)", [0, 1, 4, 6], X3)
+    ok("01 c1 1+1+0 = 1", fn("1+1+0", "")({}) == 1)
+    ok("01 s2 rows: 2^3 = 8, 2^5 = 32, 2^4 = 16", (2 ** 3, 2 ** 5, 2 ** 4) == (8, 32, 16))
+    rows_of("01 c2 xz", "xz", [5, 7], X3)
+    eq("01 s3 XOR", "A'B + AB'", "A⊕B", "AB")
+    eq("01 s3 XNOR", "A'B' + AB", "(A⊕B)'", "AB")
+    for e1, e2 in (("X + YZ", "(X+Y)(X+Z)"), ("X + X'Y", "X+Y"), ("X(X+Y)", "X"), ("X + XY", "X"),
+                   ("XY + X'Z + YZ", "XY + X'Z"), ("(X+Y)'", "X'Y'"), ("(XY)'", "X'+Y'")):
+        eq("01 s4-5 law", e1, e2, "XYZ")
+    eq("01 s5 answer", "(A + B'C)'", "A'(B + C')", "ABC")
+    eq("01 c5a", "(xyz)'", "x'+y'+z'", X3)
+    eq("01 c5b", "((A+B)C')'", "A'B' + C", "ABC")
+    eq("01 c5c F'", "(x'y + xz)'", "xz' + x'y'", X3)
+    eq("01 c5c product form", "(x+y')(x'+z')", "xz' + x'y'", X3)
+    check_sop("01 c6a slide 19", "x'z' + yz'", minterms("x'y'z' + x'yz' + xyz'", X3), X3)
+    eq("01 c6b", "xy + xy'z", "xy + xz", X3)
+    rows_of("01 s7 m3", "A'BC", [3], "ABC")
+    rows_of("01 c7a m5", "AB'C", [5], "ABC")
+    rows_of("01 c7b AB + C'", "AB + C'", [0, 2, 4, 6, 7], "ABC")
+    check_pos("01 s8 M3", "(A + B' + C')", [3], "ABC")
+    check_pos("01 c8a M5", "(A' + B + C')", [5], "ABC")
+    check_pos("01 c8b a+b'+c", "(a + b' + c)", [2], "abc")
+    rows_of("01 s9 f1 SOP", "a'b'c + a'bc' + ab'c' + abc'", [1, 2, 4, 6], "abc")
+    check_pos("01 s9 f1 ΠM(0,3,5,7)", "(a + b + c)(a + b' + c')(a' + b + c')(a' + b' + c')", [0, 3, 5, 7], "abc")
+    ok("01 c9 Σm(0,2,5) -> ΠM(1,3,4,6,7)", [m for m in range(8) if m not in (0, 2, 5)] == [1, 3, 4, 6, 7])
+    rows_of("01 s10 slide 31 standard SOP", "a'b'c + bc' + ac'", [1, 2, 4, 6], "abc")
+    rows_of("01 c10a A + B'C", "A + B'C", [1, 4, 5, 6, 7], "ABC")
+    check_pos("01 c10b (a+b')(b+c)", "(a+b')(b+c)", [0, 2, 3, 4], "abc")
+    eq("01 st1", "AB + AB' + A'B", "A + B", "AB")
+    check_pos("01 st3 Σm(1,3,6,7)", "(A+B+C)(A+B'+C)(A'+B+C)(A'+B+C')", [0, 2, 4, 5], "ABC")
+    check_pos("01 st5 A + B'C as ΠM(0,2,3)", "A + B'C", [0, 2, 3], "ABC")
+    rows_of("01 st7 m9", "AB'C'D", [9], "ABCD")
+    check_pos("01 st7 M9", "(A' + B + C + D')", [9], "ABCD")
+
+    # ---- 02 K-maps
+    check_sop("02 s1 Z = AB' + AB", "A", [2, 3], "AB")
+    check_sop("02 c1a OR", "A + B", [1, 2, 3], "AB")
+    ok("02 c2a neighbours of 5 = 1, 4, 7", nbrs(5, 3) == [1, 4, 7])
+    ok("02 st6 neighbours of 6 = 2, 4, 7", nbrs(6, 3) == [2, 4, 7])
+    rows_of("02 c3b y'z'", "y'z'", [0, 4], X3)
+    check_sop("02 s4 slide 27", "b", [2, 3, 6, 7], "abc")
+    eq("02 s4 two pairs", "a'b + ab", "b", "abc")
+    rows_of("02 s4 checkerboard a⊕b⊕c", "a⊕b⊕c", [1, 2, 4, 7], "abc")
+    check_sop("02 s5 slide 44", "a'b + ab' + bc'", [2, 3, 4, 5, 6], "abc")
+    check_sop("02 s5 alternative", "a'b + ab' + ac'", [2, 3, 4, 5, 6], "abc")
+    check_sop("02 c5 slides 27-32", "a'b + ab'", [2, 3, 4, 5], "abc")
+    rows_of("02 s6 corners b'd'", "b'd'", [0, 2, 8, 10], "abcd")
+    MTE = [0, 4, 5, 7, 8, 9, 15]
+    for e in ("b'c'd' + a'bc' + bcd + ab'c'", "a'c'd' + a'bc' + bcd + ab'c'", "a'c'd' + a'bd + bcd + ab'c'"):
+        check_sop("02 s6 MTE Q4 without don't-cares", e, MTE, "abcd")
+    for e in ("b'c' + bc + a'c'", "b'c' + bc + a'b"):
+        check_sop("02 s7 MTE Q4", e, MTE, "abcd", dcs=[1, 3, 6, 14])
+    for e in ("a'b'd' + a'b'c + a'cd' + ac'd' + abd", "b'c'd' + a'b'c + a'cd' + ac'd' + abd",
+              "b'c'd' + a'b'c + a'cd' + abc' + abd"):
+        check_sop("02 c6 slide 51", e, [0, 2, 3, 6, 8, 12, 13, 15], "abcd")
+    for e in ("a'd' + c'd' + abd", "a'd' + ac' + abd"):
+        check_sop("02 c7 slide 69", e, [0, 2, 6, 8, 12, 13, 15], "abcd", dcs=[3, 4, 9])
+    S63 = [0, 1, 2, 5, 8, 9, 10]
+    check_sop("02 s8 slide 63 SOP", "X'Y' + X'Z' + W'Y'Z", S63, "WXYZ")
+    pos_min("02 s8 slide 63 POS", "(W' + X')(Y' + Z')(X' + Z)", S63, "WXYZ")
+    check_sop("02 c8a slide 64", "W + XYZ + X'Y'Z", [m for m in range(16) if m not in (0, 2, 3, 4, 5, 6)], "WXYZ")
+    pos_min("02 c8b MTE Q4 POS", "(b + c')(a' + b' + c)", MTE, "abcd", dcs=[1, 3, 6, 14])
+    check_sop("02 s9 slide 58", "ce", [5, 7, 13, 15, 21, 23, 29, 31], "abcde")
+    P1 = [0, 2, 5, 8, 10, 13, 15, 17, 19, 21, 26, 28, 29, 30, 31]
+    check_sop("02 s9 PS1 Q1", "xz + wz' + v'x'z' + vw'z", P1, "vwxyz", dcs=[7, 12, 14, 23, 24])
+    ok("02 s9 PS1 Q1 cost (4, 10)", cost("xz + wz' + v'x'z' + vw'z") == (4, 10))
+    S62 = [0, 1, 4, 5, 6, 11, 12, 14, 16, 20, 22, 28, 30, 31]
+    check_sop("02 c9 slide 62", "XZ' + V'W'Y' + W'Y'Z' + V'WX'YZ + VWXY", S62, "VWXYZ")
+    ok("02 c9 cost (5, 17)", cost("XZ' + V'W'Y' + W'Y'Z' + V'WX'YZ + VWXY") == (5, 17))
+    ok("02 c9 cell 11 has no 1-neighbour", not set(nbrs(11, 5)) & set(S62))
+    pair = [m for m in range(16) if any((m >> i) & 3 == 3 for i in range(3))]
+    ok("02 s10 PS1 Q4 rows = 3,6,7,11,12,13,14,15", pair == [3, 6, 7, 11, 12, 13, 14, 15])
+    check_sop("02 s10 PS1 Q4", "AB + BC + CD", pair, "ABCD")
+    three = [m for m in range(16) if any((m >> i) & 7 == 7 for i in range(2))]
+    eq("02 c10 three consecutive", "ABC + BCD", "+".join(qm.lit((m, 0), "ABCD") for m in three), "ABCD")
+    check_sop("02 st1", "a' + bc", [0, 1, 2, 3, 7], "abc")
+    check_sop("02 st2", "B'C' + CD' + A'BD", [0, 1, 2, 5, 6, 7, 8, 9, 10, 14], "ABCD")
+    for e in ("CD + A'B'", "CD + A'D"):
+        check_sop("02 st3", e, [1, 3, 7, 11, 15], "ABCD", dcs=[0, 2, 5])
+    pos_min("02 st4", "(A + B + C')(A' + B' + C)", [0, 2, 3, 4, 5, 7], "ABC")
+
+    # ---- 03 NAND / NOR (every gate network evaluated row by row)
+    eq("03 s2 MTE Q1", "P'Q' + P'", "P'", "PQ")
+    eq("03 s2 NOR(P,P)", "(P+P)'", "P'", "PQ")
+    for e1, e2 in (("(XX)'", "X'"), ("((XY)')'", "XY"), ("(X'Y')'", "X+Y"),
+                   ("((X+Y)')'", "X+Y"), ("(X'+Y')'", "XY")):
+        eq("03 s1-2 universal", e1, e2, "XY")
+    eq("03 s3 slide 41 NAND-NAND", "((X'Y'Z')'(XYZ')')'", "X'Y'Z' + XYZ'", "XYZ")
+    n3, n4 = "((AB')'(A'B)')'", "(C'D)'"
+    n5 = f"({n3}E{n4})'"
+    eq("03 s4 slide 42 N3", n3, "AB' + A'B", "ABCDE")
+    eq("03 s4 slide 42 N4", n4, "C + D'", "ABCDE")
+    eq("03 s4 slide 42 six NANDs", f"({n5}{n5})'", "(AB' + A'B)E(C + D')", "ABCDE")
+    eq("03 s5 slide 45 NOR-NOR", "((X'+Y)' + (X+Y')' + Z)'", "(X'+Y)(X+Y')Z'", "XYZ")
+    check_sop("03 s6 PS1 Q2", "w'x' + w'z + x'y", [0, 1, 3, 5, 7, 10, 11], "wxyz", dcs=[2, 6, 13])
+    eq("03 s6 PS1 Q2 NAND-NAND", "((w'x')'(w'z)'(x'y)')'", "w'x' + w'z + x'y", "wxyz")
+    eq("03 s6 PS1 Q1 NAND-NAND", "((v'x'z')'(xz)'(wz')'(vw'z)')'", "xz + wz' + v'x'z' + vw'z", "vwxyz")
+    eq("03 c2a NOR AND", "((A+A)' + (B+B)')'", "AB", "AB")
+    eq("03 c2b P' + Q' via NOR", "((((P+P)' + (Q+Q)')')+(((P+P)' + (Q+Q)')'))'", "P' + Q'", "PQ")
+    eq("03 c3a MTE Q4 NAND", "((b'c')'(bc)'(a'c')')'", "b'c' + bc + a'c'", "abcd")
+    eq("03 c3b running 01 NAND", "((x'y)'(xz)')'", "x'y + xz", X3)
+    eq("03 c4a A + BC", "(A'(BC)')'", "A + BC", "ABC")
+    eq("03 c4b (A+B)(C+D) NAND", "((((A'B')'(C'D')')')((A'B')'(C'D')')')'", "(A+B)(C+D)", "ABCD")
+    eq("03 c5a NOR-NOR", "((A+B)' + (C+D)')'", "(A+B)(C+D)", "ABCD")
+    eq("03 c5b NOR-NOR", "((A+B)' + (C+C)')'", "(A+B)C", "ABC")
+    eq("03 c6 MTE Q4 NOR-NOR", "((b+c')' + (a'+b'+c)')'", "b'c' + bc + a'c'", "abcd", dcs=[1, 3, 6, 14])
+    x1 = "(AB)'"
+    xor = f"((A{x1})'(B{x1})')'"
+    eq("03 s7 XOR from 4 NANDs", xor, "A⊕B", "AB")
+    e11 = {"A": 1, "B": 1}
+    ok("03 c7a A=B=1: N1=0, N2=1, N3=1, F=0",
+       [fn(s, "AB")(e11) for s in (x1, f"(A{x1})'", f"(B{x1})'", xor)] == [0, 1, 1, 0])
+    eq("03 st4", "A'B + A'B' + AB'", "(AB)'", "AB")
+    eq("03 st5 NOR from POS", "((x+y)' + (x'+z)')'", "x'y + xz", X3)
+
+
+UNITS = {"u0": u0, "u1": u1}
 
 
 def main(argv):
