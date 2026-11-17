@@ -71,7 +71,7 @@ limit running out before the syllabus is done.
 - **Haiku subagent** (`model: "haiku"`): greps, inventories, "where is X", counting, listing.
 - **agy** (Gemini Flash, Google's quota, costs no Claude tokens): visual page checks and
   transcription. Render the pages to PNG in the scratch folder first, then:
-  `timeout 900 agy -p "<task>" --dangerously-skip-permissions --add-dir <scratch> --log-file <scratch>/agy.log < /dev/null`.
+  `timeout 900 agy --model gemini-3.8-flash-high -p "<task>" --dangerously-skip-permissions --add-dir <scratch> --log-file <scratch>/agy.log < /dev/null`.
   Its stdout is empty: the task must say "write your answer to <scratch>/<name>.md", and must say
   "do not edit any file outside <scratch>". Afterwards run `git status --short`; revert anything it
   touched outside scratch. Read only its report file. Use it for each file's contact-sheet check
@@ -81,6 +81,13 @@ limit running out before the syllabus is done.
   you want) and asks for a short reply (failures, counts, the changed lines), never a file dump.
   Batch work: one subagent per job, not per item. Treat helper facts as leads: a number that goes
   into the pack is either computed by `verify.py` or checked by you against the source.
+- **Handbrakes for helpers (2026-11-17).** Run `agy` and subagents in the **foreground** and wait
+  for the result in the same turn; never end a session with a helper still running. `agy` fails
+  (non-zero exit, error line in its log, or a missing/empty report file) → retry **once**; fails
+  again → stop using agy this session, view only the pages the overlap check flags yourself (at
+  most one contact sheet per file) and write `agy failed: <error line>` in the hand-off. A subagent
+  errors, or its output fails build/verify → fix or redo that piece yourself; never launch a second
+  subagent for the same job. A helper is never a reason to skip verify.py or the build.
 - Log in the hand-off which jobs went to which helper, so the token audit can compare.
 
 **Files you must not edit:** `CLAUDE.md`, this file, `auto.py`, `auto-v2.py`, anything in
