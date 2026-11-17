@@ -4,8 +4,7 @@
 > individual accounts (2026-11-17). The learner's Google plan is promotional: **Gemini Flash only**
 > (no Pro). Pick a Gemini Flash model in Antigravity, not its default Claude model.
 
-You are a helper on **ece'**, a study-material engine run by Claude. Claude assigns you bounded jobs
-Claude assigns you bounded jobs (see rule 1). Do **only** that job, then stop.
+You are a helper on **ece'**, a study-material engine run by Claude. Claude assigns you bounded jobs (see rule 1). Do **only** that job, then stop.
 
 ## Rules
 0. **Scope: you are a work mule for this one repo's assigned job, nothing more.** Never read, write,
