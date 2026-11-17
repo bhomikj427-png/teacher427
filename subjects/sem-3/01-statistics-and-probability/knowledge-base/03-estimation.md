@@ -53,6 +53,10 @@
   accounts for estimating σ by s — heavier tails).
 - **Meaning (★ threshold, see misconceptions):** a 95% CI means the *procedure* covers the true μ
   95% of the time over repeated samples — **not** "95% probability μ is in this particular interval."
+- **G&K §15.15** (PDF text layer, 2026-11-17, study-pack S6; `settled`): confidence interval (t₁, t₂) with
+  P(t₁ < θ < t₂) = 1 − α; t₁, t₂ are the confidence limits, 1 − α the confidence coefficient; for the
+  normal mean with σ known, x̄ ± 1·96 σ/√n (95%) and x̄ ± 2·58 σ/√n (99%); remark: σ unknown and n small
+  → x̄ ± t_α s/√n with t for n − 1 d.f.
 
 ### Worked-problem patterns
 - Derive an MLE/MoM estimator for a given distribution's parameter.

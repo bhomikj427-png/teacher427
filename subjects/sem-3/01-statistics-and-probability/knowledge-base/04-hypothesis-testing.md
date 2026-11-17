@@ -69,6 +69,25 @@ distributions' quantiles and areas). "Area 0..z" = P(0 < Z < z).
 
 **Rule the slips teach:** F(ν₁, ν₂) takes the numerator's df first; swapping them changes the value.
 
+### Prescribed-textbook locations (G&K, read on the PDF text layer 2026-11-17, study-pack S6) — `settled`
+- **§12.5** null hypothesis H₀: "a definite statement about the population parameter", "usually a hypothesis
+  of no difference". **§12.5.1** alternative H₁: any hypothesis complementary to H₀; for H₀: μ = μ₀,
+  H₁: μ ≠ μ₀ (two-tailed), μ > μ₀ (right-tailed) or μ < μ₀ (left-tailed).
+- **§12.6** Type I error: reject H₀ when it is true; Type II error: accept H₀ when it is wrong (H₁ true);
+  in quality control α and β are the **producer's risk** and **consumer's risk**.
+- **§12.7** critical region ω: the region of the sample space that amounts to rejecting H₀;
+  P(t ∈ ω ∣ H₀) = α, P(t ∈ ω̄ ∣ H₁) = β; ω̄ is the acceptance region; α is fixed before sampling.
+  **§12.7.1** one-tailed test when H₁ is one-sided, two-tailed when H₁ is ≠; the critical region lies in
+  one tail or both. **§12.7.2** critical (significant) value: separates the critical and acceptance
+  regions; depends on α and on the tails; the one-tailed value at α equals the two-tailed value at 2α.
+  Table of critical z: two-tailed 2·58 / 1·96 / 1·645, right-tailed 2·33 / 1·645 / 1·28 (α = 1%, 5%, 10%).
+- **§12.8** steps: H₀ · H₁ (tails) · level of significance (fixed in advance) · test statistic
+  Z = (t − E(t))/S.E.(t) under H₀ · compare with the tabulated value and conclude.
+- **§16.2.4–16.2.7** critical region W and acceptance region W̄; α = P(x ∈ W ∣ H₀) is the size of the
+  critical region (level of significance); β = P(x ∈ W̄ ∣ H₁); 1 − β is the power function, its value at
+  a parameter point the power of the test there. **§16.3** steps of a testing problem (W chosen,
+  reject H₀ if t ∈ W).
+
 ---
 **Stage 2 (deep structure) — ✓ BUILT (2026-06-19):** lives separately in
 `stage-2/04-hypothesis-testing.md` — kept out of this exam file on purpose. *Adds:* Neyman–Pearson lemma & most-powerful

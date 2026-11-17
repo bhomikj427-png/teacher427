@@ -382,20 +382,8 @@ chk("10 C4", .1 * .2727 + .2 * .7273, 0.1727, tol=1e-4)
 pst = .24 / .59
 chk("10 ST4", pst, 0.4068, tol=1e-4); chk("10 ST5", .5 * (1 - pst) + .8 * pst, 0.6220, tol=1e-4)
 chk("10 prior mean", .1 * .6 + .2 * .4, 0.14)
-# ---- 11
-se1 = 19.3 / math.sqrt(20)
-chk("11 B1 90 lo", 85.5 - 1.645 * se1, 78.40, tol=0.01); chk("11 B1 95 lo", 85.5 - 1.96 * se1, 77.04, tol=0.01)
-chk("11 B1 95 margin", 1.96 * se1, 8.46, tol=0.01)
-chk("11 C2 lo", 12.5 - 1.96 * 0.1, 12.304); chk("11 C3 n", (1.96 * 19.3 / 5) ** 2, 57.24, tol=0.01)
-chk("11 C6 lo", w.mean() - 2.861 * w.std(ddof=1) / math.sqrt(20), 24.902, tol=1e-3)
-chk("11 C6 hi", w.mean() + 2.861 * w.std(ddof=1) / math.sqrt(20), 25.108, tol=1e-3)
-chk("11 D2 via t.interval", stats.t.interval(.95, 19, loc=w.mean(), scale=w.std(ddof=1) / math.sqrt(20))[0], 24.930, tol=1e-3)
-dd = np.round((w - 25) * 10).astype(int); chk("11 D2 sum d", dd.sum(), 1); chk("11 D2 sum d2", (dd**2).sum(), 49)
-chk("11 ST2 99 lo", 52 - 2.576, 49.424, tol=1e-3); chk("11 ST3 lo", 20 - 2.131, 17.869)
-# ---- 12
-chk("12 C5 beta", 1 - math.exp(-1.5), 0.7769, tol=1e-4)
-chk("12 ST4 beta", 0.9 / 1.5, 0.6); chk("12 C6 term", B(4, .75).pmf(2), 0.2109, tol=1e-4)
-chk("12 power A4 C2", 1 - 47 / 128, 81 / 128)
+# ---- 11 (v1.2 checks removed S6; numbers are in the "v1.3 S6" block)
+# ---- 12 (v1.2 checks removed S6; 12a/12b numbers are in the "v1.3 S6" block)
 # ---- 13
 chk("13 C1", (41.5 - 44) / (6 / 4), -1.667, tol=1e-3)
 chk("13 C4", (15 - 13) / math.sqrt((7 * 4 + 7 * 5) / 14 * (1 / 8 + 1 / 8)), 1.886, tol=1e-3)
@@ -921,6 +909,122 @@ chk("07 ST3 SE", 12 / 6, 2); chk("07 ST3 n", (12 / 1) ** 2, 144)
 chk("07 ST4", _N(80, 1.5).cdf(83) - _N(80, 1.5).cdf(77), .9544, tol=2e-4)
 chk("07 ST6 n", (2 * 2 / .5) ** 2, 64); chk("07 ST6 P", _N(4, 2 / 8).sf(4.5), .0228, tol=1e-4)
 chk("07 ST7 n", (20 / 1) ** 2, 400); chk("07 ST7 ratio", 400 / 25, 16); chk("07 ST7 SE25", 20 / 5, 4)
+
+# ==== v1.3 S6 — files 11, 12a, 12b (route: scipy.stats norm/t/binom, exact Fractions, scipy quad for integrals)
+_Zs = stats.norm; _Bn = stats.binom; _q = lambda f_, a_, b_: integrate.quad(f_, a_, b_)[0]
+# 11 step 1, Check 1
+chk("11 S1 E", 1.96 * .2, .392); chk("11 S1 phi(1.96)", phi0(1.96), .4750, tol=5e-5)
+for k_, v_ in [(1, .317), (1.96, .05), (3, .0027)]:
+    chk(f"11 S1 two-tail {k_}", 2 * _Zs.sf(k_), v_, tol=5e-4)
+chk("11 C1a", 2 / math.sqrt(25), .4); chk("11 C1b", 1.96 * .4, .784)
+# 11 step 2 (A4 B3), Check 2
+chk("11 S2 SE", 2 / math.sqrt(100), .2); chk("11 S2 lo", 12.5 - 1.96 * .2, 12.108); chk("11 S2 hi", 12.5 + 1.96 * .2, 12.892)
+chk("11 C2 SE", 120 / math.sqrt(64), 15); chk("11 C2 lo", 1480 - 1.96 * 15, 1450.6); chk("11 C2 hi", 1480 + 1.96 * 15, 1509.4)
+# 11 step 3 figure ci_coverage (seed 0, x̄ = 12.5 + 0.2 z): exactly 1 of 20 misses; Check 3
+_zz = np.random.default_rng(0).standard_normal(20)
+chk("11 S3 misses", int((np.abs(.2 * _zz) > .392).sum()), 1); chk("11 C3 1.96 sigma", 1.96 * 2, 3.92)
+# 11 step 4 (A4 B1), z table, Check 4
+chk("11 S4 phi(1.645)", phi0(1.645), .45, tol=2e-4); chk("11 S4 phi(2.576)", phi0(2.576), .495, tol=1e-4)
+chk("11 S4 z90", _Zs.ppf(.95), 1.645, tol=5e-4); chk("11 S4 z99", _Zs.ppf(.995), 2.576, tol=5e-4)
+_se4 = 19.3 / math.sqrt(20)
+chk("11 S4 sqrt20", math.sqrt(20), 4.4721, tol=5e-5); chk("11 S4 SE", _se4, 4.3156, tol=5e-5); chk("11 S4 E99", 2.576 * _se4, 11.117, tol=5e-4)
+chk("11 S4 99 lo", 85.5 - 2.576 * _se4, 74.383, tol=5e-4); chk("11 S4 99 hi", 85.5 + 2.576 * _se4, 96.617, tol=5e-4)
+for z_, e_, lo_, hi_ in [(1.645, 7.10, 78.40, 92.60), (1.96, 8.46, 77.04, 93.96), (2.576, 11.12, 74.38, 96.62)]:
+    chk(f"11 S4 E {z_}", z_ * _se4, e_, tol=5e-3); chk(f"11 S4 lo {z_}", 85.5 - z_ * _se4, lo_, tol=5e-3)
+    chk(f"11 S4 hi {z_}", 85.5 + z_ * _se4, hi_, tol=5e-3)
+chk("11 C4a E", 1.645 * .2, .329); chk("11 C4a lo", 12.5 - .329, 12.171); chk("11 C4a hi", 12.5 + .329, 12.829)
+chk("11 C4b E", 2.576 * .2, .5152); chk("11 C4b lo", 12.5 - .5152, 11.985, tol=5e-4); chk("11 C4b hi", 12.5 + .5152, 13.015, tol=5e-4)
+# 11 step 5 table, Predict, Check 5
+for n_, se_, e_ in [(25, .4, .784), (100, .2, .392), (400, .1, .196)]:
+    chk(f"11 S5 SE n={n_}", 2 / math.sqrt(n_), se_); chk(f"11 S5 E n={n_}", 1.96 * 2 / math.sqrt(n_), e_)
+chk("11 S5 n", (1.96 * 2 / .196) ** 2, 400)
+chk("11 C5a root", 1.96 * 19.3 / 5, 7.5656, tol=5e-5); chk("11 C5a n", (1.96 * 19.3 / 5) ** 2, 57.24, tol=5e-3); chk("11 C5a ceil", math.ceil((1.96 * 19.3 / 5) ** 2), 58)
+chk("11 C5b root", 1.96 * 2 / .1, 39.2); chk("11 C5b n", (1.96 * 2 / .1) ** 2, 1536.64, tol=1e-6); chk("11 C5b ceil", math.ceil((1.96 * 2 / .1) ** 2), 1537)
+# 11 step 6 (A4 B2), Check 6, Self-test 7
+chk("11 S6 E", 1.96 * 3 / 5, 1.176); chk("11 S6 centre", 2 * 30 + 7, 67); chk("11 S6 half", 2 * 1.176, 2.352)
+chk("11 C6 lo", 10 - 31.176, -21.176); chk("11 C6 hi", 10 - 28.824, -18.824)
+chk("11 ST7 lo", 3 * 28.824, 86.472); chk("11 ST7 hi", 3 * 31.176, 93.528)
+# 11 step 7 (A4 B4) t table, Check 7 (A4 B5)
+for df_, v_ in [(4, 2.776), (9, 2.262), (19, 2.093)]:
+    chk(f"11 S7 t({df_})", stats.t.ppf(.975, df_), v_, tol=5e-4)
+chk("11 S7 sqrt10", math.sqrt(10), 3.1623, tol=5e-5); chk("11 S7 SE", 20 / math.sqrt(10), 6.3246, tol=5e-5)
+chk("11 S7 E", 2.262 * 20 / math.sqrt(10), 14.306, tol=5e-4); chk("11 S7 E z", 1.96 * 20 / math.sqrt(10), 12.396, tol=5e-4)
+chk("11 S7 lo", 250 - 2.262 * 20 / math.sqrt(10), 235.694, tol=5e-4); chk("11 S7 hi", 250 + 2.262 * 20 / math.sqrt(10), 264.306, tol=5e-4)
+chk("11 C7 SE", 4 / math.sqrt(20), .8944, tol=5e-5); chk("11 C7 E", 1.729 * 4 / math.sqrt(20), 1.5465, tol=5e-4)
+# 11 step 8 (A5 D2), Check 8
+_d8 = np.round((w - 25) * 10).astype(int)
+chk("11 S8 d list", int(np.abs(_d8 - np.array([-2, 1, -1, 0, 2, -3, 0, 1, 3, -1, 0, -2, 1, -1, 2, 0, 1, -2, 0, 2])).sum()), 0)
+chk("11 S8 sum d", _d8.sum(), 1); chk("11 S8 sum d2", (_d8 ** 2).sum(), 49); chk("11 S8 dbar", _d8.mean(), .05)
+chk("11 S8 xbar", w.mean(), 25.005, tol=1e-9); chk("11 S8 Sxx", 49 - 1 / 20, 48.95)
+chk("11 S8 sd2", 48.95 / 19, 2.5763, tol=5e-5); chk("11 S8 sd", math.sqrt(48.95 / 19), 1.6051, tol=5e-5)
+chk("11 S8 s", w.std(ddof=1), .16051, tol=5e-6); chk("11 S8 SE", w.std(ddof=1) / math.sqrt(20), .035891, tol=5e-7)
+chk("11 S8 E", 2.093 * w.std(ddof=1) / math.sqrt(20), .0751, tol=5e-5)
+chk("11 C8 E", 2.861 * w.std(ddof=1) / math.sqrt(20), .1027, tol=5e-5)
+chk("11 C8 lo", w.mean() - 2.861 * w.std(ddof=1) / math.sqrt(20), 24.902, tol=5e-4); chk("11 C8 hi", w.mean() + 2.861 * w.std(ddof=1) / math.sqrt(20), 25.108, tol=5e-4)
+chk("11 S8 slip s from key", .065 / 2.093 * math.sqrt(20), .139, tol=5e-4)
+# 11 self-test
+chk("11 ST2 95 lo", 52 - 1.96, 50.04); chk("11 ST2 95 hi", 52 + 1.96, 53.96)
+chk("11 ST2 99 lo", 52 - 2.576, 49.424); chk("11 ST2 99 hi", 52 + 2.576, 54.576)
+chk("11 ST3 t(15)", stats.t.ppf(.975, 15), 2.131, tol=5e-4); chk("11 ST3 lo", 20 - 2.131 * 4 / 4, 17.869); chk("11 ST3 hi", 20 + 2.131, 22.131)
+# 12a step 1 (battery: sigma 50, n 25, SE 10), Check 1
+chk("12a S1 SE", 50 / math.sqrt(25), 10); chk("12a S1 z", (990 - 1000) / 10, -1)
+chk("12a S1 P(z<-1)", _Zs.cdf(-1), .1587, tol=5e-5); chk("12a S1 P(z<-1.645)", _Zs.cdf(-1.645), .05, tol=5e-5)
+chk("12a S1 P(z<-3)", _Zs.cdf(-3), .0013, tol=5e-5); chk("12a S1 x at -1.645", 1000 - 1.645 * 10, 983.55)
+chk("12a C1 z", (975 - 1000) / 10, -2.5); chk("12a C1 phi", phi0(2.5), .4938, tol=5e-5); chk("12a C1 P", _Zs.cdf(-2.5), .0062, tol=5e-5)
+# 12a step 6 critical values, Check 6, step 8, Check 8, self-test 5
+for a_, two_, one_ in [(.10, 1.645, 1.28), (.05, 1.96, 1.645), (.01, 2.58, 2.33)]:
+    chk(f"12a S6 two {a_}", _Zs.ppf(1 - a_ / 2), two_, tol=5e-3); chk(f"12a S6 one {a_}", _Zs.ppf(1 - a_), one_, tol=5e-3)
+chk("12a S6 c", 1000 - 1.645 * 10, 983.55); chk("12a C6 c", 1000 - 2.33 * 10, 976.7)
+chk("12a S8 z", (990 - 1000) / 10, -1); chk("12a ST5 z", (985 - 1000) / 10, -1.5)
+# 12a step 7 beta and power at mu = 980, trade-off, Check 7
+chk("12a S7 z", (983.55 - 980) / 10, .355); chk("12a S7 phi(.36)", phi0(.36), .1406, tol=5e-5)
+chk("12a S7 beta table", .5 - .1406, .3594); chk("12a S7 beta exact", _Zs.sf((983.55 - 980) / 10), .3613, tol=5e-5)
+chk("12a S7 power", 1 - _Zs.sf(.355), .64, tol=5e-3)
+chk("12a S7 z .01", (976.7 - 980) / 10, -.33); chk("12a S7 phi(.33)", phi0(.33), .1293, tol=5e-5)
+chk("12a S7 beta .01", .5 + .1293, .6293); chk("12a S7 beta .01 exact", _Zs.sf(-.33), .63, tol=5e-3); chk("12a S7 power .01", 1 - .6293, .37, tol=5e-3)
+chk("12a C7 z", (983.55 - 970) / 10, 1.355); chk("12a C7 phi(1.36)", phi0(1.36), .4131, tol=5e-5)
+chk("12a C7 beta", .5 - .4131, .0869); chk("12a C7 power", 1 - .0869, .9131)
+# 12b step 1-2 (A4 C1), Checks 1-2
+chk("12b S1 power", 1 - .25, .75); chk("12b C1 alpha", 1 - .8, .2); chk("12b C1 beta", .8 / 2, .4)
+chk("12b S2 power", .5 * .5, .25); chk("12b C2 beta", 1 * .5, .5)
+# 12b step 3 (slide 21), density table, Check 3
+_f0 = lambda x_: math.exp(-x_ / 5) / 5; _f1 = lambda x_: math.exp(-x_ / 10) / 10
+for x_, v0_, v1_ in [(0, .2, .1), (5, .0736, .0607), (15, .0100, .0223), (30, .0005, .0050)]:
+    chk(f"12b S3 f0({x_})", _f0(x_), v0_, tol=5e-5); chk(f"12b S3 f1({x_})", _f1(x_), v1_, tol=5e-5)
+chk("12b S3 alpha", _q(_f0, 15, np.inf), .0498, tol=5e-5, key=math.exp(-3), ktol=1e-6)
+chk("12b S3 beta", _q(_f1, 0, 15), .7769, tol=5e-5, key=1 - math.exp(-1.5), ktol=1e-6)
+chk("12b S3 e^-1.5", math.exp(-1.5), .2231, tol=5e-5)
+chk("12b C3 alpha", _q(_f0, 10, np.inf), .1353, tol=5e-5); chk("12b C3 beta", _q(_f1, 0, 10), .6321, tol=5e-5)
+# 12b step 4 (slide 20), Check 4
+chk("12b S4 term3", Fr(4) * Fr(1, 3) ** 3 * Fr(2, 3), 8 / 81); chk("12b S4 alpha", _Bn(4, 1 / 3).sf(2), 1 / 9, key=1 / 9)
+chk("12b S4 alpha 3dp", 1 / 9, .111, tol=5e-4)
+chk("12b S4 beta", _Bn(4, .5).cdf(2), 11 / 16, key=11 / 16); chk("12b S4 beta dec", 11 / 16, .6875)
+chk("12b C4 alpha", _Bn(4, 1 / 3).pmf(4), .0123, tol=5e-5); chk("12b C4 beta", _Bn(4, .5).cdf(3), 15 / 16)
+# 12b step 5 (A4 C2), Check 5
+chk("12b S5 alpha", Fr(6, 32), .1875); chk("12b S5 P(>=4|3/4)", _Bn(5, .75).sf(3), 648 / 1024)
+chk("12b S5 counts", 5 * 81 + 243, 648); chk("12b S5 beta", _Bn(5, .75).cdf(3), .3672, tol=5e-5)
+chk("12b S5 power", Fr(648, 1024), 81 / 128); chk("12b S5 power dec", 81 / 128, .6328, tol=5e-5)
+chk("12b C5 alpha", _Bn(5, .5).sf(2), .5); chk("12b C5 beta", _Bn(5, .75).cdf(2), 106 / 1024)
+chk("12b C5 counts", 1 + 5 * 3 + 10 * 9, 106); chk("12b C5 frac", Fr(106, 1024), 53 / 512); chk("12b C5 dec", 53 / 512, .1035, tol=5e-5)
+# 12b step 6 (A4 C3), Check 6
+for k_, c_ in [(0, 1), (1, 12), (2, 54), (3, 108), (4, 81)]:
+    chk(f"12b S6 count {k_}", _Bn(4, .75).pmf(k_) * 256, c_, tol=1e-9)
+chk("12b S6 alpha", Fr(67, 256), .2617, tol=5e-5); chk("12b S6 beta", Fr(5, 16), .3125)
+chk("12b C6 alpha", _Bn(4, .75).cdf(1), .0508, tol=5e-5); chk("12b C6 beta", _Bn(4, .5).sf(1), 11 / 16)
+# 12b step 7 (slide 22) power function, table, figure dots, Check 7
+chk("12b S7 alpha", _q(lambda x_: 3 * x_ ** 2, 0, .1), .001, tol=1e-12, key=.001, ktol=1e-12)
+chk("12b S7 theta3", _q(lambda x_: 4 * x_ ** 3, 0, .1), 1e-4, tol=1e-12, key=1e-4, ktol=1e-12)
+chk("12b S7 beta3", 1 - 1e-4, .9999)
+for t_ in (-.5, 0, 1, 2, 3):
+    chk(f"12b S7 power fn {t_}", _q(lambda x_: (1 + t_) * x_ ** t_, 0, .1), .1 ** (t_ + 1), tol=1e-9)
+chk("12b C7a", .1 ** .5, .3162, tol=5e-5); chk("12b C7b", _q(lambda x_: 3 * x_ ** 2, 0, .2), .008, tol=1e-12)
+# 12b self-test
+chk("12b ST1 alpha", 1 - .9, .1); chk("12b ST1 beta", .9 / 1.5, .6)
+chk("12b ST2 alpha", math.exp(-3), .0498, tol=5e-5); chk("12b ST2 beta", 1 - math.exp(-1), .6321, tol=5e-5)
+chk("12b ST3 alpha", _Bn(6, .5).sf(4), 7 / 64); chk("12b ST3 alpha dec", 7 / 64, .1094, tol=5e-5)
+chk("12b ST3 P(>=5|.8)", _Bn(6, .8).sf(4), .65536, tol=1e-9); chk("12b ST3 beta", _Bn(6, .8).cdf(4), .34464, tol=1e-9)
+chk("12b ST4 alpha", _q(lambda x_: 3 * x_ ** 2, .9, 1), .271, tol=1e-9)
+chk("12b ST6 tail sums", _Bn(6, .5).sf(3) * 64, 22, tol=1e-9)
 
 print(f"\n{N[0]} checks; {len(FAILS)} pack failures; {len(KEYDIFF)} key differences")
 if KEYDIFF:

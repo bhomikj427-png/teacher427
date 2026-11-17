@@ -9,14 +9,14 @@ The ranking is driven by **marks**. The ETE blueprint (official) fixes the marks
 | Rank | Study | Why it ranks here | Do first | Rough time |
 |---|---|---|---|---|
 | **1** | **09a Method of moments · 09b Maximum likelihood** | Row 3 (22 marks): two 6-mark and one 8-mark slot; the professor's slides work four MLE examples | 09b §3–8, 11; 09a §2, 4; mock B3, C2 | 80 min |
-| **2** | **11 Confidence interval for mean** | Named in row 3; Assignment 4 has five CI questions, Assignment 5 two more | 11 §2, 5, 6 | 45 min |
+| **2** | **11 Confidence interval for mean** | Named in row 3; Assignment 4 has five CI questions, Assignment 5 two more | 11 §2, 4, 7, 8 | 45 min |
 | **3** | **16 ANOVA** | Row 5 holds the paper's only Part D (8 marks); Assignment 5's Part D includes an ANOVA | 16 §2–4, mock D1 | 45 min |
 | **4** | **13 t-tests** | Row 5; six t-test questions in Assignment 5, one of them Part D | 13 §2, 4, 5 | 60 min |
 | **5** | **06 Normal** | Row 2 (20 marks, one Part C); MTE C1(a) was 4 marks; five Assignment 2 numericals | 06 §3–9 | 50 min |
 | **6** | **07 SE and CLT** | Named in row 2; four worked slide examples; a Part C candidate | 07 §5–12, mock C1 | 40 min |
 | **7** | **15 χ² independence** | Row 5; four numericals in Assignment 5 | 15 §3–4 | 40 min |
 | **8** | **08 Estimator properties** | Row 3; MTE A3 (2) and C1(b) (3) | 08 §3–4, 8, exam form | 40 min |
-| **9** | **12 Hypotheses and errors** | Row 4 (10 marks); α/β questions A4 C1–C3 fit its 6-mark slot | 12 §3, 5, 6 | 50 min |
+| **9** | **12a Hypotheses and errors · 12b Computing α and β** | Row 4 (10 marks): 12a's definitions fit the 2-mark items; α/β questions A4 C1–C3 (12b) fit its 6-mark slot | 12a §2–7, 12b §1–6 | 60 min |
 | **10** | **04a Binomial · 04b Poisson** | Row 2; MTE A2, A4, B3 (8 marks) | 04a §3, 5, 6 · 04b §1–4 | 45 min |
 | **11** | **14 F-test** | Row 5; four Assignment 5 numericals; quick to learn | 14 §2, 4 | 30 min |
 | **12** | **05 Uniform and exponential** | Row 2; MTE B4 (4 marks); eight short Assignment 2 items | 05 §3, 4, 8, 9 | 40 min |
@@ -49,7 +49,7 @@ The order is the syllabus order, which is also the order of the assignments (1, 
 
 **Unit 4 — testing** (rows 4 and 5)
 
-[[map:12 Hypotheses, errors > 13 t-tests > 14 F-test > 15 χ² > 16 ANOVA > 17 Mock]]
+[[map:12a Hypotheses, errors > 12b Computing α and β > 13 t-tests > 14 F-test > 15 χ² > 16 ANOVA > 17 Mock]]
 
 02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04a–06 use 03a's E and Var; 04a uses 03b's sums for np and npq, and 04b builds on 04a's formula. 07 needs 03b (shift and scale, mean and variance of a sum: steps 1–3) and 06 (standardise, tails, between two values: steps 3, 5, 6). 08–09b need 03a–03b, 07 and the distributions of 04–05; 09b compares its MLE with 09a's MoM. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.
 
@@ -69,8 +69,9 @@ The order is the syllabus order, which is also the order of the assignments (1, 
 | 09a | row 3 · method of moments | population vs sample moments, one parameter, an impossible estimate, two parameters, a new density | 3 textbook |
 | 09b | row 3 · maximum likelihood | likelihood (coin), log-likelihood, the five steps, Poisson, exponential, normal μ and σ², product of powers, second derivative, properties, MoM against MLE | 4 + 1 textbook |
 | 10 | row 3 · Bayesian (intro) | prior, posterior, the slide's defectives example, posterior mean | 1 |
-| 11 | row 3 · CI for mean | meaning, z-interval, levels, function of μ, t-interval, raw data | 7 |
-| 12 | row 4 | H₀/H₁, tails, Type I/II, α, β, power, critical region, test steps | 15 |
+| 11 | row 3 · CI for mean | point vs interval, x̄ ± 1.96 SE derived, what 95% means, other levels, width and sample size, an interval for 2μ + 7, the t-interval, raw data | 7 |
+| 12a | row 4 · hypotheses and errors | hypothesis and test of significance, H₀ and H₁, writing them from a claim, one- and two-tailed, Type I and II, α and the critical region, β and power, the steps of a test (battery example) | 13 |
+| 12b | row 4 · computing α and β | areas under uniform and exponential densities, a region with α = 0, binomial sums for high and low counts, the power function (slides 20–22 added) | 6 |
 | 13 | row 5 · t-test | one-sample (summary, raw), two levels, pooled two-sample, paired | 9 |
 | 14 | row 5 · F-test | F ratio, sums of squares, two-tailed, raw data, before the t | 6 |
 | 15 | row 5 · χ² | expected frequency, df, 2 × 2, shortcut, building tables, 3 × 3 | 8 |
@@ -124,7 +125,7 @@ Every answer in the assignments and the MTE key was recomputed. These differ; th
 |---|---|---|---|
 | **A5 C6** (16 §3) | table value 19.41 | **F₀.₀₅(2, 12) = 3.89** | 19.41 is F(12, 2): df reversed. **The decision flips**: F = 9.17 rejects H₀ |
 | A5 D1 (14 §4) | table value 5.19 | F₀.₀₅(4, 4) = 6.39 | 5.19 is F(4, 5); same decision |
-| A5 D2 (11 §6) | CI (24.945, 25.075) | (24.930, 25.080) | the key's half-width does not match the data's s = 0.1605 |
+| A5 D2 (11 §8) | CI (24.945, 25.075) | (24.930, 25.080) | the key's half-width does not match the data's s = 0.1605 |
 | A5 A4 (13 §5) | options 1.55/2.10/3.00/3.87 | t = 3.10 | no option matches; nearest is 3.00 |
 | A5 A10 (16 §2) | options 4/5/6/8 | F = 4.44 | no option matches; nearest is 4.00 |
 | A2 B5 (05 §10) | 0.5679 | 0.6225 | recomputed two ways; G&K prints the same exercise (ch. 8 ex. 7(a)) with this answer |
@@ -139,10 +140,9 @@ Every answer in the assignments and the MTE key was recomputed. These differ; th
 | Slides MLE Ex. 11 (09b §7) | solves (a) and (b) jointly; writes only μ̂ = x̄ | (b) σ̂² = (1/n)Σ(xᵢ − μ)², from the slide's own line | the second answer was left out |
 | Slides MLE Ex. 14 (09b §8) | L(x₁, …, x₁₀; θ) | n = 6 | label only |
 | G&K ch. 15 ex. 20(b) (09a §2) | v1.2 pack wrote α | θ, as the book prints | a v1.2 pack slip, not the book's |
-| ppt 8 slide 7 (12 §2) | "H₀: μ > −0.545" | H₁: μ > −0.545 | the alternative was labelled H₀ |
 
 ## How this pack was checked
 
 - **Facts:** from the subject's knowledge base (researched to both stages from Walpole, Montgomery & Runger and Ross; every load-bearing claim checked against sources) and from Gupta & Kapoor, the reference the slides cite. Section numbers are quoted where a formula is used.
-- **Numbers:** `src/verify.py` recomputes every number in the pack, 983 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 18 mismatches are the slips in the table above (A2 B5 and A2 C2's μ and mark are checked twice).
+- **Numbers:** `src/verify.py` recomputes every number in the pack, 1157 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 18 mismatches are the slips in the table above (A2 B5 and A2 C2's μ and mark are checked twice).
 - **Pages:** every page was viewed after the final build.

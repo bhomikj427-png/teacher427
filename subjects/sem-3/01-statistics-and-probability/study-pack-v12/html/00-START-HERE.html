@@ -74,7 +74,7 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <td><strong>2</strong></td>
 <td><strong>11 Confidence interval for mean</strong></td>
 <td>Named in row 3; Assignment 4 has five CI questions, Assignment 5 two more</td>
-<td>11 §2, 5, 6</td>
+<td>11 §2, 4, 7, 8</td>
 <td>45 min</td>
 </tr>
 <tr>
@@ -121,10 +121,10 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 </tr>
 <tr>
 <td><strong>9</strong></td>
-<td><strong>12 Hypotheses and errors</strong></td>
-<td>Row 4 (10 marks); α/β questions A4 C1–C3 fit its 6-mark slot</td>
-<td>12 §3, 5, 6</td>
-<td>50 min</td>
+<td><strong>12a Hypotheses and errors · 12b Computing α and β</strong></td>
+<td>Row 4 (10 marks): 12a's definitions fit the 2-mark items; α/β questions A4 C1–C3 (12b) fit its 6-mark slot</td>
+<td>12a §2–7, 12b §1–6</td>
+<td>60 min</td>
 </tr>
 <tr>
 <td><strong>10</strong></td>
@@ -201,7 +201,7 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <div class="map"><span class="n">08 Estimator properties</span><span class="a">→</span><span class="n">09a Method of moments</span><span class="a">→</span><span class="n">09b Maximum likelihood</span><span class="a">→</span><span class="n">10 Bayesian</span><span class="a">→</span><span class="n">11 CI for the mean</span></div>
 
 <p><strong>Unit 4 — testing</strong> (rows 4 and 5)</p>
-<div class="map"><span class="n">12 Hypotheses, errors</span><span class="a">→</span><span class="n">13 t-tests</span><span class="a">→</span><span class="n">14 F-test</span><span class="a">→</span><span class="n">15 χ²</span><span class="a">→</span><span class="n">16 ANOVA</span><span class="a">→</span><span class="n">17 Mock</span></div>
+<div class="map"><span class="n">12a Hypotheses, errors</span><span class="a">→</span><span class="n">12b Computing α and β</span><span class="a">→</span><span class="n">13 t-tests</span><span class="a">→</span><span class="n">14 F-test</span><span class="a">→</span><span class="n">15 χ²</span><span class="a">→</span><span class="n">16 ANOVA</span><span class="a">→</span><span class="n">17 Mock</span></div>
 
 <p>02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04a–06 use 03a's E and Var; 04a uses 03b's sums for np and npq, and 04b builds on 04a's formula. 07 needs 03b (shift and scale, mean and variance of a sum: steps 1–3) and 06 (standardise, tails, between two values: steps 3, 5, 6). 08–09b need 03a–03b, 07 and the distributions of 04–05; 09b compares its MLE with 09a's MoM. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.</p>
 <table>
@@ -301,14 +301,20 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <tr>
 <td>11</td>
 <td>row 3 · CI for mean</td>
-<td>meaning, z-interval, levels, function of μ, t-interval, raw data</td>
+<td>point vs interval, x̄ ± 1.96 SE derived, what 95% means, other levels, width and sample size, an interval for 2μ + 7, the t-interval, raw data</td>
 <td>7</td>
 </tr>
 <tr>
-<td>12</td>
-<td>row 4</td>
-<td>H₀/H₁, tails, Type I/II, α, β, power, critical region, test steps</td>
-<td>15</td>
+<td>12a</td>
+<td>row 4 · hypotheses and errors</td>
+<td>hypothesis and test of significance, H₀ and H₁, writing them from a claim, one- and two-tailed, Type I and II, α and the critical region, β and power, the steps of a test (battery example)</td>
+<td>13</td>
+</tr>
+<tr>
+<td>12b</td>
+<td>row 4 · computing α and β</td>
+<td>areas under uniform and exponential densities, a region with α = 0, binomial sums for high and low counts, the power function (slides 20–22 added)</td>
+<td>6</td>
 </tr>
 <tr>
 <td>13</td>
@@ -455,7 +461,7 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <td>5.19 is F(4, 5); same decision</td>
 </tr>
 <tr>
-<td>A5 D2 (11 §6)</td>
+<td>A5 D2 (11 §8)</td>
 <td>CI (24.945, 25.075)</td>
 <td>(24.930, 25.080)</td>
 <td>the key's half-width does not match the data's s = 0.1605</td>
@@ -544,17 +550,11 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <td>θ, as the book prints</td>
 <td>a v1.2 pack slip, not the book's</td>
 </tr>
-<tr>
-<td>ppt 8 slide 7 (12 §2)</td>
-<td>"H₀: μ &gt; −0.545"</td>
-<td>H₁: μ &gt; −0.545</td>
-<td>the alternative was labelled H₀</td>
-</tr>
 </tbody>
 </table>
 <h2>How this pack was checked</h2>
 <ul>
 <li><strong>Facts:</strong> from the subject's knowledge base (researched to both stages from Walpole, Montgomery &amp; Runger and Ross; every load-bearing claim checked against sources) and from Gupta &amp; Kapoor, the reference the slides cite. Section numbers are quoted where a formula is used.</li>
-<li><strong>Numbers:</strong> <code>src/verify.py</code> recomputes every number in the pack, 983 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 18 mismatches are the slips in the table above (A2 B5 and A2 C2's μ and mark are checked twice).</li>
+<li><strong>Numbers:</strong> <code>src/verify.py</code> recomputes every number in the pack, 1157 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 18 mismatches are the slips in the table above (A2 B5 and A2 C2's μ and mark are checked twice).</li>
 <li><strong>Pages:</strong> every page was viewed after the final build.</li>
 </ul></body></html>

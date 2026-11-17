@@ -21,6 +21,10 @@
   Ch. 8 §8.2 (normal; §8.2.2 properties, areas 0·6826 / 0·9544 / 0·9973), §8.10 (CLT; Lindeberg–Lévy
   iid form, mean form eq. 8·31-2) and ch. 12 §12.3 (parameter vs statistic), §12.3.2 (standard error):
   read on the PDF text layer 2026-11-17 (sprint S5); supports the same KB section (S5 bullets).
+  Ch. 12 §12.5–12.8 (hypotheses, errors, critical region, tails, critical values, steps), ch. 15 §15.15
+  (confidence interval and limits), ch. 16 §16.2.4–16.3 (W, size, power function, steps): read on the PDF
+  text layer 2026-11-17 (sprint S6); supports `04-hypothesis-testing.md` "Prescribed-textbook locations"
+  and the §15.15 bullet in `03-estimation.md`.
 
 ## Tier 1/2 — Authoritative course material (verification this session, 2026-06-16)
 - **MIT OpenCourseWare 18.600 / 18.440 *Probability and Random Variables*** — confirmed the topic

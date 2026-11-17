@@ -1,6 +1,6 @@
 # 14 — F-test for equality of two variances
 
-<div class="sub">Gupta & Kapoor §14.5, §14.5.5 · blueprint row 5 "F-test" · 6 real questions (Assignment 5) · needs 08 (s²), 12 (test steps), 13 (pooled t)</div>
+<div class="sub">Gupta & Kapoor §14.5, §14.5.5 · blueprint row 5 "F-test" · 6 real questions (Assignment 5) · needs 08 (s²), 12a (test steps, step 8), 13 (pooled t)</div>
 
 ## Map
 

@@ -88,7 +88,7 @@ A company aims for a part weight of 25.0 g. 20 parts weigh 24.8, 25.1, 24.9, 25.
 If H₀ is not rejected at 5%, can it be rejected at 1%?
 :::
 
-**Answer.** From file 11 step 6: x̄ = 25.005, s = 0.16051, SE = 0.035891.
+**Answer.** From file 11 step 8: x̄ = 25.005, s = 0.16051, SE = 0.035891.
 H₀: μ = 25.0; H₁: μ ≠ 25.0 (any shift). t = 0.005/0.035891 = **0.139**.
 5%: 0.139 < 2.093 ⇒ do not reject. 1%: 0.139 < 2.861 ⇒ do not reject. **No evidence of a shift at either level.**
 A smaller α moves the critical value outward, so "not rejected at 5%" always implies "not rejected at 1%".
