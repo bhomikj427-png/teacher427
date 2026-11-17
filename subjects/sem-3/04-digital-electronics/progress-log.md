@@ -202,3 +202,9 @@
 
 - 2026-11-17 auto session 8: resumed S3 after session 7 crash (usage limit). Session 7 left only verify.py u3c (64 checks; one syntax slip in the 12 s6 check fixed, now 0 failures); no content or figures written. Writing 12 (8 steps) + 13 (12 steps, no a/b split); figures to a Sonnet subagent.
 - 2026-11-17 auto session 8: S3 done. 12 (8 steps) + 13 (12 steps, no split) rebuilt; figs_u3c.py (Sonnet) + 4 K-maps; verify 311 checks 0 failures; build 12 13 00 no OVERLAP; agy page check: 3 raw \qquad lines fixed; START-HERE ranks/table/slips/how-checked updated. Next up: S4 (15 + 16 FSM, reduction, ASM).
+
+- 2026-11-17 session 9 (auto-v2): S4 start (15 FSM design + 16 state reduction/ASM rebuild to v1.3).
+
+- 2026-11-17 session 9: S4 figures: Sonnet subagent wrote src/figs_u4.py (12 figures) + 7 K-map registrations in build.py from my spec; deck 13 slide 8 image viewed: D0 = X(y0)' and D1 = X'm1 + Xm2 printed (slip; table gives D0 = X, D1 = X'm1 + Xm2 + X'm3).
+
+- 2026-11-17 session 9: S4 partial: 15 (12 steps) and 16 (12 steps) rebuilt; verify 387 checks, 0 failures (u4 76, in src/verify_u4.py); build 15 16 00 no OVERLAP (v1 mealy_1101 overlap fixed by u4_mealy_1101). Left for next session: START-HERE rows/slips, agy page check, mock re-point. Where we stopped: S4 closing items. Next up: finish S4 closing, then S5.

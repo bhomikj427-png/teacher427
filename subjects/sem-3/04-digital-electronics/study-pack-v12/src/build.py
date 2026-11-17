@@ -30,6 +30,14 @@ def _km(ones, groups, dcs=()):
     return s.replace(">A</text>", ">Q₂</text>").replace(">BC</text>", ">Q₁Q₀</text>")
 
 
+def _kmy(ones, groups, dcs=()):
+    """3-variable map for 2-state-bit machines: rows Y1, columns Y2 X (cell index = 4*Y1 + 2*Y2 + X)."""
+    cells = {m: "1" for m in ones}
+    cells.update({m: "X" for m in dcs})
+    s = figs1.kfig.kmap(cells, [{"cells": c, "term": t, "color": i} for i, (c, t) in enumerate(groups)],
+                        rv="A", cv="BC", cs=42, show_idx=True)
+    return s.replace(">A</text>", ">Y₁</text>").replace(">BC</text>", ">Y₂X</text>")
+
 
 # Figures whose v1 source functions are gone: reuse the rendered copies from DE-ETE-v1.html
 # (extract_v1figs.py -> v1figs.json), keyed by the v1 placeholder.
@@ -59,6 +67,8 @@ import figs_u3  # noqa: E402  (v1.3 unit-3 figures, S2: waveforms + figs_u3_sch 
 ALL.update(figs_u3.FIGS)
 import figs_u3c  # noqa: E402  (v1.3 unit-3 counter figures, S3)
 ALL.update(figs_u3c.FIGS)
+import figs_u4  # noqa: E402  (v1.3 unit-4 state-machine figures, S4)
+ALL.update(figs_u4.FIGS)
 import matplotlib.pyplot as _plt  # noqa: E402  the v1 modules select the svg backend on import; figlib's check needs Agg
 _plt.switch_backend("Agg")
 
@@ -69,6 +79,13 @@ ALL["km_D1_down"] = lambda: _km([0, 3, 4, 7], [([0, 4], "Q1'Q0'"), ([3, 7], "Q1Q
 ALL["km_D2_down"] = lambda: _km([0, 5, 6, 7], [([6, 7], "Q2Q1"), ([5, 7], "Q2Q0"), ([0], "Q2'Q1'Q0'")])
 ALL["km_J0_gray"] = lambda: _km([0, 6], [([0, 1], "Q2'Q1'"), ([6, 7], "Q2Q1")], dcs=[1, 3, 5, 7])
 ALL["km_K0_gray"] = lambda: _km([3, 5], [([2, 3], "Q2'Q1"), ([4, 5], "Q2Q1'")], dcs=[0, 2, 4, 6])
+ALL["km_cnt_D1"] = lambda: _kmy([3, 4, 5], [([4, 5], "Y1Y2'"), ([3], "Y1'Y2X")])
+ALL["km_cnt_D2"] = lambda: _kmy([1, 4, 7], [([1], "Y1'Y2'X"), ([4], "Y1Y2'X'"), ([7], "Y1Y2X")])
+ALL["km_gray_D1"] = lambda: _kmy([3, 6, 7], [([6, 7], "Y1Y2"), ([3, 7], "Y2X")])
+ALL["km_gray_D2"] = lambda: _kmy([1, 3, 5, 7], [([1, 3, 5, 7], "X")])
+ALL["km_T_1101"] = lambda: _kmy([3, 4, 5], [([4, 5], "Y1Y2'"), ([3], "Y1'Y2X")])
+ALL["km_J_1101"] = lambda: _kmy([1, 5], [([1, 3, 5, 7], "X")], dcs=[2, 3, 6, 7])
+ALL["km_K_1101"] = lambda: _kmy([2, 6], [([0, 2, 4, 6], "X'")], dcs=[0, 1, 4, 5])
 
 # K-map classes from the site stylesheet (the renderer is shared with the site), light theme only.
 KCSS = "\n".join(l for l in (ROOT / "site" / "static" / "style.css").read_text(encoding="utf-8").splitlines()

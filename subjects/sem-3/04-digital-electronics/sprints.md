@@ -42,7 +42,7 @@ in `exam-pack/` (index: `exam-pack/README.md`): MTE 2025 paper, practice sets 1�
 | S1 | **01 + 02 + 03** Boolean algebra; K-maps; NAND/NOR | old 01–03 · KB `01` · decks 01, 02 · MTE Q1, Q4 · set 1 Q1, Q2, Q4 | `01-…`, `02-…`, `03-…` rebuilt (a/b if > 13 steps), `src/figs_u1.py` | protocol 6–12 hold; every minimisation checked by truth table in verify | **done** 2026-11-17 (01: 10 steps, 02: 10, 03: 7; no split) |
 | S2 | **09 + 10** latches and flip-flops; waveforms | old 09, 10 · KB `03` · deck 08 · MTE Q3, Q7 · set 2 Q1–Q3 | `09-…`, `10-…` rebuilt, `src/figs_u3.py` | same; every waveform answer simulated in verify | **done** 2026-11-17 (sessions 4–6; 09: 13 steps, 10: 7; no split) |
 | S3 | **12 + 13** ripple counters; synchronous counters (rank 1: the MTE's only 8-mark question) | old 12, 13 · KB `03` · deck 10 · set 2 Q4–Q6 | `12-…`, `13-…` rebuilt (13a/13b likely) | same; every counter's state sequence simulated in verify | **done** 2026-11-17 (sessions 7–8; 12: 8 steps, 13: 12 steps; no 13a/13b split) |
-| S4 | **15 + 16** FSM design; state reduction, ASM | old 15, 16 · KB `04` · decks 11, 12, 13 | `15-…`, `16-…` rebuilt, `src/figs_u4.py` | same; the five detectors on deck 11's last slide simulated in verify | |
+| S4 | **15 + 16** FSM design; state reduction, ASM | old 15, 16 · KB `04` · decks 11, 12, 13 | `15-…`, `16-…` rebuilt, `src/figs_u4.py` | same; the five detectors on deck 11's last slide simulated in verify |**partial** 2026-11-17 (session 9; 15: 12 steps, 16: 12; no split; built + verified; START-HERE rows, slip rows, page check left) |
 | S5 | **05 + 06** MUX/DEMUX; decoder/encoder | old 05, 06 · KB `02` · decks 04, 05 · MTE Q5, Q6 · set 1 Q3, Q5–Q8 | `05-…`, `06-…` rebuilt, `src/figs_u2.py` | same | |
 | S6 | **04 + 07 + 08** adders/subtractors; display, comparator, parity; shifter, ALU | old 04, 07, 08 · KB `01`, `02` · decks 03, 06, 07 · MTE Q2 · set 1 Q9–Q10 | `04-…`, `07-…`, `08-…` rebuilt | same | |
 | S7 | **11 + 14** registers; timing analysis | old 11, 14 · KB `03` · deck 09 | `11-…`, `14-…` rebuilt | same | |
@@ -76,32 +76,46 @@ sprint reads them first.
 | 6 | PS1 Q4 "two consecutive input bits are 1" read as "at least one adjacent pair (A,B), (B,C), (C,D) is 11" → F = AB + BC + CD (02 step 10 states the reading and the alternative) | S1 | open |
 | 7 | Gate counts in 03 assume complemented inputs are available; the text adds the inverter count each time | S1 | open |
 | 8 | 13's up/down direction input is named Dn (Dn = 1 counts down; deck 10 slides 29–32 call it X) so it does not clash with the don't-care X; slide 33's Up kept | S3 | open |
+| 9 | 16's running example is deck 12's five-state Mealy machine (slides 4, 10, 16), not "15's 1101 table reduced" (brief §4): verify shows the Mealy and Moore 1101 tables are already minimal | S4 | open |
+| 10 | Deck 11 slide 43's detectors are solved as overlapping (deck 11's default, slide 6); 1X1/1XX1 read X as "either bit" | S4 | open |
 
 ## Current hand-off
 
 ```
-Sprint: S3 — 12 + 13 ripple and synchronous counters — done (2026-11-17, sessions 7–8)
-Written: content/12-ripple-counters.md (8 steps: T FF halves f, 2-bit ripple, 3-bit up = running
-  example, down + edge/clock-source rule, ripple delay 011->010->000->100, MOD-6 by reset, decade,
-  cascading; deck 10 slide 14's four exercises as questions/Self-test);
-  content/13-synchronous-counters.md (12 steps: why one clock (f_max 50 vs 25 MHz), state diagram/
-  table, D, T, JK on the 2-bit counter (PS2 Q4), MTE Q8 table + K-maps/circuit, down (PS2 Q5, Q6),
-  decade T, unused states/self-start, up/down, Gray JK); src/figs_u3c.py (14 figures: ripple_sch,
-  ripple waves, delay, MOD-6 waves, cascade, state rings) + 4 K-maps in build.py; verify.py unit u3c;
-  00-START-HERE: rank 1/8 "Do first", file-table rows 12/13, 3 slip rows (deck 10 slides 6, 12-13,
-  36), how-checked = 311 checks
-Verified this sprint: numbers: src/verify.py 311 checks, 0 failures (u3c 75); build 12 13 00: no
-  OVERLAP; agy page check 12 (13 pp) + 13 (18 pp): only raw \qquad in 3 math lines, fixed + rebuilt
-Open (carried): deck-14 numbers (backlog -> S8); deck 10 slide 36 transcription (backlog -> S9)
-Decisions made: 13 not split (12 steps); session 7's crash left only verify u3c (fixed a list-slice
-  slip in the 12 s6 check). Steps 3-6, 8 (table part), 9, 11 of 13 are table-led with no figure (the
-  table is the figure); 13 step 1 shows counter_T, which step 7 refers back to
-Assumptions to review: 8 (direction input named Dn)
-Helpers: Sonnet subagent wrote figs_u3c.py + K-map registrations from my spec (14 + 4 figures, no
-  overlaps; it viewed 6 of them); agy page check (one run, ok); I wrote all teaching text and verify
-  additions
-Next sprint: S4 — 15 + 16 FSM design; state reduction, ASM — first action: grep '^## |^### ' in old
-  content/15 and 16 and the brief's 1.11-1.13 + section 4 rows for 15/16; plan steps (16a/16b if > 13)
-Read at start: this hand-off + S4 row · ../../../study-pack-sprint-protocol.md · brief 1.11-1.13
-  (decks 11-13) by range · old 15, 16 by heading ranges · 13 header + Symbols (lines 1-30) · KB 04
+Sprint: S4 — 15 + 16 FSM design; state reduction, ASM — partial (2026-11-17, session 9): files
+  built and verified; closing items left (context limit)
+Written: content/15-fsm-design.md (12 steps: what a state remembers, 1101 chain + overlap arc,
+  completing arcs, overlap vs non-overlap (1010; slide-27 slip), state table, counting-order D
+  (cost 22), Gray D + circuit (cost 9), T + JK (cost 10), Mealy vs Moore, 111 both ways + false-
+  output timing, Moore 1101 (3 FFs, y = Y2), slide 43's five detectors (table of state counts;
+  1011 Moore solved, others in Self-test/Answers)); content/16-state-reduction-asm.md (12 steps:
+  equivalence via response table, inspection, Moore partition (slide 8), Mealy partition = running
+  example, implication table, implication loops (8-state), compatibility, maximal compatibles +
+  closed cover (5 -> 2), ASM elements, ASM 1010 + equations (slide-8 slip), Moore-output counter
+  (slides 9/18 slips), serial adder); src/figs_u4.py (13 figures) + 7 K-maps (_kmy) in build.py;
+  src/verify_u4.py (unit u4, 76 checks, wired into verify.py UNITS)
+Verified this sprint: numbers: src/verify.py 387 checks, 0 failures; every detector table
+  simulated against a reference detector on all strings <= 9 bits; all deck 12 partitions,
+  implication tables, maximal compatibles and closures recomputed; build 15 16 00: no OVERLAP
+Slips found (put in START-HERE slip table): deck 11 slide 27 (empty Overlapping panel; same
+  diagram for 110); deck 13 slide 8 (image viewed: D0 = X(y0)', D1 = X'm1 + Xm2 printed; correct
+  D0 = X, D1 = X'm1 + Xm2 + X'm3); deck 13 slide 9 (no hold terms; D0 = X xor y0); deck 13 slide
+  18 (redundant decision after S3). Brief §1.12 p.4: response-table columns are 00, 01, 10, 11
+  (brief header says 00, 01, 11, 10; values match 00, 01, 10, 11 by simulation)
+Open (carried): S4 closing items: (1) 00-START-HERE: rank rows, file-table rows 15/16, the slip
+  rows above, how-checked = 387 checks; (2) agy page check of 15 (19 pp) and 16 (19 pp);
+  (3) grep cross-references to 15/16 and re-point mock rows; deck-14 numbers (backlog -> S8);
+  deck 10 slide 36 (backlog -> S9)
+Decisions made: no 16a/16b split (12 steps each); 16's running example = deck 12's 5-state
+  machine (assumption 9); 15 uses plain Y1, Y2 (Y2 Y1 Y0 in step 11); reused v1 figures:
+  fsm_blocks, moore_1101, implication_chart; mealy_1101 replaced by u4_mealy_1101 (overlap fix)
+Assumptions to review: 9 (16 running example), 10 (practice detectors overlapping)
+Helpers: Sonnet subagent wrote figs_u4.py (12 figures) + build.py K-map registrations from my spec,
+  viewed all 12 as PNG; I wrote all teaching text and verify_u4.py (written as the computation tool
+  while checking the deck's tables, so not delegated); agy not run (context limit)
+Next sprint: S4 closing, then S5 — first action: one Python script that adds the START-HERE rows
+  and slip rows above (grep '^## |^\| 1[3-7]' in content/00-START-HERE.md first), then render 15
+  and 16 to PNG contact sheets for the agy page check; then start S5 (05 + 06)
+Read at start: this hand-off + S5 row · ../../../study-pack-sprint-protocol.md · 00-START-HERE
+  headings · brief 1.4-1.5 (decks 04, 05) by range · old 05, 06 by heading ranges · KB 02
 ```

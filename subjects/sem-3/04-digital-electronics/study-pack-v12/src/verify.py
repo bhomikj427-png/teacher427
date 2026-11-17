@@ -732,7 +732,14 @@ def u3c():
        run_ripple(3, False, 0, 3) == [0, 7, 6, 5] and run_ripple(2, True, 0, 4) == [0, 1, 2, 3, 0])
 
 
-UNITS = {"u0": u0, "u1": u1, "u3": u3, "u3c": u3c}
+def u4():
+    """Files 15-16 (FSM design, state reduction, ASM), S4: checks in verify_u4.py."""
+    import verify_u4 as m
+    m.__dict__.update(ok=ok, check_sop=check_sop, detect=detect, run_fsm=run_fsm, fn=fn, run_sync=run_sync)
+    m.u4()
+
+
+UNITS = {"u0": u0, "u1": u1, "u3": u3, "u3c": u3c, "u4": u4}
 
 
 def main(argv):

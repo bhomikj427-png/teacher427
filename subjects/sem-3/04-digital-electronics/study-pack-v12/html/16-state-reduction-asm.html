@@ -78,29 +78,80 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 .c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
 .c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
 .c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>16 — State reduction and ASM charts</h1>
-<div class="sub">Deck 12 (slides 10–26) · deck 13 (slides 3–8) · syllabus Unit 4 · needs 15 (state tables)</div>
+<div class="sub">Deck 12 (slides 2–26) · deck 13 (slides 2–19) · syllabus Unit 4 (state reduction; algorithmic state machines) · real questions: the decks' worked examples and reduction problems; none on the MTE or the practice sets · needs 15 steps 5–9 (state tables, Mealy/Moore, assignment and equations)</div>
 
 <h2>Map</h2>
-<div class="map"><span class="n here">1 Partitioning</span><span class="a">→</span><span class="n">2 Implication table, compatibles</span><span class="a">→</span><span class="n">3 ASM charts</span></div>
+<div class="map"><span class="n here">1 Equivalent states</span><span class="a">→</span><span class="n">2 Reduction by inspection</span><span class="a">→</span><span class="n">3 Partitioning a Moore table</span><span class="a">→</span><span class="n">4 Partitioning a Mealy table</span><span class="a">→</span><span class="n">5 The implication table</span><span class="a">→</span><span class="n">6 Implications that loop</span><span class="a">→</span><span class="n">7 Don't-cares: compatible states</span><span class="a">→</span><span class="n">8 Maximal compatibles, closed cover</span><span class="a">→</span><span class="n">9 ASM chart elements</span><span class="a">→</span><span class="n">10 ASM chart of the 1010 detector</span><span class="a">→</span><span class="n">11 Moore outputs: a counter</span><span class="a">→</span><span class="n">12 Serial adder</span></div>
 
-<p>15 built a state table by hand; it may have more states than needed. Fewer states can mean fewer flip-flops and simpler logic. An ASM chart is the same machine drawn as a flowchart with timing.</p>
-<h2>The questions this file answers</h2>
-<ul>
-<li><span class="tag">Deck 12 slides 10, 16</span> Find the equivalent states of a 5-state machine and give the reduced table.</li>
-<li><span class="tag">Deck 12 slide 17</span> Reduce an 8-state machine by partitioning.</li>
-<li><span class="tag">Deck 13 slides 3–8</span> Name the three elements of an ASM chart; draw the chart of the 1101 detector.</li>
-</ul>
-<hr />
-<h2>Build</h2>
-<h3>1 · Partitioning</h3>
-<div class="box q">
-<div class="bh"><span class="tag">Deck 12 slides 10 and 16</span></div>
-<p>Find the equivalent states of the machine below and give the reduced state table.</p>
-</div>
+<p>File 15 built state tables from words. Nothing in that process guarantees the fewest states: two states may behave identically and only cost flip-flops and gates. Steps 1–8 find such states and merge them; this is step 3 of the design procedure ("state reduction"), done before state assignment. Steps 9–12 redraw state machines as <strong>ASM charts</strong>, flowcharts in which each state box lasts one clock period, and read the next-state and output equations straight off them. File 17 uses both for timing generators and asynchronous circuits.</p>
+<h2>Symbols</h2>
 <table>
 <thead>
 <tr>
-<th>Present</th>
+<th>Symbol</th>
+<th>What it means in this file</th>
+<th>Typical value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x, w, X, E, A, B</td>
+<td>inputs (deck letters kept); one bit per clock period</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>z, Z</td>
+<td>output</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>A … H, S1 … S9</td>
+<td>state names in a state table</td>
+<td>5–9 states</td>
+</tr>
+<tr>
+<td>C/1 in a table</td>
+<td>Mealy entry: next state C, output 1</td>
+<td>—</td>
+</tr>
+<tr>
+<td>–</td>
+<td>unspecified entry (don't-care next state or output)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>P1, P2, …</td>
+<td>partitions: the states split into blocks, refined one step at a time</td>
+<td>—</td>
+</tr>
+<tr>
+<td>(BC)</td>
+<td>a block / class: states B and C taken as one</td>
+<td>—</td>
+</tr>
+<tr>
+<td>A', B', …</td>
+<td>states of the reduced table</td>
+<td>2–6 states</td>
+</tr>
+<tr>
+<td>y, y1, y0</td>
+<td>state bits in an ASM chart (code written beside the state box)</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>m0, m1, …</td>
+<td>minterms of the state bits (m2 = y1y0' = state code 10)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2>Running example</h2>
+<p><strong>Deck 12's five-state Mealy machine</strong> (slides 4, 10 and 16), reduced three ways: by its response tables (step 1), by partitioning (step 4) and by an implication table (step 5). Every method gives <strong>B ≡ C</strong>, 5 states → 4.</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
 <th>x = 0</th>
 <th>x = 1</th>
 </tr>
@@ -133,38 +184,308 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 </tr>
 </tbody>
 </table>
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">Deck 12 slides 3–4</span> Define equivalent states; find the equivalent states of the five-state machine from its responses.</li>
+<li><span class="tag">Deck 12 slides 7–15</span> Find equivalent states by inspection and by partitioning (Moore and Mealy tables, one and two inputs) and give the minimized state table.</li>
+<li><span class="tag">Deck 12 slides 16–18</span> Find equivalent states with an implication table.</li>
+<li><span class="tag">Deck 12 slides 19–26</span> Incompletely specified circuits: compatible states, maximal compatibles, merger diagrams, a complete, consistent and minimal cover.</li>
+<li><span class="tag">Deck 13 slides 3–19</span> The three ASM elements; ASM charts of the 1010 detector, a MOD-6 counter, a serial adder and a 2-bit counter; equations from a chart.</li>
+</ul>
+<hr />
+<h2>Build</h2>
+<h3>1 · Equivalent states</h3>
+<p>Two buttons on a remote that do exactly the same thing in every situation are, for every purpose, one button. Two states are the same in that sense when no experiment on the inputs and outputs can tell them apart.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 12 slides 3–4 (EX 12.4)</span></div>
+<p>For the machine of the running example, the output sequences for every input sequence of length 2 and 3 are listed below. Which states are equivalent?</p>
+</div>
 <div class="box guess">
 <div class="bh">Guess first</div>
-<p>Which rows give the same outputs? Only those can possibly merge.</p>
+<p>In the length-2 table, D and E give identical outputs. Are they equivalent?</p>
 </div>
 <div class="box note">
 <div class="bh">Terms</div>
-<p><strong>Equivalent states:</strong> for every input they give the same output and go to equivalent next states. No input sequence can tell them apart, so they merge.</p>
+<p><strong>Equivalent states</strong> (completely specified circuit): states that produce the same output sequence for <strong>every</strong> input sequence (slide 3). Test that works one clock at a time: Si and Sj are equivalent if and only if, for every input, (1) their outputs are the same and (2) their next states are equivalent. <strong>Completely specified:</strong> every next state and output in the table is given.</p>
 </div>
-<ol>
-<li><strong>P<sub>0</sub></strong> = (ABCDE).</li>
-<li><strong>P<sub>1</sub></strong>, split by outputs: A, B, C give (1, 0); D, E give (0, 1) → (ABC)(DE).</li>
-<li><strong>P<sub>2</sub></strong>, split by the block each next state falls in. On x = 1: A → B (in ABC), but B, C → E (in DE): A separates → (A)(BC)(DE).</li>
-<li><strong>P<sub>3</sub></strong>: on x = 1, D → B (in BC) but E → A (in A): D and E separate → (A)(BC)(D)(E).</li>
-<li><strong>P<sub>4</sub> = P<sub>3</sub></strong>: B, C go to C, B (same block) and E, E. Stop.</li>
-</ol>
-<p><strong>Answer.</strong> <strong>B ≡ C.</strong> Five states become four, so 2 flip-flops instead of 3. Replace C by B: A: B/1, B/0 · B: B/1, E/0 · D: D/0, B/1 · E: E/0, A/1.</p>
+<table>
+<thead>
+<tr>
+<th>Start in</th>
+<th>00</th>
+<th>01</th>
+<th>10</th>
+<th>11</th>
+<th>110</th>
+<th>111</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>11</td>
+<td>10</td>
+<td>01</td>
+<td>00</td>
+<td>000</td>
+<td>001</td>
+</tr>
+<tr>
+<td>B</td>
+<td>11</td>
+<td>10</td>
+<td>00</td>
+<td>01</td>
+<td>011</td>
+<td>010</td>
+</tr>
+<tr>
+<td>C</td>
+<td>11</td>
+<td>10</td>
+<td>00</td>
+<td>01</td>
+<td>011</td>
+<td>010</td>
+</tr>
+<tr>
+<td>D</td>
+<td>00</td>
+<td>01</td>
+<td>11</td>
+<td>10</td>
+<td>100</td>
+<td>101</td>
+</tr>
+<tr>
+<td>E</td>
+<td>00</td>
+<td>01</td>
+<td>11</td>
+<td>10</td>
+<td>101</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p><em>Each entry is the output sequence produced from that start state; the input sequence heads the column, first bit on the left.</em> B and C agree everywhere (here, and in the full length-3 table of slide 4). D and E agree on every length-2 input but differ on 110 and 111.</p>
+<p>Removing equivalent states matters because (slide 2): the number of flip-flops grows with the number of states; more states make the design more complex; and test routines assume no redundant states.</p>
+<p><strong>Answer to the Guess:</strong> no. D and E are told apart by 110 (100 vs 101): agreeing on short sequences is not enough. <strong>B ≡ C</strong> only, so the machine needs 4 states.</p>
 <div class="box check">
 <div class="bh">Check 1</div>
-<p><span class="tag">Deck 12 slide 17</span> Reduce by partitioning (next/z for x = 0; for x = 1): A E/0, D/0 · B A/1, F/0 · C C/0, A/1 · D B/0, A/0 · E D/1, C/0 · F C/0, D/1 · G H/1, G/1 · H C/1, B/1.</p>
+<p>(a) Which inputs of length 2 tell A from B? Trace one of them through the state table. (b) Why does a table of all inputs of length 3 still not prove that B ≡ C?</p>
 </div>
-<h3>2 · Implication table and compatibles</h3>
+<h3>2 · Reduction by inspection</h3>
+<p>Trying every input sequence never ends. The one-clock test of step 1 gives a quick first method: compare rows.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 12 slide 7 (EX 12.7)</span></div>
+<p>Find equivalent states by inspection: A: B/0, C/1 · B: C/0, A/1 · C: D/1, B/0 · D: C/0, A/1 (next/output for x = 0; for x = 1).</p>
+</div>
 <div class="box guess">
-<div class="bh">Predict</div>
-<p>Partitioning works top-down. Could you instead test every pair of states once?</p>
+<div class="bh">Guess first</div>
+<p>Which two rows are identical?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Identical rows:</strong> same next state and same output for every input. They pass the one-clock test with nothing left to check, so they are equivalent.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>x = 0</th>
+<th>x = 1</th>
+<th></th>
+<th>Reduced</th>
+<th>x = 0</th>
+<th>x = 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>B/0</td>
+<td>C/1</td>
+<td></td>
+<td>A</td>
+<td>B/0</td>
+<td>C/1</td>
+</tr>
+<tr>
+<td>B</td>
+<td>C/0</td>
+<td>A/1</td>
+<td></td>
+<td>B</td>
+<td>C/0</td>
+<td>A/1</td>
+</tr>
+<tr>
+<td>C</td>
+<td>D/1</td>
+<td>B/0</td>
+<td></td>
+<td>C</td>
+<td><strong>B</strong>/1</td>
+<td>B/0</td>
+</tr>
+<tr>
+<td>D</td>
+<td>C/0</td>
+<td>A/1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Merge: delete row D and write B wherever D appeared (C's x = 0 entry).</p>
+<p>Inspection also catches two disguised cases (slide 7, bottom): rows that differ only because each <strong>goes to itself</strong> (B: B/0, A/1 and D: D/0, A/1), and rows that differ only because they <strong>go to each other</strong> (B: D/0, A/1 and D: B/0, A/1). In both, assuming B ≡ D makes the rows identical.</p>
+<p><strong>Answer to the Guess:</strong> rows <strong>B and D</strong> (both C/0, A/1): B ≡ D, and the machine needs 3 states.</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>Reduce by inspection: A: B/0, C/1 · B: B/0, A/1 · C: D/1, B/0 · D: D/0, A/1.</p>
+</div>
+<h3>3 · Partitioning a Moore table</h3>
+<p>Inspection misses equivalences that need a chain of reasoning. Partitioning is systematic: it splits states apart until nothing more splits.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 12 slides 8–9 (EX 12.8–12.9)</span></div>
+<p>Minimize the Moore machine: A: B, C, z = 1 · B: D, F, 1 · C: F, E, 0 · D: B, G, 1 · E: F, C, 0 · F: E, D, 0 · G: F, G, 0 (next for w = 0, w = 1; output).</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Which states can certainly <strong>not</strong> be equivalent to A, just from the outputs?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Partition:</strong> the states divided into blocks; states in one block are "not yet told apart". <strong>Refinement:</strong> a block splits when, for some input, its states' next states fall in <strong>different blocks</strong> of the current partition.</p>
+</div>
+<ol>
+<li>P1 = (ABCDEFG): all states together.</li>
+<li>P2, split by output: z = 1 for A, B, D; z = 0 for C, E, F, G → <strong>(ABD)(CEFG)</strong>.</li>
+<li>P3: on w = 1, C → E, E → C, G → G (all in CEFG) but F → D (in ABD): F splits off → <strong>(ABD)(CEG)(F)</strong>.</li>
+<li>P4: on w = 1, A → C and D → G (in CEG) but B → F (in F): B splits off → <strong>(AD)(B)(CEG)(F)</strong>.</li>
+<li>P5: A, D go to B, B (w = 0) and C, G (w = 1), same blocks; C, E, G go to F, F, F and E, C, G, same blocks. <strong>P5 = P4: stop.</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>w = 0</th>
+<th>w = 1</th>
+<th>z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A = (AD)</td>
+<td>B</td>
+<td>C</td>
+<td>1</td>
+</tr>
+<tr>
+<td>B</td>
+<td>A</td>
+<td>F</td>
+<td>1</td>
+</tr>
+<tr>
+<td>C = (CEG)</td>
+<td>F</td>
+<td>C</td>
+<td>0</td>
+</tr>
+<tr>
+<td>F</td>
+<td>C</td>
+<td>A</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer to the Guess:</strong> <strong>C, E, F and G</strong> (output 0, A's is 1). In a Moore machine the output belongs to the state, so P2 splits by the single output column.</p>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>(a) Flip-flops before and after this reduction? (b) Why does C stay with E and G although C → F on w = 0 and F is alone?</p>
+</div>
+<h3>4 · Partitioning a Mealy table</h3>
+<p>In a Mealy table each state has one output per input, so P1 splits by the <strong>whole output row</strong>.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 12 slide 10 (EX 12.10)</span></div>
+<p>Find the equivalent states of the running example by partitioning.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>List each state's output row (x = 0, x = 1). How many different rows are there?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Output row:</strong> the outputs of one state for each input value, read as a pattern (A: 1, 0). States with different output rows are told apart in one clock.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Partition</th>
+<th>Blocks</th>
+<th>What splits, and why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0</td>
+<td>(ABCDE)</td>
+<td>start</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>(ABC)(DE)</td>
+<td>output rows: A, B, C give 1, 0; D, E give 0, 1</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>(A)(BC)(DE)</td>
+<td>x = 1: A → B (in ABC) but B, C → E (in DE)</td>
+</tr>
+<tr>
+<td>P3</td>
+<td>(A)(BC)(D)(E)</td>
+<td>x = 1: D → B (in BC) but E → A (in A)</td>
+</tr>
+<tr>
+<td>P4 = P3</td>
+<td>(A)(BC)(D)(E)</td>
+<td>B, C → C, B (same block) and E, E: nothing splits</td>
+</tr>
+</tbody>
+</table>
+<p>Reduced table (C replaced by B): A: B/1, B/0 · B: B/1, E/0 · D: D/0, B/1 · E: E/0, A/1.</p>
+<p><strong>Answer to the Guess:</strong> <strong>two</strong> output rows, (1, 0) and (0, 1): P1 = (ABC)(DE). Partitioning ends with <strong>B ≡ C</strong>, as the response table of step 1 suggested, and now proved.</p>
+<div class="box check">
+<div class="bh">Check 4</div>
+<p><span class="tag">Deck 12 slide 11</span> Reduce by partitioning (next/z for x = 0; for x = 1): A E/0, D/0 · B A/1, F/0 · C C/0, A/1 · D B/0, A/0 · E D/1, C/0 · F C/0, D/1 · G H/1, G/1 · H C/1, B/1.</p>
+</div>
+<h3>5 · The implication table</h3>
+<p>Partitioning works on all states at once. The implication table tests <strong>pairs</strong>, which is what the incompletely specified tables of steps 7–8 need.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 12 slide 16 (EX 12.16)</span></div>
+<p>Find the equivalent states of the running example with an implication table.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>The cell for (A, B) lists the pair BE. What does that mean, and is (A, B) equivalent?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Implication table:</strong> a staircase grid with one cell per pair of states. <strong>Implied pair:</strong> a pair of next states that must be equivalent for the cell's pair to be equivalent (A and B go to C, C on x = 0 and to B, E on x = 1, so (A, B) implies BE).</p>
 </div>
 
-<figure style="max-width:45%"><div style="width:117mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 262.44 200.004324" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<figure style="max-width:48%"><div style="width:117mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 262.44 200.004324" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:13.720348</dc:date>
+    <dc:date>2026-11-17T18:23:24.603569</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -194,7 +515,7 @@ L 72.252973 58.378378
 L 72.252973 23.691892 
 L 37.566486 23.691892 
 z
-" clip-path="url(#p0c828ec4c4)" style="fill: #fff4f2; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p01900a06d4)" style="fill: #fff4f2; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 37.566486 93.064865 
@@ -202,7 +523,7 @@ L 72.252973 93.064865
 L 72.252973 58.378378 
 L 37.566486 58.378378 
 z
-" clip-path="url(#p0c828ec4c4)" style="fill: #fff4f2; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p01900a06d4)" style="fill: #fff4f2; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 72.252973 93.064865 
@@ -210,7 +531,7 @@ L 106.939459 93.064865
 L 106.939459 58.378378 
 L 72.252973 58.378378 
 z
-" clip-path="url(#p0c828ec4c4)" style="fill: #eaf6ef; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p01900a06d4)" style="fill: #eaf6ef; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 37.566486 127.751351 
@@ -218,7 +539,7 @@ L 72.252973 127.751351
 L 72.252973 93.064865 
 L 37.566486 93.064865 
 z
-" clip-path="url(#p0c828ec4c4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p01900a06d4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 72.252973 127.751351 
@@ -226,7 +547,7 @@ L 106.939459 127.751351
 L 106.939459 93.064865 
 L 72.252973 93.064865 
 z
-" clip-path="url(#p0c828ec4c4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p01900a06d4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 106.939459 127.751351 
@@ -234,7 +555,7 @@ L 141.625946 127.751351
 L 141.625946 93.064865 
 L 106.939459 93.064865 
 z
-" clip-path="url(#p0c828ec4c4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p01900a06d4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_8">
     <path d="M 37.566486 162.437838 
@@ -242,7 +563,7 @@ L 72.252973 162.437838
 L 72.252973 127.751351 
 L 37.566486 127.751351 
 z
-" clip-path="url(#p0c828ec4c4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p01900a06d4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
     <path d="M 72.252973 162.437838 
@@ -250,7 +571,7 @@ L 106.939459 162.437838
 L 106.939459 127.751351 
 L 72.252973 127.751351 
 z
-" clip-path="url(#p0c828ec4c4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p01900a06d4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_10">
     <path d="M 106.939459 162.437838 
@@ -258,7 +579,7 @@ L 141.625946 162.437838
 L 141.625946 127.751351 
 L 106.939459 127.751351 
 z
-" clip-path="url(#p0c828ec4c4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p01900a06d4)" style="fill: #f4f4f0; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_11">
     <path d="M 141.625946 162.437838 
@@ -266,22 +587,22 @@ L 176.312432 162.437838
 L 176.312432 127.751351 
 L 141.625946 127.751351 
 z
-" clip-path="url(#p0c828ec4c4)" style="fill: #fff4f2; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p01900a06d4)" style="fill: #fff4f2; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="line2d_1">
     <path d="M 40.341405 55.603459 
 L 69.478054 26.466811 
-" clip-path="url(#p0c828ec4c4)" style="fill: none; stroke: #d92d20; stroke-width: 0.9; stroke-linecap: round"/>
+" clip-path="url(#p01900a06d4)" style="fill: none; stroke: #d92d20; stroke-width: 0.9; stroke-linecap: round"/>
    </g>
    <g id="line2d_2">
     <path d="M 40.341405 90.289946 
 L 69.478054 61.153297 
-" clip-path="url(#p0c828ec4c4)" style="fill: none; stroke: #d92d20; stroke-width: 0.9; stroke-linecap: round"/>
+" clip-path="url(#p01900a06d4)" style="fill: none; stroke: #d92d20; stroke-width: 0.9; stroke-linecap: round"/>
    </g>
    <g id="line2d_3">
     <path d="M 144.400865 159.662919 
 L 173.537514 130.52627 
-" clip-path="url(#p0c828ec4c4)" style="fill: none; stroke: #d92d20; stroke-width: 0.9; stroke-linecap: round"/>
+" clip-path="url(#p01900a06d4)" style="fill: none; stroke: #d92d20; stroke-width: 0.9; stroke-linecap: round"/>
    </g>
    <g id="text_1">
     <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="27.160541" y="43.714276" transform="rotate(-0 27.160541 43.714276)">B</text>
@@ -351,42 +672,45 @@ L 173.537514 130.52627
   </g>
  </g>
  <defs>
-  <clipPath id="p0c828ec4c4">
+  <clipPath id="p01900a06d4">
    <rect x="2.88" y="2.88" width="256.68" height="194.244324"/>
   </clipPath>
  </defs>
 </svg>
-</div><figcaption>Implication table for step 1's machine.</figcaption></figure>
+</div><figcaption>What this graph plots: one cell per pair of states (row = later state, column = earlier); × = outputs differ; a listed pair = what must also be equivalent; a slash = struck out because an implied pair was struck out.</figcaption></figure>
 
 <ol>
-<li>One cell per pair. Cross out (×) every pair whose outputs differ.</li>
-<li>In each remaining cell write the next-state pairs that would have to be equivalent.</li>
-<li>Cross out any cell that depends on a crossed pair. Repeat until nothing changes.</li>
-<li>Uncrossed cells are the equivalent pairs.</li>
+<li>Cross out (×) every pair whose outputs differ: all six pairs between {A, B, C} and {D, E}.</li>
+<li>In each remaining cell write the implied pairs: (A, B): BE · (A, C): BC, BE · (B, C): only CB and EE, which hold already (✓) · (D, E): AB.</li>
+<li>Cross out every cell that implies a crossed-out pair: BE is ×, so (A, B) and (A, C) go; then AB is crossed, so (D, E) goes.</li>
+<li>Repeat step 3 until nothing changes. The uncrossed cells are the equivalent pairs: <strong>(B, C)</strong>.</li>
 </ol>
-<p>Here A–B needs B–E (crossed), so it goes; D–E needs A–B, so it goes; <strong>B–C</strong> needs only C–B and E–E: it survives.</p>
-<p><strong>Incompletely specified machines</strong> (deck 12 slides 19–26): with don't-care entries, equivalence becomes <strong>compatibility</strong>: specified outputs never conflict and next states are compatible. It is <strong>not transitive</strong>, so states are grouped into maximal compatibles with a merger diagram; the chosen set must <strong>cover</strong> every state and be <strong>closed</strong> (each group's next states fall inside one chosen group).</p>
-<p><strong>Answer.</strong> Yes: the implication table tests every pair, and gives the same B ≡ C.</p>
+<p><strong>Answer to the Guess:</strong> (A, B) is equivalent only if B and E are. (B, E) is crossed out (different outputs), so <strong>(A, B) is not</strong>. Result: (A)(BC)(D)(E), the same as step 4.</p>
 <div class="box check">
-<div class="bh">Check 2</div>
-<p>Why can't you merge A, B, C just because A–B and B–C are compatible?</p>
+<div class="bh">Check 5</div>
+<p>(A, C) lists BC and BE, and BC survives. Why is (A, C) still crossed out?</p>
 </div>
-<h3>3 · ASM charts</h3>
+<h3>6 · Implications that loop</h3>
+<p>In step 5 every chain of implications ended at a crossed cell or at ✓. In bigger tables the chains can form a loop.</p>
 <div class="box q">
-<div class="bh"><span class="tag">Deck 13 slides 3–8</span></div>
-<p>Name the three elements of an ASM chart and draw the ASM chart of the Mealy 1101 detector of 15.</p>
+<div class="bh"><span class="tag">Deck 12 slide 17 (EX 12.17)</span></div>
+<p>Use an implication table to find the equivalent states of the 8-state machine of step 4's Check (A E/0, D/0 · … · H C/1, B/1).</p>
 </div>
 <div class="box guess">
 <div class="bh">Guess first</div>
-<p>In a flowchart of the machine, which shape should take exactly one clock period?</p>
+<p>(A, D) needs BE; (B, E) needs AD and CF; (C, F) needs AD. None of them is crossed. Are they equivalent?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Loop of implications:</strong> cells that only imply each other. Nothing in the loop can ever be crossed out, so all its pairs are equivalent.</p>
 </div>
 
-<figure style="max-width:55%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 290.786824 429.914471" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<figure style="max-width:62%"><div style="width:119mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 266.54976 291.38688" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:13.818368</dc:date>
+    <dc:date>2026-11-17T18:23:24.745146</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -401,364 +725,2246 @@ L 173.537514 130.52627
  </defs>
  <g id="figure_1">
   <g id="patch_1">
-   <path d="M -0 429.914471 
-L 290.786824 429.914471 
-L 290.786824 0 
-L -0 0 
-L -0 429.914471 
+   <path d="M 0 291.38688 
+L 266.54976 291.38688 
+L 266.54976 0 
+L 0 0 
+L 0 291.38688 
 z
 " style="fill: none"/>
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 87.1488 40.057412 
-L 141.675671 40.057412 
-Q 142.295294 40.057412 142.295294 39.437788 
-L 142.295294 15.892094 
-Q 142.295294 15.272471 141.675671 15.272471 
-L 87.1488 15.272471 
-Q 86.529176 15.272471 86.529176 15.892094 
-L 86.529176 39.437788 
-Q 86.529176 40.057412 87.1488 40.057412 
+    <path d="M 33.9264 40.13568 
+L 64.9728 40.13568 
+L 64.9728 9.08928 
+L 33.9264 9.08928 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
-    <path d="M 114.412235 58.646118 
-L 137.648118 72.587647 
-L 114.412235 86.529176 
-L 91.176353 72.587647 
+    <path d="M 33.9264 71.18208 
+L 64.9728 71.18208 
+L 64.9728 40.13568 
+L 33.9264 40.13568 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
-    <path d="M 87.1488 133.000941 
-L 141.675671 133.000941 
-Q 142.295294 133.000941 142.295294 132.381318 
-L 142.295294 108.835624 
-Q 142.295294 108.216 141.675671 108.216 
-L 87.1488 108.216 
-Q 86.529176 108.216 86.529176 108.835624 
-L 86.529176 132.381318 
-Q 86.529176 133.000941 87.1488 133.000941 
+    <path d="M 64.9728 71.18208 
+L 96.0192 71.18208 
+L 96.0192 40.13568 
+L 64.9728 40.13568 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
-    <path d="M 114.412235 151.589647 
-L 137.648118 165.531176 
-L 114.412235 179.472706 
-L 91.176353 165.531176 
+    <path d="M 33.9264 102.22848 
+L 64.9728 102.22848 
+L 64.9728 71.18208 
+L 33.9264 71.18208 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pf73beca847)" style="fill: #eaf6ef; stroke: #12925a; stroke-width: 1.6; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
-    <path d="M 87.1488 225.944471 
-L 141.675671 225.944471 
-Q 142.295294 225.944471 142.295294 225.324847 
-L 142.295294 201.779153 
-Q 142.295294 201.159529 141.675671 201.159529 
-L 87.1488 201.159529 
-Q 86.529176 201.159529 86.529176 201.779153 
-L 86.529176 225.324847 
-Q 86.529176 225.944471 87.1488 225.944471 
+    <path d="M 64.9728 102.22848 
+L 96.0192 102.22848 
+L 96.0192 71.18208 
+L 64.9728 71.18208 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
-    <path d="M 114.412235 244.533176 
-L 137.648118 258.474706 
-L 114.412235 272.416235 
-L 91.176353 258.474706 
+    <path d="M 96.0192 102.22848 
+L 127.0656 102.22848 
+L 127.0656 71.18208 
+L 96.0192 71.18208 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_8">
-    <path d="M 87.1488 318.888 
-L 141.675671 318.888 
-Q 142.295294 318.888 142.295294 318.268376 
-L 142.295294 294.722682 
-Q 142.295294 294.103059 141.675671 294.103059 
-L 87.1488 294.103059 
-Q 86.529176 294.103059 86.529176 294.722682 
-L 86.529176 318.268376 
-Q 86.529176 318.888 87.1488 318.888 
+    <path d="M 33.9264 133.27488 
+L 64.9728 133.27488 
+L 64.9728 102.22848 
+L 33.9264 102.22848 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
-    <path d="M 114.412235 337.476706 
-L 137.648118 351.418235 
-L 114.412235 365.359765 
-L 91.176353 351.418235 
+    <path d="M 64.9728 133.27488 
+L 96.0192 133.27488 
+L 96.0192 102.22848 
+L 64.9728 102.22848 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pf73beca847)" style="fill: #eaf6ef; stroke: #12925a; stroke-width: 1.6; stroke-linejoin: miter"/>
    </g>
    <g id="patch_10">
-    <path d="M 114.412235 86.529176 
-Q 114.412235 97.372588 114.412235 106.934 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 116.765176 102.934 
-L 114.412235 106.934 
-L 112.059294 102.934 
+    <path d="M 96.0192 133.27488 
+L 127.0656 133.27488 
+L 127.0656 102.22848 
+L 96.0192 102.22848 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_11">
-    <path d="M 77.234824 27.664941 
-Q 81.882 27.664941 85.247176 27.664941 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 81.247176 25.312 
-L 85.247176 27.664941 
-L 81.247176 30.017882 
+    <path d="M 127.0656 133.27488 
+L 158.112 133.27488 
+L 158.112 102.22848 
+L 127.0656 102.22848 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_12">
-    <path d="M 114.412235 179.472706 
-Q 114.412235 190.316118 114.412235 199.877529 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 116.765176 195.877529 
-L 114.412235 199.877529 
-L 112.059294 195.877529 
+    <path d="M 33.9264 164.32128 
+L 64.9728 164.32128 
+L 64.9728 133.27488 
+L 33.9264 133.27488 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_13">
-    <path d="M 74.136706 23.017765 
-Q 80.332941 23.017765 85.247176 23.017765 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 81.247176 20.664824 
-L 85.247176 23.017765 
-L 81.247176 25.370706 
+    <path d="M 64.9728 164.32128 
+L 96.0192 164.32128 
+L 96.0192 133.27488 
+L 64.9728 133.27488 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_14">
-    <path d="M 114.412235 272.416235 
-Q 114.412235 283.259647 114.412235 292.821058 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 116.765176 288.821058 
-L 114.412235 292.821058 
-L 112.059294 288.821058 
+    <path d="M 96.0192 164.32128 
+L 127.0656 164.32128 
+L 127.0656 133.27488 
+L 96.0192 133.27488 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pf73beca847)" style="fill: #eaf6ef; stroke: #12925a; stroke-width: 1.6; stroke-linejoin: miter"/>
    </g>
    <g id="patch_15">
-    <path d="M 151.589647 213.552 
-Q 146.942471 213.552 143.577295 213.552 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 147.577295 215.904941 
-L 143.577295 213.552 
-L 147.577295 211.199059 
+    <path d="M 127.0656 164.32128 
+L 158.112 164.32128 
+L 158.112 133.27488 
+L 127.0656 133.27488 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_16">
-    <path d="M 74.136706 18.370588 
-Q 80.332941 18.370588 85.247176 18.370588 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 81.247176 16.017647 
-L 85.247176 18.370588 
-L 81.247176 20.723529 
+    <path d="M 158.112 164.32128 
+L 189.1584 164.32128 
+L 189.1584 133.27488 
+L 158.112 133.27488 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_17">
-    <path d="M 114.412235 404.860765 
-C 121.396094 404.860765 128.094852 403.473407 133.033185 401.00424 
-C 137.971519 398.535073 140.746235 395.185694 140.746235 391.693765 
-C 140.746235 388.201835 137.971519 384.852457 133.033185 382.38329 
-C 128.094852 379.914123 121.396094 378.526765 114.412235 378.526765 
-C 107.428377 378.526765 100.729619 379.914123 95.791285 382.38329 
-C 90.852952 384.852457 88.078235 388.201835 88.078235 391.693765 
-C 88.078235 395.185694 90.852952 398.535073 95.791285 401.00424 
-C 100.729619 403.473407 107.428377 404.860765 114.412235 404.860765 
+    <path d="M 33.9264 195.36768 
+L 64.9728 195.36768 
+L 64.9728 164.32128 
+L 33.9264 164.32128 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_18">
-    <path d="M 154.687765 120.608471 
-Q 148.491529 120.608471 143.577295 120.608471 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 147.577295 122.961412 
-L 143.577295 120.608471 
-L 147.577295 118.255529 
+    <path d="M 64.9728 195.36768 
+L 96.0192 195.36768 
+L 96.0192 164.32128 
+L 64.9728 164.32128 
 z
-" clip-path="url(#pd7faf80302)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 96.0192 195.36768 
+L 127.0656 195.36768 
+L 127.0656 164.32128 
+L 96.0192 164.32128 
+z
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_20">
+    <path d="M 127.0656 195.36768 
+L 158.112 195.36768 
+L 158.112 164.32128 
+L 127.0656 164.32128 
+z
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_21">
+    <path d="M 158.112 195.36768 
+L 189.1584 195.36768 
+L 189.1584 164.32128 
+L 158.112 164.32128 
+z
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_22">
+    <path d="M 189.1584 195.36768 
+L 220.2048 195.36768 
+L 220.2048 164.32128 
+L 189.1584 164.32128 
+z
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_23">
+    <path d="M 33.9264 226.41408 
+L 64.9728 226.41408 
+L 64.9728 195.36768 
+L 33.9264 195.36768 
+z
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_24">
+    <path d="M 64.9728 226.41408 
+L 96.0192 226.41408 
+L 96.0192 195.36768 
+L 64.9728 195.36768 
+z
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_25">
+    <path d="M 96.0192 226.41408 
+L 127.0656 226.41408 
+L 127.0656 195.36768 
+L 96.0192 195.36768 
+z
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_26">
+    <path d="M 127.0656 226.41408 
+L 158.112 226.41408 
+L 158.112 195.36768 
+L 127.0656 195.36768 
+z
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_27">
+    <path d="M 158.112 226.41408 
+L 189.1584 226.41408 
+L 189.1584 195.36768 
+L 158.112 195.36768 
+z
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_28">
+    <path d="M 189.1584 226.41408 
+L 220.2048 226.41408 
+L 220.2048 195.36768 
+L 189.1584 195.36768 
+z
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_29">
+    <path d="M 220.2048 226.41408 
+L 251.2512 226.41408 
+L 251.2512 195.36768 
+L 220.2048 195.36768 
+z
+" clip-path="url(#pf73beca847)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="line2d_1">
-    <path d="M 114.412235 40.057412 
-L 114.412235 58.646118 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="line2d_2">
-    <path d="M 114.412235 133.000941 
-L 114.412235 151.589647 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="line2d_3">
-    <path d="M 114.412235 225.944471 
-L 114.412235 244.533176 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="line2d_4">
-    <path d="M 114.412235 318.888 
-L 114.412235 337.476706 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="line2d_5">
-    <path d="M 91.176353 72.587647 
-L 61.744235 72.587647 
-L 61.744235 27.664941 
-L 86.529176 27.664941 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="line2d_6">
-    <path d="M 91.176353 165.531176 
-L 40.057412 165.531176 
-L 40.057412 23.017765 
-L 86.529176 23.017765 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="line2d_7">
-    <path d="M 137.648118 258.474706 
-L 167.080235 258.474706 
-L 167.080235 213.552 
-L 142.295294 213.552 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="line2d_8">
-    <path d="M 91.176353 351.418235 
-L 18.370588 351.418235 
-L 18.370588 18.370588 
-L 86.529176 18.370588 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="line2d_9">
-    <path d="M 114.412235 365.359765 
-L 114.412235 377.752235 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="line2d_10">
-    <path d="M 140.746235 391.693765 
-L 207.355765 391.693765 
-L 207.355765 120.608471 
-L 142.295294 120.608471 
-" clip-path="url(#pd7faf80302)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 222.688512 223.930368 
+L 248.767488 197.851392 
+" clip-path="url(#pf73beca847)" style="fill: none; stroke: #d92d20; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="text_1">
-    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="30.216504" transform="rotate(-0 114.412235 30.216504)">A</text>
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="26.1648" y="27.291621" transform="rotate(-0 26.1648 27.291621)">B</text>
    </g>
    <g id="text_2">
-    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="75.011631" transform="rotate(-0 114.412235 75.011631)">x</text>
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="49.4496" y="28.550439" transform="rotate(-0 49.4496 28.550439)">×</text>
    </g>
    <g id="text_3">
-    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="123.160033" transform="rotate(-0 114.412235 123.160033)">B</text>
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="26.1648" y="58.338021" transform="rotate(-0 26.1648 58.338021)">C</text>
    </g>
    <g id="text_4">
-    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="167.955161" transform="rotate(-0 114.412235 167.955161)">x</text>
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="49.4496" y="59.596839" transform="rotate(-0 49.4496 59.596839)">×</text>
    </g>
    <g id="text_5">
-    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="216.103562" transform="rotate(-0 114.412235 216.103562)">C</text>
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.496" y="59.596839" transform="rotate(-0 80.496 59.596839)">×</text>
    </g>
    <g id="text_6">
-    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="260.89869" transform="rotate(-0 114.412235 260.89869)">x</text>
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="26.1648" y="89.384421" transform="rotate(-0 26.1648 89.384421)">D</text>
    </g>
    <g id="text_7">
-    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="309.047092" transform="rotate(-0 114.412235 309.047092)">D</text>
+    <text style="fill: #1c1f24; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="49.4496" y="88.74653" transform="rotate(-0 49.4496 88.74653)">BE</text>
    </g>
    <g id="text_8">
-    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="353.84222" transform="rotate(-0 114.412235 353.84222)">x</text>
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.496" y="90.643239" transform="rotate(-0 80.496 90.643239)">×</text>
    </g>
    <g id="text_9">
-    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="117.510353" y="100.470706" transform="rotate(-0 117.510353 100.470706)">1</text>
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="111.5424" y="90.643239" transform="rotate(-0 111.5424 90.643239)">×</text>
    </g>
    <g id="text_10">
-    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="74.136706" y="69.489529" transform="rotate(-0 74.136706 69.489529)">0</text>
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="26.1648" y="120.430821" transform="rotate(-0 26.1648 120.430821)">E</text>
    </g>
    <g id="text_11">
-    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="117.510353" y="193.414235" transform="rotate(-0 117.510353 193.414235)">1</text>
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="49.4496" y="121.689639" transform="rotate(-0 49.4496 121.689639)">×</text>
    </g>
    <g id="text_12">
-    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="74.136706" y="162.433059" transform="rotate(-0 74.136706 162.433059)">0</text>
+    <text style="fill: #1c1f24; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.496" y="119.79293" transform="rotate(-0 80.496 119.79293)">AD, CF</text>
    </g>
    <g id="text_13">
-    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="117.510353" y="286.357765" transform="rotate(-0 117.510353 286.357765)">0</text>
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="111.5424" y="121.689639" transform="rotate(-0 111.5424 121.689639)">×</text>
    </g>
    <g id="text_14">
-    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="142.295294" y="255.376588" transform="rotate(-0 142.295294 255.376588)">1</text>
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="142.5888" y="121.689639" transform="rotate(-0 142.5888 121.689639)">×</text>
    </g>
    <g id="text_15">
-    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="74.136706" y="348.320118" transform="rotate(-0 74.136706 348.320118)">0</text>
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="26.1648" y="151.477221" transform="rotate(-0 26.1648 151.477221)">F</text>
    </g>
    <g id="text_16">
-    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="117.510353" y="374.654118" transform="rotate(-0 117.510353 374.654118)">1</text>
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="49.4496" y="152.736039" transform="rotate(-0 49.4496 152.736039)">×</text>
    </g>
    <g id="text_17">
-    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="114.412235" y="394.117749" transform="rotate(-0 114.412235 394.117749)">z = 1</text>
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.496" y="152.736039" transform="rotate(-0 80.496 152.736039)">×</text>
    </g>
    <g id="text_18">
-    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'" transform="translate(176.374588 12.521706)">state box</text>
-    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'" transform="translate(176.374588 21.468706)">= one clock</text>
+    <text style="fill: #1c1f24; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="111.5424" y="150.83933" transform="rotate(-0 111.5424 150.83933)">AD</text>
    </g>
    <g id="text_19">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'" transform="translate(148.491529 416.204971)">conditional output box:</text>
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'" transform="translate(148.491529 425.151971)">z depends on x (Mealy)</text>
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="142.5888" y="152.736039" transform="rotate(-0 142.5888 152.736039)">×</text>
+   </g>
+   <g id="text_20">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="173.6352" y="152.736039" transform="rotate(-0 173.6352 152.736039)">×</text>
+   </g>
+   <g id="text_21">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="26.1648" y="182.523621" transform="rotate(-0 26.1648 182.523621)">G</text>
+   </g>
+   <g id="text_22">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="49.4496" y="183.782439" transform="rotate(-0 49.4496 183.782439)">×</text>
+   </g>
+   <g id="text_23">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.496" y="183.782439" transform="rotate(-0 80.496 183.782439)">×</text>
+   </g>
+   <g id="text_24">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="111.5424" y="183.782439" transform="rotate(-0 111.5424 183.782439)">×</text>
+   </g>
+   <g id="text_25">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="142.5888" y="183.782439" transform="rotate(-0 142.5888 183.782439)">×</text>
+   </g>
+   <g id="text_26">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="173.6352" y="183.782439" transform="rotate(-0 173.6352 183.782439)">×</text>
+   </g>
+   <g id="text_27">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="204.6816" y="183.782439" transform="rotate(-0 204.6816 183.782439)">×</text>
+   </g>
+   <g id="text_28">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="26.1648" y="213.570021" transform="rotate(-0 26.1648 213.570021)">H</text>
+   </g>
+   <g id="text_29">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="49.4496" y="214.828839" transform="rotate(-0 49.4496 214.828839)">×</text>
+   </g>
+   <g id="text_30">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.496" y="214.828839" transform="rotate(-0 80.496 214.828839)">×</text>
+   </g>
+   <g id="text_31">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="111.5424" y="214.828839" transform="rotate(-0 111.5424 214.828839)">×</text>
+   </g>
+   <g id="text_32">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="142.5888" y="214.828839" transform="rotate(-0 142.5888 214.828839)">×</text>
+   </g>
+   <g id="text_33">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="173.6352" y="214.828839" transform="rotate(-0 173.6352 214.828839)">×</text>
+   </g>
+   <g id="text_34">
+    <text style="fill: #6a707a; font: 13px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="204.6816" y="214.828839" transform="rotate(-0 204.6816 214.828839)">×</text>
+   </g>
+   <g id="text_35">
+    <text style="fill: #d92d20; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="235.728" y="212.93213" transform="rotate(-0 235.728 212.93213)">BG, CH</text>
+   </g>
+   <g id="text_36">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="49.4496" y="239.959461" transform="rotate(-0 49.4496 239.959461)">A</text>
+   </g>
+   <g id="text_37">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.496" y="239.959461" transform="rotate(-0 80.496 239.959461)">B</text>
+   </g>
+   <g id="text_38">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="111.5424" y="239.959461" transform="rotate(-0 111.5424 239.959461)">C</text>
+   </g>
+   <g id="text_39">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="142.5888" y="239.959461" transform="rotate(-0 142.5888 239.959461)">D</text>
+   </g>
+   <g id="text_40">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="173.6352" y="239.959461" transform="rotate(-0 173.6352 239.959461)">E</text>
+   </g>
+   <g id="text_41">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="204.6816" y="239.959461" transform="rotate(-0 204.6816 239.959461)">F</text>
+   </g>
+   <g id="text_42">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="235.728" y="239.959461" transform="rotate(-0 235.728 239.959461)">G</text>
+   </g>
+   <g id="text_43">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="145.69344" y="29.931104" transform="rotate(-0 145.69344 29.931104)">× : outputs differ</text>
+   </g>
+   <g id="text_44">
+    <text style="fill: #d92d20; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(145.69344 49.969974)">struck out: depends on a pair</text>
+    <text style="fill: #d92d20; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(145.69344 59.476162)">that is not equivalent</text>
+   </g>
+   <g id="text_45">
+    <text style="fill: #e0661b; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="142.5888" y="269.325963" transform="rotate(-0 142.5888 269.325963)">Survivors: A≡D, B≡E, C≡F</text>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="pd7faf80302">
-   <rect x="2.88" y="2.88" width="285.026824" height="421.344"/>
+  <clipPath id="pf73beca847">
+   <rect x="2.88" y="2.88" width="260.78976" height="285.62688"/>
   </clipPath>
  </defs>
 </svg>
-<figcaption>ASM chart of the Mealy 1101 detector.</figcaption></figure>
+</div><figcaption>What this graph plots: the implication table of the 8-state machine. Every pair whose outputs differ is ×. (G, H) is struck out because it needs BG and CH, both ×. The three shaded cells imply only each other.</figcaption></figure>
 
-<p>An <strong>ASM chart</strong> is a flowchart with timing: each state box lasts one clock period.</p>
 <ul>
-<li><strong>State box</strong> (rectangle): one state; Moore outputs inside. One entry, one exit.</li>
-<li><strong>Decision box</strong> (diamond): tests an input; exits for 0 and 1.</li>
-<li><strong>Conditional output box</strong> (oval): an output produced only on that path; always after a decision box. A Mealy output.</li>
+<li>Outputs split the states into (AD)(BE)(CF)(GH); every pair across these blocks is ×.</li>
+<li>(G, H) implies BG and CH, both crossed: (G, H) is crossed.</li>
+<li>(A, D) → BE → AD, CF → AD: a closed loop with no crossed cell. All three survive.</li>
 </ul>
-<p>An <strong>ASM block</strong> is one state box with the decision and conditional boxes reached before the next state box: everything in it happens in one clock period. Circle → state box; arrows → decision on the input; Mealy output → oval on that exit. Back to a circuit: each path between state boxes is one state-table row. The deck also charts a MOD-6 counter, D and JK flip-flops, a serial adder (carry 0 / carry 1) and 2-bit up and up/down counters.</p>
-<p><strong>Answer.</strong> State box, decision box, conditional output box. Four state boxes A–D, a decision on x after each, and one oval (z = 1) on the x = 1 exit of D.</p>
+<p><strong>Answer to the Guess:</strong> yes: <strong>A ≡ D, B ≡ E, C ≡ F</strong>, and G, H stay separate: (AD)(BE)(CF)(G)(H), 8 states → 5, the same result as partitioning.</p>
 <div class="box check">
-<div class="bh">Check 3</div>
-<p>(a) In the Moore 1101 detector, where is z = 1 written? (b) How many state boxes for a MOD-6 counter? (c) Why can a conditional output box never follow a state box directly?</p>
+<div class="bh">Check 6</div>
+<p><span class="tag">Deck 12 slide 18</span> For the two-input machine of slide 15, the uncrossed pairs are (A, F), (B, C), (B, H) and (C, H). Write the reduced set of states and say why B, C and H can become one state.</p>
+</div>
+<h3>7 · Don't-cares: compatible states</h3>
+<p>All tables so far were completely specified. Real specifications often leave entries open (–), as don't-cares did in K-maps (02 step 7).</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 12 slides 19–20, 24 (EX 12.24)</span></div>
+<p>Find the compatible pairs of the incompletely specified machine: A: A/–, –/– · B: C/1, B/0 · C: D/0, –/1 · D: –/–, B/– · E: A/0, C/1.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>A is compatible with B, and A is compatible with C. Must B be compatible with C?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Incompletely specified circuit:</strong> some next states or outputs are unspecified (–). <strong>Compatible states:</strong> for every input, the outputs agree <strong>where both are specified</strong>, and the next states are compatible <strong>where both are specified</strong> (slide 19). <strong>Not transitive:</strong> compatibility is reflexive and symmetric but not transitive, so compatible groups may overlap (slide 20).</p>
+</div>
+<p>Implication table, same steps as step 5, ignoring every – :</p>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Outputs</th>
+<th>Implied</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(B, C), (B, E)</td>
+<td>differ (x = 0: 1 vs 0)</td>
+<td>—</td>
+<td>×</td>
+</tr>
+<tr>
+<td>(D, E)</td>
+<td>agree</td>
+<td>BC</td>
+<td>crossed (BC is ×)</td>
+</tr>
+<tr>
+<td>(A, B)</td>
+<td>agree</td>
+<td>AC</td>
+<td>compatible</td>
+</tr>
+<tr>
+<td>(A, C), (C, E)</td>
+<td>agree</td>
+<td>AD</td>
+<td>compatible</td>
+</tr>
+<tr>
+<td>(A, D), (A, E), (B, D), (C, D)</td>
+<td>agree</td>
+<td>none</td>
+<td>compatible ✓</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer to the Guess:</strong> no. <strong>B and C are incompatible</strong> (their x = 0 outputs are 1 and 0) although each is compatible with A. A can merge with B or with C, but not with both in one state.</p>
+<div class="box check">
+<div class="bh">Check 7</div>
+<p>(a) Why is (A, D) compatible with no conditions at all? (b) Is (ABD) a compatible class (every pair inside compatible)?</p>
+</div>
+<h3>8 · Maximal compatibles and a closed cover</h3>
+<p>Step 7 gave the compatible pairs. The reduced machine needs groups of states, chosen so that the reduced table still works.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 12 slides 21–24 (EX 12.24)</span></div>
+<p>Find the maximal compatibles of step 7's machine with a merger diagram, and choose a set of compatibility classes that is complete, consistent and minimal. Give the reduced table.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>The three largest compatible groups are (ABD), (ACD) and (ACE). Can two of them do the job?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Maximal compatible:</strong> a compatible group that no further state can join (every pair inside compatible). <strong>Merger diagram:</strong> states as points, a line for each compatible pair; maximal compatibles are the largest fully connected groups (slide 21). <strong>Closed (consistent) cover:</strong> a set of classes that contains every state (<strong>complete</strong>), and in which, for each class and each input, the class's next states all fall inside <strong>one</strong> chosen class (<strong>consistent</strong>); with the fewest classes (<strong>minimal</strong>) (slide 22).</p>
+</div>
+
+<figure style="max-width:52%"><div style="width:109mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 243.70848 230.8464" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T18:23:24.825891</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 230.8464 
+L 243.70848 230.8464 
+L 243.70848 0 
+L 0 0 
+L 0 230.8464 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 112.20768 28.60416 
+L 173.370505 73.041553 
+L 74.406975 144.942767 
+z
+" clip-path="url(#pbcc2a9dc7e)" style="fill: #2f5bea; opacity: 0.15"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 112.20768 28.60416 
+L 150.008385 144.942767 
+L 74.406975 144.942767 
+z
+" clip-path="url(#pbcc2a9dc7e)" style="fill: #e0661b; opacity: 0.15"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 112.20768 28.60416 
+L 150.008385 144.942767 
+L 51.044855 73.041553 
+z
+" clip-path="url(#pbcc2a9dc7e)" style="fill: #12925a; opacity: 0.15"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 15.74208 215.10432 
+L 25.38864 215.10432 
+L 25.38864 205.45776 
+L 15.74208 205.45776 
+z
+" clip-path="url(#pbcc2a9dc7e)" style="fill: #2f5bea; opacity: 0.35"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 54.32832 215.10432 
+L 63.97488 215.10432 
+L 63.97488 205.45776 
+L 54.32832 205.45776 
+z
+" clip-path="url(#pbcc2a9dc7e)" style="fill: #e0661b; opacity: 0.35"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 92.91456 215.10432 
+L 102.56112 215.10432 
+L 102.56112 205.45776 
+L 92.91456 205.45776 
+z
+" clip-path="url(#pbcc2a9dc7e)" style="fill: #12925a; opacity: 0.35"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 112.20768 28.60416 
+L 173.370505 73.041553 
+" clip-path="url(#pbcc2a9dc7e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 112.20768 28.60416 
+L 150.008385 144.942767 
+" clip-path="url(#pbcc2a9dc7e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 112.20768 28.60416 
+L 74.406975 144.942767 
+" clip-path="url(#pbcc2a9dc7e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 112.20768 28.60416 
+L 51.044855 73.041553 
+" clip-path="url(#pbcc2a9dc7e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 173.370505 73.041553 
+L 74.406975 144.942767 
+" clip-path="url(#pbcc2a9dc7e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 150.008385 144.942767 
+L 74.406975 144.942767 
+" clip-path="url(#pbcc2a9dc7e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 150.008385 144.942767 
+L 51.044855 73.041553 
+" clip-path="url(#pbcc2a9dc7e)" style="fill: none; stroke: #1c1f24; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 173.370505 73.041553 
+L 150.008385 144.942767 
+" clip-path="url(#pbcc2a9dc7e)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.9"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 173.370505 73.041553 
+L 51.044855 73.041553 
+" clip-path="url(#pbcc2a9dc7e)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.9"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 74.406975 144.942767 
+L 51.044855 73.041553 
+" clip-path="url(#pbcc2a9dc7e)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.9"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 141.14736 210.28104 
+L 160.44048 210.28104 
+" clip-path="url(#pbcc2a9dc7e)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.9"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="112.20768" y="190.196384" transform="rotate(-0 112.20768 190.196384)">maximal compatibles: (ABD) (ACD) (ACE)</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="28.60416" y="212.449868" transform="rotate(-0 28.60416 212.449868)">ABD</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="67.1904" y="212.449868" transform="rotate(-0 67.1904 212.449868)">ACD</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="105.77664" y="212.449868" transform="rotate(-0 105.77664 212.449868)">ACE</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #d92d20; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="163.656" y="212.449868" transform="rotate(-0 163.656 212.449868)">incompatible pair</text>
+   </g>
+   <g id="patch_8">
+    <path d="M 112.20768 38.25072 
+C 114.765978 38.25072 117.219838 37.234298 119.028828 35.425308 
+C 120.837818 33.616318 121.85424 31.162458 121.85424 28.60416 
+C 121.85424 26.045862 120.837818 23.592002 119.028828 21.783012 
+C 117.219838 19.974022 114.765978 18.9576 112.20768 18.9576 
+C 109.649382 18.9576 107.195522 19.974022 105.386532 21.783012 
+C 103.577542 23.592002 102.56112 26.045862 102.56112 28.60416 
+C 102.56112 31.162458 103.577542 33.616318 105.386532 35.425308 
+C 107.195522 37.234298 109.649382 38.25072 112.20768 38.25072 
+z
+" clip-path="url(#pbcc2a9dc7e)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 173.370505 82.688113 
+C 175.928803 82.688113 178.382663 81.671691 180.191653 79.862701 
+C 182.000643 78.053712 183.017065 75.599851 183.017065 73.041553 
+C 183.017065 70.483256 182.000643 68.029395 180.191653 66.220405 
+C 178.382663 64.411416 175.928803 63.394993 173.370505 63.394993 
+C 170.812207 63.394993 168.358347 64.411416 166.549357 66.220405 
+C 164.740367 68.029395 163.723945 70.483256 163.723945 73.041553 
+C 163.723945 75.599851 164.740367 78.053712 166.549357 79.862701 
+C 168.358347 81.671691 170.812207 82.688113 173.370505 82.688113 
+z
+" clip-path="url(#pbcc2a9dc7e)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 150.008385 154.589327 
+C 152.566682 154.589327 155.020543 153.572904 156.829533 151.763915 
+C 158.638522 149.954925 159.654945 147.501064 159.654945 144.942767 
+C 159.654945 142.384469 158.638522 139.930608 156.829533 138.121619 
+C 155.020543 136.312629 152.566682 135.296207 150.008385 135.296207 
+C 147.450087 135.296207 144.996226 136.312629 143.187237 138.121619 
+C 141.378247 139.930608 140.361825 142.384469 140.361825 144.942767 
+C 140.361825 147.501064 141.378247 149.954925 143.187237 151.763915 
+C 144.996226 153.572904 147.450087 154.589327 150.008385 154.589327 
+z
+" clip-path="url(#pbcc2a9dc7e)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 74.406975 154.589327 
+C 76.965273 154.589327 79.419134 153.572904 81.228123 151.763915 
+C 83.037113 149.954925 84.053535 147.501064 84.053535 144.942767 
+C 84.053535 142.384469 83.037113 139.930608 81.228123 138.121619 
+C 79.419134 136.312629 76.965273 135.296207 74.406975 135.296207 
+C 71.848678 135.296207 69.394817 136.312629 67.585827 138.121619 
+C 65.776838 139.930608 64.760415 142.384469 64.760415 144.942767 
+C 64.760415 147.501064 65.776838 149.954925 67.585827 151.763915 
+C 69.394817 153.572904 71.848678 154.589327 74.406975 154.589327 
+z
+" clip-path="url(#pbcc2a9dc7e)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 51.044855 82.688113 
+C 53.603153 82.688113 56.057013 81.671691 57.866003 79.862701 
+C 59.674993 78.053712 60.691415 75.599851 60.691415 73.041553 
+C 60.691415 70.483256 59.674993 68.029395 57.866003 66.220405 
+C 56.057013 64.411416 53.603153 63.394993 51.044855 63.394993 
+C 48.486557 63.394993 46.032697 64.411416 44.223707 66.220405 
+C 42.414717 68.029395 41.398295 70.483256 41.398295 73.041553 
+C 41.398295 75.599851 42.414717 78.053712 44.223707 79.862701 
+C 46.032697 81.671691 48.486557 82.688113 51.044855 82.688113 
+z
+" clip-path="url(#pbcc2a9dc7e)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_6">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="112.20768" y="31.155722" transform="rotate(-0 112.20768 31.155722)">A</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="173.370505" y="75.593116" transform="rotate(-0 173.370505 75.593116)">B</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="150.008385" y="147.494329" transform="rotate(-0 150.008385 147.494329)">C</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="74.406975" y="147.494329" transform="rotate(-0 74.406975 147.494329)">D</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="51.044855" y="75.593116" transform="rotate(-0 51.044855 75.593116)">E</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pbcc2a9dc7e">
+   <rect x="2.88" y="2.88" width="237.94848" height="225.0864"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>What this graph plots: merger diagram of step 7's machine: one point per state, a solid line per compatible pair, dashed red lines for incompatible pairs. The shaded triangles are the maximal compatibles.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Next states, x = 0</th>
+<th>Next states, x = 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(ABD)</td>
+<td>AC</td>
+<td>B</td>
+</tr>
+<tr>
+<td>(ACD)</td>
+<td>AD</td>
+<td>B</td>
+</tr>
+<tr>
+<td>(ACE)</td>
+<td>AD</td>
+<td>C</td>
+</tr>
+</tbody>
+</table>
+<p>Choose (ABD) and (ACE):</p>
+<ol>
+<li>Complete: A, B, D, C, E all appear.</li>
+<li>Consistent: (ABD) on x = 0 needs AC → inside (ACE); on x = 1, B → inside (ABD). (ACE) on x = 0 needs AD → inside (ABD); on x = 1, C → inside (ACE).</li>
+<li>Minimal: B and C are incompatible, so at least 2 states are needed; 2 are used.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>x = 0</th>
+<th>x = 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A' = (ABD)</td>
+<td>B'/1</td>
+<td>A'/0</td>
+</tr>
+<tr>
+<td>B' = (ACE)</td>
+<td>A'/0</td>
+<td>B'/1</td>
+</tr>
+</tbody>
+</table>
+<p><em>Outputs: the specified ones in the class (A' on x = 0: B gives 1, A and D give –, so 1).</em></p>
+<p><strong>Answer to the Guess:</strong> yes: <strong>(ABD)(ACE)</strong> covers all five states and is closed: <strong>5 states → 2</strong>, one flip-flop. Not every pair of classes works: (ABD) with (CE) also covers all states, but (ABD) on x = 0 needs A and C together, and no chosen class holds both.</p>
+<div class="box check">
+<div class="bh">Check 8</div>
+<p><span class="tag">Deck 12 slide 26</span> A machine has maximal compatibles (ABC), (ACD), (ADE), with implied next states (ABC): DE on x = 0, AB on x = 1; for (DE): C on x = 0, BC on x = 1. Show that (ABC)(DE) is a closed cover.</p>
+</div>
+<h3>9 · ASM chart elements</h3>
+<p>State tables and diagrams do not show <strong>when</strong> within a clock period each output is valid. ASM charts are flowcharts built to show that (deck 13 slide 2).</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 13 slides 3–6</span></div>
+<p>Name the three basic elements of an ASM chart and state the timing rule of each.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>In a flowchart of a clocked machine, which box should take exactly one clock period?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>ASM chart (algorithmic state machine chart):</strong> a flowchart of a state machine in which each <strong>state box</strong> stands for one clock period. <strong>ASM block:</strong> one state box together with the decision and conditional output boxes reached from it before the next state box; all of it happens in that state's clock period.</p>
+</div>
+
+<figure style="max-width:86%"><div style="width:201mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 443.736 202.572" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T18:23:24.889234</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 202.572 
+L 443.736 202.572 
+L 443.736 0 
+L 0 0 
+L 0 202.572 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 69.408 30.6 
+Q 69.408 50.004 69.408 68.126 
+" clip-path="url(#p27563d4145)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 71.760941 64.126 
+L 69.408 68.126 
+L 67.055059 64.126 
+z
+" clip-path="url(#p27563d4145)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 39.7476 102.672 
+L 99.0684 102.672 
+Q 99.9 102.672 99.9 101.8404 
+L 99.9 70.2396 
+Q 99.9 69.408 99.0684 69.408 
+L 39.7476 69.408 
+Q 38.916 69.408 38.916 70.2396 
+L 38.916 101.8404 
+Q 38.916 102.672 39.7476 102.672 
+z
+" clip-path="url(#p27563d4145)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 69.408 102.672 
+Q 69.408 122.076 69.408 140.198 
+" clip-path="url(#p27563d4145)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 71.760941 136.198 
+L 69.408 140.198 
+L 67.055059 136.198 
+z
+" clip-path="url(#p27563d4145)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 213.552 30.6 
+Q 213.552 48.618 213.552 65.354 
+" clip-path="url(#p27563d4145)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 215.904941 61.354 
+L 213.552 65.354 
+L 211.199059 61.354 
+z
+" clip-path="url(#p27563d4145)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 213.552 66.636 
+L 244.044 86.04 
+L 213.552 105.444 
+L 183.06 86.04 
+z
+" clip-path="url(#p27563d4145)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 213.552 105.444 
+Q 213.552 123.462 213.552 140.198 
+" clip-path="url(#p27563d4145)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 215.904941 136.198 
+L 213.552 140.198 
+L 211.199059 136.198 
+z
+" clip-path="url(#p27563d4145)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 244.044 86.04 
+Q 260.676 86.04 276.026 86.04 
+" clip-path="url(#p27563d4145)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 272.026 83.687059 
+L 276.026 86.04 
+L 272.026 88.392941 
+z
+" clip-path="url(#p27563d4145)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 363.24 30.6 
+Q 363.24 51.39 363.24 70.898 
+" clip-path="url(#p27563d4145)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 365.592941 66.898 
+L 363.24 70.898 
+L 360.887059 66.898 
+z
+" clip-path="url(#p27563d4145)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 363.24 99.9 
+C 372.061716 99.9 380.523305 98.439623 386.7612 95.8405 
+C 392.999095 93.241377 396.504 89.715715 396.504 86.04 
+C 396.504 82.364285 392.999095 78.838623 386.7612 76.2395 
+C 380.523305 73.640377 372.061716 72.18 363.24 72.18 
+C 354.418284 72.18 345.956695 73.640377 339.7188 76.2395 
+C 333.480905 78.838623 329.976 82.364285 329.976 86.04 
+C 329.976 89.715715 333.480905 93.241377 339.7188 95.8405 
+C 345.956695 98.439623 354.418284 99.9 363.24 99.9 
+z
+" clip-path="url(#p27563d4145)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 363.24 99.9 
+Q 363.24 120.69 363.24 140.198 
+" clip-path="url(#p27563d4145)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 365.592941 136.198 
+L 363.24 140.198 
+L 360.887059 136.198 
+z
+" clip-path="url(#p27563d4145)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="69.408" y="88.591562" transform="rotate(-0 69.408 88.591562)">Z = 1</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #2f5bea; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="38.916" y="64.646828" transform="rotate(-0 38.916 64.646828)">S1</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="99.9" y="64.646828" transform="rotate(-0 99.9 64.646828)">01</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 8.6px 'Segoe UI', 'DejaVu Sans'" transform="translate(17.482813 158.934687)">state box: one clock period;</text>
+    <text style="fill: #1c1f24; font: 8.6px 'Segoe UI', 'DejaVu Sans'" transform="translate(28.691031 168.552712)">Moore outputs inside</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="213.552" y="88.591562" transform="rotate(-0 213.552 88.591562)">X</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #e0661b; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="217.71" y="125.758406" transform="rotate(-0 217.71 125.758406)">1</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #e0661b; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="260.676" y="77.04" transform="rotate(-0 260.676 77.04)">0</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #1c1f24; font: 8.6px 'Segoe UI', 'DejaVu Sans'" transform="translate(188.845812 158.934687)">decision box:</text>
+    <text style="fill: #1c1f24; font: 8.6px 'Segoe UI', 'DejaVu Sans'" transform="translate(187.900484 168.552712)">tests an input</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #e0661b; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="363.24" y="88.591562" transform="rotate(-0 363.24 88.591562)">Z = 1</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #1c1f24; font: 8.6px 'Segoe UI', 'DejaVu Sans'" transform="translate(318.96075 158.934687)">conditional output box:</text>
+    <text style="fill: #1c1f24; font: 8.6px 'Segoe UI', 'DejaVu Sans'" transform="translate(303.836172 168.552712)">Mealy output, only on this path</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p27563d4145">
+   <rect x="2.88" y="2.88" width="437.976" height="196.812"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>The three ASM elements (deck 13 slides 4–6): state box (name, code, Moore outputs), decision box (tests an input, one exit per value), conditional output box (a Mealy output on one path).</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Shape</th>
+<th>Rules (deck 13)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>State box</td>
+<td>rectangle; name at the corner, state code beside it</td>
+<td>one state; takes one clock period; one entry, one exit; outputs listed inside (Moore outputs) are asserted during that period</td>
+</tr>
+<tr>
+<td>Decision box</td>
+<td>diamond</td>
+<td>tests one or more inputs; two or more exits; always follows a state box and is decided in the same clock period, so inputs must be valid at the start of the period</td>
+</tr>
+<tr>
+<td>Conditional output box</td>
+<td>rounded box</td>
+<td>must follow a decision box; its outputs are asserted in the same period as the state box it hangs from, only on that path (Mealy outputs)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer to the Guess:</strong> the <strong>state box</strong>: one state box = one clock period. Decision and conditional boxes take no extra time; they belong to the period of the state box above them.</p>
+<div class="box check">
+<div class="bh">Check 9</div>
+<p>(a) Why can a conditional output box never follow a state box directly? (b) In a Moore machine, which of the three elements does the chart never use?</p>
+</div>
+<h3>10 · ASM chart of the 1010 detector</h3>
+<p>Step 9 gave the parts. Converting a state diagram is mechanical: circle → state box, arrows out of it → decision box on the input, Mealy output → conditional box on that exit.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 13 slides 7–8 (EX 13.7–13.8)</span></div>
+<p>Draw the ASM chart of the overlapping 1010 sequence detector (15 step 4; S0 = 00, S1 = 01, S2 = 10, S3 = 11) and derive the next-state and output equations from it.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Every path that enters S1 or S3 (codes ending in 1) has X = 1 on it. What is D0?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Reading equations off a chart:</strong> each path from a state box into a state box is one term: (minterm of the source state) · (input condition on the path). D_i = the OR of the terms of every path entering a state whose code has bit i = 1; an output = the OR of the terms of the paths through its conditional box.</p>
+</div>
+
+<figure style="max-width:60%"><div style="width:90mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 201.79584 418.01184" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T18:23:25.048512</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 418.01184 
+L 201.79584 418.01184 
+L 201.79584 0 
+L 0 0 
+L 0 418.01184 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 66.879936 80.71776 
+L 117.618624 80.71776 
+Q 118.1952 80.71776 118.1952 80.141184 
+L 118.1952 61.114176 
+Q 118.1952 60.5376 117.618624 60.5376 
+L 66.879936 60.5376 
+Q 66.30336 60.5376 66.30336 61.114176 
+L 66.30336 80.141184 
+Q 66.30336 80.71776 66.879936 80.71776 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 92.24928 90.231264 
+L 113.87088 102.33936 
+L 92.24928 114.447456 
+L 70.62768 102.33936 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 92.24928 114.447456 
+Q 92.24928 124.969968 92.24928 134.21048 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 94.602221 130.21048 
+L 92.24928 134.21048 
+L 89.896339 130.21048 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 66.879936 155.67264 
+L 117.618624 155.67264 
+Q 118.1952 155.67264 118.1952 155.096064 
+L 118.1952 136.069056 
+Q 118.1952 135.49248 117.618624 135.49248 
+L 66.879936 135.49248 
+Q 66.30336 135.49248 66.30336 136.069056 
+L 66.30336 155.096064 
+Q 66.30336 155.67264 66.879936 155.67264 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 92.24928 165.186144 
+L 113.87088 177.29424 
+L 92.24928 189.402336 
+L 70.62768 177.29424 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 92.24928 189.402336 
+Q 92.24928 199.924848 92.24928 209.16536 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 94.602221 205.16536 
+L 92.24928 209.16536 
+L 89.896339 205.16536 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 66.879936 230.62752 
+L 117.618624 230.62752 
+Q 118.1952 230.62752 118.1952 230.050944 
+L 118.1952 211.023936 
+Q 118.1952 210.44736 117.618624 210.44736 
+L 66.879936 210.44736 
+Q 66.30336 210.44736 66.30336 211.023936 
+L 66.30336 230.050944 
+Q 66.30336 230.62752 66.879936 230.62752 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 92.24928 240.141024 
+L 113.87088 252.24912 
+L 92.24928 264.357216 
+L 70.62768 252.24912 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 92.24928 264.357216 
+Q 92.24928 274.879728 92.24928 284.12024 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 94.602221 280.12024 
+L 92.24928 284.12024 
+L 89.896339 280.12024 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 66.879936 305.5824 
+L 117.618624 305.5824 
+Q 118.1952 305.5824 118.1952 305.005824 
+L 118.1952 285.978816 
+Q 118.1952 285.40224 117.618624 285.40224 
+L 66.879936 285.40224 
+Q 66.30336 285.40224 66.30336 285.978816 
+L 66.30336 305.005824 
+Q 66.30336 305.5824 66.879936 305.5824 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 92.24928 315.095904 
+L 113.87088 327.204 
+L 92.24928 339.312096 
+L 70.62768 327.204 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 92.24928 11.52864 
+Q 92.24928 36.03312 92.24928 59.2556 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 94.602221 55.2556 
+L 92.24928 59.2556 
+L 89.896339 55.2556 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 49.00608 46.1232 
+Q 70.62768 46.1232 90.96728 46.1232 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 86.96728 43.770259 
+L 90.96728 46.1232 
+L 86.96728 48.476141 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 25.94304 28.82592 
+Q 59.09616 28.82592 90.96728 28.82592 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 86.96728 26.472979 
+L 90.96728 28.82592 
+L 86.96728 31.178861 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 161.4384 125.4024 
+Q 126.84384 125.4024 93.53128 125.4024 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 97.53128 127.755341 
+L 93.53128 125.4024 
+L 97.53128 123.049459 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 92.24928 339.312096 
+Q 92.24928 348.10488 92.24928 355.615664 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 94.602221 351.615664 
+L 92.24928 355.615664 
+L 89.896339 351.615664 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 92.24928 381.113856 
+C 98.747944 381.113856 104.981315 379.838071 109.576564 377.567477 
+C 114.171813 375.296883 116.75376 372.216865 116.75376 369.00576 
+C 116.75376 365.794655 114.171813 362.714637 109.576564 360.444043 
+C 104.981315 358.173449 98.747944 356.897664 92.24928 356.897664 
+C 85.750616 356.897664 79.517245 358.173449 74.921996 360.444043 
+C 70.326747 362.714637 67.7448 365.794655 67.7448 369.00576 
+C 67.7448 372.216865 70.326747 375.296883 74.921996 377.567477 
+C 79.517245 379.838071 85.750616 381.113856 92.24928 381.113856 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 181.61856 200.35728 
+Q 136.93392 200.35728 93.53128 200.35728 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 97.53128 202.710221 
+L 93.53128 200.35728 
+L 97.53128 198.004339 
+z
+" clip-path="url(#p3ffb3ad36f)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 92.24928 80.71776 
+L 92.24928 90.231264 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 92.24928 155.67264 
+L 92.24928 165.186144 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 92.24928 230.62752 
+L 92.24928 240.141024 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 92.24928 305.5824 
+L 92.24928 315.095904 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 70.62768 102.33936 
+L 49.00608 102.33936 
+L 49.00608 46.1232 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 113.87088 177.29424 
+L 141.25824 177.29424 
+L 141.25824 125.4024 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 70.62768 252.24912 
+L 25.94304 252.24912 
+L 25.94304 28.82592 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 113.87088 327.204 
+L 161.4384 327.204 
+L 161.4384 125.4024 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 116.75376 369.00576 
+L 181.61856 369.00576 
+L 181.61856 200.35728 
+" clip-path="url(#p3ffb3ad36f)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="92.24928" y="73.051664" transform="rotate(-0 92.24928 73.051664)">S0</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="121.07808" y="66.90317" transform="rotate(-0 121.07808 66.90317)">00</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="92.24928" y="104.763344" transform="rotate(-0 92.24928 104.763344)">X</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="92.24928" y="148.006544" transform="rotate(-0 92.24928 148.006544)">S1</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="121.07808" y="141.85805" transform="rotate(-0 121.07808 141.85805)">01</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="92.24928" y="179.718224" transform="rotate(-0 92.24928 179.718224)">X</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="92.24928" y="222.961424" transform="rotate(-0 92.24928 222.961424)">S2</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="121.07808" y="216.81293" transform="rotate(-0 121.07808 216.81293)">10</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="92.24928" y="254.673104" transform="rotate(-0 92.24928 254.673104)">X</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="92.24928" y="297.916304" transform="rotate(-0 92.24928 297.916304)">S3</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="121.07808" y="291.76781" transform="rotate(-0 121.07808 291.76781)">11</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="92.24928" y="329.627984" transform="rotate(-0 92.24928 329.627984)">X</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="88.789824" y="127.647775" transform="rotate(-0 88.789824 127.647775)">1</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="59.961024" y="98.585632" transform="rotate(-0 59.961024 98.585632)">0</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="88.789824" y="202.602655" transform="rotate(-0 88.789824 202.602655)">0</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="126.84384" y="173.540512" transform="rotate(-0 126.84384 173.540512)">1</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="88.789824" y="277.557535" transform="rotate(-0 88.789824 277.557535)">1</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="49.00608" y="248.495392" transform="rotate(-0 49.00608 248.495392)">0</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="136.93392" y="323.450272" transform="rotate(-0 136.93392 323.450272)">1</text>
+   </g>
+   <g id="text_20">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="88.789824" y="349.629535" transform="rotate(-0 88.789824 349.629535)">0</text>
+   </g>
+   <g id="text_21">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="92.24928" y="371.429744" transform="rotate(-0 92.24928 371.429744)">Z = 1</text>
+   </g>
+   <g id="text_22">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'" transform="translate(51.05928 393.66698)">conditional output box:</text>
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'" transform="translate(50.373655 402.61398)">Z depends on X (Mealy)</text>
+   </g>
+   <g id="line2d_10">
+    <defs>
+     <path id="m9beb8583ff" d="M 0 1.6 
+C 0.424325 1.6 0.831328 1.431414 1.131371 1.131371 
+C 1.431414 0.831328 1.6 0.424325 1.6 0 
+C 1.6 -0.424325 1.431414 -0.831328 1.131371 -1.131371 
+C 0.831328 -1.431414 0.424325 -1.6 0 -1.6 
+C -0.424325 -1.6 -0.831328 -1.431414 -1.131371 -1.131371 
+C -1.431414 -0.831328 -1.6 -0.424325 -1.6 0 
+C -1.6 0.424325 -1.431414 0.831328 -1.131371 1.131371 
+C -0.831328 1.431414 -0.424325 1.6 0 1.6 
+z
+" style="stroke: #1c1f24"/>
+    </defs>
+    <g clip-path="url(#p3ffb3ad36f)">
+     <use xlink:href="#m9beb8583ff" x="141.25824" y="125.4024" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p3ffb3ad36f">
+   <rect x="2.88" y="2.88" width="196.03584" height="412.25184"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>What this graph plots: the ASM chart of the overlapping 1010 detector; each state box is one clock period, codes y1y0 beside the boxes. The only output, Z = 1, is a conditional box on S3's X = 0 exit.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Term</th>
+<th>Enters</th>
+<th>Adds to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S0, X = 1</td>
+<td>Xm0</td>
+<td>S1 (01)</td>
+<td>D0</td>
+</tr>
+<tr>
+<td>S1, X = 1</td>
+<td>Xm1</td>
+<td>S1 (01)</td>
+<td>D0</td>
+</tr>
+<tr>
+<td>S1, X = 0</td>
+<td>X'm1</td>
+<td>S2 (10)</td>
+<td>D1</td>
+</tr>
+<tr>
+<td>S2, X = 1</td>
+<td>Xm2</td>
+<td>S3 (11)</td>
+<td>D1, D0</td>
+</tr>
+<tr>
+<td>S3, X = 1</td>
+<td>Xm3</td>
+<td>S1 (01)</td>
+<td>D0</td>
+</tr>
+<tr>
+<td>S3, X = 0</td>
+<td>X'm3</td>
+<td>S2 (10), through Z = 1</td>
+<td>D1, Z</td>
+</tr>
+</tbody>
+</table>
+<div class="eq">D0 = X(m0 + m1 + m2 + m3) = X&emsp;&emsp;&emsp;D1 = X'm1 + Xm2 + X'm3 = X'y0 + Xy1y0'&emsp;&emsp;&emsp;Z = X'm3 = X'y1y0</div>
+
+<div class="box note">
+<div class="bh">Slip in deck 13 slide 8</div>
+<p>The slide prints D0 = Xm0 + Xm2 = X(y0)' and D1 = X'm1 + Xm2. Its own chart has two more paths ending in a state with y0 = 1 (S1 → S1 and S3 → S1, both on X = 1) and one more into S2 (S3 on X = 0). The full sums above are used here; they reproduce the detector (input 101010 → Z = 000101).</p>
+</div>
+<p><strong>Answer to the Guess:</strong> <strong>D0 = X</strong>: every 1 moves the machine into a state ending in 1, every 0 into a state ending in 0.</p>
+<div class="box check">
+<div class="bh">Check 10</div>
+<p>(a) In which state, and on which input, is Z = 1? Is Z a Mealy or a Moore output? (b) Evaluate D1 for S3 with X = 0 from D1 = X'y0 + Xy1y0'.</p>
+</div>
+<h3>11 · Moore outputs: a counter</h3>
+<p>The 1010 chart had only a conditional (Mealy) output. A counter's output is its state, written inside the state boxes.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 13 slide 18 (EX 13.18)</span></div>
+<p>2-bit binary up counter with input E: for E = 1 it counts S0 → S1 → S2 → S3 → S0; for E = 0 it returns to S0. The output is the count. Draw the ASM chart and give the D equations.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>S3 goes to S0 for both E = 0 and E = 1. Does S3 need a decision box?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Moore output in a state box:</strong> "Out = 01" inside S1's box means the output is 01 for the whole clock period spent in S1, whatever the input does.</p>
+</div>
+
+<figure style="max-width:56%"><div style="width:85mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 190.26432 389.18304" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T18:23:25.143665</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 389.18304 
+L 190.26432 389.18304 
+L 190.26432 0 
+L 0 0 
+L 0 389.18304 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 55.348416 89.3664 
+L 106.087104 89.3664 
+Q 106.66368 89.3664 106.66368 88.789824 
+L 106.66368 59.672736 
+Q 106.66368 59.09616 106.087104 59.09616 
+L 55.348416 59.09616 
+Q 54.77184 59.09616 54.77184 59.672736 
+L 54.77184 88.789824 
+Q 54.77184 89.3664 55.348416 89.3664 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 55.348416 175.8528 
+L 106.087104 175.8528 
+Q 106.66368 175.8528 106.66368 175.276224 
+L 106.66368 146.159136 
+Q 106.66368 145.58256 106.087104 145.58256 
+L 55.348416 145.58256 
+Q 54.77184 145.58256 54.77184 146.159136 
+L 54.77184 175.276224 
+Q 54.77184 175.8528 55.348416 175.8528 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 55.348416 262.3392 
+L 106.087104 262.3392 
+Q 106.66368 262.3392 106.66368 261.762624 
+L 106.66368 232.645536 
+Q 106.66368 232.06896 106.087104 232.06896 
+L 55.348416 232.06896 
+Q 54.77184 232.06896 54.77184 232.645536 
+L 54.77184 261.762624 
+Q 54.77184 262.3392 55.348416 262.3392 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 55.348416 348.8256 
+L 106.087104 348.8256 
+Q 106.66368 348.8256 106.66368 348.249024 
+L 106.66368 319.131936 
+Q 106.66368 318.55536 106.087104 318.55536 
+L 55.348416 318.55536 
+Q 54.77184 318.55536 54.77184 319.131936 
+L 54.77184 348.249024 
+Q 54.77184 348.8256 55.348416 348.8256 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 80.71776 14.41152 
+Q 80.71776 36.75384 80.71776 57.81416 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 83.070701 53.81416 
+L 80.71776 57.81416 
+L 78.364819 53.81416 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 80.71776 98.879904 
+L 102.33936 110.988 
+L 80.71776 123.096096 
+L 59.09616 110.988 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 80.71776 123.096096 
+Q 80.71776 134.339328 80.71776 144.30056 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 83.070701 140.30056 
+L 80.71776 144.30056 
+L 78.364819 140.30056 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 37.47456 49.00608 
+Q 59.09616 49.00608 79.43576 49.00608 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 75.43576 46.653139 
+L 79.43576 49.00608 
+L 75.43576 51.359021 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 80.71776 185.366304 
+L 102.33936 197.4744 
+L 80.71776 209.582496 
+L 59.09616 197.4744 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 80.71776 209.582496 
+Q 80.71776 220.825728 80.71776 230.78696 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 83.070701 226.78696 
+L 80.71776 230.78696 
+L 78.364819 226.78696 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 80.71776 271.852704 
+L 102.33936 283.9608 
+L 80.71776 296.068896 
+L 59.09616 283.9608 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 80.71776 296.068896 
+Q 80.71776 307.312128 80.71776 317.27336 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 83.070701 313.27336 
+L 80.71776 317.27336 
+L 78.364819 313.27336 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 170.08704 34.59168 
+Q 125.4024 34.59168 81.99976 34.59168 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 85.99976 36.944621 
+L 81.99976 34.59168 
+L 85.99976 32.238739 
+z
+" clip-path="url(#p1c2d212b78)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 80.71776 89.3664 
+L 80.71776 98.879904 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 59.09616 110.988 
+L 37.47456 110.988 
+L 37.47456 49.00608 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 80.71776 175.8528 
+L 80.71776 185.366304 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 102.33936 197.4744 
+L 135.49248 197.4744 
+L 135.49248 34.59168 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 80.71776 262.3392 
+L 80.71776 271.852704 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 102.33936 283.9608 
+L 152.78976 283.9608 
+L 152.78976 34.59168 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 80.71776 348.8256 
+L 80.71776 366.12288 
+L 170.08704 366.12288 
+L 170.08704 34.59168 
+" clip-path="url(#p1c2d212b78)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(75.322799 71.342983)">S0</text>
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(60.949596 81.967546)">Out = 00</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="109.54656" y="65.46173" transform="rotate(-0 109.54656 65.46173)">00</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(75.322799 157.829383)">S1</text>
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(60.949596 168.453946)">Out = 01</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="109.54656" y="151.94813" transform="rotate(-0 109.54656 151.94813)">01</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(75.322799 244.315783)">S2</text>
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(60.949596 254.940346)">Out = 10</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="109.54656" y="238.43453" transform="rotate(-0 109.54656 238.43453)">10</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(75.322799 330.802183)">S3</text>
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(60.949596 341.426746)">Out = 11</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="109.54656" y="324.92093" transform="rotate(-0 109.54656 324.92093)">11</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.71776" y="113.411984" transform="rotate(-0 80.71776 113.411984)">E</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="77.258304" y="136.296415" transform="rotate(-0 77.258304 136.296415)">1</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="48.429504" y="107.234272" transform="rotate(-0 48.429504 107.234272)">0</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.71776" y="199.898384" transform="rotate(-0 80.71776 199.898384)">E</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="77.258304" y="222.782815" transform="rotate(-0 77.258304 222.782815)">1</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="118.1952" y="193.720672" transform="rotate(-0 118.1952 193.720672)">0</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.71776" y="286.384784" transform="rotate(-0 80.71776 286.384784)">E</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="77.258304" y="309.269215" transform="rotate(-0 77.258304 309.269215)">1</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #e0661b; font: 700 8.8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="118.1952" y="280.207072" transform="rotate(-0 118.1952 280.207072)">0</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #e0661b; font: 700 8.2px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="125.4024" y="361.354" transform="rotate(-0 125.4024 361.354)">E = 0 or 1</text>
+   </g>
+   <g id="line2d_8">
+    <defs>
+     <path id="mf2fdac96c2" d="M 0 1.6 
+C 0.424325 1.6 0.831328 1.431414 1.131371 1.131371 
+C 1.431414 0.831328 1.6 0.424325 1.6 0 
+C 1.6 -0.424325 1.431414 -0.831328 1.131371 -1.131371 
+C 0.831328 -1.431414 0.424325 -1.6 0 -1.6 
+C -0.424325 -1.6 -0.831328 -1.431414 -1.131371 -1.131371 
+C -1.431414 -0.831328 -1.6 -0.424325 -1.6 0 
+C -1.6 0.424325 -1.431414 0.831328 -1.131371 1.131371 
+C -0.831328 1.431414 -0.424325 1.6 0 1.6 
+z
+" style="stroke: #1c1f24"/>
+    </defs>
+    <g clip-path="url(#p1c2d212b78)">
+     <use xlink:href="#mf2fdac96c2" x="135.49248" y="34.59168" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_9">
+    <g clip-path="url(#p1c2d212b78)">
+     <use xlink:href="#mf2fdac96c2" x="152.78976" y="34.59168" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p1c2d212b78">
+   <rect x="2.88" y="2.88" width="184.50432" height="383.42304"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>What this graph plots: ASM chart of the 2-bit counter with enable E; outputs inside the state boxes (Moore); a decision on E after S0, S1, S2. S3 has a single exit to S0.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Present y1y0</th>
+<th>Next, E = 0</th>
+<th>Next, E = 1</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S0 = 00</td>
+<td>00</td>
+<td>01</td>
+<td>00</td>
+</tr>
+<tr>
+<td>S1 = 01</td>
+<td>00</td>
+<td>10</td>
+<td>01</td>
+</tr>
+<tr>
+<td>S2 = 10</td>
+<td>00</td>
+<td>11</td>
+<td>10</td>
+</tr>
+<tr>
+<td>S3 = 11</td>
+<td>00</td>
+<td>00</td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
+<div class="eq">D1 = E(y1 ⊕ y0)&emsp;&emsp;&emsp;D0 = Ey0'</div>
+
+<p><em>With E = 1, D1 D0 is the count plus one (13 step 3: D1 = Q1 ⊕ Q0, D0 = Q0'); E = 0 forces 00.</em></p>
+<div class="box note">
+<div class="bh">Slips in deck 13 slides 9 and 18</div>
+<p>Slide 18 draws a decision box on E after S3 whose two exits both go to S0: a decision that decides nothing (left out here). Slide 9 (MOD-6 counter with enable X) prints D0 = X[Σm(0, 2, 4)] + d(6, 7) and similar for D1, D2: these contain only the X = 1 paths, so for X = 0 every flip-flop would load 0 and the counter would fall to 000 instead of holding, as its chart's X = 0 self-loops require. With the hold paths included, D0 = Xy0' + X'y0 = X ⊕ y0.</p>
+</div>
+<p><strong>Answer to the Guess:</strong> no. Both values of E lead to S0, so S3's box has a <strong>single exit</strong> to S0.</p>
+<div class="box check">
+<div class="bh">Check 11</div>
+<p><span class="tag">Deck 13 slide 9</span> MOD-6 counter with enable X (holds when X = 0, Z = 1 on the step from S5 to S0): (a) how many state boxes and flip-flops? (b) Where is Z = 1 drawn: in a state box or a conditional box?</p>
+</div>
+<h3>12 · Serial adder</h3>
+<p>The last chart is a machine that computes: it adds two binary numbers one bit per clock, least significant bit first.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 13 slides 13–16 (EX 13.13–13.16)</span></div>
+<p>A serial adder takes bits a and b from two shift registers and puts the sum bit s into a third. Give its state diagram, explain what the state remembers, and derive the flip-flop and output equations.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>To add the next column, what single fact about the earlier columns must the machine remember?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Serial addition:</strong> one column per clock period, starting with the least significant bits. <strong>Carry state:</strong> G = carry into this column is 0, H = carry is 1; one flip-flop y holds it.</p>
+</div>
+
+<figure style="max-width:92%"><div style="width:211mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 467.0208 172.08" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T18:23:25.238634</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 172.08 
+L 467.0208 172.08 
+L 467.0208 0 
+L 0 0 
+L 0 172.08 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 42.35328 76.0608 
+L 78.72192 76.0608 
+Q 80.496 76.0608 80.496 74.28672 
+L 80.496 55.65888 
+Q 80.496 53.8848 78.72192 53.8848 
+L 42.35328 53.8848 
+Q 40.5792 53.8848 40.5792 55.65888 
+L 40.5792 74.28672 
+Q 40.5792 76.0608 42.35328 76.0608 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 42.35328 111.5424 
+L 78.72192 111.5424 
+Q 80.496 111.5424 80.496 109.76832 
+L 80.496 91.14048 
+Q 80.496 89.3664 78.72192 89.3664 
+L 42.35328 89.3664 
+Q 40.5792 89.3664 40.5792 91.14048 
+L 40.5792 109.76832 
+Q 40.5792 111.5424 42.35328 111.5424 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 137.71008 115.9776 
+L 191.81952 115.9776 
+Q 193.5936 115.9776 193.5936 114.20352 
+L 193.5936 51.22368 
+Q 193.5936 49.4496 191.81952 49.4496 
+L 137.71008 49.4496 
+Q 135.936 49.4496 135.936 51.22368 
+L 135.936 114.20352 
+Q 135.936 115.9776 137.71008 115.9776 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 235.28448 93.8016 
+L 276.08832 93.8016 
+Q 277.8624 93.8016 277.8624 92.02752 
+L 277.8624 73.39968 
+Q 277.8624 71.6256 276.08832 71.6256 
+L 235.28448 71.6256 
+Q 233.5104 71.6256 233.5104 73.39968 
+L 233.5104 92.02752 
+Q 233.5104 93.8016 235.28448 93.8016 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 80.496 64.9728 
+Q 108.216 64.9728 134.654 64.9728 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 130.654 62.619859 
+L 134.654 64.9728 
+L 130.654 67.325741 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 80.496 100.4544 
+Q 108.216 100.4544 134.654 100.4544 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 130.654 98.101459 
+L 134.654 100.4544 
+L 130.654 102.807341 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 193.5936 82.7136 
+Q 213.552 82.7136 232.2284 82.7136 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 228.2284 80.360659 
+L 232.2284 82.7136 
+L 228.2284 85.066541 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 18.4032 64.9728 
+Q 29.4912 64.9728 39.2972 64.9728 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 35.2972 62.619859 
+L 39.2972 64.9728 
+L 35.2972 67.325741 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #6a707a; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 18.4032 100.4544 
+Q 29.4912 100.4544 39.2972 100.4544 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 35.2972 98.101459 
+L 39.2972 100.4544 
+L 35.2972 102.807341 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #6a707a; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 164.7648 140.3712 
+Q 164.7648 128.1744 164.7648 117.2596 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 162.411859 121.2596 
+L 164.7648 117.2596 
+L 167.117741 121.2596 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #6a707a; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 255.6864 140.3712 
+Q 255.6864 117.0864 255.6864 95.0836 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 253.333459 99.0836 
+L 255.6864 95.0836 
+L 258.039341 99.0836 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #6a707a; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 302.69952 82.7136 
+Q 314.89632 82.7136 325.81112 82.7136 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 321.81112 80.360659 
+L 325.81112 82.7136 
+L 321.81112 85.066541 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #6a707a; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 354.557486 68.719807 
+C 354.557486 48.052758 334.223314 48.052758 334.223314 67.456434 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 336.623314 63.456434 
+L 334.223314 67.456434 
+L 331.823314 63.456434 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 443.261486 68.719807 
+C 443.261486 48.052758 422.927314 48.052758 422.927314 67.456434 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 425.327314 63.456434 
+L 422.927314 67.456434 
+L 420.527314 63.456434 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 359.861558 74.978021 
+Q 388.7424 60.5376 416.476586 74.404693 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 413.951145 70.511304 
+L 416.476586 74.404693 
+L 411.84661 74.720373 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 417.623242 90.449179 
+Q 388.7424 104.8896 361.008214 91.022507 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 363.533655 94.915896 
+L 361.008214 91.022507 
+L 365.63819 90.706827 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 18.4032 140.3712 
+L 255.6864 140.3712 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 18.4032 140.3712 
+L 18.4032 64.9728 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 18.4032 100.4544 
+L 33.9264 100.4544 
+" clip-path="url(#p0e9fb793e5)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="140.3712" y="20.804177" transform="rotate(-0 140.3712 20.804177)">block diagram</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="60.5376" y="67.524363" transform="rotate(-0 60.5376 67.524363)">A</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="60.5376" y="103.005963" transform="rotate(-0 60.5376 103.005963)">B</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'" transform="translate(150.361675 79.673288)">Adder</text>
+    <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'" transform="translate(154.626519 90.857038)">FSM</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(246.318666 79.955522)">Sum</text>
+    <text style="fill: #1c1f24; font: 700 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(239.471634 90.020897)">register</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="108.216" y="58.3526" transform="rotate(-0 108.216 58.3526)">a</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="108.216" y="93.8342" transform="rotate(-0 108.216 93.8342)">b</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="213.552" y="76.0934" transform="rotate(-0 213.552 76.0934)">s</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="144.8064" y="132.7572" transform="rotate(-0 144.8064 132.7572)">CLK</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="388.7424" y="20.804177" transform="rotate(-0 388.7424 20.804177)">Mealy FSM: state = carry</text>
+   </g>
+   <g id="patch_18">
+    <path d="M 344.3904 100.01088 
+C 348.977692 100.01088 353.377719 98.188329 356.621424 94.944624 
+C 359.865129 91.700919 361.68768 87.300892 361.68768 82.7136 
+C 361.68768 78.126308 359.865129 73.726281 356.621424 70.482576 
+C 353.377719 67.238871 348.977692 65.41632 344.3904 65.41632 
+C 339.803108 65.41632 335.403081 67.238871 332.159376 70.482576 
+C 328.915671 73.726281 327.09312 78.126308 327.09312 82.7136 
+C 327.09312 87.300892 328.915671 91.700919 332.159376 94.944624 
+C 335.403081 98.188329 339.803108 100.01088 344.3904 100.01088 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 433.0944 100.01088 
+C 437.681692 100.01088 442.081719 98.188329 445.325424 94.944624 
+C 448.569129 91.700919 450.39168 87.300892 450.39168 82.7136 
+C 450.39168 78.126308 448.569129 73.726281 445.325424 70.482576 
+C 442.081719 67.238871 437.681692 65.41632 433.0944 65.41632 
+C 428.507108 65.41632 424.107081 67.238871 420.863376 70.482576 
+C 417.619671 73.726281 415.79712 78.126308 415.79712 82.7136 
+C 415.79712 87.300892 417.619671 91.700919 420.863376 94.944624 
+C 424.107081 98.188329 428.507108 100.01088 433.0944 100.01088 
+z
+" clip-path="url(#p0e9fb793e5)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_11">
+    <text style="fill: #6a707a; font: 8.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="314.89632" y="75.2376" transform="rotate(-0 314.89632 75.2376)">reset</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="388.7424" y="136.996028" transform="rotate(-0 388.7424 136.996028)">arc label = a b / s</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #1c1f24; font: 700 7.6px 'Segoe UI', 'DejaVu Sans'" transform="translate(341.688838 80.384556)">G</text>
+    <text style="fill: #1c1f24; font: 700 7.6px 'Segoe UI', 'DejaVu Sans'" transform="translate(332.065931 88.884206)">carry 0</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #1c1f24; font: 700 7.6px 'Segoe UI', 'DejaVu Sans'" transform="translate(430.183244 80.384556)">H</text>
+    <text style="fill: #1c1f24; font: 700 7.6px 'Segoe UI', 'DejaVu Sans'" transform="translate(420.769931 88.884206)">carry 1</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #1c1f24; font: 8.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="344.3904" y="48.761064" transform="rotate(-0 344.3904 48.761064)">00/0, 01/1, 10/1</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #1c1f24; font: 8.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="433.0944" y="48.761064" transform="rotate(-0 433.0944 48.761064)">01/0, 10/0, 11/1</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #1c1f24; font: 8.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="388.7424" y="75.939674" transform="rotate(-0 388.7424 75.939674)">11/0</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #1c1f24; font: 8.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="388.7424" y="93.876213" transform="rotate(-0 388.7424 93.876213)">00/1</text>
+   </g>
+   <g id="line2d_4">
+    <defs>
+     <path id="ma29cb1bf60" d="M 0 1.75 
+C 0.464105 1.75 0.909265 1.565609 1.237437 1.237437 
+C 1.565609 0.909265 1.75 0.464105 1.75 0 
+C 1.75 -0.464105 1.565609 -0.909265 1.237437 -1.237437 
+C 0.909265 -1.565609 0.464105 -1.75 0 -1.75 
+C -0.464105 -1.75 -0.909265 -1.565609 -1.237437 -1.237437 
+C -1.565609 -0.909265 -1.75 -0.464105 -1.75 0 
+C -1.75 0.464105 -1.565609 0.909265 -1.237437 1.237437 
+C -0.909265 1.565609 -0.464105 1.75 0 1.75 
+z
+" style="stroke: #6a707a"/>
+    </defs>
+    <g clip-path="url(#p0e9fb793e5)">
+     <use xlink:href="#ma29cb1bf60" x="18.4032" y="100.4544" style="fill: #6a707a; stroke: #6a707a"/>
+    </g>
+   </g>
+   <g id="line2d_5">
+    <g clip-path="url(#p0e9fb793e5)">
+     <use xlink:href="#ma29cb1bf60" x="164.7648" y="140.3712" style="fill: #6a707a; stroke: #6a707a"/>
+    </g>
+   </g>
+   <g id="line2d_6">
+    <g clip-path="url(#p0e9fb793e5)">
+     <use xlink:href="#ma29cb1bf60" x="255.6864" y="140.3712" style="fill: #6a707a; stroke: #6a707a"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p0e9fb793e5">
+   <rect x="2.88" y="2.88" width="461.2608" height="166.32"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>What this graph plots: left, the serial adder's data path (shift registers A and B feed one bit each per clock into the adder FSM, whose sum bit goes into the sum register); right, its 2-state Mealy diagram, arrows labelled ab/s.</figcaption></figure>
+
+<p>Each column is a full-adder step (file 04): the sum bit is 1 when an odd number of a, b, y are 1; the next carry is 1 when at least two are.</p>
+<div class="eq">D = AB + Ay + By&emsp;&emsp;&emsp;(= Σm(3, 5, 6, 7) in ABy)&emsp;&emsp;&emsp;Z = A ⊕ B ⊕ y&emsp;&emsp;&emsp;(= Σm(1, 2, 4, 7))</div>
+
+<p><em>D is the carry out, which becomes the next state; Z is the sum bit, a Mealy output (it depends on the inputs A, B).</em> The circuit (slide 14) is one full adder and one D flip-flop with reset to G.</p>
+<p>Worked: 0110 + 0111 (6 + 7), bits fed LSB first:</p>
+<table>
+<thead>
+<tr>
+<th>Clock</th>
+<th>a b</th>
+<th>y (state)</th>
+<th>s</th>
+<th>next y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0 1</td>
+<td>0 (G)</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1 1</td>
+<td>0 (G)</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1 1</td>
+<td>1 (H)</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0 0</td>
+<td>1 (H)</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Sum bits LSB first 1, 0, 1, 1 → <strong>1101 = 13</strong>.</p>
+<p><strong>Answer to the Guess:</strong> only the <strong>carry</strong> (0 or 1): two states, one flip-flop, however long the numbers are.</p>
+<div class="box check">
+<div class="bh">Check 12</div>
+<p>Add 0101 + 0011 serially from state G: give s and the state for each of the 4 clocks, and the sum.</p>
 </div>
 <hr />
 <h2>Exam form</h2>
-<p><strong>Partitioning.</strong> P<sub>0</sub> → P<sub>1</sub> by outputs → refine by next-state blocks until stable; the reduced table.</p>
-<p><strong>Implication table.</strong> Four steps; equivalent pairs; compatibility, merger diagram, cover and closure.</p>
-<p><strong>ASM.</strong> Three elements with shapes; ASM block; chart for a given machine.</p>
+<p><strong>Equivalent states:</strong> same output sequence for every input sequence; one-clock test: same outputs for every input, and equivalent next states.</p>
+<p><strong>Partitioning:</strong>
+1. P1 by output (Moore: the output; Mealy: the whole output row).
+2. Refine: split a block when, for some input, its states' next states lie in different blocks.
+3. Repeat until P(k+1) = P(k); each block becomes one state; rewrite the table.</p>
+<p><strong>Implication table:</strong>
+1. Staircase grid, one cell per pair.
+2. × every pair with different outputs.
+3. Write implied next-state pairs in the others (✓ if none).
+4. Cross every cell that implies a crossed pair; repeat until no change; survivors are equivalent (loops survive).</p>
+<p><strong>Incompletely specified:</strong> compatible pairs by the same table ignoring –; maximal compatibles from the merger diagram; choose a cover that is complete, closed (consistent) and minimal; write the reduced table.</p>
+<p><strong>ASM chart:</strong> state box (one clock period, Moore outputs), decision box (input test), conditional output box (Mealy output, after a decision box). Equations: each path = source minterm · input condition; D_i = OR of paths into states with bit i = 1.</p>
 <h2>Traps</h2>
 <ul>
-<li>Splitting on next states before splitting on outputs.</li>
-<li>Comparing next states by name instead of by block.</li>
-<li>Treating compatibility as transitive.</li>
-<li>Putting a Mealy output in a state box.</li>
+<li>Stopping when two states agree on short input sequences (D and E in step 1).</li>
+<li>Splitting on next states before splitting on outputs; comparing next states by name instead of by block.</li>
+<li>Treating compatibility as transitive: (AB) and (AC) compatible does not make (ABC) a class.</li>
+<li>Choosing a cover that covers every state but is not closed.</li>
+<li>Putting a Mealy output inside a state box, or a conditional box straight after a state box.</li>
+<li>Copying deck 13 slide 8's D0 = X(y0)' or slide 9's equations without hold terms.</li>
 </ul>
 <h2>Self-test</h2>
 <ol>
-<li>Define equivalent states.</li>
-<li>Reduce: A: B/0, C/1 · B: A/0, D/1 · C: C/1, A/0 · D: D/1, B/0 (next/z for x = 0; x = 1).</li>
-<li>How many flip-flops before and after reduction in Q2?</li>
-<li>What is an ASM block?</li>
-<li>Draw the ASM chart of a 2-bit up counter.</li>
+<li>Define equivalent states (deck 12 slide 3).</li>
+<li><span class="tag">Deck 12 slide 12</span> Reduce by partitioning: A A/0, B/0 · B H/1, C/0 · C E/0, B/0 · D C/1, D/0 · E C/1, E/0 · F F/1, G/1 · G B/0, F/0 · H H/1, C/0.</li>
+<li>Why does a loop of implications in an implication table mean equivalence?</li>
+<li><span class="tag">Deck 12 slide 25</span> A 6-state incompletely specified machine has compatible classes (ABD), (BC), (E), (F). Why is the reduced machine allowed to list "A' or B'" as one next state?</li>
+<li>What is an ASM block, and how long does it take?</li>
+<li><span class="tag">Deck 13 slide 11</span> Draw the ASM chart of a D flip-flop as a Moore machine (state A: Z = 0, state B: Z = 1).</li>
+<li>A serial adder adds 1011 + 0110. Which state is it in after the fourth clock, and what does that state mean?</li>
 </ol>
 <div class="answers">
 <h2>Answers</h2>
-<p><strong>Check 1.</strong> P<sub>1</sub> by outputs: (AD)(BE)(CF)(GH). P<sub>2</sub>: on x = 1, G → G but H → B: G, H separate; A, D go to E, B and D, A (same blocks); B, E go to A, D and F, C; C, F go to C, C and A, D. → <strong>(AD)(BE)(CF)(G)(H)</strong>, P<sub>3</sub> = P<sub>2</sub>. 8 states become <strong>5</strong>.</p>
-<p><strong>Check 2.</strong> Compatibility is not transitive: A–C may conflict even though both are compatible with B.</p>
-<p><strong>Check 3.</strong> (a) <strong>Inside E's state box</strong>. (b) <strong>Six</strong>. (c) A conditional output depends on an input, so an input must be tested first: a decision box.</p>
+<p><strong>Check 1.</strong> (a) <strong>10 and 11</strong> (A: 01, 00; B: 00, 01). Input 11: A —1/0→ B —1/0→ E gives 00; B —1/0→ E —1/1→ A gives 01. The first outputs agree; the second differ because A has moved to B but B has moved to E. (b) Equivalence is about <strong>every</strong> sequence, of any length; a finite table only shows no difference has been found yet. The one-clock test (steps 3–5) proves it.</p>
+<p><strong>Check 2.</strong> B: B/0, A/1 and D: D/0, A/1 differ only because each goes to itself: <strong>B ≡ D</strong>. Reduced: A: B/0, C/1 · B: B/0, A/1 · C: B/1, B/0.</p>
+<p><strong>Check 3.</strong> (a) 7 states → <strong>3</strong> flip-flops; 4 states → <strong>2</strong>. (b) F is a block of its own, and C, E, G <strong>all</strong> go to F on w = 0: same block, so no split.</p>
+<p><strong>Check 4.</strong> P1 by output rows: (AD) give 0, 0; (BE) 1, 0; (CF) 0, 1; (GH) 1, 1. P2: on x = 0, G → H but H → C (different blocks): G, H split; the other pairs go to matching blocks (A, D → E, B and D, A; B, E → A, D and F, C; C, F → C, C and A, D). P3 = P2 = <strong>(AD)(BE)(CF)(G)(H)</strong>: 8 states → <strong>5</strong>.</p>
+<p><strong>Check 5.</strong> A cell survives only if <strong>every</strong> pair it implies survives. BE is crossed, so (A, C) is crossed whatever BC does.</p>
+<p><strong>Check 6.</strong> <strong>(AF)(BCH)(D)(E)(G)</strong>: 8 states → 5. Equivalence is transitive (slide 5): B ≡ C and C ≡ H give B ≡ H, so the three are one class.</p>
+<p><strong>Check 7.</strong> (a) A's outputs are all –, D's are all –, and their next states are never both specified for the same input (A: A, –; D: –, B): nothing can conflict. (b) <strong>Yes</strong>: (A, B), (A, D), (B, D) are all compatible.</p>
+<p><strong>Check 8.</strong> Complete: A, B, C in (ABC), D, E in (DE). Closed: (ABC) needs DE on x = 0 → inside (DE); AB on x = 1 → inside (ABC). (DE) needs C on x = 0 → inside (ABC); BC on x = 1 → inside (ABC). ✓ Two states, one flip-flop.</p>
+<p><strong>Check 9.</strong> (a) A conditional output depends on an input, so an input must be tested first, by a decision box. (b) The <strong>conditional output box</strong>: a Moore machine has no outputs that depend on the input.</p>
+<p><strong>Check 10.</strong> (a) In <strong>S3 with X = 0</strong>: the arrival of the final 0 of 1010. A <strong>Mealy</strong> output (conditional box, depends on X). (b) S3: y1y0 = 11, X = 0: X'y0 = 1 → <strong>D1 = 1</strong>: the next state S2 = 10 has y1 = 1 ✓.</p>
+<p><strong>Check 11.</strong> (a) <strong>6</strong> state boxes (S0–S5), <strong>3</strong> flip-flops. (b) In a <strong>conditional output box</strong> on S5's X = 1 exit: Z depends on X, a Mealy output.</p>
+<p><strong>Check 12.</strong> Bits LSB first: a = 1, 0, 1, 0; b = 1, 1, 0, 0. Clock 1: y 0 (G), s 0, carry 1 → H. Clock 2: y 1, s 0, → H. Clock 3: y 1, s 0, → H. Clock 4: y 1, a b = 0 0, s 1, → G. Sum bits 0, 0, 0, 1 → <strong>1000 = 8</strong>.</p>
 <p><strong>Self-test.</strong></p>
 <ol>
-<li>Same output for every input, and equivalent next states, for every input sequence.</li>
-<li>P<sub>1</sub>: (AB)(CD). A → B, C and B → A, D: same blocks; C → C, A and D → D, B: same blocks. <strong>A ≡ B, C ≡ D</strong>: two states.</li>
-<li><strong>2 → 1</strong>.</li>
-<li>One state box with the decision and conditional output boxes reached from it before the next state box: one clock period.</li>
-<li>Four state boxes 00 → 01 → 10 → 11 → 00, no decision boxes (no input).</li>
+<li>States are equivalent when, for every possible input sequence, the circuit produces the same output sequence whichever of them it starts in.</li>
+<li>P1 by output rows: (ACG) 0, 0; (BDEH) 1, 0; (F) 1, 1. P2: in (ACG), the next-state blocks (x = 0; x = 1) are A: ACG, BDEH · C: BDEH, BDEH · G: BDEH, F: all three split. In (BDEH): B: BDEH, ACG · D: ACG, BDEH · E: ACG, BDEH · H: BDEH, ACG: (BH)(DE). P2 = <strong>(A)(BH)(C)(DE)(F)(G)</strong>; P3 = P2 (B, H → H, H and C, C; D, E → C, C and D, E). 8 → <strong>6</strong> states.</li>
+<li>Every pair in the loop needs only pairs in the loop; none of them can ever be crossed, so each pair passes the one-clock test with assumptions that are themselves consistent: no input sequence can separate them.</li>
+<li>B lies in both (ABD) and (BC). A next state B may be represented by either class, so either choice keeps the table correct (slide 25).</li>
+<li>One state box plus the decision and conditional output boxes reached from it before the next state box; it lasts <strong>one clock period</strong>.</li>
+<li>State box A (Z = 0) → decision D: 0 → A, 1 → B. State box B (Z = 1) → decision D: 0 → A, 1 → B. Next state = D (slide 11: D = Y'D + YD = D).</li>
+<li>1011 + 0110 = 11 + 6 = 17 = 10001: the 4-bit sum is 0001 and the final carry is 1, so the machine is in <strong>H (carry 1)</strong>: the fifth sum bit (1) is still owed.</li>
 </ol>
 </div></body></html>
