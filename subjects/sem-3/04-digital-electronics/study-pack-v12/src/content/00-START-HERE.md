@@ -9,12 +9,12 @@ Ranked by the professor's own material: the 2025 mid-term paper (30 marks: 2-mar
 | Rank | Study | Why it ranks here | Do first | Rough time |
 |---|---|---|---|---|
 | 1 | **13 Synchronous counters** | The mid-term's only 8-mark question; practice set 2 Q4–Q6; deck 10 | 13 steps 6–7 (MTE Q8) | 75 min |
-| 2 | **15 FSM design** | Deck 11, with five practice detectors on its last slide; Unit 4 is not yet examined | 15 the 1101 detector | 60 min |
+| 2 | **15 FSM design** | Deck 11, with five practice detectors on its last slide; Unit 4 is not yet examined | 15 steps 2–7 (the 1101 detector, word to circuit) | 75 min |
 | 3 | **02 K-map** | Mid-term Q4 (4 marks); practice set 1 Q1, Q4 | 02 §7 don't-cares (MTE Q4) | 60 min |
 | 4 | **05 MUX, DEMUX** | Mid-term Q5 (4 marks); practice set 1 Q3, Q5, Q6 | 05 n variables on a smaller MUX | 40 min |
 | 5 | **06 Decoder, encoder** | Mid-term Q6 (4 marks); practice set 1 Q7, Q8 | 06 function from a decoder | 30 min |
 | 6 | **09, 10 Flip-flops and waveforms** | Mid-term Q3 (2) and Q7 (4); practice set 2 Q1–Q3 | 10 the waveform procedure | 50 min |
-| 7 | **16 State reduction, ASM** | Decks 12–13, worked tables | 16 partitioning | 45 min |
+| 7 | **16 State reduction, ASM** | Decks 12–13, worked tables | 16 steps 3–5 (partitioning, implication table) | 60 min |
 | 8 | **11, 12 Registers, ripple counters** | Decks 09–10 | 12 steps 6–7 (MOD-N by reset) | 45 min |
 | 9 | **19 Memories, PLDs** | Deck 15, with PAL and PLA design examples | 19 PLA table | 40 min |
 | 10 | **18 Logic families** | Deck 14 | 18 noise margin, fan-out | 35 min |
@@ -67,8 +67,8 @@ Each file needs the ones before it. 02 is Boolean algebra drawn as a grid. 05–
 | 12 | U3 | ripple up and down counters, frequency division, ripple delay, MOD-N by reset, decade, cascading | deck 10 slide 14 |
 | 13 | U3 | synchronous counter design with D, T, JK; down; decade; unused states; up/down; Gray | MTE Q8, set 2 Q4–Q6 |
 | 14 | U3 | setup, hold, propagation delay, f_{max} | practice |
-| 15 | U4 | Moore and Mealy, sequence detectors, state assignment | deck 11 |
-| 16 | U4 | partitioning, implication tables, compatibles, ASM charts | decks 12–13 |
+| 15 | U4 | states as memory, sequence detectors (overlap or not), state table, assignment (counting, Gray), D/T/JK circuits, Mealy vs Moore, wildcard detectors | deck 11 slides 4–43 |
+| 16 | U4 | equivalent states, inspection, partitioning (Moore, Mealy), implication tables, compatibles and closed covers, ASM charts, serial adder | decks 12–13 |
 | 17 | U4 | skew, metastability, LFSR, pulse train, clocks, races, hazards | practice |
 | 18 | U5 | noise margin, fan-out, TTL NAND, tristate, ECL, CMOS, interfacing | deck 14 |
 | 19 | U5 | RAM, ROM, memory decoding, PROM, PAL, PLA | deck 15 |
@@ -112,10 +112,14 @@ When you reach a **Guess first** box, write a guess on paper **before** reading 
 | Deck 10 slide 6 (12) | "3-bit down counter" clocked from Q0, Q1 (negative edge) | clock from Q0', Q1' | negative-edge stages clocked from Q count up; slide 15 has the right circuit |
 | Deck 10 slides 12–13 (12) | flip-flops D, C, B, A with D the LSB; slide 12's NAND wire runs over D | Q0–Q3, NAND on Q3, Q1 | same circuit, usual bit order; slide 13 draws the wire from C |
 | Deck 10 slide 36 (13) | J1 = Q2'Q0', K1 = Q2Q0' (as transcribed; `uncertain`) | J1 = Q2'Q0, K1 = Q2Q0 | FF1 sets only at 001 and resets only at 111; slide 37 agrees |
+| Deck 11 slide 27 (15) | "Overlapping" panel for 110 left empty | same diagram as non-overlapping | no tail of 110 ("0", "10") begins 110 |
+| Deck 13 slide 8 (16) | D0 = X(y0)', D1 = X'm1 + Xm2 | D0 = X, D1 = X'm1 + Xm2 + X'm3 | the chart has more paths into y0 = 1 and into S2; checked by simulation |
+| Deck 13 slide 9 (16) | D0 = X[Σm(0, 2, 4)] + d(6, 7) (no hold terms) | D0 = X ⊕ y0 | with X = 0 the counter must hold, not fall to 000 |
+| Deck 13 slide 18 (16) | decision box on E after S3, both exits to S0 | box left out | a decision with one outcome decides nothing |
 | Deck header vs paper | ECE 2105 | ECE2102 | same syllabus; the deck code is stale |
 
 ## How this pack was checked
 
 - Facts: the subject knowledge base (Anand Kumar, Jain, Brown & Vranesic, Mano).
-- Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 `verify.py`, 192 checks, plus `src/verify.py`: 311 checks: every expression in 01–03; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated).
+- Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 `verify.py`, 192 checks, plus `src/verify.py`: 387 checks: every expression in 01–03; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).
 - Where a slide has a slip, the pack uses the corrected version and says so in a Note.

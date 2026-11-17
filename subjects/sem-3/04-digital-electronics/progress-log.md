@@ -208,3 +208,7 @@
 - 2026-11-17 session 9: S4 figures: Sonnet subagent wrote src/figs_u4.py (12 figures) + 7 K-map registrations in build.py from my spec; deck 13 slide 8 image viewed: D0 = X(y0)' and D1 = X'm1 + Xm2 printed (slip; table gives D0 = X, D1 = X'm1 + Xm2 + X'm3).
 
 - 2026-11-17 session 9: S4 partial: 15 (12 steps) and 16 (12 steps) rebuilt; verify 387 checks, 0 failures (u4 76, in src/verify_u4.py); build 15 16 00 no OVERLAP (v1 mealy_1101 overlap fixed by u4_mealy_1101). Left for next session: START-HERE rows/slips, agy page check, mock re-point. Where we stopped: S4 closing items. Next up: finish S4 closing, then S5.
+
+- 2026-11-17 session 10 (auto-v2): resumed after session 9 crash (hard token limit); 89d7d05 holds 15/16 built + verified (387 checks). Mock Q17 (1011 Moore) equations checked by hand against 15 step 12 table: match. Doing S4 closing: START-HERE rows/slips/how-checked, agy page check; then S5.
+
+- 2026-11-17 session 10: S4 START-HERE rows/slips/how-checked done (00, 15, 16 rebuilt, no OVERLAP); agy page check run 1 timed out (exit 124), retry on contact sheets running. S5 start: verify_u2.py (63 checks, 0 failures) wired as unit u2; Sonnet wrote figs_u2.py (15 figures). 74LS151 disabled-output = 0 not checked (TI PDF has no text layer): uncertain.

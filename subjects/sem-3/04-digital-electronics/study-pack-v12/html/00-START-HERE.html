@@ -104,8 +104,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>2</td>
 <td><strong>15 FSM design</strong></td>
 <td>Deck 11, with five practice detectors on its last slide; Unit 4 is not yet examined</td>
-<td>15 the 1101 detector</td>
-<td>60 min</td>
+<td>15 steps 2–7 (the 1101 detector, word to circuit)</td>
+<td>75 min</td>
 </tr>
 <tr>
 <td>3</td>
@@ -139,8 +139,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>7</td>
 <td><strong>16 State reduction, ASM</strong></td>
 <td>Decks 12–13, worked tables</td>
-<td>16 partitioning</td>
-<td>45 min</td>
+<td>16 steps 3–5 (partitioning, implication table)</td>
+<td>60 min</td>
 </tr>
 <tr>
 <td>8</td>
@@ -317,13 +317,13 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <tr>
 <td>15</td>
 <td>U4</td>
-<td>Moore and Mealy, sequence detectors, state assignment</td>
-<td>deck 11</td>
+<td>states as memory, sequence detectors (overlap or not), state table, assignment (counting, Gray), D/T/JK circuits, Mealy vs Moore, wildcard detectors</td>
+<td>deck 11 slides 4–43</td>
 </tr>
 <tr>
 <td>16</td>
 <td>U4</td>
-<td>partitioning, implication tables, compatibles, ASM charts</td>
+<td>equivalent states, inspection, partitioning (Moore, Mealy), implication tables, compatibles and closed covers, ASM charts, serial adder</td>
 <td>decks 12–13</td>
 </tr>
 <tr>
@@ -451,6 +451,30 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>FF1 sets only at 001 and resets only at 111; slide 37 agrees</td>
 </tr>
 <tr>
+<td>Deck 11 slide 27 (15)</td>
+<td>"Overlapping" panel for 110 left empty</td>
+<td>same diagram as non-overlapping</td>
+<td>no tail of 110 ("0", "10") begins 110</td>
+</tr>
+<tr>
+<td>Deck 13 slide 8 (16)</td>
+<td>D0 = X(y0)', D1 = X'm1 + Xm2</td>
+<td>D0 = X, D1 = X'm1 + Xm2 + X'm3</td>
+<td>the chart has more paths into y0 = 1 and into S2; checked by simulation</td>
+</tr>
+<tr>
+<td>Deck 13 slide 9 (16)</td>
+<td>D0 = X[Σm(0, 2, 4)] + d(6, 7) (no hold terms)</td>
+<td>D0 = X ⊕ y0</td>
+<td>with X = 0 the counter must hold, not fall to 000</td>
+</tr>
+<tr>
+<td>Deck 13 slide 18 (16)</td>
+<td>decision box on E after S3, both exits to S0</td>
+<td>box left out</td>
+<td>a decision with one outcome decides nothing</td>
+</tr>
+<tr>
 <td>Deck header vs paper</td>
 <td>ECE 2105</td>
 <td>ECE2102</td>
@@ -461,6 +485,6 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <h2>How this pack was checked</h2>
 <ul>
 <li>Facts: the subject knowledge base (Anand Kumar, Jain, Brown &amp; Vranesic, Mano).</li>
-<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 <code>verify.py</code>, 192 checks, plus <code>src/verify.py</code>: 311 checks: every expression in 01–03; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated).</li>
+<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 <code>verify.py</code>, 192 checks, plus <code>src/verify.py</code>: 387 checks: every expression in 01–03; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).</li>
 <li>Where a slide has a slip, the pack uses the corrected version and says so in a Note.</li>
 </ul></body></html>

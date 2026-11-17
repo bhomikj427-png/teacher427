@@ -739,7 +739,14 @@ def u4():
     m.u4()
 
 
-UNITS = {"u0": u0, "u1": u1, "u3": u3, "u3c": u3c, "u4": u4}
+def u2():
+    """Files 05-06 (MUX/DEMUX, decoder/encoder), S5: checks in verify_u2.py."""
+    import verify_u2 as m
+    m.__dict__.update(ok=ok, fn=fn)
+    m.u2()
+
+
+UNITS = {"u0": u0, "u1": u1, "u2": u2, "u3": u3, "u3c": u3c, "u4": u4}
 
 
 def main(argv):
