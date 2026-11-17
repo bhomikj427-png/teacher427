@@ -75,7 +75,7 @@ sprint reads them first.
 | # | Assumption | Made in | Status |
 |---|---|---|---|
 | 1 | Build order = START-HERE priority with prerequisites first (spec v1.3 §7.2) | plan | open |
-| 2 | One `figures.py` and one `verify.py` for the pack (as in v1.2) rather than one per unit; new figures use `tools/figlib.py` | plan | open |
+| 2 | One `figures.py` and one `verify.py` for the pack (as in v1.2) rather than one per unit; new figures use `tools/figlib.py` | plan | **confirmed 2026-11-17** (learner delegated; chosen as the lower-token option) |
 | 3 | 09 splits into 09a (MoM) / 09b (MLE); other splits decided by step count | plan | open |
 | 4 | Expected further splits from the brief's idea count: 02a/02b (discrete/continuous), 03a/03b (E, Var / rules + Chebyshev), 04a/04b (binomial/Poisson), 12a/12b (concepts / α-β computation); they fit S1, S2, S4, S6 as 3 files each, no new sprints | S0 | open |
 | 5 | Table values live in KB `04-hypothesis-testing.md` (one section for z, t, χ², F) rather than split across units | S0 | open |
