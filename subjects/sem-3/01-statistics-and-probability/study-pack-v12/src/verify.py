@@ -384,22 +384,8 @@ chk("10 ST4", pst, 0.4068, tol=1e-4); chk("10 ST5", .5 * (1 - pst) + .8 * pst, 0
 chk("10 prior mean", .1 * .6 + .2 * .4, 0.14)
 # ---- 11 (v1.2 checks removed S6; numbers are in the "v1.3 S6" block)
 # ---- 12 (v1.2 checks removed S6; 12a/12b numbers are in the "v1.3 S6" block)
-# ---- 13
-chk("13 C1", (41.5 - 44) / (6 / 4), -1.667, tol=1e-3)
-chk("13 C4", (15 - 13) / math.sqrt((7 * 4 + 7 * 5) / 14 * (1 / 8 + 1 / 8)), 1.886, tol=1e-3)
-chk("13 C4 t(14)", stats.t.ppf(.975, 14), 2.145, tol=5e-4)
-bp = np.array([140, 150, 135, 160, 145]); ap = np.array([132, 148, 128, 150, 142])
-chk("13 C5 t", stats.ttest_rel(bp, ap).statistic, 3.956, tol=2e-3); chk("13 C5 t(4)", stats.t.ppf(.95, 4), 2.132, tol=5e-4)
-chk("13 ST4", 3 / math.sqrt(5 * (1 / 6 + 1 / 6)), 2.324, tol=1e-3); chk("13 ST6", 1.2 / (1.5 / math.sqrt(10)), 2.530, tol=1e-3)
-chk("13 ST3 t(24)", stats.t.ppf(.975, 24), 2.064, tol=5e-4); chk("13 B1 SE", 0.5 / math.sqrt(18), 0.11785, tol=1e-5)
-chk("13 C2 sum d", (bags - 48).sum(), -7); chk("13 C2 sum d2", ((bags - 48) ** 2).sum(), 69)
-# ---- 14
-chk("14 C2 F", (90 / 9) / (108 / 12), 1.111, tol=1e-3)
-chk("14 C4 t", 270 / math.sqrt((630 + 426) * 100 / 8 * (2 / 5)), 3.716, tol=1e-3)
-chk("14 C4 ttest", stats.ttest_ind(m1, m2).statistic, 3.716, tol=2e-3); chk("14 C4 t(8)", stats.t.ppf(.975, 8), 2.306, tol=5e-4)
-chk("14 C5 F(5,5)", stats.f.isf(.05, 5, 5), 5.05, tol=0.01); chk("14 ST3 F(10,15)", stats.f.isf(.05, 10, 15), 2.54, tol=0.01)
-chk("14 ST4", np.var([1, 5, 9], ddof=1) / np.var([2, 4, 6], ddof=1), 4)
-chk("14 C2 link F", (220 / 11) / (180 / 9), 1)
+# ---- 13 (v1.2 checks removed S7; numbers are in the "v1.3 S7" block)
+# ---- 14 (v1.2 checks removed S7; numbers are in the "v1.3 S7" block)
 # ---- 15
 chk("15 B6 E31", 61 * 65 / 200, 19.825); chk("15 ST3", 100 * (400 - 900) ** 2 / 50**4, 4)
 chk("15 chi2 4df 5%", stats.chi2.isf(.05, 4), 9.488, tol=1e-3); chk("15 chi2 1df 1%", stats.chi2.isf(.01, 1), 6.635, tol=1e-3)
@@ -1025,6 +1011,105 @@ chk("12b ST3 alpha", _Bn(6, .5).sf(4), 7 / 64); chk("12b ST3 alpha dec", 7 / 64,
 chk("12b ST3 P(>=5|.8)", _Bn(6, .8).sf(4), .65536, tol=1e-9); chk("12b ST3 beta", _Bn(6, .8).cdf(4), .34464, tol=1e-9)
 chk("12b ST4 alpha", _q(lambda x_: 3 * x_ ** 2, .9, 1), .271, tol=1e-9)
 chk("12b ST6 tail sums", _Bn(6, .5).sf(3) * 64, 22, tol=1e-9)
+
+# ==== v1.3 S7 — files 13, 14 (route: scipy.stats t / f objects and ttest_* functions on the raw data; exact arithmetic)
+_T, _F = stats.t, stats.f
+# 13 step 1 (A5 B1): table, statistic, reading table
+chk("13 S1 sqrt18", math.sqrt(18), 4.2426, tol=5e-5); chk("13 S1 SE", .5 / math.sqrt(18), .11785, tol=5e-6)
+chk("13 S1 t", (7.8 - 8) / (.5 / math.sqrt(18)), -1.697, tol=1e-3)
+chk("13 S1 t(17) 5%", _T(17).isf(.025), 2.110, tol=5e-4); chk("13 S1 t(17) 1%", _T(17).isf(.005), 2.898, tol=5e-4)
+chk("13 S1 P(|T|>1)", 2 * _T(17).sf(1), .331, tol=5e-4); chk("13 S1 P(|T|>1.697)", 2 * _T(17).sf(1.697), .108, tol=5e-4)
+chk("13 S1 G&K reading", -.2 / (.5 / math.sqrt(17)), -1.649, tol=1e-3)
+# 13 step 2 (A5 C1): shift table and statistic
+_nit = np.array([11, 14, 13, 12, 13, 12, 13, 14, 11, 12]); _d = _nit - 12
+chk("13 S2 sum d", _d.sum(), 5); chk("13 S2 sum d2", (_d ** 2).sum(), 13)
+chk("13 S2 xbar", _nit.mean(), 12.5); chk("13 S2 SS", ((_nit - _nit.mean()) ** 2).sum(), 10.5)
+chk("13 S2 s2", _nit.var(ddof=1), 1.1667, tol=5e-5); chk("13 S2 s", _nit.std(ddof=1), 1.0801, tol=5e-5)
+chk("13 S2 SE", _nit.std(ddof=1) / math.sqrt(10), .34157, tol=5e-6)
+chk("13 S2 t", stats.ttest_1samp(_nit, 12).statistic, 1.464, tol=5e-4)
+chk("13 S2 dots", sorted(np.unique(_nit, return_counts=True)[1].tolist()) == [2, 2, 3, 3], True)
+# 13 step 3 (A5 D2) and its table
+_w = np.array([24.8, 25.1, 24.9, 25.0, 25.2, 24.7, 25.0, 25.1, 25.3, 24.9, 25.0, 24.8, 25.1, 24.9, 25.2, 25.0, 25.1, 24.8, 25.0, 25.2])
+chk("13 S3 SE", _w.std(ddof=1) / math.sqrt(20), .035891, tol=5e-7); chk("13 S3 s", _w.std(ddof=1), .16051, tol=5e-6)
+chk("13 S3 t", stats.ttest_1samp(_w, 25).statistic, .139, tol=5e-4)
+chk("13 S3 t19 10%", _T(19).isf(.05), 1.729, tol=5e-4); chk("13 S3 t19 5%", _T(19).isf(.025), 2.093, tol=5e-4)
+chk("13 S3 t19 1%", _T(19).isf(.005), 2.861, tol=5e-4)
+# 13 step 4: one vs two tails, table, Check 4
+chk("13 S4 t9 one-tailed 5%", _T(9).isf(.05), 1.833, tol=5e-4); chk("13 S4 t9 two-tailed 5%", _T(9).isf(.025), 2.262, tol=5e-4)
+chk("13 S4 one-tail = two-tail at 2a", _T(9).sf(1.833), .05, tol=5e-5)
+chk("13 C4 t", (12.7 - 12) / (_nit.std(ddof=1) / math.sqrt(10)), 2.049, tol=5e-4)
+# 13 step 5 (A5 C2(a)), table, Check 5
+chk("13 S5 sA2", 220 / 11, 20); chk("13 S5 sB2", 180 / 9, 20); chk("13 S5 S2", 400 / 20, 20)
+chk("13 S5 pooled SD", math.sqrt(20), 4.472, tol=5e-4)
+chk("13 S5 1/12+1/10", 1 / 12 + 1 / 10, .18333, tol=5e-6); chk("13 S5 SE^2", 20 * (1 / 12 + 1 / 10), 3.6667, tol=5e-5)
+chk("13 S5 SE", math.sqrt(20 * (1 / 12 + 1 / 10)), 1.9149, tol=5e-5)
+chk("13 S5 t", stats.ttest_ind_from_stats(68, math.sqrt(20), 12, 62, math.sqrt(20), 10).statistic, 3.133, tol=5e-4)
+chk("13 S5 t(20)", _T(20).isf(.025), 2.086, tol=5e-4)
+chk("13 C5 S2", (7 * 4 + 7 * 5) / 14, 4.5); chk("13 C5 SE", math.sqrt(4.5 * .25), 1.0607, tol=5e-5)
+chk("13 C5 t", stats.ttest_ind_from_stats(15, 2, 8, 13, math.sqrt(5), 8).statistic, 1.886, tol=5e-4)
+chk("13 C5 t(14)", _T(14).isf(.025), 2.145, tol=5e-4)
+# 13 step 6 (A5 C2(b)), Check 6
+_se = math.sqrt(20 * (1 / 12 + 1 / 10))
+chk("13 S6 margin", 2.086 * _se, 3.994, tol=5e-4); chk("13 S6 lo", 6 - 2.086 * _se, 2.006, tol=5e-4); chk("13 S6 hi", 6 + 2.086 * _se, 9.994, tol=5e-4)
+chk("13 C6 t20 1%", _T(20).isf(.005), 2.845, tol=5e-4); chk("13 C6 margin", 2.845 * _se, 5.448, tol=5e-4)
+chk("13 C6 lo", 6 - 2.845 * _se, .552, tol=5e-4); chk("13 C6 hi", 6 + 2.845 * _se, 11.448, tol=5e-4)
+# 13 step 7 (A5 C4, A4), Check 7
+_bef = np.array([53, 28, 31, 48, 50, 42]); _aft = np.array([58, 29, 30, 55, 56, 45]); _dd = _aft - _bef
+chk("13 S7 sum d", _dd.sum(), 21); chk("13 S7 dbar", _dd.mean(), 3.5); chk("13 S7 sum d2", (_dd ** 2).sum(), 121)
+chk("13 S7 SS", ((_dd - 3.5) ** 2).sum(), 47.5); chk("13 S7 sd2", _dd.var(ddof=1), 9.5); chk("13 S7 sd", _dd.std(ddof=1), 3.082, tol=5e-4)
+chk("13 S7 SE", _dd.std(ddof=1) / math.sqrt(6), 1.2583, tol=5e-5)
+chk("13 S7 t", stats.ttest_rel(_aft, _bef).statistic, 2.782, tol=5e-4); chk("13 S7 t(5)", _T(5).isf(.05), 2.015, tol=5e-4, key=2.02, ktol=.006)
+chk("13 S7 wrong 2-sample t", stats.ttest_ind(_aft, _bef).statistic, .511, tol=5e-4)
+chk("13 S7 A4 SE", 4 / math.sqrt(15), 1.0328, tol=5e-5); chk("13 S7 A4 t", 3.2 / (4 / math.sqrt(15)), 3.098, tol=5e-4)
+_bp = np.array([140, 150, 135, 160, 145]); _ap = np.array([132, 148, 128, 150, 142])
+chk("13 C7 dbar", (_bp - _ap).mean(), 6); chk("13 C7 SS", (((_bp - _ap) - 6) ** 2).sum(), 46)
+chk("13 C7 sd", (_bp - _ap).std(ddof=1), 3.391, tol=5e-4)
+chk("13 C7 t", stats.ttest_rel(_bp, _ap).statistic, 3.956, tol=5e-4); chk("13 C7 t(4)", _T(4).isf(.05), 2.132, tol=5e-4)
+# 13 Check 1, 2 and self-test
+chk("13 C1 t", (41.5 - 44) / (6 / 4), -1.667, tol=5e-4); chk("13 C1 t(15)", _T(15).isf(.025), 2.131, tol=5e-4)
+_bags = np.array([50, 49, 44, 52, 45, 48, 46, 45, 49, 45])
+chk("13 C2 sum d", (_bags - 48).sum(), -7); chk("13 C2 sum d2", ((_bags - 48) ** 2).sum(), 69)
+chk("13 C2 mean", _bags.mean(), 47.3); chk("13 C2 SS", ((_bags - 47.3) ** 2).sum(), 64.1, tol=1e-9)
+chk("13 C2 s2", _bags.var(ddof=1), 7.122, tol=5e-4); chk("13 C2 s", _bags.std(ddof=1), 2.669, tol=5e-4)
+chk("13 C2 SE", _bags.std(ddof=1) / math.sqrt(10), .8439, tol=5e-5); chk("13 C2 t", stats.ttest_1samp(_bags, 50).statistic, -3.199, tol=5e-4)
+chk("13 ST3 t", 2 / (5 / 5), 2); chk("13 ST3 t(24)", _T(24).isf(.025), 2.064, tol=5e-4)
+chk("13 ST4 SE", math.sqrt(5 * (2 / 6)), 1.291, tol=5e-4); chk("13 ST4 t", 3 / math.sqrt(5 * (2 / 6)), 2.324, tol=5e-4)
+chk("13 ST6 t", 1.2 / (1.5 / math.sqrt(10)), 2.530, tol=5e-4)
+# 14 step 1 (A5 A5) and table
+chk("14 S1 F", 81 / 25, 3.24); chk("14 S1 SD ratio", 9 / 5, 1.8); chk("14 S1 table", 50 / 25, 2)
+chk("14 C1 F", 30 / 12, 2.5)
+# 14 step 2: df order table
+for (a_, b_), v5, v1 in [((7, 10), 3.14, 5.20), ((10, 7), 3.64, 6.62), ((4, 4), 6.39, 15.98), ((4, 5), 5.19, 11.39)]:
+    chk(f"14 S2 F{a_},{b_} 5%", _F(a_, b_).isf(.05), v5, tol=.006); chk(f"14 S2 F{a_},{b_} 1%", _F(a_, b_).isf(.01), v1, tol=.006)
+chk("14 C2 F", 885 / 756, 1.17, tol=.006)
+# 14 step 3 (A5 C5), reading table, Check 3
+chk("14 S3 S1^2", 112 / 7, 16); chk("14 S3 S2^2", 140 / 10, 14); chk("14 S3 F", 16 / 14, 1.143, tol=5e-4)
+chk("14 S3 P(F>1.143)", _F(7, 10).sf(16 / 14), .410, tol=5e-4); chk("14 S3 P(F>2)", _F(7, 10).sf(2), .155, tol=5e-4)
+chk("14 S3 P(F>3.14)", _F(7, 10).sf(3.14), .05, tol=5e-4); chk("14 S3 F(7,10) 2.5%", _F(7, 10).isf(.025), 3.95, tol=.006)
+chk("14 C3 F", (90 / 9) / (108 / 12), 1.111, tol=5e-4); chk("14 C3 F(9,12)", _F(9, 12).isf(.05), 2.80, tol=.006)
+# 14 step 4 (A5 B2, B3), table, Check 4
+chk("14 S4 29.75^2", 29.75 ** 2, 885.06, tol=.005); chk("14 S4 27.5^2", 27.5 ** 2, 756.25)
+chk("14 S4 F", 29.75 ** 2 / 27.5 ** 2, 1.170, tol=5e-4); chk("14 S4 SD gap", 29.75 / 27.5 - 1, .08, tol=.005)
+chk("14 S4 F(15,12) .05", _F(15, 12).isf(.05), 2.62, tol=.006); chk("14 S4 F(15,12) .025", _F(15, 12).isf(.025), 3.18, tol=.006)
+chk("14 S4 F(15,12) .005", _F(15, 12).isf(.005), 4.72, tol=.006, key=4.72, ktol=.006)
+# 14 step 5 (A5 D1), table, slip note, Check 5
+_m1 = np.array([8260, 8130, 8350, 8070, 8340]); _m2 = np.array([7950, 7890, 7900, 8140, 7920])
+_u1, _u2 = (_m1 - 8000) / 10, (_m2 - 8000) / 10
+chk("14 S5 sum u1", _u1.sum(), 115); chk("14 S5 sum u1^2", (_u1 ** 2).sum(), 3275); chk("14 S5 SS u1", 3275 - 115 ** 2 / 5, 630)
+chk("14 S5 sum u2", _u2.sum(), -20); chk("14 S5 sum u2^2", (_u2 ** 2).sum(), 506); chk("14 S5 SS u2", 506 - 400 / 5, 426)
+chk("14 S5 S1^2", _m1.var(ddof=1), 15750); chk("14 S5 S2^2", _m2.var(ddof=1), 10650)
+chk("14 S5 means", _m1.mean() - _m2.mean(), 8230 - 7960)
+chk("14 S5 F", _m1.var(ddof=1) / _m2.var(ddof=1), 1.479, tol=5e-4)
+chk("14 S5 F(4,4) 5%", _F(4, 4).isf(.05), 6.39, tol=.006, key=5.19, ktol=.006); chk("14 S5 F(4,4) 2.5%", _F(4, 4).isf(.025), 9.60, tol=.006)
+chk("14 S5 SD1", _m1.std(ddof=1), 125.5, tol=.05); chk("14 S5 SD2", _m2.std(ddof=1), 103.2, tol=.05)
+chk("14 S5 SD gap", _m1.std(ddof=1) / _m2.std(ddof=1) - 1, .22, tol=.005)
+chk("14 C5 F", np.var([1, 5, 9], ddof=1) / np.var([2, 4, 6], ddof=1), 4); chk("14 C5 F(2,2)", _F(2, 2).isf(.05), 19.0, tol=.006)
+# 14 step 6 (C2 link), Check 6, self-test
+chk("14 S6 F", (220 / 11) / (180 / 9), 1); chk("14 C6 F", 50 / 8, 6.25); chk("14 C6 F(5,5)", _F(5, 5).isf(.05), 5.05, tol=.006)
+chk("14 ST3 F", 24 / 15, 1.6); chk("14 ST3 F(10,15)", _F(10, 15).isf(.05), 2.54, tol=.006)
+chk("14 ST4 F", 36 / 16, 2.25)
+chk("14 ST5 S2", (630 + 426) * 100 / 8, 13200); chk("14 ST5 SE", math.sqrt(13200 * .4), 72.66, tol=.005)
+chk("14 ST5 t", stats.ttest_ind(_m1, _m2).statistic, 3.716, tol=5e-4); chk("14 ST5 t(8)", _T(8).isf(.025), 2.306, tol=5e-4)
 
 print(f"\n{N[0]} checks; {len(FAILS)} pack failures; {len(KEYDIFF)} key differences")
 if KEYDIFF:

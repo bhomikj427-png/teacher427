@@ -124,9 +124,9 @@ Every answer in the assignments and the MTE key was recomputed. These differ; th
 | Where | Material says | Pack says | Why |
 |---|---|---|---|
 | **A5 C6** (16 §3) | table value 19.41 | **F₀.₀₅(2, 12) = 3.89** | 19.41 is F(12, 2): df reversed. **The decision flips**: F = 9.17 rejects H₀ |
-| A5 D1 (14 §4) | table value 5.19 | F₀.₀₅(4, 4) = 6.39 | 5.19 is F(4, 5); same decision |
+| A5 D1 (14 §5) | table value 5.19 | F₀.₀₅(4, 4) = 6.39 | 5.19 is F(4, 5); same decision |
 | A5 D2 (11 §8) | CI (24.945, 25.075) | (24.930, 25.080) | the key's half-width does not match the data's s = 0.1605 |
-| A5 A4 (13 §5) | options 1.55/2.10/3.00/3.87 | t = 3.10 | no option matches; nearest is 3.00 |
+| A5 A4 (13 §7) | options 1.55/2.10/3.00/3.87 | t = 3.10 | no option matches; nearest is 3.00 |
 | A5 A10 (16 §2) | options 4/5/6/8 | F = 4.44 | no option matches; nearest is 4.00 |
 | A2 B5 (05 §10) | 0.5679 | 0.6225 | recomputed two ways; G&K prints the same exercise (ch. 8 ex. 7(a)) with this answer |
 | A2 C2 (06 §11) | μ = 37.5 | μ = 37.18, re-exam mark 30.40 | the key's own 30.43 implies μ ≈ 37.2 |

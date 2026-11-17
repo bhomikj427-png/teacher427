@@ -87,6 +87,16 @@ distributions' quantiles and areas). "Area 0..z" = P(0 < Z < z).
   critical region (level of significance); β = P(x ∈ W̄ ∣ H₁); 1 − β is the power function, its value at
   a parameter point the power of the test there. **§16.3** steps of a testing problem (W chosen,
   reject H₀ if t ∈ W).
+- **§14.2** (G&K ch. 14, read on the PDF text layer 2026-11-17, study-pack S7) t-test for a single mean:
+  t = (x̄ − μ)/(S/√n), S² = Σ(x − x̄)²/(n − 1), n − 1 df (Ex. 14·6: n = 16, x̄ = 41·5, Σ(x − x̄)² = 135); the
+  one-tailed 5% value for 9 df is 1·833, "the value t₀.₁₀ in the two-tailed table". **§14.2.10** difference of
+  means: pooled S² = [Σ(x − x̄)² + Σ(y − ȳ)²]/(n₁ + n₂ − 2), n₁ + n₂ − 2 df; remark 3: assumptions (normal
+  parents; equal, unknown variances; random independent samples) and "theoretically desirable" to test the
+  variances by F first; remark 4: paired t-test (n₁ = n₂, observations paired on the same unit; Ex. 14·7).
+- **§14.5.5** F-test for equality of variances: F = S_X²/S_Y², (n₁ − 1, n₂ − 1) df. Remark 1: the greater
+  variance goes in the numerator and n₁ belongs to it; compare with the tabulated F at 5% or 1%. Remark 2:
+  tables give right-tail values P[F > F_α(ν₁, ν₂)] = α; F_α(n₁, n₂) × F₁₋α(n₂, n₁) = 1; the two-tailed test
+  rejects if F > F_{α/2} or F < F_{1−α/2} (Ex. 14·20: two-tailed at 10% uses the 5% points).
 
 ---
 **Stage 2 (deep structure) — ✓ BUILT (2026-06-19):** lives separately in

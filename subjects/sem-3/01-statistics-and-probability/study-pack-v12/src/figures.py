@@ -1306,4 +1306,188 @@ def power_fn():
     return FL.svg(f)
 
 
+# ---- 13 t-tests
+def t_calls():
+    f, ax = FL.fig(5.6, 2.5)
+    x = np.linspace(-4.5, 4.5, 600); y = stats.t(17).pdf(x)
+    ax.plot(x, y, color=FL.ACC, lw=2)
+    for s in (x <= -2.110, x >= 2.110):
+        ax.fill_between(x[s], y[s], color=FL.BAD, alpha=.5)
+    for sg in (-1, 1):
+        ax.plot([sg * 2.11] * 2, [0, .1], color=FL.INK, lw=1)
+    ax.text(-2.15, .105, "−2.110", ha="right", fontsize=8.5)
+    ax.text(2.15, .105, "2.110", ha="left", fontsize=8.5)
+    ax.text(3.1, .2, "5% in the two\ntails together", ha="center", fontsize=8.5, color=FL.BAD)
+    ax.plot([-1.697, -1.697], [0, .31], color=FL.G2, lw=1.6)
+    ax.text(-1.8, .25, "these 18 calls:\nt = −1.697", ha="right", fontsize=8.5, color=FL.G2)
+    ax.set_xlim(-4.5, 4.5); ax.set_ylim(0, .45); ax.set_yticks([])
+    FL.axes(ax, "t (17 df), if μ = 8", "")
+    return FL.svg(f)
+
+
+def nitrate_dots():
+    from collections import Counter
+    v = [11, 14, 13, 12, 13, 12, 13, 14, 11, 12]
+    f, ax = FL.fig(5.6, 2.3)
+    for val, c in Counter(v).items():
+        ax.plot([val] * c, range(1, c + 1), "o", color=FL.MUTED, ms=8)
+    ax.plot([12, 12], [.4, 3.5], color=FL.BAD, lw=1.2, ls="--")
+    ax.plot([12.5, 12.5], [.4, 3.5], color=FL.ACC, lw=1.4)
+    ax.text(11.95, 3.62, "target 12", ha="right", fontsize=8.5, color=FL.BAD)
+    ax.text(12.55, 3.62, "x̄ = 12.5", ha="left", fontsize=8.5, color=FL.ACC)
+    ax.set_xlim(10.5, 14.5); ax.set_ylim(.2, 4.4); ax.set_yticks([]); ax.set_xticks([11, 12, 13, 14])
+    FL.axes(ax, "nitrate per bag (kg)", "")
+    return FL.svg(f)
+
+
+def t_levels():
+    f, ax = FL.fig(5.8, 2.6)
+    x = np.linspace(-4.5, 4.5, 600); y = stats.t(19).pdf(x)
+    ax.plot(x, y, color=FL.INK, lw=1.6)
+    for s in (1, -1):
+        ax.plot([s * 2.093] * 2, [0, .19], color=_AMB, lw=1.6)
+        ax.plot([s * 2.861] * 2, [0, .08], color=FL.BAD, lw=1.6)
+    ax.text(-2.15, .2, "5%: ±2.093", ha="right", fontsize=8.5, color="#8a5600")
+    ax.text(-2.92, .09, "1%: ±2.861", ha="right", fontsize=8.5, color=FL.BAD)
+    ax.plot([.139] * 2, [0, .46], color=FL.G2, lw=1.6)
+    ax.text(.139, .475, "parts: t = 0.139", ha="center", fontsize=8.5, color=FL.G2)
+    ax.plot([2.5] * 2, [0, .3], color=_PUR, lw=1.6)
+    ax.text(2.5, .31, "Check 3:\nt = 2.5", ha="center", fontsize=8.5, color=_PUR)
+    ax.set_xlim(-4.5, 4.5); ax.set_ylim(0, .6); ax.set_yticks([])
+    FL.axes(ax, "t (19 df)", "")
+    return FL.svg(f)
+
+
+def t_one_two():
+    with plt.rc_context(FL.RC):
+        f, (a0, a1) = plt.subplots(2, 1, figsize=(5.8, 4.0), sharex=True)
+    x = np.linspace(-4.5, 4.5, 600); y = stats.t(9).pdf(x)
+    for ax in (a0, a1):
+        ax.plot(x, y, color=FL.ACC, lw=2)
+        ax.plot([1.464] * 2, [0, .44], color=FL.G2, lw=1.6)
+        ax.text(1.464, .455, "t = 1.464", ha="center", fontsize=8.5, color=FL.G2)
+        ax.set_ylim(0, .58); ax.set_yticks([]); ax.set_xlim(-4.5, 4.5)
+    a0.set_title("two-tailed, H₁: μ ≠ 12", fontsize=8.5, loc="left")
+    for s in (x <= -2.262, x >= 2.262):
+        a0.fill_between(x[s], y[s], color=FL.BAD, alpha=.5)
+    for sg, lab in ((-1, "−2.262"), (1, "2.262")):
+        a0.plot([sg * 2.262] * 2, [0, .15], color=FL.INK, lw=1)
+        a0.text(sg * 2.262, .165, lab, ha="center", fontsize=8.5)
+        a0.annotate("0.025", (sg * 2.9, .008), (sg * 3.5, .12), fontsize=8.5, color=FL.BAD, ha="center",
+                    arrowprops=dict(arrowstyle="-", color=FL.BAD, lw=.8))
+    a1.set_title("right-tailed, H₁: μ > 12", fontsize=8.5, loc="left")
+    s = x >= 1.833
+    a1.fill_between(x[s], y[s], color=FL.BAD, alpha=.5)
+    a1.plot([1.833] * 2, [0, .15], color=FL.INK, lw=1)
+    a1.text(1.9, .165, "1.833", ha="left", fontsize=8.5)
+    a1.annotate("0.05", (2.9, .008), (3.5, .12), fontsize=8.5, color=FL.BAD, ha="center",
+                arrowprops=dict(arrowstyle="-", color=FL.BAD, lw=.8))
+    a1.set_xlabel("t (9 df)")
+    f.tight_layout()
+    return FL.svg(f)
+
+
+def class_curves():
+    f, ax = FL.fig(5.6, 2.5)
+    x = np.linspace(45, 85, 600); sd = 20 ** .5
+    ax.plot(x, stats.norm(62, sd).pdf(x), color=FL.ACC, lw=2)
+    ax.plot(x, stats.norm(68, sd).pdf(x), color=FL.G1, lw=2)
+    pk = stats.norm(0, sd).pdf(0)
+    ax.annotate("", (68, pk + .005), (62, pk + .005), arrowprops=dict(arrowstyle="<->", color=FL.INK, lw=1.2))
+    ax.text(65, pk + .008, "6 marks", ha="center", fontsize=8.5)
+    ax.text(61, .108, "Class B, x̄ = 62", ha="right", fontsize=8.5, color=FL.ACC)
+    ax.text(69, .108, "Class A, x̄ = 68", ha="left", fontsize=8.5, color=FL.G1)
+    ax.set_xlim(45, 85); ax.set_ylim(0, .125); ax.set_yticks([])
+    FL.axes(ax, "score", "")
+    return FL.svg(f)
+
+
+def diff_ci():
+    f, ax = FL.fig(5.6, 1.8)
+    ax.plot([2.006, 9.994], [0, 0], color=FL.ACC, lw=5, solid_capstyle="butt")
+    ax.plot(6, 0, "o", color=FL.INK, ms=5)
+    for v, s in ((2.006, "2.006"), (6, "6"), (9.994, "9.994")):
+        ax.text(v, .14, s, ha="center", fontsize=8.5)
+    ax.text(6, -.2, "95% interval", ha="center", va="top", fontsize=8.5, color=FL.ACC)
+    ax.plot([0, 0], [-.45, .5], color=FL.BAD, lw=1.2, ls="--")
+    ax.text(.2, .42, "0 = no difference", ha="left", fontsize=8.5, color=FL.BAD)
+    ax.set_xlim(-2, 12); ax.set_ylim(-.5, .8); ax.set_yticks([])
+    FL.axes(ax, r"μ$_{\mathrm{A}}$ − μ$_{\mathrm{B}}$ (marks)", "")
+    return FL.svg(f)
+
+
+def paired_diff():
+    bef = [53, 28, 31, 48, 50, 42]; aft = [58, 29, 30, 55, 56, 45]
+    f, ax = FL.fig(5.6, 3.1)
+    labs = []
+    for i, (b, a) in enumerate(zip(bef, aft)):
+        c = FL.G2 if a > b else FL.BAD
+        ax.plot([0, 1], [b, a], "-o", color=c, lw=1.6, ms=4)
+        d = a - b
+        labs.append((a, f"{'ABCDEF'[i]}: d = {'+' if d > 0 else '−'}{abs(d)}", c))
+    last = -1e9
+    for a, t, c in sorted(labs):
+        y = max(a, last + 3.2); last = y
+        ax.plot([1, 1.1], [a, y], color=FL.MUTED, lw=.7)
+        ax.text(1.12, y, t, ha="left", va="center", fontsize=8.5, color=c)
+    ax.set_xticks([0, 1]); ax.set_xticklabels(["before", "after"])
+    ax.set_xlim(-.2, 1.5); ax.set_ylim(24, 66)
+    FL.axes(ax, "", "sales")
+    return FL.svg(f)
+
+
+def two_spreads():
+    f, ax = FL.fig(5.6, 2.4)
+    x = np.linspace(-30, 30, 600)
+    ax.plot(x, stats.norm(0, 9).pdf(x), color=FL.G1, lw=2)
+    ax.plot(x, stats.norm(0, 5).pdf(x), color=FL.ACC, lw=2)
+    ax.text(4, .078, "SD 5 (variance 25)", ha="left", fontsize=8.5, color=FL.ACC)
+    ax.text(14, .03, "SD 9 (variance 81)", ha="left", fontsize=8.5, color=FL.G1)
+    ax.set_xlim(-30, 30); ax.set_ylim(0, .092); ax.set_yticks([])
+    FL.axes(ax, "measured value (deviation from the centre)", "")
+    return FL.svg(f)
+
+
+# ---- 14 F-test
+def f_df_order():
+    f, ax = FL.fig(5.6, 2.6)
+    x = np.linspace(0, 6, 600)
+    a, b = stats.f(7, 10), stats.f(10, 7)
+    ax.plot(x, a.pdf(x), color=FL.ACC, lw=2, label="F(7, 10): 5% beyond 3.14")
+    ax.plot(x, b.pdf(x), color=FL.G1, lw=2, label="F(10, 7): 5% beyond 3.64")
+    s = x >= 3.14; ax.fill_between(x[s], a.pdf(x)[s], color=FL.ACC, alpha=.55)
+    s = x >= 3.64; ax.fill_between(x[s], b.pdf(x)[s], color=FL.G1, alpha=.55)
+    ax.set_xlim(0, 6); ax.set_ylim(0, .9); ax.set_yticks([])
+    ax.legend(fontsize=8.5, frameon=False, loc="upper right")
+    FL.axes(ax, "F", "")
+    return FL.svg(f)
+
+
+def f_curve():
+    f, ax = FL.fig(5.6, 2.5)
+    x = np.linspace(0, 5, 600); y = stats.f(7, 10).pdf(x)
+    ax.plot(x, y, color=FL.ACC, lw=2)
+    s = x >= 3.14; ax.fill_between(x[s], y[s], color=FL.BAD, alpha=.5)
+    ax.annotate("5%: F > 3.14", (3.6, .012), (3.7, .2), fontsize=8.5, color=FL.BAD, ha="center",
+                arrowprops=dict(arrowstyle="-", color=FL.BAD, lw=.8))
+    ax.plot([1.143] * 2, [0, .85], color=FL.G2, lw=1.6)
+    ax.text(1.2, .87, "A5 C5: F = 1.143", ha="left", fontsize=8.5, color=FL.G2)
+    ax.set_xlim(0, 5); ax.set_ylim(0, 1.0); ax.set_yticks([])
+    FL.axes(ax, "F with (7, 10) df", "")
+    return FL.svg(f)
+
+
+def coal_dots():
+    f, ax = FL.fig(5.6, 2.3)
+    rows = {1: ([8260, 8130, 8350, 8070, 8340], 8230), 0: ([7950, 7890, 7900, 8140, 7920], 7960)}
+    for yy, (v, mu) in rows.items():
+        ax.plot(v, [yy] * len(v), "o", color=FL.ACC, ms=7)
+        ax.plot([mu, mu], [yy - .25, yy + .25], color=FL.BAD, lw=1.8)
+        ax.text(mu, yy + .3, f"x̄ = {mu}", ha="center", fontsize=8.5, color=FL.BAD)
+    ax.set_yticks([0, 1]); ax.set_yticklabels(["Mine 2", "Mine 1"])
+    ax.set_xlim(7850, 8400); ax.set_ylim(-.6, 1.7)
+    FL.axes(ax, "heat capacity (millions of calories per ton)", "")
+    return FL.svg(f)
+
+
 ALL = {k: v for k, v in dict(globals()).items() if callable(v) and not k.startswith("_") and v.__module__ == __name__}

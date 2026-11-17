@@ -79,7 +79,7 @@ Same, smaller or larger?
 
 | df (ν₁, ν₂) | 5% table value | 1% table value |
 |---|---|---|
-| (7, 10) | 3.14 | 3.95 |
+| (7, 10) | 3.14 | 5.20 |
 | (10, 7) | 3.64 | 6.62 |
 | (4, 4) | 6.39 | 15.98 |
 | (4, 5) | 5.19 | 11.39 |
@@ -123,6 +123,8 @@ In one sample of 8 observations from a normal population, the sum of squares of 
 2. S₁² = 112/(8 − 1) = **16**; S₂² = 140/(11 − 1) = **14**.
 3. The first is larger, so F = 16/14 = **1.143**, df (7, 10).
 4. 1.143 < 3.14: **do not reject H₀**. The two populations can be taken to have the same variance.
+
+Which table value? The question prints the 5% right-tail value, and G&K compares with the tabulated F "at 5% or 1%" directly (§14.5.5 remark 1). Strictly, H₁: σ₁² ≠ σ₂² is two-sided and needs the upper α/2 point (step 4): F₀.₀₂₅(7, 10) = 3.95. Here 1.143 is below both, so the decision does not depend on the reading. In the exam, use the value the question prints.
 
 Answer to the guess: sample 1. Its smaller sum is divided by fewer df (7 instead of 10).
 
@@ -240,7 +242,7 @@ F = S₁²/S₂², with Sᵢ² = Σ(x − x̄)²/(nᵢ − 1) and the larger est
 1. H₀: σ₁² = σ₂²; H₁: σ₁² ≠ σ₂² (or one-sided).
 2. Both variance estimates: Σ(x − x̄)²/(n − 1). From SDs: square them. From raw data: shift (and scale) first.
 3. Larger on top; df = (n − 1 of the top sample, n − 1 of the bottom sample).
-4. Table value: F_{α}(ν₁, ν₂) for a one-sided H₁, F_{α/2}(ν₁, ν₂) for H₁: σ₁² ≠ σ₂².
+4. Table value: F_{α}(ν₁, ν₂) for a one-sided H₁, F_{α/2}(ν₁, ν₂) for H₁: σ₁² ≠ σ₂². If the question prints a table value, use it.
 5. F below the table value: the variances can be taken as equal; above: they differ.
 
 **Assumptions.** Normal populations; independent random samples.
@@ -253,7 +255,7 @@ F = S₁²/S₂², with Sᵢ² = Σ(x − x̄)²/(nᵢ − 1) and the larger est
 - The smaller variance on top (F < 1: the right-tail table no longer applies).
 - Swapped df: ν₁ goes with the numerator's sample (F₀.₀₅(10, 7) = 3.64, F₀.₀₅(7, 10) = 3.14).
 - Treating Σ(x − x̄)² as the variance: divide by n − 1 first.
-- A two-tailed question compared with F_{α} instead of F_{α/2}.
+- A two-tailed question compared with F_{α} instead of F_{α/2} (when the question prints F_{α}, use it, as G&K's examples do).
 
 ## Self-test
 

@@ -18,6 +18,9 @@
   (sprint S3); supports `03-estimation.md` "MLE and MoM properties". `settled`.
   Ch. 7 §7.2–7.3 (Ex. 7.4, 7.7) and ch. 8 §8.1, §8.6 (Ex. 8.40, exercise 7(a)): read on the PDF text layer
   2026-11-17 (sprint S4); supports `02-probability-distributions.md` "Prescribed-textbook locations".
+  Ch. 14 §14.2 (Ex. 14·6 and the one-tailed example before it), §14.2.10 (remarks 3–4, Ex. 14·7), §14.5.5 (remarks 1–2, Ex. 14·20): read on the
+  PDF text layer 2026-11-17 (sprint S7); supports `04-hypothesis-testing.md` "Prescribed-textbook locations"
+  (t-tests, F-test) and study-pack files 13, 14.
   Ch. 8 §8.2 (normal; §8.2.2 properties, areas 0·6826 / 0·9544 / 0·9973), §8.10 (CLT; Lindeberg–Lévy
   iid form, mean form eq. 8·31-2) and ch. 12 §12.3 (parameter vs statistic), §12.3.2 (standard error):
   read on the PDF text layer 2026-11-17 (sprint S5); supports the same KB section (S5 bullets).
