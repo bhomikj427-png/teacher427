@@ -75,6 +75,7 @@ BASH_ALLOWED_COMMANDS = [
     "mkdir", "cp", "mv", "rm", "touch",               # scratchpad file juggling
     "curl",                                          # papers / abstracts
     "pdftotext", "pdfinfo", "timeout",
+    "agy",                                           # Antigravity / Gemini Flash helper lane
 ]
 GIT_READ_ONLY = ["status", "diff", "log", "show"]
 OTHER_ALLOWED_TOOLS = ["WebSearch", "WebFetch"]       # research needs the web
@@ -200,7 +201,7 @@ RUN_SETTINGS = AUTO / "run-settings.json"
 REVIEW_SETTINGS = AUTO / "review-settings.json"
 HOOK = AUTO / "hook.py"
 CONTRACT = ROOT / "auto-v2-contract.md"   # pasted into every kickoff
-SESSION_TOOLS = "Bash,Read,Edit,Write,Grep,Glob,WebSearch,WebFetch"
+SESSION_TOOLS = "Bash,Read,Edit,Write,Grep,Glob,WebSearch,WebFetch,Agent"   # Agent: Sonnet/Haiku helpers
 REVIEW_TOOLS = "Bash,Read,Grep,Glob"
 # FORCE_PROMPT_CACHING_5M: steps are seconds apart, so a 5-minute cache is enough; 1-hour cache
 # writes cost ~2x input vs ~1.25x (tested 2026-11-17: the 5m TTL takes effect).
