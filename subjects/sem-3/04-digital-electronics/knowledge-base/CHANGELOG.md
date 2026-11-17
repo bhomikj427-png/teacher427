@@ -58,3 +58,5 @@
   `settled` vs Cambridge CST notes + standard texts), `sources.md`, `misconceptions.md` (M1–M19
   seed), `exam-map.md` (uncertain stub — no PYQ). Status stage-0 → stage-1 (in progress). No
   corrections yet (nothing prior to correct). — *trigger: subject activation* — confidence: n/a.
+
+- 2026-11-17 (S0b): KB05 gains an *Open — deck-14 numbers* block: 6 slide values `uncertain`/`likely`, to close in S8. No fact promoted.

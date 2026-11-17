@@ -165,3 +165,19 @@ curve, V_M, noise-margin derivation from the VTC); short-circuit + leakage power
 energy-delay product optimization; DRAM sense-amp + charge-sharing physics; Flash floating-gate
 tunneling; SRAM stability (static noise margin, butterfly curve); FPGA architecture; the CMOS scaling
 story (→ `../../../electronic-devices-1` MOSFET physics). 
+
+---
+
+## Open — deck-14 numbers not yet verified (S0b, 2026-11-17) `uncertain`
+
+The professor's deck 14 prints these; none is verified at tier 1 yet. Close in S8 (file 18) against
+Jain / Anand Kumar or the manufacturer datasheet; until then, do not teach them as fact.
+- CMOS noise immunity "about 30 % of supply" (slide 20) vs this file's "~0.45 V_DD" (§4). Leads: ST
+  4000B data "45 % V_DD typical"; TI CD4002B guaranteed NM 1 V @ 5 V, 2 V @ 10 V, 2.5 V @ 15 V.
+  Likely both: 45 % typical, smaller guaranteed. `uncertain`.
+- CMOS fan-out "about 50 / > 50" (slides 14, 20). Lead: set by load capacitance, not DC current. `uncertain`.
+- CMOS supply "3–15 V" (slide 14) vs "5–15 V" (slide 20); lead: 4000B rated 3–18 V. `uncertain`.
+- ECL supply "±5 V" (slide 14); leads: V_EE = −5.2 V (10K), levels ≈ −0.9 / −1.7 V, NM ≈ 0.3 V. `uncertain`.
+- TTL "typical noise immunity 1–1.6 V" (slide 21): a typical figure, not the guaranteed 0.4 V of §1. `uncertain`.
+- t_PLH/t_PHL measured at the 50 % points; rise/fall 10 %→90 %; PDP = t_pd × P (slides 5, 6, 9):
+  standard definitions, not yet checked against the textbook here. `likely`.

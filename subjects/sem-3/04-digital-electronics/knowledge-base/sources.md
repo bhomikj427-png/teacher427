@@ -82,3 +82,9 @@
   t_pd ~10 ns) against the DM7400/SN7400 datasheet **in U5**, then promote to `settled`.
 - Pull an NPTEL Digital Circuits playlist for U3/U4 (FSM, ASM) triangulation.
 - Source Gothmann or drop it from the tier-1 set if MUJ doesn't use it.
+
+## Leads only (S0b, 2026-11-17 — web search summaries; not tier-1 until read in S8)
+- ST CMOS 4000B series data (mikrocontroller.net/attachment/633885/ST-4000.pdf): "45 % V_DD typical" noise immunity → KB05 Open block.
+- TI CD4002B product page (ti.com/product/cd4002b): noise margin 1 V @ 5 V, 2 V @ 10 V, 2.5 V @ 15 V → KB05 Open block.
+- ROHM logic FAQ (rohm.com faq node 1137/1138): V_IL < 0.3 V_DD, V_IH > 0.7 V_DD → KB05 Open block.
+- Cornell PHYS3360 logic-families lecture and notes (classe.cornell.edu/~ib38/...): ECL V_EE = −5.2 V, levels ≈ −0.9/−1.7 V → KB05 Open block (PDF did not text-extract).

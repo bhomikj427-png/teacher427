@@ -1071,3 +1071,92 @@ Answer all the questions.
 (none)
 
 MTE: 8 parts · PS1: 10 · PS2: 6 · slide examples: 213 · unmapped: 0
+
+## 3. Constants vs the knowledge base (S0b, 2026-11-17)
+
+Decks 01–13 and 15, the MTE and both practice sets print **no physical constants**: their numbers
+are counts and sizes (2ⁿ rows, flip-flops for MOD-N, ROM words × bits), which `src/verify.py`
+recomputes. All physical numbers come from deck 14 (logic families). Each was checked against
+`knowledge-base/05-logic-families-and-memories.md` (KB05):
+
+| Constant (deck 14 slide) | KB05 | Status |
+|---|---|---|
+| t_PLH, t_PHL measured between the 50 % points of input and output (p.5) | not in KB | gap → S8 (textbook check) |
+| Rise / fall time = 10 % → 90 % (p.6) | not in KB | gap → S8 |
+| V_NH = V_OH(min) − V_IH(min); V_NL = V_IL(max) − V_OL(max) (p.8) | §1, `settled` | matches |
+| Speed-power product (PDP) = t_pd × P, smaller is better (p.9) | not checked | → S8 |
+| Fan-out = min(I_OH/I_IH, I_OL/I_IL) (p.12) | §1, `settled` | matches |
+| TTL fan-out 10; TTL supply 5 V (p.14, p.21) | §1: fan-out 10, V_CC = +5 V, `settled` | matches |
+| TTL "typical noise immunity about 1 – 1.6 V" (p.21) | §1: worst-case NM = 0.4 V | different quantity (typical vs guaranteed); pack teaches the worst-case table; `uncertain` → S8 |
+| CMOS noise immunity "about 30 % of supply" (p.20) | §4: "~0.45 V_DD" | **conflict**. Leads: ST 4000B sheet "45 % V_DD typical"; TI CD4002B guaranteed NM 1 V @ 5 V, 2 V @ 10 V, 2.5 V @ 15 V (neither is 30 %); a 0.3/0.7 V_DD input-threshold rule (ROHM FAQ) gives 30 %. `uncertain` → S8 |
+| CMOS fan-out "about 50" / "> 50" (p.14, p.20) | not in KB | gap; leads say CMOS fan-out is set by load capacitance (speed), not DC current; `uncertain` → S8 |
+| CMOS supply "3 V–15 V" (p.14) vs "5 – 15 V" (p.20) | §4: "wide supply range", no number | the two slides disagree; lead: 4000B rated 3–18 V; `uncertain` → S8 |
+| ECL supply "±5 V" (p.14) | §3: "negative supply convention" | likely slip: leads give V_EE = −5.2 V (10K), levels ≈ −0.9 V / −1.7 V, NM ≈ 0.3 V; `uncertain` → S8 |
+| t_pd "down to 1 ns" (CMOS), "~1.5 ns" (fast TTL), "~1 mW/gate" (pp.20–21) | §1: 74 ≈ 10 ns, 10 mW; 74LS ≈ 10 ns, 2 mW (`likely`) | rough "perhaps" figures on the slide; not taught as numbers |
+| Duty cycle 25/50/75 % (deck 08) | — | definition only; no check needed |
+
+Rule for S8: file 18 prints only numbers that are `settled` in KB05 or verified in S8 itself; every
+row marked → S8 is closed there (Verify backlog rows added 2026-11-17).
+
+## 4. File plan (S0b, 2026-11-17)
+
+Step counts are estimates from the deck's topic order (one idea per step, spec §5); the building
+sprint fixes them. A file over 13 steps splits into a/b. "Real" = MTE / practice-set questions, which
+open their steps first (protocol step 6). The running example is one function or circuit carried
+through the file (sprints.md, DE specifics).
+
+| File | Sprint | Est. steps | Split | Real questions | Deck examples | Running example (proposal) |
+|---|---|---|---|---|---|---|
+| 01 Boolean algebra | S1 | 8 (gates, 2ⁿ rows, laws, De Morgan, algebraic simplification, minterms/SOP, maxterms/POS, form conversion) | no | — | 9 (deck 01) | one 3-variable function F(x,y,z) |
+| 02 K-map | S1 | 9 (layout/Gray order, groups, prime & essential, don't-cares, POS from 0s, 5-variable, word problem → map) | no | MTE Q4, PS1 Q1, **PS1 Q4** | 40 (deck 02) | MTE Q4's function |
+| 03 NAND/NOR | S1 | 5 (NAND universal, NOR universal, NAND–NAND, NOR–NOR, multi-level by bubble pushing) | no | MTE Q1, PS1 Q2 | 3 | 02's running function realised |
+| 04 adders | S6 | 9 (HA, FA, FA from 2 HA, subtractors, ripple, CLA, adder–subtractor, serial, BCD) | no | — | 8 (decks 03, 09) | 4-bit 0101 + 0011 |
+| 05 MUX/DEMUX | S5 | 7 (MUX, n vars on 2ⁿ:1, n vars on 2ⁿ⁻¹:1, MUX tree, 4:1-only builds, DEMUX, 74LS151) | no | MTE Q5, PS1 Q3, Q5, Q6 | 16 (deck 04) | MTE Q5's function |
+| 06 decoder/encoder | S5 | 7 (decoder, decoder + OR for SOP, + NOR for POS, enable & cascading, encoder, priority encoder) | no | MTE Q6, PS1 Q7, Q8 | 12 (deck 05) | full adder from a 3:8 decoder (MTE Q6) |
+| 07 display, comparator, parity | S6 | 8 (BCD→7-seg, segment K-maps, multiplexed display, 1-bit and n-bit comparator, parity generator, checker) | no | MTE Q2, **PS1 Q9, Q10** | 8 (decks 05, 06) | one 4-bit word through parity and compare |
+| 08 shifter, ALU | S6 | 5 (logical, circular, arithmetic shifts, barrel shifter, ALU) | no | — | 5 (deck 07) | 110110 (EX 7.2–7.4) |
+| 09 latches, flip-flops | S2 | 10 (NOR SR latch, NAND latch, gated/D latch, latch vs edge, D/JK/T characteristic, master–slave and race-around, excitation tables, conversions) | no (a/b if > 13) | MTE Q3, PS2 Q1 | 5 (deck 08) | one JK flip-flop |
+| 10 waveforms | S2 | 5 (edge-by-edge procedure, level-triggered latches, positive vs negative edge, async preset/clear, worked MTE Q7) | no | MTE Q7, PS2 Q2, Q3 | 3 | MTE Q7's clock and inputs |
+| 11 registers | S7 | 6 (SISO/SIPO/PISO/PIPO, bidirectional/universal, ring, Johnson, feedback SIPO) | no | — | 3 (deck 09) | 4-bit shift of 1011 |
+| 12 ripple counters | S3 | 7 (2-bit up, 3-bit up + waves, down, up/down, MOD-N by reset, cascading/division, ripple delay glitches) | no | — | 11 (deck 10) | 3-bit up counter |
+| 13 synchronous counters | S3 | 12–14 (why sync, state table, excitation, K-maps, T circuit, JK version, D version, negative-edge T (MTE Q8), up/down, MOD-N, unused states/lock-out, arbitrary sequence) | **likely 13a (binary counters: MTE Q8, PS2 Q4–Q5) / 13b (MOD-N, any sequence, lock-out: PS2 Q6)** | MTE Q8 (8 marks), PS2 Q4, Q5, Q6 | 18 (deck 10) | 3-bit up counter (MTE Q8) |
+| 14 timing analysis | S7 | 5 (setup/hold, clock-to-Q, f_max path, hold check, clock skew) | no | — | 0 (no deck; KB03 only) | KB03's t_pd = 8 ns, t_comb = 12 ns, t_su = 3 ns path |
+| 15 FSM design | S4 | 10 (Moore vs Mealy, words → diagram, overlap vs non-overlap, state table, assignment, excitation → circuit, Moore version, the five detectors) | no (a/b if > 13) | — | 28 (deck 11) | 1101 detector (EX 11.8–11.10) |
+| 16 state reduction, ASM | S4 | 8 (equivalent states, row inspection, partitioning, implication table, ASM symbols, ASM from a diagram, ASM to circuit) | split 16a/16b if > 13 | — | 30 (decks 12, 13) | 15's 1101 table reduced |
+| 17 timing generators, async | S9 | 6 (skew/metastability, LFSR, 555/ring-oscillator clocks, async circuits, races, hazards) | no | — | 0 (no deck) | 3-bit LFSR |
+| 18 logic families | S8 | 10 (t_PLH/t_PHL, rise/fall, power, noise margin, fan-in/out, PDP, TTL NAND, open-collector/tristate, ECL, CMOS + interfacing, comparison) | no | — | 0 worked (deck 14 is definitions) | standard-TTL table (KB05 §1) |
+| 19 memories, PLDs | S8 | 9 (organisation, SRAM/DRAM, ROM types, ROM as a function, expansion, PROM, PLA, PAL) | no | — | 14 (deck 15) | 8 × 4 ROM (EX 15.20–15.21) |
+
+Mapping notes for the sprint table: PS1 Q4 is used by 02 (S1); PS1 Q9–Q10 by 07 (S6) — added to
+those rows' Inputs. Files 14 and 17 have no deck and no question: they are built from KB03/KB04 and
+rank low.
+
+## 5. Figure list (S0b, 2026-11-17)
+
+`tools/figlib.py` has only generic helpers (`fig`, `canvas`, `box`, `arrow`, `axes`, `check_figure`):
+**no file's figure exists in figlib**. The logic drawers (K-map `km`/`km5`, gates `two_level`, `mux_fig`,
+waveforms) exist only in the v1 modules `study-pack/pdf-ete/figs1.py` / `figs2.py` (SVG) and as rendered
+copies in `v1figs.json` (v1.2 `build.py` maps them by name). "Reuse" = keep that figure if it meets the
+caption rule (axes / what a cell, row or point means) and passes the overlap check. "New" = to draw.
+
+| File | Reuse (v1.2 name ← source) | New (what it plots) |
+|---|---|---|
+| 01 | gates_row ← figs1 | none required |
+| 02 | v1arg0–3 ← v1figs.json km/km5 (callable again as figs1.km/km5 with arguments) | MTE Q4 map with don't-cares; PS1 Q1 5-variable map; PS1 Q4 consecutive-ones map; cell-index (Gray order) map |
+| 03 | universal_nand, nor_inverter, xor_nand ← figs1; v1arg4 (NAND–NAND) ← v1figs.json two_level | NOR-only circuit for MTE Q1; NAND-only circuit for PS1 Q2 |
+| 04 | half_adder, full_adder_2ha, ripple_adder, cla_delay, adder_sub, serial_adder, bcd_adder ← figs1 | half/full subtractor circuit |
+| 05 | v1arg5 (mux_fig) ← v1figs.json; mux_tree, demux_fig ← figs1 | MUX tables for MTE Q5, PS1 Q3, PS1 Q6; 4:1-only tree for PS1 Q5 |
+| 06 | decoder_fig ← figs1 | 3:8 decoder + OR full adder (MTE Q6); decoder + NOR (PS1 Q7); two 3:8 → 4:16 (PS1 Q8); priority-encoder table |
+| 07 | seven_seg, mux_display, comparator_flow, parity_fig ← figs1; v1arg6 (segment e map) ← v1figs.json | PS1 Q10 segment maps a–g; PS1 Q9 odd/even parity circuit |
+| 08 | shift_types, alu_fig ← figs1; v1arg7 (mux_fig Y0) ← v1figs.json | 4-bit barrel-shifter grid |
+| 09 | sr_latch, latch_vs_ff, ff_symbols, ms_jk ← figs2 | NAND SR latch; gated D latch; race-around timing (time across, rows CLK/J/K/Q) |
+| 10 | jk_wave, jk_wave_noq, t_wave ← figs2 / v1figs.json | timing diagrams for MTE Q7, PS2 Q2 (D latch, JK latch, level-triggered), PS2 Q3 (negative edge); traces simulated in verify (qm.edge_ff, qm.d_latch exist) |
+| 11 | sipo_xor ← figs2; shift4, johnson4, johnson_waves ← v1figs.json | 6-bit ring counter state table; PISO/PIPO block |
+| 12 | ripple_counter (+ waves) ← v1figs.json | down-counter waves; MOD-N reset circuit; ripple-delay glitch timing |
+| 13 | counter_T ← figs2; km_T1, km_T2 ← build.py `_km`; ripple_waves | JK and D excitation maps (PS2 Q4–Q6); negative-edge T counter for MTE Q8; state diagram with unused states |
+| 14 | setup_hold, timing_path ← v1figs.json | clock-skew timing |
+| 15 | fsm_blocks ← v1figs.json; mealy_1101, moore_1101 ← figs2 | state diagrams of deck 11's five detectors |
+| 16 | implication_chart, asm_1101 ← figs2 | partition steps; ASM element symbols |
+| 17 | lfsr3, astable_555, ring_osc, hazard ← v1figs.json | metastability timing; race table |
+| 18 | noise_bands, fanout_fig, ttl_nand, tristate_bus, ecl_gate ← v1figs.json; cmos_inv, cmos_nand ← Commons SVG | t_PLH/t_PHL at 50 % points (deck 14 p.5); rise/fall 10–90 % |
+| 19 | memory_org, dram_cell, pld_arrays ← v1figs.json; sram_cell ← Commons SVG; mem_decode ← figs2; v1arg8 (PLA maps) ← v1figs.json | 8 × 4 ROM array (EX 15.20–15.21); PLA programming table |
