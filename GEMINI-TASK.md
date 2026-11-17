@@ -1,3 +1,5 @@
+> **DONE 2026-11-17** (driven by Claude via `agy`, commit 9c04fe4). Do not re-run. No task pending.
+
 # Gemini task — DE S0a: transcribe the course material, build the question bank
 
 > Written by Claude, 2026-11-17. Rules: `GEMINI.md`. Run in Antigravity (`agy`; Gemini CLI is retired
