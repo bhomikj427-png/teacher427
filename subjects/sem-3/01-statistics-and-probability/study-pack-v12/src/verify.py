@@ -158,7 +158,7 @@ chk("MTE C1a z", (75 - 65) / 5, 2)
 q = 0.5 - 0.4772
 chk("MTE C1a P(X>75) table", q, 0.0228, key=0.0228)
 chk("MTE C1a P(X>75) exact", stats.norm(65, 5).sf(75), 0.02275, tol=1e-5)
-chk("MTE C1a at least one of 3", 1 - (1 - q) ** 3, 0.0668, tol=1e-4, key=0.0667, ktol=2e-4)
+chk("MTE C1a at least one of 3", 1 - (1 - q) ** 3, 0.0669, tol=1e-4, key=0.0667, ktol=2e-4)
 chk("A2 B3 table", 0.1915 + 0.3849, 0.5764, key=0.5764)
 chk("A2 B3 exact", stats.norm(50, 10).cdf(62) - stats.norm(50, 10).cdf(45), 0.5764, tol=2e-4)
 chk("A2 B4 (i)", round(5000 * (0.5 - 0.4452)), 274, key=274)
@@ -371,16 +371,8 @@ chk("02 ST7 P(X>1)", stats.expon(scale=.5).sf(1), 0.1353, tol=1e-4)
 # ---- 03 (v1.2 checks removed S2b; 03a/03b numbers are in the "v1.3 S2" block)
 # ---- 04 (v1.2 checks removed S4; 04a/04b numbers are in the "v1.3 S4" block)
 # ---- 05 (v1.2 checks removed S4; numbers are in the "v1.3 S4" block)
-# ---- 06
-chk("06 C2 tail", 0.5 - 0.3849, 0.1151); chk("06 C2 55-62", 0.3849 - 0.1915, 0.1934)
-chk("06 C4", 0.9772 ** 5, 0.8911, tol=1e-4)
-chk("06 C5 sigma", 19 / 1.9, 10); chk("06 C5 mu", 45 + 0.5 * 10, 50)
-chk("06 C6 z", (60 - mC2) / sC2, 0.81, tol=0.005); chk("06 C6 P", 0.5 - 0.291, 0.209)
-chk("06 ST2", 0.5 - 0.4332, 0.0668); chk("06 ST4", 1000 * (0.5 - 0.4772), 22.8); chk("06 ST5", 70 + 1.645 * 10, 86.45)
-# ---- 07
-chk("07 C2 n", (100 / 5) ** 2, 400); chk("07 C4 z", 0.3 / se, 1.414, tol=1e-3); chk("07 C4 P", 0.5 - 0.4207, 0.0793)
-chk("07 C5 SE", 12 / 8, 1.5); chk("07 ST3 n", (12 / 1) ** 2, 144); chk("07 ST4", 2 * 0.4772, 0.9544)
-chk("07 ST6 n", (2 * 2 / 0.5) ** 2, 64)
+# ---- 06 (v1.2 checks removed S5; numbers are in the "v1.3 S5" block)
+# ---- 07 (v1.2 checks removed S5; numbers are in the "v1.3 S5" block)
 # ---- 08 (v1.2 checks removed S2b; numbers are in the "v1.3 S2" block)
 # ---- 09 (v1.2 checks removed S3; 09a/09b numbers are in the "v1.3 S3" block)
 chk("09 MoM uniform (a,b) sim", (lambda d: d.mean() - math.sqrt(3 * d.var()))(rng.uniform(7, 13, 200000)), 7, tol=0.02)
@@ -827,6 +819,108 @@ chk("05 ST2 P", _U(0, 10).cdf(8) - _U(0, 10).cdf(3), .5); chk("05 ST2 var", _U(0
 chk("05 ST3", _E(scale=5).sf(5), .3679, tol=5e-5); chk("05 ST4", _E(scale=5).sf(8) / _E(scale=5).sf(3), .3679, tol=5e-5)
 chk("05 ST6 mean", _E(scale=1 / 2).mean(), .5)
 chk("05 ST7 P(|X|>.5)", _U(-1, 2).cdf(-.5) + _U(-1, 2).sf(.5), .5); chk("05 ST7 E[X^2]", _q4(lambda x_: x_ * x_ / 2, -1, 1), 1 / 3)
+
+
+# ==== v1.3 S5 — files 06, 07 (route: scipy.stats.norm, exact enumeration of the 210 ball samples)
+_N = stats.norm; _nb = _N(1500, 100); _phi = lambda z_: _N.cdf(z_) - .5
+# 06 step 1 density table
+for x_, v_ in [(1300, .000540), (1400, .002420), (1500, .003989), (1600, .002420)]:
+    chk(f"06 S1 f({x_})", _nb.pdf(x_), v_, tol=5e-7)
+chk("06 C1b", _nb.cdf(1500), .5)
+# 06 step 3 z table, Check 3
+for x_, z_ in [(1350, -1.5), (1380, -1.2), (1500, 0), (1660, 1.6), (1680, 1.8)]:
+    chk(f"06 S3 z({x_})", (x_ - 1500) / 100, z_)
+chk("06 C3a", (75 - 65) / 5, 2); chk("06 C3b", 65 - 1.4 * 5, 58)
+# 06 step 4 table of phi, Predict, Check 4
+for z_, v_ in [(.5, .1915), (1, .3413), (1.5, .4332), (1.6, .4452), (2, .4772)]:
+    chk(f"06 S4 phi({z_})", _phi(z_), v_, tol=5e-5)
+chk("06 S4 P(1500<X<1660)", _nb.cdf(1660) - .5, .4452, tol=5e-5); chk("06 C4c", _nb.cdf(1700) - .5, .4772, tol=5e-5)
+# 06 step 5 tails, Check 5
+chk("06 S5 (i)", _nb.sf(1660), .0548, tol=5e-5); chk("06 S5 (ii)", _nb.cdf(1380), .1151, tol=5e-5)
+chk("06 C5a", _nb.sf(1700), .0228, tol=1e-4); chk("06 C5b", _nb.cdf(1350), .0668, tol=5e-5)
+# 06 step 6, Check 6
+_n50 = _N(50, 10)
+chk("06 S6 B3", _n50.cdf(62) - _n50.cdf(45), .5764, tol=2e-4); chk("06 C6a", _n50.sf(62), .1151, tol=5e-5)
+chk("06 C6b", _n50.cdf(62) - _n50.cdf(55), .1934, tol=2e-4)
+# 06 step 7 bands, Check 7
+for k_, v_ in [(1, .6827), (2, .9545), (3, .9973)]:
+    chk(f"06 S7 mu+-{k_}sigma", _N.cdf(k_) - _N.cdf(-k_), v_, tol=5e-5)
+chk("06 S7 2x.3413", 2 * .3413, .6827, tol=2e-4); chk("06 S7 2x.4772", 2 * .4772, .9545, tol=2e-4)
+# 06 step 8 counts, Check 8
+chk("06 S8 (i)", 5000 * (.5 - .4452), 274); chk("06 S8 (ii)", 5000 * (.5 - .3849), 575.5); chk("06 S8 (iii) P", .4332 + .4641, .8973)
+chk("06 S8 (iii)", 5000 * (.4332 + .4641), 4486.5); chk("06 S8 (iii) exact", 5000 * (_nb.cdf(1680) - _nb.cdf(1350)), 4486.5, tol=1)
+chk("06 C8 phi(1.25)", _phi(1.25), .3944, tol=5e-5); chk("06 C8 count", 10000 * 2 * .3944, 7888)
+# 06 step 9 MTE C1(a), Check 9
+_p9 = .5 - .4772
+chk("06 S9 q^3", (1 - _p9) ** 3, .933148, tol=5e-7); chk("06 S9 P", 1 - _B(3, _p9).pmf(0), .066852, tol=5e-7, key=.0667, ktol=2e-4)
+chk("06 S9 P 4dp", round(1 - (1 - _p9) ** 3, 4), .0669, tol=1e-9)
+chk("06 S9 3p", 3 * _p9, .0684); chk("06 C9", _B(5, _p9).pmf(0), .8911, tol=5e-5)
+# 06 step 10 A2 B6 (solve the two equations), Check 10
+_m10, _s10 = np.linalg.solve([[1, -1.28], [1, 1.04]], [30, 65])
+chk("06 S10 sigma", _s10, 15.09, tol=.005); chk("06 S10 mu", _m10, 49.31, tol=.005)
+_mc, _sc = np.linalg.solve([[1, -.5], [1, 1.4]], [45, 64])
+chk("06 C10 sigma", _sc, 10); chk("06 C10 mu", _mc, 50)
+chk("06 C10 phi(0.5)", _phi(.5), .19, tol=.005); chk("06 C10 phi(1.4)", _phi(1.4), .42, tol=.005)
+# 06 step 11 A2 C2, Check 11
+_m11, _s11 = np.linalg.solve([[1, .1], [1, 1.34]], [40, 75])
+chk("06 S11 sigma", _s11, 28.23, tol=.005, key=28.2, ktol=.05); chk("06 S11 mu", _m11, 37.18, tol=.005, key=37.5, ktol=.05)
+chk("06 S11 75 check", _m11 + 1.34 * _s11, 75); chk("06 S11 failures quarter", .25 * .54, .135); chk("06 S11 below cut", .54 - .135, .405)
+chk("06 S11 mark", _m11 - .24 * _s11, 30.40, tol=.005, key=30.43, ktol=.005)
+chk("06 C11 z", (60 - _m11) / _s11, .81, tol=.005); chk("06 C11 P", .5 - .291, .209)
+# 06 self-test
+chk("06 ST2", _N(60, 8).sf(72), .0668, tol=5e-5); chk("06 ST3", _N(60, 8).cdf(68) - _N(60, 8).cdf(52), .6827, tol=5e-5)
+chk("06 ST4", 1000 * _N(165, 6).sf(177), 22.8, tol=.1); chk("06 ST5", _N(70, 10).isf(.05), 86.45, tol=.01)
+# 07 steps 1-4: the 10 balls (a, d, g, i black), all 210 samples of 4
+from itertools import combinations as _comb
+_blk = set("adgi"); _sh = [sum(b_ in _blk for b_ in c_) / 4 for c_ in _comb("abcdefghij", 4)]
+chk("07 S3 samples", len(_sh), 210)
+for v_, n_ in [(0, 15), (.25, 80), (.5, 90), (.75, 24), (1, 1)]:
+    chk(f"07 S3 count {v_}", _sh.count(v_), n_)
+for smp, v_ in [("acfh", .25), ("bdej", .25), ("cgij", .5)]:
+    chk(f"07 S1 sample {smp}", sum(b_ in _blk for b_ in smp) / 4, v_)
+chk("07 S3 mean", np.mean(_sh), .4); chk("07 S3 2-black product", 6 * 15, 90)
+chk("07 S4 var", np.var(_sh), .04); chk("07 S4 sum", sum((v_ - .4) ** 2 for v_ in _sh), 8.4); chk("07 S4 SE", np.std(_sh), .2)
+chk("07 S5 note sigma", math.sqrt(.4 * .6), .49, tol=.005); chk("07 S5 note sigma/sqrt4", math.sqrt(.24) / 2, .245, tol=5e-4)
+chk("07 C3a", _sh.count(.5) / 210, .4286, tol=5e-5); chk("07 C3b", _sh.count(0) / 210, .0714, tol=5e-5)
+chk("07 C4 count", sum(abs(v_ - .4) <= .2 + 1e-12 for v_ in _sh), 170); chk("07 C4 frac", 170 / 210, .81, tol=.005)
+# 07 steps 5-6 SE (simulation route for sigma/sqrt(n): 200,000 averages of 25 from a population with sd 100)
+_rng = np.random.default_rng(11)
+chk("07 S5 SE sim n=25", _rng.normal(0, 100, (200000, 25)).mean(axis=1).std(), 20, tol=.2)
+for n_, v_ in [(1, 100), (4, 50), (25, 20), (100, 10), (400, 5)]:
+    chk(f"07 S5/6 SE n={n_}", 100 / math.sqrt(n_), v_)
+chk("07 C5a A4 MCQ8", 5 / math.sqrt(25), 1); chk("07 C5b", 2 / 6, .333, tol=5e-4)
+chk("07 C6 n=9", 2 / 3, .667, tol=5e-4); chk("07 C6 n=144", 2 / 12, .167, tol=5e-4); chk("07 C6b", (2 / .25) ** 2, 64)
+chk("07 S9 one-customer", .5 / 2, .25)
+# 07 steps 9-12 (slide examples) by exact normal of x-bar and by the printed table
+_atm = _N(4, 2 / 6)
+chk("07 S9 SE", 2 / math.sqrt(36), .333, tol=5e-4); chk("07 S9 z", .5 / (2 / 6), 1.5)
+for x_, z_ in [(3.5, -1.5), (4, 0), (4.5, 1.5), (5, 3)]:
+    chk(f"07 S9 z({x_})", (x_ - 4) / (2 / 6), z_)
+chk("07 S9 P", _atm.sf(4.5), .0668, tol=5e-5, key=.0668, ktol=1e-4)
+chk("07 C9a", _atm.cdf(3.5), .0668, tol=5e-5); chk("07 C9b", _atm.sf(4.2), .2743, tol=5e-5)
+_se10 = 1.5 / math.sqrt(50)
+chk("07 S10 sqrt50", math.sqrt(50), 7.071, tol=5e-4); chk("07 S10 SE", _se10, .2121, tol=5e-5)
+chk("07 S10 z1", (3.5 - 4) / _se10, -2.36, tol=.005); chk("07 S10 z2", (3.8 - 4) / _se10, -.94, tol=.005)
+chk("07 S10 phi(2.36)", _phi(2.36), .4909, tol=5e-5); chk("07 S10 phi(0.94)", _phi(.94), .3264, tol=5e-5)
+chk("07 S10 P table", .4909 - .3264, .1645, key=.1644, ktol=2e-4)
+chk("07 S10 P exact", _N(4, _se10).cdf(3.8) - _N(4, _se10).cdf(3.5), .1645, tol=1.5e-3)
+chk("07 C10 z", .3 / _se10, 1.41, tol=.005); chk("07 C10 phi(1.41)", _phi(1.41), .4207, tol=5e-5); chk("07 C10 P", .5 - .4207, .0793)
+_led = _N(50000, 8000 / 8)
+chk("07 S11 SE", 8000 / math.sqrt(64), 1000); chk("07 S11 P", _led.cdf(48000), .0228, tol=1e-4, key=.0228, ktol=1e-4)
+for x_, z_ in [(48000, -2), (49000, -1), (50000, 0), (51000, 1)]:
+    chk(f"07 S11 z({x_})", (x_ - 50000) / 1000, z_)
+chk("07 C11", _led.cdf(51000) - _led.cdf(48000), .8185, tol=2e-4)
+_mac = _N(7, 1 / 3)
+chk("07 S12 z1", (6.4 - 7) * 3, -1.8); chk("07 S12 z2", (7.2 - 7) * 3, .6)
+chk("07 S12 phi(1.8)", _phi(1.8), .4641, tol=5e-5); chk("07 S12 phi(0.6)", _phi(.6), .2257, tol=5e-5)
+chk("07 S12 P", _mac.cdf(7.2) - _mac.cdf(6.4), .6898, tol=2e-4, key=.6898, ktol=2e-4)
+chk("07 C12a", _mac.sf(7.5), .0668, tol=5e-5)
+chk("07 C8b SE", 12 / math.sqrt(64), 1.5)
+# 07 self-test
+chk("07 ST3 SE", 12 / 6, 2); chk("07 ST3 n", (12 / 1) ** 2, 144)
+chk("07 ST4", _N(80, 1.5).cdf(83) - _N(80, 1.5).cdf(77), .9544, tol=2e-4)
+chk("07 ST6 n", (2 * 2 / .5) ** 2, 64); chk("07 ST6 P", _N(4, 2 / 8).sf(4.5), .0228, tol=1e-4)
+chk("07 ST7 n", (20 / 1) ** 2, 400); chk("07 ST7 ratio", 400 / 25, 16); chk("07 ST7 SE25", 20 / 5, 4)
 
 print(f"\n{N[0]} checks; {len(FAILS)} pack failures; {len(KEYDIFF)} key differences")
 if KEYDIFF:

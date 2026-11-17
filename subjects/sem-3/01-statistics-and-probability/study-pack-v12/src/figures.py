@@ -160,32 +160,7 @@ def normal_inverse():
     return _svg(fig)
 
 
-# ---------------------------------------------------------------- 07 sampling / CLT
-def clt_hist():
-    rng = np.random.default_rng(3)
-    pop = rng.exponential(2, 200000) + 2  # skewed: mean 4, sd 2
-    fig, axs = plt.subplots(1, 3, figsize=(6.8, 2.1), sharey=False)
-    axs[0].hist(pop, bins=60, range=(2, 16), color=GRY, density=True); axs[0].set_title("population (skewed)\nμ = 4, σ = 2", fontsize=8.5)
-    for ax, n in zip(axs[1:], (4, 36)):
-        means = (rng.exponential(2, (40000, n)) + 2).mean(axis=1)
-        ax.hist(means, bins=60, range=(2, 8), color=ACC, density=True)
-        xs = np.linspace(2, 8, 200); ax.plot(xs, stats.norm(4, 2 / math.sqrt(n)).pdf(xs), color=ACC2, lw=1.2)
-        ax.set_title(f"means of n = {n}\nSE = 2/√{n} = {2 / math.sqrt(n):.2f}", fontsize=8.5)
-    for ax in axs:
-        ax.set_yticks([])
-    fig.tight_layout()
-    return _svg(fig)
-
-
-def se_shrink():
-    n = np.array([1, 4, 9, 16, 25, 36, 49, 64, 81, 100])
-    fig, ax = _ax(5.6, 2.1)
-    ax.plot(n, 100 / np.sqrt(n), "o-", color=ACC)
-    for nn in (25, 100):
-        ax.annotate(f"n = {nn}: SE = {100 / math.sqrt(nn):.0f} h", (nn, 100 / math.sqrt(nn)), xytext=(nn + 6, 100 / math.sqrt(nn) + 18),
-                    fontsize=8, arrowprops=dict(arrowstyle="->", color=GRY, lw=.7))
-    ax.set_xlabel("sample size n"); ax.set_ylabel("SE = σ/√n (σ = 100 h)")
-    return _svg(fig)
+# ---- 07: v1.2 figures removed S5 (v1.3 figures are in the 07 block below)
 
 
 # ---------------------------------------------------------------- 08 estimators
@@ -1129,6 +1104,46 @@ def machine_two():
     ax.legend(fontsize=8, frameon=False, loc="upper right")
     ax.set_xlim(4, 10); ax.set_ylim(0, 1.45); ax.set_yticks([])
     FL.axes(ax, "life (years)", "density")
+    return FL.svg(f)
+
+
+def se_n():
+    f, ax = FL.fig(5.6, 2.5)
+    n = np.linspace(1, 110, 400)
+    ax.plot(n, 100 / np.sqrt(n), color=FL.ACC, lw=2)
+    for nn in (4, 25, 100):
+        ax.plot(nn, 100 / math.sqrt(nn), "o", color=FL.INK, ms=4)
+    ax.text(8, 52, "n = 4: SE = 50", fontsize=8.5)
+    ax.text(29, 25, "n = 25: SE = 20", fontsize=8.5)
+    ax.text(78, 17, "n = 100: SE = 10", fontsize=8.5)
+    ax.text(50, 45, "n × 4 (25 → 100): SE ÷ 2 (20 → 10)", fontsize=8.5, color=FL.BAD)
+    ax.set_xlim(0, 110); ax.set_ylim(0, 105)
+    FL.axes(ax, "n = sample size", "SE = 100/√n (hours)")
+    return FL.svg(f)
+
+
+def clt_shapes():
+    import matplotlib.pyplot as _plt
+    rng = np.random.default_rng(7)
+    draws = [lambda k: rng.normal(5, 1.5, k), lambda k: rng.uniform(0, 10, k), lambda k: rng.exponential(2, k),
+             lambda k: np.where(rng.random(k) < .5, rng.normal(2, .7, k), rng.normal(8, .7, k))]
+    titles = ["normal", "flat (uniform)", "skewed", "two humps"]
+    xr = [(0, 10), (0, 10), (0, 10), (0, 10)]
+    f, axs = _plt.subplots(3, 4, figsize=(6.6, 4.0))
+    rows = [(1, "one value"), (10, "x̄ of n = 10"), (30, "x̄ of n = 30")]
+    for c, (dr, t, r_) in enumerate(zip(draws, titles, xr)):
+        for r, (n, lab) in enumerate(rows):
+            ax = axs[r, c]
+            v = dr(20000 * n).reshape(20000, n).mean(axis=1)
+            ax.hist(v, bins=50, range=r_, color=FL.MUTED if r == 0 else FL.ACC, density=True)
+            ax.set_yticks([]); ax.set_xticks([0, 5, 10]); ax.tick_params(labelsize=7.5)
+            for s_ in ("top", "right", "left"):
+                ax.spines[s_].set_visible(False)
+            if r == 0:
+                ax.set_title(t, fontsize=8.5)
+            if c == 0:
+                ax.set_ylabel(lab, fontsize=8.5)
+    f.tight_layout()
     return FL.svg(f)
 
 

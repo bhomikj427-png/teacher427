@@ -299,12 +299,12 @@ P(one student > 75) is small. Is P(at least one of three) about three times it, 
 
 1. One student: z = (75 − 65)/5 = 2, so p = P(X > 75) = P(Z > 2) = 0.5 − 0.4772 = **0.0228** (step 5).
 2. Three students: Y ~ B(3, 0.0228), q = 1 − p = 0.9772.
-3. "At least one" = 1 − "none" (04a): P(Y ≥ 1) = 1 − P(Y = 0) = 1 − q³ = 1 − 0.9772³ = 1 − 0.93315 = **0.0668**.
+3. "At least one" = 1 − "none" (04a): P(Y ≥ 1) = 1 − P(Y = 0) = 1 − q³ = 1 − 0.9772³ = 1 − 0.933148 = 0.066852 ≈ **0.0669**.
 
 So about three times p (3 × 0.0228 = 0.0684), slightly less: 3p counts twice the cases where two students both pass 75.
 
 :::note Marking scheme
-The MTE scheme gives marks for z and P(X > 75) = 0.0228, then for the binomial set-up and 1 − q³. Its final 0.0667 is the same value rounded differently.
+The MTE scheme gives marks for z and P(X > 75) = 0.0228, then for the binomial set-up and 1 − q³. Its final 0.0667 differs from 0.0669 only in the fourth decimal place (rounding in the intermediate steps).
 :::
 
 :::check Check 9

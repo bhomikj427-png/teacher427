@@ -95,14 +95,14 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <td><strong>5</strong></td>
 <td><strong>06 Normal</strong></td>
 <td>Row 2 (20 marks, one Part C); MTE C1(a) was 4 marks; five Assignment 2 numericals</td>
-<td>06 §2–5</td>
+<td>06 §3–9</td>
 <td>50 min</td>
 </tr>
 <tr>
 <td><strong>6</strong></td>
 <td><strong>07 SE and CLT</strong></td>
 <td>Named in row 2; four worked slide examples; a Part C candidate</td>
-<td>07 §2–5, mock C1</td>
+<td>07 §5–12, mock C1</td>
 <td>40 min</td>
 </tr>
 <tr>
@@ -203,7 +203,7 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <p><strong>Unit 4 — testing</strong> (rows 4 and 5)</p>
 <div class="map"><span class="n">12 Hypotheses, errors</span><span class="a">→</span><span class="n">13 t-tests</span><span class="a">→</span><span class="n">14 F-test</span><span class="a">→</span><span class="n">15 χ²</span><span class="a">→</span><span class="n">16 ANOVA</span><span class="a">→</span><span class="n">17 Mock</span></div>
 
-<p>02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04a–06 use 03a's E and Var; 04a uses 03b's sums for np and npq, and 04b builds on 04a's formula. 07 needs 03b (variance of a sum) and 06 (normal table). 08–09b need 03a–03b, 07 and the distributions of 04–05; 09b compares its MLE with 09a's MoM. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.</p>
+<p>02a needs 01's probability rules; 02b needs 02a's CDF. 03a needs 02a's PMF and 02b's PDF; 03b needs 03a's E and Var. 04a–06 use 03a's E and Var; 04a uses 03b's sums for np and npq, and 04b builds on 04a's formula. 07 needs 03b (shift and scale, mean and variance of a sum: steps 1–3) and 06 (standardise, tails, between two values: steps 3, 5, 6). 08–09b need 03a–03b, 07 and the distributions of 04–05; 09b compares its MLE with 09a's MoM. 10 uses 01's Bayes' theorem. 11 needs 06–08. 12 needs 04–05 for α and β. 13 builds on 11's t; 14 checks 13's equal-variance assumption; 16 uses 14's F.</p>
 <table>
 <thead>
 <tr>
@@ -271,7 +271,7 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <tr>
 <td>07</td>
 <td>row 2 · population, sample, SE, CLT</td>
-<td>parameter vs statistic, SE = σ/√n, CLT and its three cases</td>
+<td>parameter vs statistic, the sampling distribution (10 balls), SE = σ/√n, n × 4 halves SE, CLT and its three cases, four slide examples</td>
 <td>6</td>
 </tr>
 <tr>
@@ -479,7 +479,7 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <td>recomputed two ways; G&amp;K prints the same exercise (ch. 8 ex. 7(a)) with this answer</td>
 </tr>
 <tr>
-<td>A2 C2 (06 §6)</td>
+<td>A2 C2 (06 §11)</td>
 <td>μ = 37.5</td>
 <td>μ = 37.18, re-exam mark 30.40</td>
 <td>the key's own 30.43 implies μ ≈ 37.2</td>
@@ -509,10 +509,22 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <td>an addition, not a correction</td>
 </tr>
 <tr>
-<td>Slides CLT p.11 (07 §4)</td>
+<td>Slides CLT p.14 (07 §10)</td>
 <td>z = −0.4</td>
 <td>z = −0.94</td>
 <td>typo; the slide's area uses 0.94</td>
+</tr>
+<tr>
+<td>Slides CLT p.7 and p.8 (07 §8)</td>
+<td>n ≥ 30 on p.7, n &gt; 30 on p.8</td>
+<td>n ≥ 30</td>
+<td>one rule kept; G&amp;K §8.10 gives no cut-off</td>
+</tr>
+<tr>
+<td>MTE C1(a) scheme (06 §9)</td>
+<td>0.0667</td>
+<td>0.0669 (1 − 0.9772³ = 0.066852)</td>
+<td>fourth-decimal rounding</td>
 </tr>
 <tr>
 <td>Slides MLE Ex. 11 (09b §7)</td>
@@ -543,6 +555,6 @@ table { break-inside: auto; } tr { break-inside: avoid; } thead { display: table
 <h2>How this pack was checked</h2>
 <ul>
 <li><strong>Facts:</strong> from the subject's knowledge base (researched to both stages from Walpole, Montgomery &amp; Runger and Ross; every load-bearing claim checked against sources) and from Gupta &amp; Kapoor, the reference the slides cite. Section numbers are quoted where a formula is used.</li>
-<li><strong>Numbers:</strong> <code>src/verify.py</code> recomputes every number in the pack, 865 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 16 mismatches are the slips in the table above (A2 B5 is checked twice).</li>
+<li><strong>Numbers:</strong> <code>src/verify.py</code> recomputes every number in the pack, 983 checks, by an independent route (scipy distributions, numerical integration and optimisation, library t, F, χ² and ANOVA routines, simulation). It passes with no failures. Each professor's key is compared too; the 18 mismatches are the slips in the table above (A2 B5 and A2 C2's μ and mark are checked twice).</li>
 <li><strong>Pages:</strong> every page was viewed after the final build.</li>
 </ul></body></html>
