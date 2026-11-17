@@ -78,6 +78,8 @@ sprint reads them first.
 
 ## EDC notes (read with the hand-off)
 
+- **E0 head start (2026-11-18):** `study-pack-v12/src/e0-transcripts/` holds agy transcripts of 16 deck/sheet pieces (every slide/page; see its README). E0 starts from them instead of re-reading each deck: view a slide image only to check a number used in the brief or a `[?]`/`⚠` mark. Not covered: the RC-LC `.ppt`, the WSU logic PDF, the FinFET decks.
+
 - **Decks:** `python -I research-tools/deck_extract.py exam-pack/<deck>.pptx <scratch>/<name> [first] [last]`
   → `slides.txt` + pictures `sNNN-*.jpg|png`; it prints which slides are mostly pictures. The one
   `.ppt` (`slides-U7-oscillators-RC-LC.ppt`) gives text runs in file order and pictures without
