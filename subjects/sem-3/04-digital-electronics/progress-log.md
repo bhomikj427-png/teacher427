@@ -197,3 +197,5 @@
 
 - 2026-11-17 auto session 6: S2 close-out started (09/10 section check, build, page check, START-HERE)
 - 2026-11-17 auto session 6: S2 done. 09/10 section check (13 + 7 steps), build 09 10 00 no OVERLAP, agy page check 30 pp no problems (1st run timed out, retry ok), START-HERE how-checked = 237 checks, MTE Q7 sentence fixed. Next up: S3 (12 + 13 counters).
+
+- 2026-11-17 S3 start (session 7): rebuild 12 ripple counters + 13 synchronous counters to v1.3; figures to Sonnet subagent.

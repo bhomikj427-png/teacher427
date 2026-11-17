@@ -588,7 +588,137 @@ def u3():
        and edge_seq("SR", 0, [{"S": s, "R": r} for s, r in ((1, 0), (0, 0), (0, 1), (0, 0))]) == [1, 1, 0, 0])
 
 
-UNITS = {"u0": u0, "u1": u1, "u3": u3}
+def ripple_trace(n, state, up=True):
+    """Intermediate counts while one input edge ripples through n toggling stages (one entry per
+    stage that changes, i.e. one per t_pd). Up: next stage clocked when this one falls."""
+    q, out, i = [(state >> k) & 1 for k in range(n)], [], 0
+    while i < n:
+        old = q[i]
+        q[i] ^= 1
+        out.append(sum(b << k for k, b in enumerate(q)))
+        if not ((old == 1 and q[i] == 0) if up else (old == 0 and q[i] == 1)):
+            break
+        i += 1
+    return out
+
+
+def run_ripple_mod(n, nand_bits, clear_bits, up=True, start=0, steps=12, preset_bits=()):
+    """Ripple counter with a NAND on `nand_bits` driving CLR' of `clear_bits` (and PR' of
+    `preset_bits`). Returns (settled sequence, list of momentary states that fired the NAND)."""
+    s, seq, temp = start, [start], []
+    for _ in range(steps):
+        s = run_ripple(n, up, s, 1)[-1]
+        if all((s >> b) & 1 for b in nand_bits):
+            temp.append(s)
+            for b in clear_bits:
+                s &= ~(1 << b)
+            for b in preset_bits:
+                s |= 1 << b
+        seq.append(s)
+    return seq, temp
+
+
+def u3c():
+    """Files 12 (ripple counters) and 13 (synchronous counters), S3."""
+    # ---- 12
+    ok("12 s1 toggling FF halves f: 8 kHz -> 4, 2, 1 kHz down a 3-stage chain", [8 / 2 ** k for k in (1, 2, 3)] == [4, 2, 1])
+    ok("12 c1 1 MHz -> 500 kHz, 250 kHz", (1e6 / 2, 1e6 / 4) == (500e3, 250e3))
+    ok("12 s2 2-bit ripple up 00,01,10,11,00", run_ripple(2, True, 0, 4) == [0, 1, 2, 3, 0])
+    ok("12 c2a 6 edges from 00 -> 10", run_ripple(2, True, 0, 6)[-1] == 2)
+    ok("12 c2b clocked from the other output: 00,11,10,01,00", run_ripple(2, False, 0, 4) == [0, 3, 2, 1, 0])
+    ok("12 s3 3-bit up 0..7,0 (running example)", run_ripple(3, True, 0, 8) == [0, 1, 2, 3, 4, 5, 6, 7, 0])
+    ok("12 c3 4-bit: MOD-16, top count 15; 21 pulses from 0 -> 5 = 0101; Q3 at 16 kHz -> 1 kHz",
+       run_ripple(4, True, 0, 21)[-1] == 5 and 2 ** 4 == 16 and 16 / 16 == 1)
+    ok("12 s4 3-bit down 0,7,6,5,4,3,2,1,0", run_ripple(3, False, 0, 8) == [0, 7, 6, 5, 4, 3, 2, 1, 0])
+    ok("12 s5 011 -> 010 -> 000 -> 100 at 10, 20, 30 ns", ripple_trace(3, 3) == [2, 0, 4])
+    ok("12 s5 3 stages x 10 ns = 30 ns; 1/30 ns = 33.3 MHz", abs(1 / 30e-9 / 1e6 - 33.33) < 0.01)
+    ok("12 c5 4-bit 25 ns -> 100 ns, 10 MHz; worst edges 0111->1000 and 1111->0000 change 4 stages",
+       abs(1 / 100e-9 - 10e6) < 1 and len(ripple_trace(4, 7)) == 4 and len(ripple_trace(4, 15)) == 4)
+    seq, tmp = run_ripple_mod(3, [1, 2], [0, 1, 2], steps=12)
+    ok("12 s6 MOD-6 (NAND on Q2,Q1 -> all CLR'): 0..5,0 twice; momentary 110", seq == [0, 1, 2, 3, 4, 5, 0] * 2 [:13] and tmp == [6, 6], (seq, tmp))
+    seq, tmp = run_ripple_mod(4, [1, 3], [0, 1, 2, 3], steps=11)
+    ok("12 s7 decade (NAND on Q3,Q1): 0..9,0,1; momentary 1010", seq == list(range(10)) + [0, 1] and tmp == [10], (seq, tmp))
+    ok("12 s7 MOD-10: Q3 high for counts 8, 9 -> 1 kHz at 10 kHz clock, high 2 of 10 periods = 20 %",
+       [c for c in range(10) if c >> 3 & 1] == [8, 9])
+    seq, tmp = run_ripple_mod(3, [0, 1, 2], [0, 1, 2], steps=8)
+    ok("12 c6a MOD-7 NAND on Q2,Q1,Q0: 0..6,0", seq[:9] == [0, 1, 2, 3, 4, 5, 6, 0, 1] and tmp == [7], (seq, tmp))
+    seq, tmp = run_ripple_mod(3, [0, 2], [0, 1, 2], steps=6)
+    ok("12 c6b MOD-5 NAND on Q2,Q0: 0..4,0", seq == [0, 1, 2, 3, 4, 0, 1] and tmp == [5], (seq, tmp))
+    seq, tmp = run_ripple_mod(4, [2, 3], [0, 1, 2, 3], steps=13)
+    ok("12 c7 MOD-12 NAND on Q3,Q2: 0..11,0", seq[:14] == list(range(12)) + [0, 1] and tmp == [12], (seq, tmp))
+    seq, tmp = run_ripple_mod(3, [0, 1, 2], [0, 1], up=False, start=4, steps=10)
+    ok("12 st4 MOD-5 down (NAND on Q2,Q1,Q0 -> CLR' of FF1, FF0): 4,3,2,1,0,4,...; momentary 111",
+       seq[:7] == [4, 3, 2, 1, 0, 4, 3] and set(tmp) == {7}, (seq, tmp))
+    ok("12 flip-flops for MOD-N: 10->4, 60->6, 100->7, 5->3, 12->4",
+       [next(n for n in range(1, 9) if 2 ** n >= m) for m in (10, 60, 100, 5, 12)] == [4, 6, 7, 3, 4])
+    ok("12 s8 cascade MOD-4 x MOD-8 = 32; 32 kHz -> 8 kHz -> 1 kHz; two 3-bit -> 0..63", 4 * 8 == 32 and 32 / 4 == 8 and 8 / 8 == 1 and 2 ** 6 - 1 == 63)
+    ok("12 c8 1 MHz -> MOD-4 -> 250 kHz -> MOD-8 -> 31.25 kHz; 24 = 3 x 8; 60 = 6 x 10", 1e6 / 4 == 250e3 and 250e3 / 8 == 31.25e3)
+    ok("12 st3 3-bit, 20 ns -> 60 ns -> 16.7 MHz; st2 1 MHz -> Q0 500 kHz, Q3 62.5 kHz",
+       abs(1 / 60e-9 / 1e6 - 16.67) < 0.01 and 1e6 / 16 == 62.5e3)
+    # ---- 13
+    Q2, Q3, Q4 = ["Q1", "Q0"], ["Q2", "Q1", "Q0"], ["Q3", "Q2", "Q1", "Q0"]
+    ok("13 c1 sync: t_pd 10 + AND 5 + setup 5 = 20 ns -> 50 MHz", abs(1 / 20e-9 - 50e6) < 1)
+    ok("13 s3 2-bit up D: D1 = Q1⊕Q0, D0 = Q0'", run_sync("D", [{"D": "Q1⊕Q0"}, {"D": "Q0'"}], 0, 4, Q2) == [0, 1, 2, 3, 0])
+    ok("13 s4 2-bit up T: T1 = Q0, T0 = 1", run_sync("T", [{"T": "Q0"}, {"T": "1"}], 0, 4, Q2) == [0, 1, 2, 3, 0])
+    ok("13 s5 2-bit up JK: J1 = K1 = Q0, J0 = K0 = 1",
+       run_sync("JK", [{"J": "Q0", "K": "Q0"}, {"J": "1", "K": "1"}], 0, 4, Q2) == [0, 1, 2, 3, 0])
+    # T columns = next XOR present, 3-bit up (MTE Q8)
+    tcols = [(s ^ ((s + 1) % 8)) for s in range(8)]
+    ok("13 s6 T2T1T0 per row = 001,011,001,111,001,011,001,111", tcols == [1, 3, 1, 7, 1, 3, 1, 7], tcols)
+    check_sop("13 s7 T1", "Q0", [s for s in range(8) if tcols[s] >> 1 & 1], Q3)
+    check_sop("13 s7 T2", "Q1Q0", [s for s in range(8) if tcols[s] >> 2 & 1], Q3)
+    ok("13 s7 MTE Q8 counter T0=1, T1=Q0, T2=Q1Q0: 0..7,0",
+       run_sync("T", [{"T": "Q1Q0"}, {"T": "Q0"}, {"T": "1"}], 0, 8, Q3) == [0, 1, 2, 3, 4, 5, 6, 7, 0])
+    ok("13 s7 4-bit T3 = Q2Q1Q0: 0..15,0",
+       run_sync("T", [{"T": "Q2Q1Q0"}, {"T": "Q1Q0"}, {"T": "Q0"}, {"T": "1"}], 0, 16, Q4) == list(range(16)) + [0])
+    ok("13 s7 T toggles per cycle of 8: Q0 8, Q1 4, Q2 2", [sum(tcols[s] >> b & 1 for s in range(8)) for b in (0, 1, 2)] == [8, 4, 2])
+    ok("13 s8 PS2 Q5 2-bit down T: T1 = Q0', T0 = 1: 0,3,2,1,0",
+       run_sync("T", [{"T": "Q0'"}, {"T": "1"}], 0, 4, Q2) == [0, 3, 2, 1, 0])
+    down = [(s - 1) % 8 for s in range(8)]
+    check_sop("13 s8 PS2 Q6 D1", "Q1Q0 + Q1'Q0'", [s for s in range(8) if down[s] >> 1 & 1], Q3)
+    check_sop("13 s8 PS2 Q6 D2", "Q2Q1 + Q2Q0 + Q2'Q1'Q0'", [s for s in range(8) if down[s] >> 2 & 1], Q3)
+    ok("13 s8 PS2 Q6 counter D2,D1,D0: 0,7,6,...,1,0",
+       run_sync("D", [{"D": "Q2Q1 + Q2Q0 + Q2'Q1'Q0'"}, {"D": "Q1Q0 + Q1'Q0'"}, {"D": "Q0'"}], 0, 8, Q3) == [0, 7, 6, 5, 4, 3, 2, 1, 0])
+    ok("13 s8 3-bit down T: T1 = Q0', T2 = Q1'Q0'",
+       run_sync("T", [{"T": "Q1'Q0'"}, {"T": "Q0'"}, {"T": "1"}], 0, 8, Q3) == [0, 7, 6, 5, 4, 3, 2, 1, 0])
+    # decade, T flip-flops (deck 10 slides 26-27)
+    nxt = {s: (s + 1) % 10 for s in range(10)}
+    dc = list(range(10, 16))
+    for b, e in ((1, "Q3'Q0"), (2, "Q1Q0"), (3, "Q2Q1Q0 + Q3Q0")):
+        check_sop(f"13 s9 decade T{b}", e, [s for s in range(10) if (s ^ nxt[s]) >> b & 1], Q4, dc)
+    dec = [{"T": "Q2Q1Q0 + Q3Q0"}, {"T": "Q1Q0"}, {"T": "Q3'Q0"}, {"T": "1"}]
+    ok("13 s9 decade counts 0..9,0", run_sync("T", dec, 0, 10, Q4) == list(range(10)) + [0])
+    nx = {u: run_sync("T", dec, u, 1, Q4)[1] for u in dc}
+    ok("13 s10 decade unused: 10->11->6, 12->13->4, 14->15->2", nx == {10: 11, 11: 6, 12: 13, 13: 4, 14: 15, 15: 2}, nx)
+    ok("13 s9 T toggles in rows: T1 ones 1,3,5,7 (not 9); T3 ones 7, 9",
+       [s for s in range(10) if (s ^ nxt[s]) & 2] == [1, 3, 5, 7] and [s for s in range(10) if (s ^ nxt[s]) & 8] == [7, 9])
+    # MOD-6 with JK (self-test)
+    m6 = [{"J": "Q1Q0", "K": "Q0"}, {"J": "Q2'Q0", "K": "Q0"}, {"J": "1", "K": "1"}]
+    ok("13 st MOD-6 JK counts 0..5,0", run_sync("JK", m6, 0, 6, Q3) == [0, 1, 2, 3, 4, 5, 0])
+    ok("13 st MOD-6 JK unused 6->7->0", run_sync("JK", m6, 6, 2, Q3) == [6, 7, 0])
+    # up/down (deck 10 slides 29-33): X = 0 up, X = 1 down
+    for x in (0, 1):
+        names = ["X", "Q1", "Q0"]
+        seq = run_sync("D", [{"D": str(x)}, {"D": "Q1⊕Q0⊕X"}, {"D": "Q0'"}], x * 4, 4, names)
+        ok(f"13 s11 2-bit up/down D, X={x}", [s & 3 for s in seq] == ([0, 1, 2, 3, 0] if x == 0 else [0, 3, 2, 1, 0]), seq)
+    for up in (1, 0):
+        names = ["U", "Q2", "Q1", "Q0"]
+        seq = run_sync("T", [{"T": "0"}, {"T": "Q0Q1U + Q0'Q1'U'"}, {"T": "Q0U + Q0'U'"}, {"T": "1"}], up * 8, 8, names)
+        ok(f"13 s11 3-bit up/down T, Up={up}", [s & 7 for s in seq] == ([0, 1, 2, 3, 4, 5, 6, 7, 0] if up else [0, 7, 6, 5, 4, 3, 2, 1, 0]), seq)
+    # Gray code counter, JK (deck 10 slides 35-37)
+    g = [0, 1, 3, 2, 6, 7, 5, 4]
+    gn = {g[i]: g[(i + 1) % 8] for i in range(8)}
+    gray = [{"J": "Q1Q0'", "K": "Q1'Q0'"}, {"J": "Q2'Q0", "K": "Q2Q0"}, {"J": "(Q2⊕Q1)'", "K": "Q2⊕Q1"}]
+    ok("13 s12 Gray JK counts 000,001,011,010,110,111,101,100,000", run_sync("JK", gray, 0, 8, Q3) == g + [0])
+    ok("13 s12 one bit changes per clock", all(bin(s ^ gn[s]).count("1") == 1 for s in range(8)))
+    j0 = [s for s in range(8) if not s & 1 and gn[s] & 1]
+    k0 = [s for s in range(8) if s & 1 and not gn[s] & 1]
+    check_sop("13 s12 J0 (Q0=1 rows free)", "Q2Q1 + Q2'Q1'", j0, Q3, [1, 3, 5, 7])
+    check_sop("13 s12 K0 (Q0=0 rows free)", "Q2Q1' + Q2'Q1", k0, Q3, [0, 2, 4, 6])
+    ok("13 c12 Gray 110 -> 111: only FF0", gn[6] == 7)
+
+
+UNITS = {"u0": u0, "u1": u1, "u3": u3, "u3c": u3c}
 
 
 def main(argv):
