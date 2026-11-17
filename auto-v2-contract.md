@@ -55,6 +55,10 @@ of calls is the cost. Measured 2026-11-17: a sprint took 55–75 calls, 30 of th
   `;`/`&&` into one line (write a small script in the scratch folder and run it instead); no zsh
   `<N-M>` globs. Never prefix a command with `VAR=value` (e.g. `PYTHONIOENCODING=utf8 python …`):
   the prefix makes the allow rule miss, and PYTHONIOENCODING is already utf-8 in the session env. Paths outside the repo and the scratch folder are refused.
+- **Token budget per action (measured 2026-11-17: DE sessions 4 and 9 hit the hard limit).** A
+  whole-file Write of a topic file costs 15–20k context: never start one above 150k; a verify block or
+  close-out script costs 3–5k each. Past 150k, do only the close-out (verify, build, hand-off); a
+  file not yet written goes into the hand-off as the next session's first action.
 - Read a file once, by range; don't re-read what is already in context. Don't print large outputs:
   filter build/verify output to failures and counts (`… | tail -20`, `grep -c`).
 
