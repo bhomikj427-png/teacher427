@@ -209,7 +209,7 @@ def ci_coverage():
         ax.plot(xb, i + 1, "o", color=c, ms=3.5)
         if not hit:
             ax.text(xb + h + .03, i + 1, "misses μ", fontsize=8.5, color=FL.BAD, va="center", ha="left")
-    ax.axvline(mu, color=FL.INK, lw=1)
+    ax.plot([mu, mu], [0, 20.8], color=FL.INK, lw=1)
     ax.text(mu, 21.2, "true μ (fixed)", ha="center", fontsize=8.5)
     ax.set_xlim(11.7, 13.3); ax.set_ylim(0, 22.6); ax.set_yticks([])
     FL.axes(ax, "haemoglobin (g/dL)", "sample 1 to 20")
@@ -254,44 +254,6 @@ def alpha_beta():
     ax.axvline(.5, color="#111827", lw=1, ls="--"); ax.text(.52, 1.06, "critical region: x ≥ 0.5", fontsize=8.5)
     ax.text(.75, .7, "α = 0.5", color=ACC2, fontsize=9, ha="center"); ax.text(.25, .2, "β = 0.25", color="#92400e", fontsize=9, ha="center")
     ax.set_ylim(0, 1.6); ax.legend(fontsize=8, frameon=False, loc="upper right"); ax.set_xlabel("observed x")
-    return _svg(fig)
-
-
-# ---------------------------------------------------------------- 13 t
-def t_decision():
-    fig, ax = _ax(6.0, 2.2)
-    x = np.linspace(-4.5, 4.5, 400); f = stats.t(9).pdf(x)
-    ax.plot(x, f, color=ACC)
-    for m in (x <= -2.262, x >= 2.262):
-        ax.fill_between(x[m], f[m], color=ACC2, alpha=.5)
-    ax.plot([1.464] * 2, [0, .41], color=GRN, lw=1.5); ax.text(1.464, .425, "fertiliser t = 1.46", color=GRN, fontsize=8, ha="center")
-    ax.plot([-3.199] * 2, [0, .41], color=PUR, lw=1.5); ax.text(-3.199, .425, "pesticide t = −3.20", color=PUR, fontsize=8, ha="center")
-    ax.text(2.3, .06, "±2.262", color=ACC2, fontsize=8); ax.set_ylim(0, .48); ax.set_yticks([]); ax.set_xlabel("t with 9 df, α = 0.05 two-tailed")
-    return _svg(fig)
-
-
-def paired_diff():
-    bef = np.array([53, 28, 31, 48, 50, 42]); aft = np.array([58, 29, 30, 55, 56, 45])
-    fig, ax = _ax(5.8, 2.3)
-    order = np.argsort(aft); ys = {}; last = -1e9
-    for i in order:
-        y = max(aft[i], last + 3.2); ys[i] = y; last = y
-    for i, (b, a) in enumerate(zip(bef, aft)):
-        ax.plot([0, 1], [b, a], "o-", color=GRN if a > b else ACC2, lw=1.4, ms=4)
-        ax.plot([1, 1.04], [a, ys[i]], color="#cbd5e1", lw=.6)
-        ax.text(1.05, ys[i], f"{'ABCDEF'[i]}: d = {a - b:+d}", fontsize=8, va="center")
-    ax.set_xticks([0, 1]); ax.set_xticklabels(["before", "after"]); ax.set_xlim(-.2, 1.5); ax.set_ylim(24, 66); ax.set_ylabel("sales")
-    return _svg(fig)
-
-
-# ---------------------------------------------------------------- 14 F
-def f_curve():
-    fig, ax = _ax(6.0, 2.2)
-    x = np.linspace(0, 5, 400); f = stats.f(7, 10).pdf(x)
-    ax.plot(x, f, color=ACC); m = x >= 3.14
-    ax.fill_between(x[m], f[m], color=ACC2, alpha=.5); ax.text(3.2, .12, "5% right tail\nF > 3.14", fontsize=8, color=ACC2)
-    ax.axvline(1.143, color=GRN, lw=1.5); ax.text(1.2, .65, "F = 16/14 = 1.14", fontsize=8, color=GRN)
-    ax.set_yticks([]); ax.set_xlabel("F with (7, 10) df: larger variance on top, so F ≥ 1")
     return _svg(fig)
 
 
@@ -1184,7 +1146,7 @@ def ci_levels():
         ax.text(lo - .5, y, lab, ha="right", va="center", fontsize=8.5)
         ax.text(lo, y + .17, f"{lo:.1f}", ha="center", fontsize=8.5)
         ax.text(hi, y + .17, f"{hi:.1f}", ha="center", fontsize=8.5)
-    ax.axvline(85.5, color=FL.BAD, lw=1, ls="--")
+    ax.plot([85.5, 85.5], [.5, 3.7], color=FL.BAD, lw=1, ls="--")
     ax.text(85.5, 3.85, "x̄ = 85.5", ha="center", fontsize=8.5, color=FL.BAD)
     ax.set_xlim(70, 100); ax.set_ylim(.5, 4.2); ax.set_yticks([])
     FL.axes(ax, "miles per day", "")
@@ -1226,8 +1188,8 @@ def crit_battery():
     ax.plot(x, y, color=FL.ACC, lw=2)
     m = x <= c; ax.fill_between(x[m], y[m], color=FL.BAD, alpha=.5)
     ax.axvline(c, color=FL.INK, lw=1, ls="--")
-    ax.text(c + 1.5, .036, "critical value 983.55", fontsize=8.5)
-    ax.annotate("critical region: α = 0.05", (975, .004), (962, .028), fontsize=8.5, color=FL.BAD,
+    ax.text(c - 1.5, .0345, "critical value\n983.55", fontsize=8.5, ha="right")
+    ax.annotate("critical region:\nα = 0.05", (975, .004), (962, .024), fontsize=8.5, color=FL.BAD,
                 arrowprops=dict(arrowstyle="-", color=FL.BAD, lw=.8))
     ax.text(1000, .0435, "if H₀ is true: μ = 1000", ha="center", fontsize=8.5, color=FL.ACC)
     ax.set_xlim(960, 1040); ax.set_ylim(0, .05); ax.set_yticks([])
@@ -1243,12 +1205,12 @@ def beta_battery():
     ax.plot(x, y1, color=_PUR, lw=2, label="H₁ true: μ = 980")
     m = x <= c; ax.fill_between(x[m], y0[m], color=FL.BAD, alpha=.55)
     m = x >= c; ax.fill_between(x[m], y1[m], color=_AMB, alpha=.45)
-    ax.axvline(c, color=FL.INK, lw=1, ls="--")
+    ax.plot([c, c], [0, .0435], color=FL.INK, lw=1, ls="--")
     ax.text(c, .0455, "c = 983.55", ha="center", fontsize=8.5)
     ax.text(c - 2, .0415, "reject H₀", ha="right", fontsize=8.5)
     ax.text(c + 2, .0415, "do not reject", ha="left", fontsize=8.5)
     ax.annotate("α = 0.05", (975, .003), (951, .016), fontsize=8.5, color=FL.BAD, arrowprops=dict(arrowstyle="-", color=FL.BAD, lw=.8))
-    ax.annotate("β = 0.36", (992, .010), (1008, .0185), fontsize=8.5, color="#8a5600", arrowprops=dict(arrowstyle="-", color=_AMB, lw=.8))
+    ax.annotate("β = 0.36", (992, .010), (1016, .0185), fontsize=8.5, color="#8a5600", arrowprops=dict(arrowstyle="-", color=_AMB, lw=.8))
     ax.legend(fontsize=8, frameon=False, loc="upper right", bbox_to_anchor=(1.0, .86))
     ax.set_xlim(945, 1035); ax.set_ylim(0, .05); ax.set_yticks([])
     FL.axes(ax, "x̄", "density")
@@ -1288,7 +1250,7 @@ def expo_ab():
     ax.axvline(15, color=FL.INK, lw=1, ls="--")
     ax.text(15.6, .195, "reject H₀ if x ≥ 15", fontsize=8.5)
     ax.annotate("α = e⁻³ = 0.0498", (17, .004), (24, .033), fontsize=8.5, color=FL.BAD, arrowprops=dict(arrowstyle="-", color=FL.BAD, lw=.8))
-    ax.annotate("β = 1 − e⁻¹·⁵ = 0.7769", (4, .04), (7, .14), fontsize=8.5, color="#8a5600", arrowprops=dict(arrowstyle="-", color=_AMB, lw=.8))
+    ax.annotate("β = 1 − e⁻¹·⁵ = 0.7769", (4, .04), (14, .14), fontsize=8.5, color="#8a5600", ha="right", arrowprops=dict(arrowstyle="-", color=_AMB, lw=.8))
     ax.set_xlim(0, 40); ax.set_ylim(0, .21); ax.legend(fontsize=8, frameon=False, loc="upper right", bbox_to_anchor=(1.0, .88))
     FL.axes(ax, "observed x", "density")
     return FL.svg(f)
@@ -1334,7 +1296,7 @@ def power_fn():
     f, ax = FL.fig(5.6, 2.6)
     t = np.linspace(-1, 3.2, 300)
     ax.semilogy(t, .1 ** (t + 1), color=FL.ACC, lw=2)
-    for th, lab, dx, dy in ((0, "0.1", .1, 1.5), (1, "0.01", .1, 1.5), (2, "α = 0.001 (H₀)", .1, 1.6), (3, "0.0001", -.1, 1.8)):
+    for th, lab, dx, dy in ((0, "0.1", .1, 1.5), (1, "0.01", .1, 1.5), (2, "α = 0.001 (H₀)", .1, 1.6), (3, "0.0001", -.1, .3)):
         ax.plot(th, .1 ** (th + 1), "o", color=FL.INK, ms=4)
         ax.text(th + dx, .1 ** (th + 1) * dy, lab, fontsize=8.5, ha="left" if dx > 0 else "right")
     ax.set_xlim(-1, 3.2); ax.set_ylim(1e-5, 1.5)
