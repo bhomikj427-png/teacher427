@@ -257,42 +257,6 @@ def alpha_beta():
     return _svg(fig)
 
 
-# ---------------------------------------------------------------- 15 chi-square
-def chi_curve():
-    fig, ax = _ax(6.0, 2.2)
-    x = np.linspace(0.05, 16, 400); f = stats.chi2(1).pdf(x)
-    ax.plot(x, f, color=ACC); m = x >= 3.841
-    ax.fill_between(x[m], f[m], color=ACC2, alpha=.5); ax.text(4.1, .2, "5% tail: χ² > 3.841", fontsize=8, color=ACC2)
-    ax.axvline(14.06, color=PUR, lw=1.5); ax.text(10.2, .45, "smoking table\nχ² = 14.06", fontsize=8, color=PUR)
-    ax.set_ylim(0, .8); ax.set_yticks([]); ax.set_xlabel("χ² with 1 df")
-    return _svg(fig)
-
-
-def obs_exp():
-    fig, ax = _ax(5.8, 2.3)
-    lab = ["smoker\nailment", "smoker\nno ailment", "non-smoker\nailment", "non-smoker\nno ailment"]
-    O = [75, 105, 25, 95]; E = [60, 120, 40, 80]; xs = np.arange(4)
-    ax.bar(xs - .18, O, .36, color=ACC, label="observed O"); ax.bar(xs + .18, E, .36, color="#cbd5e1", label="expected E if independent")
-    for xi, o, e in zip(xs, O, E):
-        ax.text(xi - .18, o + 2, o, ha="center", fontsize=8); ax.text(xi + .18, e + 2, e, ha="center", fontsize=8)
-    ax.set_xticks(xs); ax.set_xticklabels(lab, fontsize=8); ax.legend(fontsize=8, frameon=False); ax.set_ylim(0, 140)
-    return _svg(fig)
-
-
-# ---------------------------------------------------------------- 16 ANOVA
-def anova_dots():
-    G = {"medication": [10, 12, 9, 15, 13], "exercise": [6, 8, 3, 0, 2], "diet": [5, 9, 12, 8, 4]}
-    fig, ax = _ax(6.0, 2.4)
-    gm = np.mean(sum(G.values(), []))
-    ax.axhline(gm, color=GRY, ls="--", lw=1); ax.text(-.48, gm + .4, f"grand mean {gm:.2f}", fontsize=8, color=GRY)
-    for i, (k, v) in enumerate(G.items()):
-        ax.plot([i] * 5, v, "o", color=[ACC, ACC2, GRN][i], ms=6, alpha=.8)
-        m = np.mean(v); ax.plot([i - .25, i + .25], [m, m], color=[ACC, ACC2, GRN][i], lw=2.5)
-        ax.text(i + .28, m, f"x̄ = {m}", fontsize=8, va="center")
-    ax.set_xticks(range(3)); ax.set_xticklabels(G.keys()); ax.set_xlim(-.5, 3.1); ax.set_ylabel("BP reduction")
-    return _svg(fig)
-
-
 def mock_blueprint():
     rows = ["1 Prob + RV", "2 Distributions\n+ CLT", "3 Estimation", "4 Hypotheses", "5 t, F, χ², ANOVA"]
     marks = [10, 20, 22, 10, 18]
@@ -1487,6 +1451,199 @@ def coal_dots():
     ax.set_yticks([0, 1]); ax.set_yticklabels(["Mine 2", "Mine 1"])
     ax.set_xlim(7850, 8400); ax.set_ylim(-.6, 1.7)
     FL.axes(ax, "heat capacity (millions of calories per ton)", "")
+    return FL.svg(f)
+
+
+# ---- 15 chi-square
+def smoke_split():
+    f, ax = FL.fig(5.8, 2.5)
+    rows = [("Smokers (180)", 75 / 180 * 100), ("Non-smokers (120)", 25 / 120 * 100)]
+    for yy, (lab, p) in zip((1, 0), rows):
+        ax.barh(yy, p, .55, color=FL.BAD, alpha=.75, label="lung ailment" if yy == 1 else None)
+        ax.barh(yy, 100 - p, .55, left=p, color="#dbeafe", ec=FL.LINE, label="no ailment" if yy == 1 else None)
+        ax.text(p / 2, yy, f"{p:.1f}%", ha="center", va="center", fontsize=9, color="white", weight="bold")
+        ax.text(p + (100 - p) / 2, yy, f"{100 - p:.1f}%", ha="center", va="center", fontsize=9, color=FL.INK)
+    ax.plot([100 / 3] * 2, [-.45, 1.5], color=FL.INK, lw=1.3, ls="--")
+    ax.text(100 / 3 + 1.2, 1.55, "all 300 men: 100/300 = 33.3%", ha="left", va="center", fontsize=8.5)
+    ax.set_yticks([0, 1]); ax.set_yticklabels(["Non-smokers (120)", "Smokers (180)"])
+    ax.set_xlim(0, 100); ax.set_ylim(-.55, 1.8)
+    ax.legend(fontsize=8.5, frameon=False, loc="upper center", bbox_to_anchor=(.5, -.3), ncol=2)
+    FL.axes(ax, "share of the row (%)", "")
+    return FL.svg(f)
+
+
+def obs_exp():
+    f, ax = FL.fig(5.8, 3.0)
+    lab = ["smoker,\nailment", "smoker,\nnone", "non-smoker,\nailment", "non-smoker,\nnone"]
+    O = [75, 105, 25, 95]; E = [60, 120, 40, 80]; xs = np.arange(4)
+    ax.bar(xs - .19, O, .38, color=FL.ACC, label="observed O")
+    ax.bar(xs + .19, E, .38, color=FL.LINE, label="expected E (if independent)")
+    for xi, o, e in zip(xs, O, E):
+        ax.text(xi - .19, o + 2, str(o), ha="center", fontsize=8.5)
+        ax.text(xi + .19, e + 2, str(e), ha="center", fontsize=8.5)
+    ax.set_xticks(xs); ax.set_xticklabels(lab, fontsize=8.5); ax.set_ylim(0, 130)
+    ax.legend(fontsize=8.5, frameon=False, loc="upper center", bbox_to_anchor=(.5, -.25), ncol=2)
+    FL.axes(ax, "", "number of men")
+    return FL.svg(f)
+
+
+def chi_df_curves():
+    f, ax = FL.fig(5.8, 2.8)
+    x = np.linspace(0.01, 16, 1200)
+    for df, c, crit, lab, ty in ((1, FL.ACC, 3.841, "1 df (2 × 2 table)", .34), (4, FL.G1, 9.488, "4 df (3 × 3 table)", .34)):
+        y = stats.chi2(df).pdf(x)
+        ax.plot(x, y, color=c, lw=2, label=lab)
+        s = x >= crit
+        ax.fill_between(x[s], y[s], color=c, alpha=.3)
+        ax.plot([crit] * 2, [0, ty - .02], color=c, lw=1.2)
+        ax.text(crit + .15, ty, f"5% point {crit}", ha="left", va="center", fontsize=8.5, color=c)
+    ax.set_xlim(0, 16); ax.set_ylim(0, .5)
+    ax.legend(fontsize=8.5, frameon=False, loc="upper right")
+    FL.axes(ax, "value of χ²", "density")
+    return FL.svg(f)
+
+
+def chi_curve():
+    f, ax = FL.fig(5.8, 2.6)
+    x = np.linspace(0.005, 16, 2000); y = stats.chi2(1).pdf(x)
+    ax.plot(x, y, color=FL.ACC, lw=2)
+    s = x >= 3.841
+    ax.fill_between(x[s], y[s], color=FL.BAD, alpha=.5)
+    ax.plot([3.841] * 2, [0, .5], color=FL.BAD, lw=1.4)
+    ax.text(3.99, .5, "3.841", ha="left", va="center", fontsize=8.5, color=FL.BAD)
+    ax.annotate("5% tail (critical region)", (4.6, .012), (6.0, .17), fontsize=8.5, color=FL.BAD, ha="left",
+                arrowprops=dict(arrowstyle="-", color=FL.BAD, lw=.8))
+    ax.plot([14.06] * 2, [0, .4], color=FL.G2, lw=1.6)
+    ax.text(13.9, .43, "A5 C3: χ² = 14.06", ha="right", va="center", fontsize=8.5, color=FL.G2)
+    ax.set_xlim(0, 16); ax.set_ylim(0, .6)
+    FL.axes(ax, "value of χ²", "density")
+    return FL.svg(f)
+
+
+def oil_contrib():
+    f, ax = FL.fig(5.2, 3.5)
+    C = np.array([[13.08, .36, 12.94], [1.04, 1.26, 0.0], [9.64, 3.23, 16.45]])
+    O = [[44, 22, 13], [15, 19, 26], [6, 8, 47]]
+    E = [["25.68", "19.36", "33.97"], ["19.50", "14.70", "25.80"], ["19.83", "14.95", "26.23"]]
+    im = ax.imshow(C, cmap="Oranges", vmin=0, vmax=20, aspect="auto")
+    for i in range(3):
+        for j in range(3):
+            c = "white" if C[i, j] > 11 else FL.INK
+            ax.text(j, i - .12, f"{C[i, j]:.2f}", ha="center", va="center", fontsize=11, weight="bold", color=c)
+            ax.text(j, i + .2, f"O {O[i][j]} / E {E[i][j]}", ha="center", va="center", fontsize=8, color=c)
+    ax.set_xticks(range(3)); ax.set_xticklabels(["High", "Medium", "Low"])
+    ax.set_yticks(range(3)); ax.set_yticklabels(["Good", "Fair", "Bad"])
+    for sp in ax.spines.values():
+        sp.set_visible(False)
+    ax.tick_params(length=0)
+    cb = f.colorbar(im, ax=ax, fraction=.05, pad=.03)
+    cb.set_label("contribution to χ²")
+    cb.outline.set_visible(False)
+    FL.axes(ax, "oil yield", "test result")
+    return FL.svg(f)
+
+
+# ---- 16 ANOVA
+_GCOL = [FL.ACC, FL.G1, FL.G2]
+_ANOVA_G = {"Medication": [10, 12, 9, 15, 13], "Exercise": [6, 8, 3, 0, 2], "Diet": [5, 9, 12, 8, 4]}
+
+
+def _jit(v, step=.13):
+    """Sideways offsets: equal values are spread apart, others get a small fixed wobble."""
+    out = []
+    for k, val in enumerate(v):
+        same = [i for i, u in enumerate(v) if u == val]
+        out.append((same.index(k) - (len(same) - 1) / 2) * step if len(same) > 1 else (-.05 if k % 2 else .05))
+    return np.array(out)
+
+
+def anova_dots():
+    f, ax = FL.fig(6.0, 2.8)
+    gm = 116 / 15
+    ax.plot([-.4, 4.3], [gm, gm], color=FL.MUTED, ls="--", lw=1.1)
+    ax.text(3.1, gm + .8, "grand mean 7.73", ha="left", va="bottom", fontsize=8.5, color=FL.MUTED)
+    for i, (k, v) in enumerate(_ANOVA_G.items()):
+        c = _GCOL[i]; mu = float(np.mean(v))
+        ax.plot(i + _jit(v), v, "o", color=c, ms=6.5, alpha=.85)
+        ax.plot([i - .27, i + .27], [mu, mu], color=c, lw=2.2)
+        if abs(mu - gm) < 1.5:  # Diet's mean 7.6 sits on the grand-mean line: put its label below the line
+            ax.text(i + .32, mu - .9, f"mean {mu:.1f}", ha="left", va="top", fontsize=8.5, color=c)
+        else:
+            ax.text(i + .32, mu, f"mean {mu:.1f}", ha="left", va="center", fontsize=8.5, color=c)
+    ax.set_xticks(range(3)); ax.set_xticklabels(list(_ANOVA_G))
+    ax.set_xlim(-.5, 4.3); ax.set_ylim(-1, 17)
+    FL.axes(ax, "", "reduction in blood pressure")
+    return FL.svg(f)
+
+
+def anova_spread_pair():
+    with plt.rc_context(FL.RC):
+        f, (a0, a1) = plt.subplots(1, 2, figsize=(6.6, 2.9), sharey=True)
+    tight = {"Medication": [10.8, 11.8, 12.8, 11.3, 12.3], "Exercise": [2.8, 3.8, 4.8, 3.3, 4.3], "Diet": [6.6, 7.6, 8.6, 7.1, 8.1]}
+    wide = {"Medication": [2, 6, 12, 18, 21], "Exercise": [-6, -1, 4, 9, 13], "Diet": [-3, 3, 8, 12, 18]}
+    for ax, G, ttl in ((a0, tight, "(a) tight groups: F = 128"), (a1, wide, "(b) wide groups: F = 1.29")):
+        ax.axhline(116 / 15, color=FL.MUTED, ls="--", lw=1.1)
+        for i, (k, v) in enumerate(G.items()):
+            c = _GCOL[i]; mu = float(np.mean(v))
+            xo = np.array([-.12, .12, -.06, .06, 0.0])
+            ax.plot(i + xo, v, "o", color=c, ms=6, alpha=.85)
+            ax.plot([i - .3, i + .3], [mu, mu], color=c, lw=2.2)
+        ax.set_xticks(range(3)); ax.set_xticklabels(list(G), fontsize=8.5)
+        ax.set_xlim(-.5, 2.5); ax.set_ylim(-8, 23)
+        ax.set_title(ttl, fontsize=9, loc="left")
+    a0.set_ylabel("reduction")
+    f.tight_layout()
+    return FL.svg(f)
+
+
+def ss_split():
+    f, ax = FL.fig(5.8, 2.0)
+    b, w = 160.13, 104.80
+    ax.barh(0, b, .5, color=FL.ACC, alpha=.85)
+    ax.barh(0, w, .5, left=b, color=FL.G1, alpha=.85)
+    ax.text(b / 2, 0, "between groups\nSSB = 160.13 (60.4%)", ha="center", va="center", fontsize=8.5, color="white")
+    ax.text(b + w / 2, 0, "within groups\nSSW = 104.80 (39.6%)", ha="center", va="center", fontsize=8.5, color="white")
+    ax.annotate("", (b + w, .42), (0, .42), arrowprops=dict(arrowstyle="<->", color=FL.INK, lw=1.1))
+    ax.text((b + w) / 2, .5, "total SST = 264.93", ha="center", va="bottom", fontsize=9)
+    ax.set_xlim(0, 280); ax.set_ylim(-.4, .8); ax.set_yticks([])
+    ax.spines["left"].set_visible(False)
+    FL.axes(ax, "sum of squares", "")
+    return FL.svg(f)
+
+
+def anova_f_curve():
+    f, ax = FL.fig(5.8, 2.8)
+    x = np.linspace(0, 21, 1500); y = stats.f(2, 12).pdf(x)
+    ax.plot(x, y, color=FL.ACC, lw=2)
+    s = x >= 3.885
+    ax.fill_between(x[s], y[s], color=FL.BAD, alpha=.5)
+    ax.plot([3.885] * 2, [0, .62], color=FL.BAD, lw=1.4)
+    ax.annotate("5% tail\nbeyond 3.89", (4.5, .015), (5.0, .3), fontsize=8.5, color=FL.BAD, ha="left", va="center",
+                arrowprops=dict(arrowstyle="-", color=FL.BAD, lw=.8))
+    ax.plot([9.17] * 2, [0, .82], color=FL.G2, lw=1.6)
+    ax.text(9.35, .85, "A5 C6: F = 9.17", ha="left", va="center", fontsize=8.5, color=FL.G2)
+    ax.plot([19.41] * 2, [0, .5], color=_AMB, lw=1.6, ls="--")
+    ax.text(19.2, .56, "19.41 = F₀.₀₅(12, 2),\nthe swapped df", ha="right", va="center", fontsize=8.5, color="#8a5600")
+    ax.set_xlim(0, 21); ax.set_ylim(0, 1.05)
+    FL.axes(ax, "value of F", "density")
+    return FL.svg(f)
+
+
+def income_dots():
+    G = {"Area 1 (n = 5)": [70, 72, 75, 80, 83], "Area 2 (n = 7)": [100, 110, 108, 112, 113, 120, 100],
+         "Area 3 (n = 6)": [60, 65, 57, 84, 84, 70]}
+    f, ax = FL.fig(6.0, 2.9)
+    gm = 1563 / 18
+    ax.plot([-.4, 4.3], [gm, gm], color=FL.MUTED, ls="--", lw=1.1)
+    ax.text(3.15, gm + 1.5, "grand mean 86.8", ha="left", va="bottom", fontsize=8.5, color=FL.MUTED)
+    for i, (k, v) in enumerate(G.items()):
+        c = _GCOL[i]; mu = float(np.mean(v))
+        ax.plot(i + _jit(v), v, "o", color=c, ms=6.5, alpha=.85)
+        ax.plot([i - .27, i + .27], [mu, mu], color=c, lw=2.2)
+        ax.text(i + .32, mu, f"mean {mu:.0f}", ha="left", va="center", fontsize=8.5, color=c)
+    ax.set_xticks(range(3)); ax.set_xticklabels(list(G))
+    ax.set_xlim(-.5, 4.3); ax.set_ylim(50, 125)
+    FL.axes(ax, "", "household income (Rs 1000)")
     return FL.svg(f)
 
 

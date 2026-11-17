@@ -10,11 +10,11 @@ The ranking is driven by **marks**. The ETE blueprint (official) fixes the marks
 |---|---|---|---|---|
 | **1** | **09a Method of moments · 09b Maximum likelihood** | Row 3 (22 marks): two 6-mark and one 8-mark slot; the professor's slides work four MLE examples | 09b §3–8, 11; 09a §2, 4; mock B3, C2 | 80 min |
 | **2** | **11 Confidence interval for mean** | Named in row 3; Assignment 4 has five CI questions, Assignment 5 two more | 11 §2, 4, 7, 8 | 45 min |
-| **3** | **16 ANOVA** | Row 5 holds the paper's only Part D (8 marks); Assignment 5's Part D includes an ANOVA | 16 §2–4, mock D1 | 45 min |
+| **3** | **16 ANOVA** | Row 5 holds the paper's only Part D (8 marks); Assignment 5's Part D includes an ANOVA | 16 §3–8, mock D1 | 45 min |
 | **4** | **13 t-tests** | Row 5; six t-test questions in Assignment 5, one of them Part D | 13 §2, 4, 5 | 60 min |
 | **5** | **06 Normal** | Row 2 (20 marks, one Part C); MTE C1(a) was 4 marks; five Assignment 2 numericals | 06 §3–9 | 50 min |
 | **6** | **07 SE and CLT** | Named in row 2; four worked slide examples; a Part C candidate | 07 §5–12, mock C1 | 40 min |
-| **7** | **15 χ² independence** | Row 5; four numericals in Assignment 5 | 15 §3–4 | 40 min |
+| **7** | **15 χ² independence** | Row 5; four numericals in Assignment 5 | 15 §2–6 | 40 min |
 | **8** | **08 Estimator properties** | Row 3; MTE A3 (2) and C1(b) (3) | 08 §3–4, 8, exam form | 40 min |
 | **9** | **12a Hypotheses and errors · 12b Computing α and β** | Row 4 (10 marks): 12a's definitions fit the 2-mark items; α/β questions A4 C1–C3 (12b) fit its 6-mark slot | 12a §2–7, 12b §1–6 | 60 min |
 | **10** | **04a Binomial · 04b Poisson** | Row 2; MTE A2, A4, B3 (8 marks) | 04a §3, 5, 6 · 04b §1–4 | 45 min |
@@ -74,8 +74,8 @@ The order is the syllabus order, which is also the order of the assignments (1, 
 | 12b | row 4 · computing α and β | areas under uniform and exponential densities, a region with α = 0, binomial sums for high and low counts, the power function (slides 20–22 added) | 6 |
 | 13 | row 5 · t-test | one-sample (summary, raw), two levels, pooled two-sample, paired | 9 |
 | 14 | row 5 · F-test | F ratio, sums of squares, two-tailed, raw data, before the t | 6 |
-| 15 | row 5 · χ² | expected frequency, df, 2 × 2, shortcut, building tables, 3 × 3 | 8 |
-| 16 | row 5 · ANOVA | idea, assumptions, sums of squares, ANOVA table, equal and unequal groups | 4 |
+| 15 | row 5 · χ² | counts in a table, expected frequency, the χ² statistic, df, a 2 × 2 test, the 2 × 2 shortcut, building the table from a story, 3 × 3 | 8 |
+| 16 | row 5 · ANOVA | between against within spread, assumptions and one-way classification, SST = SSB + SSW, computing from totals, df and mean squares, the ANOVA table and F, equal and unequal groups | 4 |
 | 17 | all rows | an 80-mark paper on the blueprint, with a marking key | 19 practice |
 
 ## Where the questions come from
@@ -123,11 +123,11 @@ Every answer in the assignments and the MTE key was recomputed. These differ; th
 
 | Where | Material says | Pack says | Why |
 |---|---|---|---|
-| **A5 C6** (16 §3) | table value 19.41 | **F₀.₀₅(2, 12) = 3.89** | 19.41 is F(12, 2): df reversed. **The decision flips**: F = 9.17 rejects H₀ |
+| **A5 C6** (16 §7) | table value 19.41 | **F₀.₀₅(2, 12) = 3.89** | 19.41 is F(12, 2): df reversed. **The decision flips**: F = 9.17 rejects H₀ |
 | A5 D1 (14 §5) | table value 5.19 | F₀.₀₅(4, 4) = 6.39 | 5.19 is F(4, 5); same decision |
 | A5 D2 (11 §8) | CI (24.945, 25.075) | (24.930, 25.080) | the key's half-width does not match the data's s = 0.1605 |
 | A5 A4 (13 §7) | options 1.55/2.10/3.00/3.87 | t = 3.10 | no option matches; nearest is 3.00 |
-| A5 A10 (16 §2) | options 4/5/6/8 | F = 4.44 | no option matches; nearest is 4.00 |
+| A5 A10 (16 §6) | options 4/5/6/8 | F = 4.44 | no option matches; nearest is 4.00 |
 | A2 B5 (05 §10) | 0.5679 | 0.6225 | recomputed two ways; G&K prints the same exercise (ch. 8 ex. 7(a)) with this answer |
 | A2 C2 (06 §11) | μ = 37.5 | μ = 37.18, re-exam mark 30.40 | the key's own 30.43 implies μ ≈ 37.2 |
 | A1 LA 2 (02a §5, §8) | row printed as k, 2k, 2k, 3k, 3k, k², 2k², 7k² + k; key (ii) 81/100, 91/100, 4/5 | Gupta & Kapoor's row 0, k, 2k, 2k, 3k, … (differs at x = 0, 1, 3); P(X > 6) = 17/100, P(X ≥ 6) = 19/100, P(0 < X < 5) = 4/5 | the key answers G&K's question: 81/100 is P(X < 6), and 91/100 is 19/100 with its digits swapped. The printed row gives k ≈ 0.0782 |

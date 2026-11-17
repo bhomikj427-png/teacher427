@@ -28,6 +28,16 @@
   (confidence interval and limits), ch. 16 §16.2.4–16.3 (W, size, power function, steps): read on the PDF
   text layer 2026-11-17 (sprint S6); supports `04-hypothesis-testing.md` "Prescribed-textbook locations"
   and the §15.15 bullet in `03-estimation.md`.
+  Ch. 13 §13.5 remarks 2 and 4 (conditions; page image of the conditions viewed), §13.7.3 (eq. 13·16, 13·16a),
+  the note on degrees of freedom, Ex. 13·16 and 13·17 (2 × 2), and ch. 14 §14.5.11 (ANOVA named only): read on
+  the PDF text layer 2026-11-17 (sprint S8); supports `04-hypothesis-testing.md` "Prescribed-textbook locations"
+  (S8 bullets) and study-pack files 15, 16.
+- **S. H. Chan, Rutgers Math 170S lecture notes §9.3 "One-factor analysis of variance"** (2020; university
+  author, based on the course textbook): SS(TO), SS(T), SS(E) definitions and computational forms, ANOVA table
+  with df m − 1, n − m, n − 1, F = MS(T)/MS(E) vs F_α(m − 1, n − m), normal equal-variance assumption. Read
+  2026-11-17 (S8). Supports KB 04 §14.5.11 bullet and study-pack file 16. `settled` (with Lockhart).
+- **R. Lockhart, SFU STAT 330 lecture 20** (1998; university author): total SS = treatment SS + error SS after
+  subtracting the grand-mean term; df I − 1, n − I, n − 1. Read 2026-11-17 (S8); agrees with Chan.
 
 ## Tier 1/2 — Authoritative course material (verification this session, 2026-06-16)
 - **MIT OpenCourseWare 18.600 / 18.440 *Probability and Random Variables*** — confirmed the topic

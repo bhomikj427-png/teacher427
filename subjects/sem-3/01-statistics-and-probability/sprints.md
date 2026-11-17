@@ -45,7 +45,7 @@ the blueprint, three slide sets.
 | S5 | **06 + 07** normal; standard error and CLT | old 06, 07 · KB `02`, `03` · slides SE-and-CLT | `06-…`, `07-…` rebuilt | same; the slides' four SE/CLT examples reproduced | ✓ 2026-11-17 (sessions 10 + 11: 06 11 steps, 07 12 steps; all four slide examples recomputed in verify) |
 | S6 | **11 + 12** confidence interval for the mean; hypotheses and errors (α, β) | old 11, 12 · KB `03`, `04` · Assignment 4 · slides 08 | `11-…`, `12-…` rebuilt | same; Assignment 4 answers compared | ✓ 2026-11-17 (11 8 steps, 12a 8 steps, 12b 7 steps; A4 B1–B5, C1–C3 compared with the key; HT slides 20–22 added; 6 figure-label fixes left, see hand-off) |
 | S7 | **13 + 14** t-tests; F-test | old 13, 14 · KB `04` · Assignment 5 | `13-…`, `14-…` rebuilt | same | ✓ 2026-11-17 (sessions 13 + 14: 13 7 steps, 14 6 steps; every A5 t/F item worked; S6's six figure labels fixed) |
-| S8 | **15 + 16** χ² independence; ANOVA (the paper's only Part D) | old 15, 16 · KB `04` · Assignment 5 | `15-…`, `16-…` rebuilt | same; Assignment 5 answers compared | |
+| S8 | **15 + 16** χ² independence; ANOVA (the paper's only Part D) | old 15, 16 · KB `04` · Assignment 5 | `15-…`, `16-…` rebuilt | same; Assignment 5 answers compared | ✓ 2026-11-17 (session 17: 15 8 steps, 16 8 steps; all 12 A5 χ²/ANOVA items worked and compared with the printed values/options) |
 | S9 | **10 + integration** Bayesian; mock paper re-pointed; START-HERE ranks, times, map, slip table | old 10, 17 · `00-START-HERE.md` · KB `03` | `10-…` rebuilt; 00 and 17 updated; full build | grep finds no reference to a removed file; `verify.py` passes; build prints no `OVERLAP` | |
 
 **Learner check-ins are not sprints:** report misses on any delivered file whenever you like; the next
@@ -69,6 +69,7 @@ sprint reads them first.
 | ~~02a's MTE A1 line says option (a) "is in 03b"~~ | S1b | **closed S2** (03 split; MTE A1(a) is 03b step 4) |
 | ~~Old v1.2 `# ---- 03` / `# ---- 08` checks in `verify.py`~~ | S2 | **closed S2b** (pruned; 665 checks pass) |
 | Pack `README.md` still says "format v1.2": update when all files are v1.3 | S1b | S9 |
+| START-HERE "how checked" line (≈ line 147) says verify has 1157 checks and 18 key mismatches; verify now prints 1420 checks and 19 key differences (`14 S5 F(4,4)` repeats the A5 D1 slip): rewrite the line | S8 | S9 |
 
 ## Assumptions to review (persistent — the learner confirms or overrules)
 
@@ -95,46 +96,51 @@ sprint reads them first.
 | 20 | 11 uses pack-made items: the weather-forecast anchor, Check 2 bulbs (n = 64, σ = 120), the ci_coverage picture (20 simulated hospitals, seed 0, exactly one miss, checked in verify); 12b's Checks and Self-test are pack-made variants of the slide/assignment questions | S6 | open |
 | 21 | 14 step 3 (A5 C5) and step 5 (A5 D1) compare a two-sided H₁ with the one-tail 5% value, as the questions print and as G&K §14.5.5 remark 1 does; a note gives the strict α/2 value (3.95; 9.60). 13 reads a given "SD" as s (n − 1) with a note on the n-divisor reading; 13/14 Checks, Self-tests, 13 step 4's one-sided Predict and 14 steps 1–2's tables are pack-made | S7 | open |
 | 22 | Session 13 crashed after writing 13 and 14; session 14 accepted the text after reading both in full and recomputing every number in verify (one fix: 14 step 2's F₀.₀₁(7, 10) 3.95 → 5.20) | S7 | open |
+| 23 | Pack-made items in 15/16: 15 step 1's Predict and Check 1, Check 3(b), Check 7 (500 students), Self-test; 16 step 1's two-panel data (tight F = 128, wide F = 1.29), step 2's classification table and Check 2, step 3's Predict (person reducing by 15), all Checks; 16 step 2 states F = t² for two groups, shown on numbers in Self-test 5 (verify `16 ST5 t^2 = F`), not cited to a text | S8 | open |
+| 24 | G&K Fundamentals has no ANOVA formulas (§14.5.11 only names the technique), so 16 rests on two university-author notes: Chan (Rutgers Math 170S §9.3: SS definitions, computational forms, df, F, assumptions) and Lockhart (SFU STAT 330 lecture 20: decomposition and df only). F = MSB/MSW and the assumptions are therefore single-sourced at Chan, plus G&K §14.5.5's F ratio and KB stage-2 §3 | S8 | open |
 | 17 | Session 10 crashed after writing 06; session 11 accepted its 06 after reading it in full, recomputing every number (one rounding fix: MTE C1(a) 0.0669) and agy's page check, without re-reading G&K §8.2 | S5 | open |
 
 ## Current hand-off
 
 ```
-Sprint: S7 — 13 + 14 — done (2026-11-17, auto.py sessions 13 (crashed) + 14)
-Written: content/13-t-tests.md — v1.3, 7 steps (running example A5 C1 nitrate, n 10, x̄ 12.5, s 1.080, t 1.464):
-  1 σ unknown, t (A5 B1; t_calls; n-divisor note; A4 MCQ 3), 2 s and t from raw data (A5 C1, Check A5 B4;
-  nitrate_dots), 3 two levels (A5 D2 test part; t_levels), 4 one tail or two (t_one_two), 5 two independent
-  samples (A5 C2(a), t(20) = 2.086; class_curves), 6 interval for μ₁ − μ₂ (A5 C2(b); diff_ci), 7 paired (A5 C4,
-  A5 A2, A5 A4 note; paired_diff).
-  content/14-f-test.md — v1.3, 6 steps (running example A5 C5, F 1.143, (7, 10)): 1 F ratio (A5 A5; two_spreads),
-  2 which on top, df order (f_df_order), 3 F from sums of squares (A5 C5; f_curve; printed-value vs α/2 note),
-  4 two-tailed from SDs (A5 B2, B3), 5 raw data (A5 D1 + 5.19 slip note; coal_dots), 6 F before the t (A5 C2 link).
-  figures.py (Sonnet helper): 11 new functions t_calls, nitrate_dots, t_levels, t_one_two, class_curves, diff_ci,
-  paired_diff, two_spreads, f_df_order, f_curve, coal_dots; old t_decision/paired_diff/f_curve replaced. S6's six
-  label fixes (ci_coverage, ci_levels, crit_battery, beta_battery, expo_ab, power_fn) were done in session 13.
-  verify.py: block "# ==== v1.3 S7"; old "---- 13/14" checks pruned. START-HERE slip rows A5 D1 → 14 §5,
-  A5 A4 → 13 §7. KB 04 "Prescribed-textbook locations" + G&K §14.2, §14.2.10, §14.5.5; sources.md; CHANGELOG.
-Verified this sprint: G&K §14.2 (Ex. 14·6), §14.2.10 remarks 3–4, §14.5.5 remarks 1–2 and the two-tailed rule
-  on the PDF text layer (session 13's extract gk7b.txt, re-read session 14). Numbers: verify.py 1273 checks,
-  0 failures, 19 key differences (new: 14 S5 F(4,4) vs printed 5.19). Fixed: 14 step 2 table F₀.₀₁(7, 10)
-  was 3.95 (the 2.5% point), now 5.20. Build 13 14: no OVERLAP; combined PDF 243 pp.
-  agy page check (13: 13 pp., 14: 10 pp., 11 new figures, S6's six relabelled figures): run in session 15 (report <temp>/agy7-report.md): 40 images, 39 clean; all six S6 relabelled figures confirmed uncrossed (S6's open item closed). One note: 14 p.7 step-5 table has a blank top-left header cell above the row labels Mine 1/Mine 2: intended layout, left as is. Session 15 also re-ran verify (1273, 0 failures) and build 13 14 (0 flagged lines, 243 pp.).
-Decisions made: later files cite "13 step 5" (pooled t), "14 step 6" (F before t). File 16 uses 14's F table idea.
-Helpers: Sonnet = 11 figure functions + overlap check + build 13 14 (1 job). agy = page/figure check (agy7-report.md,
-  session 15; session 15 itself: 0 subagents, ~15 calls). Haiku: none.
-Assumptions to review: 21, 22 (new, in the persistent section).
-Next sprint: S8 — 15 + 16 (χ² independence; ANOVA). First action: log the S8 start, then read brief §2 rows 15/16
-  and §4 rows 15/16 (grep "^| 1[56] " in src/brief.md), content/15 and 16, KB 04 "The standard tests" and
-  "Table values", 14 lines 1–30 (format model).
+Sprint: S8 — 15 + 16 — done (2026-11-17, auto.py session 17)
+Written: content/15-chi-square-independence.md — v1.3, 8 steps (running example A5 C3 smokers, χ² 14.06, 1 df, 3.841):
+  1 counts in a table (Predict; smoke_split), 2 expected frequency (A5 A7; Check A5 D3's E's), 3 χ² statistic (A5 A6,
+  A3; obs_exp), 4 df (A5 A8; derivation from G&K's note; chi_df_curves), 5 a 2 × 2 test (A5 C3; conditions G&K §13.5;
+  chi_curve), 6 the 2 × 2 shortcut (A5 D3; derivation from G&K Ex. 13·17), 7 table from a story (A5 B5), 8 3 × 3
+  (A5 B6 at 1%; oil_contrib).
+  content/16-anova.md — v1.3, 8 steps (running example A5 C6, F 9.17, (2, 12), 3.89): 1 between vs within spread
+  (Predict; anova_spread_pair), 2 assumptions + one-way classification, 3 SST = SSB + SSW by deviations (anova_dots,
+  ss_split), 4 computing from totals (CF), 5 df and mean squares (A5 A9; MSW = pooled variance), 6 ANOVA table and F
+  (A5 A10 + options note), 7 equal groups (A5 C6; anova_f_curve; 19.41 slip note), 8 unequal groups (A5 D4; income_dots).
+  figures.py (Sonnet helper): 10 functions smoke_split, obs_exp, chi_df_curves, chi_curve, oil_contrib, anova_dots,
+  anova_spread_pair, ss_split, anova_f_curve, income_dots (old obs_exp/chi_curve/anova_dots replaced); 0 OVERLAP.
+  verify.py: block "# ==== v1.3 S8"; old "---- 15/16" pack checks pruned (13). START-HERE: rank rows 3 and 7 re-pointed
+  (16 §3–8, 15 §2–6), what-each-file rows 15/16, slip rows A5 C6 → 16 §7, A5 A10 → 16 §6.
+  KB 04 "Prescribed-textbook locations" + §13.7.3/§13.5/Ex. 13·16–17 and §14.5.11 bullets; sources.md; CHANGELOG.
+Verified this sprint: G&K §13.7.3 (eq. 13·16, 13·16a), note on df, Ex. 13·16–13·17 on the PDF text layer; §13.5
+  remark 2 (N > 50, E ≥ 5) on the page image. ANOVA: Chan (Rutgers notes §9.3) + Lockhart (SFU STAT 330 l.20).
+  Numbers: verify.py 1420 checks, 0 failures, 19 key differences (unchanged list). A5 answers compared: C3 14.06,
+  D3 22.5, B5 15.24, B6 58.00 (13.28 = χ²₀.₀₁(4) ✓), A6 (C), A7 (C), A8 (C), A9 (B), A10 4.44 (key 4.00: slip,
+  known), C6 F 9.17 (printed 19.41 = F(12, 2): slip, known), D4 F 38.55 (6.36 = F₀.₀₁(2, 15) ✓).
+  Build 15 16: 0 flagged lines; 15 = 14 pp., 16 = 14 pp.; combined PDF 257 pp.
+  agy page check (28 pages, report <temp>/agy8-report.md): 27 of 28 clean; one flag: 16 p.5 anova_dots, the grand-mean dashed line crossed the "mean 7.6" label. Fixed in figures.py (label moved below the line), 16 rebuilt (0 flagged lines, combined 257 pp.), page re-viewed by Opus: clean.
+Open (carried): START-HERE "how checked" line (backlog row, S9).
+Decisions made: later files cite "15 step 6" (2 × 2 shortcut), "16 step 7" (full ANOVA test). Mock D1 still points to
+  file 16 by topic, not step: S9 re-points it.
+Helpers: Sonnet = 10 figure functions + overlap check (1 job). agy = page check (agy8-report.md). Haiku: none.
+  Own calls ≈ 45.
+Assumptions to review: 23, 24 (new, in the persistent section).
+Next sprint: S9 — 10 + integration. First action: log the S9 start, then read brief rows 10 and 17 (grep "^| 1[07] "
+  in src/brief.md), content/10-… and 17-mock-paper.md, KB 03 Bayesian section, 16 lines 1–30 (format model).
 Read at start: this hand-off · ../../../study-pack-sprint-protocol.md · spec §5 (study-pack-format.md lines 68–95)
-  · brief rows 15/16 · content/15-…, 16-… · Assignment 5 only for the items the brief maps. G&K: χ² §15? / ANOVA
-  ch. 19?: locate pages first with the pattern of <temp>/gk6.py, then read snippets as <temp>/gk6b.py does
-  (output to a file). Do not re-read src/build.py.
+  · brief rows 10/17 · content/10-…, 17-…, 00-START-HERE.md by section · the Verify backlog rows for S9 · slides
+  MLE-and-Bayesian (Bayesian pages only). Do not re-read src/build.py.
 Build/view how-to (scratch scripts in the auto.py temp folder, rewrite if gone):
   `python -I -X utf8 <temp>/run_build.py verify.py` and `... run_build.py build.py <prefixes>` (prints OVERLAP/FAIL
-  lines); `<temp>/agy7prep.py` pattern (renders named PDFs at 80 dpi + figure PNGs) then agy as in the contract.
-  Progress log: write <temp>/line.txt, run `python -I -X utf8 <temp>/logline.py <temp>/line.txt`. Edits of several
-  strings: a script in <temp> that asserts each match once (print with -X utf8; the console is cp1252).
-  verify.py: insert a block before the final summary print (pattern: <temp>/s7_verify.py). Markup: no ASCII "|"
-  inside a table cell or a [[fig:…]] caption (use "∣"); no Greek in box titles.
+  lines; build with no prefixes for the full pack); `<temp>/agy8prep.py` pattern (renders named PDFs at 80 dpi) then
+  agy as in the contract. Progress log: Write <temp>/line.txt, run `python -I -X utf8 <temp>/logline.py <temp>/line.txt`.
+  Edits of several strings: a script in <temp> that asserts each match once (<temp>/s8_xref.py). verify.py: insert a
+  block before the final summary print (pattern: <temp>/s8_verify.py). Markup: no ASCII "|" inside a table cell or
+  a [[fig:…]] caption (use "∣"); no Greek in box titles.
 ```

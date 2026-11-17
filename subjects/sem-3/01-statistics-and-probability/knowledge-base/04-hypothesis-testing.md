@@ -97,6 +97,22 @@ distributions' quantiles and areas). "Area 0..z" = P(0 < Z < z).
   variance goes in the numerator and n₁ belongs to it; compare with the tabulated F at 5% or 1%. Remark 2:
   tables give right-tail values P[F > F_α(ν₁, ν₂)] = α; F_α(n₁, n₂) × F₁₋α(n₂, n₁) = 1; the two-tailed test
   rejects if F > F_{α/2} or F < F_{1−α/2} (Ex. 14·20: two-tailed at 10% uses the 5% points).
+- **§13.7.3** (G&K ch. 13, read on the PDF text layer 2026-11-17, study-pack S8) independence of attributes in an
+  r × s contingency table: under H₀ (independent) the expected frequency is (AᵢBⱼ)₀ = (Aᵢ)(Bⱼ)/N (eq. 13·16, from
+  P[AᵢBⱼ] = P[Aᵢ]P[Bⱼ]); χ² = ΣΣ[(AᵢBⱼ) − (AᵢBⱼ)₀]²/(AᵢBⱼ)₀ is approximately χ² with (r − 1)(s − 1) df for large N
+  (13·16a). **Note on degrees of freedom:** df = observations less independent constraints; an r × s table's
+  fixed row and column totals give r + s − 1 independent constraints, so df = rs − (r + s − 1). **Ex. 13·16**
+  (aliter): in a 2 × 2 table one expected frequency fixes the other three. **Ex. 13·17:** for the 2 × 2 table
+  a, b / c, d, χ² = N(ad − bc)²/[(a + c)(b + d)(a + b)(c + d)], with a − E(a) = (ad − bc)/N.
+  **§13.5 remark 2** (conditions, page image viewed): independent observations; linear constraints; N
+  "reasonably large, say, greater than 50"; no theoretical cell frequency below 5 (pool and adjust df).
+  **Remark 4:** tables give the upper (right-tail) α-point χ²ₙ(α).
+- **§14.5.11** "F-test for equality of several means": G&K only states that it "is carried out by the technique
+  of Analysis of Variance" (no formulas in this book). The one-way ANOVA formulas are verified at two
+  university-author texts (`sources.md`, S8): SS(TO) = SS(T) + SS(E) with SS(T) = Σnᵢ(x̄ᵢ − x̄)²,
+  SS(E) = ΣΣ(x − x̄ᵢ)², computational forms Σx² − N x̄² and Σnᵢx̄ᵢ² − N x̄² (N x̄² = G²/N, the correction
+  factor); df m − 1, N − m, N − 1; F = [SS(T)/(m − 1)]/[SS(E)/(N − m)] compared with F_α(m − 1, N − m) (reject if ≥);
+  assumptions: independent normal samples with a common variance σ². `settled`
 
 ---
 **Stage 2 (deep structure) — ✓ BUILT (2026-06-19):** lives separately in

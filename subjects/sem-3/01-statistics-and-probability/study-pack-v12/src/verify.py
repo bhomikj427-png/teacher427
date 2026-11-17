@@ -386,17 +386,8 @@ chk("10 prior mean", .1 * .6 + .2 * .4, 0.14)
 # ---- 12 (v1.2 checks removed S6; 12a/12b numbers are in the "v1.3 S6" block)
 # ---- 13 (v1.2 checks removed S7; numbers are in the "v1.3 S7" block)
 # ---- 14 (v1.2 checks removed S7; numbers are in the "v1.3 S7" block)
-# ---- 15
-chk("15 B6 E31", 61 * 65 / 200, 19.825); chk("15 ST3", 100 * (400 - 900) ** 2 / 50**4, 4)
-chk("15 chi2 4df 5%", stats.chi2.isf(.05, 4), 9.488, tol=1e-3); chk("15 chi2 1df 1%", stats.chi2.isf(.01, 1), 6.635, tol=1e-3)
-chk("15 chi2 2df 5%", stats.chi2.isf(.05, 2), 5.991, tol=1e-3)
-# ---- 16
-chk("16 C2 F", (60 / 2) / (90 / 12), 4)
-chk("16 C3 SSB", (40**2 + 48**2 + 56**2) / 4 - 144**2 / 12, 32); chk("16 C3 F", (32 / 2) / (80 / 9), 1.8)
-chk("16 C4 SSB by means", sum(len(g_) * (g_.mean() - 1563 / 18) ** 2 for g_ in G4), 5726.5, tol=0.05)
-chk("16 ST3 F", (36 / 3) / (64 / 16), 3); chk("16 ST3 F(3,16)", stats.f.isf(.05, 3, 16), 3.24, tol=0.01)
-chk("16 ST5 F", stats.f_oneway([2, 4, 6], [6, 8, 10]).statistic, 6)
-chk("16 D4 sum x^2", sum((g_**2).sum() for g_ in G4), 142561)
+# ---- 15 (v1.2 checks removed S8; numbers are in the "v1.3 S8" block)
+# ---- 16 (v1.2 checks removed S8; numbers are in the "v1.3 S8" block)
 # ---- 17 mock
 xm = np.array([0, 1, 2]); pm = np.array([.2, .5, .3])
 chk("M A1 E", (xm * pm).sum(), 1.1); chk("M A1 Var", (xm**2 * pm).sum() - 1.21, 0.49)
@@ -1110,6 +1101,125 @@ chk("14 ST3 F", 24 / 15, 1.6); chk("14 ST3 F(10,15)", _F(10, 15).isf(.05), 2.54,
 chk("14 ST4 F", 36 / 16, 2.25)
 chk("14 ST5 S2", (630 + 426) * 100 / 8, 13200); chk("14 ST5 SE", math.sqrt(13200 * .4), 72.66, tol=.005)
 chk("14 ST5 t", stats.ttest_ind(_m1, _m2).statistic, 3.716, tol=5e-4); chk("14 ST5 t(8)", _T(8).isf(.025), 2.306, tol=5e-4)
+
+# ==== v1.3 S8 — files 15, 16 (route: scipy chi2_contingency / chi2 / f objects, f_oneway and ttest_ind on raw data;
+# sums of squares from deviations (anova() above), compared with the pack's CF / totals route)
+_C2, _F8 = stats.chi2, stats.f
+# 15 step 1: shares, Check 1
+chk("15 S1 smokers share", 75 / 180, .417, tol=5e-4); chk("15 S1 non-smokers share", 25 / 120, .208, tol=5e-4)
+chk("15 S1 all share", 100 / 300, .333, tol=5e-4)
+_c, _df, _ex = chi([[30, 30], [20, 20]]); chk("15 C1 chi2", _c, 0, tol=1e-12)
+# 15 step 2: expected table (A5 C3), Check 2 (A5 D3)
+_c, _df, _ex = chi([[75, 105], [25, 95]])
+chk("15 S2 E11", _ex[0, 0], 60); chk("15 S2 E12", _ex[0, 1], 120); chk("15 S2 E21", _ex[1, 0], 40); chk("15 S2 E22", _ex[1, 1], 80)
+_c, _df, _ex = chi([[370, 430], [130, 70]])
+chk("15 C2 E11", _ex[0, 0], 400); chk("15 C2 E12", _ex[0, 1], 400); chk("15 C2 E21", _ex[1, 0], 100); chk("15 C2 E22", _ex[1, 1], 100)
+# 15 step 3: contributions and chi2 (A5 C3), Check 3
+_O = np.array([[75, 105], [25, 95]]); _E = np.array([[60, 120], [40, 80]]); _ct = (_O - _E) ** 2 / _E
+chk("15 S3 c11", _ct[0, 0], 3.750, tol=1e-9); chk("15 S3 c12", _ct[0, 1], 1.875, tol=1e-9)
+chk("15 S3 c21", _ct[1, 0], 5.625, tol=1e-9); chk("15 S3 c22", _ct[1, 1], 2.8125, tol=1e-9)
+chk("15 S3 chi2", chi(_O)[0], 14.0625, tol=1e-9); chk("15 S5 chi2 rounded", chi(_O)[0], 14.06, tol=5e-3)
+_c, _df, _ex = chi([[30, 20], [20, 30]]); chk("15 C3 E", _ex[0, 0], 25); chk("15 C3 chi2", _c, 4, tol=1e-9)
+# 15 step 4: df, curve reading table, Check 4
+chk("15 S4 df 2x2", chi(_O)[1], 1); chk("15 S4 df 3x3", chi([[44, 22, 13], [15, 19, 26], [6, 8, 47]])[1], 4)
+chk("15 S4 1df P>2", _C2(1).sf(2), .157, tol=5e-4); chk("15 S4 4df P>2", _C2(4).sf(2), .736, tol=5e-4)
+chk("15 S4 1df 5%", _C2(1).isf(.05), 3.841, tol=5e-4); chk("15 S4 1df 1%", _C2(1).isf(.01), 6.635, tol=5e-4)
+chk("15 S4 4df 5%", _C2(4).isf(.05), 9.488, tol=5e-4); chk("15 S4 4df 1%", _C2(4).isf(.01), 13.28, tol=5e-3)
+chk("15 C4 df 4x3", (4 - 1) * (3 - 1), 6); chk("15 C4 df 2x3", (2 - 1) * (3 - 1), 2)
+# 15 step 5: reading table, conditions; Check 5
+chk("15 S5 P>14.06", _C2(1).sf(14.06), .0002, tol=5e-5); chk("15 S5 min E", 40, 40)
+chk("15 C5 a", float(2.9 < _C2(1).isf(.05)), 1); chk("15 C5 b", float(14.0625 > _C2(1).isf(.01)), 1)
+# 15 step 6 (A5 D3) shortcut, cross-check; Check 6
+_sh = lambda a, b, c, d: (a + b + c + d) * (a * d - b * c) ** 2 / ((a + b) * (c + d) * (a + c) * (b + d))
+chk("15 S6 ad-bc", 370 * 70 - 430 * 130, -30000); chk("15 S6 chi2", _sh(370, 430, 130, 70), 22.5, tol=1e-9)
+chk("15 S6 long way", chi([[370, 430], [130, 70]])[0], 22.5, tol=1e-9)
+chk("15 S6 contribution 9", (130 - 100) ** 2 / 100, 9); chk("15 S6 contribution 2.25", (370 - 400) ** 2 / 400, 2.25)
+chk("15 S6 bracket", sum(1 / e for e in [60, 120, 40, 80]), 300 ** 3 / (180 * 120 * 100 * 200), tol=1e-12)
+chk("15 C6 chi2", _sh(75, 105, 25, 95), 14.06, tol=5e-3); chk("15 C6 numerator", 300 * 4500 ** 2, 6075000000)
+# 15 step 7 (A5 B5): table, shares, contributions; Check 7
+_c, _df, _ex = chi([[1236, 564], [164, 36]])
+chk("15 S7 E", _ex[1, 1], 60); chk("15 S7 E12", _ex[0, 1], 540); chk("15 S7 E21", _ex[1, 0], 140)
+chk("15 S7 share H", 1236 / 1800, .687, tol=5e-4); chk("15 S7 share NH", 164 / 200, .82)
+chk("15 S7 c 0.4571", 576 / 1260, .4571, tol=5e-5); chk("15 S7 c 1.0667", 576 / 540, 1.0667, tol=5e-5)
+chk("15 S7 c 4.1143", 576 / 140, 4.1143, tol=5e-5); chk("15 S7 c 9.6", 576 / 60, 9.6, tol=1e-9)
+chk("15 S7 chi2", _c, 15.24, tol=5e-3); chk("15 S7 shortcut", _sh(1236, 564, 164, 36), 15.24, tol=5e-3)
+chk("15 C7 chi2", chi([[140, 60], [160, 140]])[0], 13.89, tol=5e-3); chk("15 C7 shortcut", _sh(140, 60, 160, 140), 13.89, tol=5e-3)
+chk("15 C7 boys share", 160 / 300, .53, tol=5e-3)
+# 15 step 8 (A5 B6): E table, contributions, chi2
+_O8 = np.array([[44, 22, 13], [15, 19, 26], [6, 8, 47]]); _c, _df, _ex = chi(_O8); _ct = (_O8 - _ex) ** 2 / _ex
+for (i_, j_), v_ in {(0, 0): 25.68, (0, 1): 19.36, (0, 2): 33.97, (1, 0): 19.50, (1, 1): 14.70, (1, 2): 25.80,
+                     (2, 0): 19.83, (2, 1): 14.95, (2, 2): 26.23}.items():
+    chk(f"15 S8 E{i_}{j_}", _ex[i_, j_], v_, tol=5.1e-3)
+for (i_, j_), v_ in {(0, 0): 13.08, (0, 1): .36, (0, 2): 12.94, (1, 0): 1.04, (1, 1): 1.26, (1, 2): 0.00,
+                     (2, 0): 9.64, (2, 1): 3.23, (2, 2): 16.45}.items():
+    chk(f"15 S8 c{i_}{j_}", _ct[i_, j_], v_, tol=5.1e-3)
+chk("15 S8 chi2", _c, 58.00, tol=5e-3); chk("15 S8 min E", _ex.min(), 14.70, tol=5e-3)
+# 15 table values, self-test
+chk("15 EF 2df 5%", _C2(2).isf(.05), 5.991, tol=5e-4); chk("15 EF 6df 5%", _C2(6).isf(.05), 12.592, tol=5e-4)
+chk("15 ST3 chi2", _sh(20, 30, 30, 20), 4, tol=1e-9); chk("15 ST3 chi2 table", chi([[20, 30], [30, 20]])[0], 4, tol=1e-9)
+# 16 step 1: the two-panel figure's F values; Check 1
+_tight = [np.array(x) for x in ([10.8, 11.8, 12.8, 11.3, 12.3], [2.8, 3.8, 4.8, 3.3, 4.3], [6.6, 7.6, 8.6, 7.1, 8.1])]
+_wide = [np.array(x) for x in ([2, 6, 12, 18, 21], [-6, -1, 4, 9, 13], [-3, 3, 8, 12, 18])]
+chk("16 S1 tight means", np.mean(_tight[0]) + np.mean(_tight[1]) + np.mean(_tight[2]), 11.8 + 3.8 + 7.6, tol=1e-9)
+chk("16 S1 wide means", np.mean(_wide[0]) + np.mean(_wide[1]) + np.mean(_wide[2]), 11.8 + 3.8 + 7.6, tol=1e-9)
+chk("16 S1 tight F", stats.f_oneway(*_tight).statistic, 128, tol=.5); chk("16 S1 wide F", stats.f_oneway(*_wide).statistic, 1.29, tol=5e-3)
+chk("16 S1 tight within 1", max(abs(x - g_.mean()) for g_ in _tight for x in g_), 1, tol=1e-9)
+chk("16 S1 wide range lo", min(x for g_ in _wide for x in g_), -6); chk("16 S1 wide range hi", max(x for g_ in _wide for x in g_), 21)
+chk("16 C1 familywise", 1 - .95 ** 3, .14, tol=5e-3)
+# 16 step 3: deviations route (A5 C6), Predict, Check 3
+_r6 = anova(G6)
+chk("16 S3 grand", _r6["gm"], 7.733, tol=5e-4); chk("16 S3 Predict group part", 11.8 - _r6["gm"], 4.07, tol=5e-3)
+chk("16 S3 Predict person part", 15 - 11.8, 3.2, tol=1e-9); chk("16 S3 Predict total", 15 - _r6["gm"], 7.27, tol=5e-3)
+chk("16 S3 sq med", (11.8 - _r6["gm"]) ** 2, 16.538, tol=5e-4); chk("16 S3 sq ex", (3.8 - _r6["gm"]) ** 2, 15.471, tol=5e-4)
+chk("16 S3 sq diet", (7.6 - _r6["gm"]) ** 2, .018, tol=5e-4)
+chk("16 S3 SSB", _r6["ssb"], 160.13, tol=5e-3)
+chk("16 S3 SSW med", ((G6[0] - 11.8) ** 2).sum(), 22.8, tol=1e-9); chk("16 S3 SSW ex", ((G6[1] - 3.8) ** 2).sum(), 40.8, tol=1e-9)
+chk("16 S3 SSW diet", ((G6[2] - 7.6) ** 2).sum(), 41.2, tol=1e-9); chk("16 S3 SSW", _r6["ssw"], 104.80, tol=5e-3)
+chk("16 S3 SST", _r6["sst"], 264.93, tol=5e-3); chk("16 S3 SSB share", _r6["ssb"] / _r6["sst"], .60, tol=5e-3)
+_rab = anova([np.array([2, 4, 6]), np.array([6, 8, 10])])
+chk("16 C3 grand", _rab["gm"], 6); chk("16 C3 SSB", _rab["ssb"], 24, tol=1e-9); chk("16 C3 SSW", _rab["ssw"], 16, tol=1e-9)
+chk("16 C3 SST", _rab["sst"], 40, tol=1e-9)
+# 16 step 4: CF route (A5 C6), Check 4
+chk("16 S4 CF", 116 ** 2 / 15, 897.07, tol=5e-3); chk("16 S4 116^2", 116 ** 2, 13456)
+chk("16 S4 sum x2 med", (G6[0] ** 2).sum(), 719); chk("16 S4 sum x2 ex", (G6[1] ** 2).sum(), 113)
+chk("16 S4 sum x2 diet", (G6[2] ** 2).sum(), 330); chk("16 S4 sum x2", sum((g_ ** 2).sum() for g_ in G6), 1162)
+chk("16 S4 SST by CF", 1162 - 116 ** 2 / 15, _r6["sst"], tol=1e-9)
+chk("16 S4 sum T2", 59 ** 2 + 19 ** 2 + 38 ** 2, 5286); chk("16 S4 SSB by CF", 5286 / 5 - 116 ** 2 / 15, _r6["ssb"], tol=1e-9)
+chk("16 S4 shift invariance", anova([g_ - 80 for g_ in G4])["sst"], anova(G4)["sst"], tol=1e-9)
+chk("16 C4 CF", 144 ** 2 / 12, 1728); chk("16 C4 SST", 1840 - 1728, 112)
+chk("16 C4 SSB", (40 ** 2 + 48 ** 2 + 56 ** 2) / 4 - 1728, 32); chk("16 C4 SSW", 112 - 32, 80)
+# 16 step 5: df, MS, pooled variance; Check 5
+chk("16 S5 MSB", _r6["msb"], 80.07, tol=5e-3); chk("16 S5 MSW", _r6["msw"], 8.73, tol=5e-3)
+chk("16 S5 pooled", np.mean([g_.var(ddof=1) for g_ in G6]), _r6["msw"], tol=1e-9)
+chk("16 S5 dfs", _r6["dfb"] + _r6["dfw"], 14)
+chk("16 C5 dfw", 30 - 5, 25)
+# 16 step 6 (A5 A10), Check 6
+chk("16 S6 A10 F", (120 / 3) / (180 / 20), 4.44, tol=5e-3); chk("16 S6 120/180", 120 / 180, .67, tol=5e-3)
+chk("16 C6 F", (60 / 2) / ((150 - 60) / 12), 4)
+# 16 step 7 (A5 C6): reading table, F, table values, Check 7
+chk("16 S7 F", _r6["F"], 9.17, tol=5e-3)
+chk("16 S7 P>2", _F8(2, 12).sf(2), .178, tol=5e-4); chk("16 S7 F(2,12) 5%", _F8(2, 12).isf(.05), 3.89, tol=5e-3)
+chk("16 S7 F(2,12) 1%", _F8(2, 12).isf(.01), 6.93, tol=5e-3); chk("16 S7 P>9.17", _F8(2, 12).sf(_r6["F"]), .004, tol=5e-4)
+chk("16 S7 F(12,2) 5%", _F8(12, 2).isf(.05), 19.41, tol=5e-3)
+# 16 step 8 (A5 D4), Check 8
+_r4 = anova(G4)
+chk("16 S8 CF", 1563 ** 2 / 18, 135720.5, tol=1e-6); chk("16 S8 1563^2", 1563 ** 2, 2442969)
+chk("16 S8 sum x2 1", (G4[0] ** 2).sum(), 28998); chk("16 S8 sum x2 2", (G4[1] ** 2).sum(), 83477)
+chk("16 S8 sum x2 3", (G4[2] ** 2).sum(), 30086)
+chk("16 S8 T2/n 2", 763 ** 2 / 7, 83167, tol=.5); chk("16 S8 sum T2/n", 380 ** 2 / 5 + 763 ** 2 / 7 + 420 ** 2 / 6, 141447, tol=.5)
+chk("16 S8 SST", _r4["sst"], 6840.5, tol=1e-6); chk("16 S8 SSB", _r4["ssb"], 5726.5, tol=.05); chk("16 S8 SSW", _r4["ssw"], 1114.0, tol=.05)
+chk("16 S8 MSB", _r4["msb"], 2863.25, tol=.03); chk("16 S8 MSW", _r4["msw"], 74.27, tol=5e-3)
+chk("16 S8 F", _r4["F"], 38.55, tol=5e-3); chk("16 S8 F(2,15) 1%", _F8(2, 15).isf(.01), 6.36, tol=5e-3, key=6.36, ktol=5e-3)
+chk("16 S8 means", G4[1].mean(), 109); chk("16 S8 grand", _r4["gm"], 86.83, tol=5e-3)
+chk("16 C8 sq1", (76 - 1563 / 18) ** 2, 117.36, tol=5e-3); chk("16 C8 sq2", (109 - 1563 / 18) ** 2, 491.36, tol=5e-3)
+chk("16 C8 sq3", (70 - 1563 / 18) ** 2, 283.36, tol=5e-3)
+chk("16 C8 terms", 5 * (76 - 1563 / 18) ** 2 + 7 * (109 - 1563 / 18) ** 2 + 6 * (70 - 1563 / 18) ** 2, 586.8 + 3439.5 + 1700.2, tol=.1)
+# 16 self-test
+chk("16 ST3 F", (36 / 3) / (64 / 16), 3); chk("16 ST3 F(3,16)", _F8(3, 16).isf(.05), 3.24, tol=5e-3)
+chk("16 ST5 F", stats.f_oneway([2, 4, 6], [6, 8, 10]).statistic, 6, tol=1e-9)
+chk("16 ST5 t", abs(stats.ttest_ind([2, 4, 6], [6, 8, 10]).statistic), 2.449, tol=5e-4)
+chk("16 ST5 t^2 = F", stats.ttest_ind([2, 4, 6], [6, 8, 10]).statistic ** 2, 6, tol=1e-9)
+chk("16 ST5 SE", math.sqrt(4 * (1 / 3 + 1 / 3)), 1.633, tol=5e-4)
 
 print(f"\n{N[0]} checks; {len(FAILS)} pack failures; {len(KEYDIFF)} key differences")
 if KEYDIFF:
