@@ -179,3 +179,5 @@
 - Where we stopped: DE v1.2 pack delivered; learner has not worked any Check.
 - [2026-11-16] Spec now **v1.3** (`study-pack-format.md`); the v1.2 files 01–19 are listed as not meeting it. Writing `sprints.md` (S0–S9, 10 sprints, learner's budget 9–10): S0 builds the subject brief, then 1–3 files per sprint in START-HERE priority with prerequisites first, run by `auto.py` (shared steps: `../../../study-pack-sprint-protocol.md`). **No teaching event.**
 - [2026-11-16] ETE dates (learner-stated): Stats 19 Nov, DE 21 Nov, EDC 24 Nov (`research-engine/exam-calendar.md`). Sprint runs in that order; `sprints.md` header gets the date. **No teaching event.**
+
+- [2026-11-17] Learner approved splitting work with Gemini (AI Pro, Gemini CLI) to fit the weekly Claude limit. S0 splits: **S0a** (Gemini, `GEMINI-TASK.md`) transcribes the 15 decks, the MTE paper and both practice sets into `src/brief.md` §1 and maps every question in §2; **S0b** (Claude) reviews S0a, then writes §3 constants vs KB, §4 file plan, the figure list and `src/verify.py`. **No teaching event.**
