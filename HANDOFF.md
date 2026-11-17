@@ -15,6 +15,8 @@
     `run-<subject>.log`. Stop between runs: `touch tools/auto-chain/STOP`. Graceful stop now:
     `python auto-v2.py stop`.
   - The auto run is a **child of the Claude session that starts it**: closing that terminal kills it.
+  - Run it **from the repo root** (the script finds its own folder via a relative `$0`), with the
+    Bash tool's `run_in_background`, never a foreground call.
 - **Weekly brake:** off until the weekly reset (~2026-11-18 22:30). Weekly was 75% at 18:26. After
   the reset the learner will ask for **80%**: set `THRESH` in `tools/auto-chain/weekly_check.py`
   (re-read every check; no restart needed).
@@ -33,7 +35,22 @@
 - Hard-limit crashes in DE sessions 4 and 9 (a whole-file Write started at ~172k) → contract rule
   added: no whole-file Write above 150k.
 
-## 3. After DE
+## 3. Driving agy (verified 2026-11-17; Google quota, zero Claude tokens)
+`timeout 1500 agy --model gemini-3.8-flash-high -p "<task>" --dangerously-skip-permissions --add-dir <scratch> --log-file <scratch>/agy-<name>.log < /dev/null`
+- Always pass `--model` (after a network drop agy lost its model: "plan model not specified").
+- stdout is empty: the task must say "Read GEMINI.md … write your answer to <scratch>/<name>.md and
+  nothing else; do not edit any file outside <scratch>". Afterwards `git status --short` (it stayed clean
+  every time today). Several jobs can run in parallel. ~58 image-only pages hit a 20-min cap → split.
+- Its output is a lead: check coverage by script, spot-check pages yourself, then commit.
+
+## 4. How the learner wants this run handled (memory has the detail)
+- Decide build/format/accounting calls yourself; log them; never ask (memory: decide-small-calls-yourself).
+- While they are away: fix anything with one clear solution; interrupt only for a privacy concern or a
+  real two-path fork / something genuinely broken. When they return: one report, then normal mode.
+- Opus does Opus-worthy work only; push everything mechanical to Sonnet/Haiku subagents and agy.
+- Never ask about repo visibility (it is private).
+
+## 5. After DE
 - EDC (`sem-3/03-electronic-devices-1`, ETE 24 Nov): E0 transcription → **agy first** (pattern: one
   `agy --model gemini-3.8-flash-high -p` job per deck writing to a scratch file, split decks over ~40
   image-only pages, check page coverage by script, spot-check, assemble brief, commit), then
