@@ -78,115 +78,761 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 .c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
 .c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
 .c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>09 — Latches and flip-flops</h1>
-<div class="sub">Deck 08 (slides 6–40) · mid-term 2025 Q3 (2 marks) · practice set 2 Q1 · syllabus Unit 3 · needs 01 (NOR and NAND gates)</div>
+<div class="sub">Deck 08 (slides 1–58) · syllabus Unit 3 (latch; S-R, D, JK, T, master–slave JK, edge-triggered flip-flops) · 2 real questions: MTE 2025 Q3 (2 marks), practice set 2 Q1 · needs 01 step 3 (NOT, NAND, NOR gates), 01 step 8 (XOR), 02 steps 1–5 (2- and 3-variable K-maps, don't-cares from 02 step 7)</div>
 
 <h2>Map</h2>
-<div class="map"><span class="n here">1 Latches</span><span class="a">→</span><span class="n">2 Flip-flops</span><span class="a">→</span><span class="n">3 Excitation tables, conversion</span></div>
+<div class="map"><span class="n here">1 Memory needs feedback</span><span class="a">→</span><span class="n">2 NOR SR latch</span><span class="a">→</span><span class="n">3 NAND latch</span><span class="a">→</span><span class="n">4 Gated SR latch</span><span class="a">→</span><span class="n">5 D latch</span><span class="a">→</span><span class="n">6 The clock</span><span class="a">→</span><span class="n">7 Latch vs flip-flop</span><span class="a">→</span><span class="n">8 D and SR flip-flops</span><span class="a">→</span><span class="n">9 JK flip-flop</span><span class="a">→</span><span class="n">10 T flip-flop</span><span class="a">→</span><span class="n">11 Race-around, master–slave</span><span class="a">→</span><span class="n">12 Excitation tables</span><span class="a">→</span><span class="n">13 Conversion</span></div>
 
-<p>Every circuit in 01–08 forgets its inputs the moment they change. A <strong>sequential</strong> circuit remembers: its output depends on the present inputs and on what came before. Memory comes from feeding a gate's output back to its input.</p>
+<p>Files 01–08 built <strong>combinational</strong> circuits: the output is fixed by the inputs present now, and the circuit forgets an input the moment it changes. This file builds the one-bit memory. It starts from two gates that feed each other (the latch), adds a control input that says when the latch may listen, and then a clock edge that says the exact instant (the flip-flop). It ends with the two tables every later design uses: the characteristic table (inputs → next state) and the excitation table (wanted change → inputs). File 10 draws flip-flop waveforms; files 12–13 chain flip-flops into counters.</p>
+<h2>Symbols</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>What it means in this file</th>
+<th>Typical value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q</td>
+<td>the stored bit: the output of the latch or flip-flop now</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>Q'</td>
+<td>the second output; the complement of Q in every allowed state</td>
+<td>1 − Q</td>
+</tr>
+<tr>
+<td>Q⁺ (also Q(t+1))</td>
+<td>the value Q takes after the next clock edge (or, for a latch, after the inputs act)</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>Q₀ (also Q(t))</td>
+<td>the value Q had before the inputs acted ("present state")</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>S, R</td>
+<td>Set and Reset inputs: S = 1 asks for Q = 1, R = 1 asks for Q = 0</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>S', R'</td>
+<td>active-low Set and Reset of the NAND latch: a <strong>0</strong> makes them act</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>EN (also C, E)</td>
+<td>enable: while it is 1 the latch listens to its inputs; while 0 it holds</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>CLK</td>
+<td>clock: a square wave that tells every flip-flop when to update</td>
+<td>1 kHz – 100 MHz</td>
+</tr>
+<tr>
+<td>D, J, K, T</td>
+<td>the data inputs of the D, JK and T flip-flops</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>X</td>
+<td>don't-care: either value gives the required result</td>
+<td>—</td>
+</tr>
+<tr>
+<td>T (time)</td>
+<td>clock period: time from one rising edge to the next</td>
+<td>10 ns – 1 ms</td>
+</tr>
+</tbody>
+</table>
+<h2>Running example</h2>
+<p><strong>One positive-edge JK flip-flop, Q = 0 at the start, with J K just before five clock edges = 10, 00, 01, 11, 11.</strong> Step 9 finds Q after each edge (1, 1, 0, 1, 0); step 11 asks what goes wrong if the same JK is level-triggered; step 12 reads its excitation; step 13 turns a JK into a D flip-flop.</p>
 <h2>The questions this file answers</h2>
 <ul>
-<li><span class="tag">Deck 08 slides 6–21</span> Draw a NOR SR latch, give its table, and explain why S = R = 1 is not allowed.</li>
-<li><span class="tag">MTE 2025 Q3 · 2 marks</span> What excitation input should be applied to a T flip-flop to make its output toggle?</li>
-<li><span class="tag">Set 2 Q1</span> Design a D flip-flop using SR, JK and T flip-flops and suitable gates.</li>
+<li><span class="tag">Deck 08 slides 6–17</span> Draw an SR latch with NOR gates (and with NAND gates), give its table for every input, and say why one input pair is not allowed.</li>
+<li><span class="tag">MTE 2025 Q3 · 2 marks</span> What excitation input should be applied to a T- FF to make output toggle?</li>
+<li><span class="tag">Practice set 2 Q1</span> Design a D flip-flop, using SR, JK &amp; T flip-flop and suitable logic gates.</li>
+<li><span class="tag">Deck 08 slides 53–58 (EX 8.53–8.58)</span> Convert JK → D, SR → JK, D → SR, D → T, D → JK.</li>
 </ul>
 <hr />
 <h2>Build</h2>
-<h3>1 · Latches</h3>
-<div class="box q">
-<div class="bh"><span class="tag">Deck 08 slides 6–21</span></div>
-<p>Draw an SR latch using NOR gates and give its output for every input combination. Why is S = R = 1 not allowed?</p>
-</div>
+<h3>1 · Memory needs feedback</h3>
+<p>Every gate in 01–08 has an output fixed by its inputs now. To remember, a circuit must see its own past: its output has to come back to its input.</p>
+<p><strong>Anchor.</strong> A lift call button: press it once and let go, and the lamp stays lit until the lift arrives. The lamp remembers a press that is no longer happening. Nothing in an AND–OR circuit can do that.</p>
 <div class="box guess">
-<div class="bh">Guess first</div>
-<p>With S = R = 0 the circuit can sit with Q = 0 or Q = 1. What decides which?</p>
+<div class="bh">Predict</div>
+<p>Two inverters are joined in a ring: A's output drives B, B's output drives A. Suppose A's output is 1. What is B's output, and can the ring ever change on its own?</p>
 </div>
 <div class="box note">
 <div class="bh">Terms</div>
-<p><strong>Latch:</strong> a circuit with two stable states that stores one bit. <strong>Set:</strong> make Q = 1. <strong>Reset:</strong> make Q = 0. <strong>Q':</strong> the second output, normally the complement.</p>
+<p><strong>Sequential circuit:</strong> combinational logic plus memory elements, where the outputs depend on the present inputs <strong>and</strong> on the stored state (deck 08 slide 1). <strong>Feedback:</strong> a wire that carries an output back to an input of the same circuit. <strong>Bistable:</strong> has exactly two states it can rest in forever (deck 08 slide 3).</p>
 </div>
 
-<figure style="max-width:50%"><div style="width:70mm;max-width:100%;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" viewBox="-8.392 -69.04 192.67999999999998 138.08"><circle cx="99.72" cy="-46.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><circle cx="99.72" cy="46.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><path d="M 52.19999999999999,-29.159999999999997 L 70.19999999999999,-29.159999999999997 L 70.71428571428571,-29.16734693877551 L 71.22857142857141,-29.18938775510204 L 71.74285714285713,-29.22612244897959 L 72.25714285714284,-29.277551020408158 L 72.77142857142856,-29.343673469387756 L 73.28571428571428,-29.424489795918365 L 73.8,-29.52 L 74.3142857142857,-29.63020408163265 L 74.82857142857142,-29.755102040816325 L 75.34285714285713,-29.89469387755102 L 75.85714285714285,-30.048979591836734 L 76.37142857142855,-30.217959183673468 L 76.88571428571427,-30.40163265306122 L 77.39999999999998,-30.599999999999998 L 77.9142857142857,-30.813061224489793 L 78.42857142857142,-31.040816326530614 L 78.94285714285714,-31.28326530612245 L 79.45714285714284,-31.540408163265305 L 79.97142857142856,-31.812244897959182 L 80.48571428571427,-32.09877551020408 L 80.99999999999999,-32.4 L 81.51428571428569,-32.71591836734694 L 82.02857142857142,-33.046530612244894 L 82.54285714285714,-33.391836734693875 L 83.05714285714285,-33.751836734693875 L 83.57142857142856,-34.12653061224489 L 84.08571428571427,-34.515918367346934 L 84.6,-34.92 L 85.1142857142857,-35.33877551020408 L 85.6285714285714,-35.77224489795918 L 86.14285714285712,-36.220408163265304 L 86.65714285714284,-36.68326530612244 L 87.17142857142856,-37.16081632653061 L 87.68571428571428,-37.6530612244898 L 88.19999999999999,-38.160000000000004 L 88.71428571428571,-38.68163265306123 L 89.22857142857141,-39.21795918367347 L 89.74285714285713,-39.76897959183674 L 90.25714285714284,-40.33469387755102 L 90.77142857142857,-40.91510204081632 L 91.28571428571428,-41.51020408163266 L 91.8,-42.12 L 92.3142857142857,-42.74448979591837 L 92.82857142857142,-43.38367346938776 L 93.34285714285713,-44.037551020408166 L 93.85714285714285,-44.7061224489796 L 94.37142857142855,-45.38938775510204 L 94.88571428571427,-46.08734693877551 L 95.39999999999999,-46.800000000000004 L 95.39999999999999,-46.800000000000004 L 94.88571428571427,-47.5126530612245 L 94.37142857142855,-48.21061224489796 L 93.85714285714285,-48.89387755102041 L 93.34285714285713,-49.56244897959184 L 92.82857142857142,-50.21632653061224 L 92.3142857142857,-50.85551020408163 L 91.8,-51.480000000000004 L 91.28571428571428,-52.08979591836735 L 90.77142857142857,-52.68489795918368 L 90.25714285714284,-53.26530612244899 L 89.74285714285713,-53.83102040816327 L 89.22857142857141,-54.38204081632654 L 88.71428571428571,-54.91836734693877 L 88.19999999999999,-55.44 L 87.68571428571428,-55.946938775510205 L 87.17142857142856,-56.439183673469394 L 86.65714285714284,-56.91673469387756 L 86.14285714285712,-57.379591836734704 L 85.6285714285714,-57.82775510204082 L 85.1142857142857,-58.26122448979592 L 84.6,-58.68000000000001 L 84.08571428571427,-59.08408163265307 L 83.57142857142856,-59.47346938775511 L 83.05714285714285,-59.84816326530613 L 82.54285714285714,-60.208163265306126 L 82.02857142857142,-60.55346938775511 L 81.51428571428569,-60.884081632653064 L 80.99999999999999,-61.2 L 80.48571428571427,-61.50122448979592 L 79.97142857142856,-61.78775510204082 L 79.45714285714284,-62.0595918367347 L 78.94285714285714,-62.31673469387756 L 78.42857142857142,-62.55918367346939 L 77.9142857142857,-62.786938775510215 L 77.39999999999998,-63.0 L 76.88571428571427,-63.19836734693878 L 76.37142857142855,-63.38204081632654 L 75.85714285714285,-63.55102040816327 L 75.34285714285713,-63.70530612244899 L 74.82857142857142,-63.84489795918368 L 74.3142857142857,-63.96979591836735 L 73.8,-64.08000000000001 L 73.28571428571428,-64.17551020408163 L 72.77142857142856,-64.25632653061224 L 72.25714285714284,-64.32244897959184 L 71.74285714285713,-64.37387755102041 L 71.22857142857141,-64.41061224489796 L 70.71428571428571,-64.4326530612245 L 70.19999999999999,-64.44 L 52.19999999999999,-64.44 L 52.19999999999999,-64.44 L 52.891199999999984,-63.72 L 53.55359999999999,-63.0 L 54.18719999999999,-62.28 L 54.791999999999994,-61.56 L 55.367999999999995,-60.839999999999996 L 55.91519999999999,-60.120000000000005 L 56.433599999999984,-59.400000000000006 L 56.92319999999999,-58.68000000000001 L 57.383999999999986,-57.96 L 57.81599999999999,-57.24 L 58.219199999999994,-56.52 L 58.59359999999999,-55.800000000000004 L 58.939199999999985,-55.08000000000001 L 59.255999999999986,-54.36000000000001 L 59.54399999999999,-53.64000000000001 L 59.80319999999998,-52.92000000000001 L 60.03359999999999,-52.2 L 60.235199999999985,-51.480000000000004 L 60.40799999999999,-50.760000000000005 L 60.55199999999999,-50.040000000000006 L 60.66719999999999,-49.32000000000001 L 60.75359999999999,-48.6 L 60.811199999999985,-47.88 L 60.83999999999999,-47.160000000000004 L 60.83999999999999,-46.44 L 60.811199999999985,-45.72 L 60.75359999999999,-45.0 L 60.66719999999999,-44.28 L 60.55199999999999,-43.56 L 60.40799999999999,-42.839999999999996 L 60.235199999999985,-42.12 L 60.03359999999999,-41.4 L 59.80319999999998,-40.67999999999999 L 59.54399999999999,-39.959999999999994 L 59.255999999999986,-39.239999999999995 L 58.93919999999999,-38.52 L 58.59359999999999,-37.800000000000004 L 58.219199999999994,-37.08 L 57.81599999999999,-36.36 L 57.383999999999986,-35.64 L 56.92319999999999,-34.92 L 56.433599999999984,-34.199999999999996 L 55.91519999999999,-33.48 L 55.367999999999995,-32.76 L 54.79199999999999,-32.04 L 54.18719999999999,-31.319999999999997 L 53.55359999999999,-30.599999999999998 L 52.891199999999984,-29.88 L 52.19999999999999,-29.159999999999997" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 39.59999999999999,-37.800000000000004 L 58.59359999999999,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 39.59999999999999,-55.800000000000004 L 58.59359999999999,-55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 104.03999999999999,-46.800000000000004 L 108.0,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 52.19999999999999,64.44 L 70.19999999999999,64.44 L 70.71428571428571,64.4326530612245 L 71.22857142857141,64.41061224489796 L 71.74285714285713,64.37387755102041 L 72.25714285714284,64.32244897959184 L 72.77142857142856,64.25632653061224 L 73.28571428571428,64.17551020408163 L 73.8,64.08000000000001 L 74.3142857142857,63.96979591836735 L 74.82857142857142,63.84489795918368 L 75.34285714285713,63.70530612244899 L 75.85714285714285,63.55102040816327 L 76.37142857142855,63.38204081632654 L 76.88571428571427,63.19836734693878 L 77.39999999999998,63.0 L 77.9142857142857,62.786938775510215 L 78.42857142857142,62.55918367346939 L 78.94285714285714,62.31673469387756 L 79.45714285714284,62.0595918367347 L 79.97142857142856,61.78775510204082 L 80.48571428571427,61.50122448979592 L 80.99999999999999,61.2 L 81.51428571428569,60.884081632653064 L 82.02857142857142,60.55346938775511 L 82.54285714285714,60.208163265306126 L 83.05714285714285,59.84816326530613 L 83.57142857142856,59.47346938775511 L 84.08571428571427,59.08408163265307 L 84.6,58.68000000000001 L 85.1142857142857,58.26122448979592 L 85.6285714285714,57.82775510204082 L 86.14285714285712,57.379591836734704 L 86.65714285714284,56.91673469387756 L 87.17142857142856,56.439183673469394 L 87.68571428571428,55.946938775510205 L 88.19999999999999,55.44 L 88.71428571428571,54.91836734693877 L 89.22857142857141,54.38204081632654 L 89.74285714285713,53.83102040816327 L 90.25714285714284,53.26530612244899 L 90.77142857142857,52.68489795918368 L 91.28571428571428,52.08979591836735 L 91.8,51.480000000000004 L 92.3142857142857,50.85551020408163 L 92.82857142857142,50.21632653061224 L 93.34285714285713,49.56244897959184 L 93.85714285714285,48.89387755102041 L 94.37142857142855,48.21061224489796 L 94.88571428571427,47.5126530612245 L 95.39999999999999,46.800000000000004 L 95.39999999999999,46.800000000000004 L 94.88571428571427,46.08734693877551 L 94.37142857142855,45.38938775510204 L 93.85714285714285,44.7061224489796 L 93.34285714285713,44.037551020408166 L 92.82857142857142,43.38367346938776 L 92.3142857142857,42.74448979591837 L 91.8,42.12 L 91.28571428571428,41.51020408163266 L 90.77142857142857,40.91510204081632 L 90.25714285714284,40.33469387755102 L 89.74285714285713,39.76897959183674 L 89.22857142857141,39.21795918367347 L 88.71428571428571,38.68163265306123 L 88.19999999999999,38.160000000000004 L 87.68571428571428,37.6530612244898 L 87.17142857142856,37.16081632653061 L 86.65714285714284,36.68326530612244 L 86.14285714285712,36.220408163265304 L 85.6285714285714,35.77224489795918 L 85.1142857142857,35.33877551020408 L 84.6,34.92 L 84.08571428571427,34.515918367346934 L 83.57142857142856,34.12653061224489 L 83.05714285714285,33.751836734693875 L 82.54285714285714,33.391836734693875 L 82.02857142857142,33.046530612244894 L 81.51428571428569,32.71591836734694 L 80.99999999999999,32.4 L 80.48571428571427,32.09877551020408 L 79.97142857142856,31.812244897959182 L 79.45714285714284,31.540408163265305 L 78.94285714285714,31.28326530612245 L 78.42857142857142,31.040816326530614 L 77.9142857142857,30.813061224489793 L 77.39999999999998,30.599999999999998 L 76.88571428571427,30.40163265306122 L 76.37142857142855,30.217959183673468 L 75.85714285714285,30.048979591836734 L 75.34285714285713,29.89469387755102 L 74.82857142857142,29.755102040816325 L 74.3142857142857,29.63020408163265 L 73.8,29.52 L 73.28571428571428,29.424489795918365 L 72.77142857142856,29.343673469387756 L 72.25714285714284,29.277551020408158 L 71.74285714285713,29.22612244897959 L 71.22857142857141,29.18938775510204 L 70.71428571428571,29.16734693877551 L 70.19999999999999,29.159999999999997 L 52.19999999999999,29.159999999999997 L 52.19999999999999,29.159999999999997 L 52.891199999999984,29.88 L 53.55359999999999,30.599999999999998 L 54.18719999999999,31.32 L 54.791999999999994,32.04 L 55.367999999999995,32.76 L 55.91519999999999,33.48 L 56.433599999999984,34.199999999999996 L 56.92319999999999,34.92 L 57.383999999999986,35.64 L 57.81599999999999,36.36 L 58.219199999999994,37.08 L 58.59359999999999,37.800000000000004 L 58.939199999999985,38.519999999999996 L 59.255999999999986,39.239999999999995 L 59.54399999999999,39.959999999999994 L 59.80319999999998,40.67999999999999 L 60.03359999999999,41.4 L 60.235199999999985,42.12 L 60.40799999999999,42.839999999999996 L 60.55199999999999,43.56 L 60.66719999999999,44.28 L 60.75359999999999,45.0 L 60.811199999999985,45.72 L 60.83999999999999,46.44 L 60.83999999999999,47.160000000000004 L 60.811199999999985,47.88 L 60.75359999999999,48.6 L 60.66719999999999,49.32000000000001 L 60.55199999999999,50.040000000000006 L 60.40799999999999,50.760000000000005 L 60.235199999999985,51.480000000000004 L 60.03359999999999,52.2 L 59.80319999999998,52.92000000000001 L 59.54399999999999,53.64000000000001 L 59.255999999999986,54.36000000000001 L 58.93919999999999,55.08 L 58.59359999999999,55.800000000000004 L 58.219199999999994,56.52 L 57.81599999999999,57.24 L 57.383999999999986,57.96 L 56.92319999999999,58.68000000000001 L 56.433599999999984,59.400000000000006 L 55.91519999999999,60.120000000000005 L 55.367999999999995,60.84 L 54.79199999999999,61.56000000000001 L 54.18719999999999,62.28000000000001 L 53.55359999999999,63.0 L 52.891199999999984,63.72 L 52.19999999999999,64.44" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 39.59999999999999,55.800000000000004 L 58.59359999999999,55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 39.59999999999999,37.800000000000004 L 58.59359999999999,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 104.03999999999999,46.800000000000004 L 108.0,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 7.2,-55.800000000000004 L 23.4,-55.800000000000004 L 39.59999999999999,-55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 7.2,55.800000000000004 L 23.4,55.800000000000004 L 39.59999999999999,55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 108.0,-46.800000000000004 L 136.79999999999998,-46.800000000000004 L 165.6,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 108.0,46.800000000000004 L 136.79999999999998,46.800000000000004 L 165.6,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 133.20000000000002,-46.800000000000004 L 133.20000000000002,-33.300000000000004 L 133.20000000000002,-19.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 133.20000000000002,-19.8 L 79.2,-4.499999999999998 L 25.200000000000006,10.800000000000006" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 25.2,10.799999999999999 L 25.2,24.3 L 25.2,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 25.2,37.800000000000004 L 32.39999999999999,37.800000000000004 L 39.59999999999999,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 133.20000000000002,46.800000000000004 L 133.20000000000002,33.300000000000004 L 133.20000000000002,19.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 133.20000000000002,19.8 L 79.2,4.499999999999998 L 25.200000000000006,-10.800000000000006" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 25.2,-10.799999999999999 L 25.2,-24.3 L 25.2,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 25.2,-37.800000000000004 L 32.39999999999999,-37.800000000000004 L 39.59999999999999,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><text x="3.6000000000000014" y="-60.6" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="end"><tspan x="3.6000000000000014" dy="12">R</tspan></text><text x="3.6000000000000014" y="51.00000000000001" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="end"><tspan x="3.6000000000000014" dy="12">S</tspan></text><text x="169.2" y="-51.6" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="start"><tspan x="169.2" dy="12">Q</tspan></text><text x="169.2" y="42.00000000000001" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="start"><tspan x="169.2" dy="12">Q'</tspan></text><circle cx="133.20000000000002" cy="-46.800000000000004" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /><circle cx="133.20000000000002" cy="46.800000000000004" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /></svg></div><figcaption>NOR SR latch.</figcaption></figure>
+<figure style="max-width:70%"><div style="width:188mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 416.400686 151.5672" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T13:36:41.090264</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 151.5672 
+L 416.400686 151.5672 
+L 416.400686 0 
+L 0 0 
+L 0 151.5672 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 97.505897 89.174057 
+L 187.965874 89.174057 
+Q 190.3464 89.174057 190.3464 86.793531 
+L 190.3464 32.04144 
+Q 190.3464 29.660914 187.965874 29.660914 
+L 97.505897 29.660914 
+Q 95.125371 29.660914 95.125371 32.04144 
+L 95.125371 86.793531 
+Q 95.125371 89.174057 97.505897 89.174057 
+z
+" clip-path="url(#p0e7620bfd2)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 267.118354 89.174057 
+L 357.578331 89.174057 
+Q 359.958857 89.174057 359.958857 86.793531 
+L 359.958857 32.04144 
+Q 359.958857 29.660914 357.578331 29.660914 
+L 267.118354 29.660914 
+Q 264.737829 29.660914 264.737829 32.04144 
+L 264.737829 86.793531 
+Q 264.737829 89.174057 267.118354 89.174057 
+z
+" clip-path="url(#p0e7620bfd2)" style="fill: #eaf6ef; stroke: #12925a; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 56.441829 59.417486 
+Q 75.7836 59.417486 93.843371 59.417486 
+" clip-path="url(#p0e7620bfd2)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 89.843371 57.064545 
+L 93.843371 59.417486 
+L 89.843371 61.770427 
+z
+" clip-path="url(#p0e7620bfd2)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 142.735886 29.660914 
+Q 142.735886 20.733943 142.735886 13.088972 
+" clip-path="url(#p0e7620bfd2)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 140.382945 17.088972 
+L 142.735886 13.088972 
+L 145.088827 17.088972 
+z
+" clip-path="url(#p0e7620bfd2)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 190.3464 59.417486 
+Q 227.542114 59.417486 263.455828 59.417486 
+" clip-path="url(#p0e7620bfd2)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 259.455828 57.064545 
+L 263.455828 59.417486 
+L 259.455828 61.770427 
+z
+" clip-path="url(#p0e7620bfd2)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 312.348343 11.806971 
+Q 312.348343 20.733943 312.348343 28.378914 
+" clip-path="url(#p0e7620bfd2)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 314.701284 24.378914 
+L 312.348343 28.378914 
+L 309.995402 24.378914 
+z
+" clip-path="url(#p0e7620bfd2)" style="fill: #6a707a; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 142.735886 124.881943 
+Q 142.735886 107.028 142.735886 90.456058 
+" clip-path="url(#p0e7620bfd2)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 140.382945 94.456058 
+L 142.735886 90.456058 
+L 145.088827 94.456058 
+z
+" clip-path="url(#p0e7620bfd2)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 359.958857 59.417486 
+L 389.715429 59.417486 
+L 389.715429 124.881943 
+L 142.735886 124.881943 
+" clip-path="url(#p0e7620bfd2)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(112.073151 56.503954)">Combinational</text>
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(132.66069 67.128517)">logic</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(294.584085 56.47872)">Memory</text>
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(293.340179 67.153751)">elements</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="53.466171" y="61.713892" transform="rotate(-0 53.466171 61.713892)">inputs</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="148.6872" y="23.030349" transform="rotate(-0 148.6872 23.030349)">outputs</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="227.542114" y="52.884" transform="rotate(-0 227.542114 52.884)">next state</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="318.299657" y="22.902771" transform="rotate(-0 318.299657 22.902771)">CLK</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="266.225657" y="136.996563" transform="rotate(-0 266.225657 136.996563)">present state (feedback)</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p0e7620bfd2">
+   <rect x="2.88" y="2.88" width="410.640686" height="145.8072"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>A sequential circuit (deck 08 slide 1). The memory holds the present state; the combinational logic computes the outputs and the next state from the inputs and the present state, and the next state is written back into memory.</figcaption></figure>
+
+
+<figure style="max-width:48%"><div style="width:60mm;max-width:100%;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" viewBox="-40.6 -65.8 126.02000000000001 131.6"><circle cx="40.5" cy="-43.199999999999996" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><circle cx="17.1" cy="43.19999999999999" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><path d="M 0.0,-43.199999999999996 L 12.780000000000001,-43.199999999999996 M 44.82000000000001,-43.199999999999996 L 57.6,-43.199999999999996" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 12.780000000000001,-61.199999999999996 L 36.18000000000001,-43.199999999999996 L 12.780000000000001,-25.2 L 12.780000000000001,-61.199999999999996" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 57.6,43.199999999999996 L 44.82000000000001,43.199999999999996 M 12.78,43.19999999999999 L 0.0,43.19999999999999" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 44.82000000000001,61.199999999999996 L 21.419999999999998,43.19999999999999 L 44.82000000000001,25.2 L 44.82000000000001,61.199999999999996" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 44.82000000000001,-43.199999999999996 L 62.82000000000001,-43.199999999999996 L 80.82000000000001,-43.199999999999996" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 80.82000000000001,-43.199999999999996 L 80.82000000000001,-0.0 L 80.82000000000001,43.199999999999996" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 80.82000000000001,43.199999999999996 L 69.21000000000001,43.199999999999996 L 57.6,43.199999999999996" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 12.78,43.19999999999999 L -11.61,43.19999999999999 L -36.0,43.19999999999998" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M -36.0,43.19999999999999 L -35.99999999999999,-0.0 L -35.99999999999999,-43.19999999999999" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M -36.0,-43.199999999999996 L -18.0,-43.199999999999996 L 0.0,-43.199999999999996" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><text x="62.82000000000001" y="-56.400000000000006" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle"><tspan x="62.82000000000001" dy="12">Q</tspan></text><text x="-11.61" y="46.79999999999998" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle"><tspan x="-11.61" dy="12">Q'</tspan></text></svg></div><figcaption>The simplest memory (deck 08 slide 4): two inverters in a ring. Q = 1 makes Q' = 0, and Q' = 0 makes Q = 1 again, so the ring holds 1; the same argument holds for Q = 0.</figcaption></figure>
 
 <table>
 <thead>
 <tr>
-<th>S R</th>
+<th>Q (output of A)</th>
+<th>B outputs</th>
+<th>A then outputs</th>
+<th>Settled?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Q' = 0</td>
+<td>1</td>
+<td>yes: holds 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>Q' = 1</td>
+<td>0</td>
+<td>yes: holds 0</td>
+</tr>
+</tbody>
+</table>
+<p>The ring has two resting states and no input, so it stores one bit but cannot be told to change. The latch in step 2 replaces each inverter with a NOR gate, whose second input is the "change" handle.</p>
+<p><strong>Answer to the Predict.</strong> B outputs <strong>0</strong>, and that 0 drives A back to 1: the ring <strong>holds 1 for ever</strong> and cannot change on its own. It is bistable, which is exactly a 1-bit memory with no way to write it.</p>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>(a) The ring has Q = 0. What is Q', and what is Q a minute later? (b) Can a 2-input AND gate with no feedback store a bit? One line why.</p>
+</div>
+<h3>2 · The NOR SR latch</h3>
+<p>Step 1's ring cannot be written. Swap each inverter for a NOR gate: a NOR with its other input at 0 is an inverter (file 03 step 2), so the ring still holds; a 1 on the other input forces that gate's output to 0, which writes the bit.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 08 slides 6–15</span></div>
+<p>Draw an SR latch using NOR gates and give its output for every input combination. Why is S = R = 1 not allowed?</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>With S = R = 0 the latch can sit with Q = 0 or with Q = 1. What decides which one?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Set:</strong> make Q = 1. <strong>Reset:</strong> make Q = 0. <strong>Hold (no change):</strong> Q keeps its previous value Q₀.</p>
+</div>
+
+<figure style="max-width:50%"><div style="width:70mm;max-width:100%;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" viewBox="-8.392 -69.04 192.67999999999998 138.08"><circle cx="99.72" cy="-46.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><circle cx="99.72" cy="46.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><path d="M 52.19999999999999,-29.159999999999997 L 70.19999999999999,-29.159999999999997 L 70.71428571428571,-29.16734693877551 L 71.22857142857141,-29.18938775510204 L 71.74285714285713,-29.22612244897959 L 72.25714285714284,-29.277551020408158 L 72.77142857142856,-29.343673469387756 L 73.28571428571428,-29.424489795918365 L 73.8,-29.52 L 74.3142857142857,-29.63020408163265 L 74.82857142857142,-29.755102040816325 L 75.34285714285713,-29.89469387755102 L 75.85714285714285,-30.048979591836734 L 76.37142857142855,-30.217959183673468 L 76.88571428571427,-30.40163265306122 L 77.39999999999998,-30.599999999999998 L 77.9142857142857,-30.813061224489793 L 78.42857142857142,-31.040816326530614 L 78.94285714285714,-31.28326530612245 L 79.45714285714284,-31.540408163265305 L 79.97142857142856,-31.812244897959182 L 80.48571428571427,-32.09877551020408 L 80.99999999999999,-32.4 L 81.51428571428569,-32.71591836734694 L 82.02857142857142,-33.046530612244894 L 82.54285714285714,-33.391836734693875 L 83.05714285714285,-33.751836734693875 L 83.57142857142856,-34.12653061224489 L 84.08571428571427,-34.515918367346934 L 84.6,-34.92 L 85.1142857142857,-35.33877551020408 L 85.6285714285714,-35.77224489795918 L 86.14285714285712,-36.220408163265304 L 86.65714285714284,-36.68326530612244 L 87.17142857142856,-37.16081632653061 L 87.68571428571428,-37.6530612244898 L 88.19999999999999,-38.160000000000004 L 88.71428571428571,-38.68163265306123 L 89.22857142857141,-39.21795918367347 L 89.74285714285713,-39.76897959183674 L 90.25714285714284,-40.33469387755102 L 90.77142857142857,-40.91510204081632 L 91.28571428571428,-41.51020408163266 L 91.8,-42.12 L 92.3142857142857,-42.74448979591837 L 92.82857142857142,-43.38367346938776 L 93.34285714285713,-44.037551020408166 L 93.85714285714285,-44.7061224489796 L 94.37142857142855,-45.38938775510204 L 94.88571428571427,-46.08734693877551 L 95.39999999999999,-46.800000000000004 L 95.39999999999999,-46.800000000000004 L 94.88571428571427,-47.5126530612245 L 94.37142857142855,-48.21061224489796 L 93.85714285714285,-48.89387755102041 L 93.34285714285713,-49.56244897959184 L 92.82857142857142,-50.21632653061224 L 92.3142857142857,-50.85551020408163 L 91.8,-51.480000000000004 L 91.28571428571428,-52.08979591836735 L 90.77142857142857,-52.68489795918368 L 90.25714285714284,-53.26530612244899 L 89.74285714285713,-53.83102040816327 L 89.22857142857141,-54.38204081632654 L 88.71428571428571,-54.91836734693877 L 88.19999999999999,-55.44 L 87.68571428571428,-55.946938775510205 L 87.17142857142856,-56.439183673469394 L 86.65714285714284,-56.91673469387756 L 86.14285714285712,-57.379591836734704 L 85.6285714285714,-57.82775510204082 L 85.1142857142857,-58.26122448979592 L 84.6,-58.68000000000001 L 84.08571428571427,-59.08408163265307 L 83.57142857142856,-59.47346938775511 L 83.05714285714285,-59.84816326530613 L 82.54285714285714,-60.208163265306126 L 82.02857142857142,-60.55346938775511 L 81.51428571428569,-60.884081632653064 L 80.99999999999999,-61.2 L 80.48571428571427,-61.50122448979592 L 79.97142857142856,-61.78775510204082 L 79.45714285714284,-62.0595918367347 L 78.94285714285714,-62.31673469387756 L 78.42857142857142,-62.55918367346939 L 77.9142857142857,-62.786938775510215 L 77.39999999999998,-63.0 L 76.88571428571427,-63.19836734693878 L 76.37142857142855,-63.38204081632654 L 75.85714285714285,-63.55102040816327 L 75.34285714285713,-63.70530612244899 L 74.82857142857142,-63.84489795918368 L 74.3142857142857,-63.96979591836735 L 73.8,-64.08000000000001 L 73.28571428571428,-64.17551020408163 L 72.77142857142856,-64.25632653061224 L 72.25714285714284,-64.32244897959184 L 71.74285714285713,-64.37387755102041 L 71.22857142857141,-64.41061224489796 L 70.71428571428571,-64.4326530612245 L 70.19999999999999,-64.44 L 52.19999999999999,-64.44 L 52.19999999999999,-64.44 L 52.891199999999984,-63.72 L 53.55359999999999,-63.0 L 54.18719999999999,-62.28 L 54.791999999999994,-61.56 L 55.367999999999995,-60.839999999999996 L 55.91519999999999,-60.120000000000005 L 56.433599999999984,-59.400000000000006 L 56.92319999999999,-58.68000000000001 L 57.383999999999986,-57.96 L 57.81599999999999,-57.24 L 58.219199999999994,-56.52 L 58.59359999999999,-55.800000000000004 L 58.939199999999985,-55.08000000000001 L 59.255999999999986,-54.36000000000001 L 59.54399999999999,-53.64000000000001 L 59.80319999999998,-52.92000000000001 L 60.03359999999999,-52.2 L 60.235199999999985,-51.480000000000004 L 60.40799999999999,-50.760000000000005 L 60.55199999999999,-50.040000000000006 L 60.66719999999999,-49.32000000000001 L 60.75359999999999,-48.6 L 60.811199999999985,-47.88 L 60.83999999999999,-47.160000000000004 L 60.83999999999999,-46.44 L 60.811199999999985,-45.72 L 60.75359999999999,-45.0 L 60.66719999999999,-44.28 L 60.55199999999999,-43.56 L 60.40799999999999,-42.839999999999996 L 60.235199999999985,-42.12 L 60.03359999999999,-41.4 L 59.80319999999998,-40.67999999999999 L 59.54399999999999,-39.959999999999994 L 59.255999999999986,-39.239999999999995 L 58.93919999999999,-38.52 L 58.59359999999999,-37.800000000000004 L 58.219199999999994,-37.08 L 57.81599999999999,-36.36 L 57.383999999999986,-35.64 L 56.92319999999999,-34.92 L 56.433599999999984,-34.199999999999996 L 55.91519999999999,-33.48 L 55.367999999999995,-32.76 L 54.79199999999999,-32.04 L 54.18719999999999,-31.319999999999997 L 53.55359999999999,-30.599999999999998 L 52.891199999999984,-29.88 L 52.19999999999999,-29.159999999999997" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 39.59999999999999,-37.800000000000004 L 58.59359999999999,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 39.59999999999999,-55.800000000000004 L 58.59359999999999,-55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 104.03999999999999,-46.800000000000004 L 108.0,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 52.19999999999999,64.44 L 70.19999999999999,64.44 L 70.71428571428571,64.4326530612245 L 71.22857142857141,64.41061224489796 L 71.74285714285713,64.37387755102041 L 72.25714285714284,64.32244897959184 L 72.77142857142856,64.25632653061224 L 73.28571428571428,64.17551020408163 L 73.8,64.08000000000001 L 74.3142857142857,63.96979591836735 L 74.82857142857142,63.84489795918368 L 75.34285714285713,63.70530612244899 L 75.85714285714285,63.55102040816327 L 76.37142857142855,63.38204081632654 L 76.88571428571427,63.19836734693878 L 77.39999999999998,63.0 L 77.9142857142857,62.786938775510215 L 78.42857142857142,62.55918367346939 L 78.94285714285714,62.31673469387756 L 79.45714285714284,62.0595918367347 L 79.97142857142856,61.78775510204082 L 80.48571428571427,61.50122448979592 L 80.99999999999999,61.2 L 81.51428571428569,60.884081632653064 L 82.02857142857142,60.55346938775511 L 82.54285714285714,60.208163265306126 L 83.05714285714285,59.84816326530613 L 83.57142857142856,59.47346938775511 L 84.08571428571427,59.08408163265307 L 84.6,58.68000000000001 L 85.1142857142857,58.26122448979592 L 85.6285714285714,57.82775510204082 L 86.14285714285712,57.379591836734704 L 86.65714285714284,56.91673469387756 L 87.17142857142856,56.439183673469394 L 87.68571428571428,55.946938775510205 L 88.19999999999999,55.44 L 88.71428571428571,54.91836734693877 L 89.22857142857141,54.38204081632654 L 89.74285714285713,53.83102040816327 L 90.25714285714284,53.26530612244899 L 90.77142857142857,52.68489795918368 L 91.28571428571428,52.08979591836735 L 91.8,51.480000000000004 L 92.3142857142857,50.85551020408163 L 92.82857142857142,50.21632653061224 L 93.34285714285713,49.56244897959184 L 93.85714285714285,48.89387755102041 L 94.37142857142855,48.21061224489796 L 94.88571428571427,47.5126530612245 L 95.39999999999999,46.800000000000004 L 95.39999999999999,46.800000000000004 L 94.88571428571427,46.08734693877551 L 94.37142857142855,45.38938775510204 L 93.85714285714285,44.7061224489796 L 93.34285714285713,44.037551020408166 L 92.82857142857142,43.38367346938776 L 92.3142857142857,42.74448979591837 L 91.8,42.12 L 91.28571428571428,41.51020408163266 L 90.77142857142857,40.91510204081632 L 90.25714285714284,40.33469387755102 L 89.74285714285713,39.76897959183674 L 89.22857142857141,39.21795918367347 L 88.71428571428571,38.68163265306123 L 88.19999999999999,38.160000000000004 L 87.68571428571428,37.6530612244898 L 87.17142857142856,37.16081632653061 L 86.65714285714284,36.68326530612244 L 86.14285714285712,36.220408163265304 L 85.6285714285714,35.77224489795918 L 85.1142857142857,35.33877551020408 L 84.6,34.92 L 84.08571428571427,34.515918367346934 L 83.57142857142856,34.12653061224489 L 83.05714285714285,33.751836734693875 L 82.54285714285714,33.391836734693875 L 82.02857142857142,33.046530612244894 L 81.51428571428569,32.71591836734694 L 80.99999999999999,32.4 L 80.48571428571427,32.09877551020408 L 79.97142857142856,31.812244897959182 L 79.45714285714284,31.540408163265305 L 78.94285714285714,31.28326530612245 L 78.42857142857142,31.040816326530614 L 77.9142857142857,30.813061224489793 L 77.39999999999998,30.599999999999998 L 76.88571428571427,30.40163265306122 L 76.37142857142855,30.217959183673468 L 75.85714285714285,30.048979591836734 L 75.34285714285713,29.89469387755102 L 74.82857142857142,29.755102040816325 L 74.3142857142857,29.63020408163265 L 73.8,29.52 L 73.28571428571428,29.424489795918365 L 72.77142857142856,29.343673469387756 L 72.25714285714284,29.277551020408158 L 71.74285714285713,29.22612244897959 L 71.22857142857141,29.18938775510204 L 70.71428571428571,29.16734693877551 L 70.19999999999999,29.159999999999997 L 52.19999999999999,29.159999999999997 L 52.19999999999999,29.159999999999997 L 52.891199999999984,29.88 L 53.55359999999999,30.599999999999998 L 54.18719999999999,31.32 L 54.791999999999994,32.04 L 55.367999999999995,32.76 L 55.91519999999999,33.48 L 56.433599999999984,34.199999999999996 L 56.92319999999999,34.92 L 57.383999999999986,35.64 L 57.81599999999999,36.36 L 58.219199999999994,37.08 L 58.59359999999999,37.800000000000004 L 58.939199999999985,38.519999999999996 L 59.255999999999986,39.239999999999995 L 59.54399999999999,39.959999999999994 L 59.80319999999998,40.67999999999999 L 60.03359999999999,41.4 L 60.235199999999985,42.12 L 60.40799999999999,42.839999999999996 L 60.55199999999999,43.56 L 60.66719999999999,44.28 L 60.75359999999999,45.0 L 60.811199999999985,45.72 L 60.83999999999999,46.44 L 60.83999999999999,47.160000000000004 L 60.811199999999985,47.88 L 60.75359999999999,48.6 L 60.66719999999999,49.32000000000001 L 60.55199999999999,50.040000000000006 L 60.40799999999999,50.760000000000005 L 60.235199999999985,51.480000000000004 L 60.03359999999999,52.2 L 59.80319999999998,52.92000000000001 L 59.54399999999999,53.64000000000001 L 59.255999999999986,54.36000000000001 L 58.93919999999999,55.08 L 58.59359999999999,55.800000000000004 L 58.219199999999994,56.52 L 57.81599999999999,57.24 L 57.383999999999986,57.96 L 56.92319999999999,58.68000000000001 L 56.433599999999984,59.400000000000006 L 55.91519999999999,60.120000000000005 L 55.367999999999995,60.84 L 54.79199999999999,61.56000000000001 L 54.18719999999999,62.28000000000001 L 53.55359999999999,63.0 L 52.891199999999984,63.72 L 52.19999999999999,64.44" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 39.59999999999999,55.800000000000004 L 58.59359999999999,55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 39.59999999999999,37.800000000000004 L 58.59359999999999,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 104.03999999999999,46.800000000000004 L 108.0,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 7.2,-55.800000000000004 L 23.4,-55.800000000000004 L 39.59999999999999,-55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 7.2,55.800000000000004 L 23.4,55.800000000000004 L 39.59999999999999,55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 108.0,-46.800000000000004 L 136.79999999999998,-46.800000000000004 L 165.6,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 108.0,46.800000000000004 L 136.79999999999998,46.800000000000004 L 165.6,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 133.20000000000002,-46.800000000000004 L 133.20000000000002,-33.300000000000004 L 133.20000000000002,-19.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 133.20000000000002,-19.8 L 79.2,-4.499999999999998 L 25.200000000000006,10.800000000000006" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 25.2,10.799999999999999 L 25.2,24.3 L 25.2,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 25.2,37.800000000000004 L 32.39999999999999,37.800000000000004 L 39.59999999999999,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 133.20000000000002,46.800000000000004 L 133.20000000000002,33.300000000000004 L 133.20000000000002,19.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 133.20000000000002,19.8 L 79.2,4.499999999999998 L 25.200000000000006,-10.800000000000006" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 25.2,-10.799999999999999 L 25.2,-24.3 L 25.2,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 25.2,-37.800000000000004 L 32.39999999999999,-37.800000000000004 L 39.59999999999999,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><text x="3.6000000000000014" y="-60.6" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="end"><tspan x="3.6000000000000014" dy="12">R</tspan></text><text x="3.6000000000000014" y="51.00000000000001" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="end"><tspan x="3.6000000000000014" dy="12">S</tspan></text><text x="169.2" y="-51.6" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="start"><tspan x="169.2" dy="12">Q</tspan></text><text x="169.2" y="42.00000000000001" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="start"><tspan x="169.2" dy="12">Q'</tspan></text><circle cx="133.20000000000002" cy="-46.800000000000004" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /><circle cx="133.20000000000002" cy="46.800000000000004" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /></svg></div><figcaption>NOR SR latch (deck 08 slide 6). R enters the gate that drives Q; S enters the gate that drives Q'. Each output is fed back to the other gate.</figcaption></figure>
+
+<p>A NOR outputs 1 only when both its inputs are 0. Work each row from that one fact, starting from the input that is 1 (it forces its gate to 0):</p>
+<table>
+<thead>
+<tr>
+<th>S</th>
+<th>R</th>
+<th>Q₀</th>
+<th>Q</th>
+<th>Q'</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>hold (Q = Q₀)</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>hold (Q = Q₀)</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>reset</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>reset</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>set</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>set</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>not allowed</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>not allowed</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>S = 1 forces Q' = NOR(1, Q) = 0.</li>
+<li>The Q gate then sees R = 0 and Q' = 0, so Q = NOR(0, 0) = 1: <strong>set</strong>.</li>
+<li>S returns to 0: Q' = NOR(0, Q = 1) = 0 still, so Q stays 1: <strong>the latch remembers</strong>.</li>
+</ol>
+<p><strong>Answer.</strong> Circuit and table above (deck 08 slides 7–15 fill it row by row). With S = R = 0 the latch keeps whichever value it had: Q₀ decides. S = R = 1 is not allowed for two reasons: (1) it forces <strong>Q = Q' = 0</strong>, so the outputs are no longer complements; (2) if S and R then return to 0 together, both gates head for 1 at the same time and the state the latch settles in depends on which gate is faster: it cannot be predicted.</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>(a) Q = 0. S R = 10, then 00. Q after each? (b) S = R = 1: give Q and Q'. (c) From (b), S and R both drop to 0 at the same instant. What can you say about Q?</p>
+</div>
+<h3>3 · The NAND latch: active-low inputs</h3>
+<p>The same ring built from NAND gates is the latch inside most chips (and inside every flip-flop of steps 7–10). A NAND outputs 0 only when both inputs are 1, so its "forcing" input value is 0, not 1.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 08 slides 15, 17</span></div>
+<p>Give the table of the active-LOW input S'-R' latch (NAND gate latch).</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>In the NOR latch, 1 on an input acts and 11 is forbidden. Which input value acts in the NAND latch, and which pair is forbidden?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Active-low:</strong> the input does its job when it is <strong>0</strong> and is idle at 1. The prime in S' and R' marks this.</p>
+</div>
+
+<figure style="max-width:50%"><div style="width:70mm;max-width:100%;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" viewBox="-10.275999999999998 -69.4 194.56399999999994 138.8"><circle cx="99.72" cy="-46.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><circle cx="99.72" cy="46.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><path d="M 77.39999999999999,-28.8 L 78.55326395965282,-28.836982930493946 L 79.70178891032111,-28.94777975118157 L 80.8408553166247,-29.131935174160827 L 81.96578251037113,-29.38869246529747 L 83.07194792442517,-29.716996553807967 L 84.15480608782873,-30.11549836777161 L 85.20990730411604,-30.582560377756458 L 86.23291593607088,-31.11626332577899 L 87.21962822178988,-31.71441411194687 L 88.16598954884188,-32.37455480637678 L 89.06811111554019,-33.09397274935558 L 89.92228591086274,-33.869711698240906 L 90.72500394735567,-34.6985839752963 L 91.47296668442453,-35.5771835665428 L 92.16310058274522,-36.50190011780095 L 92.79256973409622,-37.46893377041056 L 93.358787514714,-38.47431077566497 L 93.85942721428462,-39.513899823796905 L 94.2924315968957,-40.58342902041647 L 94.6560213546599,-41.67850344064141 L 94.94870241927282,-42.794623188786346 L 95.16927210146011,-43.92720188939917 L 95.31682403308557,-45.071585533661725 L 95.39075189161238,-46.2230716037102 L 95.39075189161238,-47.37692839628979 L 95.31682403308557,-48.52841446633827 L 95.16927210146011,-49.67279811060082 L 94.94870241927282,-50.80537681121366 L 94.6560213546599,-51.92149655935859 L 94.2924315968957,-53.01657097958354 L 93.85942721428462,-54.08610017620309 L 93.358787514714,-55.125689224335034 L 92.79256973409622,-56.13106622958945 L 92.16310058274522,-57.09809988219905 L 91.47296668442453,-58.0228164334572 L 90.72500394735567,-58.9014160247037 L 89.92228591086277,-59.730288301759096 L 89.06811111554019,-60.506027250644415 L 88.16598954884189,-61.22544519362322 L 87.21962822178988,-61.88558588805313 L 86.23291593607088,-62.483736674221014 L 85.20990730411604,-63.01743962224354 L 84.15480608782873,-63.484501632228394 L 83.07194792442517,-63.883003446192035 L 81.96578251037113,-64.21130753470253 L 80.8408553166247,-64.46806482583918 L 79.70178891032111,-64.65222024881842 L 78.55326395965282,-64.76301706950605 L 77.39999999999999,-64.8 L 77.39999999999999,-64.8 L 54.0,-64.8 L 54.0,-46.800000000000004 L 54.0,-28.8 L 77.39999999999999,-28.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 41.4,-37.800000000000004 L 54.0,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 41.4,-55.800000000000004 L 54.0,-55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 104.03999999999999,-46.800000000000004 L 108.0,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 77.39999999999999,64.8 L 78.55326395965282,64.76301706950605 L 79.70178891032111,64.65222024881842 L 80.8408553166247,64.46806482583918 L 81.96578251037113,64.21130753470253 L 83.07194792442517,63.883003446192035 L 84.15480608782873,63.484501632228394 L 85.20990730411604,63.01743962224354 L 86.23291593607088,62.483736674221014 L 87.21962822178988,61.88558588805313 L 88.16598954884188,61.22544519362322 L 89.06811111554019,60.50602725064442 L 89.92228591086274,59.730288301759096 L 90.72500394735567,58.9014160247037 L 91.47296668442453,58.0228164334572 L 92.16310058274522,57.09809988219906 L 92.79256973409622,56.13106622958945 L 93.358787514714,55.125689224335034 L 93.85942721428462,54.0861001762031 L 94.2924315968957,53.01657097958354 L 94.6560213546599,51.921496559358594 L 94.94870241927282,50.80537681121366 L 95.16927210146011,49.67279811060083 L 95.31682403308557,48.528414466338276 L 95.39075189161238,47.3769283962898 L 95.39075189161238,46.22307160371021 L 95.31682403308557,45.07158553366173 L 95.16927210146011,43.92720188939918 L 94.94870241927282,42.794623188786346 L 94.6560213546599,41.67850344064142 L 94.2924315968957,40.58342902041647 L 93.85942721428462,39.51389982379691 L 93.358787514714,38.47431077566497 L 92.79256973409622,37.46893377041056 L 92.16310058274522,36.50190011780096 L 91.47296668442453,35.5771835665428 L 90.72500394735567,34.6985839752963 L 89.92228591086277,33.869711698240906 L 89.06811111554019,33.093972749355586 L 88.16598954884189,32.374554806376786 L 87.21962822178988,31.714414111946873 L 86.23291593607088,31.11626332577899 L 85.20990730411604,30.582560377756458 L 84.15480608782873,30.11549836777161 L 83.07194792442517,29.716996553807967 L 81.96578251037113,29.38869246529747 L 80.8408553166247,29.131935174160827 L 79.70178891032111,28.94777975118157 L 78.55326395965282,28.836982930493946 L 77.39999999999999,28.8 L 77.39999999999999,28.8 L 54.0,28.8 L 54.0,46.800000000000004 L 54.0,64.8 L 77.39999999999999,64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 41.4,55.800000000000004 L 54.0,55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 41.4,37.800000000000004 L 54.0,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 104.03999999999999,46.800000000000004 L 108.0,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 108.0,-46.800000000000004 L 136.79999999999998,-46.800000000000004 L 165.6,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 108.0,46.800000000000004 L 136.79999999999998,46.800000000000004 L 165.6,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 133.20000000000002,-46.800000000000004 L 133.20000000000002,-33.300000000000004 L 133.20000000000002,-19.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 133.20000000000002,-19.8 L 76.5,-4.455000000000001 L 19.799999999999994,10.89" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 19.799999999999997,10.890000000000002 L 19.799999999999997,24.345 L 19.799999999999997,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 19.799999999999997,37.800000000000004 L 30.599999999999994,37.800000000000004 L 41.4,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 133.20000000000002,46.800000000000004 L 133.20000000000002,33.300000000000004 L 133.20000000000002,19.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 133.20000000000002,19.8 L 76.5,4.455000000000001 L 19.799999999999994,-10.89" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 19.799999999999997,-10.890000000000002 L 19.799999999999997,-24.345 L 19.799999999999997,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 19.799999999999997,-37.800000000000004 L 30.599999999999994,-37.800000000000004 L 41.4,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 7.2,-55.800000000000004 L 24.3,-55.800000000000004 L 41.4,-55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 7.2,55.800000000000004 L 24.3,55.800000000000004 L 41.4,55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><text x="169.2" y="-51.6" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="start"><tspan x="169.2" dy="12">Q</tspan></text><text x="169.2" y="42.00000000000001" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="start"><tspan x="169.2" dy="12">Q'</tspan></text><text x="3.6000000000000014" y="-60.6" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="end"><tspan x="3.6000000000000014" dy="12">S'</tspan></text><text x="3.6000000000000014" y="51.00000000000001" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="end"><tspan x="3.6000000000000014" dy="12">R'</tspan></text><circle cx="133.20000000000002" cy="-46.800000000000004" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /><circle cx="133.20000000000002" cy="46.800000000000004" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /></svg></div><figcaption>NAND latch (deck 08 slide 15). S' enters the gate that drives Q; R' enters the gate that drives Q'. Each output is fed back to the other gate.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>S'</th>
+<th>R'</th>
 <th>Q</th>
 <th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>0 0</td>
-<td>unchanged</td>
-<td>hold (memory)</td>
+<td>1</td>
+<td>1</td>
+<td>Q₀</td>
+<td>hold</td>
 </tr>
 <tr>
-<td>0 1</td>
+<td>1</td>
+<td>0</td>
 <td>0</td>
 <td>reset</td>
 </tr>
 <tr>
-<td>1 0</td>
+<td>0</td>
+<td>1</td>
 <td>1</td>
 <td>set</td>
 </tr>
 <tr>
-<td>1 1</td>
-<td>Q = Q' = 0</td>
+<td>0</td>
+<td>0</td>
+<td>Q = Q' = 1</td>
 <td>not allowed</td>
 </tr>
 </tbody>
 </table>
-<p><strong>How it remembers.</strong> S = 1 forces Q' = 0, so the upper gate sees two 0s and Q = 1. Return S to 0: Q = 1 is fed back and keeps Q' = 0. The loop holds the last value set.</p>
+<ol>
+<li>S' = 0 forces Q = NAND(0, Q') = 1.</li>
+<li>The other gate sees R' = 1 and Q = 1, so Q' = NAND(1, 1) = 0: set.</li>
+<li>S' back to 1: Q = NAND(1, Q' = 0) = 1 still: hold.</li>
+</ol>
+<p><strong>Answer.</strong> <strong>0 acts</strong> (S' = 0 sets, R' = 0 resets), <strong>11 holds</strong>, and <strong>00 is forbidden</strong>: it forces Q = Q' = 1. The NOR latch's table read with every input inverted.</p>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>(a) S' = 1, R' = 0. Q? (b) Q = 1 and S'R' = 11. Q? (c) Which input pair is forbidden, and what are Q and Q' then?</p>
+</div>
+<h3>4 · The gated SR latch: an enable decides when to listen</h3>
+<p>A bare latch reacts the instant S or R changes. A circuit with many latches needs them to listen only at agreed times. One extra input does it.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 08 slides 18–19</span></div>
+<p>NAND based SR latch with control input: give its function table.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Two NAND gates are put in front of the NAND latch, each also fed by EN. What does the latch see when EN = 0?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Enable (EN):</strong> a control input; EN = 1 lets S and R through to the latch, EN = 0 blocks them so the latch holds. <strong>Gated (controlled) latch:</strong> a latch with an enable.</p>
+</div>
+
+<figure style="max-width:80%"><div style="width:85mm;max-width:100%;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" viewBox="49.61599999999996 -78.39999999999999 321.872 156.79999999999998"><circle cx="286.91999999999996" cy="-46.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><circle cx="286.91999999999996" cy="46.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><circle cx="178.91999999999996" cy="-55.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><circle cx="178.91999999999996" cy="55.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><path d="M 264.59999999999997,-28.8 L 265.7532639596528,-28.836982930493946 L 266.9017889103211,-28.94777975118157 L 268.0408553166247,-29.131935174160827 L 269.1657825103711,-29.38869246529747 L 270.27194792442515,-29.716996553807967 L 271.3548060878287,-30.11549836777161 L 272.409907304116,-30.582560377756458 L 273.43291593607086,-31.11626332577899 L 274.4196282217898,-31.71441411194687 L 275.36598954884187,-32.37455480637678 L 276.2681111155402,-33.09397274935558 L 277.12228591086273,-33.869711698240906 L 277.92500394735566,-34.6985839752963 L 278.6729666844245,-35.5771835665428 L 279.3631005827452,-36.50190011780095 L 279.9925697340962,-37.46893377041056 L 280.55878751471397,-38.47431077566497 L 281.0594272142846,-39.513899823796905 L 281.49243159689564,-40.58342902041647 L 281.85602135465984,-41.67850344064141 L 282.1487024192728,-42.794623188786346 L 282.36927210146007,-43.92720188939917 L 282.5168240330855,-45.071585533661725 L 282.59075189161234,-46.2230716037102 L 282.59075189161234,-47.37692839628979 L 282.5168240330855,-48.52841446633827 L 282.36927210146007,-49.67279811060082 L 282.1487024192728,-50.80537681121366 L 281.85602135465984,-51.92149655935859 L 281.49243159689564,-53.01657097958354 L 281.0594272142846,-54.08610017620309 L 280.55878751471397,-55.125689224335034 L 279.9925697340962,-56.13106622958945 L 279.3631005827452,-57.09809988219905 L 278.6729666844245,-58.0228164334572 L 277.92500394735566,-58.9014160247037 L 277.12228591086273,-59.730288301759096 L 276.2681111155402,-60.506027250644415 L 275.36598954884187,-61.22544519362322 L 274.4196282217898,-61.88558588805313 L 273.43291593607086,-62.483736674221014 L 272.409907304116,-63.01743962224354 L 271.3548060878287,-63.484501632228394 L 270.27194792442515,-63.883003446192035 L 269.1657825103711,-64.21130753470253 L 268.0408553166247,-64.46806482583918 L 266.9017889103211,-64.65222024881842 L 265.7532639596528,-64.76301706950605 L 264.59999999999997,-64.8 L 264.59999999999997,-64.8 L 241.2,-64.8 L 241.2,-46.800000000000004 L 241.2,-28.8 L 264.59999999999997,-28.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 228.6,-37.800000000000004 L 241.2,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 228.6,-55.800000000000004 L 241.2,-55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 291.24,-46.800000000000004 L 295.2,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 264.59999999999997,64.8 L 265.7532639596528,64.76301706950605 L 266.9017889103211,64.65222024881842 L 268.0408553166247,64.46806482583918 L 269.1657825103711,64.21130753470253 L 270.27194792442515,63.883003446192035 L 271.3548060878287,63.484501632228394 L 272.409907304116,63.01743962224354 L 273.43291593607086,62.483736674221014 L 274.4196282217898,61.88558588805313 L 275.36598954884187,61.22544519362322 L 276.2681111155402,60.50602725064442 L 277.12228591086273,59.730288301759096 L 277.92500394735566,58.9014160247037 L 278.6729666844245,58.0228164334572 L 279.3631005827452,57.09809988219906 L 279.9925697340962,56.13106622958945 L 280.55878751471397,55.125689224335034 L 281.0594272142846,54.0861001762031 L 281.49243159689564,53.01657097958354 L 281.85602135465984,51.921496559358594 L 282.1487024192728,50.80537681121366 L 282.36927210146007,49.67279811060083 L 282.5168240330855,48.528414466338276 L 282.59075189161234,47.3769283962898 L 282.59075189161234,46.22307160371021 L 282.5168240330855,45.07158553366173 L 282.36927210146007,43.92720188939918 L 282.1487024192728,42.794623188786346 L 281.85602135465984,41.67850344064142 L 281.49243159689564,40.58342902041647 L 281.0594272142846,39.51389982379691 L 280.55878751471397,38.47431077566497 L 279.9925697340962,37.46893377041056 L 279.3631005827452,36.50190011780096 L 278.6729666844245,35.5771835665428 L 277.92500394735566,34.6985839752963 L 277.12228591086273,33.869711698240906 L 276.2681111155402,33.093972749355586 L 275.36598954884187,32.374554806376786 L 274.4196282217898,31.714414111946873 L 273.43291593607086,31.11626332577899 L 272.409907304116,30.582560377756458 L 271.3548060878287,30.11549836777161 L 270.27194792442515,29.716996553807967 L 269.1657825103711,29.38869246529747 L 268.0408553166247,29.131935174160827 L 266.9017889103211,28.94777975118157 L 265.7532639596528,28.836982930493946 L 264.59999999999997,28.8 L 264.59999999999997,28.8 L 241.2,28.8 L 241.2,46.800000000000004 L 241.2,64.8 L 264.59999999999997,64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 228.6,55.800000000000004 L 241.2,55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 228.6,37.800000000000004 L 241.2,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 291.24,46.800000000000004 L 295.2,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 295.2,-46.800000000000004 L 324.0,-46.800000000000004 L 352.79999999999995,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 295.2,46.800000000000004 L 324.0,46.800000000000004 L 352.79999999999995,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 320.4,-46.800000000000004 L 320.4,-33.300000000000004 L 320.4,-19.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 320.4,-19.8 L 263.7,-4.455000000000009 L 207.0,10.889999999999983" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 207.0,10.890000000000002 L 207.0,24.345 L 207.0,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 207.0,37.800000000000004 L 217.79999999999998,37.800000000000004 L 228.6,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 320.4,46.800000000000004 L 320.4,33.300000000000004 L 320.4,19.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 320.4,19.8 L 263.7,4.455000000000009 L 207.0,-10.889999999999983" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 207.0,-10.890000000000002 L 207.0,-24.345 L 207.0,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 207.0,-37.800000000000004 L 217.79999999999998,-37.800000000000004 L 228.6,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 156.6,-37.800000000000004 L 157.7532639596528,-37.836982930493946 L 158.9017889103211,-37.94777975118157 L 160.0408553166247,-38.13193517416082 L 161.16578251037112,-38.388692465297474 L 162.27194792442515,-38.716996553807974 L 163.3548060878287,-39.11549836777161 L 164.40990730411602,-39.58256037775646 L 165.43291593607083,-40.116263325778995 L 166.41962822178985,-40.71441411194687 L 167.36598954884187,-41.37455480637678 L 168.26811111554017,-42.09397274935558 L 169.12228591086273,-42.869711698240906 L 169.92500394735563,-43.6985839752963 L 170.6729666844245,-44.5771835665428 L 171.36310058274518,-45.50190011780095 L 171.9925697340962,-46.46893377041056 L 172.558787514714,-47.47431077566497 L 173.0594272142846,-48.513899823796905 L 173.49243159689564,-49.58342902041647 L 173.85602135465987,-50.67850344064141 L 174.1487024192728,-51.794623188786346 L 174.36927210146007,-52.92720188939917 L 174.51682403308556,-54.071585533661725 L 174.59075189161234,-55.2230716037102 L 174.59075189161234,-56.37692839628979 L 174.51682403308556,-57.52841446633827 L 174.36927210146007,-58.67279811060082 L 174.1487024192728,-59.80537681121366 L 173.85602135465987,-60.92149655935859 L 173.49243159689564,-62.01657097958354 L 173.0594272142846,-63.08610017620309 L 172.558787514714,-64.12568922433503 L 171.9925697340962,-65.13106622958945 L 171.36310058274518,-66.09809988219905 L 170.6729666844245,-67.02281643345721 L 169.92500394735563,-67.9014160247037 L 169.12228591086273,-68.7302883017591 L 168.26811111554017,-69.50602725064441 L 167.36598954884187,-70.22544519362323 L 166.41962822178985,-70.88558588805313 L 165.43291593607083,-71.483736674221 L 164.40990730411602,-72.01743962224356 L 163.3548060878287,-72.48450163222839 L 162.27194792442515,-72.88300344619203 L 161.16578251037112,-73.21130753470253 L 160.0408553166247,-73.46806482583918 L 158.9017889103211,-73.65222024881842 L 157.7532639596528,-73.76301706950605 L 156.6,-73.8 L 156.6,-73.8 L 133.2,-73.8 L 133.2,-55.800000000000004 L 133.2,-37.800000000000004 L 156.6,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 120.59999999999997,-46.800000000000004 L 133.2,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 120.59999999999997,-64.8 L 133.2,-64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 183.23999999999995,-55.800000000000004 L 187.2,-55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 156.6,73.8 L 157.7532639596528,73.76301706950605 L 158.9017889103211,73.65222024881842 L 160.0408553166247,73.46806482583918 L 161.16578251037112,73.21130753470253 L 162.27194792442515,72.88300344619203 L 163.3548060878287,72.4845016322284 L 164.40990730411602,72.01743962224356 L 165.43291593607083,71.483736674221 L 166.41962822178985,70.88558588805313 L 167.36598954884187,70.22544519362323 L 168.26811111554017,69.50602725064442 L 169.12228591086273,68.7302883017591 L 169.92500394735563,67.9014160247037 L 170.6729666844245,67.02281643345721 L 171.36310058274518,66.09809988219905 L 171.9925697340962,65.13106622958945 L 172.558787514714,64.12568922433503 L 173.0594272142846,63.0861001762031 L 173.49243159689564,62.01657097958354 L 173.85602135465987,60.921496559358594 L 174.1487024192728,59.80537681121366 L 174.36927210146007,58.67279811060083 L 174.51682403308556,57.528414466338276 L 174.59075189161234,56.3769283962898 L 174.59075189161234,55.22307160371021 L 174.51682403308556,54.07158553366173 L 174.36927210146007,52.92720188939918 L 174.1487024192728,51.794623188786346 L 173.85602135465987,50.67850344064142 L 173.49243159689564,49.58342902041647 L 173.0594272142846,48.51389982379691 L 172.558787514714,47.47431077566497 L 171.9925697340962,46.46893377041056 L 171.36310058274518,45.50190011780096 L 170.6729666844245,44.5771835665428 L 169.92500394735563,43.6985839752963 L 169.12228591086273,42.869711698240906 L 168.26811111554017,42.093972749355586 L 167.36598954884187,41.37455480637678 L 166.41962822178985,40.71441411194687 L 165.43291593607083,40.116263325778995 L 164.40990730411602,39.58256037775646 L 163.3548060878287,39.11549836777161 L 162.27194792442515,38.716996553807974 L 161.16578251037112,38.388692465297474 L 160.0408553166247,38.13193517416082 L 158.9017889103211,37.94777975118157 L 157.7532639596528,37.836982930493946 L 156.6,37.800000000000004 L 156.6,37.800000000000004 L 133.2,37.800000000000004 L 133.2,55.800000000000004 L 133.2,73.8 L 156.6,73.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 120.59999999999997,64.8 L 133.2,64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 120.59999999999997,46.800000000000004 L 133.2,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 183.23999999999995,55.800000000000004 L 187.2,55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 187.2,-55.800000000000004 L 207.89999999999998,-55.800000000000004 L 228.6,-55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 187.2,55.800000000000004 L 207.89999999999998,55.800000000000004 L 228.6,55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 98.99999999999997,-46.800000000000004 L 109.79999999999995,-46.800000000000004 L 120.59999999999997,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 98.99999999999997,46.800000000000004 L 109.79999999999995,46.800000000000004 L 120.59999999999997,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 98.99999999999997,-46.800000000000004 L 98.99999999999997,-0.0 L 98.99999999999997,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 73.79999999999995,-0.0 L 86.39999999999996,-0.0 L 98.99999999999997,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 73.79999999999995,-64.8 L 97.19999999999997,-64.8 L 120.59999999999997,-64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 73.79999999999995,64.8 L 97.19999999999997,64.8 L 120.59999999999997,64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><text x="356.4" y="-51.6" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="start"><tspan x="356.4" dy="12">Q</tspan></text><text x="356.4" y="42.00000000000001" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="start"><tspan x="356.4" dy="12">Q'</tspan></text><text x="207.89999999999998" y="-69.0" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle"><tspan x="207.89999999999998" dy="12">S'</tspan></text><text x="207.89999999999998" y="42.599999999999994" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle"><tspan x="207.89999999999998" dy="12">R'</tspan></text><text x="70.19999999999996" y="-4.800000000000001" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="end"><tspan x="70.19999999999996" dy="12">EN</tspan></text><text x="70.19999999999996" y="-69.6" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="end"><tspan x="70.19999999999996" dy="12">S</tspan></text><text x="70.19999999999996" y="59.99999999999999" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="end"><tspan x="70.19999999999996" dy="12">R</tspan></text><circle cx="320.4" cy="-46.800000000000004" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /><circle cx="320.4" cy="46.800000000000004" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /><circle cx="98.99999999999997" cy="-0.0" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /></svg></div><figcaption>Gated SR latch from four NAND gates (deck 08 slide 18). The input NANDs turn S and R into the active-low S' and R' of step 3, but only while EN = 1.</figcaption></figure>
+
 <table>
 <thead>
 <tr>
-<th>Latch</th>
-<th>What it adds</th>
+<th>EN</th>
+<th>S</th>
+<th>R</th>
+<th>Q</th>
+<th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>NAND SR</td>
-<td>active-low inputs: S' = 0 sets, R' = 0 resets, 11 holds, 00 forbidden (Q = Q' = 1)</td>
+<td>0</td>
+<td>X</td>
+<td>X</td>
+<td>Q₀</td>
+<td>hold</td>
 </tr>
 <tr>
-<td>Gated SR</td>
-<td>an enable EN: changes only while EN = 1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>Q₀</td>
+<td>hold</td>
 </tr>
 <tr>
-<td>D latch</td>
-<td>S = D, R = D': no forbidden case. EN = 1: Q follows D (transparent); EN = 0: holds</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>reset</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>set</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>—</td>
+<td>not allowed</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Answer.</strong> S = R = 1 forces both outputs to 0, so they are no longer complements. If S and R then return to 0 together, both gates race to 1 and the final state depends on which is faster: unpredictable.</p>
+<ol>
+<li>EN = 0: each input NAND has a 0 input, so it outputs 1 whatever S or R is. The latch sees S'R' = 11: hold (step 3).</li>
+<li>EN = 1: the input NANDs output (S·1)' = S' and (R·1)' = R'. The latch sees the active-low versions, so S = 1 sets and R = 1 resets: the gated latch is <strong>active-high</strong>.</li>
+</ol>
+<p>Deck 08 slide 19 builds the same table from two AND gates in front of a NOR latch.</p>
+<p><strong>Answer.</strong> With EN = 0 the latch sees <strong>S'R' = 11</strong> and holds; S and R can do anything. The forbidden case survives: EN = 1 with S = R = 1.</p>
 <div class="box check">
-<div class="bh">Check 1</div>
-<p>(a) A NAND latch has S' = 0, R' = 1. Q? (b) A D latch has EN = 1 throughout while D goes 0 → 1 → 0 → 1. How many times does Q change? (c) What must a circuit have to store a bit?</p>
+<div class="bh">Check 4</div>
+<p>Q = 0. (a) EN = 0, S = 1, R = 0: Q? (b) EN rises to 1 with the same S, R: Q? (c) EN falls to 0, then S = 0, R = 1: Q?</p>
 </div>
-<h3>2 · Flip-flops</h3>
+<h3>5 · The D latch: no forbidden input</h3>
+<p>Steps 2–4 all carry a forbidden pair. Deck 08 slide 20: make S and R come from one wire so they can never both be 1.</p>
 <div class="box q">
-<div class="bh"><span class="tag">MTE 2025 Q3 · 2 marks</span></div>
-<p>What excitation input should be applied to a T-FF to make output toggle?</p>
+<div class="bh"><span class="tag">Deck 08 slides 20–21, 24</span></div>
+<p>Give the logic diagram, function table and characteristic equation of the gated D latch.</p>
 </div>
 <div class="box guess">
 <div class="bh">Guess first</div>
-<p>A latch is open for as long as its enable is 1. What could go wrong if a latch's output fed, through logic, back into its own input?</p>
+<p>S = D and R = D'. While EN = 1, what does Q do when D changes?</p>
 </div>
 <div class="box note">
 <div class="bh">Terms</div>
-<p><strong>Clock (CLK):</strong> a square wave telling every memory element when to update. <strong>Edge:</strong> rising (0 → 1) or falling (1 → 0). <strong>Flip-flop:</strong> a 1-bit memory that updates only at a clock edge. <strong>Toggle:</strong> change to the opposite value.</p>
+<p><strong>D (data):</strong> the one data input. <strong>Transparent:</strong> while EN = 1, Q copies D, so a change on D appears at Q (after the gate delays) as if through a wire.</p>
 </div>
 
-<figure style="max-width:75%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 472.999631 151.98266" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<figure style="max-width:80%"><div style="width:85mm;max-width:100%;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" viewBox="21.260000000000005 -78.39999999999999 379.028 165.79999999999998"><circle cx="315.71999999999997" cy="-46.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><circle cx="315.71999999999997" cy="46.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><circle cx="207.71999999999997" cy="-55.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><circle cx="207.71999999999997" cy="55.800000000000004" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><circle cx="110.7" cy="64.8" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.4;" /><path d="M 293.40000000000003,-28.8 L 294.5532639596528,-28.836982930493946 L 295.7017889103211,-28.94777975118157 L 296.8408553166247,-29.131935174160827 L 297.9657825103711,-29.38869246529747 L 299.0719479244252,-29.716996553807967 L 300.1548060878287,-30.11549836777161 L 301.2099073041161,-30.582560377756458 L 302.23291593607087,-31.11626332577899 L 303.2196282217899,-31.71441411194687 L 304.1659895488419,-32.37455480637678 L 305.06811111554015,-33.09397274935558 L 305.92228591086274,-33.869711698240906 L 306.7250039473557,-34.6985839752963 L 307.47296668442453,-35.5771835665428 L 308.1631005827452,-36.50190011780095 L 308.7925697340962,-37.46893377041056 L 309.35878751471404,-38.47431077566497 L 309.8594272142846,-39.513899823796905 L 310.29243159689565,-40.58342902041647 L 310.6560213546599,-41.67850344064141 L 310.9487024192728,-42.794623188786346 L 311.1692721014601,-43.92720188939917 L 311.3168240330856,-45.071585533661725 L 311.39075189161235,-46.2230716037102 L 311.39075189161235,-47.37692839628979 L 311.3168240330856,-48.52841446633827 L 311.1692721014601,-49.67279811060082 L 310.9487024192728,-50.80537681121366 L 310.6560213546599,-51.92149655935859 L 310.29243159689565,-53.01657097958354 L 309.8594272142846,-54.08610017620309 L 309.35878751471404,-55.125689224335034 L 308.7925697340962,-56.13106622958945 L 308.1631005827452,-57.09809988219905 L 307.47296668442453,-58.0228164334572 L 306.7250039473557,-58.9014160247037 L 305.92228591086274,-59.730288301759096 L 305.06811111554015,-60.506027250644415 L 304.1659895488419,-61.22544519362322 L 303.2196282217899,-61.88558588805313 L 302.23291593607087,-62.483736674221014 L 301.2099073041161,-63.01743962224354 L 300.1548060878287,-63.484501632228394 L 299.0719479244252,-63.883003446192035 L 297.9657825103711,-64.21130753470253 L 296.8408553166247,-64.46806482583918 L 295.7017889103211,-64.65222024881842 L 294.55326395965284,-64.76301706950605 L 293.40000000000003,-64.8 L 293.40000000000003,-64.8 L 270.0,-64.8 L 270.0,-46.800000000000004 L 270.0,-28.8 L 293.40000000000003,-28.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 257.40000000000003,-37.800000000000004 L 270.0,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 257.40000000000003,-55.800000000000004 L 270.0,-55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 320.04,-46.800000000000004 L 324.0,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 293.40000000000003,64.8 L 294.5532639596528,64.76301706950605 L 295.7017889103211,64.65222024881842 L 296.8408553166247,64.46806482583918 L 297.9657825103711,64.21130753470253 L 299.0719479244252,63.883003446192035 L 300.1548060878287,63.484501632228394 L 301.2099073041161,63.01743962224354 L 302.23291593607087,62.483736674221014 L 303.2196282217899,61.88558588805313 L 304.1659895488419,61.22544519362322 L 305.06811111554015,60.50602725064442 L 305.92228591086274,59.730288301759096 L 306.7250039473557,58.9014160247037 L 307.47296668442453,58.0228164334572 L 308.1631005827452,57.09809988219906 L 308.7925697340962,56.13106622958945 L 309.35878751471404,55.125689224335034 L 309.8594272142846,54.0861001762031 L 310.29243159689565,53.01657097958354 L 310.6560213546599,51.921496559358594 L 310.9487024192728,50.80537681121366 L 311.1692721014601,49.67279811060083 L 311.3168240330856,48.528414466338276 L 311.39075189161235,47.3769283962898 L 311.39075189161235,46.22307160371021 L 311.3168240330856,45.07158553366173 L 311.1692721014601,43.92720188939918 L 310.9487024192728,42.794623188786346 L 310.6560213546599,41.67850344064142 L 310.29243159689565,40.58342902041647 L 309.8594272142846,39.51389982379691 L 309.35878751471404,38.47431077566497 L 308.7925697340962,37.46893377041056 L 308.1631005827452,36.50190011780096 L 307.47296668442453,35.5771835665428 L 306.7250039473557,34.6985839752963 L 305.92228591086274,33.869711698240906 L 305.06811111554015,33.093972749355586 L 304.1659895488419,32.374554806376786 L 303.2196282217899,31.714414111946873 L 302.23291593607087,31.11626332577899 L 301.2099073041161,30.582560377756458 L 300.1548060878287,30.11549836777161 L 299.0719479244252,29.716996553807967 L 297.9657825103711,29.38869246529747 L 296.8408553166247,29.131935174160827 L 295.7017889103211,28.94777975118157 L 294.55326395965284,28.836982930493946 L 293.40000000000003,28.8 L 293.40000000000003,28.8 L 270.0,28.8 L 270.0,46.800000000000004 L 270.0,64.8 L 293.40000000000003,64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 257.40000000000003,55.800000000000004 L 270.0,55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 257.40000000000003,37.800000000000004 L 270.0,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 320.04,46.800000000000004 L 324.0,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 324.0,-46.800000000000004 L 352.8,-46.800000000000004 L 381.59999999999997,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 324.0,46.800000000000004 L 352.8,46.800000000000004 L 381.59999999999997,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 349.2,-46.800000000000004 L 349.2,-33.300000000000004 L 349.2,-19.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 349.2,-19.8 L 292.5,-4.455000000000009 L 235.8,10.889999999999983" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 235.8,10.890000000000002 L 235.8,24.345 L 235.8,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 235.8,37.800000000000004 L 246.60000000000002,37.800000000000004 L 257.40000000000003,37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 349.2,46.800000000000004 L 349.2,33.300000000000004 L 349.2,19.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 349.2,19.8 L 292.5,4.455000000000009 L 235.8,-10.889999999999983" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 235.8,-10.890000000000002 L 235.8,-24.345 L 235.8,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 235.8,-37.800000000000004 L 246.60000000000002,-37.800000000000004 L 257.40000000000003,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 185.4,-37.800000000000004 L 186.55326395965284,-37.836982930493946 L 187.7017889103211,-37.94777975118157 L 188.8408553166247,-38.13193517416082 L 189.96578251037113,-38.388692465297474 L 191.0719479244252,-38.716996553807974 L 192.15480608782872,-39.11549836777161 L 193.20990730411606,-39.58256037775646 L 194.23291593607087,-40.116263325778995 L 195.2196282217899,-40.71441411194687 L 196.16598954884188,-41.37455480637678 L 197.0681111155402,-42.09397274935558 L 197.92228591086277,-42.869711698240906 L 198.72500394735567,-43.6985839752963 L 199.47296668442453,-44.5771835665428 L 200.1631005827452,-45.50190011780095 L 200.79256973409622,-46.46893377041056 L 201.358787514714,-47.47431077566497 L 201.85942721428464,-48.513899823796905 L 202.29243159689568,-49.58342902041647 L 202.65602135465988,-50.67850344064141 L 202.94870241927282,-51.794623188786346 L 203.1692721014601,-52.92720188939917 L 203.3168240330856,-54.071585533661725 L 203.39075189161238,-55.2230716037102 L 203.39075189161238,-56.37692839628979 L 203.3168240330856,-57.52841446633827 L 203.1692721014601,-58.67279811060082 L 202.94870241927282,-59.80537681121366 L 202.65602135465988,-60.92149655935859 L 202.29243159689568,-62.01657097958354 L 201.85942721428464,-63.08610017620309 L 201.358787514714,-64.12568922433503 L 200.79256973409622,-65.13106622958945 L 200.1631005827452,-66.09809988219905 L 199.47296668442453,-67.02281643345721 L 198.72500394735567,-67.9014160247037 L 197.92228591086277,-68.7302883017591 L 197.0681111155402,-69.50602725064441 L 196.16598954884188,-70.22544519362323 L 195.2196282217899,-70.88558588805313 L 194.23291593607087,-71.483736674221 L 193.20990730411606,-72.01743962224356 L 192.15480608782872,-72.48450163222839 L 191.0719479244252,-72.88300344619203 L 189.96578251037113,-73.21130753470253 L 188.8408553166247,-73.46806482583918 L 187.7017889103211,-73.65222024881842 L 186.55326395965284,-73.76301706950605 L 185.4,-73.8 L 185.4,-73.8 L 162.0,-73.8 L 162.0,-55.800000000000004 L 162.0,-37.800000000000004 L 185.4,-37.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 149.4,-46.800000000000004 L 162.0,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 149.4,-64.8 L 162.0,-64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 212.04,-55.800000000000004 L 216.0,-55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 185.4,73.8 L 186.55326395965284,73.76301706950605 L 187.7017889103211,73.65222024881842 L 188.8408553166247,73.46806482583918 L 189.96578251037113,73.21130753470253 L 191.0719479244252,72.88300344619203 L 192.15480608782872,72.4845016322284 L 193.20990730411606,72.01743962224356 L 194.23291593607087,71.483736674221 L 195.2196282217899,70.88558588805313 L 196.16598954884188,70.22544519362323 L 197.0681111155402,69.50602725064442 L 197.92228591086277,68.7302883017591 L 198.72500394735567,67.9014160247037 L 199.47296668442453,67.02281643345721 L 200.1631005827452,66.09809988219905 L 200.79256973409622,65.13106622958945 L 201.358787514714,64.12568922433503 L 201.85942721428464,63.0861001762031 L 202.29243159689568,62.01657097958354 L 202.65602135465988,60.921496559358594 L 202.94870241927282,59.80537681121366 L 203.1692721014601,58.67279811060083 L 203.3168240330856,57.528414466338276 L 203.39075189161238,56.3769283962898 L 203.39075189161238,55.22307160371021 L 203.3168240330856,54.07158553366173 L 203.1692721014601,52.92720188939918 L 202.94870241927282,51.794623188786346 L 202.65602135465988,50.67850344064142 L 202.29243159689568,49.58342902041647 L 201.85942721428464,48.51389982379691 L 201.358787514714,47.47431077566497 L 200.79256973409622,46.46893377041056 L 200.1631005827452,45.50190011780096 L 199.47296668442453,44.5771835665428 L 198.72500394735567,43.6985839752963 L 197.92228591086277,42.869711698240906 L 197.0681111155402,42.093972749355586 L 196.16598954884188,41.37455480637678 L 195.2196282217899,40.71441411194687 L 194.23291593607087,40.116263325778995 L 193.20990730411606,39.58256037775646 L 192.15480608782872,39.11549836777161 L 191.0719479244252,38.716996553807974 L 189.96578251037113,38.388692465297474 L 188.8408553166247,38.13193517416082 L 187.7017889103211,37.94777975118157 L 186.55326395965284,37.836982930493946 L 185.4,37.800000000000004 L 185.4,37.800000000000004 L 162.0,37.800000000000004 L 162.0,55.800000000000004 L 162.0,73.8 L 185.4,73.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 149.4,64.8 L 162.0,64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 149.4,46.800000000000004 L 162.0,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 212.04,55.800000000000004 L 216.0,55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 216.0,-55.800000000000004 L 236.70000000000002,-55.800000000000004 L 257.40000000000003,-55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 216.0,55.800000000000004 L 236.70000000000002,55.800000000000004 L 257.40000000000003,55.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 127.80000000000001,-46.800000000000004 L 138.60000000000002,-46.800000000000004 L 149.4,-46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 127.80000000000001,46.800000000000004 L 138.60000000000002,46.800000000000004 L 149.4,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 127.80000000000001,-46.800000000000004 L 127.80000000000001,-0.0 L 127.80000000000001,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 102.60000000000002,-0.0 L 115.2,-0.0 L 127.80000000000001,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 37.80000000000001,-64.8 L 93.60000000000002,-64.8 L 149.4,-64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 70.2,64.8 L 82.98,64.8 M 115.02000000000001,64.8 L 127.80000000000001,64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 82.98,46.800000000000004 L 106.38,64.8 L 82.98,82.8 L 82.98,46.800000000000004" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 70.2,-64.8 L 70.2,-0.0 L 70.20000000000002,64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 115.02000000000001,64.8 L 132.21,64.8 L 149.4,64.8" style="stroke:#1c1f24;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" /><text x="385.2" y="-51.6" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="start"><tspan x="385.2" dy="12">Q</tspan></text><text x="385.2" y="42.00000000000001" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="start"><tspan x="385.2" dy="12">Q'</tspan></text><text x="236.70000000000002" y="-69.0" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle"><tspan x="236.70000000000002" dy="12">S'</tspan></text><text x="236.70000000000002" y="42.599999999999994" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle"><tspan x="236.70000000000002" dy="12">R'</tspan></text><text x="99.00000000000001" y="-4.800000000000001" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="end"><tspan x="99.00000000000001" dy="12">EN</tspan></text><text x="34.2" y="-69.6" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="end"><tspan x="34.2" dy="12">D</tspan></text><text x="132.21" y="68.4" fill="#1c1f24" font-size="12" font-family="Segoe UI, Arial, sans-serif" text-anchor="middle"><tspan x="132.21" dy="12">D'</tspan></text><circle cx="349.2" cy="-46.800000000000004" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /><circle cx="349.2" cy="46.800000000000004" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /><circle cx="127.80000000000001" cy="-0.0" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /><circle cx="70.2" cy="-64.8" r="2.6999999999999997" style="stroke:#1c1f24;fill:#1c1f24;stroke-width:1.4;" /></svg></div><figcaption>Gated D latch (deck 08 slide 20): step 4's circuit with S = D and R = D' made by one inverter.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>EN</th>
+<th>D</th>
+<th>Q⁺</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>X</td>
+<td>Q₀</td>
+<td>hold</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>reset</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>set</td>
+</tr>
+</tbody>
+</table>
+<p>Characteristic equation (deck 08 slide 21): <strong>when EN = 1, Q⁺ = D.</strong> Read: "while enabled, the next Q is whatever D is." While EN = 0 the latch holds.</p>
+<p><strong>Answer to the guess.</strong> Q <strong>follows D</strong>: every change of D while EN = 1 reaches Q. The forbidden case is gone because S = D and R = D' are never both 1.</p>
+<div class="box check">
+<div class="bh">Check 5</div>
+<p>Q = 0. (a) EN = 1 while D goes 1 → 0 → 1. Q at each stage? (b) EN falls to 0, then D goes to 0. Q? (c) One line: why can a D latch never reach the forbidden state?</p>
+</div>
+<h3>6 · The clock</h3>
+<p>Step 5's latch listens whenever EN = 1. A system with hundreds of memory bits needs one shared signal that says when: the clock.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 08 slide 25</span></div>
+<p>Define clock period, clock frequency and duty cycle.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>A clock repeats every 8 µs and is high for 2 µs of each repeat. What fraction of the time is it high?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Clock period T:</strong> the time from one rising edge to the next; set by the oscillator that makes the clock. <strong>Rising (positive) edge ↑:</strong> the 0 → 1 transition; <strong>falling (negative) edge ↓:</strong> the 1 → 0 transition. <strong>Duty cycle:</strong> the fraction of each period the clock spends high.</p>
+</div>
+
+<figure style="max-width:70%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 407.52 71.561906" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:06.968414</dc:date>
+    <dc:date>2026-11-17T13:36:41.285062</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 71.561906 
+L 407.52 71.561906 
+L 407.52 0 
+L 0 0 
+L 0 71.561906 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 55.942642 55.514906 
+L 93.844528 55.514906 
+L 93.844528 37.958906 
+L 131.746415 37.958906 
+L 131.746415 55.514906 
+L 169.648302 55.514906 
+L 169.648302 37.958906 
+L 207.550189 37.958906 
+L 207.550189 55.514906 
+L 245.452075 55.514906 
+L 245.452075 37.958906 
+L 283.353962 37.958906 
+L 283.353962 55.514906 
+L 321.255849 55.514906 
+L 321.255849 37.958906 
+L 359.157736 37.958906 
+L 359.157736 55.514906 
+L 397.059623 55.514906 
+" clip-path="url(#pa8765e70e7)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 93.844528 68.681906 
+L 93.844528 16.013906 
+" clip-path="url(#pa8765e70e7)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 131.746415 68.681906 
+L 131.746415 16.013906 
+" clip-path="url(#pa8765e70e7)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 169.648302 68.681906 
+L 169.648302 16.013906 
+" clip-path="url(#pa8765e70e7)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 245.452075 68.681906 
+L 245.452075 16.013906 
+" clip-path="url(#pa8765e70e7)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 321.255849 68.681906 
+L 321.255849 16.013906 
+" clip-path="url(#pa8765e70e7)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 207.550189 68.681906 
+L 207.550189 16.013906 
+" clip-path="url(#pa8765e70e7)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 283.353962 68.681906 
+L 283.353962 16.013906 
+" clip-path="url(#pa8765e70e7)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 359.157736 68.681906 
+L 359.157736 16.013906 
+" clip-path="url(#pa8765e70e7)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="46.46717" y="49.160891" transform="rotate(-0 46.46717 49.160891)">CLK</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="93.844528" y="19.525106" transform="rotate(-0 93.844528 19.525106)">↑ rising</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="131.746415" y="19.525106" transform="rotate(-0 131.746415 19.525106)">↓ falling</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #6a707a; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="2.88" y="10.013906" transform="rotate(-0 2.88 10.013906)">one period T = from one ↑ to the next (2 units); high time = 1 unit; duty cycle = 1/2 = 50 %</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pa8765e70e7">
+   <rect x="2.88" y="16.013906" width="401.76" height="52.668"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>What this graph plots: time across, the clock level up the page (high = 1, low = 0). Each ↑ line is a rising edge, each ↓ line a falling edge; one period runs from one ↑ to the next.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Formula</th>
+<th>Read in words</th>
+<th>Example (figure)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>period</td>
+<td>T</td>
+<td>time for one full cycle</td>
+<td>2 units</td>
+</tr>
+<tr>
+<td>frequency</td>
+<td>f = 1/T</td>
+<td>cycles per second</td>
+<td>1/2 per unit</td>
+</tr>
+<tr>
+<td>duty cycle</td>
+<td>t_H / T</td>
+<td>high time ÷ period</td>
+<td>1/2 = 50 %</td>
+</tr>
+</tbody>
+</table>
+<p>A 1 kHz clock has T = 1/1000 s = 1 ms; at 50 % duty cycle it is high for 0.5 ms and low for 0.5 ms.</p>
+<p><strong>Answer to the guess.</strong> 2/8 = <strong>25 %</strong> (duty cycle); the frequency is 1/(8 µs) = 125 kHz.</p>
+<div class="box check">
+<div class="bh">Check 6</div>
+<p>(a) A clock runs at 50 MHz. Its period? (b) A clock has period 40 ns and is high for 30 ns. Frequency and duty cycle?</p>
+</div>
+<h3>7 · Latch vs flip-flop: level vs edge</h3>
+<p>A latch with its enable tied to the clock listens for the whole high half of each period. Deck 08 slide 27 says this makes latches unsuitable in synchronous circuits: a change on the input passes straight to the output while the clock is high.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 08 slides 22, 26–29</span></div>
+<p>Distinguish a latch from a flip-flop.</p>
+</div>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>The same D and the same clock drive a D latch (EN = CLK) and a positive-edge D flip-flop. Which output changes more often?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Level-triggered (level-sensitive):</strong> acts during the whole time the control is at one level (a latch). <strong>Edge-triggered:</strong> samples its inputs only at the instant of one clock edge and ignores them the rest of the time (a flip-flop). <strong>Synchronous:</strong> all memory elements change at the same clock edge.</p>
+</div>
+
+<figure style="max-width:78%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 472.999631 151.98266" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T13:36:41.314837</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -216,7 +862,7 @@ L 122.116251 144.29786
 L 122.116251 9.76346 
 L 89.893716 9.76346 
 z
-" clip-path="url(#pacd8a34e8c)" style="fill: #e0661b; opacity: 0.13"/>
+" clip-path="url(#p66c647dafb)" style="fill: #e0661b; opacity: 0.13"/>
    </g>
    <g id="patch_3">
     <path d="M 154.338786 144.29786 
@@ -224,7 +870,7 @@ L 186.561322 144.29786
 L 186.561322 9.76346 
 L 154.338786 9.76346 
 z
-" clip-path="url(#pacd8a34e8c)" style="fill: #e0661b; opacity: 0.13"/>
+" clip-path="url(#p66c647dafb)" style="fill: #e0661b; opacity: 0.13"/>
    </g>
    <g id="patch_4">
     <path d="M 218.783857 144.29786 
@@ -232,7 +878,7 @@ L 251.006392 144.29786
 L 251.006392 9.76346 
 L 218.783857 9.76346 
 z
-" clip-path="url(#pacd8a34e8c)" style="fill: #e0661b; opacity: 0.13"/>
+" clip-path="url(#p66c647dafb)" style="fill: #e0661b; opacity: 0.13"/>
    </g>
    <g id="patch_5">
     <path d="M 283.228927 144.29786 
@@ -240,7 +886,7 @@ L 315.451462 144.29786
 L 315.451462 9.76346 
 L 283.228927 9.76346 
 z
-" clip-path="url(#pacd8a34e8c)" style="fill: #e0661b; opacity: 0.13"/>
+" clip-path="url(#p66c647dafb)" style="fill: #e0661b; opacity: 0.13"/>
    </g>
    <g id="patch_6">
     <path d="M 347.673998 144.29786 
@@ -248,7 +894,7 @@ L 379.896533 144.29786
 L 379.896533 9.76346 
 L 347.673998 9.76346 
 z
-" clip-path="url(#pacd8a34e8c)" style="fill: #e0661b; opacity: 0.13"/>
+" clip-path="url(#p66c647dafb)" style="fill: #e0661b; opacity: 0.13"/>
    </g>
    <g id="patch_7">
     <path d="M 412.119068 144.29786 
@@ -256,7 +902,7 @@ L 444.341603 144.29786
 L 444.341603 9.76346 
 L 412.119068 9.76346 
 z
-" clip-path="url(#pacd8a34e8c)" style="fill: #e0661b; opacity: 0.13"/>
+" clip-path="url(#p66c647dafb)" style="fill: #e0661b; opacity: 0.13"/>
    </g>
    <g id="line2d_1">
     <path d="M 57.671181 48.20186 
@@ -285,7 +931,7 @@ L 412.119068 28.98266
 L 444.341603 28.98266 
 L 444.341603 48.20186 
 L 463.675124 48.20186 
-" clip-path="url(#pacd8a34e8c)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+" clip-path="url(#p66c647dafb)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="line2d_2">
     <path d="M 57.671181 77.03066 
@@ -306,7 +952,7 @@ L 363.785265 57.81146
 L 396.0078 57.81146 
 L 396.0078 77.03066 
 L 463.675124 77.03066 
-" clip-path="url(#pacd8a34e8c)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+" clip-path="url(#p66c647dafb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="line2d_3">
     <path d="M 57.671181 105.85946 
@@ -327,7 +973,7 @@ L 363.785265 86.64026
 L 412.119068 86.64026 
 L 412.119068 105.85946 
 L 463.675124 105.85946 
-" clip-path="url(#pacd8a34e8c)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+" clip-path="url(#p66c647dafb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="line2d_4">
     <path d="M 57.671181 134.68826 
@@ -336,37 +982,37 @@ L 218.783857 115.46906
 L 283.228927 115.46906 
 L 283.228927 134.68826 
 L 463.675124 134.68826 
-" clip-path="url(#pacd8a34e8c)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+" clip-path="url(#p66c647dafb)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="line2d_5">
     <path d="M 89.893716 149.10266 
 L 89.893716 4.95866 
-" clip-path="url(#pacd8a34e8c)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+" clip-path="url(#p66c647dafb)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
    </g>
    <g id="line2d_6">
     <path d="M 154.338786 149.10266 
 L 154.338786 4.95866 
-" clip-path="url(#pacd8a34e8c)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+" clip-path="url(#p66c647dafb)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
    </g>
    <g id="line2d_7">
     <path d="M 218.783857 149.10266 
 L 218.783857 4.95866 
-" clip-path="url(#pacd8a34e8c)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+" clip-path="url(#p66c647dafb)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
    </g>
    <g id="line2d_8">
     <path d="M 283.228927 149.10266 
 L 283.228927 4.95866 
-" clip-path="url(#pacd8a34e8c)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+" clip-path="url(#p66c647dafb)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
    </g>
    <g id="line2d_9">
     <path d="M 347.673998 149.10266 
 L 347.673998 4.95866 
-" clip-path="url(#pacd8a34e8c)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+" clip-path="url(#p66c647dafb)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
    </g>
    <g id="line2d_10">
     <path d="M 412.119068 149.10266 
 L 412.119068 4.95866 
-" clip-path="url(#pacd8a34e8c)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+" clip-path="url(#p66c647dafb)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
    </g>
    <g id="text_1">
     <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="49.615547" y="41.016244" transform="rotate(-0 49.615547 41.016244)">CLK</text>
@@ -401,21 +1047,72 @@ L 412.119068 4.95866
   </g>
  </g>
  <defs>
-  <clipPath id="pacd8a34e8c">
+  <clipPath id="p66c647dafb">
    <rect x="12.559631" y="4.95866" width="457.56" height="144.144"/>
   </clipPath>
  </defs>
 </svg>
-<figcaption>Same D, same clock: the latch follows D (glitch included) while EN = 1; the flip-flop samples only at ↑.</figcaption></figure>
+<figcaption>What this graph plots: time across; rows CLK, D, the latch's Q, the flip-flop's Q (high = 1). Shaded = clock high (latch transparent); ↑ = the flip-flop's sampling instants.</figcaption></figure>
 
-<p>In a synchronous system every flip-flop changes at the same instant, so signals are steady when read: hence flip-flops, not latches.</p>
+<table>
+<thead>
+<tr>
+<th>Reading the figure</th>
+<th>D latch (EN = CLK)</th>
+<th>Positive-edge D flip-flop</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>when it looks at D</td>
+<td>the whole shaded time</td>
+<td>only at each ↑</td>
+</tr>
+<tr>
+<td>number of times Q changes</td>
+<td>8 (the short pulse inside the 3rd high time appears)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>D pulse that starts mid-way through a high time (1st, last)</td>
+<td>appears at once</td>
+<td>missed (D is 0 again by the next ↑)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Latch</th>
+<th>Flip-flop</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>triggered by</td>
+<td>a level (EN = 1)</td>
+<td>an edge (↑ or ↓)</td>
+</tr>
+<tr>
+<td>inputs reach Q</td>
+<td>at any time while enabled</td>
+<td>only at the edge instant</td>
+</tr>
+<tr>
+<td>use</td>
+<td>simple storage</td>
+<td>every synchronous circuit (registers, counters)</td>
+</tr>
+</tbody>
+</table>
 
-<figure style="max-width:75%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 474.48 127.21509" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<figure style="max-width:78%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 474.48 127.21509" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:07.036322</dc:date>
+    <dc:date>2026-11-17T13:36:41.395377</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -450,7 +1147,7 @@ Q 32.798298 14.634664 32.798298 16.130579
 L 32.798298 67.988962 
 Q 32.798298 69.484877 34.294213 69.484877 
 z
-" clip-path="url(#p2c1b2743ff)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p62eed67462)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 32.798298 47.046154 
@@ -458,7 +1155,7 @@ L 40.277872 42.059771
 L 32.798298 37.073388 
 L 32.798298 47.046154 
 z
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 151.474213 69.484877 
@@ -471,7 +1168,7 @@ Q 149.978298 14.634664 149.978298 16.130579
 L 149.978298 67.988962 
 Q 149.978298 69.484877 151.474213 69.484877 
 z
-" clip-path="url(#p2c1b2743ff)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p62eed67462)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 149.978298 47.046154 
@@ -479,7 +1176,7 @@ L 157.457872 42.059771
 L 149.978298 37.073388 
 L 149.978298 47.046154 
 z
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 268.654213 69.484877 
@@ -492,7 +1189,7 @@ Q 267.158298 14.634664 267.158298 16.130579
 L 267.158298 67.988962 
 Q 267.158298 69.484877 268.654213 69.484877 
 z
-" clip-path="url(#p2c1b2743ff)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p62eed67462)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 267.158298 47.046154 
@@ -500,7 +1197,7 @@ L 274.637872 42.059771
 L 267.158298 37.073388 
 L 267.158298 47.046154 
 z
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="patch_8">
     <path d="M 385.834213 69.484877 
@@ -513,7 +1210,7 @@ Q 384.338298 14.634664 384.338298 16.130579
 L 384.338298 67.988962 
 Q 384.338298 69.484877 385.834213 69.484877 
 z
-" clip-path="url(#p2c1b2743ff)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p62eed67462)" style="fill: #ffffff; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
     <path d="M 384.338298 47.046154 
@@ -521,97 +1218,97 @@ L 391.817872 42.059771
 L 384.338298 37.073388 
 L 384.338298 47.046154 
 z
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
    </g>
    <g id="line2d_1">
     <path d="M 17.839149 25.854026 
 L 32.798298 25.854026 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_2">
     <path d="M 17.839149 58.265515 
 L 32.798298 58.265515 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_3">
     <path d="M 17.839149 42.059771 
 L 32.798298 42.059771 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_4">
     <path d="M 87.648511 25.854026 
 L 102.60766 25.854026 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_5">
     <path d="M 87.648511 58.265515 
 L 102.60766 58.265515 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_6">
     <path d="M 135.019149 25.854026 
 L 149.978298 25.854026 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_7">
     <path d="M 135.019149 42.059771 
 L 149.978298 42.059771 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_8">
     <path d="M 204.828511 25.854026 
 L 219.78766 25.854026 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_9">
     <path d="M 204.828511 58.265515 
 L 219.78766 58.265515 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_10">
     <path d="M 252.199149 25.854026 
 L 267.158298 25.854026 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_11">
     <path d="M 252.199149 58.265515 
 L 267.158298 58.265515 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_12">
     <path d="M 252.199149 42.059771 
 L 267.158298 42.059771 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_13">
     <path d="M 322.008511 25.854026 
 L 336.96766 25.854026 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_14">
     <path d="M 322.008511 58.265515 
 L 336.96766 58.265515 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_15">
     <path d="M 369.379149 25.854026 
 L 384.338298 25.854026 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_16">
     <path d="M 369.379149 42.059771 
 L 384.338298 42.059771 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_17">
     <path d="M 439.188511 25.854026 
 L 454.14766 25.854026 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_18">
     <path d="M 439.188511 58.265515 
 L 454.14766 58.265515 
-" clip-path="url(#p2c1b2743ff)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p62eed67462)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="text_1">
     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="36.538085" y="28.27801" transform="rotate(-0 36.538085 28.27801)">S</text>
@@ -697,68 +1394,650 @@ L 454.14766 58.265515
   </g>
  </g>
  <defs>
-  <clipPath id="p2c1b2743ff">
+  <clipPath id="p62eed67462">
    <rect x="2.88" y="4.661898" width="468.72" height="119.673191"/>
   </clipPath>
  </defs>
 </svg>
-<figcaption>SR, JK, D and T flip-flop symbols.</figcaption></figure>
+<figcaption>Flip-flop symbols (deck 08 slide 32). The ▷ on the clock pin marks edge triggering; a bubble before ▷ means the falling edge.</figcaption></figure>
 
+<p><strong>Answer to the Predict.</strong> The <strong>latch</strong> (8 changes against 2): it passes every change of D during the high time, the flip-flop only the value at each ↑.</p>
+<div class="box check">
+<div class="bh">Check 7</div>
+<p>(a) Which one can change Q while CLK is held at 1: latch or flip-flop? (b) A positive-edge D flip-flop has D = 1 just before ↑; D drops to 0 halfway through the high time. Q just after ↑ and at the end of the high time? (c) What does a bubble in front of the ▷ mean?</p>
+</div>
+<h3>8 · The D and SR flip-flops</h3>
+<p>From here on every memory element is edge-triggered. Each type is defined by one table: what Q⁺ is for each input, at the active edge.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 08 slides 30–31, 45–47</span></div>
+<p>Give the characteristic table and characteristic equation of the D flip-flop and of the SR flip-flop.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>A D flip-flop: D = 1 at the edge. Does Q⁺ depend on the old Q?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Characteristic table:</strong> for each input combination at the active edge, the next state Q⁺ (in terms of Q). <strong>Characteristic equation:</strong> the same table as a Boolean expression for Q⁺, found with a K-map.</p>
+</div>
 <table>
 <thead>
 <tr>
-<th>J K</th>
-<th>Q⁺ (JK)</th>
 <th>D</th>
-<th>Q⁺ (D)</th>
-<th>T</th>
-<th>Q⁺ (T)</th>
+<th>Q⁺</th>
+<th></th>
+<th>S</th>
+<th>R</th>
+<th>Q⁺</th>
+<th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>0 0</td>
-<td>Q (hold)</td>
 <td>0</td>
 <td>0</td>
+<td></td>
 <td>0</td>
-<td>Q (hold)</td>
+<td>0</td>
+<td>Q</td>
+<td>hold</td>
 </tr>
 <tr>
-<td>0 1</td>
-<td>0 (reset)</td>
 <td>1</td>
 <td>1</td>
+<td></td>
+<td>0</td>
 <td>1</td>
-<td>Q' (toggle)</td>
+<td>0</td>
+<td>reset</td>
 </tr>
 <tr>
-<td>1 0</td>
-<td>1 (set)</td>
 <td></td>
 <td></td>
 <td></td>
-<td></td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>set</td>
 </tr>
 <tr>
-<td>1 1</td>
-<td>Q' (toggle)</td>
 <td></td>
 <td></td>
 <td></td>
-<td></td>
+<td>1</td>
+<td>1</td>
+<td>?</td>
+<td>not allowed</td>
 </tr>
 </tbody>
 </table>
-<p>Characteristic equations: Q⁺ = JQ' + K'Q · Q⁺ = D · Q⁺ = T ⊕ Q. JK is SR with the forbidden 11 used for toggle; T is JK with J = K = T; D is JK with J = D, K = D'.</p>
-<p><strong>Race-around.</strong> In a level-triggered JK with J = K = 1, Q toggles, feeds back, and toggles again while CLK stays 1: the final value is unknown. Cures: <strong>master–slave</strong> (master open while CLK = 1, slave copies while CLK = 0) or <strong>edge triggering</strong>. <strong>PRESET/CLEAR</strong> act at once, without the clock, usually active-low.</p>
+<ul>
+<li><strong>D:</strong> Q⁺ = D. Read: "after the edge, Q is the D that was there at the edge." The D flip-flop is a one-clock delay.</li>
+<li><strong>SR:</strong> Q⁺ = S + R'Q, valid only with <strong>SR = 0</strong> (S and R never both 1). Read: "Q is 1 next if set now, or if it was 1 and not reset."</li>
+</ul>
+<div class="box note">
+<div class="bh">Slip in the slides</div>
+<p>Deck 08 slides 30 and 31 are titled "D Flip-flop" and "SR Flip-flop" but draw the <strong>gated latches</strong> of steps 4–5 (level-triggered, no edge detector). The tables on those slides are correct for the latches; this pack draws the latch circuits in steps 4–5 and calls them latches.</p>
+</div>
+<p><strong>Answer to the guess.</strong> <strong>No</strong>: Q⁺ = D whatever Q was.</p>
+<div class="box check">
+<div class="bh">Check 8</div>
+<p>(a) Positive-edge SR flip-flop, Q = 1, S = 0 and R = 1 at the edge: Q⁺? (b) Put S = R = 0 into Q⁺ = S + R'Q and read the result. (c) D before four edges = 1, 1, 0, 1. Q after each?</p>
+</div>
+<h3>9 · The JK flip-flop: the SR with its forbidden row used</h3>
+<p>The SR flip-flop wastes its 11 input. The JK flip-flop gives that row a job: toggle.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 08 slides 33–37</span></div>
+<p>Derive the characteristic equation of the JK flip-flop from its table.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>J = K = 1 at an edge: Q⁺ must be different from Q. Which single expression of Q is that?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>J, K:</strong> J plays S (set), K plays R (reset). <strong>Toggle (complement):</strong> Q⁺ = Q'; the output flips.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>J</th>
+<th>K</th>
+<th>Q</th>
+<th>Q⁺</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>hold</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>hold</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>reset</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>reset</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>set</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>set</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>toggle</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>toggle</td>
+</tr>
+</tbody>
+</table>
+
+<figure style="max-width:50%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 302 232" style="max-width:302px"><text class="k-var" x="50" y="26" text-anchor="end">J</text><text class="k-var" x="62" y="26">KQ</text><line class="k-diag" x1="22" y1="12" x2="62" y2="56"/><text class="k-lab" x="90.0" y="44" text-anchor="middle">00</text><text class="k-lab" x="138.0" y="44" text-anchor="middle">01</text><text class="k-lab" x="186.0" y="44" text-anchor="middle">11</text><text class="k-lab" x="234.0" y="44" text-anchor="middle">10</text><text class="k-lab" x="50" y="89.0" text-anchor="end">0</text><text class="k-lab" x="50" y="137.0" text-anchor="end">1</text><rect class="k-cell" x="66" y="60" width="48" height="48"/><text class="k-zero" x="90.0" y="91.2576" text-anchor="middle" style="font-size:20px">0</text><text class="k-idx" x="70" y="71">0</text><rect class="k-cell" x="114" y="60" width="48" height="48"/><text class="k-one" x="138.0" y="91.2576" text-anchor="middle" style="font-size:20px">1</text><text class="k-idx" x="118" y="71">1</text><rect class="k-cell" x="162" y="60" width="48" height="48"/><text class="k-zero" x="186.0" y="91.2576" text-anchor="middle" style="font-size:20px">0</text><text class="k-idx" x="166" y="71">3</text><rect class="k-cell" x="210" y="60" width="48" height="48"/><text class="k-zero" x="234.0" y="91.2576" text-anchor="middle" style="font-size:20px">0</text><text class="k-idx" x="214" y="71">2</text><rect class="k-cell" x="66" y="108" width="48" height="48"/><text class="k-one" x="90.0" y="139.2576" text-anchor="middle" style="font-size:20px">1</text><text class="k-idx" x="70" y="119">4</text><rect class="k-cell" x="114" y="108" width="48" height="48"/><text class="k-one" x="138.0" y="139.2576" text-anchor="middle" style="font-size:20px">1</text><text class="k-idx" x="118" y="119">5</text><rect class="k-cell" x="162" y="108" width="48" height="48"/><text class="k-zero" x="186.0" y="139.2576" text-anchor="middle" style="font-size:20px">0</text><text class="k-idx" x="166" y="119">7</text><rect class="k-cell" x="210" y="108" width="48" height="48"/><text class="k-one" x="234.0" y="139.2576" text-anchor="middle" style="font-size:20px">1</text><text class="k-idx" x="214" y="119">6</text><g class="kg c0"><rect class="k-grp" x="215" y="113" width="51.160000000000025" height="38" rx="13"/><rect class="k-grp" x="57.84" y="113" width="51.16" height="38" rx="13"/></g><g class="kg c1"><rect class="k-grp" x="123" y="69" width="30" height="78" rx="13"/></g><g class="kg c0"><rect class="k-chip" x="8" y="172" width="61.599999999999994" height="22" rx="11"/><text class="k-chip-t" x="20" y="187.5">JQ'</text></g><g class="kg c1"><rect class="k-chip" x="77.6" y="172" width="61.599999999999994" height="22" rx="11"/><text class="k-chip-t" x="89.6" y="187.5">K'Q</text></g></svg><figcaption>Q⁺ of the JK flip-flop on a 3-variable K-map (file 02 step 4): row J, columns K Q in Gray order; a 1 marks an input row where Q⁺ = 1. Two pairs cover the 1s.</figcaption></figure>
+
+<ol>
+<li>Q⁺ = 1 on rows JKQ = 001, 100, 101, 110, i.e. Σm(1, 4, 5, 6).</li>
+<li>Pair m4, m6 (J = 1, Q = 0; the wrap-around pair of the J = 1 row): <strong>JQ'</strong>.</li>
+<li>Pair m1, m5 (K = 0, Q = 1, both rows): <strong>K'Q</strong>.</li>
+<li><strong>Q⁺ = JQ' + K'Q.</strong> Read: "Q becomes 1 if it is 0 and J says set, or if it is 1 and K does not say reset."</li>
+</ol>
+<p><strong>Running example.</strong> Q = 0; J K before five edges = 10, 00, 01, 11, 11:</p>
+<table>
+<thead>
+<tr>
+<th>Edge</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>J K</td>
+<td>1 0</td>
+<td>0 0</td>
+<td>0 1</td>
+<td>1 1</td>
+<td>1 1</td>
+</tr>
+<tr>
+<td>action</td>
+<td>set</td>
+<td>hold</td>
+<td>reset</td>
+<td>toggle</td>
+<td>toggle</td>
+</tr>
+<tr>
+<td>Q after</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer.</strong> <strong>Q⁺ = JQ' + K'Q</strong>; at J = K = 1 it gives Q⁺ = Q' + 0 = <strong>Q'</strong>, the expression the guess asked for.</p>
+<div class="box check">
+<div class="bh">Check 9</div>
+<p>(a) Use Q⁺ = JQ' + K'Q on the row J = 1, K = 1, Q = 1. (b) Q = 1, J K before four edges = 01, 10, 11, 00. Q after each?</p>
+</div>
+<h3>10 · The T flip-flop: toggle on command</h3>
+<p>Tie J and K of step 9 together and only two rows remain: hold (00) and toggle (11). That is the T flip-flop, the building block of counters (files 12–13).</p>
+<div class="box q">
+<div class="bh"><span class="tag">MTE 2025 Q3 · 2 marks</span></div>
+<p>What excitation input should be applied to a T- FF to make output toggle?</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Write your one-word answer before reading on.</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>T (toggle input):</strong> T = 1 at an edge flips Q; T = 0 holds it. <strong>Frequency divider:</strong> a circuit whose output has a lower frequency than its clock.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>T</th>
+<th>Q⁺</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Q</td>
+<td>hold</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Q'</td>
+<td>toggle</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Q⁺ = T'Q + TQ' (hold when T = 0, complement when T = 1).</li>
+<li>T'Q + TQ' is the XOR of T and Q (file 01 step 8): <strong>Q⁺ = T ⊕ Q</strong> (deck 08 slide 46).</li>
+<li>From the JK: put J = K = T into JQ' + K'Q to get TQ' + T'Q, the same expression.</li>
+</ol>
+
+<figure style="max-width:78%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 463.32 121.5461" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T13:36:41.522225</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 121.5461 
+L 463.32 121.5461 
+L 463.32 0 
+L 0 0 
+L 0 121.5461 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 37.32 47.6336 
+L 61.92 47.6336 
+L 61.92 28.6916 
+L 86.52 28.6916 
+L 86.52 47.6336 
+L 111.12 47.6336 
+L 111.12 28.6916 
+L 135.72 28.6916 
+L 135.72 47.6336 
+L 160.32 47.6336 
+L 160.32 28.6916 
+L 184.92 28.6916 
+L 184.92 47.6336 
+L 209.52 47.6336 
+L 209.52 28.6916 
+L 234.12 28.6916 
+L 234.12 47.6336 
+L 258.72 47.6336 
+L 258.72 28.6916 
+L 283.32 28.6916 
+L 283.32 47.6336 
+L 307.92 47.6336 
+L 307.92 28.6916 
+L 332.52 28.6916 
+L 332.52 47.6336 
+L 357.12 47.6336 
+L 357.12 28.6916 
+L 381.72 28.6916 
+L 381.72 47.6336 
+L 406.32 47.6336 
+L 406.32 28.6916 
+L 430.92 28.6916 
+L 430.92 47.6336 
+L 455.52 47.6336 
+" clip-path="url(#pda02ddb906)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 37.32 76.0466 
+L 61.92 76.0466 
+L 61.92 57.1046 
+L 111.12 57.1046 
+L 111.12 76.0466 
+L 160.32 76.0466 
+L 160.32 57.1046 
+L 209.52 57.1046 
+L 209.52 76.0466 
+L 258.72 76.0466 
+L 258.72 57.1046 
+L 307.92 57.1046 
+L 307.92 76.0466 
+L 357.12 76.0466 
+L 357.12 57.1046 
+L 406.32 57.1046 
+L 406.32 76.0466 
+L 455.52 76.0466 
+" clip-path="url(#pda02ddb906)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 37.32 104.4596 
+L 61.92 104.4596 
+L 61.92 85.5176 
+L 160.32 85.5176 
+L 160.32 104.4596 
+L 258.72 104.4596 
+L 258.72 85.5176 
+L 357.12 85.5176 
+L 357.12 104.4596 
+L 455.52 104.4596 
+" clip-path="url(#pda02ddb906)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 61.92 118.6661 
+L 61.92 5.0141 
+" clip-path="url(#pda02ddb906)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 111.12 118.6661 
+L 111.12 5.0141 
+" clip-path="url(#pda02ddb906)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 160.32 118.6661 
+L 160.32 5.0141 
+" clip-path="url(#pda02ddb906)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 209.52 118.6661 
+L 209.52 5.0141 
+" clip-path="url(#pda02ddb906)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 258.72 118.6661 
+L 258.72 5.0141 
+" clip-path="url(#pda02ddb906)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 307.92 118.6661 
+L 307.92 5.0141 
+" clip-path="url(#pda02ddb906)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 357.12 118.6661 
+L 357.12 5.0141 
+" clip-path="url(#pda02ddb906)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 406.32 118.6661 
+L 406.32 5.0141 
+" clip-path="url(#pda02ddb906)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.17" y="40.586584" transform="rotate(-0 31.17 40.586584)">CLK</text>
+   </g>
+   <g id="text_2">
+    <!-- $\mathrm{Q}_{\mathrm{A}}$ -->
+    <g style="fill: #1c1f24" transform="translate(19.39 68.999584)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.875">Q</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="7.249609" y="0.625">A</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_3">
+    <!-- $\mathrm{Q}_{\mathrm{B}}$ -->
+    <g style="fill: #1c1f24" transform="translate(19.865 97.412584)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.875">Q</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="7.249609" y="0.625">B</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_4">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="61.92" y="8.8025" transform="rotate(-0 61.92 8.8025)">↑</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="111.12" y="8.8025" transform="rotate(-0 111.12 8.8025)">↑</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="160.32" y="8.8025" transform="rotate(-0 160.32 8.8025)">↑</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="209.52" y="8.8025" transform="rotate(-0 209.52 8.8025)">↑</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="258.72" y="8.8025" transform="rotate(-0 258.72 8.8025)">↑</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="307.92" y="8.8025" transform="rotate(-0 307.92 8.8025)">↑</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="357.12" y="8.8025" transform="rotate(-0 357.12 8.8025)">↑</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="406.32" y="8.8025" transform="rotate(-0 406.32 8.8025)">↑</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pda02ddb906">
+   <rect x="2.88" y="5.0141" width="457.56" height="113.652"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Frequency division (deck 08 slide 41). What this graph plots: time across; rows CLK, Q_A (a T = 1 flip-flop clocked by CLK), Q_B (a T = 1 flip-flop clocked by Q_A's rising edges). Q_A changes at every ↑, so it has half the clock frequency; Q_B has a quarter.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Edges that change it</th>
+<th>Frequency (1 kHz clock)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLK</td>
+<td>—</td>
+<td>1 kHz</td>
+</tr>
+<tr>
+<td>Q_A</td>
+<td>every ↑ of CLK</td>
+<td>500 Hz</td>
+</tr>
+<tr>
+<td>Q_B</td>
+<td>every ↑ of Q_A</td>
+<td>250 Hz</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer (MTE Q3).</strong> <strong>T = 1.</strong> From Q⁺ = T ⊕ Q: with T = 1, Q⁺ = 1 ⊕ Q = Q', so the output toggles at every active clock edge (T = 0 gives Q⁺ = Q, no change).</p>
+<div class="box check">
+<div class="bh">Check 10</div>
+<p>(a) T = 1, clock 10 kHz: frequency at Q? (b) Three T = 1 flip-flops in a chain (each clocked by the one before), 16 kHz clock: frequency at the last Q? (c) Q = 0, T before four edges = 1, 0, 1, 1: Q after each?</p>
+</div>
+<h3>11 · Race-around and the master–slave JK</h3>
+<p>Step 9 assumed the JK acts at one instant. Build it as a <strong>level-triggered</strong> JK latch (deck 08 slide 33's NAND circuit with CLK as a plain enable) and the toggle row breaks.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>A level-triggered JK latch has J = K = 1 and its clock stays high for 1 µs, while one trip round its gates takes 20 ns. How many times can Q toggle before the clock falls?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Propagation delay:</strong> the time a gate takes to respond to an input change (ns). <strong>Race-around:</strong> with J = K = 1 and the clock high for longer than the loop delay, the new Q reaches the inputs, toggles Q again, and repeats until the clock falls. <strong>Master–slave:</strong> two latches in series, enabled on opposite clock levels.</p>
+</div>
+
+<figure style="max-width:72%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 429.84 132.545906" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T13:36:41.570362</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 132.545906 
+L 429.84 132.545906 
+L 429.84 0 
+L 0 0 
+L 0 132.545906 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 90.62069 124.930406 
+L 200.296552 124.930406 
+L 200.296552 20.749406 
+L 90.62069 20.749406 
+z
+" clip-path="url(#paf51a91e60)" style="fill: #d92d20; opacity: 0.13"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 273.413793 124.930406 
+L 383.089655 124.930406 
+L 383.089655 20.749406 
+L 273.413793 20.749406 
+z
+" clip-path="url(#paf51a91e60)" style="fill: #d92d20; opacity: 0.13"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 54.062069 58.633406 
+L 90.62069 58.633406 
+L 90.62069 39.691406 
+L 200.296552 39.691406 
+L 200.296552 58.633406 
+L 273.413793 58.633406 
+L 273.413793 39.691406 
+L 383.089655 39.691406 
+L 383.089655 58.633406 
+L 419.648276 58.633406 
+" clip-path="url(#paf51a91e60)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 54.062069 68.104406 
+L 419.648276 68.104406 
+" clip-path="url(#paf51a91e60)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 54.062069 115.459406 
+L 101.588276 115.459406 
+L 101.588276 96.517406 
+L 112.555862 96.517406 
+L 112.555862 115.459406 
+L 123.523448 115.459406 
+L 123.523448 96.517406 
+L 134.491034 96.517406 
+L 134.491034 115.459406 
+L 145.458621 115.459406 
+L 145.458621 96.517406 
+L 156.426207 96.517406 
+L 156.426207 115.459406 
+L 167.393793 115.459406 
+L 167.393793 96.517406 
+L 178.361379 96.517406 
+L 178.361379 115.459406 
+L 189.328966 115.459406 
+L 189.328966 96.517406 
+L 200.296552 96.517406 
+L 200.296552 115.459406 
+L 284.381379 115.459406 
+L 284.381379 96.517406 
+L 295.348966 96.517406 
+L 295.348966 115.459406 
+L 306.316552 115.459406 
+L 306.316552 96.517406 
+L 317.284138 96.517406 
+L 317.284138 115.459406 
+L 328.251724 115.459406 
+L 328.251724 96.517406 
+L 339.21931 96.517406 
+L 339.21931 115.459406 
+L 350.186897 115.459406 
+L 350.186897 96.517406 
+L 361.154483 96.517406 
+L 361.154483 115.459406 
+L 372.122069 115.459406 
+L 372.122069 96.517406 
+L 419.648276 96.517406 
+" clip-path="url(#paf51a91e60)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="44.922414" y="51.586391" transform="rotate(-0 44.922414 51.586391)">CLK</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="44.922414" y="79.999391" transform="rotate(-0 44.922414 79.999391)">J = K</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="44.922414" y="108.412391" transform="rotate(-0 44.922414 108.412391)">Q</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #6a707a; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="2.88" y="10.013906" transform="rotate(-0 2.88 10.013906)">level-triggered JK, J = K = 1: Q toggles again and again while CLK = 1; its value at the fall is unknown</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="paf51a91e60">
+   <rect x="2.88" y="16.013906" width="424.08" height="113.652"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>What this graph plots: time across; rows CLK, J = K (held at 1), Q of a level-triggered JK. Shaded = clock high: Q keeps toggling, so its value when the clock falls depends on the exact delays.</figcaption></figure>
+
+<p>Race-around needs two things at once: <strong>J = K = 1</strong>, and a clock-high time <strong>longer than the delay</strong> round the loop. Two cures (KB 03 §3):</p>
+<ol>
+<li><strong>Master–slave JK</strong> (below): the master listens while CLK = 1, the slave copies the master while CLK = 0. They are never open together, so a new Q never reaches the inputs that are being read. Q changes once per period, when CLK falls.</li>
+<li><strong>Edge triggering:</strong> the flip-flop reads its inputs only in a short window at the edge, far shorter than the loop delay.</li>
+</ol>
 
 <figure style="max-width:70%"><div style="width:188mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 405.739969 138.816" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:07.165379</dc:date>
+    <dc:date>2026-11-17T13:36:41.636014</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -793,7 +2072,7 @@ Q 86.851969 27.828 86.851969 30.0456
 L 86.851969 81.0504 
 Q 86.851969 83.268 89.069569 83.268 
 z
-" clip-path="url(#p3e91ccf7fe)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#pd031d2c65c)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 227.669569 83.268 
@@ -806,74 +2085,74 @@ Q 225.451969 27.828 225.451969 30.0456
 L 225.451969 81.0504 
 Q 225.451969 83.268 227.669569 83.268 
 z
-" clip-path="url(#p3e91ccf7fe)" style="fill: #eaf6ef; stroke: #12925a; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#pd031d2c65c)" style="fill: #eaf6ef; stroke: #12925a; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 59.131969 38.916 
 Q 72.991969 38.916 85.569968 38.916 
-" clip-path="url(#p3e91ccf7fe)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 81.569968 36.563059 
 L 85.569968 38.916 
 L 81.569968 41.268941 
 z
-" clip-path="url(#p3e91ccf7fe)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_5">
     <path d="M 59.131969 72.18 
 Q 72.991969 72.18 85.569968 72.18 
-" clip-path="url(#p3e91ccf7fe)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 81.569968 69.827059 
 L 85.569968 72.18 
 L 81.569968 74.532941 
 z
-" clip-path="url(#p3e91ccf7fe)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_6">
     <path d="M 158.923969 38.916 
 Q 192.187969 38.916 224.169968 38.916 
-" clip-path="url(#p3e91ccf7fe)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 220.169968 36.563059 
 L 224.169968 38.916 
 L 220.169968 41.268941 
 z
-" clip-path="url(#p3e91ccf7fe)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_7">
     <path d="M 158.923969 72.18 
 Q 192.187969 72.18 224.169968 72.18 
-" clip-path="url(#p3e91ccf7fe)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 220.169968 69.827059 
 L 224.169968 72.18 
 L 220.169968 74.532941 
 z
-" clip-path="url(#p3e91ccf7fe)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_8">
     <path d="M 297.523969 38.916 
 Q 316.927969 38.916 335.049968 38.916 
-" clip-path="url(#p3e91ccf7fe)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 331.049968 36.563059 
 L 335.049968 38.916 
 L 331.049968 41.268941 
 z
-" clip-path="url(#p3e91ccf7fe)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_9">
     <path d="M 297.523969 72.18 
 Q 316.927969 72.18 335.049968 72.18 
-" clip-path="url(#p3e91ccf7fe)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
     <path d="M 331.049968 69.827059 
 L 335.049968 72.18 
 L 331.049968 74.532941 
 z
-" clip-path="url(#p3e91ccf7fe)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_10">
     <path d="M 181.099969 106.83 
 L 181.099969 126.234 
 L 199.117969 116.532 
 z
-" clip-path="url(#p3e91ccf7fe)" style="fill: #ffffff; stroke: #e0661b; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pd031d2c65c)" style="fill: #ffffff; stroke: #e0661b; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="patch_11">
     <path d="M 202.167169 119.5812 
@@ -886,31 +2165,31 @@ C 199.439252 114.947697 199.117969 115.723343 199.117969 116.532
 C 199.117969 117.340657 199.439252 118.116303 200.011059 118.68811 
 C 200.582866 119.259917 201.358511 119.5812 202.167169 119.5812 
 z
-" clip-path="url(#p3e91ccf7fe)" style="fill: #ffffff; stroke: #e0661b; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pd031d2c65c)" style="fill: #ffffff; stroke: #e0661b; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="line2d_1">
     <path d="M 20.323969 116.532 
 L 122.887969 116.532 
 L 122.887969 83.268 
-" clip-path="url(#p3e91ccf7fe)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_2">
     <path d="M 122.887969 116.532 
 L 181.099969 116.532 
-" clip-path="url(#p3e91ccf7fe)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_3">
     <path d="M 205.216369 116.532 
 L 261.487969 116.532 
 L 261.487969 83.268 
-" clip-path="url(#p3e91ccf7fe)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#pd031d2c65c)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_4">
     <path d="M 316.927969 38.916 
 L 316.927969 11.196 
 L 70.219969 11.196 
 L 70.219969 27.828 
-" clip-path="url(#p3e91ccf7fe)" style="fill: none; stroke-dasharray: 3.9,3.9; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 1.3"/>
+" clip-path="url(#pd031d2c65c)" style="fill: none; stroke-dasharray: 3.9,3.9; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 1.3"/>
    </g>
    <g id="text_1">
     <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(110.152578 48.210641)">master</text>
@@ -946,28 +2225,32 @@ L 70.219969 27.828
   </g>
  </g>
  <defs>
-  <clipPath id="p3e91ccf7fe">
+  <clipPath id="pd031d2c65c">
    <rect x="9.235969" y="2.88" width="393.624" height="133.056"/>
   </clipPath>
  </defs>
 </svg>
-</div><figcaption>Master–slave JK flip-flop.</figcaption></figure>
+</div><figcaption>Master–slave JK. The master (JK latch) is enabled by CLK, the slave (SR latch) by CLK'; Q and Q' feed back to the master's input gates.</figcaption></figure>
 
-<p><strong>Answer.</strong> <strong>T = 1</strong>: Q⁺ = T ⊕ Q, so with T = 1 the output complements at every active edge.</p>
+<p><strong>Answer to the Predict.</strong> Up to 1000/20 = <strong>about 50 toggles</strong>: the final Q is unpredictable. A master–slave or edge-triggered JK toggles <strong>exactly once</strong> per clock period.</p>
 <div class="box check">
-<div class="bh">Check 2</div>
-<p>(a) JK with J = K = 1 and Q = 0: Q after three edges? (b) T = 1 clocked at 1 kHz: frequency at Q? (c) CLEAR (active-low) goes to 0 between edges. When does Q change?</p>
+<div class="bh">Check 11</div>
+<p>(a) Which two conditions together cause race-around? (b) In a master–slave JK with CLK = 1, can Q change? When does it change? (c) Running example: the 4th and 5th edges have J = K = 1. What would a level-triggered JK latch give there instead of 1 and 0?</p>
 </div>
-<h3>3 · Excitation tables and conversion</h3>
+<h3>12 · Excitation tables: from the change you want to the inputs you need</h3>
+<p>Counters and state machines (files 13, 15) start from the change they want (Q: 0 → 1, say) and must find the inputs that cause it. That is the characteristic table read backwards.</p>
 <div class="box q">
-<div class="bh"><span class="tag">Set 2 Q1</span></div>
-<p>Design a D flip-flop, using SR, JK &amp; T flip-flop and suitable logic gates.</p>
+<div class="bh"><span class="tag">Deck 08 slides 47–52</span></div>
+<p>Give the excitation tables of the SR, JK, D and T flip-flops.</p>
 </div>
 <div class="box guess">
 <div class="bh">Guess first</div>
-<p>A D flip-flop must go to Q⁺ = D. For a T flip-flop, when exactly must it toggle?</p>
+<p>A JK must go from Q = 0 to Q⁺ = 1. Which J K pairs do it? (Look at step 9's table.)</p>
 </div>
-<p>The <strong>excitation table</strong> reads the characteristic table backwards: to move Q → Q⁺, what must the inputs be? It drives every design from here on (13, 15).</p>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Excitation table:</strong> for each transition Q → Q⁺, the flip-flop inputs that produce it (deck 08 slide 47: "the excitation or moves required to take the flip-flop from the present state to the next state"). <strong>X</strong> = either value works.</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1009,11 +2292,44 @@ L 70.219969 27.828
 </tr>
 </tbody>
 </table>
-<p>The Xs are why JK usually gives the simplest logic. <strong>Conversion:</strong> (1) characteristic table of the wanted flip-flop; (2) beside each row, the excitation of the one you have; (3) K-map each input.</p>
+<p>How each entry is read off the characteristic table (JK, 0 → 1): rows with Q = 0 and Q⁺ = 1 are J K = 10 (set) and 11 (toggle). J must be 1; K can be either: <strong>1 X</strong>.</p>
+<ul>
+<li><strong>D column = Q⁺:</strong> D is just the next state.</li>
+<li><strong>T column = Q ⊕ Q⁺:</strong> T = 1 exactly when Q must change.</li>
+<li><strong>JK has an X in every row:</strong> each transition is reached by two input pairs. More X's mean bigger K-map groups, so JK designs usually need the least logic.</li>
+</ul>
+<p><strong>Answer to the guess.</strong> <strong>J K = 10 (set) or 11 (toggle)</strong>, written 1 X.</p>
+<p><strong>Running example.</strong> Edge 3 takes Q from 1 to 0: the excitation table says J K = X 1, and the example's 01 fits (J = 0, K = 1).</p>
+<div class="box check">
+<div class="bh">Check 12</div>
+<p>(a) JK inputs for 1 → 1? (b) T input for 1 → 1? (c) SR inputs for 0 → 0, and why R is X there.</p>
+</div>
+<h3>13 · Converting one flip-flop into another</h3>
+<p>The excitation table turns any flip-flop into any other: the wanted type supplies Q⁺, the available type's excitation table supplies the inputs, and a K-map gives the logic.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Practice set 2 Q1</span></div>
+<p>Design a D flip-flop, using SR, JK &amp; T flip-flop and suitable logic gates.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>A T flip-flop must act as a D. When exactly must T be 1?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Conversion table:</strong> one row per (new input, Q): the Q⁺ the new type needs, then the old type's inputs that produce it (from step 12).</p>
+</div>
+<p><strong>The procedure</strong> (deck 08 slide 53, EX 8.53 JK → D):</p>
+<ol>
+<li>List the new flip-flop's inputs and Q; write Q⁺ from the <strong>new</strong> type's characteristic table.</li>
+<li>For each row, write the <strong>old</strong> type's inputs from its excitation table (Q → Q⁺).</li>
+<li>K-map each old input against (new inputs, Q); the X's are don't-cares.</li>
+<li>Draw the old flip-flop with that logic in front of its inputs.</li>
+</ol>
 <table>
 <thead>
 <tr>
-<th>D Q</th>
+<th>D</th>
+<th>Q</th>
 <th>Q⁺</th>
 <th>S R</th>
 <th>J K</th>
@@ -1022,28 +2338,32 @@ L 70.219969 27.828
 </thead>
 <tbody>
 <tr>
-<td>0 0</td>
+<td>0</td>
+<td>0</td>
 <td>0</td>
 <td>0 X</td>
 <td>0 X</td>
 <td>0</td>
 </tr>
 <tr>
-<td>0 1</td>
+<td>0</td>
+<td>1</td>
 <td>0</td>
 <td>0 1</td>
 <td>X 1</td>
 <td>1</td>
 </tr>
 <tr>
-<td>1 0</td>
+<td>1</td>
+<td>0</td>
 <td>1</td>
 <td>1 0</td>
 <td>1 X</td>
 <td>1</td>
 </tr>
 <tr>
-<td>1 1</td>
+<td>1</td>
+<td>1</td>
 <td>1</td>
 <td>X 0</td>
 <td>X 0</td>
@@ -1051,72 +2371,134 @@ L 70.219969 27.828
 </tr>
 </tbody>
 </table>
-<p><strong>Answer.</strong> From SR: <strong>S = D, R = D'</strong>. From JK: <strong>J = D, K = D'</strong>. From T: <strong>T = D ⊕ Q</strong> (one XOR fed by D and the flip-flop's own Q).</p>
+
+<figure style="max-width:60%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 250" style="max-width:288px"><text class="k-title" x="114.0" y="30" text-anchor="middle">J</text><text class="k-var" x="50" y="44" text-anchor="end">D</text><text class="k-var" x="62" y="44">Q</text><line class="k-diag" x1="22" y1="30" x2="62" y2="74"/><text class="k-lab" x="90.0" y="62" text-anchor="middle">0</text><text class="k-lab" x="138.0" y="62" text-anchor="middle">1</text><text class="k-lab" x="50" y="107.0" text-anchor="end">0</text><text class="k-lab" x="50" y="155.0" text-anchor="end">1</text><rect class="k-cell" x="66" y="78" width="48" height="48"/><text class="k-zero" x="90.0" y="109.2576" text-anchor="middle" style="font-size:20px">0</text><text class="k-idx" x="70" y="89">0</text><rect class="k-cell" x="114" y="78" width="48" height="48"/><text class="k-x" x="138.0" y="109.2576" text-anchor="middle" style="font-size:20px">X</text><text class="k-idx" x="118" y="89">1</text><rect class="k-cell" x="66" y="126" width="48" height="48"/><text class="k-one" x="90.0" y="157.2576" text-anchor="middle" style="font-size:20px">1</text><text class="k-idx" x="70" y="137">2</text><rect class="k-cell" x="114" y="126" width="48" height="48"/><text class="k-x" x="138.0" y="157.2576" text-anchor="middle" style="font-size:20px">X</text><text class="k-idx" x="118" y="137">3</text><g class="kg c0"><rect class="k-grp" x="71" y="131" width="86" height="38" rx="13"/></g><g class="kg c0"><rect class="k-chip" x="8" y="190" width="43.2" height="22" rx="11"/><text class="k-chip-t" x="20" y="205.5">D</text></g></svg><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 250" style="max-width:288px"><text class="k-title" x="114.0" y="30" text-anchor="middle">K</text><text class="k-var" x="50" y="44" text-anchor="end">D</text><text class="k-var" x="62" y="44">Q</text><line class="k-diag" x1="22" y1="30" x2="62" y2="74"/><text class="k-lab" x="90.0" y="62" text-anchor="middle">0</text><text class="k-lab" x="138.0" y="62" text-anchor="middle">1</text><text class="k-lab" x="50" y="107.0" text-anchor="end">0</text><text class="k-lab" x="50" y="155.0" text-anchor="end">1</text><rect class="k-cell" x="66" y="78" width="48" height="48"/><text class="k-x" x="90.0" y="109.2576" text-anchor="middle" style="font-size:20px">X</text><text class="k-idx" x="70" y="89">0</text><rect class="k-cell" x="114" y="78" width="48" height="48"/><text class="k-one" x="138.0" y="109.2576" text-anchor="middle" style="font-size:20px">1</text><text class="k-idx" x="118" y="89">1</text><rect class="k-cell" x="66" y="126" width="48" height="48"/><text class="k-x" x="90.0" y="157.2576" text-anchor="middle" style="font-size:20px">X</text><text class="k-idx" x="70" y="137">2</text><rect class="k-cell" x="114" y="126" width="48" height="48"/><text class="k-zero" x="138.0" y="157.2576" text-anchor="middle" style="font-size:20px">0</text><text class="k-idx" x="118" y="137">3</text><g class="kg c0"><rect class="k-grp" x="71" y="83" width="86" height="38" rx="13"/></g><g class="kg c0"><rect class="k-chip" x="8" y="190" width="52.4" height="22" rx="11"/><text class="k-chip-t" x="20" y="205.5">D'</text></g></svg><figcaption>K-maps for JK → D (deck 08 slide 53): rows D, columns Q; a cell holds the J (left) or K (right) the row needs, X = don't-care. J = D and K = D'.</figcaption></figure>
+
+
+<figure style="max-width:32%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 288 250" style="max-width:288px"><text class="k-title" x="114.0" y="30" text-anchor="middle">T</text><text class="k-var" x="50" y="44" text-anchor="end">D</text><text class="k-var" x="62" y="44">Q</text><line class="k-diag" x1="22" y1="30" x2="62" y2="74"/><text class="k-lab" x="90.0" y="62" text-anchor="middle">0</text><text class="k-lab" x="138.0" y="62" text-anchor="middle">1</text><text class="k-lab" x="50" y="107.0" text-anchor="end">0</text><text class="k-lab" x="50" y="155.0" text-anchor="end">1</text><rect class="k-cell" x="66" y="78" width="48" height="48"/><text class="k-zero" x="90.0" y="109.2576" text-anchor="middle" style="font-size:20px">0</text><text class="k-idx" x="70" y="89">0</text><rect class="k-cell" x="114" y="78" width="48" height="48"/><text class="k-one" x="138.0" y="109.2576" text-anchor="middle" style="font-size:20px">1</text><text class="k-idx" x="118" y="89">1</text><rect class="k-cell" x="66" y="126" width="48" height="48"/><text class="k-one" x="90.0" y="157.2576" text-anchor="middle" style="font-size:20px">1</text><text class="k-idx" x="70" y="137">2</text><rect class="k-cell" x="114" y="126" width="48" height="48"/><text class="k-zero" x="138.0" y="157.2576" text-anchor="middle" style="font-size:20px">0</text><text class="k-idx" x="118" y="137">3</text><g class="kg c0"><rect class="k-grp" x="119" y="83" width="38" height="38" rx="13"/></g><g class="kg c1"><rect class="k-grp" x="75" y="135" width="30" height="30" rx="13"/></g><g class="kg c0"><rect class="k-chip" x="8" y="190" width="61.599999999999994" height="22" rx="11"/><text class="k-chip-t" x="20" y="205.5">D'Q</text></g><g class="kg c1"><rect class="k-chip" x="77.6" y="190" width="61.599999999999994" height="22" rx="11"/><text class="k-chip-t" x="89.6" y="205.5">DQ'</text></g></svg><figcaption>K-map for T → D: T = 1 on rows (D, Q) = (0, 1) and (1, 0), a diagonal with no pair: T = D'Q + DQ' = D ⊕ Q.</figcaption></figure>
+
+<p><strong>Answer (practice set 2 Q1).</strong></p>
+<table>
+<thead>
+<tr>
+<th>Have</th>
+<th>Logic in front</th>
+<th>Circuit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SR</td>
+<td><strong>S = D, R = D'</strong> (S map: 1 at D = 1, Q = 0, X at D = 1, Q = 1; R the mirror)</td>
+<td>D to S, D through a NOT to R</td>
+</tr>
+<tr>
+<td>JK</td>
+<td><strong>J = D, K = D'</strong></td>
+<td>D to J, D through a NOT to K</td>
+</tr>
+<tr>
+<td>T</td>
+<td><strong>T = D ⊕ Q</strong></td>
+<td>one XOR fed by D and the flip-flop's own Q</td>
+</tr>
+</tbody>
+</table>
+<p>The other conversions on deck 08 (each checked row by row in the pack's verify script):</p>
 <table>
 <thead>
 <tr>
 <th>Have → want</th>
 <th>Logic</th>
-<th>Have → want</th>
-<th>Logic</th>
+<th>Slide</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>SR → JK</td>
 <td>S = JQ', R = KQ</td>
-<td>D → JK</td>
-<td>D = JQ' + K'Q</td>
+<td>54–55</td>
 </tr>
 <tr>
 <td>D → SR</td>
 <td>D = S + R'Q</td>
+<td>56</td>
+</tr>
+<tr>
 <td>D → T</td>
 <td>D = T ⊕ Q</td>
+<td>57</td>
+</tr>
+<tr>
+<td>D → JK</td>
+<td>D = JQ' + K'Q</td>
+<td>58</td>
 </tr>
 <tr>
 <td>JK → T</td>
 <td>J = K = T</td>
-<td>T → JK</td>
-<td>T = JQ' + KQ</td>
+<td>39</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Running example.</strong> A JK made into a D (J = D, K = D') loads D at every edge: D = 1 gives J K = 10 (set), D = 0 gives 01 (reset); the hold and toggle rows are never used.</p>
 <div class="box check">
-<div class="bh">Check 3</div>
-<p>(a) Give the JK excitation for 1 → 0 and explain the X. (b) Derive SR → JK from the tables.</p>
+<div class="bh">Check 13</div>
+<p>(a) Convert JK → T with the conversion-table method. (b) Check SR → JK on the row J = K = 1, Q = 1: what S, R does the logic give, and is Q⁺ correct? (c) Convert T → JK.</p>
 </div>
 <hr />
 <h2>Exam form</h2>
-<p><strong>Latch.</strong> NOR SR circuit and table, how feedback stores, why 11 is forbidden; NAND version; D latch.</p>
-<p><strong>Flip-flop.</strong> Latch vs flip-flop; four characteristic tables and equations; race-around and its two cures; PRESET/CLEAR.</p>
-<p><strong>Excitation and conversion.</strong> The excitation table; the three-step conversion procedure with K-maps; the conversion table.</p>
+<p><strong>SR latch (NOR).</strong> (1) Draw two cross-coupled NOR gates, R into the Q gate, S into the Q' gate. (2) Table: 00 hold, 01 reset, 10 set, 11 not allowed (Q = Q' = 0). (3) Why 11 is not allowed: outputs not complementary; releasing both together gives an unpredictable state.</p>
+<p><strong>NAND latch.</strong> Inputs active-low: 11 hold, 10 reset, 01 set, 00 not allowed (Q = Q' = 1).</p>
+<p><strong>Gated / D latch.</strong> EN = 0 holds; EN = 1 passes S, R (or D). D latch: S = D, R = D', Q⁺ = D while EN = 1 (transparent).</p>
+<p><strong>Clock.</strong> f = 1/T; duty cycle = t_H / T.</p>
+<p><strong>Latch vs flip-flop.</strong> Level-triggered (acts during EN = 1) vs edge-triggered (acts at ↑ or ↓ only).</p>
+<p><strong>Characteristic equations.</strong> D: Q⁺ = D · SR: Q⁺ = S + R'Q, SR = 0 · JK: Q⁺ = JQ' + K'Q · T: Q⁺ = T ⊕ Q. JK derivation: table → K-map Σm(1, 4, 5, 6) → JQ' + K'Q.</p>
+<p><strong>Race-around.</strong> Level-triggered JK, J = K = 1, clock high longer than the loop delay → Q toggles repeatedly. Cures: master–slave (master on CLK = 1, slave on CLK = 0) or edge triggering.</p>
+<p><strong>Excitation table.</strong> The four-row table of step 12 (memorise the JK and T columns).</p>
+<p><strong>Conversion.</strong> (1) New type's characteristic table → Q⁺. (2) Old type's excitation per row. (3) K-map each old input. (4) Draw. Results: D from SR: S = D, R = D'; from JK: J = D, K = D'; from T: T = D ⊕ Q.</p>
 <h2>Traps</h2>
 <ul>
-<li>NAND latch inputs are active-low: 00 is the forbidden case, not 11.</li>
-<li>Using the characteristic table where the excitation table is needed.</li>
-<li>In T = D ⊕ Q, Q is the flip-flop's own output.</li>
-<li>Saying edge triggering "slows" the flip-flop: it only fixes when it samples.</li>
+<li>NAND latch inputs are active-low: 00 is the forbidden pair, not 11.</li>
+<li>Calling a gated latch a flip-flop (deck 08 slides 30–31 do): a flip-flop has an edge-triggered clock (▷).</li>
+<li>Using the characteristic table where the excitation table is needed (design starts from Q → Q⁺).</li>
+<li>Writing T = D for T → D: T must be 1 only when Q has to change, T = D ⊕ Q.</li>
+<li>Forgetting SR = 0 when quoting Q⁺ = S + R'Q.</li>
+<li>Saying the latch "samples at the clock": it passes every input change during the enable level.</li>
 </ul>
 <h2>Self-test</h2>
 <ol>
-<li>A NOR SR latch gets S = 1, R = 0, then S = 0, R = 0. Q?</li>
-<li>JK with J = 1, K = 0 and Q = 0: Q⁺?</li>
-<li>Convert a T flip-flop into a JK flip-flop.</li>
-<li>Write the characteristic equation of the JK flip-flop and check it against its table.</li>
+<li>NOR SR latch, Q = 0. S R = 10, 00, 01, 00. Q after each?</li>
+<li>A clock has period 40 ns and high time 10 ns. Frequency and duty cycle?</li>
+<li>JK flip-flop, Q = 1. J K before four edges = 11, 00, 10, 01. Q after each?</li>
+<li>Derive Q⁺ of the T flip-flop from its characteristic table.</li>
 <li>Why does a master–slave JK not race around?</li>
+<li>Convert a T flip-flop into a D flip-flop, and say what the gate is fed with.</li>
+<li>In one line each: what makes a D latch different from a positive-edge D flip-flop, and which one has a forbidden input?</li>
 </ol>
 <div class="answers">
 <h2>Answers</h2>
-<p><strong>Check 1.</strong> (a) <strong>Q = 1</strong> (S' = 0 sets). (b) <strong>Three times</strong>: transparent. (c) <strong>Feedback</strong>: an output fed back to an input.</p>
-<p><strong>Check 2.</strong> (a) 0 → 1 → 0 → 1: <strong>Q = 1</strong>. (b) <strong>500 Hz</strong>. (c) <strong>At once</strong>, without waiting for an edge.</p>
-<p><strong>Check 3.</strong> (a) <strong>J K = X 1</strong>: K = 1 is needed; J = 0 is a reset and J = 1 a toggle, both reach 0. (b) Rows J K Q → Q⁺ → S R: 000 → 0, 0X; 001 → 1, X0; 010 → 0, 0X; 011 → 0, 01; 100 → 1, 10; 101 → 1, X0; 110 → 1, 10; 111 → 0, 01. K-maps: <strong>S = JQ', R = KQ</strong>.</p>
+<p><strong>Check 1.</strong> (a) <strong>Q' = 1; Q is still 0</strong> a minute later (the ring holds). (b) <strong>No</strong>: its output is fixed by its present inputs; nothing carries the past back in.</p>
+<p><strong>Check 2.</strong> (a) <strong>1, then 1</strong> (set, then hold). (b) <strong>Q = 0, Q' = 0.</strong> (c) <strong>Unpredictable</strong>: both gates head for 1 at once and the faster one wins.</p>
+<p><strong>Check 3.</strong> (a) <strong>Q = 0</strong> (R' = 0 resets). (b) <strong>Q = 1</strong> (hold). (c) <strong>S'R' = 00</strong>, giving <strong>Q = Q' = 1</strong>.</p>
+<p><strong>Check 4.</strong> (a) <strong>Q = 0</strong> (EN = 0 holds). (b) <strong>Q = 1</strong> (set). (c) <strong>Q = 1</strong> (EN = 0 holds; the new R is ignored).</p>
+<p><strong>Check 5.</strong> (a) <strong>1, 0, 1</strong> (Q follows D). (b) <strong>Q = 1</strong> (EN = 0 holds the last value). (c) S = D and R = D' are <strong>never both 1</strong>.</p>
+<p><strong>Check 6.</strong> (a) T = 1/(50 × 10⁶) s = <strong>20 ns</strong>. (b) f = 1/(40 ns) = <strong>25 MHz</strong>; duty cycle = 30/40 = <strong>75 %</strong>.</p>
+<p><strong>Check 7.</strong> (a) <strong>The latch.</strong> (b) <strong>1 and 1</strong>: the flip-flop took D = 1 at ↑ and ignores the later change. (c) <strong>Negative (falling) edge</strong> triggering.</p>
+<p><strong>Check 8.</strong> (a) <strong>Q⁺ = 0</strong> (reset). (b) Q⁺ = 0 + 1·Q = <strong>Q</strong> (hold). (c) <strong>1, 1, 0, 1</strong> (Q⁺ = D).</p>
+<p><strong>Check 9.</strong> (a) 1·0 + 0·1 = <strong>0</strong> (toggle from 1). (b) 01 → <strong>0</strong>; 10 → <strong>1</strong>; 11 → <strong>0</strong>; 00 → <strong>0</strong>.</p>
+<p><strong>Check 10.</strong> (a) <strong>5 kHz.</strong> (b) 16 → 8 → 4 → <strong>2 kHz.</strong> (c) <strong>1, 1, 0, 1.</strong></p>
+<p><strong>Check 11.</strong> (a) <strong>J = K = 1</strong> and the <strong>clock high for longer than the loop delay</strong>. (b) <strong>No</strong>: the slave is closed while CLK = 1. Q changes <strong>when CLK falls</strong> (the slave opens and copies the master). (c) An <strong>unpredictable</strong> value at each of those edges (Q toggles many times while the clock is high).</p>
+<p><strong>Check 12.</strong> (a) <strong>X 0</strong> (hold 00 or set 10). (b) <strong>T = 0.</strong> (c) <strong>S R = 0 X</strong>: S must not set; R = 0 (hold) and R = 1 (reset) both leave Q at 0.</p>
+<p><strong>Check 13.</strong> (a) Rows (T, Q) → Q⁺: 00 → 0: J K = 0 X; 01 → 1: X 0; 10 → 1: 1 X; 11 → 0: X 1. Maps: <strong>J = T, K = T</strong> (J = K = T). (b) S = JQ' = 1·0 = <strong>0</strong>, R = KQ = 1·1 = <strong>1</strong>: reset, <strong>Q⁺ = 0 = Q'</strong>, the toggle is correct. (c) T must be 1 when Q changes: Q = 0 and J = 1, or Q = 1 and K = 1: <strong>T = JQ' + KQ</strong>.</p>
 <p><strong>Self-test.</strong></p>
 <ol>
-<li><strong>Q = 1</strong> (set, then hold).</li>
-<li><strong>Q⁺ = 1</strong> (set).</li>
-<li><strong>T = JQ' + KQ</strong>.</li>
-<li>Q⁺ = JQ' + K'Q: JK = 00 → Q; 01 → 0; 10 → Q' + Q = 1; 11 → Q'. ✓</li>
-<li>Master and slave are never open together: the slave changes only after the master has closed, so the new Q cannot reach the inputs while they are being sampled.</li>
+<li><strong>1, 1, 0, 0.</strong></li>
+<li>f = 1/(40 ns) = <strong>25 MHz</strong>; duty cycle = 10/40 = <strong>25 %</strong>.</li>
+<li>11 → <strong>0</strong>; 00 → <strong>0</strong>; 10 → <strong>1</strong>; 01 → <strong>0</strong>.</li>
+<li>T = 0: Q⁺ = Q; T = 1: Q⁺ = Q'. So Q⁺ = T'Q + TQ' = <strong>T ⊕ Q</strong>.</li>
+<li>Master and slave are <strong>never enabled together</strong>: the slave copies only after the master has closed, so the new Q cannot reach the inputs while they are being read; Q changes once per period.</li>
+<li><strong>T = D ⊕ Q</strong>: an XOR fed by D and the flip-flop's own output Q, driving T.</li>
+<li>The <strong>D latch</strong> passes D to Q during the whole enable level; the <strong>D flip-flop</strong> takes D only at the clock edge. <strong>Neither</strong> has a forbidden input (S = D and R = D' are never both 1).</li>
 </ol>
 </div></body></html>

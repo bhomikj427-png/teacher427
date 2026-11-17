@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>10 — Drawing flip-flop waveforms</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>10 — Drawing latch and flip-flop waveforms</title><style>
 @page { size: A4; margin: 16mm 15mm 16mm 15mm;
   @bottom-left { content: "ECE2102 Digital Electronics · ETE Study Pack"; font: 8pt 'Segoe UI', Arial; color: #9ca3af; }
   @bottom-right { content: counter(page); font: 8pt 'Segoe UI', Arial; color: #9ca3af; } }
@@ -77,264 +77,88 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 .c1 .k-grp, .c1 .k-chip { fill: var(--g1); stroke: var(--g1); } .c1 .k-chip-t, .g-term.c1 { fill: var(--g1); }
 .c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
 .c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
-.c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>10 — Drawing flip-flop waveforms</h1>
-<div class="sub">Mid-term 2025 Q7 (4 marks; its waveform is missing from our copy, so the question below is a practice one in the same form) · practice set 2 Q2–Q3 · syllabus Unit 3 · needs 09 (characteristic tables)</div>
+.c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>10 — Drawing latch and flip-flop waveforms</h1>
+<div class="sub">Deck 08 (slides 22–24, 42–44) · syllabus Unit 3 (flip-flop operation, timing) · 3 real questions: MTE 2025 Q7 (4 marks), practice set 2 Q2, practice set 2 Q3 (a, b) · needs 09 steps 5 (D latch), 7 (latch vs flip-flop), 9 (JK table), 11 (race-around)</div>
 
 <h2>Map</h2>
-<div class="map"><span class="n here">1 The edge-by-edge procedure</span><span class="a">→</span><span class="n">2 T, D and asynchronous inputs</span></div>
+<div class="map"><span class="n here">1 Reading a timing diagram</span><span class="a">→</span><span class="n">2 Which value counts at an edge</span><span class="a">→</span><span class="n">3 Positive edge: MTE Q7</span><span class="a">→</span><span class="n">4 Negative edge</span><span class="a">→</span><span class="n">5 D latch: transparent</span><span class="a">→</span><span class="n">6 JK latch: race-around</span><span class="a">→</span><span class="n">7 Asynchronous clear and preset</span></div>
 
-<p>A 4-mark question with one method. Mark the edges, read the inputs just before each, apply the table, hold flat between edges.</p>
-<h2>The questions this file answers</h2>
-<ul>
-<li><span class="tag">MTE 2025 Q7 form · 4 marks</span> Draw Q for a positive-edge JK flip-flop, Q initially 0.</li>
-<li><span class="tag">Set 2 Q2–Q3</span> The same for T and D flip-flops, and for negative edges.</li>
-</ul>
-<hr />
-<h2>Build</h2>
-<h3>1 · The edge-by-edge procedure</h3>
-<div class="box q">
-<div class="bh"><span class="tag">MTE 2025 Q7 form · practice waveform</span></div>
-<p>Draw the output waveform for the following input waveform, assuming the flip-flop (JK) to be positive edge triggered and the output Q is initially at logic zero.</p>
-</div>
-
-<figure style="max-width:75%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 463.32 151.98266" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.184685</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 151.98266 L 463.32 151.98266 L 463.32 0 L 0 0 L 0 151.98266 z " style="fill: none"/> </g> <g id="axes_1"> <g id="line2d_1"> <path d="M 47.991549 48.20186 L 80.214085 48.20186 L 80.214085 28.98266 L 112.43662 28.98266 L 112.43662 48.20186 L 144.659155 48.20186 L 144.659155 28.98266 L 176.88169 28.98266 L 176.88169 48.20186 L 209.104225 48.20186 L 209.104225 28.98266 L 241.326761 28.98266 L 241.326761 48.20186 L 273.549296 48.20186 L 273.549296 28.98266 L 305.771831 28.98266 L 305.771831 48.20186 L 337.994366 48.20186 L 337.994366 28.98266 L 370.216901 28.98266 L 370.216901 48.20186 L 402.439437 48.20186 L 402.439437 28.98266 L 434.661972 28.98266 L 434.661972 48.20186 L 453.995493 48.20186 " clip-path="url(#p9d54fe8bee)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_2"> <path d="M 47.991549 57.81146 L 128.547887 57.81146 L 128.547887 77.03066 L 192.992958 77.03066 L 192.992958 57.81146 L 321.883099 57.81146 L 321.883099 77.03066 L 453.995493 77.03066 " clip-path="url(#p9d54fe8bee)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_3"> <path d="M 47.991549 105.85946 L 128.547887 105.85946 L 128.547887 86.64026 L 257.438028 86.64026 L 257.438028 105.85946 L 321.883099 105.85946 L 321.883099 86.64026 L 386.328169 86.64026 L 386.328169 105.85946 L 453.995493 105.85946 " clip-path="url(#p9d54fe8bee)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_4"> <path d="M 47.991549 134.68826 L 453.995493 134.68826 " clip-path="url(#p9d54fe8bee)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_5"> <path d="M 80.214085 149.10266 L 80.214085 4.95866 " clip-path="url(#p9d54fe8bee)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/> </g> <g id="line2d_6"> <path d="M 144.659155 149.10266 L 144.659155 4.95866 " clip-path="url(#p9d54fe8bee)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/> </g> <g id="line2d_7"> <path d="M 209.104225 149.10266 L 209.104225 4.95866 " clip-path="url(#p9d54fe8bee)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/> </g> <g id="line2d_8"> <path d="M 273.549296 149.10266 L 273.549296 4.95866 " clip-path="url(#p9d54fe8bee)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/> </g> <g id="line2d_9"> <path d="M 337.994366 149.10266 L 337.994366 4.95866 " clip-path="url(#p9d54fe8bee)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/> </g> <g id="line2d_10"> <path d="M 402.439437 149.10266 L 402.439437 4.95866 " clip-path="url(#p9d54fe8bee)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.935915" y="41.016244" transform="rotate(-0 39.935915 41.016244)">CLK</text> </g> <g id="text_2"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.935915" y="69.845044" transform="rotate(-0 39.935915 69.845044)">J</text> </g> <g id="text_3"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.935915" y="98.673844" transform="rotate(-0 39.935915 98.673844)">K</text> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.935915" y="127.502644" transform="rotate(-0 39.935915 127.502644)">Q</text> </g> <g id="text_5"> <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.214085" y="8.8025" transform="rotate(-0 80.214085 8.8025)">↑</text> </g> <g id="text_6"> <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="144.659155" y="8.8025" transform="rotate(-0 144.659155 8.8025)">↑</text> </g> <g id="text_7"> <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="209.104225" y="8.8025" transform="rotate(-0 209.104225 8.8025)">↑</text> </g> <g id="text_8"> <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="273.549296" y="8.8025" transform="rotate(-0 273.549296 8.8025)">↑</text> </g> <g id="text_9"> <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="337.994366" y="8.8025" transform="rotate(-0 337.994366 8.8025)">↑</text> </g> <g id="text_10"> <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="402.439437" y="8.8025" transform="rotate(-0 402.439437 8.8025)">↑</text> </g> </g> </g> <defs> <clipPath id="p9d54fe8bee"> <rect x="2.88" y="4.95866" width="457.56" height="144.144"/> </clipPath> </defs> </svg><figcaption>Clock, J and K.</figcaption></figure>
-
-<div class="box guess">
-<div class="bh">Guess first</div>
-<p>At how many instants can Q change in this picture?</p>
-</div>
-<ol>
-<li>Mark every <strong>active edge</strong> with a dotted line (rising for positive-edge, falling for negative).</li>
-<li>Start Q at the given value.</li>
-<li>At each edge read the inputs <strong>just before</strong> it and apply the characteristic table (09).</li>
-<li><strong>Between edges Q is flat</strong>, whatever the inputs do.</li>
-<li>PRESET or CLEAR override at once, mid-cycle if necessary.</li>
-</ol>
+<p>File 09 gave each memory element a table: what Q becomes for each input. An exam asks for the same thing drawn against time: the inputs are given as waveforms and Q must be drawn underneath. This file turns the tables into one procedure for edge-triggered flip-flops (steps 1–4), a second one for level-triggered latches (steps 5–6), and adds the inputs that act without the clock (step 7). Files 12–13 draw counter waveforms with the same procedure.</p>
+<h2>Symbols</h2>
 <table>
 <thead>
 <tr>
-<th>Rising edge</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>5</th>
-<th>6</th>
+<th>Symbol</th>
+<th>What it means in this file</th>
+<th>Typical value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>J K before</td>
-<td>1 0</td>
-<td>0 1</td>
-<td>1 1</td>
-<td>1 0</td>
-<td>0 1</td>
-<td>0 0</td>
+<td>CLK</td>
+<td>the clock waveform</td>
+<td>square wave</td>
 </tr>
 <tr>
-<td>Action</td>
-<td>set</td>
-<td>reset</td>
-<td>toggle</td>
-<td>set</td>
-<td>reset</td>
-<td>hold</td>
+<td>↑n, ↓n</td>
+<td>the n-th rising / falling clock edge, numbered from the left</td>
+<td>n = 1 … 7</td>
 </tr>
 <tr>
-<td>Q after</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
+<td>EN</td>
+<td>enable of a latch; the latch listens while EN = 1</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>J, K, D</td>
+<td>flip-flop or latch inputs, drawn as waveforms</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>Q₀</td>
+<td>Q before the first edge ("initially at logic zero / one")</td>
+<td>given</td>
+</tr>
+<tr>
+<td>CLR', PR'</td>
+<td>asynchronous clear and preset, active-low: a 0 forces Q at once</td>
+<td>idle at 1</td>
+</tr>
+<tr>
+<td>t_su</td>
+<td>setup time: how long an input must be steady <strong>before</strong> the edge for the flip-flop to read it</td>
+<td>a few ns</td>
 </tr>
 </tbody>
 </table>
-
-<figure style="max-width:75%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 463.32 151.98266" xmlns="http://www.w3.org/2000/svg" version="1.1">
- <metadata>
-  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-   <cc:Work>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:08.092966</dc:date>
-    <dc:format>image/svg+xml</dc:format>
-    <dc:creator>
-     <cc:Agent>
-      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
-     </cc:Agent>
-    </dc:creator>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
- <defs>
-  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
- </defs>
- <g id="figure_1">
-  <g id="patch_1">
-   <path d="M 0 151.98266 
-L 463.32 151.98266 
-L 463.32 0 
-L 0 0 
-L 0 151.98266 
-z
-" style="fill: none"/>
-  </g>
-  <g id="axes_1">
-   <g id="line2d_1">
-    <path d="M 47.991549 48.20186 
-L 80.214085 48.20186 
-L 80.214085 28.98266 
-L 112.43662 28.98266 
-L 112.43662 48.20186 
-L 144.659155 48.20186 
-L 144.659155 28.98266 
-L 176.88169 28.98266 
-L 176.88169 48.20186 
-L 209.104225 48.20186 
-L 209.104225 28.98266 
-L 241.326761 28.98266 
-L 241.326761 48.20186 
-L 273.549296 48.20186 
-L 273.549296 28.98266 
-L 305.771831 28.98266 
-L 305.771831 48.20186 
-L 337.994366 48.20186 
-L 337.994366 28.98266 
-L 370.216901 28.98266 
-L 370.216901 48.20186 
-L 402.439437 48.20186 
-L 402.439437 28.98266 
-L 434.661972 28.98266 
-L 434.661972 48.20186 
-L 453.995493 48.20186 
-" clip-path="url(#p8a0df4d3b5)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_2">
-    <path d="M 47.991549 57.81146 
-L 128.547887 57.81146 
-L 128.547887 77.03066 
-L 192.992958 77.03066 
-L 192.992958 57.81146 
-L 321.883099 57.81146 
-L 321.883099 77.03066 
-L 453.995493 77.03066 
-" clip-path="url(#p8a0df4d3b5)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_3">
-    <path d="M 47.991549 105.85946 
-L 128.547887 105.85946 
-L 128.547887 86.64026 
-L 257.438028 86.64026 
-L 257.438028 105.85946 
-L 321.883099 105.85946 
-L 321.883099 86.64026 
-L 386.328169 86.64026 
-L 386.328169 105.85946 
-L 453.995493 105.85946 
-" clip-path="url(#p8a0df4d3b5)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_4">
-    <path d="M 47.991549 134.68826 
-L 80.214085 134.68826 
-L 80.214085 115.46906 
-L 144.659155 115.46906 
-L 144.659155 134.68826 
-L 209.104225 134.68826 
-L 209.104225 115.46906 
-L 337.994366 115.46906 
-L 337.994366 134.68826 
-L 453.995493 134.68826 
-" clip-path="url(#p8a0df4d3b5)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
-   </g>
-   <g id="line2d_5">
-    <path d="M 80.214085 149.10266 
-L 80.214085 4.95866 
-" clip-path="url(#p8a0df4d3b5)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
-   </g>
-   <g id="line2d_6">
-    <path d="M 144.659155 149.10266 
-L 144.659155 4.95866 
-" clip-path="url(#p8a0df4d3b5)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
-   </g>
-   <g id="line2d_7">
-    <path d="M 209.104225 149.10266 
-L 209.104225 4.95866 
-" clip-path="url(#p8a0df4d3b5)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
-   </g>
-   <g id="line2d_8">
-    <path d="M 273.549296 149.10266 
-L 273.549296 4.95866 
-" clip-path="url(#p8a0df4d3b5)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
-   </g>
-   <g id="line2d_9">
-    <path d="M 337.994366 149.10266 
-L 337.994366 4.95866 
-" clip-path="url(#p8a0df4d3b5)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
-   </g>
-   <g id="line2d_10">
-    <path d="M 402.439437 149.10266 
-L 402.439437 4.95866 
-" clip-path="url(#p8a0df4d3b5)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
-   </g>
-   <g id="text_1">
-    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.935915" y="41.016244" transform="rotate(-0 39.935915 41.016244)">CLK</text>
-   </g>
-   <g id="text_2">
-    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.935915" y="69.845044" transform="rotate(-0 39.935915 69.845044)">J</text>
-   </g>
-   <g id="text_3">
-    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.935915" y="98.673844" transform="rotate(-0 39.935915 98.673844)">K</text>
-   </g>
-   <g id="text_4">
-    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.935915" y="127.502644" transform="rotate(-0 39.935915 127.502644)">Q</text>
-   </g>
-   <g id="text_5">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.214085" y="8.8025" transform="rotate(-0 80.214085 8.8025)">↑</text>
-   </g>
-   <g id="text_6">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="144.659155" y="8.8025" transform="rotate(-0 144.659155 8.8025)">↑</text>
-   </g>
-   <g id="text_7">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="209.104225" y="8.8025" transform="rotate(-0 209.104225 8.8025)">↑</text>
-   </g>
-   <g id="text_8">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="273.549296" y="8.8025" transform="rotate(-0 273.549296 8.8025)">↑</text>
-   </g>
-   <g id="text_9">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="337.994366" y="8.8025" transform="rotate(-0 337.994366 8.8025)">↑</text>
-   </g>
-   <g id="text_10">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="402.439437" y="8.8025" transform="rotate(-0 402.439437 8.8025)">↑</text>
-   </g>
-  </g>
- </g>
- <defs>
-  <clipPath id="p8a0df4d3b5">
-   <rect x="2.88" y="4.95866" width="457.56" height="144.144"/>
-  </clipPath>
- </defs>
-</svg>
-<figcaption>The answer: Q changes only at the six rising edges.</figcaption></figure>
-
-<p><strong>Answer.</strong> Six instants at most (the six rising edges); Q = 1, 0, 1, 1, 0, 0 after them. Write the edge table beside the drawing in the exam: it shows the method even if a line is slightly off.</p>
-<div class="box check">
-<div class="bh">Check 1</div>
-<p>Redo the question for a <strong>negative</strong>-edge JK: give Q after each of the six falling edges.</p>
-</div>
-<h3>2 · T, D, and asynchronous inputs</h3>
+<h2>Running example</h2>
+<p><strong>MTE 2025 Q7's clock and inputs</strong>: 7 clock pulses; J high from ↑1 to ↓1, from ↑3 to ↓3, from the middle of pulse 4's high time to ↓5, and from ↓6 to ↓7; K high for short pieces in periods 1–2 and from the middle of pulse 5 onward. Step 3 draws Q for a positive-edge JK, step 4 the same inputs for a negative-edge JK (practice set 2 Q3a), step 7 adds clear and preset (practice set 2 Q3b).</p>
+<h2>The questions this file answers</h2>
+<ul>
+<li><span class="tag">MTE 2025 Q7 · 4 marks</span> Draw the output waveform for the following input waveform, assuming the flip-flop to be positive edge triggered and the output Q is initially at logic zero.</li>
+<li><span class="tag">Practice set 2 Q3</span> Input waveforms for JK flip-flops are shown in given figures. Draw the output waveform for each case. Assume the flip-flops to be negative edge triggered for both cases and the output Q is initially at logic zero.</li>
+<li><span class="tag">Practice set 2 Q2</span> Complete the timing diagrams for D Latch and JK Latch. Assume the latch to be high level triggered for both cases and the output Q is initially at logic one.</li>
+<li><span class="tag">Deck 08 slides 42–44 (EX 8.42–8.44)</span> The same three tasks as unsolved slide exercises (D and JK latch; JK flip-flop on ↑; on ↓).</li>
+</ul>
+<hr />
+<h2>Build</h2>
+<h3>1 · Reading a timing diagram</h3>
+<p>A flip-flop changes only at an edge (file 09 step 7). So a waveform answer is a list of edges, the inputs at each, and file 09's table applied once per edge.</p>
 <div class="box guess">
 <div class="bh">Predict</div>
-<p>A T flip-flop holds T = 1 for three edges in a row. What does Q look like?</p>
+<p>A positive-edge D flip-flop's D has two short pulses that start in the middle of a clock high time and end before the next ↑. Do they appear at Q?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Timing diagram:</strong> one row per signal, time running left to right, high = 1, low = 0. <strong>Active edge:</strong> the edge the flip-flop acts on: ↑ for positive-edge (plain ▷), ↓ for negative-edge (bubble before ▷).</p>
 </div>
 
-<figure style="max-width:75%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 463.32 121.5461" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<figure style="max-width:78%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 463.32 121.5461" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:08.120265</dc:date>
+    <dc:date>2026-11-17T13:36:43.671058</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -385,136 +209,1661 @@ L 402.439437 28.6916
 L 434.661972 28.6916 
 L 434.661972 47.6336 
 L 453.995493 47.6336 
-" clip-path="url(#pcf9aeef69d)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+" clip-path="url(#pa5a33f1d54)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="line2d_2">
-    <path d="M 47.991549 57.1046 
-L 160.770423 57.1046 
-L 160.770423 76.0466 
-L 257.438028 76.0466 
+    <path d="M 47.991549 76.0466 
+L 96.325352 76.0466 
+L 96.325352 57.1046 
+L 128.547887 57.1046 
+L 128.547887 76.0466 
+L 192.992958 76.0466 
+L 192.992958 57.1046 
+L 220.382113 57.1046 
+L 220.382113 76.0466 
+L 231.66 76.0466 
+L 231.66 57.1046 
 L 257.438028 57.1046 
+L 257.438028 76.0466 
+L 354.105634 76.0466 
+L 354.105634 57.1046 
 L 386.328169 57.1046 
 L 386.328169 76.0466 
 L 453.995493 76.0466 
-" clip-path="url(#pcf9aeef69d)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+" clip-path="url(#pa5a33f1d54)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="line2d_3">
     <path d="M 47.991549 104.4596 
-L 112.43662 104.4596 
-L 112.43662 85.5176 
-L 305.771831 85.5176 
-L 305.771831 104.4596 
-L 370.216901 104.4596 
-L 370.216901 85.5176 
-L 453.995493 85.5176 
-" clip-path="url(#pcf9aeef69d)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+L 209.104225 104.4596 
+L 209.104225 85.5176 
+L 273.549296 85.5176 
+L 273.549296 104.4596 
+L 453.995493 104.4596 
+" clip-path="url(#pa5a33f1d54)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="line2d_4">
-    <path d="M 112.43662 118.6661 
-L 112.43662 5.0141 
-" clip-path="url(#pcf9aeef69d)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+    <path d="M 80.214085 118.6661 
+L 80.214085 5.0141 
+" clip-path="url(#pa5a33f1d54)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
    </g>
    <g id="line2d_5">
-    <path d="M 176.88169 118.6661 
-L 176.88169 5.0141 
-" clip-path="url(#pcf9aeef69d)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+    <path d="M 144.659155 118.6661 
+L 144.659155 5.0141 
+" clip-path="url(#pa5a33f1d54)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
    </g>
    <g id="line2d_6">
-    <path d="M 241.326761 118.6661 
-L 241.326761 5.0141 
-" clip-path="url(#pcf9aeef69d)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+    <path d="M 209.104225 118.6661 
+L 209.104225 5.0141 
+" clip-path="url(#pa5a33f1d54)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
    </g>
    <g id="line2d_7">
-    <path d="M 305.771831 118.6661 
-L 305.771831 5.0141 
-" clip-path="url(#pcf9aeef69d)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+    <path d="M 273.549296 118.6661 
+L 273.549296 5.0141 
+" clip-path="url(#pa5a33f1d54)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
    </g>
    <g id="line2d_8">
-    <path d="M 370.216901 118.6661 
-L 370.216901 5.0141 
-" clip-path="url(#pcf9aeef69d)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+    <path d="M 337.994366 118.6661 
+L 337.994366 5.0141 
+" clip-path="url(#pa5a33f1d54)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
    </g>
    <g id="line2d_9">
-    <path d="M 434.661972 118.6661 
-L 434.661972 5.0141 
-" clip-path="url(#pcf9aeef69d)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+    <path d="M 402.439437 118.6661 
+L 402.439437 5.0141 
+" clip-path="url(#pa5a33f1d54)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
    </g>
    <g id="text_1">
     <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.935915" y="40.586584" transform="rotate(-0 39.935915 40.586584)">CLK</text>
    </g>
    <g id="text_2">
-    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.935915" y="68.999584" transform="rotate(-0 39.935915 68.999584)">T</text>
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.935915" y="68.999584" transform="rotate(-0 39.935915 68.999584)">D</text>
    </g>
    <g id="text_3">
     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.935915" y="97.412584" transform="rotate(-0 39.935915 97.412584)">Q</text>
    </g>
    <g id="text_4">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="112.43662" y="8.8025" transform="rotate(-0 112.43662 8.8025)">↓</text>
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="80.214085" y="8.8025" transform="rotate(-0 80.214085 8.8025)">↑</text>
    </g>
    <g id="text_5">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="176.88169" y="8.8025" transform="rotate(-0 176.88169 8.8025)">↓</text>
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="144.659155" y="8.8025" transform="rotate(-0 144.659155 8.8025)">↑</text>
    </g>
    <g id="text_6">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="241.326761" y="8.8025" transform="rotate(-0 241.326761 8.8025)">↓</text>
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="209.104225" y="8.8025" transform="rotate(-0 209.104225 8.8025)">↑</text>
    </g>
    <g id="text_7">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="305.771831" y="8.8025" transform="rotate(-0 305.771831 8.8025)">↓</text>
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="273.549296" y="8.8025" transform="rotate(-0 273.549296 8.8025)">↑</text>
    </g>
    <g id="text_8">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="370.216901" y="8.8025" transform="rotate(-0 370.216901 8.8025)">↓</text>
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="337.994366" y="8.8025" transform="rotate(-0 337.994366 8.8025)">↑</text>
    </g>
    <g id="text_9">
-    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="434.661972" y="8.8025" transform="rotate(-0 434.661972 8.8025)">↓</text>
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="402.439437" y="8.8025" transform="rotate(-0 402.439437 8.8025)">↑</text>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="pcf9aeef69d">
+  <clipPath id="pa5a33f1d54">
    <rect x="2.88" y="5.0141" width="457.56" height="113.652"/>
   </clipPath>
  </defs>
 </svg>
-<figcaption>T flip-flop waveform: Q toggles at each active edge where T = 1.</figcaption></figure>
+<figcaption>What this graph plots: time across; rows CLK, D, Q of a positive-edge D flip-flop (high = 1). Dotted lines mark the six ↑ edges, where Q takes the D just before the line.</figcaption></figure>
 
-<ul>
-<li><strong>T:</strong> toggle where T = 1, hold where T = 0. With T = 1 throughout, Q is the clock divided by 2.</li>
-<li><strong>D:</strong> Q after each edge is D just before it. Between edges, D can wiggle freely.</li>
-<li><strong>D latch</strong> (not flip-flop): Q follows D for the whole time EN = 1; draw it transparent, not edge-sampled.</li>
-<li><strong>CLEAR/PRESET:</strong> draw Q jumping the moment they go active, and staying forced while they are active.</li>
-</ul>
-<p><strong>Answer.</strong> A square wave: Q toggles at each of the three edges.</p>
+<table>
+<thead>
+<tr>
+<th>Edge</th>
+<th>↑1</th>
+<th>↑2</th>
+<th>↑3</th>
+<th>↑4</th>
+<th>↑5</th>
+<th>↑6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D just before</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Q after</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The procedure</strong> (every edge-triggered question):</p>
+<ol>
+<li>Draw a dotted vertical line at every <strong>active</strong> edge; number them.</li>
+<li>Start Q at the given initial value.</li>
+<li>At each line read the inputs <strong>just before</strong> it (step 2 says why) and apply the table of file 09.</li>
+<li>Draw Q <strong>flat between lines</strong>, whatever the inputs do there.</li>
+<li>Write the edge table beside the drawing: it carries the marks even if a line is slightly off.</li>
+</ol>
+<p><strong>Answer to the Predict.</strong> <strong>No.</strong> The first D pulse (inside high time 1) is back to 0 by ↑2, and the last one (inside high time 5) is back to 0 by ↑6: Q never sees them. Q is high only from ↑3 to ↑4.</p>
+<div class="box check">
+<div class="bh">Check 1</div>
+<p>(a) Same D, but the flip-flop is negative-edge: read D just before ↓1 … ↓6 from the figure. (b) Between two active edges D changes three times. How many times can Q change there?</p>
+</div>
+<h3>2 · Which value counts when an input changes at the edge</h3>
+<p>In MTE Q7 some inputs change at the <strong>same instant</strong> as a clock edge. The rule of step 1 ("just before") decides them, and here is why.</p>
+<div class="box q">
+<div class="bh"><span class="tag">MTE 2025 Q7 · 4 marks (inputs)</span></div>
+<p>Draw the output waveform for the following input waveform, assuming the flip-flop to be positive edge triggered and the output Q is initially at logic zero.</p>
+</div>
+
+<figure style="max-width:80%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 474.48 121.5461" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T13:36:43.719012</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 121.5461 
+L 474.48 121.5461 
+L 474.48 0 
+L 0 0 
+L 0 121.5461 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 42.410602 47.6336 
+L 70.646747 47.6336 
+L 70.646747 28.6916 
+L 98.882892 28.6916 
+L 98.882892 47.6336 
+L 127.119036 47.6336 
+L 127.119036 28.6916 
+L 155.355181 28.6916 
+L 155.355181 47.6336 
+L 183.591325 47.6336 
+L 183.591325 28.6916 
+L 211.82747 28.6916 
+L 211.82747 47.6336 
+L 240.063614 47.6336 
+L 240.063614 28.6916 
+L 268.299759 28.6916 
+L 268.299759 47.6336 
+L 296.535904 47.6336 
+L 296.535904 28.6916 
+L 324.772048 28.6916 
+L 324.772048 47.6336 
+L 353.008193 47.6336 
+L 353.008193 28.6916 
+L 381.244337 28.6916 
+L 381.244337 47.6336 
+L 409.480482 47.6336 
+L 409.480482 28.6916 
+L 437.716627 28.6916 
+L 437.716627 47.6336 
+L 465.952771 47.6336 
+" clip-path="url(#p47614444cc)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 42.410602 76.0466 
+L 70.646747 76.0466 
+L 70.646747 57.1046 
+L 98.882892 57.1046 
+L 98.882892 76.0466 
+L 183.591325 76.0466 
+L 183.591325 57.1046 
+L 211.82747 57.1046 
+L 211.82747 76.0466 
+L 254.181687 76.0466 
+L 254.181687 57.1046 
+L 324.772048 57.1046 
+L 324.772048 76.0466 
+L 381.244337 76.0466 
+L 381.244337 57.1046 
+L 437.716627 57.1046 
+L 437.716627 76.0466 
+L 465.952771 76.0466 
+" clip-path="url(#p47614444cc)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 42.410602 104.4596 
+L 113.000964 104.4596 
+L 113.000964 85.5176 
+L 127.119036 85.5176 
+L 127.119036 104.4596 
+L 141.237108 104.4596 
+L 141.237108 85.5176 
+L 169.473253 85.5176 
+L 169.473253 104.4596 
+L 310.653976 104.4596 
+L 310.653976 85.5176 
+L 324.772048 85.5176 
+L 324.772048 104.4596 
+L 338.89012 104.4596 
+L 338.89012 85.5176 
+L 437.716627 85.5176 
+L 437.716627 104.4596 
+L 465.952771 104.4596 
+" clip-path="url(#p47614444cc)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 70.646747 118.6661 
+L 70.646747 5.0141 
+" clip-path="url(#p47614444cc)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 127.119036 118.6661 
+L 127.119036 5.0141 
+" clip-path="url(#p47614444cc)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 183.591325 118.6661 
+L 183.591325 5.0141 
+" clip-path="url(#p47614444cc)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 240.063614 118.6661 
+L 240.063614 5.0141 
+" clip-path="url(#p47614444cc)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 296.535904 118.6661 
+L 296.535904 5.0141 
+" clip-path="url(#p47614444cc)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 353.008193 118.6661 
+L 353.008193 5.0141 
+" clip-path="url(#p47614444cc)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 409.480482 118.6661 
+L 409.480482 5.0141 
+" clip-path="url(#p47614444cc)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="40.586584" transform="rotate(-0 35.351566 40.586584)">CLK</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="68.999584" transform="rotate(-0 35.351566 68.999584)">J</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="97.412584" transform="rotate(-0 35.351566 97.412584)">K</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="70.646747" y="8.8025" transform="rotate(-0 70.646747 8.8025)">↑1</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="127.119036" y="8.8025" transform="rotate(-0 127.119036 8.8025)">↑2</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="183.591325" y="8.8025" transform="rotate(-0 183.591325 8.8025)">↑3</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="240.063614" y="8.8025" transform="rotate(-0 240.063614 8.8025)">↑4</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="296.535904" y="8.8025" transform="rotate(-0 296.535904 8.8025)">↑5</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="353.008193" y="8.8025" transform="rotate(-0 353.008193 8.8025)">↑6</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="409.480482" y="8.8025" transform="rotate(-0 409.480482 8.8025)">↑7</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p47614444cc">
+   <rect x="2.88" y="5.0141" width="468.72" height="113.652"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>MTE 2025 Q7's inputs, redrawn from the paper. What this graph plots: time across; rows CLK, J, K (high = 1). The seven ↑ edges are numbered. J rises exactly at ↑1 and ↑3; K falls exactly at ↑2.</figcaption></figure>
+
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>At ↑1, J goes from 0 to 1 at the same instant. Does the flip-flop see J = 0 or J = 1?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Setup time t_su:</strong> an input must be steady for at least t_su <strong>before</strong> the active edge to be read correctly (KB 03 §6). <strong>Hold time:</strong> it must also stay steady for a short time after the edge.</p>
+</div>
+<ol>
+<li>A flip-flop reads an input correctly only if it has been steady for t_su before the edge.</li>
+<li>An input that changes <strong>at</strong> the edge was steady, before the edge, at its <strong>old</strong> value.</li>
+<li>So the flip-flop reads the old value: J = 0 at ↑1 and ↑3, K = 1 at ↑2.</li>
+</ol>
+<div class="box note">
+<div class="bh">Two readings of MTE Q7</div>
+<p>Edges ↑1, ↑2, ↑3 have an input changing at the same instant. This pack uses the setup-time rule above (value just before the edge), the rule of real flip-flops. Some answer keys read the level drawn just <strong>after</strong> the edge instead, which gives Q = 1, 1, 1, 1, 1, 0, 1 after ↑1–↑7 (step 3 gives 0, 0, 0, 0, 1, 0, 1). In the exam, <strong>write the rule you use in one line above the drawing</strong>: either answer is then consistent.</p>
+</div>
+<p><strong>Answer to the guess.</strong> <strong>J = 0</strong>: J was 0 for the whole setup time before ↑1; its rise comes too late for that edge.</p>
 <div class="box check">
 <div class="bh">Check 2</div>
-<p>A negative-edge T flip-flop starts at Q = 0. At six falling edges T is 1, 0, 0, 1, 1, 0. Q after each edge?</p>
+<p>(a) At ↑2, K falls 1 → 0 at the edge. Which K does the flip-flop read? (b) Which input changes exactly at ↑3, and which value is read?</p>
+</div>
+<h3>3 · Positive edge: MTE 2025 Q7 worked</h3>
+<p>Steps 1 and 2 give everything the question needs: seven edges, the inputs just before each, the JK table of file 09 step 9.</p>
+<div class="box q">
+<div class="bh"><span class="tag">MTE 2025 Q7 · 4 marks</span></div>
+<p>Draw the output waveform for the following input waveform, assuming the flip-flop to be positive edge triggered and the output Q is initially at logic zero.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>At how many of the seven edges does Q change? Count before reading the table.</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Set / reset / hold / toggle:</strong> the four JK rows (10, 01, 00, 11) of file 09 step 9.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Edge</th>
+<th>↑1</th>
+<th>↑2</th>
+<th>↑3</th>
+<th>↑4</th>
+<th>↑5</th>
+<th>↑6</th>
+<th>↑7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>J K just before</td>
+<td>0 0</td>
+<td>0 1</td>
+<td>0 0</td>
+<td>0 0</td>
+<td>1 0</td>
+<td>0 1</td>
+<td>1 1</td>
+</tr>
+<tr>
+<td>action</td>
+<td>hold</td>
+<td>reset</td>
+<td>hold</td>
+<td>hold</td>
+<td>set</td>
+<td>reset</td>
+<td>toggle</td>
+</tr>
+<tr>
+<td>Q after (Q₀ = 0)</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<figure style="max-width:80%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 474.48 151.98266" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T13:36:43.766729</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 151.98266 
+L 474.48 151.98266 
+L 474.48 0 
+L 0 0 
+L 0 151.98266 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 42.410602 48.20186 
+L 70.646747 48.20186 
+L 70.646747 28.98266 
+L 98.882892 28.98266 
+L 98.882892 48.20186 
+L 127.119036 48.20186 
+L 127.119036 28.98266 
+L 155.355181 28.98266 
+L 155.355181 48.20186 
+L 183.591325 48.20186 
+L 183.591325 28.98266 
+L 211.82747 28.98266 
+L 211.82747 48.20186 
+L 240.063614 48.20186 
+L 240.063614 28.98266 
+L 268.299759 28.98266 
+L 268.299759 48.20186 
+L 296.535904 48.20186 
+L 296.535904 28.98266 
+L 324.772048 28.98266 
+L 324.772048 48.20186 
+L 353.008193 48.20186 
+L 353.008193 28.98266 
+L 381.244337 28.98266 
+L 381.244337 48.20186 
+L 409.480482 48.20186 
+L 409.480482 28.98266 
+L 437.716627 28.98266 
+L 437.716627 48.20186 
+L 465.952771 48.20186 
+" clip-path="url(#p00b8f8e7d4)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 42.410602 77.03066 
+L 70.646747 77.03066 
+L 70.646747 57.81146 
+L 98.882892 57.81146 
+L 98.882892 77.03066 
+L 183.591325 77.03066 
+L 183.591325 57.81146 
+L 211.82747 57.81146 
+L 211.82747 77.03066 
+L 254.181687 77.03066 
+L 254.181687 57.81146 
+L 324.772048 57.81146 
+L 324.772048 77.03066 
+L 381.244337 77.03066 
+L 381.244337 57.81146 
+L 437.716627 57.81146 
+L 437.716627 77.03066 
+L 465.952771 77.03066 
+" clip-path="url(#p00b8f8e7d4)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 42.410602 105.85946 
+L 113.000964 105.85946 
+L 113.000964 86.64026 
+L 127.119036 86.64026 
+L 127.119036 105.85946 
+L 141.237108 105.85946 
+L 141.237108 86.64026 
+L 169.473253 86.64026 
+L 169.473253 105.85946 
+L 310.653976 105.85946 
+L 310.653976 86.64026 
+L 324.772048 86.64026 
+L 324.772048 105.85946 
+L 338.89012 105.85946 
+L 338.89012 86.64026 
+L 437.716627 86.64026 
+L 437.716627 105.85946 
+L 465.952771 105.85946 
+" clip-path="url(#p00b8f8e7d4)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 42.410602 134.68826 
+L 296.535904 134.68826 
+L 296.535904 115.46906 
+L 353.008193 115.46906 
+L 353.008193 134.68826 
+L 409.480482 134.68826 
+L 409.480482 115.46906 
+L 465.952771 115.46906 
+" clip-path="url(#p00b8f8e7d4)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 70.646747 149.10266 
+L 70.646747 4.95866 
+" clip-path="url(#p00b8f8e7d4)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 127.119036 149.10266 
+L 127.119036 4.95866 
+" clip-path="url(#p00b8f8e7d4)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 183.591325 149.10266 
+L 183.591325 4.95866 
+" clip-path="url(#p00b8f8e7d4)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 240.063614 149.10266 
+L 240.063614 4.95866 
+" clip-path="url(#p00b8f8e7d4)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 296.535904 149.10266 
+L 296.535904 4.95866 
+" clip-path="url(#p00b8f8e7d4)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 353.008193 149.10266 
+L 353.008193 4.95866 
+" clip-path="url(#p00b8f8e7d4)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 409.480482 149.10266 
+L 409.480482 4.95866 
+" clip-path="url(#p00b8f8e7d4)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.8"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="41.016244" transform="rotate(-0 35.351566 41.016244)">CLK</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="69.845044" transform="rotate(-0 35.351566 69.845044)">J</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="98.673844" transform="rotate(-0 35.351566 98.673844)">K</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="127.502644" transform="rotate(-0 35.351566 127.502644)">Q</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="70.646747" y="8.8025" transform="rotate(-0 70.646747 8.8025)">↑1</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="127.119036" y="8.8025" transform="rotate(-0 127.119036 8.8025)">↑2</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="183.591325" y="8.8025" transform="rotate(-0 183.591325 8.8025)">↑3</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="240.063614" y="8.8025" transform="rotate(-0 240.063614 8.8025)">↑4</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="296.535904" y="8.8025" transform="rotate(-0 296.535904 8.8025)">↑5</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="353.008193" y="8.8025" transform="rotate(-0 353.008193 8.8025)">↑6</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #e0661b; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="409.480482" y="8.8025" transform="rotate(-0 409.480482 8.8025)">↑7</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p00b8f8e7d4">
+   <rect x="2.88" y="4.95866" width="468.72" height="144.144"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>The answer. What this graph plots: time across; rows CLK, J, K, Q (high = 1). Q changes only on the numbered ↑ lines: up at ↑5, down at ↑6, up at ↑7.</figcaption></figure>
+
+<p><strong>Answer.</strong> Q stays <strong>0 through ↑1–↑4</strong>, goes <strong>1 at ↑5</strong> (set), <strong>0 at ↑6</strong> (reset), <strong>1 at ↑7</strong> (toggle), and stays 1 to the end. Q changes at <strong>3</strong> of the 7 edges. (With the after-the-edge reading of step 2's note: 1, 1, 1, 1, 1, 0, 1.)</p>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>(a) Redo ↑4 if J had risen just before ↑4 instead of in the middle of pulse 4. (b) If Q had started at 1, what would Q be after ↑1, ↑2 and ↑3?</p>
+</div>
+<h3>4 · Negative edge: the same inputs, read at ↓</h3>
+<p>A bubble before the clock ▷ moves every sampling line to the falling edges. Nothing else in the procedure changes.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Practice set 2 Q3 (a)</span></div>
+<p>Input waveforms for JK flip-flops are shown in given figures. Draw the output waveform for each case. Assume the flip-flops to be negative edge triggered for both cases and the output Q is initially at logic zero.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Practice set 2 Q3(a) uses the same CLK, J and K as MTE Q7. Will Q change at more or fewer edges than in step 3?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Negative-edge triggered:</strong> acts at ↓ (1 → 0) only.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Edge</th>
+<th>↓1</th>
+<th>↓2</th>
+<th>↓3</th>
+<th>↓4</th>
+<th>↓5</th>
+<th>↓6</th>
+<th>↓7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>J K just before</td>
+<td>1 0</td>
+<td>0 1</td>
+<td>1 0</td>
+<td>1 0</td>
+<td>1 1</td>
+<td>0 1</td>
+<td>1 1</td>
+</tr>
+<tr>
+<td>action</td>
+<td>set</td>
+<td>reset</td>
+<td>set</td>
+<td>set</td>
+<td>toggle</td>
+<td>reset</td>
+<td>toggle</td>
+</tr>
+<tr>
+<td>Q after (Q₀ = 0)</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<figure style="max-width:80%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 474.48 151.98266" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T13:36:43.840185</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 151.98266 
+L 474.48 151.98266 
+L 474.48 0 
+L 0 0 
+L 0 151.98266 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 42.410602 48.20186 
+L 70.646747 48.20186 
+L 70.646747 28.98266 
+L 98.882892 28.98266 
+L 98.882892 48.20186 
+L 127.119036 48.20186 
+L 127.119036 28.98266 
+L 155.355181 28.98266 
+L 155.355181 48.20186 
+L 183.591325 48.20186 
+L 183.591325 28.98266 
+L 211.82747 28.98266 
+L 211.82747 48.20186 
+L 240.063614 48.20186 
+L 240.063614 28.98266 
+L 268.299759 28.98266 
+L 268.299759 48.20186 
+L 296.535904 48.20186 
+L 296.535904 28.98266 
+L 324.772048 28.98266 
+L 324.772048 48.20186 
+L 353.008193 48.20186 
+L 353.008193 28.98266 
+L 381.244337 28.98266 
+L 381.244337 48.20186 
+L 409.480482 48.20186 
+L 409.480482 28.98266 
+L 437.716627 28.98266 
+L 437.716627 48.20186 
+L 465.952771 48.20186 
+" clip-path="url(#pe1ca1a852b)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 42.410602 77.03066 
+L 70.646747 77.03066 
+L 70.646747 57.81146 
+L 98.882892 57.81146 
+L 98.882892 77.03066 
+L 183.591325 77.03066 
+L 183.591325 57.81146 
+L 211.82747 57.81146 
+L 211.82747 77.03066 
+L 254.181687 77.03066 
+L 254.181687 57.81146 
+L 324.772048 57.81146 
+L 324.772048 77.03066 
+L 381.244337 77.03066 
+L 381.244337 57.81146 
+L 437.716627 57.81146 
+L 437.716627 77.03066 
+L 465.952771 77.03066 
+" clip-path="url(#pe1ca1a852b)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 42.410602 105.85946 
+L 113.000964 105.85946 
+L 113.000964 86.64026 
+L 127.119036 86.64026 
+L 127.119036 105.85946 
+L 141.237108 105.85946 
+L 141.237108 86.64026 
+L 169.473253 86.64026 
+L 169.473253 105.85946 
+L 310.653976 105.85946 
+L 310.653976 86.64026 
+L 324.772048 86.64026 
+L 324.772048 105.85946 
+L 338.89012 105.85946 
+L 338.89012 86.64026 
+L 437.716627 86.64026 
+L 437.716627 105.85946 
+L 465.952771 105.85946 
+" clip-path="url(#pe1ca1a852b)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 42.410602 134.68826 
+L 98.882892 134.68826 
+L 98.882892 115.46906 
+L 155.355181 115.46906 
+L 155.355181 134.68826 
+L 211.82747 134.68826 
+L 211.82747 115.46906 
+L 324.772048 115.46906 
+L 324.772048 134.68826 
+L 437.716627 134.68826 
+L 437.716627 115.46906 
+L 465.952771 115.46906 
+" clip-path="url(#pe1ca1a852b)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 98.882892 149.10266 
+L 98.882892 4.95866 
+" clip-path="url(#pe1ca1a852b)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 155.355181 149.10266 
+L 155.355181 4.95866 
+" clip-path="url(#pe1ca1a852b)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 211.82747 149.10266 
+L 211.82747 4.95866 
+" clip-path="url(#pe1ca1a852b)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 268.299759 149.10266 
+L 268.299759 4.95866 
+" clip-path="url(#pe1ca1a852b)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 324.772048 149.10266 
+L 324.772048 4.95866 
+" clip-path="url(#pe1ca1a852b)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 381.244337 149.10266 
+L 381.244337 4.95866 
+" clip-path="url(#pe1ca1a852b)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 437.716627 149.10266 
+L 437.716627 4.95866 
+" clip-path="url(#pe1ca1a852b)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="41.016244" transform="rotate(-0 35.351566 41.016244)">CLK</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="69.845044" transform="rotate(-0 35.351566 69.845044)">J</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="98.673844" transform="rotate(-0 35.351566 98.673844)">K</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="127.502644" transform="rotate(-0 35.351566 127.502644)">Q</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="98.882892" y="8.8025" transform="rotate(-0 98.882892 8.8025)">↓1</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="155.355181" y="8.8025" transform="rotate(-0 155.355181 8.8025)">↓2</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="211.82747" y="8.8025" transform="rotate(-0 211.82747 8.8025)">↓3</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="268.299759" y="8.8025" transform="rotate(-0 268.299759 8.8025)">↓4</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="324.772048" y="8.8025" transform="rotate(-0 324.772048 8.8025)">↓5</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="381.244337" y="8.8025" transform="rotate(-0 381.244337 8.8025)">↓6</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="437.716627" y="8.8025" transform="rotate(-0 437.716627 8.8025)">↓7</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pe1ca1a852b">
+   <rect x="2.88" y="4.95866" width="468.72" height="144.144"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>The answer for practice set 2 Q3(a). What this graph plots: time across; rows CLK, J, K, Q (high = 1). Dotted lines mark the falling edges ↓1–↓7; Q changes only on them.</figcaption></figure>
+
+<p>Here too inputs change at edges (J falls at ↓1, ↓3, ↓5 and ↓7; K at ↓5 and ↓7; J rises at ↓6): by step 2's rule the value <strong>before</strong> the fall is read. For these falling edges that is the level drawn during the high half, the natural reading of the picture.</p>
+<p><strong>Answer.</strong> <strong>Q = 1, 0, 1, 1, 0, 0, 1</strong> after ↓1–↓7: Q changes at <strong>5</strong> edges, more than the 3 of step 3.</p>
+<div class="box check">
+<div class="bh">Check 4</div>
+<p>(a) At ↓6, J rises exactly at the edge. Which J is read, and what would Q be after ↓6 with the other value? (b) Where does Q stand between ↓4 and ↓5, whatever J and K do?</p>
+</div>
+<h3>5 · The D latch: transparent while enabled</h3>
+<p>A latch has no sampling lines. While EN = 1 it follows its table <strong>continuously</strong>; while EN = 0 it holds (file 09 step 5).</p>
+<div class="box q">
+<div class="bh"><span class="tag">Practice set 2 Q2 (D latch)</span></div>
+<p>Complete the timing diagrams for D Latch and JK Latch. Assume the latch to be high level triggered for both cases and the output Q is initially at logic one.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>The first enable window opens while D = 0. What happens to Q (which starts at 1) at that instant?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Enable window:</strong> a stretch of time with EN = 1. <strong>High-level triggered:</strong> transparent while EN = 1 (a low-level latch is transparent while EN = 0).</p>
+</div>
+<p><strong>The latch procedure:</strong></p>
+<ol>
+<li>Shade every enable window.</li>
+<li>Inside a window, Q = D at every instant (D latch), including the instant the window opens.</li>
+<li>Outside, Q holds the value it had when the window closed.</li>
+</ol>
+
+<figure style="max-width:82%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 474.48 119.412" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T13:36:43.961992</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 119.412 
+L 474.48 119.412 
+L 474.48 0 
+L 0 0 
+L 0 119.412 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 54.96 111.7965 
+L 146.865882 111.7965 
+L 146.865882 7.6155 
+L 54.96 7.6155 
+z
+" clip-path="url(#p8e7f655128)" style="fill: #12925a; opacity: 0.13"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 177.501176 111.7965 
+L 208.136471 111.7965 
+L 208.136471 7.6155 
+L 177.501176 7.6155 
+z
+" clip-path="url(#p8e7f655128)" style="fill: #12925a; opacity: 0.13"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 238.771765 111.7965 
+L 315.36 111.7965 
+L 315.36 7.6155 
+L 238.771765 7.6155 
+z
+" clip-path="url(#p8e7f655128)" style="fill: #12925a; opacity: 0.13"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 391.948235 111.7965 
+L 453.218824 111.7965 
+L 453.218824 7.6155 
+L 391.948235 7.6155 
+z
+" clip-path="url(#p8e7f655128)" style="fill: #12925a; opacity: 0.13"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 24.324706 45.4995 
+L 54.96 45.4995 
+L 54.96 26.5575 
+L 146.865882 26.5575 
+L 146.865882 45.4995 
+L 177.501176 45.4995 
+L 177.501176 26.5575 
+L 208.136471 26.5575 
+L 208.136471 45.4995 
+L 238.771765 45.4995 
+L 238.771765 26.5575 
+L 315.36 26.5575 
+L 315.36 45.4995 
+L 391.948235 45.4995 
+L 391.948235 26.5575 
+L 453.218824 26.5575 
+L 453.218824 45.4995 
+L 468.536471 45.4995 
+" clip-path="url(#p8e7f655128)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 24.324706 73.9125 
+L 85.595294 73.9125 
+L 85.595294 54.9705 
+L 116.230588 54.9705 
+L 116.230588 73.9125 
+L 131.548235 73.9125 
+L 131.548235 54.9705 
+L 162.183529 54.9705 
+L 162.183529 73.9125 
+L 300.042353 73.9125 
+L 300.042353 54.9705 
+L 330.677647 54.9705 
+L 330.677647 73.9125 
+L 361.312941 73.9125 
+L 361.312941 54.9705 
+L 453.218824 54.9705 
+L 453.218824 73.9125 
+L 468.536471 73.9125 
+" clip-path="url(#p8e7f655128)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 24.324706 83.3835 
+L 54.96 83.3835 
+L 54.96 102.3255 
+L 85.595294 102.3255 
+L 85.595294 83.3835 
+L 116.230588 83.3835 
+L 116.230588 102.3255 
+L 131.548235 102.3255 
+L 131.548235 83.3835 
+L 177.501176 83.3835 
+L 177.501176 102.3255 
+L 300.042353 102.3255 
+L 300.042353 83.3835 
+L 468.536471 83.3835 
+" clip-path="url(#p8e7f655128)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="20.495294" y="38.452484" transform="rotate(-0 20.495294 38.452484)">EN</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="20.495294" y="66.865484" transform="rotate(-0 20.495294 66.865484)">D</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="20.495294" y="95.278484" transform="rotate(-0 20.495294 95.278484)">Q</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p8e7f655128">
+   <rect x="2.88" y="2.88" width="468.72" height="113.652"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>The answer for the D latch. What this graph plots: time across (one grid square = one unit of the question's grid, 26 squares); rows EN, D, Q (high = 1). Shaded = EN high: inside, Q copies D; outside, Q is flat.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Window (grid squares)</th>
+<th>D inside</th>
+<th>Q inside</th>
+<th>Q held after</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>before the first window</td>
+<td>—</td>
+<td>1 (initial)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>1–6</td>
+<td>0, 1, 0, 1</td>
+<td>0, 1, 0, 1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>9–10</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>13–17</td>
+<td>0, then 1 in square 17</td>
+<td>0, then 1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>23–26</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer.</strong> Q drops <strong>1 → 0</strong> the moment the first window opens (it copies D = 0). Over the whole diagram: Q = 0 in squares 1–2, 1 in 3–4, 0 in 5, 1 in 6–8, 0 in 9–16, 1 from square 17 to the end. D's fall in square 8 and its rise in square 21 come while EN = 0, so Q ignores them (it holds 1, then 1 again).</p>
+<div class="box check">
+<div class="bh">Check 5</div>
+<p>(a) A positive-edge D flip-flop clocked by the same EN (its ↑ at squares 1, 9, 13, 23): Q after each ↑? (b) Why does the D latch answer change inside window 1 but the flip-flop's cannot?</p>
+</div>
+<h3>6 · The JK latch: transparent, and the race-around window</h3>
+<p>The JK latch obeys the JK table the whole time EN = 1. That works for set, reset and hold; J = K = 1 inside a window is file 09 step 11's race-around.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Practice set 2 Q2 (JK latch)</span></div>
+<p>Complete the timing diagrams for D Latch and JK Latch. Assume the latch to be high level triggered for both cases and the output Q is initially at logic one.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>In the last window J and K are both 1 for two squares. What should you draw for Q there?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Race-around (recalled from 09 step 11):</strong> with J = K = 1 and the enable held high for longer than the loop delay, Q toggles repeatedly; its value when the window closes cannot be predicted.</p>
+</div>
+
+<figure style="max-width:82%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 474.48 151.98266" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T13:36:44.027194</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 151.98266 
+L 474.48 151.98266 
+L 474.48 0 
+L 0 0 
+L 0 151.98266 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 54.96 144.29786 
+L 146.865882 144.29786 
+L 146.865882 9.76346 
+L 54.96 9.76346 
+z
+" clip-path="url(#pbc179dde96)" style="fill: #12925a; opacity: 0.13"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 238.771765 144.29786 
+L 300.042353 144.29786 
+L 300.042353 9.76346 
+L 238.771765 9.76346 
+z
+" clip-path="url(#pbc179dde96)" style="fill: #12925a; opacity: 0.13"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 391.948235 144.29786 
+L 453.218824 144.29786 
+L 453.218824 9.76346 
+L 391.948235 9.76346 
+z
+" clip-path="url(#pbc179dde96)" style="fill: #12925a; opacity: 0.13"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 422.583529 144.29786 
+L 453.218824 144.29786 
+L 453.218824 9.76346 
+L 422.583529 9.76346 
+z
+" clip-path="url(#pbc179dde96)" style="fill: #d92d20; opacity: 0.13"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 24.324706 48.20186 
+L 54.96 48.20186 
+L 54.96 28.98266 
+L 146.865882 28.98266 
+L 146.865882 48.20186 
+L 238.771765 48.20186 
+L 238.771765 28.98266 
+L 300.042353 28.98266 
+L 300.042353 48.20186 
+L 391.948235 48.20186 
+L 391.948235 28.98266 
+L 453.218824 28.98266 
+L 453.218824 48.20186 
+L 468.536471 48.20186 
+" clip-path="url(#pbc179dde96)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 24.324706 77.03066 
+L 54.96 77.03066 
+L 54.96 57.81146 
+L 85.595294 57.81146 
+L 85.595294 77.03066 
+L 177.501176 77.03066 
+L 177.501176 57.81146 
+L 208.136471 57.81146 
+L 208.136471 77.03066 
+L 269.407059 77.03066 
+L 269.407059 57.81146 
+L 330.677647 57.81146 
+L 330.677647 77.03066 
+L 422.583529 77.03066 
+L 422.583529 57.81146 
+L 453.218824 57.81146 
+L 453.218824 77.03066 
+L 468.536471 77.03066 
+" clip-path="url(#pbc179dde96)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 24.324706 105.85946 
+L 100.912941 105.85946 
+L 100.912941 86.64026 
+L 116.230588 86.64026 
+L 116.230588 105.85946 
+L 131.548235 105.85946 
+L 131.548235 86.64026 
+L 162.183529 86.64026 
+L 162.183529 105.85946 
+L 315.36 105.85946 
+L 315.36 86.64026 
+L 330.677647 86.64026 
+L 330.677647 105.85946 
+L 345.995294 105.85946 
+L 345.995294 86.64026 
+L 453.218824 86.64026 
+L 453.218824 105.85946 
+L 468.536471 105.85946 
+" clip-path="url(#pbc179dde96)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 24.324706 115.46906 
+L 100.912941 115.46906 
+L 100.912941 134.68826 
+L 269.407059 134.68826 
+L 269.407059 115.46906 
+L 391.948235 115.46906 
+L 391.948235 134.68826 
+L 422.583529 134.68826 
+L 422.583529 115.46906 
+L 426.412941 115.46906 
+L 426.412941 134.68826 
+L 430.242353 134.68826 
+L 430.242353 115.46906 
+L 434.071765 115.46906 
+L 434.071765 134.68826 
+L 437.901176 134.68826 
+L 437.901176 115.46906 
+L 441.730588 115.46906 
+L 441.730588 134.68826 
+L 445.56 134.68826 
+L 445.56 115.46906 
+L 449.389412 115.46906 
+L 449.389412 134.68826 
+L 468.536471 134.68826 
+" clip-path="url(#pbc179dde96)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 422.583529 149.10266 
+L 422.583529 4.95866 
+" clip-path="url(#pbc179dde96)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="20.495294" y="41.016244" transform="rotate(-0 20.495294 41.016244)">EN</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="20.495294" y="69.845044" transform="rotate(-0 20.495294 69.845044)">J</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="20.495294" y="98.673844" transform="rotate(-0 20.495294 98.673844)">K</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="20.495294" y="127.502644" transform="rotate(-0 20.495294 127.502644)">Q</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="422.583529" y="8.8025" transform="rotate(-0 422.583529 8.8025)">race-around</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pbc179dde96">
+   <rect x="2.88" y="4.95866" width="468.72" height="144.144"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>The answer for the JK latch. What this graph plots: time across (26 grid squares); rows EN, J, K, Q (high = 1). Green = EN high; red = the race-around stretch, where Q oscillates.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Window (squares)</th>
+<th>J K inside</th>
+<th>Q</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1–6</td>
+<td>10 (squares 1–2), 00, 01 (square 4), 00, 01</td>
+<td>1 → <strong>0 at square 4</strong>, stays 0</td>
+</tr>
+<tr>
+<td>7–12 (closed)</td>
+<td>—</td>
+<td>holds 0</td>
+</tr>
+<tr>
+<td>13–16</td>
+<td>00, then 10 (squares 15–16)</td>
+<td>0 → <strong>1 at square 15</strong></td>
+</tr>
+<tr>
+<td>17–22 (closed)</td>
+<td>—</td>
+<td>holds 1</td>
+</tr>
+<tr>
+<td>23–26</td>
+<td>01 (squares 23–24), then 11 (squares 25–26)</td>
+<td><strong>0 at square 23</strong>, then <strong>oscillates</strong> in 25–26</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer.</strong> Q = 1 in squares 1–3, 0 in 4–14, 1 in 15–22, 0 in 23–24; in squares 25–26 (J = K = 1 with EN = 1) Q <strong>toggles repeatedly</strong> (race-around), and its value after EN falls at square 26 is <strong>unpredictable</strong>. Draw it as rapid toggling and label it "race-around".</p>
+<div class="box check">
+<div class="bh">Check 6</div>
+<p>(a) In window 1, why does Q not go back to 1 in square 5? (b) What would a positive-edge JK flip-flop clocked by EN give at the ↑ of the last window (J K = 01 just before it)?</p>
+</div>
+<h3>7 · Asynchronous clear and preset</h3>
+<p>Some flip-flops have two extra inputs that act <strong>without</strong> the clock, to force a known state (at power-up, or a counter reset in file 12).</p>
+<div class="box q">
+<div class="bh"><span class="tag">Practice set 2 Q3 (b)</span></div>
+<p>Input waveforms for JK flip-flops are shown in given figures. Draw the output waveform for each case. Assume the flip-flops to be negative edge triggered for both cases and the output Q is initially at logic zero. (Figure b adds active-low CLR and PR.)</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>PR' drops to 0 for a moment in the middle of pulse 4's high time. What happens to Q at that instant, and does it wait for the next ↓?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Asynchronous (direct) input:</strong> acts the instant it is asserted, not at a clock edge. <strong>CLR' (clear):</strong> 0 forces Q = 0. <strong>PR' (preset):</strong> 0 forces Q = 1. Both are idle at 1 and override J, K and the clock while asserted (KB 03 §3).</p>
+</div>
+
+<figure style="max-width:82%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 474.48 212.9033" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T13:36:44.083374</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 212.9033 
+L 474.48 212.9033 
+L 474.48 0 
+L 0 0 
+L 0 212.9033 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 42.410602 48.8513 
+L 70.646747 48.8513 
+L 70.646747 29.3153 
+L 98.882892 29.3153 
+L 98.882892 48.8513 
+L 127.119036 48.8513 
+L 127.119036 29.3153 
+L 155.355181 29.3153 
+L 155.355181 48.8513 
+L 183.591325 48.8513 
+L 183.591325 29.3153 
+L 211.82747 29.3153 
+L 211.82747 48.8513 
+L 240.063614 48.8513 
+L 240.063614 29.3153 
+L 268.299759 29.3153 
+L 268.299759 48.8513 
+L 296.535904 48.8513 
+L 296.535904 29.3153 
+L 324.772048 29.3153 
+L 324.772048 48.8513 
+L 353.008193 48.8513 
+L 353.008193 29.3153 
+L 381.244337 29.3153 
+L 381.244337 48.8513 
+L 409.480482 48.8513 
+L 409.480482 29.3153 
+L 437.716627 29.3153 
+L 437.716627 48.8513 
+L 465.952771 48.8513 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 42.410602 78.1553 
+L 70.646747 78.1553 
+L 70.646747 58.6193 
+L 98.882892 58.6193 
+L 98.882892 78.1553 
+L 183.591325 78.1553 
+L 183.591325 58.6193 
+L 211.82747 58.6193 
+L 211.82747 78.1553 
+L 254.181687 78.1553 
+L 254.181687 58.6193 
+L 324.772048 58.6193 
+L 324.772048 78.1553 
+L 381.244337 78.1553 
+L 381.244337 58.6193 
+L 437.716627 58.6193 
+L 437.716627 78.1553 
+L 465.952771 78.1553 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 42.410602 107.4593 
+L 113.000964 107.4593 
+L 113.000964 87.9233 
+L 127.119036 87.9233 
+L 127.119036 107.4593 
+L 141.237108 107.4593 
+L 141.237108 87.9233 
+L 169.473253 87.9233 
+L 169.473253 107.4593 
+L 310.653976 107.4593 
+L 310.653976 87.9233 
+L 324.772048 87.9233 
+L 324.772048 107.4593 
+L 338.89012 107.4593 
+L 338.89012 87.9233 
+L 437.716627 87.9233 
+L 437.716627 107.4593 
+L 465.952771 107.4593 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 42.410602 117.2273 
+L 48.057831 117.2273 
+L 48.057831 136.7633 
+L 56.528675 136.7633 
+L 56.528675 117.2273 
+L 347.360964 117.2273 
+L 347.360964 136.7633 
+L 367.126265 136.7633 
+L 367.126265 117.2273 
+L 465.952771 117.2273 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 42.410602 146.5313 
+L 247.122651 146.5313 
+L 247.122651 166.0673 
+L 254.181687 166.0673 
+L 254.181687 146.5313 
+L 465.952771 146.5313 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 42.410602 195.3713 
+L 98.882892 195.3713 
+L 98.882892 175.8353 
+L 155.355181 175.8353 
+L 155.355181 195.3713 
+L 211.82747 195.3713 
+L 211.82747 175.8353 
+L 324.772048 175.8353 
+L 324.772048 195.3713 
+L 437.716627 195.3713 
+L 437.716627 175.8353 
+L 465.952771 175.8353 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 98.882892 210.0233 
+L 98.882892 4.8953 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 155.355181 210.0233 
+L 155.355181 4.8953 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 211.82747 210.0233 
+L 211.82747 4.8953 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 268.299759 210.0233 
+L 268.299759 4.8953 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 324.772048 210.0233 
+L 324.772048 4.8953 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 381.244337 210.0233 
+L 381.244337 4.8953 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 437.716627 210.0233 
+L 437.716627 4.8953 
+" clip-path="url(#p3bbb686075)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="41.507284" transform="rotate(-0 35.351566 41.507284)">CLK</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="70.811284" transform="rotate(-0 35.351566 70.811284)">J</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="100.115284" transform="rotate(-0 35.351566 100.115284)">K</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="129.419284" transform="rotate(-0 35.351566 129.419284)">CLR'</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="158.723284" transform="rotate(-0 35.351566 158.723284)">PR'</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="35.351566" y="188.027284" transform="rotate(-0 35.351566 188.027284)">Q</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="98.882892" y="8.8025" transform="rotate(-0 98.882892 8.8025)">↓1</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="155.355181" y="8.8025" transform="rotate(-0 155.355181 8.8025)">↓2</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="211.82747" y="8.8025" transform="rotate(-0 211.82747 8.8025)">↓3</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="268.299759" y="8.8025" transform="rotate(-0 268.299759 8.8025)">↓4</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="324.772048" y="8.8025" transform="rotate(-0 324.772048 8.8025)">↓5</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="381.244337" y="8.8025" transform="rotate(-0 381.244337 8.8025)">↓6</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="437.716627" y="8.8025" transform="rotate(-0 437.716627 8.8025)">↓7</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p3bbb686075">
+   <rect x="2.88" y="4.8953" width="468.72" height="205.128"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>The answer for practice set 2 Q3(b). What this graph plots: time across; rows CLK, J, K, CLR', PR', Q (high = 1). CLR' and PR' are active-low pulses; dotted lines mark ↓1–↓7.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Inputs</th>
+<th>Q after</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLR' pulse before pulse 1</td>
+<td>forces 0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>↓1, ↓2, ↓3</td>
+<td>J K = 10, 01, 10</td>
+<td>1, 0, 1</td>
+</tr>
+<tr>
+<td>PR' pulse inside pulse 4</td>
+<td>forces 1</td>
+<td>1 (already 1)</td>
+</tr>
+<tr>
+<td>↓4</td>
+<td>10</td>
+<td>1</td>
+</tr>
+<tr>
+<td>↓5</td>
+<td>11 (toggle)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>CLR' pulse across ↑6</td>
+<td>forces 0</td>
+<td>0 (already 0)</td>
+</tr>
+<tr>
+<td>↓6, ↓7</td>
+<td>01, 11</td>
+<td>0, 1</td>
+</tr>
+</tbody>
+</table>
+<p>The J, K and CLK waveforms are those of Q3(a), so the edge actions match step 4; the two later pulses arrive when Q already has the value they force, so they leave no mark on Q.</p>
+<p><strong>Answer to the guess.</strong> Q is forced to 1 <strong>at that instant</strong>, not at the next ↓. Here Q is already 1 (set at ↓3), so nothing visible happens. Q after ↓1–↓7 = <strong>1, 0, 1, 1, 0, 0, 1</strong>.</p>
+<div class="box check">
+<div class="bh">Check 7</div>
+<p>(a) If the PR' pulse came just after ↓2 instead (Q = 0 then), sketch what Q does until ↓3. (b) CLR' is held at 0 across a ↓ with J K = 10. Q after that edge?</p>
 </div>
 <hr />
 <h2>Exam form</h2>
-<p>Mark edges → table of inputs just before each edge → action → Q after → draw Q flat between edges. State edge type and initial Q.</p>
+<p><strong>Edge-triggered (flip-flop).</strong>
+1. State the edge type and Q₀.
+2. Dotted line at every active edge (↑ for ▷, ↓ for a bubble), numbered.
+3. Table: inputs just before each edge (an input changing at the edge counts at its old value: setup time; write this rule on the sheet) → action → Q after.
+4. Draw Q flat between lines.</p>
+<p><strong>Level-triggered (latch).</strong>
+1. Shade the enable windows.
+2. Inside: Q follows the table continuously (D latch: Q = D; JK latch: set, reset, hold; J = K = 1 → race-around, draw oscillation, value at closing unknown).
+3. Outside: Q holds.</p>
+<p><strong>Asynchronous inputs.</strong> CLR' = 0 forces Q = 0, PR' = 0 forces Q = 1, at once and for as long as asserted; edges resume afterwards.</p>
+<p><strong>MTE 2025 Q7 (positive-edge JK, Q₀ = 0):</strong> Q after ↑1–↑7 = 0, 0, 0, 0, 1, 0, 1.</p>
 <h2>Traps</h2>
 <ul>
-<li>Reading the inputs after the edge instead of before.</li>
-<li>Letting Q change between edges for a flip-flop (only a latch does).</li>
-<li>Using rising edges for a bubble (negative-edge) clock.</li>
-<li>Ignoring an asynchronous CLEAR that is active mid-cycle.</li>
+<li>Reading the inputs after the edge instead of just before it (or switching rules halfway through a diagram).</li>
+<li>Letting a flip-flop's Q change between edges: only a latch does that.</li>
+<li>Using rising edges when the clock pin has a bubble.</li>
+<li>Drawing a latch as if edge-sampled: inside a window Q follows every input change, including at the instant the window opens.</li>
+<li>Drawing a clean toggle for a JK latch with J = K = 1: it races.</li>
+<li>Waiting for the next edge after CLR' or PR' goes active.</li>
 </ul>
 <h2>Self-test</h2>
 <ol>
-<li>Positive-edge D flip-flop: D just before four edges is 1, 0, 0, 1. Q after each?</li>
-<li>Negative-edge T flip-flop, Q starts at 1, T = 1, 1, 0, 1. Q after each edge?</li>
-<li>Positive-edge SR flip-flop, Q = 0, SR before edges = 10, 00, 01, 00. Q after each?</li>
-<li>How does a D latch's waveform differ from a D flip-flop's for the same D and clock?</li>
-<li>A JK flip-flop with J = K = 1 is clocked at 8 kHz. What is the frequency of Q?</li>
+<li>Positive-edge D flip-flop, D just before four edges = 1, 0, 0, 1. Q after each?</li>
+<li>Negative-edge T flip-flop, Q₀ = 1, T just before four ↓ = 1, 1, 0, 1. Q after each?</li>
+<li>Positive-edge SR flip-flop, Q₀ = 0, S R just before four ↑ = 10, 00, 01, 00. Q after each?</li>
+<li>A D latch and a D flip-flop get the same D and the same clock. In one line, how do their Q waveforms differ?</li>
+<li>A JK flip-flop with J = K = 1 is clocked at 8 kHz. Frequency of Q?</li>
+<li>MTE Q7 again, but Q₀ = 1. Q after ↑1–↑7?</li>
 </ol>
 <div class="answers">
 <h2>Answers</h2>
-<p><strong>Check 1.</strong> J K before the falling edges: 10, 01, 11, 10, 01, 00, so <strong>Q = 1, 0, 1, 1, 0, 0</strong>: the same values, but every change comes half a clock period later.</p>
-<p><strong>Check 2.</strong> <strong>Q = 1, 1, 1, 0, 1, 1</strong>.</p>
+<p><strong>Check 1.</strong> (a) Before ↓1 … ↓6, D = <strong>1, 0, 1, 0, 1, 0</strong>: three of the four D pulses span a falling edge, so the negative-edge flip-flop catches them; the short one inside high time 3 ends before ↓3 and is missed. (b) <strong>None</strong>: Q can change only at an active edge.</p>
+<p><strong>Check 2.</strong> (a) <strong>K = 1</strong> (its old value). (b) <strong>J</strong> rises at ↑3; <strong>J = 0</strong> is read.</p>
+<p><strong>Check 3.</strong> (a) J K = 10 at ↑4 → set: Q = <strong>1 from ↑4</strong> (and still 1 after ↑5, since ↑5 is also a set). (b) ↑1: hold → <strong>1</strong>; ↑2: reset → <strong>0</strong>; ↑3: hold → <strong>0</strong>.</p>
+<p><strong>Check 4.</strong> (a) <strong>J = 0</strong> is read (with K = 1: reset, Q = 0). With J = 1, J K = 11 would toggle Q from 0 to <strong>1</strong>. (b) <strong>Flat at 1</strong> (the value set at ↓4).</p>
+<p><strong>Check 5.</strong> (a) EN's ↑ at squares 1, 9, 13, 23 (D just before = 0, 0, 0, 1): Q = <strong>0, 0, 0, 1</strong>. (b) The latch is transparent for the whole window; the flip-flop reads D only once, at the ↑.</p>
+<p><strong>Check 6.</strong> (a) In square 5 J K = 00 (hold), and in square 6 J K = 01 (reset): <strong>nothing sets it</strong>. (b) J K = 01 → <strong>Q = 0</strong> (reset), a clean single change.</p>
+<p><strong>Check 7.</strong> (a) Q jumps to <strong>1 at the PR' pulse</strong> and stays 1; at ↓3 J K = 10 sets it, so it is still 1. (b) <strong>Q = 0</strong>: CLR' overrides the set.</p>
 <p><strong>Self-test.</strong></p>
 <ol>
-<li><strong>1, 0, 0, 1</strong>.</li>
-<li><strong>0, 1, 1, 0</strong>.</li>
-<li><strong>1, 1, 0, 0</strong>.</li>
-<li>The latch follows every change of D while the enable is high; the flip-flop changes only at edges.</li>
-<li><strong>4 kHz</strong>.</li>
+<li><strong>1, 0, 0, 1.</strong></li>
+<li><strong>0, 1, 1, 0.</strong></li>
+<li><strong>1, 1, 0, 0.</strong></li>
+<li>The latch's Q follows D during the whole high time; the flip-flop's Q changes only at the edges, to the D just before each.</li>
+<li><strong>4 kHz</strong> (Q toggles at each active edge: half the clock frequency).</li>
+<li>↑1: hold → <strong>1</strong>; ↑2: reset → <strong>0</strong>; then as in step 3: <strong>0, 0, 1, 0, 1</strong>. Full list: <strong>1, 0, 0, 0, 1, 0, 1</strong>.</li>
 </ol>
 </div></body></html>

@@ -6,6 +6,9 @@ Figures and numbers are reused from the v1 pack (../../study-pack/pdf-ete/figs*.
 import sys
 from pathlib import Path
 
+import matplotlib  # Agg canvas: tools/figlib's overlap check needs get_renderer() (the svg backend has none)
+matplotlib.use("Agg")
+
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
 sys.path.insert(0, str(ROOT / "tools"))
@@ -52,6 +55,10 @@ for _i, _k in enumerate(_ARGS):
 
 import figs_u1  # noqa: E402  (v1.3 unit-1 figures, S1)
 ALL.update(figs_u1.FIGS)
+import figs_u3  # noqa: E402  (v1.3 unit-3 figures, S2: waveforms + figs_u3_sch schematics)
+ALL.update(figs_u3.FIGS)
+import matplotlib.pyplot as _plt  # noqa: E402  the v1 modules select the svg backend on import; figlib's check needs Agg
+_plt.switch_backend("Agg")
 
 ALL["adder_sub"] = lambda: figs1.ripple_adder(True)
 ALL["km_T1"] = lambda: _km([1, 3, 5, 7], [([1, 3, 5, 7], "T1 = Q0")])

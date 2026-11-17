@@ -190,3 +190,5 @@
 - 2026-11-17 (auto) S1 start: rebuild 01-03 (Boolean algebra, K-maps, NAND/NOR) to v1.3 + u1 checks in src/verify.py.
 
 - 2026-11-17 (auto) S1 done: 01 (10 steps), 02 (10), 03 (7) rebuilt to v1.3; src/figs_u1.py (25 figures); verify u1 -> 153 checks, 0 failures; build 12+15+10 pp, no OVERLAP; agy page check ok (2nd try); START-HERE rows/slips updated. Where we stopped: S1 complete. Next up: S2 (09 latches/flip-flops, 10 waveforms).
+
+- 2026-11-17 S2 start (auto): rebuild 09-latches-flip-flops + 10-waveforms to v1.3, src/figs_u3.py, verify u3.
