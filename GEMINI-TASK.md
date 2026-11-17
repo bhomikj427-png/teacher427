@@ -1,7 +1,8 @@
 # Gemini task — DE S0a: transcribe the course material, build the question bank
 
 > Written by Claude, 2026-11-17. Rules: `GEMINI.md`. Run in Antigravity (`agy`; Gemini CLI is retired
-> for individual accounts). Model: a Gemini Pro model (not Flash; not a Claude model).
+> for individual accounts). Model: Gemini Flash (the learner's plan has no Pro; not a Claude model).
+> Work one deck at a time (GEMINI.md rule 7); mark doubtful digits/symbols `[?]`.
 
 **Subject folder:** `subjects/sem-3/04-digital-electronics/` (all paths below are inside it).
 
