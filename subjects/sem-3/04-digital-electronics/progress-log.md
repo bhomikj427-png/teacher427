@@ -194,3 +194,6 @@
 - 2026-11-17 S2 start (auto): rebuild 09-latches-flip-flops + 10-waveforms to v1.3, src/figs_u3.py, verify u3.
 
 - 2026-11-17 (auto) session 5: rebuilt state after session 4 crash (token limit). Commit 51f85be holds 09 + 10 content rebuilt, src/figs_u3.py, src/figs_u3_sch.py, build.py import, verify u3; python src/verify.py -> 237 checks, 0 failures; 09/10 PDFs and combined PDF rebuilt. Not yet done: agy page check of 09/10, START-HERE rows, S2 sign-off. Operator stop requested; no further edits.
+
+- 2026-11-17 auto session 6: S2 close-out started (09/10 section check, build, page check, START-HERE)
+- 2026-11-17 auto session 6: S2 done. 09/10 section check (13 + 7 steps), build 09 10 00 no OVERLAP, agy page check 30 pp no problems (1st run timed out, retry ok), START-HERE how-checked = 237 checks, MTE Q7 sentence fixed. Next up: S3 (12 + 13 counters).

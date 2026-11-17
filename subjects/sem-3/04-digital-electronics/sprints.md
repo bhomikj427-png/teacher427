@@ -40,7 +40,7 @@ in `exam-pack/` (index: `exam-pack/README.md`): MTE 2025 paper, practice sets 1�
 |---|---|---|---|---|---|
 | S0 | **Brief**; plus `src/verify.py` started (v1.2 relies on the v1 pack's `study-pack/pdf-ete/verify.py`) | every file in `exam-pack/` · KB `00-map`, `exam-map` · old 00 (ranking) · v1 `verify.py` | `src/brief.md`: decks transcribed (diagram slides viewed), question bank (MTE + practice sets + deck examples → file + step), figure list per file (reuse from v1 `figs1/figs2` or `v1figs.json`, or new); `src/verify.py` skeleton importing the v1 checks | every MTE and practice-set question is mapped; v1 checks run from `src/verify.py` | split 2026-11-17: **S0a** Gemini transcribes decks/MTE/practice sets → brief §1–§2 (`GEMINI-TASK.md`); **S0b** Claude reviews S0a, writes §3–§5 + `src/verify.py` · **done** 2026-11-17 (S0a + S0b) |
 | S1 | **01 + 02 + 03** Boolean algebra; K-maps; NAND/NOR | old 01–03 · KB `01` · decks 01, 02 · MTE Q1, Q4 · set 1 Q1, Q2, Q4 | `01-…`, `02-…`, `03-…` rebuilt (a/b if > 13 steps), `src/figs_u1.py` | protocol 6–12 hold; every minimisation checked by truth table in verify | **done** 2026-11-17 (01: 10 steps, 02: 10, 03: 7; no split) |
-| S2 | **09 + 10** latches and flip-flops; waveforms | old 09, 10 · KB `03` · deck 08 · MTE Q3, Q7 · set 2 Q1–Q3 | `09-…`, `10-…` rebuilt, `src/figs_u3.py` | same; every waveform answer simulated in verify | |
+| S2 | **09 + 10** latches and flip-flops; waveforms | old 09, 10 · KB `03` · deck 08 · MTE Q3, Q7 · set 2 Q1–Q3 | `09-…`, `10-…` rebuilt, `src/figs_u3.py` | same; every waveform answer simulated in verify | **done** 2026-11-17 (sessions 4–6; 09: 13 steps, 10: 7; no split) |
 | S3 | **12 + 13** ripple counters; synchronous counters (rank 1: the MTE's only 8-mark question) | old 12, 13 · KB `03` · deck 10 · set 2 Q4–Q6 | `12-…`, `13-…` rebuilt (13a/13b likely) | same; every counter's state sequence simulated in verify | |
 | S4 | **15 + 16** FSM design; state reduction, ASM | old 15, 16 · KB `04` · decks 11, 12, 13 | `15-…`, `16-…` rebuilt, `src/figs_u4.py` | same; the five detectors on deck 11's last slide simulated in verify | |
 | S5 | **05 + 06** MUX/DEMUX; decoder/encoder | old 05, 06 · KB `02` · decks 04, 05 · MTE Q5, Q6 · set 1 Q3, Q5–Q8 | `05-…`, `06-…` rebuilt, `src/figs_u2.py` | same | |
@@ -78,22 +78,23 @@ sprint reads them first.
 ## Current hand-off
 
 ```
-Sprint: S2 — 09 + 10 latches/flip-flops, waveforms — IN PROGRESS (session 4 crashed at token limit;
-  session 5 rebuilt state, then stopped on operator request)
-Written (session 4, commit 51f85be): content/09-latches-flip-flops.md and content/10-waveforms.md
-  rebuilt to v1.3; src/figs_u3.py + src/figs_u3_sch.py (build.py imports them); verify.py unit u3;
-  html/pdf for 09, 10 and the combined PDF rebuilt
-Verified (session 5): python src/verify.py -> 237 checks, 0 failures (153 u1 + 84 u3)
-Not yet checked: whether 09/10 have every step, Check, self-test and Exam form the protocol asks
-  (read each file's header/map + grep '^## ' to confirm, step counts, a/b split if > 13 steps);
-  build output for OVERLAP lines; agy contact-sheet check of 09 and 10; 00-START-HERE rows for
-  09/10 + how-checked line; S2 row in the sprint table marked done
+Sprint: S2 — 09 + 10 latches/flip-flops, waveforms — done (2026-11-17, sessions 4–6)
+Written: content/09-latches-flip-flops.md (13 steps: feedback, NOR/NAND/gated SR, D latch, clock,
+  latch vs FF, D/SR/JK/T FFs, race-around + master-slave, excitation, conversion; running example
+  JK 10,00,01,11,11 -> Q 1,1,0,1,0); content/10-waveforms.md (7 steps: reading timing diagrams,
+  edge rule, MTE Q7 +ve and -ve edge, D latch, JK latch race-around, async clear/preset);
+  src/figs_u3.py + src/figs_u3_sch.py; verify.py unit u3; 00-START-HERE: how-checked line
+  (237 checks) and the stale "MTE Q7 image missing" sentence replaced
+Verified this sprint: numbers: src/verify.py 237 checks, 0 failures (153 u1 + 84 u3, session 5);
+  build 09 10 00: no OVERLAP; agy page check of 09 (19 pp) + 10 (11 pp): no problems
 Open (carried): deck-14 numbers (backlog -> S8); EX 2.69 d-list (pack uses d(3,4,9))
-Assumptions to review: 6, 7 (persistent section)
-Helpers: none this session (state rebuild only)
-Next: finish S2 — first action: grep '^## |^### ' in content/09 and content/10 to see what was
-  written; complete any missing section; run build (filter for OVERLAP), agy page check of 09+10,
-  update START-HERE, mark S2 done; then S3 (12 + 13 counters)
-Read at start: this hand-off · S2 row · ../../../study-pack-sprint-protocol.md · content/09, 10
-  by heading ranges only (do not re-read whole; session 4 died from context size)
+Decisions made: no a/b split for 09 (13 steps = limit); schematic figures carry no "What this
+  graph plots" line (only timing diagrams and K-maps do)
+Assumptions to review: none new (6, 7 still open)
+Helpers: agy page check (first run timed out at 900 s while making its own zoom renders; retry
+  with "do not render" finished); no subagent (no new figures this session)
+Next sprint: S3 — 12 + 13 ripple and synchronous counters — first action: grep '^## |^### ' in
+  old content/12 and 13 and the brief's S3 section; plan steps (13a/13b likely)
+Read at start: this hand-off + S3 row · ../../../study-pack-sprint-protocol.md · brief section for
+  12-13 · old 12, 13 by heading ranges · 09 header + Symbols (lines 1-30) · KB 03 counter sections
 ```

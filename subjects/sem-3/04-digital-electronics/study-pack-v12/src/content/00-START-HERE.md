@@ -78,7 +78,7 @@ Each file needs the ones before it. 02 is Boolean algebra drawn as a grid. 05–
 
 A step opens with a **real question, quoted**, wherever the professor's material has one, tagged with its source: <span class="tag">MTE 2025 Q8</span> = the mid-term paper of 25 Sep 2025, <span class="tag">Set 2 Q5</span> = practice set 2, <span class="tag">Deck 10 slide 34</span> = a worked example on a slide. Where there is none, the step opens with a **Predict** prompt instead, or a problem tagged <span class="tag">practice</span>.
 
-All eight mid-term questions are worked in the pack. Mid-term Q7's waveform image is missing from our copy of the paper, so 10 uses a practice waveform in the same form.
+All eight mid-term questions are worked in the pack. Mid-term Q7's waveform is redrawn from the paper in 10 step 2 and worked in step 3.
 
 ## How each file runs
 
@@ -114,5 +114,5 @@ When you reach a **Guess first** box, write a guess on paper **before** reading 
 ## How this pack was checked
 
 - Facts: the subject knowledge base (Anand Kumar, Jain, Brown & Vranesic, Mano).
-- Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 `verify.py`, 192 checks, plus `src/verify.py`: 153 checks, every expression in 01–03 included).
+- Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 `verify.py`, 192 checks, plus `src/verify.py`: 237 checks: every expression in 01–03, and every latch/flip-flop table, conversion and waveform answer in 09–10 simulated).
 - Where a slide has a slip, the pack uses the corrected version and says so in a Note.

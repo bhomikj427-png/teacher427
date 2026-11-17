@@ -110,9 +110,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <tr>
 <td>3</td>
 <td><strong>02 K-map</strong></td>
-<td>Mid-term Q4 (4 marks); practice set 1 Q1, Q2</td>
-<td>02 don't-cares</td>
-<td>45 min</td>
+<td>Mid-term Q4 (4 marks); practice set 1 Q1, Q4</td>
+<td>02 §7 don't-cares (MTE Q4)</td>
+<td>60 min</td>
 </tr>
 <tr>
 <td>4</td>
@@ -173,9 +173,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <tr>
 <td>12</td>
 <td><strong>01, 03 Boolean algebra, NAND/NOR</strong></td>
-<td>Mid-term Q1 (2 marks)</td>
-<td>03 NOR-only</td>
-<td>30 min</td>
+<td>Mid-term Q1 (2 marks); practice set 1 Q2 and Q1's circuit</td>
+<td>03 §2 (MTE Q1), §6 (map → NAND)</td>
+<td>60 min</td>
 </tr>
 <tr>
 <td>13</td>
@@ -239,14 +239,14 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <tr>
 <td>02</td>
 <td>U1</td>
-<td>K-maps (3, 4, 5 variables), don't-cares, POS</td>
-<td>MTE Q4, set 1 Q1–Q2</td>
+<td>K-maps (2–5 variables), prime and essential implicants, don't-cares, POS, word problem</td>
+<td>MTE Q4, set 1 Q1, Q4</td>
 </tr>
 <tr>
 <td>03</td>
 <td>U1</td>
-<td>universal gates, NAND-only, NOR-only</td>
-<td>MTE Q1</td>
+<td>universal gates, NAND–NAND, multi-level NAND, NOR–NOR, XOR from NAND</td>
+<td>MTE Q1, set 1 Q1–Q2</td>
 </tr>
 <tr>
 <td>04</td>
@@ -354,7 +354,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 </table>
 <h2>Where the questions come from</h2>
 <p>A step opens with a <strong>real question, quoted</strong>, wherever the professor's material has one, tagged with its source: <span class="tag">MTE 2025 Q8</span> = the mid-term paper of 25 Sep 2025, <span class="tag">Set 2 Q5</span> = practice set 2, <span class="tag">Deck 10 slide 34</span> = a worked example on a slide. Where there is none, the step opens with a <strong>Predict</strong> prompt instead, or a problem tagged <span class="tag">practice</span>.</p>
-<p>All eight mid-term questions are worked in the pack. Mid-term Q7's waveform image is missing from our copy of the paper, so 10 uses a practice waveform in the same form.</p>
+<p>All eight mid-term questions are worked in the pack. Mid-term Q7's waveform is redrawn from the paper in 10 step 2 and worked in step 3.</p>
 <h2>How each file runs</h2>
 <table>
 <thead>
@@ -415,6 +415,18 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>the expansion of bc' gives a'bc' (row 2); a'bc is row 3, where f = 0</td>
 </tr>
 <tr>
+<td>Deck 02 slide 28 (02)</td>
+<td>F(a, b, c) = Σm(2, 4, 5, 7) under the map</td>
+<td>Σm(2, 3, 6, 7)</td>
+<td>the map and slide 27 both use 2, 3, 6, 7</td>
+</tr>
+<tr>
+<td>Deck 01 slide 41 (03)</td>
+<td>circuit output labelled Z</td>
+<td>F</td>
+<td>Z is already an input of the circuit</td>
+</tr>
+<tr>
 <td>Deck 15 slide 28 (19)</td>
 <td>F<sub>2</sub>(A, B, C), F<sub>3</sub>(A, B, C) with minterms up to 15</td>
 <td>functions of A, B, C, D</td>
@@ -431,6 +443,6 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <h2>How this pack was checked</h2>
 <ul>
 <li>Facts: the subject knowledge base (Anand Kumar, Jain, Brown &amp; Vranesic, Mano).</li>
-<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (<code>verify.py</code>, 192 checks).</li>
+<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 <code>verify.py</code>, 192 checks, plus <code>src/verify.py</code>: 237 checks: every expression in 01–03, and every latch/flip-flop table, conversion and waveform answer in 09–10 simulated).</li>
 <li>Where a slide has a slip, the pack uses the corrected version and says so in a Note.</li>
 </ul></body></html>
