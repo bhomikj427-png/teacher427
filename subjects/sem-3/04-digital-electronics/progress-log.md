@@ -216,3 +216,5 @@
 - 2026-11-17 session 11 (auto-v2): rebuilt state from 5b1e6ae (session 10 crashed, usage limit): S4 START-HERE rows/slips/how-checked committed; agy page check of 15/16 result not recorded (retry was running at crash); S5 started: verify_u2.py (63 checks) + figs_u2.py (15 figures) wired, content 05/06 not yet written. Operator stop request at session start: hand-off rewritten only, no other work.
 - 2026-11-17 session 12 (auto-v2): S5 continue: write 05 + 06 to v1.3 from verify_u2.py and figs_u2.py; build; page check.
 - 2026-11-18 session 12: S5 done: 05 (10 steps) and 06 (10 steps) rebuilt to v1.3; verify 450/0; build no OVERLAP; agy page checks 05, 06, 15, 16 clean; START-HERE, mock, sources.md updated. Next: S6.
+
+- 2026-11-18 auto session 13: S6 start (04 + 07 + 08). verify.py 450 checks, 0 failures.

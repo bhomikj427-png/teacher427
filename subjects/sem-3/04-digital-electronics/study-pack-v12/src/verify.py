@@ -746,7 +746,14 @@ def u2():
     m.u2()
 
 
-UNITS = {"u0": u0, "u1": u1, "u2": u2, "u3": u3, "u3c": u3c, "u4": u4}
+def u2b():
+    """Files 04, 07, 08 (adders; display, comparator, parity; shifter, ALU), S6: checks in verify_u2b.py."""
+    import verify_u2b as m
+    m.__dict__.update(ok=ok, fn=fn)
+    m.u2b()
+
+
+UNITS = {"u0": u0, "u1": u1, "u2": u2, "u3": u3, "u3c": u3c, "u4": u4, "u2b": u2b}
 
 
 def main(argv):
