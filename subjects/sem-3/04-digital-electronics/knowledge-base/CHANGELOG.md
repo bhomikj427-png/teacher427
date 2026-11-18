@@ -64,3 +64,5 @@
 - 2026-11-18 (S7): KB 03 §5 gains the 74194 mode table (Nexperia data sheet); §6 gains clock skew in the setup and hold inequalities (UCSD CSE140 + Cornell ECE4740).
 
 - 2026-11-19 (S8): KB05 *Open* block replaced by *Data-sheet numbers and deck-14 checks*: SN7400 and SN74HC00 tables, timing definitions, PDP settled (TI sheets, UMBC, Cambridge); §4's 0.45 V_DD marked typical-4000 only; CMOS fan-out, 4000 supply, ECL levels stay `uncertain`.
+
+- 2026-11-19 (S9): KB 04 §3 gains switch bounce and the SPDT + SR-latch debouncer (Utah CS 5780, UNC Charlotte ECGR 2156); §5's 555 formulas re-checked at the TI NE555 data sheet SLFS022K (eq. 1–6, t_w = 1.1 R_A C): no change.

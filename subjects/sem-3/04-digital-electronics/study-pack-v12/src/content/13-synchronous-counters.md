@@ -487,9 +487,6 @@ $$J0 = Q2Q1 + Q2'Q1' = (Q2 ⊕ Q1)'  ·  K0 = Q2'Q1 + Q2Q1' = Q2 ⊕ Q1$$
 
 $$J1 = Q2'Q0,  K1 = Q2Q0  ·  J2 = Q1Q0',  K2 = Q1'Q0'$$
 
-:::note Slip in deck 10 slide 36 (as transcribed)
-Slide 36's maps read J1 = Q2'Q0' and K1 = Q2Q0'. FF1 must set only in state 001 (→ 011) and reset only in 111 (→ 101), both with Q0 = 1, so the correct terms are **J1 = Q2'Q0, K1 = Q2Q0**, as slide 37's circuit has them. `uncertain`: the slide image was not re-viewed this session; the pack uses slide 37's equations, which verify.py checks by simulating the counter.
-:::
 
 **Answer.** The six equations above (deck 10 slide 37). Simulated from 000 the counter goes 001, 011, 010, 110, 111, 101, 100, 000, with **exactly one flip-flop toggling per clock**, so a decoder on the outputs never sees two bits changing at once.
 

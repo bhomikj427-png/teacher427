@@ -184,8 +184,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>Moore output in circle, Mealy on arrow · partition by outputs, then by next-state blocks</td>
 </tr>
 <tr>
-<td>17 Generators, async</td>
-<td>LFSR 2<sup>n</sup> − 1 · 555 f = 1.44/((R<sub>1</sub> + 2R<sub>2</sub>)C) · ring f = 1/(2Nt<sub>pd</sub>) · add consensus terms</td>
+<td>17 Timing, generators, async</td>
+<td>register decoded outputs · 2-flip-flop synchronizer · LFSR 2<sup>n</sup> − 1, all-zeros lock-out · MOD-N/2 + T flip-flop for 50 % · 555 f = 1.44/((R<sub>1</sub> + 2R<sub>2</sub>)C), duty (R<sub>1</sub> + R<sub>2</sub>)/(R<sub>1</sub> + 2R<sub>2</sub>), T = 1.1RC · ring f = 1/(2Nt<sub>pd</sub>), N odd · one-bit state codes · every adjacent pair of 1s in one group</td>
 </tr>
 <tr>
 <td>18 Families</td>

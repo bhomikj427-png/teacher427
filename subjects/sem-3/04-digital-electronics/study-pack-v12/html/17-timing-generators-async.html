@@ -78,168 +78,1601 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 .c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
 .c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
 .c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>17 — Timing issues, generators, asynchronous circuits</h1>
-<div class="sub">Syllabus Unit 4 items with no deck coverage: practice questions only (one from Anna University EC6302) · needs 14 (setup and hold) and 11 (shift registers)</div>
+<div class="sub">Syllabus Unit 4 items with no deck slides (built from the KB; one practice question from Anna University EC6302) · needs 14 (setup, hold, clock skew), 11 (shift registers), 12 and 13 (counters), 09 steps 2–3 (the NOR and NAND latches) and 02 (K-map groups)</div>
 
 <h2>Map</h2>
-<div class="map"><span class="n here">1 Skew, glitches, metastability</span><span class="a">→</span><span class="n">2 LFSR, pulse trains, clocks</span><span class="a">→</span><span class="n">3 Races and hazards</span></div>
+<div class="map"><span class="n here">1 Decoding glitches</span><span class="a">→</span><span class="n">2 Metastability</span><span class="a">→</span><span class="n">3 Switch bounce</span><span class="a">→</span><span class="n">4 The LFSR</span><span class="a">→</span><span class="n">5 Maximal length, lock-out</span><span class="a">→</span><span class="n">6 Pulse trains</span><span class="a">→</span><span class="n">7 Dividing a clock</span><span class="a">→</span><span class="n">8 The 555</span><span class="a">→</span><span class="n">9 Ring oscillator</span><span class="a">→</span><span class="n">10 Asynchronous circuits</span><span class="a">→</span><span class="n">11 Races</span><span class="a">→</span><span class="n">12 Static hazards</span><span class="a">→</span><span class="n">13 Hazard-free design</span></div>
 
-<p>Three syllabus lines the decks skip: what goes wrong with real clocks and inputs, circuits that generate sequences and clocks, and circuits with no clock at all.</p>
+<p>File 14 timed one path between two flip-flops on a clean clock. This file covers the rest of syllabus Unit 4, in three parts. <strong>Timing issues</strong> (steps 1–3): what goes wrong when outputs are decoded from several flip-flops, when an input is not tied to the clock, and when the input is a mechanical switch. (Clock skew is in 14 step 7.) <strong>Generators</strong> (steps 4–9): circuits that make sequences, pulse trains and clocks. <strong>Asynchronous circuits</strong> (steps 10–13): circuits with no clock at all, and the two faults that come with that: races and hazards.</p>
+<h2>Symbols</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>What it means in this file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q<sub>1</sub> … Q<sub>n</sub></td>
+<td>flip-flop outputs of a shift register; data shift Q<sub>1</sub> → Q<sub>2</sub> → … → Q<sub>n</sub></td>
+</tr>
+<tr>
+<td>D<sub>1</sub></td>
+<td>the input of the first flip-flop (the feedback in an LFSR)</td>
+</tr>
+<tr>
+<td>⊕</td>
+<td>XOR: 1 when its inputs differ</td>
+</tr>
+<tr>
+<td>t<sub>pd</sub></td>
+<td>propagation delay of one gate or one flip-flop (clock to Q)</td>
+</tr>
+<tr>
+<td>t<sub>su</sub>, t<sub>h</sub></td>
+<td>setup and hold time of a flip-flop (file 14)</td>
+</tr>
+<tr>
+<td>R<sub>1</sub>, R<sub>2</sub>, C</td>
+<td>the 555's timing resistors and capacitor (TI's data sheet calls them R<sub>A</sub>, R<sub>B</sub>)</td>
+</tr>
+<tr>
+<td>t<sub>H</sub>, t<sub>L</sub></td>
+<td>time the output is high, low, in one period</td>
+</tr>
+<tr>
+<td>N</td>
+<td>number of inverters in a ring oscillator; or the modulus of a counter</td>
+</tr>
+<tr>
+<td>y</td>
+<td>a state variable of an asynchronous circuit (the signal fed back)</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>the value the logic is driving y towards (the next state)</td>
+</tr>
+</tbody>
+</table>
+<h2>Running example</h2>
+<p>The generator part carries one circuit: the <strong>3-bit LFSR</strong> with D<sub>1</sub> = Q<sub>2</sub> ⊕ Q<sub>3</sub>, started at Q<sub>1</sub>Q<sub>2</sub>Q<sub>3</sub> = 100. Step 4 traces it, step 5 asks why it never reaches 000, step 6 compares it with a ring that repeats a chosen pattern. The asynchronous part carries the EC6302 function f(A, B, C, D) = ΠM(0, 2, 6, 7, 8, 10, 12) to its hazard-free form in step 13.</p>
 <h2>The questions this file answers</h2>
 <ul>
+<li><span class="tag">practice</span> A counter's output is decoded from two flip-flops and shows short false pulses. Why, and how is it cured?</li>
 <li><span class="tag">practice</span> A push-button goes straight into a 100 MHz system. What can go wrong, and how is it fixed?</li>
-<li><span class="tag">practice</span> A 3-bit LFSR with D<sub>1</sub> = Q<sub>2</sub> ⊕ Q<sub>3</sub> starts at 100. List its states.</li>
-<li><span class="tag">EC6302 Nov 2021 · 13 marks</span> Objective of state assignment in an asynchronous circuit; hazard-free realisation of f = ΠM(0, 2, 6, 7, 8, 10, 12).</li>
+<li><span class="tag">practice</span> A 3-bit LFSR with D<sub>1</sub> = Q<sub>2</sub> ⊕ Q<sub>3</sub> starts at 100. List its states and its sequence length.</li>
+<li><span class="tag">practice</span> A 555 astable with R<sub>1</sub> = 1 kΩ, R<sub>2</sub> = 10 kΩ, C = 10 nF: frequency and duty cycle.</li>
+<li><span class="tag">EC6302 Nov/Dec 2021 Q15(b) · 13 marks</span> What is the objective of state assignment in an asynchronous circuit? Give the hazard-free realisation of f(A, B, C, D) = ΠM(0, 2, 6, 7, 8, 10, 12).</li>
 </ul>
+<p>No deck covers these topics, so the steps open on Predict prompts.</p>
 <hr />
 <h2>Build</h2>
-<h3>1 · Skew, glitches and metastability</h3>
-<div class="box q">
-<div class="bh"><span class="tag">practice</span></div>
-<p>A push-button signal is connected straight into a 100 MHz synchronous system. What can go wrong, and how is it fixed?</p>
-</div>
+<h3>1 · Glitches from decoded state bits</h3>
+<p>File 13 drew counters as if all flip-flops change at the same instant. They change at the same clock edge, but each one has its own clock-to-Q delay.</p>
 <div class="box guess">
-<div class="bh">Guess first</div>
-<p>The button is pressed at a random moment. What does 14 say about a D input that changes right at a clock edge?</p>
+<div class="bh">Predict</div>
+<p>A 2-bit counter goes 00 → 01 → 10 → 11. An AND gate decodes state 00: Y = Q<sub>1</sub>'Q<sub>0</sub>'. On the edge from 01 to 10, Q<sub>0</sub> happens to fall 2 ns before Q<sub>1</sub> rises. What does Y do in those 2 ns?</p>
 </div>
-<ul>
-<li><strong>Clock skew:</strong> the clock reaches flip-flops at slightly different times. A late receiving clock eats the <strong>hold</strong> margin (a slower clock cannot fix it); the other way eats setup. Fix: balanced clock routing.</li>
-<li><strong>Output glitches:</strong> a Mealy output, or one decoded from several state bits, can pulse falsely while inputs or bits change. Fix: take the output from a flip-flop (Moore style).</li>
-<li><strong>Asynchronous inputs, metastability:</strong> an unclocked input sometimes changes inside the setup/hold window and the flip-flop hangs between 0 and 1. Fix: a <strong>synchronizer</strong>, two D flip-flops in series on the system clock; the second gives the first a whole period to settle.</li>
-</ul>
-<p><strong>Answer.</strong> The button can change inside a setup/hold window, so a flip-flop goes metastable and different flip-flops may read different values. It also <strong>bounces</strong> (several pulses per press). Fix: debounce (SR latch on a two-way switch, or RC + Schmitt trigger), then a two-flip-flop synchronizer.</p>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Glitch:</strong> a short pulse on a signal that should not change at all (or should change once). <strong>Decoded output:</strong> an output formed by gates from several state bits, like Y = Q<sub>1</sub>'Q<sub>0</sub>'. <strong>Registered output:</strong> an output taken straight from a flip-flop.</p>
+</div>
+
+<figure style="max-width:78%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 480.686134 268.043938" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-19T01:14:50.185449</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 268.043938 
+L 480.686134 268.043938 
+L 480.686134 0 
+L 0 0 
+L 0 268.043938 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 59.765041 235.728 
+L 472.685041 235.728 
+L 472.685041 2.88 
+L 59.765041 2.88 
+L 59.765041 235.728 
+z
+" style="fill: none"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 235.256041 213.978462 
+L 255.902041 213.978462 
+L 255.902041 73.246154 
+L 235.256041 73.246154 
+z
+" clip-path="url(#pd697bfd688)" style="fill: #d92d20; opacity: 0.12"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 162.995041 228.051692 
+L 162.995041 23.350154 
+" clip-path="url(#pd697bfd688)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 235.256041 228.051692 
+L 235.256041 23.350154 
+" clip-path="url(#pd697bfd688)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 255.902041 228.051692 
+L 255.902041 23.350154 
+" clip-path="url(#pd697bfd688)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_4">
+      <defs>
+       <path id="mcce9861a44" d="M 0 0 
+L 0 3.5 
+" style="stroke: #1c1f24; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mcce9861a44" x="59.765041" y="235.728" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="59.765041" y="249.760969" transform="rotate(-0 59.765041 249.760969)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#mcce9861a44" x="111.380041" y="235.728" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="111.380041" y="249.760969" transform="rotate(-0 111.380041 249.760969)">5</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#mcce9861a44" x="162.995041" y="235.728" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="162.995041" y="249.760969" transform="rotate(-0 162.995041 249.760969)">10</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#mcce9861a44" x="214.610041" y="235.728" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="214.610041" y="249.760969" transform="rotate(-0 214.610041 249.760969)">15</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#mcce9861a44" x="266.225041" y="235.728" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="266.225041" y="249.760969" transform="rotate(-0 266.225041 249.760969)">20</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#mcce9861a44" x="317.840041" y="235.728" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="317.840041" y="249.760969" transform="rotate(-0 317.840041 249.760969)">25</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#mcce9861a44" x="369.455041" y="235.728" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="369.455041" y="249.760969" transform="rotate(-0 369.455041 249.760969)">30</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_11">
+      <g>
+       <use xlink:href="#mcce9861a44" x="421.070041" y="235.728" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="421.070041" y="249.760969" transform="rotate(-0 421.070041 249.760969)">35</text>
+     </g>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#mcce9861a44" x="472.685041" y="235.728" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="472.685041" y="249.760969" transform="rotate(-0 472.685041 249.760969)">40</text>
+     </g>
+    </g>
+    <g id="text_10">
+     <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="266.225041" y="262.978938" transform="rotate(-0 266.225041 262.978938)">time (ns)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2"/>
+   <g id="line2d_13">
+    <path d="M 59.765041 54.055385 
+L 162.995041 54.055385 
+L 162.995041 28.467692 
+L 317.840041 28.467692 
+L 317.840041 54.055385 
+L 472.685041 54.055385 
+" clip-path="url(#pd697bfd688)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_14">
+    <path d="M 59.765041 105.230769 
+L 255.902041 105.230769 
+L 255.902041 79.643077 
+L 472.685041 79.643077 
+" clip-path="url(#pd697bfd688)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_15">
+    <path d="M 59.765041 130.818462 
+L 235.256041 130.818462 
+L 235.256041 156.406154 
+L 472.685041 156.406154 
+" clip-path="url(#pd697bfd688)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_16">
+    <path d="M 59.765041 207.581538 
+L 235.256041 207.581538 
+L 235.256041 181.993846 
+L 255.902041 181.993846 
+L 255.902041 207.581538 
+L 472.685041 207.581538 
+" clip-path="url(#pd697bfd688)" style="fill: none; stroke: #d92d20; stroke-width: 2; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 59.765041 235.728 
+L 472.685041 235.728 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_11">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="51.506641" y="43.685523" transform="rotate(-0 51.506641 43.685523)">CLK</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="51.506641" y="94.860907" transform="rotate(-0 51.506641 94.860907)">Q1</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="51.506641" y="146.036292" transform="rotate(-0 51.506641 146.036292)">Q0</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="51.506641" y="197.211677" transform="rotate(-0 51.506641 197.211677)">Y = Q1'Q0'</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="111.380041" y="17.842674" transform="rotate(-0 111.380041 17.842674)">state 01</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="395.262541" y="17.842674" transform="rotate(-0 395.262541 17.842674)">state 10</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 236.821288 220.375385 
+Q 245.579041 220.375385 254.336793 220.375385 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 240.821288 222.375385 
+L 236.821288 220.375385 
+L 240.821288 218.375385 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 250.336793 218.375385 
+L 254.336793 220.375385 
+L 250.336793 222.375385 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_17">
+    <text style="fill: #d92d20; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="263.128141" y="222.832025" transform="rotate(-0 263.128141 222.832025)">glitch: state 00 for 2 ns</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pd697bfd688">
+   <rect x="59.765041" y="2.88" width="412.92" height="232.848"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>What this graph plots: time across (ns), one row per signal, high = 1. The clock edge at 10 ns moves the counter from 01 to 10; Q0 falls at 17 ns, Q1 rises at 19 ns, so for 2 ns the bits read 00 and the decoder output Y pulses.</figcaption></figure>
+
+<p>When two bits change on one edge, the circuit passes through an in-between state for as long as the delays differ. From 01 to 10 there are two possible in-between states:</p>
+<ol>
+<li>Q<sub>0</sub> first: 01 → <strong>00</strong> → 10.</li>
+<li>Q<sub>1</sub> first: 01 → <strong>11</strong> → 10.</li>
+</ol>
+<p>Any gate that decodes the in-between state gives a short false pulse. Glitches do not matter to logic that is only read at the next clock edge: by then everything has settled. They do matter when the output drives something that reacts at once: a clock input, an asynchronous clear, a counter in another clock domain.</p>
+<p><strong>The cure: register the output.</strong> Compute the output one state early and store it in a flip-flop on the same clock. Y must be 1 in state 00, and the state before 00 is 11, so the flip-flop's input is D<sub>Y</sub> = Q<sub>1</sub>Q<sub>0</sub>. Y then comes from a flip-flop and changes once per edge. This is the Moore-style output of file 15: an output that depends only on the state, taken from a register, is glitch-free.</p>
+<p><strong>Answer to the Predict.</strong> For those 2 ns the bits read 00, so <strong>Y gives a 2 ns false pulse</strong> (shifted by the AND gate's delay). Q<sub>1</sub> rising first would have given 11 instead, and no pulse on this Y.</p>
 <div class="box check">
 <div class="bh">Check 1</div>
-<p>(a) Which violation can a lower clock frequency cure: setup or hold? (b) Why are Moore outputs glitch-free when Mealy outputs are not?</p>
+<p>(a) A 3-bit up counter has an output Y that decodes state 000. On which transitions can Y give a false pulse? (b) Write D<sub>Y</sub> for the registered version of that Y.</p>
 </div>
-<h3>2 · LFSR, pulse trains and clocks</h3>
-<div class="box q">
-<div class="bh"><span class="tag">practice</span></div>
-<p>A 3-bit shift register has its input fed by D<sub>1</sub> = Q<sub>2</sub> ⊕ Q<sub>3</sub> and starts at Q<sub>1</sub>Q<sub>2</sub>Q<sub>3</sub> = 100. List its states and find the sequence length.</p>
-</div>
+<h3>2 · Asynchronous inputs and metastability</h3>
+<p>Step 1's in-between states come from the circuit's own delays. An input from outside, with no link to the clock, makes a worse fault.</p>
 <div class="box guess">
-<div class="bh">Guess first</div>
-<p>3 flip-flops have 8 states. Can it reach 000 from 100? What if it starts at 000?</p>
+<div class="bh">Predict</div>
+<p>A push-button signal goes straight into a flip-flop clocked at 100 MHz. The button can be pressed at any moment. What does file 14 step 4 say about a D input that changes inside the setup/hold window?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Asynchronous input:</strong> a signal that can change at any time relative to the clock (a button, a sensor, data from a system on another clock). <strong>Metastability:</strong> when D changes inside the setup/hold window, the flip-flop's output can hang between 0 and 1 for an unpredictable time, then fall to either value. <strong>Synchronizer:</strong> two D flip-flops in series on the system clock; the asynchronous signal enters the first, the system reads only the second.</p>
 </div>
 
-<figure style="max-width:60%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 389.659279 138.816" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.834760</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 138.816 L 389.659279 138.816 L 389.659279 0 L 0 0 L 0 138.816 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 61.773639 77.042361 L 114.123541 77.042361 Q 116.304787 77.042361 116.304787 74.861115 L 116.304787 31.236197 Q 116.304787 29.054951 114.123541 29.054951 L 61.773639 29.054951 Q 59.592393 29.054951 59.592393 31.236197 L 59.592393 74.861115 Q 59.592393 77.042361 61.773639 77.042361 z " clip-path="url(#p178827a605)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_3"> <path d="M 83.586098 77.042361 L 87.94859 70.062374 L 92.311082 77.042361 L 83.586098 77.042361 z " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_4"> <path d="M 116.304787 39.96118 Q 138.117246 39.96118 158.647705 39.96118 " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 154.647705 37.608239 L 158.647705 39.96118 L 154.647705 42.314122 z " clip-path="url(#p178827a605)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_5"> <path d="M 162.110951 77.042361 L 214.460852 77.042361 Q 216.642098 77.042361 216.642098 74.861115 L 216.642098 31.236197 Q 216.642098 29.054951 214.460852 29.054951 L 162.110951 29.054951 Q 159.929705 29.054951 159.929705 31.236197 L 159.929705 74.861115 Q 159.929705 77.042361 162.110951 77.042361 z " clip-path="url(#p178827a605)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_6"> <path d="M 183.92341 77.042361 L 188.285902 70.062374 L 192.648393 77.042361 L 183.92341 77.042361 z " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_7"> <path d="M 216.642098 39.96118 Q 238.454557 39.96118 258.985016 39.96118 " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 254.985016 37.608239 L 258.985016 39.96118 L 254.985016 42.314122 z " clip-path="url(#p178827a605)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_8"> <path d="M 262.448262 77.042361 L 314.798164 77.042361 Q 316.97941 77.042361 316.97941 74.861115 L 316.97941 31.236197 Q 316.97941 29.054951 314.798164 29.054951 L 262.448262 29.054951 Q 260.267016 29.054951 260.267016 31.236197 L 260.267016 74.861115 Q 260.267016 77.042361 262.448262 77.042361 z " clip-path="url(#p178827a605)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_9"> <path d="M 284.260721 77.042361 L 288.623213 70.062374 L 292.985705 77.042361 L 284.260721 77.042361 z " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_10"> <path d="M 37.779934 39.96118 Q 48.686164 39.96118 58.310393 39.96118 " clip-path="url(#p178827a605)" style="fill: none; stroke: #b23fbf; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 54.310393 37.608239 L 58.310393 39.96118 L 54.310393 42.314122 z " clip-path="url(#p178827a605)" style="fill: #b23fbf; stroke: #b23fbf; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_11"> <path d="M 37.779934 77.914859 C 40.325216 77.914859 42.766593 76.903608 44.566379 75.103822 C 46.366165 73.304035 47.377416 70.862659 47.377416 68.317377 C 47.377416 65.772095 46.366165 63.330719 44.566379 61.530932 C 42.766593 59.731146 40.325216 58.719895 37.779934 58.719895 C 35.234652 58.719895 32.793276 59.731146 30.99349 61.530932 C 29.193704 63.330719 28.182452 65.772095 28.182452 68.317377 C 28.182452 70.862659 29.193704 73.304035 30.99349 75.103822 C 32.793276 76.903608 35.234652 77.914859 37.779934 77.914859 z " clip-path="url(#p178827a605)" style="fill: #ffffff; stroke: #b23fbf; stroke-width: 1.5; stroke-linejoin: miter"/> </g> <g id="line2d_1"> <path d="M 87.94859 96.673574 L 87.94859 77.042361 " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 188.285902 96.673574 L 188.285902 77.042361 " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_3"> <path d="M 288.623213 96.673574 L 288.623213 77.042361 " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_4"> <path d="M 33.417443 96.673574 L 288.623213 96.673574 " clip-path="url(#p178827a605)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_5"> <path d="M 316.97941 39.96118 L 332.248131 39.96118 L 332.248131 122.848525 L 37.779934 122.848525 L 37.779934 39.96118 " clip-path="url(#p178827a605)" style="fill: none; stroke: #b23fbf; stroke-width: 1.5; stroke-linecap: round"/> </g> <g id="line2d_6"> <path d="M 238.454557 39.96118 L 238.454557 9.423738 L 20.329967 9.423738 L 20.329967 68.317377 L 28.182452 68.317377 " clip-path="url(#p178827a605)" style="fill: none; stroke: #b23fbf; stroke-width: 1.2; stroke-linecap: round"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="64.827384" y="42.142426" transform="rotate(-0 64.827384 42.142426)">D</text> </g> <g id="text_2"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="111.069797" y="42.142426" transform="rotate(-0 111.069797 42.142426)">Q</text> </g> <g id="text_3"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="87.94859" y="23.819961" transform="rotate(-0 87.94859 23.819961)">Q1</text> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="165.164695" y="42.142426" transform="rotate(-0 165.164695 42.142426)">D</text> </g> <g id="text_5"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="211.407108" y="42.142426" transform="rotate(-0 211.407108 42.142426)">Q</text> </g> <g id="text_6"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="188.285902" y="23.819961" transform="rotate(-0 188.285902 23.819961)">Q2</text> </g> <g id="text_7"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="265.502007" y="42.142426" transform="rotate(-0 265.502007 42.142426)">D</text> </g> <g id="text_8"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="311.74442" y="42.142426" transform="rotate(-0 311.74442 42.142426)">Q</text> </g> <g id="text_9"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="288.623213" y="23.819961" transform="rotate(-0 288.623213 23.819961)">Q3</text> </g> <g id="text_10"> <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.236197" y="98.96998" transform="rotate(-0 31.236197 98.96998)">CLK</text> </g> <g id="text_11"> <text style="fill: #b23fbf; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="177.379672" y="131.573508" transform="rotate(-0 177.379672 131.573508)">feedback: XOR of the tap outputs → first D</text> </g> <g id="text_12"> <text style="fill: #b23fbf; font: 12px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="37.779934" y="71.379252" transform="rotate(-0 37.779934 71.379252)">⊕</text> </g> <g id="text_13"> <text style="fill: #b23fbf; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="241.944551" y="16.839974" transform="rotate(-0 241.944551 16.839974)">tap</text> </g> </g> </g> <defs> <clipPath id="p178827a605"> <rect x="2.88" y="2.88" width="383.899279" height="133.056"/> </clipPath> </defs> </svg><figcaption>3-bit linear-feedback shift register.</figcaption></figure>
+<figure style="max-width:80%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 457.7016 312.395938" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-19T01:14:50.362635</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 312.395938 
+L 457.7016 312.395938 
+L 457.7016 0 
+L 0 0 
+L 0 312.395938 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 136.030428 57.134297 
+L 188.674841 57.134297 
+Q 191.599531 57.134297 191.599531 55.161413 
+L 191.599531 22.115614 
+Q 191.599531 20.142731 188.674841 20.142731 
+L 136.030428 20.142731 
+Q 133.105738 20.142731 133.105738 22.115614 
+L 133.105738 55.161413 
+Q 133.105738 57.134297 136.030428 57.134297 
+z
+" clip-path="url(#p585c7ece2a)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 157.234428 57.134297 
+L 167.470841 57.134297 
+L 162.352634 50.969036 
+z
+" clip-path="url(#p585c7ece2a)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 267.641462 57.134297 
+L 320.285876 57.134297 
+Q 323.210566 57.134297 323.210566 55.161413 
+L 323.210566 22.115614 
+Q 323.210566 20.142731 320.285876 20.142731 
+L 267.641462 20.142731 
+Q 264.716772 20.142731 264.716772 22.115614 
+L 264.716772 55.161413 
+Q 264.716772 57.134297 267.641462 57.134297 
+z
+" clip-path="url(#p585c7ece2a)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 288.845462 57.134297 
+L 299.081876 57.134297 
+L 293.963669 50.969036 
+z
+" clip-path="url(#p585c7ece2a)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 93.062289 37.405462 
+Q 112.084394 37.405462 129.653054 37.405462 
+" clip-path="url(#p585c7ece2a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 125.253054 35.205462 
+L 129.653054 37.405462 
+L 125.253054 39.605462 
+z
+" clip-path="url(#p585c7ece2a)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 193.603293 37.405462 
+Q 228.159566 37.405462 261.262394 37.405462 
+" clip-path="url(#p585c7ece2a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 256.862394 35.205462 
+L 261.262394 37.405462 
+L 256.862394 39.605462 
+z
+" clip-path="url(#p585c7ece2a)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 325.212989 37.405462 
+Q 336.006679 37.405462 345.346925 37.405462 
+" clip-path="url(#p585c7ece2a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 340.946925 35.205462 
+L 345.346925 37.405462 
+L 340.946925 39.605462 
+z
+" clip-path="url(#p585c7ece2a)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 162.352634 73.163976 
+L 162.352634 57.134297 
+" clip-path="url(#p585c7ece2a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 293.963669 73.163976 
+L 293.963669 57.134297 
+" clip-path="url(#p585c7ece2a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 162.352634 73.163976 
+L 293.963669 73.163976 
+" clip-path="url(#p585c7ece2a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="162.352634" y="41.062498" transform="rotate(-0 162.352634 41.062498)">D  FF1</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="293.963669" y="41.062498" transform="rotate(-0 293.963669 41.062498)">D  FF2</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="155.04091" y="75.58796" transform="rotate(-0 155.04091 75.58796)">CLK</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="32.569531" y="39.778977" transform="rotate(-0 32.569531 39.778977)">async input A</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="228.158152" y="27.822149" transform="rotate(-0 228.158152 27.822149)">Q1</text>
+   </g>
+   <g id="text_6">
+    <!-- $\mathrm{A}_{\mathrm{sync}}$ (to the system) -->
+    <g style="fill: #1c1f24" transform="translate(352.457462 39.447962)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0 19.339819 21.942114 24.808813 28.028052 33.594458 36.196753 39.415991 44.792212 49.760229 52.362524 56.39353 60.990454 65.02146 68.240698 73.208716 81.391333" y="-0.59375">A (to the system)</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="6.215186 9.03689 12.254736 16.018091" y="0.90625">sync</tspan>
+     </text>
+    </g>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_9">
+    <path d="M 30.7416 280.08 
+L 454.8216 280.08 
+L 454.8216 120.769655 
+L 30.7416 120.769655 
+L 30.7416 280.08 
+z
+" style="fill: none"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 205.0856 186.898478 
+L 228.6456 186.898478 
+L 228.6456 165.857489 
+L 205.0856 165.857489 
+z
+" clip-path="url(#p59573dcb58)" style="fill: #6a707a; opacity: 0.18"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 219.2216 222.968744 
+L 275.7656 222.968744 
+L 275.7656 207.939466 
+L 219.2216 207.939466 
+z
+" clip-path="url(#p59573dcb58)" style="fill: #d92d20; opacity: 0.15"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 219.2216 277.074144 
+L 219.2216 123.775511 
+" clip-path="url(#p59573dcb58)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 313.4616 277.074144 
+L 313.4616 123.775511 
+" clip-path="url(#p59573dcb58)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_6">
+      <defs>
+       <path id="m97fb32f09a" d="M 0 0 
+L 0 3.5 
+" style="stroke: #1c1f24; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m97fb32f09a" x="30.7416" y="280.08" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="30.7416" y="294.112969" transform="rotate(-0 30.7416 294.112969)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m97fb32f09a" x="124.9816" y="280.08" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="124.9816" y="294.112969" transform="rotate(-0 124.9816 294.112969)">10</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m97fb32f09a" x="219.2216" y="280.08" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="219.2216" y="294.112969" transform="rotate(-0 219.2216 294.112969)">20</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#m97fb32f09a" x="313.4616" y="280.08" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="313.4616" y="294.112969" transform="rotate(-0 313.4616 294.112969)">30</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m97fb32f09a" x="407.7016" y="280.08" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="407.7016" y="294.112969" transform="rotate(-0 407.7016 294.112969)">40</text>
+     </g>
+    </g>
+    <g id="text_12">
+     <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="242.7816" y="307.330938" transform="rotate(-0 242.7816 307.330938)">time (ns)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2"/>
+   <g id="line2d_11">
+    <path d="M 30.7416 147.822355 
+L 124.9816 147.822355 
+L 124.9816 132.793077 
+L 172.1016 132.793077 
+L 172.1016 147.822355 
+L 219.2216 147.822355 
+L 219.2216 132.793077 
+L 266.3416 132.793077 
+L 266.3416 147.822355 
+L 313.4616 147.822355 
+L 313.4616 132.793077 
+L 360.5816 132.793077 
+L 360.5816 147.822355 
+L 407.7016 147.822355 
+L 407.7016 132.793077 
+L 454.8216 132.793077 
+" clip-path="url(#p59573dcb58)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 30.7416 183.892622 
+L 215.452 183.892622 
+L 215.452 168.863344 
+L 454.8216 168.863344 
+" clip-path="url(#p59573dcb58)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 219.2216 215.454105 
+L 275.7656 215.454105 
+" clip-path="url(#p59573dcb58)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_14">
+    <path d="M 275.7656 215.454105 
+L 275.7656 207.939466 
+L 454.8216 207.939466 
+" clip-path="url(#p59573dcb58)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_15">
+    <path d="M 30.7416 222.968744 
+L 219.2216 222.968744 
+L 219.2216 215.454105 
+" clip-path="url(#p59573dcb58)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_16">
+    <path d="M 30.7416 271.062433 
+L 313.4616 271.062433 
+L 313.4616 256.033155 
+L 454.8216 256.033155 
+" clip-path="url(#p59573dcb58)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 30.7416 280.08 
+L 454.8216 280.08 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_13">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="22.26" y="142.731701" transform="rotate(-0 22.26 142.731701)">CLK</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="22.26" y="178.801967" transform="rotate(-0 22.26 178.801967)">A</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="22.26" y="217.87809" transform="rotate(-0 22.26 217.87809)">Q1</text>
+   </g>
+   <g id="text_16">
+    <!-- $\mathrm{A}_{\mathrm{sync}}$ -->
+    <g style="fill: #1c1f24" transform="translate(2.88 265.400294)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.0">A</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="6.215186 9.03689 12.254736 16.018091" y="1.5">sync</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_17">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="217.3368" y="159.393705" transform="rotate(-0 217.3368 159.393705)">setup/hold window</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #d92d20; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(224.876 189.715104)">metastable</text>
+    <text style="fill: #d92d20; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(224.876 199.221291)">(undecided)</text>
+   </g>
+   <g id="patch_13">
+    <path d="M 220.786848 230.483383 
+Q 266.3416 230.483383 311.896352 230.483383 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 224.786848 232.483383 
+L 220.786848 230.483383 
+L 224.786848 228.483383 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 307.896352 228.483383 
+L 311.896352 230.483383 
+L 307.896352 232.483383 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_19">
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(233.183631 239.781895)">one clock period</text>
+    <text style="fill: #d92d20; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(249.946561 249.288083)">to settle</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p585c7ece2a">
+   <rect x="30.7416" y="2.88" width="424.08" height="83.84755"/>
+  </clipPath>
+  <clipPath id="p59573dcb58">
+   <rect x="30.7416" y="120.769655" width="424.08" height="159.310345"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>Top: the two-flip-flop synchronizer. Bottom: what this graph plots: time across (ns), one row per signal. A changes at 19.6 ns, inside the window around the edge at 20 ns; FF1 hangs undecided until about 26 ns; FF2 samples Q1 at 30 ns, after it has settled.</figcaption></figure>
 
-<p>An <strong>LFSR</strong> (pseudo-random binary sequence generator) feeds back the XOR of chosen taps. With the right taps it visits all <strong>2<sup>n</sup> − 1</strong> non-zero states (maximal length). <strong>000 is a lock-out</strong> (0 ⊕ 0 = 0 forever). Uses: test patterns, scrambling, spread-spectrum codes.</p>
-<p><strong>Pulse-train generator:</strong> a fixed bit pattern, one bit per clock: a ring-connected shift register loaded with the pattern (11), or a MOD-N counter plus output logic.</p>
-<p><strong>Clocks.</strong> Divide with a MOD-N counter (f/N) or k toggle flip-flops (f/2<sup>k</sup>). Make one with an oscillator:</p>
+<p>A flip-flop is a latch pair (file 09): two gates feeding each other. Between "0" and "1" there is a balance point. If D changes just as the edge closes the latch, the loop can start at that balance point and take a long, unpredictable time to tip one way. Two faults follow:</p>
+<ol>
+<li>The output sits at an invalid level, which other gates may read differently.</li>
+<li>If the input fans out to several flip-flops, some may catch the new value and some the old one, so the circuit enters a state it was never designed for.</li>
+</ol>
+<p><strong>The synchronizer.</strong> FF1 takes the risk; FF2 reads FF1 one clock period later. In a 100 MHz system FF1 has 10 ns, minus FF2's setup time (say 2 ns), so 8 ns to settle. The chance that a flip-flop is still undecided falls off exponentially with the time it is given (KB 04 stage 2, NXP AN219), so a whole period makes a failure very rare. <strong>It never makes it impossible.</strong> The price is delay: the system sees the input one to two clock periods late.</p>
+<p><strong>Answer to the Predict.</strong> The button can change inside the setup/hold window, so the flip-flop can go <strong>metastable</strong>, and different flip-flops may read different values. Fix: pass it through a <strong>two-flip-flop synchronizer</strong> first (and debounce it, step 3).</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>(a) The synchronizer runs at 50 MHz and FF2 needs t<sub>su</sub> = 2 ns. How long does FF1 get to settle? (b) Why is one flip-flop not enough? (c) What does the synchronizer cost?</p>
+</div>
+<h3>3 · Switch bounce and debouncing</h3>
+<p>Step 2 treated the button as one clean change at a random time. A real switch gives several.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>A mechanical switch closes once. Its metal contacts are springy. What does the voltage on the contact look like for the first moments after it closes, and what would a counter connected to it count?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Contact bounce:</strong> the springy contacts strike, rebound and strike again several times before they stay closed, so one press gives a burst of pulses. <strong>SPDT switch</strong> (single pole, double throw): a common terminal that touches either contact A or contact B. <strong>Debouncing:</strong> turning the burst into one clean edge.</p>
+</div>
+
+<figure style="max-width:72%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 491.139103 207.473969" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-19T01:14:50.413107</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 207.473969 
+L 491.139103 207.473969 
+L 491.139103 0 
+L 0 0 
+L 0 207.473969 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 75.339103 191.376 
+L 488.259103 191.376 
+L 488.259103 2.88 
+L 75.339103 2.88 
+L 75.339103 191.376 
+z
+" style="fill: none"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 144.159103 187.449 
+L 144.159103 10.734 
+" clip-path="url(#pa2ccfbd43a)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 350.619103 187.449 
+L 350.619103 10.734 
+" clip-path="url(#pa2ccfbd43a)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="text_1">
+     <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="281.799103" y="202.408969" transform="rotate(-0 281.799103 202.408969)">time</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2"/>
+   <g id="line2d_3">
+    <path d="M 75.339103 89.274 
+L 144.159103 89.274 
+L 144.159103 50.004 
+L 157.923103 50.004 
+L 157.923103 89.274 
+L 168.934303 89.274 
+L 168.934303 50.004 
+L 179.945503 50.004 
+L 179.945503 89.274 
+L 185.451103 89.274 
+L 185.451103 50.004 
+L 192.333103 50.004 
+L 192.333103 89.274 
+L 196.462303 89.274 
+L 196.462303 50.004 
+L 350.619103 50.004 
+L 350.619103 89.274 
+L 357.501103 89.274 
+L 357.501103 50.004 
+L 364.383103 50.004 
+L 364.383103 89.274 
+L 368.512303 89.274 
+L 368.512303 50.004 
+L 372.641503 50.004 
+L 372.641503 89.274 
+L 488.259103 89.274 
+" clip-path="url(#pa2ccfbd43a)" style="fill: none; stroke: #1c1f24; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 75.339103 175.668 
+L 144.159103 175.668 
+L 144.159103 136.398 
+L 350.619103 136.398 
+L 350.619103 175.668 
+L 488.259103 175.668 
+" clip-path="url(#pa2ccfbd43a)" style="fill: none; stroke: #e0661b; stroke-width: 2; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 145.535503 38.223 
+L 145.535503 32.3325 
+L 196.462303 32.3325 
+L 196.462303 38.223 
+" clip-path="url(#pa2ccfbd43a)" style="fill: none; stroke: #d92d20; stroke-width: 1.3; stroke-linecap: square"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 75.339103 191.376 
+L 488.259103 191.376 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="67.080703" y="72.062984" transform="rotate(-0 67.080703 72.062984)">switch contact</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="67.080703" y="158.456984" transform="rotate(-0 67.080703 158.456984)">latch Q</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="138.653503" y="38.683484" transform="rotate(-0 138.653503 38.683484)">press</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="357.501103" y="38.683484" transform="rotate(-0 357.501103 38.683484)">release</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #d92d20; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="170.998903" y="24.257" transform="rotate(-0 170.998903 24.257)">bounces</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pa2ccfbd43a">
+   <rect x="75.339103" y="2.88" width="412.92" height="188.496"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>What this graph plots: time across, rows the raw switch contact and the latch output Q. The contact bounces after the press and after the release; Q changes once each time.</figcaption></figure>
+
+<p><strong>The SR-latch debouncer</strong> (Utah CS 5780 lecture 11; UNC Charlotte ECGR 2156 lab 2). Use an SPDT switch and the NAND latch of file 09 step 3 (inputs S' and R', active low):</p>
+<ol>
+<li>The common terminal is grounded. Contact A goes to S', contact B to R'. Pull-up resistors hold each input at 1 when its contact is open.</li>
+<li>Pressing the switch moves the common terminal to A: S' goes to 0, the latch sets, Q = 1.</li>
+<li>Now A bounces: S' flips between 0 and 1. With R' = 1, S'R' = 01 sets and S'R' = 11 holds, so Q stays 1. The terminal never bounces back as far as B.</li>
+<li>Releasing it moves the terminal to B: R' goes to 0, the latch resets, and bounce on B again only alternates reset and hold.</li>
+</ol>
+<p>So the latch works because a bounce only ever repeats the same command or says "hold". The other cure in the KB is a monostable (step 8) or an RC filter followed by a Schmitt trigger, which ignores a signal until it has been steady long enough.</p>
+<p><strong>Answer to the Predict.</strong> A <strong>burst of pulses</strong> before the contact stays closed, so a counter counts several presses for one. A latch on a two-way switch turns the burst into <strong>one edge</strong>.</p>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>(a) Why does the debouncer need a two-way (SPDT) switch rather than a simple push-to-close one? (b) During a bounce on contact A, the latch sees S'R' = 11 for a moment. What does it do?</p>
+</div>
+<h3>4 · The LFSR: a shift register that feeds itself</h3>
+<p>File 11 ended with shift registers whose first input is a function of their own outputs (ring, Johnson, XOR feedback). The LFSR is the XOR version made into a sequence generator.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>A 3-bit shift register shifts Q<sub>1</sub> → Q<sub>2</sub> → Q<sub>3</sub> on each clock, and its input is D<sub>1</sub> = Q<sub>2</sub> ⊕ Q<sub>3</sub>. It starts at 100. How many different states will you see before 100 comes back? (There are 8 states in all.)</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>LFSR (linear-feedback shift register):</strong> a shift register whose input is the XOR of chosen outputs. <strong>Taps:</strong> the outputs fed into the XOR. <strong>Sequence length (period):</strong> the number of states before the register repeats.</p>
+</div>
+
+<figure style="max-width:60%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 389.659279 138.816" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.834760</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 138.816 L 389.659279 138.816 L 389.659279 0 L 0 0 L 0 138.816 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 61.773639 77.042361 L 114.123541 77.042361 Q 116.304787 77.042361 116.304787 74.861115 L 116.304787 31.236197 Q 116.304787 29.054951 114.123541 29.054951 L 61.773639 29.054951 Q 59.592393 29.054951 59.592393 31.236197 L 59.592393 74.861115 Q 59.592393 77.042361 61.773639 77.042361 z " clip-path="url(#p178827a605)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_3"> <path d="M 83.586098 77.042361 L 87.94859 70.062374 L 92.311082 77.042361 L 83.586098 77.042361 z " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_4"> <path d="M 116.304787 39.96118 Q 138.117246 39.96118 158.647705 39.96118 " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 154.647705 37.608239 L 158.647705 39.96118 L 154.647705 42.314122 z " clip-path="url(#p178827a605)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_5"> <path d="M 162.110951 77.042361 L 214.460852 77.042361 Q 216.642098 77.042361 216.642098 74.861115 L 216.642098 31.236197 Q 216.642098 29.054951 214.460852 29.054951 L 162.110951 29.054951 Q 159.929705 29.054951 159.929705 31.236197 L 159.929705 74.861115 Q 159.929705 77.042361 162.110951 77.042361 z " clip-path="url(#p178827a605)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_6"> <path d="M 183.92341 77.042361 L 188.285902 70.062374 L 192.648393 77.042361 L 183.92341 77.042361 z " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_7"> <path d="M 216.642098 39.96118 Q 238.454557 39.96118 258.985016 39.96118 " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 254.985016 37.608239 L 258.985016 39.96118 L 254.985016 42.314122 z " clip-path="url(#p178827a605)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_8"> <path d="M 262.448262 77.042361 L 314.798164 77.042361 Q 316.97941 77.042361 316.97941 74.861115 L 316.97941 31.236197 Q 316.97941 29.054951 314.798164 29.054951 L 262.448262 29.054951 Q 260.267016 29.054951 260.267016 31.236197 L 260.267016 74.861115 Q 260.267016 77.042361 262.448262 77.042361 z " clip-path="url(#p178827a605)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_9"> <path d="M 284.260721 77.042361 L 288.623213 70.062374 L 292.985705 77.042361 L 284.260721 77.042361 z " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-linejoin: miter"/> </g> <g id="patch_10"> <path d="M 37.779934 39.96118 Q 48.686164 39.96118 58.310393 39.96118 " clip-path="url(#p178827a605)" style="fill: none; stroke: #b23fbf; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 54.310393 37.608239 L 58.310393 39.96118 L 54.310393 42.314122 z " clip-path="url(#p178827a605)" style="fill: #b23fbf; stroke: #b23fbf; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_11"> <path d="M 37.779934 77.914859 C 40.325216 77.914859 42.766593 76.903608 44.566379 75.103822 C 46.366165 73.304035 47.377416 70.862659 47.377416 68.317377 C 47.377416 65.772095 46.366165 63.330719 44.566379 61.530932 C 42.766593 59.731146 40.325216 58.719895 37.779934 58.719895 C 35.234652 58.719895 32.793276 59.731146 30.99349 61.530932 C 29.193704 63.330719 28.182452 65.772095 28.182452 68.317377 C 28.182452 70.862659 29.193704 73.304035 30.99349 75.103822 C 32.793276 76.903608 35.234652 77.914859 37.779934 77.914859 z " clip-path="url(#p178827a605)" style="fill: #ffffff; stroke: #b23fbf; stroke-width: 1.5; stroke-linejoin: miter"/> </g> <g id="line2d_1"> <path d="M 87.94859 96.673574 L 87.94859 77.042361 " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 188.285902 96.673574 L 188.285902 77.042361 " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_3"> <path d="M 288.623213 96.673574 L 288.623213 77.042361 " clip-path="url(#p178827a605)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_4"> <path d="M 33.417443 96.673574 L 288.623213 96.673574 " clip-path="url(#p178827a605)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_5"> <path d="M 316.97941 39.96118 L 332.248131 39.96118 L 332.248131 122.848525 L 37.779934 122.848525 L 37.779934 39.96118 " clip-path="url(#p178827a605)" style="fill: none; stroke: #b23fbf; stroke-width: 1.5; stroke-linecap: round"/> </g> <g id="line2d_6"> <path d="M 238.454557 39.96118 L 238.454557 9.423738 L 20.329967 9.423738 L 20.329967 68.317377 L 28.182452 68.317377 " clip-path="url(#p178827a605)" style="fill: none; stroke: #b23fbf; stroke-width: 1.2; stroke-linecap: round"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="64.827384" y="42.142426" transform="rotate(-0 64.827384 42.142426)">D</text> </g> <g id="text_2"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="111.069797" y="42.142426" transform="rotate(-0 111.069797 42.142426)">Q</text> </g> <g id="text_3"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="87.94859" y="23.819961" transform="rotate(-0 87.94859 23.819961)">Q1</text> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="165.164695" y="42.142426" transform="rotate(-0 165.164695 42.142426)">D</text> </g> <g id="text_5"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="211.407108" y="42.142426" transform="rotate(-0 211.407108 42.142426)">Q</text> </g> <g id="text_6"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="188.285902" y="23.819961" transform="rotate(-0 188.285902 23.819961)">Q2</text> </g> <g id="text_7"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="265.502007" y="42.142426" transform="rotate(-0 265.502007 42.142426)">D</text> </g> <g id="text_8"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="311.74442" y="42.142426" transform="rotate(-0 311.74442 42.142426)">Q</text> </g> <g id="text_9"> <text style="fill: #2f5bea; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="288.623213" y="23.819961" transform="rotate(-0 288.623213 23.819961)">Q3</text> </g> <g id="text_10"> <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="31.236197" y="98.96998" transform="rotate(-0 31.236197 98.96998)">CLK</text> </g> <g id="text_11"> <text style="fill: #b23fbf; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="177.379672" y="131.573508" transform="rotate(-0 177.379672 131.573508)">feedback: XOR of the tap outputs → first D</text> </g> <g id="text_12"> <text style="fill: #b23fbf; font: 12px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="37.779934" y="71.379252" transform="rotate(-0 37.779934 71.379252)">⊕</text> </g> <g id="text_13"> <text style="fill: #b23fbf; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="241.944551" y="16.839974" transform="rotate(-0 241.944551 16.839974)">tap</text> </g> </g> </g> <defs> <clipPath id="p178827a605"> <rect x="2.88" y="2.88" width="383.899279" height="133.056"/> </clipPath> </defs> </svg><figcaption>The running example: three D flip-flops in a shift register, Q1 to Q2 to Q3, with D1 = Q2 XOR Q3 fed back (the taps).</figcaption></figure>
+
+<p>Trace it: at each edge the new Q<sub>1</sub> is Q<sub>2</sub> ⊕ Q<sub>3</sub>, and the old Q<sub>1</sub>, Q<sub>2</sub> move right.</p>
+<table>
+<thead>
+<tr>
+<th>Clock</th>
+<th>Q<sub>1</sub>Q<sub>2</sub>Q<sub>3</sub></th>
+<th>D<sub>1</sub> = Q<sub>2</sub> ⊕ Q<sub>3</sub></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>100</td>
+<td>0 ⊕ 0 = 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>010</td>
+<td>1 ⊕ 0 = 1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>101</td>
+<td>0 ⊕ 1 = 1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>110</td>
+<td>1 ⊕ 0 = 1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>111</td>
+<td>1 ⊕ 1 = 0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>011</td>
+<td>1 ⊕ 1 = 0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>001</td>
+<td>0 ⊕ 1 = 1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>100</td>
+<td>back to the start</td>
+</tr>
+</tbody>
+</table>
+<p>The output, read at Q<sub>3</sub>, is <strong>0 0 1 0 1 1 1</strong>, then the same again. It looks random (four 1s, three 0s, no obvious pattern) but it is fixed and repeatable, which is why an LFSR is called a <strong>pseudo-random binary sequence (PRBS) generator</strong>. Uses: test patterns for chips, scrambling data, spread-spectrum codes (KB 04 §5).</p>
+<p><strong>Answer to the Predict.</strong> <strong>7 states</strong>: 100, 010, 101, 110, 111, 011, 001. That is every state except 000.</p>
+<div class="box check">
+<div class="bh">Check 4</div>
+<p>(a) Trace the running example from 011. Which state follows 001? (b) What is the output sequence at Q<sub>1</sub> over one period?</p>
+</div>
+<h3>5 · Maximal length and the lock-out state</h3>
+<p>Step 4's register visited 7 of 8 states. Two questions: why not the 8th, and does every choice of taps visit that many?</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>Start the running example at 000. What is D<sub>1</sub>, and what is the next state?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Maximal-length LFSR:</strong> an n-bit LFSR that visits all <strong>2<sup>n</sup> − 1</strong> non-zero states before repeating. <strong>Lock-out state:</strong> a state the register cannot leave.</p>
+</div>
+<p><strong>The lock-out.</strong> With XOR feedback, 000 gives D<sub>1</sub> = 0 ⊕ 0 = 0 and the next state is 000 again, forever. That is why 2<sup>n</sup> − 1 is the most an XOR LFSR can reach: all-zeros is its own one-state cycle. The register must be started (seeded) at any non-zero value. (An LFSR built with XNOR instead locks at all-ones, because XNOR of 1 and 1 is 1.)</p>
+<p><strong>The taps decide the length.</strong> Only some tap choices are maximal; the rule (a "primitive feedback polynomial") is beyond this course, so exam questions give the taps and ask you to trace. Two 4-bit choices:</p>
+<table>
+<thead>
+<tr>
+<th>Taps</th>
+<th>Cycles found by tracing every start</th>
+<th>Maximal?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D<sub>1</sub> = Q<sub>3</sub> ⊕ Q<sub>4</sub></td>
+<td>15 states + the lock-out 0000</td>
+<td>yes: 2<sup>4</sup> − 1 = 15</td>
+</tr>
+<tr>
+<td>D<sub>1</sub> = Q<sub>2</sub> ⊕ Q<sub>4</sub></td>
+<td>6, 6 and 3 states + 0000</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>With Q<sub>2</sub> ⊕ Q<sub>4</sub>, starting at 1000 gives 1000 → 0100 → 1010 → 0101 → 0010 → 0001 → 1000: only 6 states. Which cycle you land in depends on the seed.</p>
+<p><strong>Answer to the Predict.</strong> D<sub>1</sub> = 0, and the next state is <strong>000 again</strong>: the register is stuck. That is the one state the running example never visits.</p>
+<div class="box check">
+<div class="bh">Check 5</div>
+<p>(a) Sequence length of a maximal 5-bit LFSR? (b) A 4-bit LFSR, seeded at 1000, returns to 1000 after 6 clocks. Is it maximal? (c) Why must an LFSR's reset put a 1 somewhere?</p>
+</div>
+<h3>6 · Pulse-train generators</h3>
+<p>An LFSR makes a sequence you don't choose. Often you need a fixed pattern: say 1 1 0 1 0 0, one bit per clock, repeating.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>You need the train 1 1 0 1 0 0 repeating. One way uses 6 flip-flops and no gates. Another uses 3 flip-flops and a few gates. What are they?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Pulse-train (sequence) generator:</strong> a synchronous circuit whose output repeats a fixed bit pattern, one bit per clock. Its period is the number of states it cycles through.</p>
+</div>
+<p><strong>Way 1: a ring.</strong> Load the 6 bits into a 6-flip-flop ring counter (file 11 step 6: the last output feeds the first input). Each clock rotates the pattern by one place, and any one output gives the train. Cost: one flip-flop per bit, no logic.</p>
+<p><strong>Way 2: a counter plus output logic.</strong> A MOD-6 counter (file 13) steps through 0–5. Z must be 1 at counts 0, 1 and 3:</p>
+<table>
+<thead>
+<tr>
+<th>Count Q<sub>2</sub>Q<sub>1</sub>Q<sub>0</sub></th>
+<th>000</th>
+<th>001</th>
+<th>010</th>
+<th>011</th>
+<th>100</th>
+<th>101</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Z</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Counts 6 and 7 never occur, so they are don't-cares. The K-map gives</p>
+<div class="eq">Z = Q<sub>2</sub>'Q<sub>1</sub>' + Q<sub>2</sub>'Q<sub>0</sub></div>
+
+<p>(Q<sub>1</sub>Q<sub>0</sub>, using don't-care 7, is an equally small second term.) Cost: 3 flip-flops plus two ANDs and an OR. For long patterns the counter wins: n flip-flops count to 2<sup>n</sup>. Z is decoded from several state bits, so step 1 applies: register Z if it drives anything edge-sensitive.</p>
+<p><strong>Answer to the Predict.</strong> A <strong>6-flip-flop ring loaded with 110100</strong>, or a <strong>MOD-6 counter with Z = Q<sub>2</sub>'Q<sub>1</sub>' + Q<sub>2</sub>'Q<sub>0</sub></strong>.</p>
+<div class="box check">
+<div class="bh">Check 6</div>
+<p>(a) A ring counter is to repeat 1 0 0 1 1 1 0 0. How many flip-flops? (b) Design Z for the train 1 0 1 1 0 from a MOD-5 counter (don't-cares 5, 6, 7).</p>
+</div>
+<h3>7 · Dividing a clock</h3>
+<p>Step 6's MOD-6 counter repeats every 6 clocks. Any counter's output bit is a slower clock.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>You have 50 Hz from the mains and need a 1 Hz clock. Which counter, how many flip-flops, and is its top bit a square wave?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Frequency divider:</strong> a counter used for its output frequency. <strong>Duty cycle:</strong> the fraction of each period the signal is high (a square wave is 50 %).</p>
+</div>
+<p><strong>Binary division.</strong> In a binary counter, Q<sub>0</sub> toggles every clock, Q<sub>1</sub> every 2, Q<sub>2</sub> every 4: their frequencies are f/2, f/4, f/8. k toggle flip-flops in a chain divide by 2<sup>k</sup> (file 12).</p>
+<p><strong>Division by N.</strong> A MOD-N counter returns to 0 every N clocks, so any of its bits repeats at f/N. But the top bit is not a square wave unless N is a power of 2. For MOD-50:</p>
+<ol>
+<li>Flip-flops: 6, because 2<sup>5</sup> = 32 &lt; 50 ≤ 64 = 2<sup>6</sup>.</li>
+<li>The top bit Q<sub>5</sub> (weight 32) is 1 for counts 32–49: 18 of every 50 counts.</li>
+<li>Duty cycle = 18/50 = <strong>36 %</strong>.</li>
+</ol>
+<p>For a 50 % square wave, divide by half the number first and finish with one toggle flip-flop: MOD-25 gives 2 Hz, the T flip-flop halves it to 1 Hz, high for exactly one 2 Hz period in two.</p>
+<p><strong>Answer to the Predict.</strong> A <strong>MOD-50 counter</strong> (6 flip-flops). Its top bit is 1 Hz but only <strong>36 %</strong> high; <strong>MOD-25 then a T flip-flop</strong> gives a 1 Hz square wave.</p>
+<div class="box check">
+<div class="bh">Check 7</div>
+<p>(a) Divide 1 MHz to 1 kHz with a counter: what modulus, and how many flip-flops at least? (b) A 3-bit binary counter is clocked at 8 MHz. What frequency is Q<sub>2</sub>?</p>
+</div>
+<h3>8 · Making the clock: multivibrators and the 555</h3>
+<p>Step 7 divides a clock that already exists. Something has to make the first one.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>A 555 timer is wired as a free-running oscillator with R<sub>1</sub> = 1 kΩ, R<sub>2</sub> = 10 kΩ, C = 10 nF. The capacitor charges through R<sub>1</sub> + R<sub>2</sub> and discharges through R<sub>2</sub> alone. Will the output be high for more or less than half of each period?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Multivibrator:</strong> a two-state switching circuit, named by how many states it can rest in.</p>
+</div>
 <table>
 <thead>
 <tr>
 <th>Multivibrator</th>
 <th>Stable states</th>
-<th>Output</th>
+<th>What it gives</th>
+<th>Seen in</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Astable</td>
 <td>none</td>
-<td>free-running square wave (a clock)</td>
+<td>a free-running square wave: a clock</td>
+<td>555 astable, ring oscillator (step 9)</td>
 </tr>
 <tr>
 <td>Monostable</td>
 <td>one</td>
-<td>one fixed-width pulse per trigger; width 1.1RC (555)</td>
+<td>one pulse of fixed width per trigger (a "one-shot")</td>
+<td>555 monostable, debouncing</td>
 </tr>
 <tr>
 <td>Bistable</td>
 <td>two</td>
-<td>a latch or flip-flop</td>
+<td>stays in either state until told: memory</td>
+<td>the latch and flip-flop (file 09)</td>
 </tr>
 </tbody>
 </table>
-<div class="two">
 
+<figure style="max-width:55%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 429.84 133.272" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.871691</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 133.272 L 429.84 133.272 L 429.84 0 L 0 0 L 0 133.272 z " style="fill: none"/> </g> <g id="axes_1"> <g id="line2d_1"> <path d="M 38.22 91.852873 L 42.19575 88.459111 L 46.61325 85.000035 L 51.03075 81.84155 L 55.44825 78.957536 L 59.86575 76.32414 L 64.725 73.690934 L 69.58425 71.308311 L 71.793 70.301602 L 75.76875 74.066485 L 79.7445 77.507328 L 83.72025 80.652023 L 87.696 83.526057 L 92.1135 86.430253 L 96.531 89.058078 L 100.9485 91.435832 L 102.7155 92.322323 L 106.69125 88.89168 L 110.667 85.730551 L 115.0845 82.508585 L 119.502 79.566606 L 123.9195 76.880282 L 128.77875 74.194153 L 133.638 71.763642 L 136.73025 70.338815 L 140.706 74.100495 L 144.68175 77.538412 L 148.6575 80.680431 L 152.63325 83.55202 L 157.05075 86.453745 L 161.46825 89.079334 L 165.88575 91.455065 L 167.65275 92.340802 L 171.6285 88.908708 L 175.60425 85.746241 L 180.02175 82.522912 L 184.43925 79.579687 L 188.85675 76.892227 L 193.716 74.204961 L 198.57525 71.773421 L 201.6675 70.347992 L 205.64325 74.108882 L 209.619 77.546077 L 213.59475 80.687436 L 217.5705 83.558422 L 221.988 86.459538 L 226.4055 89.084576 L 230.823 91.459808 L 232.59 92.345359 L 236.56575 88.912907 L 240.5415 85.75011 L 244.959 82.526445 L 249.3765 79.582913 L 253.794 76.895173 L 258.65325 74.207626 L 263.5125 71.775833 L 266.60475 70.350255 L 270.5805 74.11095 L 274.55625 77.547967 L 278.532 80.689164 L 282.50775 83.560001 L 286.92525 86.460967 L 291.34275 89.085869 L 295.76025 91.460978 L 297.52725 92.346483 L 301.503 88.913943 L 305.47875 85.751064 L 309.89625 82.527316 L 314.31375 79.583709 L 318.73125 76.895899 L 323.5905 74.208283 L 328.44975 71.776428 L 331.542 70.350813 L 335.51775 74.11146 L 339.4935 77.548433 L 343.46925 80.68959 L 347.445 83.560391 L 351.8625 86.461319 L 356.28 89.086187 L 360.6975 91.461266 L 362.4645 92.34676 L 366.44025 88.914198 L 370.416 85.751299 L 374.8335 82.527531 L 379.251 79.583905 L 383.6685 76.896078 L 388.52775 74.208445 L 391.62 72.632887 L 391.62 72.632887 " clip-path="url(#pbaaaf9eabc)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linecap: square"/> </g> <g id="line2d_2"> <path d="M 38.22 12.688615 L 71.35125 12.688615 L 71.793 38.844923 L 102.27375 38.844923 L 102.7155 12.688615 L 136.2885 12.688615 L 136.73025 38.844923 L 167.211 38.844923 L 167.65275 12.688615 L 201.22575 12.688615 L 201.6675 38.844923 L 232.14825 38.844923 L 232.59 12.688615 L 266.163 12.688615 L 266.60475 38.844923 L 297.0855 38.844923 L 297.52725 12.688615 L 331.10025 12.688615 L 331.542 38.844923 L 362.02275 38.844923 L 362.4645 12.688615 L 391.62 12.688615 L 391.62 12.688615 " clip-path="url(#pbaaaf9eabc)" style="fill: none; stroke: #e0661b; stroke-width: 1.6; stroke-linecap: square"/> </g> <g id="line2d_3"> <path d="M 2.88 70.450462 L 426.96 70.450462 " clip-path="url(#pbaaaf9eabc)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/> </g> <g id="line2d_4"> <path d="M 2.88 92.247385 L 426.96 92.247385 " clip-path="url(#pbaaaf9eabc)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/> </g> <g id="text_1"> <!-- ⅔ $\mathrm{V}_{\mathrm{CC}}$ --> <g style="fill: #6a707a" transform="translate(393.82875 72.61929)"> <text> <tspan style="font: 8.5px 'Segoe UI'" x="0 7.835938 10.164307" y="-0.609375">⅔ V</tspan> <tspan style="font: 5.95px 'Segoe UI'" x="15.522354 19.20624" y="0.7406249999999996">CC</tspan> </text> </g> </g> <g id="text_2"> <!-- ⅓ $\mathrm{V}_{\mathrm{CC}}$ --> <g style="fill: #6a707a" transform="translate(393.82875 94.416213)"> <text> <tspan style="font: 8.5px 'Segoe UI'" x="0 7.835938 10.164307" y="-0.59375">⅓ V</tspan> <tspan style="font: 5.95px 'Segoe UI'" x="15.522354 19.20624" y="0.7562499999999996">CC</tspan> </text> </g> </g> <g id="text_3"> <text style="fill: #e0661b; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="33.8025" y="28.063175" transform="rotate(-0 33.8025 28.063175)">OUT</text> </g> <g id="text_4"> <!-- $\mathrm{V}_{\mathrm{C}}$ --> <g style="fill: #2f5bea" transform="translate(23.9925 83.645329)"> <text> <tspan style="font: 9px 'Segoe UI'" x="0" y="-0.703125">V</tspan> <tspan style="font: 6.3px 'Segoe UI'" x="5.668594" y="0.6468749999999996">C</tspan> </text> </g> </g> <g id="text_5"> <!-- rise: charge through R₁+R₂, $\mathrm{t}_{\mathrm{H}}$ = 0.693(R₁+R₂)C fall: discharge through R₂, $\mathrm{t}_{\mathrm{L}}$ = 0.693·R₂·C --> <g style="fill: #6a707a" transform="translate(38.22 121.8912)"> <text> <tspan style="font: 8.3px 'Segoe UI'" x="0 2.868164 4.866211 8.366821 12.681152 14.469727 16.729614 20.540405 25.209229 29.406738 32.274902 37.133057 41.447388 43.707275 46.50293 51.171753 54.039917 58.873901 63.542725 68.400879 73.069702 75.32959 80.264282 83.160645 88.804321 93.739014 96.760254 98.548828 100.808716 107.974395 110.234282 115.877959 118.137847 122.585112 124.373687 128.820952 133.268218 137.715483 140.204985 145.139678 148.03604 153.679717 158.614409 161.635649 164.125151 169.233062 171.492949 173.752837 176.012725 178.272612 180.5325 182.792388 185.374541 189.572051 191.570098 193.568145 195.356719 197.616606 202.474761 204.472808 207.973418 211.784209 216.453032 220.650542 223.518706 228.37686 232.691191 234.951079 237.746733 242.415557 245.283721 250.117705 254.786528 259.644683 264.313506 266.573394 271.508086 274.529326 276.3179 278.577788 284.361753 286.621641 292.265317 294.525205 298.972471 300.761045 305.208311 309.655576 314.102842 315.266416 320.201108 323.222349 325.010923" y="-0.984375">rise: charge through R₁+R₂, t = 0.693(R₁+R₂)C fall: discharge through R₂, t = 0.693·R₂·C</tspan> <tspan style="font: 5.81px 'Segoe UI'" x="103.67437 281.443442" y="0.21562500000000018">HL</tspan> </text> </g> </g> </g> </g> <defs> <clipPath id="pbaaaf9eabc"> <rect x="2.88" y="2.88" width="424.08" height="127.512"/> </clipPath> </defs> </svg><figcaption>The 555 wired as an astable: R1 from the supply to the discharge pin, R2 from there to the capacitor C; the output is the clock.</figcaption></figure>
 
+<p><strong>The 555 astable</strong> (TI NE555 data sheet SLFS022K, eq. 1–5). C charges through R<sub>1</sub> + R<sub>2</sub> from ⅓ to ⅔ of the supply (output high) and discharges through R<sub>2</sub> alone (output low):</p>
+<div class="eq">t<sub>H</sub> = 0.693(R<sub>1</sub> + R<sub>2</sub>)C&emsp;&emsp;&emsp;t<sub>L</sub> = 0.693R<sub>2</sub>C</div>
 
+<div class="eq">f = <span class="frac"><span>1</span><span>t<sub>H</sub> + t<sub>L</sub></span></span> = <span class="frac"><span>1.44</span><span>(R<sub>1</sub> + 2R<sub>2</sub>)C</span></span>&emsp;&emsp;&emsp;duty = <span class="frac"><span>R<sub>1</sub> + R<sub>2</sub></span><span>R<sub>1</sub> + 2R<sub>2</sub></span></span></div>
 
-<figure style="max-width:100%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 429.84 133.272" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.871691</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 133.272 L 429.84 133.272 L 429.84 0 L 0 0 L 0 133.272 z " style="fill: none"/> </g> <g id="axes_1"> <g id="line2d_1"> <path d="M 38.22 91.852873 L 42.19575 88.459111 L 46.61325 85.000035 L 51.03075 81.84155 L 55.44825 78.957536 L 59.86575 76.32414 L 64.725 73.690934 L 69.58425 71.308311 L 71.793 70.301602 L 75.76875 74.066485 L 79.7445 77.507328 L 83.72025 80.652023 L 87.696 83.526057 L 92.1135 86.430253 L 96.531 89.058078 L 100.9485 91.435832 L 102.7155 92.322323 L 106.69125 88.89168 L 110.667 85.730551 L 115.0845 82.508585 L 119.502 79.566606 L 123.9195 76.880282 L 128.77875 74.194153 L 133.638 71.763642 L 136.73025 70.338815 L 140.706 74.100495 L 144.68175 77.538412 L 148.6575 80.680431 L 152.63325 83.55202 L 157.05075 86.453745 L 161.46825 89.079334 L 165.88575 91.455065 L 167.65275 92.340802 L 171.6285 88.908708 L 175.60425 85.746241 L 180.02175 82.522912 L 184.43925 79.579687 L 188.85675 76.892227 L 193.716 74.204961 L 198.57525 71.773421 L 201.6675 70.347992 L 205.64325 74.108882 L 209.619 77.546077 L 213.59475 80.687436 L 217.5705 83.558422 L 221.988 86.459538 L 226.4055 89.084576 L 230.823 91.459808 L 232.59 92.345359 L 236.56575 88.912907 L 240.5415 85.75011 L 244.959 82.526445 L 249.3765 79.582913 L 253.794 76.895173 L 258.65325 74.207626 L 263.5125 71.775833 L 266.60475 70.350255 L 270.5805 74.11095 L 274.55625 77.547967 L 278.532 80.689164 L 282.50775 83.560001 L 286.92525 86.460967 L 291.34275 89.085869 L 295.76025 91.460978 L 297.52725 92.346483 L 301.503 88.913943 L 305.47875 85.751064 L 309.89625 82.527316 L 314.31375 79.583709 L 318.73125 76.895899 L 323.5905 74.208283 L 328.44975 71.776428 L 331.542 70.350813 L 335.51775 74.11146 L 339.4935 77.548433 L 343.46925 80.68959 L 347.445 83.560391 L 351.8625 86.461319 L 356.28 89.086187 L 360.6975 91.461266 L 362.4645 92.34676 L 366.44025 88.914198 L 370.416 85.751299 L 374.8335 82.527531 L 379.251 79.583905 L 383.6685 76.896078 L 388.52775 74.208445 L 391.62 72.632887 L 391.62 72.632887 " clip-path="url(#pbaaaf9eabc)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linecap: square"/> </g> <g id="line2d_2"> <path d="M 38.22 12.688615 L 71.35125 12.688615 L 71.793 38.844923 L 102.27375 38.844923 L 102.7155 12.688615 L 136.2885 12.688615 L 136.73025 38.844923 L 167.211 38.844923 L 167.65275 12.688615 L 201.22575 12.688615 L 201.6675 38.844923 L 232.14825 38.844923 L 232.59 12.688615 L 266.163 12.688615 L 266.60475 38.844923 L 297.0855 38.844923 L 297.52725 12.688615 L 331.10025 12.688615 L 331.542 38.844923 L 362.02275 38.844923 L 362.4645 12.688615 L 391.62 12.688615 L 391.62 12.688615 " clip-path="url(#pbaaaf9eabc)" style="fill: none; stroke: #e0661b; stroke-width: 1.6; stroke-linecap: square"/> </g> <g id="line2d_3"> <path d="M 2.88 70.450462 L 426.96 70.450462 " clip-path="url(#pbaaaf9eabc)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/> </g> <g id="line2d_4"> <path d="M 2.88 92.247385 L 426.96 92.247385 " clip-path="url(#pbaaaf9eabc)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/> </g> <g id="text_1"> <!-- ⅔ $\mathrm{V}_{\mathrm{CC}}$ --> <g style="fill: #6a707a" transform="translate(393.82875 72.61929)"> <text> <tspan style="font: 8.5px 'Segoe UI'" x="0 7.835938 10.164307" y="-0.609375">⅔ V</tspan> <tspan style="font: 5.95px 'Segoe UI'" x="15.522354 19.20624" y="0.7406249999999996">CC</tspan> </text> </g> </g> <g id="text_2"> <!-- ⅓ $\mathrm{V}_{\mathrm{CC}}$ --> <g style="fill: #6a707a" transform="translate(393.82875 94.416213)"> <text> <tspan style="font: 8.5px 'Segoe UI'" x="0 7.835938 10.164307" y="-0.59375">⅓ V</tspan> <tspan style="font: 5.95px 'Segoe UI'" x="15.522354 19.20624" y="0.7562499999999996">CC</tspan> </text> </g> </g> <g id="text_3"> <text style="fill: #e0661b; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="33.8025" y="28.063175" transform="rotate(-0 33.8025 28.063175)">OUT</text> </g> <g id="text_4"> <!-- $\mathrm{V}_{\mathrm{C}}$ --> <g style="fill: #2f5bea" transform="translate(23.9925 83.645329)"> <text> <tspan style="font: 9px 'Segoe UI'" x="0" y="-0.703125">V</tspan> <tspan style="font: 6.3px 'Segoe UI'" x="5.668594" y="0.6468749999999996">C</tspan> </text> </g> </g> <g id="text_5"> <!-- rise: charge through R₁+R₂, $\mathrm{t}_{\mathrm{H}}$ = 0.693(R₁+R₂)C fall: discharge through R₂, $\mathrm{t}_{\mathrm{L}}$ = 0.693·R₂·C --> <g style="fill: #6a707a" transform="translate(38.22 121.8912)"> <text> <tspan style="font: 8.3px 'Segoe UI'" x="0 2.868164 4.866211 8.366821 12.681152 14.469727 16.729614 20.540405 25.209229 29.406738 32.274902 37.133057 41.447388 43.707275 46.50293 51.171753 54.039917 58.873901 63.542725 68.400879 73.069702 75.32959 80.264282 83.160645 88.804321 93.739014 96.760254 98.548828 100.808716 107.974395 110.234282 115.877959 118.137847 122.585112 124.373687 128.820952 133.268218 137.715483 140.204985 145.139678 148.03604 153.679717 158.614409 161.635649 164.125151 169.233062 171.492949 173.752837 176.012725 178.272612 180.5325 182.792388 185.374541 189.572051 191.570098 193.568145 195.356719 197.616606 202.474761 204.472808 207.973418 211.784209 216.453032 220.650542 223.518706 228.37686 232.691191 234.951079 237.746733 242.415557 245.283721 250.117705 254.786528 259.644683 264.313506 266.573394 271.508086 274.529326 276.3179 278.577788 284.361753 286.621641 292.265317 294.525205 298.972471 300.761045 305.208311 309.655576 314.102842 315.266416 320.201108 323.222349 325.010923" y="-0.984375">rise: charge through R₁+R₂, t = 0.693(R₁+R₂)C fall: discharge through R₂, t = 0.693·R₂·C</tspan> <tspan style="font: 5.81px 'Segoe UI'" x="103.67437 281.443442" y="0.21562500000000018">HL</tspan> </text> </g> </g> </g> </g> <defs> <clipPath id="pbaaaf9eabc"> <rect x="2.88" y="2.88" width="424.08" height="127.512"/> </clipPath> </defs> </svg><figcaption>555 astable.</figcaption></figure>
-
-
-
-
-
-
-
-<figure style="max-width:100%"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" height="77.6pt" width="589.0849999999998pt" viewBox="-4.6 -22.6 589.0849999999998 77.6"><circle cx="65.7" cy="-0.0" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.3;" /><circle cx="173.70000000000002" cy="-0.0" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.3;" /><circle cx="281.7" cy="-0.0" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.3;" /><circle cx="389.7" cy="-0.0" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.3;" /><circle cx="497.7" cy="-0.0" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.3;" /><path d="M 0.0,-0.0 L 37.98,-0.0 M 70.02,-0.0 L 108.0,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 37.98,-18.0 L 61.38,-0.0 L 37.98,18.0 L 37.98,-18.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 108.0,-0.0 L 145.98,-0.0 M 178.02,-0.0 L 216.0,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 145.98,-18.0 L 169.38,-0.0 L 145.98,18.0 L 145.98,-18.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 216.0,-0.0 L 253.98,-0.0 M 286.02,-0.0 L 324.0,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 253.98,-18.0 L 277.38,-0.0 L 253.98,18.0 L 253.98,-18.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 324.0,-0.0 L 361.98,-0.0 M 394.02,-0.0 L 432.0,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 361.98,-18.0 L 385.38,-0.0 L 361.98,18.0 L 361.98,-18.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 432.0,-0.0 L 469.98,-0.0 M 502.02,-0.0 L 540.0,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 469.98,-18.0 L 493.38,-0.0 L 469.98,18.0 L 469.98,-18.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 540.0,-0.0 L 550.8000000000001,-0.0 L 561.6,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 502.02,-0.0 L 502.02,25.2 L 502.02,50.4" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 502.02,50.4 L 261.0,50.39999999999996 L 19.97999999999999,50.39999999999994" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 19.97999999999999,50.39999999999994 L 19.97999999999999,25.199999999999942 L 19.979999999999993,-5.595524044110789e-14" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 19.979999999999993,-5.595524044110789e-14 L 28.979999999999993,-5.595524044110789e-14 L 37.97999999999999,-5.595524044110789e-14" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><text x="565.1999999999999" y="-4.4" fill="#1c1f24" font-size="11" font-family="sans" text-anchor="start"><tspan x="565.1999999999999" dy="11">out</tspan></text></svg><figcaption>Ring oscillator: an odd number of inverters.</figcaption></figure>
-
-
-
-
-</div>
-
-<p><strong>555 astable:</strong> f = 1.44/((R<sub>1</sub> + 2R<sub>2</sub>)C), duty = (R<sub>1</sub> + R<sub>2</sub>)/(R<sub>1</sub> + 2R<sub>2</sub>). R<sub>1</sub> = 1 kΩ, R<sub>2</sub> = 10 kΩ, C = 10 nF: 6.86 kHz, 52%. <strong>Ring oscillator:</strong> N (odd) inverters give f = 1/(2N·t<sub>pd</sub>): five of 2 ns give 50 MHz; it drifts with temperature and supply, so system clocks use crystals.</p>
-<p><strong>Answer.</strong> 100 → 010 → 101 → 110 → 111 → 011 → 001 → 100: <strong>seven states = 2<sup>3</sup> − 1</strong>, maximal. Output at Q<sub>3</sub>: 0 0 1 0 1 1 1, repeating.</p>
+<p>Read them: <em>each half-period is 0.693 times the RC it charges or discharges through</em>; 1.44 is 1/0.693. For the Predict's values:</p>
+<ol>
+<li>t<sub>H</sub> = 0.693 × 11 kΩ × 10 nF = 76.2 μs.</li>
+<li>t<sub>L</sub> = 0.693 × 10 kΩ × 10 nF = 69.3 μs.</li>
+<li>f = 1.44 / (21 kΩ × 10 nF) = <strong>6.86 kHz</strong> (1/(t<sub>H</sub> + t<sub>L</sub>) gives 6.87 kHz; the gap is the rounding in 1.44).</li>
+<li>Duty = 11/21 = <strong>52.4 %</strong>.</li>
+</ol>
+<p>Since R<sub>1</sub> + R<sub>2</sub> &gt; R<sub>2</sub>, the duty is always above 50 % in this circuit; R<sub>2</sub> ≫ R<sub>1</sub> brings it close.</p>
+<p><strong>The 555 monostable:</strong> one trigger pulse gives one output pulse of width <strong>T = 1.1RC</strong> (data sheet §6). R = 47 kΩ, C = 10 μF: T = 1.1 × 47 kΩ × 10 μF = 517 ms.</p>
+<p><strong>Answer to the Predict.</strong> <strong>More than half</strong>: charging runs through R<sub>1</sub> + R<sub>2</sub> = 11 kΩ, discharging through 10 kΩ, so <strong>52.4 %</strong> high, at <strong>6.86 kHz</strong>.</p>
 <div class="box check">
-<div class="bh">Check 2</div>
-<p>(a) Sequence length of a maximal 5-bit LFSR? (b) Why must a ring oscillator have an odd number of inverters? (c) Which counter gives 1 Hz from a 50 Hz clock?</p>
+<div class="bh">Check 8</div>
+<p>(a) R<sub>1</sub> = 2 kΩ, R<sub>2</sub> = 4 kΩ, C = 0.1 μF: f and duty cycle? (b) Why can this circuit never give exactly 50 %?</p>
 </div>
-<h3>3 · Asynchronous circuits: races and hazards</h3>
-<div class="box q">
-<div class="bh"><span class="tag">EC6302 Nov/Dec 2021 Q15(b) · 13 marks</span></div>
-<p>What is the objective of state assignment in a asynchronous circuit? Give the hazard free realization for the Boolean function f(A, B, C, D) = ΠM(0, 2, 6, 7, 8, 10, 12).</p>
-</div>
+<h3>9 · Ring oscillator and crystal</h3>
+<p>The 555 needs a resistor and a capacitor. Inside a chip, a clock can be made from inverters alone.</p>
 <div class="box guess">
-<div class="bh">Guess first</div>
-<p>With no clock, two state bits are told to change "at the same time". What decides which changes first?</p>
+<div class="bh">Predict</div>
+<p>Connect inverters in a loop, each output into the next input. With 2 inverters, what happens? With 3?</p>
 </div>
 <div class="box note">
 <div class="bh">Terms</div>
-<p><strong>Asynchronous circuit:</strong> no clock; state held in feedback loops; reacts at once. <strong>Stable state:</strong> next = present. <strong>Fundamental mode:</strong> one input changes at a time, only after the circuit settles.</p>
+<p><strong>Ring oscillator:</strong> an odd number N of inverters connected in a loop. <strong>Crystal oscillator:</strong> an oscillator whose frequency is set by the mechanical resonance of a quartz crystal.</p>
 </div>
-<p>Design outline: word description → primitive flow table → merge rows → state assignment → excitation equations → circuit.</p>
-<ul>
-<li><strong>Race:</strong> a transition needs two state variables to change; gate delays decide the order. <strong>Non-critical:</strong> every order ends in the same stable state. <strong>Critical:</strong> the end state depends on the order: wrong some of the time.</li>
-<li><strong>Hazard:</strong> a momentary wrong output from unequal delays. <strong>Static-1:</strong> should stay 1 but dips (one product term turns off before the next turns on). Static-0 is the opposite; <strong>dynamic:</strong> should change once but bounces. In an asynchronous circuit a glitch can look like a real input.</li>
-<li><strong>Cure:</strong> on the K-map, every pair of adjacent 1s must share a group; add the redundant consensus group where they don't.</li>
-</ul>
 
-<figure style="max-width:100%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 310 392" style="max-width:310px"><text class="k-var" x="50" y="26" text-anchor="end">AB</text><text class="k-var" x="62" y="26">CD</text><line class="k-diag" x1="22" y1="12" x2="62" y2="56"/><text class="k-lab" x="91.0" y="44" text-anchor="middle">00</text><text class="k-lab" x="141.0" y="44" text-anchor="middle">01</text><text class="k-lab" x="191.0" y="44" text-anchor="middle">11</text><text class="k-lab" x="241.0" y="44" text-anchor="middle">10</text><text class="k-lab" x="50" y="90.0" text-anchor="end">00</text><text class="k-lab" x="50" y="140.0" text-anchor="end">01</text><text class="k-lab" x="50" y="190.0" text-anchor="end">11</text><text class="k-lab" x="50" y="240.0" text-anchor="end">10</text><rect class="k-cell" x="66" y="60" width="50" height="50"/><text class="k-zero" x="91.0" y="92.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="70" y="71">0</text><rect class="k-cell" x="116" y="60" width="50" height="50"/><text class="k-one" x="141.0" y="92.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="120" y="71">1</text><rect class="k-cell" x="166" y="60" width="50" height="50"/><text class="k-one" x="191.0" y="92.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="170" y="71">3</text><rect class="k-cell" x="216" y="60" width="50" height="50"/><text class="k-zero" x="241.0" y="92.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="220" y="71">2</text><rect class="k-cell" x="66" y="110" width="50" height="50"/><text class="k-one" x="91.0" y="142.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="70" y="121">4</text><rect class="k-cell" x="116" y="110" width="50" height="50"/><text class="k-one" x="141.0" y="142.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="120" y="121">5</text><rect class="k-cell" x="166" y="110" width="50" height="50"/><text class="k-zero" x="191.0" y="142.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="170" y="121">7</text><rect class="k-cell" x="216" y="110" width="50" height="50"/><text class="k-zero" x="241.0" y="142.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="220" y="121">6</text><rect class="k-cell" x="66" y="160" width="50" height="50"/><text class="k-zero" x="91.0" y="192.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="70" y="171">12</text><rect class="k-cell" x="116" y="160" width="50" height="50"/><text class="k-one" x="141.0" y="192.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="120" y="171">13</text><rect class="k-cell" x="166" y="160" width="50" height="50"/><text class="k-one" x="191.0" y="192.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="170" y="171">15</text><rect class="k-cell" x="216" y="160" width="50" height="50"/><text class="k-one" x="241.0" y="192.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="220" y="171">14</text><rect class="k-cell" x="66" y="210" width="50" height="50"/><text class="k-zero" x="91.0" y="242.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="70" y="221">8</text><rect class="k-cell" x="116" y="210" width="50" height="50"/><text class="k-one" x="141.0" y="242.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="120" y="221">9</text><rect class="k-cell" x="166" y="210" width="50" height="50"/><text class="k-one" x="191.0" y="242.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="170" y="221">11</text><rect class="k-cell" x="216" y="210" width="50" height="50"/><text class="k-zero" x="241.0" y="242.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="220" y="221">10</text><g class="kg c0"><rect class="k-grp" x="121" y="215" width="90" height="53.5" rx="14"/><rect class="k-grp" x="121" y="51.5" width="90" height="53.5" rx="14"/></g><g class="kg c2"><rect class="k-grp" x="125" y="69" width="32" height="182" rx="14"/></g><g class="kg c3"><rect class="k-grp" x="79" y="123" width="74" height="24" rx="14"/></g><g class="kg c4"><rect class="k-grp" x="183" y="177" width="66" height="16" rx="14"/></g><g class="kg c1"><rect class="k-grp" x="121" y="165" width="90" height="90" rx="14"/></g><g class="kg c0"><rect class="k-chip" x="8" y="276" width="61.599999999999994" height="22" rx="11"/><text class="k-chip-t" x="20" y="291.5">B'D</text></g><g class="kg c2"><rect class="k-chip" x="77.6" y="276" width="61.599999999999994" height="22" rx="11"/><text class="k-chip-t" x="89.6" y="291.5">C'D</text></g><g class="kg c3"><rect class="k-chip" x="147.2" y="276" width="80.0" height="22" rx="11"/><text class="k-chip-t" x="159.2" y="291.5">A'BC'</text></g><g class="kg c4"><rect class="k-chip" x="8" y="304" width="61.599999999999994" height="22" rx="11"/><text class="k-chip-t" x="20" y="319.5">ABC</text></g><g class="kg c1"><rect class="k-chip" x="8" y="332" width="264.0" height="22" rx="11"/><text class="k-chip-t" x="20" y="347.5">AD (added: hazard cover)</text></g></svg></div> <div class="fig"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 362.88 182.4377" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:41.033397</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 182.4377 L 362.88 182.4377 L 362.88 -0 L 0 -0 L 0 182.4377 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 185.592558 174.7067 L 210.507907 174.7067 L 210.507907 9.7727 L 185.592558 9.7727 z " clip-path="url(#pfff973d41a)" style="fill: #d92d20; opacity: 0.13"/> </g> <g id="line2d_1"> <path d="M 61.015814 29.1767 L 351.694884 29.1767 " clip-path="url(#pfff973d41a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_2"> <path d="M 61.015814 58.2827 L 185.592558 58.2827 L 185.592558 77.6867 L 351.694884 77.6867 " clip-path="url(#pfff973d41a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_3"> <path d="M 61.015814 87.3887 L 185.592558 87.3887 L 185.592558 106.7927 L 351.694884 106.7927 " clip-path="url(#pfff973d41a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_4"> <path d="M 61.015814 135.8987 L 210.507907 135.8987 L 210.507907 116.4947 L 351.694884 116.4947 " clip-path="url(#pfff973d41a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_5"> <path d="M 61.015814 145.6007 L 185.592558 145.6007 L 185.592558 165.0047 L 210.507907 165.0047 L 210.507907 145.6007 L 351.694884 145.6007 " clip-path="url(#pfff973d41a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_6"> <path d="M 185.592558 179.5577 L 185.592558 4.9217 " clip-path="url(#pfff973d41a)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/> </g> <g id="line2d_7"> <path d="M 210.507907 179.5577 L 210.507907 4.9217 " clip-path="url(#pfff973d41a)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="50.634419" y="41.302684" transform="rotate(-0 50.634419 41.302684)">A</text> </g> <g id="text_2"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="50.634419" y="70.408684" transform="rotate(-0 50.634419 70.408684)">B</text> </g> <g id="text_3"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="50.634419" y="99.514684" transform="rotate(-0 50.634419 99.514684)">term 1</text> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="50.634419" y="128.620684" transform="rotate(-0 50.634419 128.620684)">term 2</text> </g> <g id="text_5"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="50.634419" y="157.726684" transform="rotate(-0 50.634419 157.726684)">F</text> </g> <g id="text_6"> <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="185.592558" y="8.8025" transform="rotate(-0 185.592558 8.8025)">B falls</text> </g> </g> </g> <defs> <clipPath id="pfff973d41a"> <rect x="2.88" y="4.9217" width="357.12" height="174.636"/> </clipPath> </defs> </svg><figcaption>Left: the K-map with the extra group AD. Right: a static-1 glitch.</figcaption></figure>
+<figure style="max-width:55%"><svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" height="77.6pt" width="589.0849999999998pt" viewBox="-4.6 -22.6 589.0849999999998 77.6"><circle cx="65.7" cy="-0.0" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.3;" /><circle cx="173.70000000000002" cy="-0.0" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.3;" /><circle cx="281.7" cy="-0.0" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.3;" /><circle cx="389.7" cy="-0.0" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.3;" /><circle cx="497.7" cy="-0.0" r="4.32" style="stroke:#1c1f24;fill:none;stroke-width:1.3;" /><path d="M 0.0,-0.0 L 37.98,-0.0 M 70.02,-0.0 L 108.0,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 37.98,-18.0 L 61.38,-0.0 L 37.98,18.0 L 37.98,-18.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 108.0,-0.0 L 145.98,-0.0 M 178.02,-0.0 L 216.0,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 145.98,-18.0 L 169.38,-0.0 L 145.98,18.0 L 145.98,-18.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 216.0,-0.0 L 253.98,-0.0 M 286.02,-0.0 L 324.0,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 253.98,-18.0 L 277.38,-0.0 L 253.98,18.0 L 253.98,-18.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 324.0,-0.0 L 361.98,-0.0 M 394.02,-0.0 L 432.0,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 361.98,-18.0 L 385.38,-0.0 L 361.98,18.0 L 361.98,-18.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 432.0,-0.0 L 469.98,-0.0 M 502.02,-0.0 L 540.0,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 469.98,-18.0 L 493.38,-0.0 L 469.98,18.0 L 469.98,-18.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 540.0,-0.0 L 550.8000000000001,-0.0 L 561.6,-0.0" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 502.02,-0.0 L 502.02,25.2 L 502.02,50.4" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 502.02,50.4 L 261.0,50.39999999999996 L 19.97999999999999,50.39999999999994" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 19.97999999999999,50.39999999999994 L 19.97999999999999,25.199999999999942 L 19.979999999999993,-5.595524044110789e-14" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><path d="M 19.979999999999993,-5.595524044110789e-14 L 28.979999999999993,-5.595524044110789e-14 L 37.97999999999999,-5.595524044110789e-14" style="stroke:#1c1f24;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;" /><text x="565.1999999999999" y="-4.4" fill="#1c1f24" font-size="11" font-family="sans" text-anchor="start"><tspan x="565.1999999999999" dy="11">out</tspan></text></svg><figcaption>Ring oscillator: an odd number of inverters in a loop; the output of the last feeds the first.</figcaption></figure>
 
-<p><strong>Answer.</strong> <strong>State assignment:</strong> give states that have a transition between them codes differing in one bit, so only one variable changes at a time and no critical race occurs. <strong>Hazard-free:</strong> the 1s are Σm(1, 3, 4, 5, 9, 11, 13, 14, 15). Minimal cover B'D + C'D + A'BC' + ABC leaves pairs 11–15 and 13–15 in no common group; <strong>AD</strong> (9, 11, 13, 15) covers both:</p>
+<p>With an <strong>even</strong> number of inverters the loop is consistent: 2 inverters is the latch of file 09, with two stable states, and it settles. With an <strong>odd</strong> number there is no consistent state: a 1 sent round the loop comes back as 0. An edge chases itself round the ring. It takes N·t<sub>pd</sub> to go round once, and a full period needs two trips (one rising, one falling):</p>
+<div class="eq">f = <span class="frac"><span>1</span><span>2Nt<sub>pd</sub></span></span></div>
+
+<p>Five inverters of 2 ns: f = 1 / (2 × 5 × 2 ns) = 1/(20 ns) = <strong>50 MHz</strong>.</p>
+<p>The ring is cheap but its t<sub>pd</sub> drifts with temperature, supply voltage and manufacture, so its frequency does too. It is used to measure gate delay on a chip, not to clock a system. System clocks come from a <strong>crystal oscillator</strong>, accurate to parts per million (KB 04 §5).</p>
+<p><strong>Answer to the Predict.</strong> <strong>2 inverters latch</strong> (stable, no oscillation); <strong>3 oscillate</strong>, because an odd loop has no stable state.</p>
+<div class="box check">
+<div class="bh">Check 9</div>
+<p>(a) A ring of 3 inverters with t<sub>pd</sub> = 1 ns: f? (b) 7 inverters of 1.5 ns: period and f?</p>
+</div>
+<h3>10 · Asynchronous circuits: the flow table</h3>
+<p>Every circuit so far changed state only at a clock edge. Take the clock away and the feedback loop itself is the memory.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>The NOR latch of file 09 step 2 has no clock. Its Q is fed back into its own logic. With S = 0, R = 0 it holds Q. Make S = 1: Q becomes 1. Does it change anything if S then goes back to 0?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Asynchronous (sequential) circuit:</strong> no clock; the state is held in feedback loops and changes as soon as an input does. <strong>State variable y:</strong> the signal fed back. <strong>Next state Y:</strong> the value the logic drives y towards. <strong>Stable state:</strong> Y = y, nothing moves. <strong>Fundamental mode:</strong> only one input changes at a time, and only after the circuit has settled.</p>
+</div>
+<p>Read the NOR latch as an asynchronous circuit. Its feedback gives</p>
+<div class="eq">Y = R'(S + y)</div>
+
+<p>Read it: <em>the latch is 1 next if R is 0 and either S is 1 or it was already 1</em>. The <strong>flow table</strong> lists Y for every present y and input SR; a stable entry (Y = y) is circled in books, here <strong>bold</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>y \ SR</th>
+<th>00</th>
+<th>01</th>
+<th>11</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td><strong>1</strong></td>
+<td>0</td>
+<td>0</td>
+<td><strong>1</strong></td>
+</tr>
+</tbody>
+</table>
+<p>To follow the circuit: stay in the row of the present y, move along the row when an input changes, and if the entry is not stable, move down or up to the row it names (y becomes Y). Then look again.</p>
+<ol>
+<li>Start y = 0, SR = 00: stable.</li>
+<li>S rises, SR = 10: the entry is 1, unstable. y becomes 1; in row 1, column 10 is 1: stable. The latch has set.</li>
+<li>S falls, SR = 00: row 1, column 00 is 1: stable. The latch remembers.</li>
+</ol>
+<p>The fundamental-mode rule matters because with two inputs changing at once the circuit could pass through either in-between column, just as step 1's bits passed through either in-between state.</p>
+<p><strong>Answer to the Predict.</strong> <strong>No</strong>: after S returns to 0 the circuit sits in the stable entry y = 1, SR = 00. The feedback holds the 1.</p>
+<div class="box check">
+<div class="bh">Check 10</div>
+<p>(a) From y = 1, SR = 10, R rises (SR = 11). Follow the table: where does it settle? (b) In one sentence, what is a stable state?</p>
+</div>
+<h3>11 · Races and state assignment</h3>
+<p>In step 10 one state variable changed. With two or more, the order in which they change is decided by gate delays.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>An asynchronous circuit has state variables y<sub>1</sub>y<sub>2</sub>. In state 00, an input change asks for state 11. Both variables are told to change "at once". What decides which changes first, and does it matter?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Race:</strong> a transition in which two or more state variables must change. <strong>Non-critical race:</strong> every order of change ends in the same stable state. <strong>Critical race:</strong> the end state depends on the order, so the circuit is sometimes wrong.</p>
+</div>
+<p>One column of a flow table (input x = 1), present state y<sub>1</sub>y<sub>2</sub> → next:</p>
+<table>
+<thead>
+<tr>
+<th>y<sub>1</sub>y<sub>2</sub></th>
+<th>00</th>
+<th>01</th>
+<th>11</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>table A (critical)</td>
+<td>11</td>
+<td><strong>01</strong></td>
+<td><strong>11</strong></td>
+<td>11</td>
+</tr>
+<tr>
+<td>table B (non-critical)</td>
+<td>11</td>
+<td>11</td>
+<td><strong>11</strong></td>
+<td>11</td>
+</tr>
+<tr>
+<td>table C (cycle)</td>
+<td>10</td>
+<td><strong>01</strong></td>
+<td><strong>11</strong></td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
+<p>From 00 the circuit must reach 11:</p>
+<ol>
+<li>Table A, y<sub>1</sub> first: 00 → 10 → 11, stable. Correct.</li>
+<li>Table A, y<sub>2</sub> first: 00 → 01, and 01 is <strong>stable</strong>: it stops there. Wrong. <strong>Critical race.</strong></li>
+<li>Table B: whichever changes first, the in-between state leads on to 11. <strong>Non-critical.</strong></li>
+<li>Table C: 00 is sent to 10 first, then 10 → 11. Each move changes one variable, so there is no race at all (a <strong>cycle</strong> through an unstable state).</li>
+</ol>
+<p><strong>State assignment</strong> is the step where binary codes are given to the states. Its objective in an asynchronous circuit: <strong>give states that have a transition between them codes that differ in one bit</strong>, so every transition changes one variable and no critical race can occur. Where that is impossible, route the transition through an extra unstable state, as table C does.</p>
+<p><strong>Answer to the Predict.</strong> <strong>Gate and wire delays</strong> decide, and it matters when an in-between state is stable for that input: then the circuit stops in the wrong state (a critical race).</p>
+<div class="box check">
+<div class="bh">Check 11</div>
+<p>(a) Critical vs non-critical race, one line each. (b) <span class="tag">EC6302 part (a)</span> What is the objective of state assignment in an asynchronous circuit?</p>
+</div>
+<h3>12 · Static hazards and the consensus term</h3>
+<p>Step 11's fault came from two state variables. A single input change can also cause a wrong pulse, inside the combinational logic alone.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>F = AB + A'C with B = C = 1. Then F = A + A' = 1 for either A. Now A falls from 1 to 0. The inverter that makes A' takes 2 ns. Can F dip to 0?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Static-1 hazard:</strong> the output should stay 1 but dips to 0 for a moment. <strong>Static-0 hazard:</strong> should stay 0 but pulses to 1. <strong>Dynamic hazard:</strong> should change once but changes three or more times. <strong>Consensus term:</strong> for XY + X'Z, the term YZ; adding it does not change the function (file 01: AB + A'C + BC = AB + A'C).</p>
+</div>
+
+<figure style="max-width:78%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 504.474728 323.483938" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-19T01:14:50.470377</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 323.483938 
+L 504.474728 323.483938 
+L 504.474728 0 
+L 0 0 
+L 0 323.483938 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 83.553634 291.168 
+L 496.473634 291.168 
+L 496.473634 2.88 
+L 83.553634 2.88 
+L 83.553634 291.168 
+z
+" style="fill: none"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 221.193634 287.218849 
+L 221.193634 6.829151 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 248.721634 287.218849 
+L 248.721634 6.829151 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 262.485634 287.218849 
+L 262.485634 6.829151 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 290.013634 287.218849 
+L 290.013634 6.829151 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 303.777634 287.218849 
+L 303.777634 6.829151 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 331.305634 287.218849 
+L 331.305634 6.829151 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #6a707a; stroke-width: 0.8"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_7">
+      <defs>
+       <path id="me8a958c459" d="M 0 0 
+L 0 3.5 
+" style="stroke: #1c1f24; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#me8a958c459" x="83.553634" y="291.168" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="83.553634" y="305.200969" transform="rotate(-0 83.553634 305.200969)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#me8a958c459" x="152.373634" y="291.168" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="152.373634" y="305.200969" transform="rotate(-0 152.373634 305.200969)">5</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#me8a958c459" x="221.193634" y="291.168" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="221.193634" y="305.200969" transform="rotate(-0 221.193634 305.200969)">10</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#me8a958c459" x="290.013634" y="291.168" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="290.013634" y="305.200969" transform="rotate(-0 290.013634 305.200969)">15</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_11">
+      <g>
+       <use xlink:href="#me8a958c459" x="358.833634" y="291.168" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="358.833634" y="305.200969" transform="rotate(-0 358.833634 305.200969)">20</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#me8a958c459" x="427.653634" y="291.168" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="427.653634" y="305.200969" transform="rotate(-0 427.653634 305.200969)">25</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_13">
+      <g>
+       <use xlink:href="#me8a958c459" x="496.473634" y="291.168" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="496.473634" y="305.200969" transform="rotate(-0 496.473634 305.200969)">30</text>
+     </g>
+    </g>
+    <g id="text_8">
+     <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="290.013634" y="318.418938" transform="rotate(-0 290.013634 318.418938)">time (ns)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2"/>
+   <g id="line2d_14">
+    <path d="M 83.553634 10.778301 
+L 221.193634 10.778301 
+L 221.193634 30.524055 
+L 496.473634 30.524055 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_15">
+    <path d="M 83.553634 70.015562 
+L 248.721634 70.015562 
+L 248.721634 50.269808 
+L 496.473634 50.269808 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_16">
+    <path d="M 83.553634 89.761315 
+L 262.485634 89.761315 
+L 262.485634 109.507068 
+L 496.473634 109.507068 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_17">
+    <path d="M 83.553634 148.998575 
+L 290.013634 148.998575 
+L 290.013634 129.252822 
+L 496.473634 129.252822 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_18">
+    <path d="M 83.553634 168.744329 
+L 303.777634 168.744329 
+L 303.777634 188.490082 
+L 331.305634 188.490082 
+L 331.305634 168.744329 
+L 496.473634 168.744329 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_19">
+    <path d="M 83.553634 259.574795 
+L 496.473634 259.574795 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke: #e0661b; stroke-width: 2; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 83.553634 291.168 
+L 496.473634 291.168 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_9">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="75.295234" y="23.075162" transform="rotate(-0 75.295234 23.075162)">A</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="75.295234" y="62.566669" transform="rotate(-0 75.295234 62.566669)">A'</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="75.295234" y="102.058176" transform="rotate(-0 75.295234 102.058176)">AB</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="75.295234" y="141.549683" transform="rotate(-0 75.295234 141.549683)">A'C</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="75.295234" y="181.04119" transform="rotate(-0 75.295234 181.04119)">F = AB + A'C</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="75.295234" y="271.871656" transform="rotate(-0 75.295234 271.871656)">F with BC added</text>
+   </g>
+   <g id="patch_4">
+    <path d="M 305.342882 202.31211 
+Q 317.541634 202.31211 329.740387 202.31211 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 309.342882 204.31211 
+L 305.342882 202.31211 
+L 309.342882 200.31211 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 325.740387 200.31211 
+L 329.740387 202.31211 
+L 325.740387 204.31211 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_15">
+    <text style="fill: #d92d20; font: 700 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(339.564034 205.477757)">static-1 hazard:</text>
+    <text style="fill: #d92d20; font: 700 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(339.564034 215.543132)">2 ns dip (= NOT delay)</text>
+   </g>
+   <g id="line2d_20">
+    <path d="M 303.777634 168.744329 
+L 303.777634 188.490082 
+L 331.305634 188.490082 
+L 331.305634 168.744329 
+" clip-path="url(#pb6a94b8ce9)" style="fill: none; stroke: #d92d20; stroke-width: 2.2; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pb6a94b8ce9">
+   <rect x="83.553634" y="2.88" width="412.92" height="288.288"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>What this graph plots: time across (ns), one row per signal, B = C = 1 throughout. NOT 2 ns, AND 3 ns, OR 3 ns. A falls at 10 ns; AB falls at 13 ns but A'C rises only at 15 ns, so F dips from 16 to 18 ns. With BC added, F stays 1.</figcaption></figure>
+
+<p>Follow the delays (NOT 2 ns, AND 3 ns, OR 3 ns), A falling at 10 ns:</p>
+<ol>
+<li>AB falls at 10 + 3 = 13 ns.</li>
+<li>A' rises at 10 + 2 = 12 ns, so A'C rises at 12 + 3 = 15 ns.</li>
+<li>From 13 to 15 ns both products are 0. F, 3 ns behind, is 0 from <strong>16 to 18 ns</strong>: a 2 ns dip, the inverter's delay.</li>
+</ol>
+<p><strong>On the K-map:</strong> cells A'BC (3) and ABC (7) are both 1 and are neighbours, but AB holds one and A'C the other. Moving between them hands F from one product to the other, and the hand-over can leave a gap. <strong>The rule:</strong> every pair of adjacent 1s must lie together in some group. Add the group that joins them: BC, the consensus term. With B = C = 1, BC = 1 whatever A does, so F stays 1.</p>
+<div class="eq">F = AB + A'C + BC</div>
+
+<p>The POS form has the mirror fault: (A + B)(A' + C) with B = C = 0 can pulse to 1 (static-0), cured by the consensus factor (B + C). Two-level SOP with every adjacent pair covered is free of static and dynamic hazards for single input changes.</p>
+<p><strong>Answer to the Predict.</strong> <strong>Yes</strong>: F dips to 0 for <strong>2 ns</strong> (16 to 18 ns). Adding <strong>BC</strong> removes it.</p>
+<div class="box check">
+<div class="bh">Check 12</div>
+<p>(a) F = A'B + AC: which input change can cause a static-1 hazard, and which term removes it? (b) For (A + B)(A' + C), when can a static-0 hazard occur, and what is added?</p>
+</div>
+<h3>13 · Hazard-free design (EC6302)</h3>
+<p>Step 12 found the hazard in a 3-variable function by eye. The same rule, applied cell by cell, solves the exam question.</p>
+<div class="box q">
+<div class="bh"><span class="tag">EC6302 Nov/Dec 2021 Q15(b) · 13 marks</span></div>
+<p>What is the objective of state assignment in an asynchronous circuit? Give the hazard-free realisation for the Boolean function f(A, B, C, D) = ΠM(0, 2, 6, 7, 8, 10, 12).</p>
+</div>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>The minimal SOP of f has four terms. How many adjacent pairs of 1s do you expect to find that no single term covers: none, a few, or many?</p>
+</div>
+
+<figure style="max-width:80%"><svg class="fig-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 310 392" style="max-width:310px"><text class="k-var" x="50" y="26" text-anchor="end">AB</text><text class="k-var" x="62" y="26">CD</text><line class="k-diag" x1="22" y1="12" x2="62" y2="56"/><text class="k-lab" x="91.0" y="44" text-anchor="middle">00</text><text class="k-lab" x="141.0" y="44" text-anchor="middle">01</text><text class="k-lab" x="191.0" y="44" text-anchor="middle">11</text><text class="k-lab" x="241.0" y="44" text-anchor="middle">10</text><text class="k-lab" x="50" y="90.0" text-anchor="end">00</text><text class="k-lab" x="50" y="140.0" text-anchor="end">01</text><text class="k-lab" x="50" y="190.0" text-anchor="end">11</text><text class="k-lab" x="50" y="240.0" text-anchor="end">10</text><rect class="k-cell" x="66" y="60" width="50" height="50"/><text class="k-zero" x="91.0" y="92.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="70" y="71">0</text><rect class="k-cell" x="116" y="60" width="50" height="50"/><text class="k-one" x="141.0" y="92.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="120" y="71">1</text><rect class="k-cell" x="166" y="60" width="50" height="50"/><text class="k-one" x="191.0" y="92.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="170" y="71">3</text><rect class="k-cell" x="216" y="60" width="50" height="50"/><text class="k-zero" x="241.0" y="92.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="220" y="71">2</text><rect class="k-cell" x="66" y="110" width="50" height="50"/><text class="k-one" x="91.0" y="142.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="70" y="121">4</text><rect class="k-cell" x="116" y="110" width="50" height="50"/><text class="k-one" x="141.0" y="142.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="120" y="121">5</text><rect class="k-cell" x="166" y="110" width="50" height="50"/><text class="k-zero" x="191.0" y="142.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="170" y="121">7</text><rect class="k-cell" x="216" y="110" width="50" height="50"/><text class="k-zero" x="241.0" y="142.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="220" y="121">6</text><rect class="k-cell" x="66" y="160" width="50" height="50"/><text class="k-zero" x="91.0" y="192.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="70" y="171">12</text><rect class="k-cell" x="116" y="160" width="50" height="50"/><text class="k-one" x="141.0" y="192.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="120" y="171">13</text><rect class="k-cell" x="166" y="160" width="50" height="50"/><text class="k-one" x="191.0" y="192.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="170" y="171">15</text><rect class="k-cell" x="216" y="160" width="50" height="50"/><text class="k-one" x="241.0" y="192.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="220" y="171">14</text><rect class="k-cell" x="66" y="210" width="50" height="50"/><text class="k-zero" x="91.0" y="242.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="70" y="221">8</text><rect class="k-cell" x="116" y="210" width="50" height="50"/><text class="k-one" x="141.0" y="242.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="120" y="221">9</text><rect class="k-cell" x="166" y="210" width="50" height="50"/><text class="k-one" x="191.0" y="242.56" text-anchor="middle" style="font-size:21px">1</text><text class="k-idx" x="170" y="221">11</text><rect class="k-cell" x="216" y="210" width="50" height="50"/><text class="k-zero" x="241.0" y="242.56" text-anchor="middle" style="font-size:21px">0</text><text class="k-idx" x="220" y="221">10</text><g class="kg c0"><rect class="k-grp" x="121" y="215" width="90" height="53.5" rx="14"/><rect class="k-grp" x="121" y="51.5" width="90" height="53.5" rx="14"/></g><g class="kg c2"><rect class="k-grp" x="125" y="69" width="32" height="182" rx="14"/></g><g class="kg c3"><rect class="k-grp" x="79" y="123" width="74" height="24" rx="14"/></g><g class="kg c4"><rect class="k-grp" x="183" y="177" width="66" height="16" rx="14"/></g><g class="kg c1"><rect class="k-grp" x="121" y="165" width="90" height="90" rx="14"/></g><g class="kg c0"><rect class="k-chip" x="8" y="276" width="61.599999999999994" height="22" rx="11"/><text class="k-chip-t" x="20" y="291.5">B'D</text></g><g class="kg c2"><rect class="k-chip" x="77.6" y="276" width="61.599999999999994" height="22" rx="11"/><text class="k-chip-t" x="89.6" y="291.5">C'D</text></g><g class="kg c3"><rect class="k-chip" x="147.2" y="276" width="80.0" height="22" rx="11"/><text class="k-chip-t" x="159.2" y="291.5">A'BC'</text></g><g class="kg c4"><rect class="k-chip" x="8" y="304" width="61.599999999999994" height="22" rx="11"/><text class="k-chip-t" x="20" y="319.5">ABC</text></g><g class="kg c1"><rect class="k-chip" x="8" y="332" width="264.0" height="22" rx="11"/><text class="k-chip-t" x="20" y="347.5">AD (added: hazard cover)</text></g></svg></div> <div class="fig"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 362.88 182.4377" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:41.033397</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 182.4377 L 362.88 182.4377 L 362.88 -0 L 0 -0 L 0 182.4377 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 185.592558 174.7067 L 210.507907 174.7067 L 210.507907 9.7727 L 185.592558 9.7727 z " clip-path="url(#pfff973d41a)" style="fill: #d92d20; opacity: 0.13"/> </g> <g id="line2d_1"> <path d="M 61.015814 29.1767 L 351.694884 29.1767 " clip-path="url(#pfff973d41a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_2"> <path d="M 61.015814 58.2827 L 185.592558 58.2827 L 185.592558 77.6867 L 351.694884 77.6867 " clip-path="url(#pfff973d41a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_3"> <path d="M 61.015814 87.3887 L 185.592558 87.3887 L 185.592558 106.7927 L 351.694884 106.7927 " clip-path="url(#pfff973d41a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_4"> <path d="M 61.015814 135.8987 L 210.507907 135.8987 L 210.507907 116.4947 L 351.694884 116.4947 " clip-path="url(#pfff973d41a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_5"> <path d="M 61.015814 145.6007 L 185.592558 145.6007 L 185.592558 165.0047 L 210.507907 165.0047 L 210.507907 145.6007 L 351.694884 145.6007 " clip-path="url(#pfff973d41a)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linejoin: miter; stroke-linecap: square"/> </g> <g id="line2d_6"> <path d="M 185.592558 179.5577 L 185.592558 4.9217 " clip-path="url(#pfff973d41a)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/> </g> <g id="line2d_7"> <path d="M 210.507907 179.5577 L 210.507907 4.9217 " clip-path="url(#pfff973d41a)" style="fill: none; stroke-dasharray: 2.4,2.4; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 0.8"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="50.634419" y="41.302684" transform="rotate(-0 50.634419 41.302684)">A</text> </g> <g id="text_2"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="50.634419" y="70.408684" transform="rotate(-0 50.634419 70.408684)">B</text> </g> <g id="text_3"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="50.634419" y="99.514684" transform="rotate(-0 50.634419 99.514684)">term 1</text> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="50.634419" y="128.620684" transform="rotate(-0 50.634419 128.620684)">term 2</text> </g> <g id="text_5"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="50.634419" y="157.726684" transform="rotate(-0 50.634419 157.726684)">F</text> </g> <g id="text_6"> <text style="fill: #d92d20; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="185.592558" y="8.8025" transform="rotate(-0 185.592558 8.8025)">B falls</text> </g> </g> </g> <defs> <clipPath id="pfff973d41a"> <rect x="2.88" y="4.9217" width="357.12" height="174.636"/> </clipPath> </defs> </svg><figcaption>Top: f's K-map, rows AB and columns CD, each cell's small number its minterm, with the four minimal groups and the added group AD (cells 9, 11, 13, 15). Bottom: what this graph plots: time across, rows the two product terms and F; when B falls in cell 15 the output passes from one term to the other and F dips.</figcaption></figure>
+
+<ol>
+<li><strong>The 1s.</strong> ΠM lists the 0s, so the 1s are the rest: <strong>Σm(1, 3, 4, 5, 9, 11, 13, 14, 15)</strong>.</li>
+<li><strong>Minimal cover</strong> (file 02): B'D (1, 3, 9, 11), C'D (1, 5, 9, 13), A'BC' (4, 5), ABC (14, 15).</li>
+<li><strong>Check every adjacent pair of 1s.</strong> All pairs share a group except two: 11 (1011) with 15 (1111), where B'D holds 11 and ABC holds 15; and 13 (1101) with 15 (1111), where C'D holds 13 and ABC holds 15.</li>
+<li><strong>Add one group for both.</strong> Cells 9, 11, 13, 15 are all 1s and form the quad <strong>AD</strong>; it holds 11 with 15 and 13 with 15.</li>
+</ol>
 <div class="eq">f = B'D + C'D + A'BC' + ABC + AD</div>
 
+<p>AD is redundant for the function (it covers no new 1) and essential for the timing. Leave it out and B falling at ABCD = 1111 (cell 15 → 11) can make f glitch.</p>
+<p>One hazard this method cannot reach: an <strong>essential hazard</strong> lives in the asynchronous circuit's flow table itself, not in any one function's cover; it is cured by adding delay in the feedback path, not by consensus terms (KB 04 §6).</p>
+<p><strong>Answer to the question.</strong> <strong>State assignment:</strong> codes for states with a transition between them differ in one bit, so no critical race occurs (step 11). <strong>Hazard-free f = B'D + C'D + A'BC' + ABC + AD.</strong> <strong>Answer to the Predict:</strong> <strong>a few</strong>: exactly two pairs, (11, 15) and (13, 15), and one extra term covers both.</p>
 <div class="box check">
-<div class="bh">Check 3</div>
-<p>(a) F = AB + A'C. Which input change can cause a static-1 hazard, and which term removes it? (b) Critical vs non-critical race? (c) State the fundamental-mode rule.</p>
+<div class="bh">Check 13</div>
+<p>(a) F(A, B, C) = Σm(0, 1, 5, 7) has minimal SOP A'B' + AC. Find the uncovered adjacent pair and the term that fixes it. (b) Why can't a consensus term cure an essential hazard?</p>
 </div>
 <hr />
 <h2>Exam form</h2>
-<p><strong>Timing issues.</strong> Skew (hold), glitches (Moore outputs), metastability and the two-flip-flop synchronizer; debouncing.</p>
-<p><strong>Generators.</strong> LFSR states, 2<sup>n</sup> − 1, lock-out; pulse train (ring or counter + logic); clock division; multivibrator table, 555 formulas, ring oscillator.</p>
-<p><strong>Asynchronous.</strong> Flow table; races (critical, non-critical) and the state-assignment rule; hazards (static-1, static-0, dynamic) and the consensus cure.</p>
+<p><strong>Timing issues (steps 1–3).</strong>
+1. Decoded-output glitch: list the in-between states of a multi-bit change; cure by registering the output (D = the decode of the state before).
+2. Metastability: cause (D changes inside setup/hold), effects (invalid level; flip-flops disagree), two-flip-flop synchronizer (rare, not impossible; one or two clocks of delay).
+3. Debounce: SPDT switch + SR latch; bounce only repeats "set" or says "hold".</p>
+<p><strong>Generators (steps 4–9).</strong>
+4. LFSR trace table; length 2<sup>n</sup> − 1 when maximal; all-zeros lock-out (XNOR: all-ones).
+5. Pulse train: ring of n flip-flops loaded with the pattern, or MOD-n counter + output K-map.
+6. Division: f/2<sup>k</sup> from binary bits; MOD-N for f/N; MOD-N/2 then T flip-flop for 50 %.
+7. Multivibrator table; 555: t<sub>H</sub> = 0.693(R<sub>1</sub> + R<sub>2</sub>)C, t<sub>L</sub> = 0.693R<sub>2</sub>C, f = 1.44/((R<sub>1</sub> + 2R<sub>2</sub>)C), duty = (R<sub>1</sub> + R<sub>2</sub>)/(R<sub>1</sub> + 2R<sub>2</sub>); monostable T = 1.1RC. Ring: f = 1/(2Nt<sub>pd</sub>), N odd.</p>
+<p><strong>Asynchronous (steps 10–13).</strong>
+8. Flow table: stable entries, moving along a row then to the named row; fundamental mode.
+9. Races: critical vs non-critical; state assignment with one-bit transitions; cycles.
+10. Hazards: static-1, static-0, dynamic, essential; every adjacent pair of 1s in a common group; consensus term.</p>
 <h2>Traps</h2>
 <ul>
-<li>Saying a synchronizer makes failure impossible: only very rare.</li>
-<li>Starting an LFSR at all zeros.</li>
-<li>A ring oscillator with an even number of inverters.</li>
+<li>Saying a synchronizer makes metastability impossible: it makes failure rare.</li>
+<li>Debouncing with a one-way switch and a latch: the latch needs both contacts.</li>
+<li>Seeding an LFSR with all zeros (or an XNOR LFSR with all ones).</li>
+<li>Taking 2<sup>n</sup> − 1 for any taps: only maximal taps reach it; trace the given ones.</li>
+<li>Using a MOD-N counter's top bit as a square wave when N is not a power of 2.</li>
+<li>Writing 555 f = 1.44/((R<sub>1</sub> + R<sub>2</sub>)C): the discharge resistor counts twice, (R<sub>1</sub> + 2R<sub>2</sub>).</li>
+<li>A ring oscillator with an even number of inverters: it latches.</li>
 <li>Removing a "redundant" consensus term from a hazard-free design.</li>
+<li>Forgetting that ΠM lists the 0s: the K-map's 1s are the missing numbers.</li>
 </ul>
 <h2>Self-test</h2>
 <ol>
-<li>Sequence length of a maximal 4-bit LFSR?</li>
-<li>555 astable with R<sub>1</sub> = 2 kΩ, R<sub>2</sub> = 4 kΩ, C = 0.1 μF: f and duty cycle?</li>
-<li>A ring oscillator of 3 inverters, t<sub>pd</sub> = 1 ns: f?</li>
-<li>F = A'B + AC: find the hazard and remove it.</li>
+<li>A 4-bit LFSR with D<sub>1</sub> = Q<sub>3</sub> ⊕ Q<sub>4</sub> is seeded at 0001. How many clocks until 0001 returns?</li>
 <li>555 monostable with R = 10 kΩ, C = 1 μF: pulse width?</li>
-<li>Draw a two-flip-flop synchronizer and explain it.</li>
+<li>555 astable with R<sub>1</sub> = 4.7 kΩ, R<sub>2</sub> = 47 kΩ, C = 1 nF: f and duty cycle?</li>
+<li>Ring oscillator of 9 inverters, t<sub>pd</sub> = 0.5 ns: f?</li>
+<li>A 2-bit up counter has an output Y = Q<sub>1</sub>Q<sub>0</sub>. On which transition can it glitch, and with which bit changing first?</li>
+<li>Divide 100 MHz to a 1 MHz square wave (50 % duty).</li>
+<li>F = A'B + AC. Find the hazard and remove it.</li>
+<li>Draw a two-flip-flop synchronizer and explain why the second flip-flop is there.</li>
 </ol>
 <div class="answers">
 <h2>Answers</h2>
-<p><strong>Check 1.</strong> (a) <strong>Setup</strong>: a longer period gives data more time; hold does not involve the period. (b) Moore outputs come only from flip-flops, which change once per edge; Mealy outputs also follow the input, which changes any time.</p>
-<p><strong>Check 2.</strong> (a) <strong>31</strong>. (b) An even number forms a consistent loop (like a latch) and settles. (c) <strong>MOD-50</strong>.</p>
-<p><strong>Check 3.</strong> (a) With B = C = 1, changing A hands the output from AB to A'C; it can dip. Add <strong>BC</strong>. (b) Critical: the final state depends on which variable changes first; non-critical: every order ends in the same state. (c) Only one input changes at a time, and only after the circuit is stable.</p>
+<p><strong>Check 1.</strong> (a) 001 → 010 (Q<sub>0</sub> falls first: 000) and 011 → 100 (Q<sub>1</sub> and Q<sub>0</sub> fall before Q<sub>2</sub> rises: 000). 111 → 000 ends in 000, so a 1 there is correct. (b) The state before 000 is 111: <strong>D<sub>Y</sub> = Q<sub>2</sub>Q<sub>1</sub>Q<sub>0</sub></strong>.</p>
+<p><strong>Check 2.</strong> (a) 1/50 MHz = 20 ns, minus 2 ns: <strong>18 ns</strong>. (b) One flip-flop's output can itself be metastable, and the system would read it; the second gives it a whole period to settle first. (c) <strong>Delay</strong>: the input reaches the system one to two clock periods late.</p>
+<p><strong>Check 3.</strong> (a) With one contact the latch has only a "set" input; the release must drive "reset" from the other contact. Each contact only ever sends one command, which is what makes bounce harmless. (b) <strong>Holds</strong>: S'R' = 11 is the NAND latch's no-change input.</p>
+<p><strong>Check 4.</strong> (a) 011 → 001 → <strong>100</strong> → 010 → 101 → 110 → 111 → 011. (b) Q<sub>1</sub> over one period from 100: <strong>1 0 1 1 1 0 0</strong>.</p>
+<p><strong>Check 5.</strong> (a) 2<sup>5</sup> − 1 = <strong>31</strong>. (b) <strong>No</strong>: maximal for 4 bits is 15. (c) All-zeros is a lock-out: from 0…0 it never moves.</p>
+<p><strong>Check 6.</strong> (a) <strong>8</strong> flip-flops, one per bit. (b) Z = 1 at counts 0, 2, 3: <strong>Z = Q<sub>1</sub> + Q<sub>2</sub>'Q<sub>0</sub>'</strong> (Q<sub>1</sub> groups 2, 3, 6, 7 with the don't-cares).</p>
+<p><strong>Check 7.</strong> (a) <strong>MOD-1000</strong>, at least <strong>10</strong> flip-flops (2<sup>10</sup> = 1024 ≥ 1000). (b) 8 MHz / 8 = <strong>1 MHz</strong>.</p>
+<p><strong>Check 8.</strong> (a) f = 1.44 / ((2 + 8) kΩ × 0.1 μF) = <strong>1.44 kHz</strong>; duty = 6/10 = <strong>60 %</strong>. (b) The high time charges through R<sub>1</sub> + R<sub>2</sub>, the low time through R<sub>2</sub> only; with R<sub>1</sub> &gt; 0 the high time is always longer.</p>
+<p><strong>Check 9.</strong> (a) 1/(2 × 3 × 1 ns) = <strong>167 MHz</strong>. (b) Period 2 × 7 × 1.5 ns = <strong>21 ns</strong>, f = <strong>47.6 MHz</strong>.</p>
+<p><strong>Check 10.</strong> (a) Row 1, column 11: Y = 0, unstable; move to row 0, column 11: 0, <strong>stable at y = 0</strong> (the NOR latch's S = R = 1 gives Q = 0). (b) A state where the next state equals the present one (Y = y), so nothing changes until an input does.</p>
+<p><strong>Check 11.</strong> (a) Critical: the end state depends on which variable changes first. Non-critical: every order ends in the same stable state. (b) To give states with a transition between them <strong>codes differing in one bit</strong>, so no transition races and no <strong>critical race</strong> can occur.</p>
+<p><strong>Check 12.</strong> (a) With <strong>B = C = 1</strong>, a change of <strong>A</strong> hands F from A'B to AC; add <strong>BC</strong>: F = A'B + AC + BC. (b) With <strong>B = C = 0</strong>, a change of A; add the factor <strong>(B + C)</strong>: (A + B)(A' + C)(B + C).</p>
+<p><strong>Check 13.</strong> (a) Cells 1 (001) and 5 (101) are adjacent 1s, held by A'B' and AC separately; add <strong>B'C</strong>: F = A'B' + AC + B'C. (b) An essential hazard comes from the flow table (an input change racing the feedback), not from a gap in one function's cover; it needs <strong>delay</strong> in the feedback path.</p>
 <p><strong>Self-test.</strong></p>
 <ol>
-<li><strong>15</strong>.</li>
-<li>f = 1.44/(10 kΩ × 0.1 μF) = <strong>1.44 kHz</strong>; duty = 6/10 = <strong>60%</strong>.</li>
-<li>1/(2 × 3 × 1 ns) = <strong>167 MHz</strong>.</li>
-<li>B = C = 1, A changing: static-1 hazard. Add <strong>BC</strong>: F = A'B + AC + BC.</li>
+<li>Maximal 4-bit taps: <strong>15</strong> clocks.</li>
 <li>1.1 × 10 kΩ × 1 μF = <strong>11 ms</strong>.</li>
-<li>Two D flip-flops in series on the system clock; the asynchronous input goes into the first. If the first goes metastable, it has a whole clock period to settle before the second samples it.</li>
+<li>f = 1.44 / (98.7 kΩ × 1 nF) = <strong>14.6 kHz</strong>; duty = 51.7/98.7 = <strong>52.4 %</strong>.</li>
+<li>1/(2 × 9 × 0.5 ns) = 1/(9 ns) = <strong>111 MHz</strong>.</li>
+<li><strong>01 → 10, with Q<sub>1</sub> rising first</strong>: the bits pass through 11.</li>
+<li><strong>MOD-50 then a T flip-flop</strong> (÷100, 50 % duty); a MOD-100 counter's top bit is not a square wave.</li>
+<li>With B = C = 1, A changing: static-1 hazard. Add <strong>BC</strong>: F = A'B + AC + BC.</li>
+<li>Two D flip-flops in series on the system clock; the asynchronous input enters the first. If the first goes metastable, the second samples it a whole period later, after it has (almost always) settled.</li>
 </ol>
 </div></body></html>

@@ -26,7 +26,7 @@ Files 01–08 built each function from its own gates. This file buys logic in bu
 
 Two parts, one thread each. **Memory:** the **1K × 8** chip; steps 1–4 count its lines, open its cells and build a 4K × 8 memory from four of them. **Logic:** one pair of functions from deck 15 slide 31,
 
-$$F_{1}(A,B,C) = \Sigma(0,1,2,4) \qquad F_{2}(A,B,C) = \Sigma(0,5,6,7)$$
+$$F_{1}(A,B,C) = Σ(0,1,2,4)    F_{2}(A,B,C) = Σ(0,5,6,7)$$
 
 placed in a PROM (step 7), a PAL (step 9) and a PLA (step 11), so step 12 can compare what each device costs for the same job.
 

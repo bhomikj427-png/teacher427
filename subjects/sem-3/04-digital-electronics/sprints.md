@@ -47,7 +47,7 @@ in `exam-pack/` (index: `exam-pack/README.md`): MTE 2025 paper, practice sets 1�
 | S6 | **04 + 07 + 08** adders/subtractors; display, comparator, parity; shifter, ALU | old 04, 07, 08 · KB `01`, `02` · decks 03, 06, 07 · MTE Q2 · set 1 Q9–Q10 | `04-…`, `07-…`, `08-…` rebuilt | same | **done** 2026-11-18 (sessions 13-14; 04: 13 steps, 07: 11, 08: 8; no split) |
 | S7 | **11 + 14** registers; timing analysis | old 11, 14 · KB `03` · deck 09 | `11-…`, `14-…` rebuilt | same | **done** 2026-11-18 (session 17; 11: 10 steps, 14: 8 steps; no split) |
 | S8 | **18 + 19** logic families; memories and PLDs | old 18, 19 · KB `05` · decks 14, 15 | `18-…`, `19-…` rebuilt, `src/figs_u5.py` | same; noise margins and fan-out in verify; PLA/PAL tables checked | **done** 2026-11-19 (sessions 18-19; 18: 14 steps, 19: 12 steps; no split) |
-| S9 | **17 + integration** timing generators, asynchronous circuits; mock paper re-pointed; START-HERE ranks, times, map, slip table | old 17, 20 · `00-START-HERE.md` · KB `04`, `05` | `17-…` rebuilt; 00 and 20 updated; full build | grep finds no reference to a removed file; `src/verify.py` passes; build prints no `OVERLAP` | |
+| S9 | **17 + integration** timing generators, asynchronous circuits; mock paper re-pointed; START-HERE ranks, times, map, slip table | old 17, 20 · `00-START-HERE.md` · KB `04`, `05` | `17-…` rebuilt; 00 and 20 updated; full build | grep finds no reference to a removed file; `src/verify.py` passes; build prints no `OVERLAP` | **done** 2026-11-19 (session 20; 17: 13 steps; no split; full build 312 pp, verify 821/0) |
 
 **Learner check-ins are not sprints:** report misses on any delivered file whenever you like; the next
 sprint reads them first.
@@ -61,7 +61,6 @@ sprint reads them first.
 | ETE date and format not given; no memory deck (19 is built from the KB) | progress log 2026-11-14 | [learner] |
 | Deck header reads ECE 2105, MTE paper reads ECE2102 (same syllabus) `uncertain` | 2026-09-11 | [learner] |
 | Deck 14 numbers still open after S8: CMOS fan-out ~50; 4000-series supply 3–15/3–18 V; ECL "±5 V" (leads −5.2 V, levels −0.9/−1.7 V); TTL typical NM 1–1.6 V. Closed in S8: CMOS NM 30 % (74HC00 data sheet: 1.25 V at 4.5 V = 28 %) (KB05 *Still open* block) | S0b 2026-11-17 | [interactive: needs a textbook or the 4000B / MC10K data sheets as text] |
-| Deck 10 slide 36: brief transcription reads J1 = Q2'Q0', K1 = Q2Q0' (pack flags it as a slip, uses slide 37's J1 = Q2'Q0, K1 = Q2Q0); slide image not re-viewed `uncertain` | S3 2026-11-17 | S9 |
 
 ## Assumptions to review (persistent — the learner confirms or overrules)
 
@@ -84,45 +83,42 @@ sprint reads them first.
 | 15 | 18 keeps 14 steps in one file (the S1 rule says a/b above 13): splitting would cost a sprint for one extra step | S8 | open |
 | 16 | 19 puts memories (steps 1–4, no deck) before deck 15's PLDs, and carries one function pair (deck 15 slide 31) through PROM, PAL and PLA so step 12 can compare costs | S8 | open |
 | 17 | 19 step 12 answers deck 15 slide 37's PLA with 5 lines (F2 written non-minimally as AB + A'B'C + A'B'C', F3 complemented), found by verify.py's exhaustive search; a 7-line answer from the minimal forms is also correct | S8 | open |
+| 18 | 17 runs in three parts (timing issues 1–3, generators 4–9, asynchronous 10–13) with no deck; the running example is the brief's 3-bit LFSR (steps 4–6) plus the EC6302 function (step 13); clock skew is left to 14 step 7, not repeated | S9 | open |
+| 19 | 17's teaching examples are the pack's own choices (no deck): 2-bit counter decode glitch, pulse train 110100, MOD-50 divider, 555 with 1 kΩ/10 kΩ/10 nF, NOR-latch flow table, race tables A/B/C | S9 | open |
+| 20 | The v1 figure modules (`figs1`, `figs2`) and `v1figs.json` stay: build.py still draws reused figures from them (lfsr3, astable_555, ring_osc, hazard, K-maps, etc.); removing them is a tooling job, not a sprint | S9 | open |
 
 ## Current hand-off
 
 ```
-Sprint: S8 — 18 + 19 logic families; memories and PLDs — done (2026-11-19, session 19; session 18
-  crashed at the usage limit after writing 18 + figs_u5.py, commit feeb93b; state rebuilt from it).
-Written: 18-logic-families.md (session 18, checked and fixed this session): 14 steps (t_PLH/t_PHL,
-    rise/fall, power, noise margin, PDP, fan-out, CMOS inverter, CMOS NAND/NOR, TTL NAND, totem pole /
-    open collector, tristate bus, ECL, families compared, interfacing); running example one SN7400
-    gate. Fixes: \left/\right removed from the fan-out formula; 74HC00 rise/fall figure is 7-3.
-  19-memories-plds.md: 12 steps (organisation, SRAM/DRAM, ROM types, expansion, AND-OR array, 8x4
-    ROM EX 15.20-21, PROM EX 15.22, PAL read EX 15.24, PAL design EX 15.25-27, PLA + output XOR,
-    PLA design EX 15.31-34, PROM/PAL/PLA compared EX 15.37); running example 1K x 8 chip and
-    F1 = S(0,1,2,4), F2 = S(0,5,6,7) through PROM/PAL/PLA (8 / 6 / 4 lines). 2 slip notes (slides 21, 24).
-  figs_u5.py (11 figures, session 18) wired; verify_u5.py (unit u5, 85 checks) wired in verify.py.
-  KB 05: Open block replaced by "Data-sheet numbers and deck-14 checks" + "Still open"; sources.md
-    (4 sources) + CHANGELOG. 00-START-HERE: rank 9/10 rows (Do first, 55 min each), file rows 18/19,
-    4 slip rows (deck 14 slides 14/20/21, deck 15 slides 21/24), facts + how-checked (746). 20-mock:
-    formula rows 18/19, answers 9, 10, 16, 18 re-pointed to steps.
-Verified this sprint: numbers: verify.py 746 checks, 0 failures (incl. a search proving the PLA line
-  counts 4 and 5 are minimum; it found the 5-line answer for slide 37, better than the 7 from minimal
-  forms). Facts read this session: TI SN7400 (SDLS025D) and SN74HC00 (SCLS181H) data sheets as text
-  (levels, currents, I_CC, C_pd, C_i, t_pd, Fig. 7-2/7-3 definitions, unused inputs); UMBC CMPE 640
-  notes (PDP = energy per switch); DJ Greaves Cambridge notes (1985 HC/F/ECL quad NAND table).
-  Build 00 18 19 20: no OVERLAP; combined PDF 300 pages.
-  agy failed: exit 124 (timed out at 900 s, no report; same as S7). Not retried: the context notice arrived. Page check of 18 and 19 NOT done (sheets ready in scratch sheets7/18_*.png, 19_*.png; build OVERLAP check clean); S7 leftovers (11 p1-4, 9-16; 14 p1-4, 9-12) still unchecked. First job for S9: view or agy-check these sheets.
-Open (carried): deck-14 leftovers (CMOS fan-out ~50, 4000 supply, ECL levels, TTL typical NM) stay
-  `uncertain` in KB 05 and are printed in 18 only as "not checked" notes; backlog row re-targeted to an
-  interactive session. Deck 10 slide 36 (backlog -> S9).
-Decisions made: 18 kept at 14 steps (assumption 15). 19 order: memories first, then deck 15 order
-  (assumption 16). PLA tables use a T/C row as deck 15 slide 33.
-Assumptions to review: 15, 16, 17 copied to the persistent table.
-Helpers: none this session. figs_u5.py came from session 18 (no record of a Sonnet run; the crash
-  lost its hand-off). verify_u5 written by Opus: every value in it is a teaching number chosen while
-  writing 19, so a spec would have been as long as the code. agy x1 (failed, exit 124): page check of 18, 19 and the
-  S7 leftovers (11 p1-4, 9-16; 14 p1-4, 9-12).
-Next sprint: S9 — 17 + integration — first action: page-check 18 and 19 (rebuild sheets with scratch sheets.py; agy once, else view the sheets), plus the S7 leftovers of 11 and 14; then run src/verify.py (expect 746, 0 failures), then
-  grep brief 1.x rows for 17 (decks on timing generators / async) and §2/§4/§5 rows for 17.
-Read at start: this hand-off + S9 row · ../../../study-pack-sprint-protocol.md · brief rows for 17 and
-  §4 row 17 · old 17 · KB 04 and 05 by heading · 00-START-HERE (rank table, map, slip table) ·
-  20-mock-paper formula rows · Verify backlog row for deck 10 slide 36 · 19 lines 1-40 as format model
+Sprint: S9 — 17 + integration — done except one page check (2026-11-19, session 20); see Page checks and Next.
+Written: 17-timing-generators-async.md: 13 steps (decoding glitches, metastability + synchronizer,
+    switch bounce + SR-latch debouncer, LFSR trace, maximal length / lock-out / taps, pulse train,
+    clock division, 555 astable/monostable, ring oscillator + crystal, NOR-latch flow table, races and
+    state assignment, static hazards + consensus, hazard-free EC6302 f); running example 3-bit LFSR
+    D1 = Q2 xor Q3 from 100. figs_u4b.py (4 timing figures, Sonnet) wired in build.py; reuses v1 lfsr3,
+    astable_555, ring_osc, hazard. verify_u4b.py (unit u4b, 75 checks) wired in verify.py.
+  18 and 19: raw LaTeX in display math fixed (\qquad, \times, \text, \min, \cdot, \Sigma, \, ; the
+    renderer supports only \frac, \sqrt, _{}, ^{}): 6 lines.
+  13: the deck 10 slide 36 "slip" note removed; START-HERE slip row removed (slide 36 viewed: it reads
+    J1 = Q2'Q0, K1 = Q2Q0, same as slide 37; the brief's transcription was wrong). Backlog row closed.
+  00-START-HERE: rank 14 Do-first (17 steps 12–13 and 4, 60 min), file row 17, facts (NE555 sheet),
+    how-checked (821, 17's checks). 20-mock: formula row 17 rewritten. KB 04: §3 debounce block, §5 555
+    re-check note; sources.md (2 entries), CHANGELOG.
+Verified this sprint: numbers: verify.py 821 checks, 0 failures. Facts: TI NE555 data sheet SLFS022K
+  read as text (eq. 1-6, t_w = 1.1 R_A C, 1/3 and 2/3 V_CC); Utah CS 5780 lecture 11 (text + slide 9
+  image: SPDT + pull-ups + NAND latch debouncer); deck 10 slides 36-37 viewed.
+  Full build (all 21 files): no OVERLAP; combined PDF 312 pages.
+  Page checks: agy run 1 (18, 19: 10 sheets): raw LaTeX on 18 p6-8, p13 and 19 p1, fixed (6 lines). agy run 2 (S7 leftovers 11 p1-4, p9-16; 14 p1-4, p9-12): all OK. agy run 3 (17 + the 18/19 re-check) hung: no report, log stalled at 01:14:51, then failed with exit 124 (timeout at 900 s). I viewed 17 p1-4 myself (clean) and p13-16 (2 fixes: the nested list in step 13 rendered inline, now one sentence; the hazard caption said Left/Right for a stacked figure, now Top/Bottom; 17 rebuilt). NOT checked: 17 p5-12, p17-20; the re-check of 18 p5-8, p13-16 and 19 p1-4 after the LaTeX fix.
+Open (carried): deck-14 leftovers (backlog row, interactive). UNC Charlotte debounce handout seen only as a
+  search summary (PDF redirects); Utah alone was read.
+Decisions made: 17 kept at 13 steps; assumptions 18-20.
+Assumptions to review: 18, 19, 20 copied to the persistent table.
+Helpers: Sonnet x1: figs_u4b.py (4 figures) + build.py wiring from my spec, no overlaps, 37k tokens.
+  agy: page checks (see above). verify_u4b written by Opus (teaching numbers chosen while writing).
+Next sprint: none in the plan; one close-out job left — first action: render sheets
+  (python -X utf8 <scratch>/sheets.py 17-timing-generators-async 18-logic-families 19-memories-plds) and
+  page-check 17 p5-12 and p17-20, 18 p5-8 and p13-16 (raw-LaTeX fix), 19 p1-4 (agy once, else view);
+  fix any fault, rebuild those files. Then the plan is DONE. Tooling (interactive): study_pack_build.inline()
+  could map \times, \cdot, \qquad etc. so raw LaTeX can't leak again; it has no nested lists either.
+Read at start (for the follow-up): this hand-off · Verify backlog · Assumptions 1-20.
 ```

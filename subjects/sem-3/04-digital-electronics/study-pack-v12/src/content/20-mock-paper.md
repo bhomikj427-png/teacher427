@@ -58,7 +58,7 @@ Cover the right column, write each line from the cue, then uncover. Any row you 
 | 13 Synchronous | six steps; T = Q ⊕ Q⁺; unused states → self-start check |
 | 14 Timing | T ≥ t_{pd} + t_{comb,max} + t_{su} · t_{pd} + t_{comb,min} ≥ t_{h} · skew δ (capture late): − δ on setup, + δ on hold |
 | 15, 16 FSM | Moore output in circle, Mealy on arrow · partition by outputs, then by next-state blocks |
-| 17 Generators, async | LFSR 2^{n} − 1 · 555 f = 1.44/((R_{1} + 2R_{2})C) · ring f = 1/(2Nt_{pd}) · add consensus terms |
+| 17 Timing, generators, async | register decoded outputs · 2-flip-flop synchronizer · LFSR 2^{n} − 1, all-zeros lock-out · MOD-N/2 + T flip-flop for 50 % · 555 f = 1.44/((R_{1} + 2R_{2})C), duty (R_{1} + R_{2})/(R_{1} + 2R_{2}), T = 1.1RC · ring f = 1/(2Nt_{pd}), N odd · one-bit state codes · every adjacent pair of 1s in one group |
 | 18 Families | t_{pd} = larger of t_{PLH}, t_{PHL} (50 % points) · t_{r}, t_{f}: 10–90 % · NM_{H} = V_{OH} − V_{IH}, NM_{L} = V_{IL} − V_{OL} · fan-out = min(I_{OL}/I_{IL}, I_{OH}/I_{IH}) · P = CV^{2}f · PDP = t_{pd} × P |
 | 19 Memory, PLD | 2^{k} × m: k address, m data lines · chips = (words ÷ words per chip) × (bits ÷ bits per chip) · PROM fixed AND · PAL fixed OR (feed an output back) · PLA both programmable (minimise F and F', share) |
 

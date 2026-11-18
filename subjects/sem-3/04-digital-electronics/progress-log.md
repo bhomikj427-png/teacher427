@@ -6,8 +6,8 @@
 
 ## Session resume
 - Last session: 2026-11-14 — no teaching; built `study-pack/pdf-ete/DE-ETE-v1.pdf` (61 pp., all 5 units, EDC-ETE-v1 format).
-- Where we stopped: v1.3 rebuild S0–S5 done (00–03, 05, 06, 09, 10, 12, 13, 15, 16 rebuilt); learner has not worked any Check. **No teaching yet; learner level undiagnosed.**
-- Next up: **Study-pack rebuild to v1.3 runs in sprints: resume from `sprints.md` → *Current hand-off*** (S0–S9; next: S6, files 04 + 07 + 08; `python auto.py run sem-3/04-digital-electronics`).
+- Where we stopped: v1.3 rebuild S0–S9 done (files 00–20 all at v1.3; verify 821/0; full build 312 pp); learner has not worked any Check. **No teaching yet; learner level undiagnosed.**
+- Next up: **ETE 2026-11-21: study from `00-START-HERE.md` rank table**; report misses on any file (see `sprints.md` → *Current hand-off*, assumptions 1–20 to confirm).
 - Due for review today: nothing yet (no items mastered).
 - Open: ETE date and format not given; no memory deck from the professor (E6 is built from the KB).
 
@@ -226,3 +226,7 @@
 - 2026-11-18 session 18 (auto): S8 start (18 logic families + 19 memories/PLDs). verify.py 661/0 at start.
 - 2026-11-19 auto session 19: session 18 crashed (usage limit) after writing 18-logic-families.md v1.3 + figs_u5.py + build.py wiring (feeb93b); rebuilding state, then continuing S8.
 - 2026-11-19 session 19: S8 done: 18 (14 steps, from session 18, fixed) and 19 (12 steps) at v1.3; verify_u5 wired, verify 746/0; build 00 18 19 20 no OVERLAP; KB 05 deck-14 block closed against TI SN7400/SN74HC00 data sheets, UMBC, Cambridge notes; START-HERE, mock rows updated. Where we stopped: S8 closed. Next up: S9 (17 + integration).
+
+2026-11-19 S9 session 20 start: 17 + integration (page check 18/19 + S7 leftovers first, then 17 rebuild, 00/20 update, full build).
+
+- 2026-11-19 session 20: S9 done: 17 (13 steps) at v1.3; figs_u4b (4, Sonnet) + verify_u4b (75) wired; verify 821/0; full build no OVERLAP, 312 pp; raw LaTeX fixed in 18/19; deck 10 slide 36 viewed (no slip; 13 note + START-HERE row removed, backlog closed); KB 04 debounce (Utah CS 5780) + 555 (TI NE555 SLFS022K); START-HERE, mock updated. Page checks: agy run 1 (18, 19: 10 sheets): raw LaTeX on 18 p6-8, p13 and 19 p1, fixed (6 lines). agy run 2 (S7 leftovers 11 p1-4, p9-16; 14 p1-4, p9-12): all OK. agy run 3 (17 + the 18/19 re-check) hung: no report, log stalled at 01:14:51, then failed with exit 124 (timeout at 900 s). I viewed 17 p1-4 myself (clean) and p13-16 (2 fixes: the nested list in step 13 rendered inline, now one sentence; the hazard caption said Left/Right for a stacked figure, now Top/Bottom; 17 rebuilt). NOT checked: 17 p5-12, p17-20; the re-check of 18 p5-8, p13-16 and 19 p1-4 after the LaTeX fix. Where we stopped: v1.3 plan S0-S9 complete. Next up: learner studies for ETE 2026-11-21.

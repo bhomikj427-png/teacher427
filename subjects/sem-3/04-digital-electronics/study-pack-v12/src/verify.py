@@ -774,8 +774,15 @@ def u5():
     m.u5()
 
 
+def u4b():
+    """File 17 (timing issues, generators, asynchronous circuits), S9: checks in verify_u4b.py."""
+    import verify_u4b as m
+    m.__dict__.update(ok=ok, check_sop=check_sop, same=same, minterms=minterms)
+    m.u4b()
+
+
 UNITS = {"u0": u0, "u1": u1, "u2": u2, "u3": u3, "u3c": u3c, "u4": u4, "u2b": u2b, "u2c": u2c, "u3r": u3r,
-         "u5": u5}
+         "u5": u5, "u4b": u4b}
 
 
 def main(argv):

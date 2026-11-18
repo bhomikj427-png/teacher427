@@ -188,8 +188,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>14</td>
 <td><strong>14, 17 Timing; generators, asynchronous circuits</strong></td>
 <td>Syllabus items with no deck coverage</td>
-<td>14 steps 5–6 (f<sub>max</sub>, hold check), 17 hazards</td>
-<td>50 min</td>
+<td>14 steps 5–6 (f<sub>max</sub>, hold check), 17 steps 12–13 (hazards, EC6302) and 4 (LFSR trace)</td>
+<td>60 min</td>
 </tr>
 <tr>
 <td>last</td>
@@ -329,8 +329,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <tr>
 <td>17</td>
 <td>U4</td>
-<td>skew, metastability, LFSR, pulse train, clocks, races, hazards</td>
-<td>practice</td>
+<td>decoding glitches, metastability and the synchronizer, debouncing, LFSR (lock-out, taps), pulse trains, clock division, 555 astable/monostable, ring oscillator, flow tables, races and state assignment, static hazards, hazard-free design</td>
+<td>practice; EC6302 Nov 2021 Q15(b)</td>
 </tr>
 <tr>
 <td>18</td>
@@ -463,12 +463,6 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>same circuit, usual bit order; slide 13 draws the wire from C</td>
 </tr>
 <tr>
-<td>Deck 10 slide 36 (13)</td>
-<td>J1 = Q2'Q0', K1 = Q2Q0' (as transcribed; <code>uncertain</code>)</td>
-<td>J1 = Q2'Q0, K1 = Q2Q0</td>
-<td>FF1 sets only at 001 and resets only at 111; slide 37 agrees</td>
-</tr>
-<tr>
 <td>Deck 11 slide 27 (15)</td>
 <td>"Overlapping" panel for 110 left empty</td>
 <td>same diagram as non-overlapping</td>
@@ -568,7 +562,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 </table>
 <h2>How this pack was checked</h2>
 <ul>
-<li>Facts: the subject knowledge base (Anand Kumar, Jain, Brown &amp; Vranesic, Mano); device numbers in 18 from the TI SN7400 and SN74HC00 data sheets.</li>
-<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 <code>verify.py</code>, 192 checks, plus <code>src/verify.py</code>: 744 checks: every expression in 01–03; every delay, noise margin, power, PDP, fan-out and interfacing number in 18, with the CMOS and TTL gates checked at switch level; every memory size, ROM word and PROM/PAL/PLA expression in 19, with a search showing its PLA line counts are the minimum; every adder, subtractor, BCD adder, shift, barrel shifter and ALU operation in 04 and 08 evaluated on all inputs; every segment, comparator and parity expression in 07 checked on every input row (two cascaded comparators on all 65 536 pairs of 8-bit numbers); every MUX data list, decoder circuit and encoder equation in 05–06 evaluated on every input row; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every shift-register trace, ring and Johnson sequence (with the unused-state loops), XOR-feedback register and serial addition in 11 simulated; every timing sum in 14 recomputed; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).</li>
+<li>Facts: the subject knowledge base (Anand Kumar, Jain, Brown &amp; Vranesic, Mano); device numbers in 18 from the TI SN7400 and SN74HC00 data sheets; the 555 formulas in 17 from the TI NE555 data sheet.</li>
+<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 <code>verify.py</code>, 192 checks, plus <code>src/verify.py</code>: 746 checks: every expression in 01–03; every delay, noise margin, power, PDP, fan-out and interfacing number in 18, with the CMOS and TTL gates checked at switch level; every memory size, ROM word and PROM/PAL/PLA expression in 19, with a search showing its PLA line counts are the minimum; every adder, subtractor, BCD adder, shift, barrel shifter and ALU operation in 04 and 08 evaluated on all inputs; every segment, comparator and parity expression in 07 checked on every input row (two cascaded comparators on all 65 536 pairs of 8-bit numbers); every MUX data list, decoder circuit and encoder equation in 05–06 evaluated on every input row; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every shift-register trace, ring and Johnson sequence (with the unused-state loops), XOR-feedback register and serial addition in 11 simulated; every timing sum in 14 recomputed; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed; every glitch path, LFSR cycle (every start, every tap choice), pulse-train and divider count, 555 and ring-oscillator number, flow table, race and hazard cover in 17 checked by enumeration).</li>
 <li>Where a slide has a slip, the pack uses the corrected version and says so in a Note.</li>
 </ul></body></html>

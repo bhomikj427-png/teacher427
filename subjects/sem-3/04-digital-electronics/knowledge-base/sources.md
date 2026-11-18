@@ -115,4 +115,10 @@
 - **DJ Greaves, University of Cambridge Computer Laboratory, ACS P35 notes** ("speed-power product"
   table, cl.cam.ac.uk): 1985 74HC00 7 ns 1 mW 7 pJ, 74F00 3.4 ns 5 mW 17 pJ, ECL SP92701 0.8 ns 200 mW
   160 pJ. KB 05 S8 block.
-
+- **TI NA555/NE555/SA555/SE555 data sheet, SLFS022K (rev. March 2026)** (ti.com, read as text S9
+  2026-11-19): astable eq. (1)–(6), monostable t_w = 1.1 R_A C, ⅓/⅔ V_CC thresholds. KB 04 §5.
+- **University of Utah CS 5780 lecture 11 slides** (my.eng.utah.edu/~cs5780) and **UNC Charlotte ECGR 2156
+  experiment 2 "switch debouncing"** (ece.charlotte.edu): SPDT switch + SR latch debouncer, bounce on one
+  contact leaves the latch holding. KB 04 §3. Utah read as text + slide 9 image (SPDT, common grounded,
+  two pull-ups, cross-coupled NAND; slide 10 "one will bounce the other won't"; bounce "typical a few ms
+  but can be as bad as 100's of ms"). Charlotte: search-result summary only (the PDF now redirects).

@@ -119,7 +119,7 @@ Static power is supply voltage × average supply current. The SN7400 data sheet 
 
 Dynamic power: each full cycle charges C to V and empties it again, which costs C·V² of energy; at f cycles per second,
 
-$$P_{dyn} = C\,V^{2} f$$
+$$P_{dyn} = C V^{2} f$$
 
 Read it: *capacitance charged × supply squared × switches per second*. Doubling V quadruples the power. For one 74HC00 CMOS gate the data sheet's "power dissipation capacitance" is C = 20 pF; at 5 V and 1 MHz: 20 pF × 25 V² × 10⁶ /s = 0.5 mW. Its static current is at most 2 µA for the whole package (25 °C), so almost all CMOS power is dynamic (step 7 shows why).
 
@@ -145,7 +145,7 @@ A 7400 output is LOW, guaranteed at most 0.4 V. A 7400 input reads anything up t
 
 Deck 14 slide 8:
 
-$$NM_{H} = V_{OH(min)} - V_{IH(min)} \qquad NM_{L} = V_{IL(max)} - V_{OL(max)}$$
+$$NM_{H} = V_{OH(min)} - V_{IH(min)}    NM_{L} = V_{IL(max)} - V_{OL(max)}$$
 
 Read them: *the worst HIGH sent, minus the least HIGH accepted*; *the most LOW accepted, minus the worst LOW sent*. Both are differences of **guaranteed** numbers, so the margin holds for every chip of the family. With the SN7400's guaranteed levels: NM_{H} = 2.4 − 2.0 = **0.4 V** and NM_{L} = 0.8 − 0.4 = **0.4 V**. A family's noise margin is the smaller of the two.
 
@@ -171,7 +171,7 @@ Gate X: 11 ns, 10 mW. Gate Y: 9 ns, 0.5 mW. Which is better, and by what one num
 **Speed–power product (power–delay product, PDP):** t_{pd} × P. Delay in seconds times power in joules per second gives joules: the **energy one switching event costs**. Smaller is better (deck 14 slide 9).
 :::
 
-$$PDP = t_{pd} \times P$$
+$$PDP = t_{pd} × P$$
 
 Read it: *how long one switch takes × how fast energy is used* = *energy per switch*. Within one technology, a faster gate usually costs more power, so the product stays roughly constant (UMBC CMPE 315 notes); a better technology lowers the product itself.
 
@@ -202,7 +202,7 @@ A 7400 output can sink 16 mA when LOW and source 0.4 mA when HIGH. Each 7400 inp
 
 Deck 14 slide 12:
 
-$$\text{fan-out} = \min(\frac{I_{OL}}{I_{IL}},\ \frac{I_{OH}}{I_{IH}})$$
+$$fan-out = min(\frac{I_{OL}}{I_{IL}}, \frac{I_{OH}}{I_{IH}})$$
 
 Read it: *how many inputs' worth of current the output can take in the LOW state, and in the HIGH state; the smaller one wins*, because the output must work in both.
 
@@ -321,7 +321,7 @@ Two 7400 outputs are wired together. Gate 1 drives HIGH (its upper transistor on
 
 The SN7400 has totem-pole outputs (its data sheet tests them as "2-state totem-pole outputs"). Joined outputs at opposite levels make the path in figure (a): a large current through two on-transistors, a wire voltage that is neither a valid 0 nor a valid 1, and possible damage. Open-collector parts (figure b) can be joined: each can only pull down, so the shared line Y obeys
 
-$$Y = Y_{1} \cdot Y_{2}$$
+$$Y = Y_{1} · Y_{2}$$
 
 *Y is 1 only if every output lets go* (AND, done by the wire). The price: the pull-up resistor charges the line slowly, so open-collector edges are slower than totem-pole ones.
 

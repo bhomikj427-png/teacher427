@@ -61,6 +61,12 @@ Even with one clock, finite delay bites (extends U3 §6). `settled`:
   output is used asynchronously. `settled`.
 - **Metastability at asynchronous inputs:** any input not synchronized to the clock can violate
   setup → use a **2-FF synchronizer** to reduce (not eliminate) failure probability. `settled`.
+- **Switch bounce and the SR-latch debouncer** (S9 2026-11-19; Utah CS 5780 lecture 11 slides +
+  UNC Charlotte ECGR 2156 experiment 2, agreeing): springy contacts rebound, so one press gives a burst
+  of pulses. An SPDT switch (common grounded) drives the S' and R' inputs of a NAND latch, each pulled
+  up; bounce on one contact only alternates "set" (or "reset") with "hold" (S'R' = 11), and the moving
+  contact never reaches the other throw, so Q changes once. Bounce durations not taught (only a
+  non-tier-1 article gave numbers). `settled`.
 
 ---
 
@@ -95,7 +101,10 @@ one bit per clock (e.g. a counter addressing a pattern, or a Johnson counter dec
   - **555 timer — astable:** **f = 1.44 / ((R₁ + 2R₂)·C)** (the 1.44 = 1/ln2; t_high=0.693(R₁+R₂)C
     charges through R₁+R₂, t_low=0.693·R₂·C discharges through R₂ → **duty cycle always > 50%** in the
     standard config). **555 monostable:** pulse width **T = 1.1·R·C** (1.1 = ln3, charge 0→⅔V_CC).
-    `settled` (allaboutcircuits + electronics-tutorials + circuitdigest).
+    `settled` (allaboutcircuits + electronics-tutorials + circuitdigest). **Re-checked S9 2026-11-19 at
+    TI NE555 data sheet SLFS022K (rev. March 2026) §6:** t_H ≅ 0.693(R_A + R_B)C (eq. 1), t_L ≅ 0.693·R_B·C
+    (eq. 2), f ≅ 1.44/((R_A + 2R_B)C) (eq. 4), output-waveform duty = 1 − R_B/(R_A + 2R_B) (eq. 6);
+    monostable t_w = 1.1·R_A·C; thresholds ⅓ and ⅔ V_CC (Table 6-1). Pack writes R_A, R_B as R₁, R₂.
   - **Ring oscillator:** an **odd** number N of inverters in a loop (no stable state) →
     **f = 1/(2·N·t_pd)**. On-chip, cheap, but frequency drifts with process/voltage/temperature → used
     for delay characterization, not precision timing. `settled` (JHU handout + elprocus).
