@@ -18,9 +18,9 @@ Ranked by the professor's own material: the 2025 mid-term paper (30 marks: 2-mar
 | 8 | **11, 12 Registers, ripple counters** | Decks 09–10 | 12 steps 6–7 (MOD-N by reset) | 45 min |
 | 9 | **19 Memories, PLDs** | Deck 15, with PAL and PLA design examples | 19 PLA table | 40 min |
 | 10 | **18 Logic families** | Deck 14 | 18 noise margin, fan-out | 35 min |
-| 11 | **04 Adders, subtractors** | Deck 03; mid-term Q6 used the full adder | 04 full adder | 30 min |
+| 11 | **04 Adders, subtractors** | Deck 03; mid-term Q6 used the full adder | 04 steps 2–5 (full adder, ripple adder), step 12 (2's-complement subtract) | 50 min |
 | 12 | **01, 03 Boolean algebra, NAND/NOR** | Mid-term Q1 (2 marks); practice set 1 Q2 and Q1's circuit | 03 §2 (MTE Q1), §6 (map → NAND) | 60 min |
-| 13 | **07, 08 Display, comparator, parity, shifter, ALU** | Mid-term Q2 (2 marks); decks 06–07 | 07 parity | 30 min |
+| 13 | **07, 08 Display, comparator, parity, shifter, ALU** | Mid-term Q2 (2 marks); practice set 1 Q9, Q10; decks 05–07 | 07 steps 9–11 (parity, MTE Q2), steps 2–3 (common-anode segments), 08 steps 6–8 (ALU) | 70 min |
 | 14 | **14, 17 Timing; generators, asynchronous circuits** | Syllabus items with no deck coverage | 17 hazards | 40 min |
 | last | **20 Mock paper** | Closed book, after the rest | all | 3 h |
 
@@ -59,7 +59,7 @@ Each file needs the ones before it. 02 is Boolean algebra drawn as a grid. 05–
 | 04 | U1 | half/full adder and subtractor, parallel, look-ahead, serial, BCD | deck 03 |
 | 05 | U2 | multiplexer, function generation, MUX tree, demultiplexer | MTE Q5, set 1 Q3, Q5, Q6 |
 | 06 | U2 | decoder, decoder-based design, encoder, priority encoder | MTE Q6, set 1 Q7–Q8 |
-| 07 | U2 | 7-segment driver, multiplexed display, comparator, parity | MTE Q2, set 1 Q9–Q10 |
+| 07 | U2 | BCD to 7-segment decoder (common cathode and anode), multiplexed display, 1-, 2- and n-bit comparator, cascading, parity generator (chain, tree) and checker | MTE Q2, set 1 Q9–Q10 |
 | 08 | U2 | logical, circular, arithmetic shifts, barrel shifter, ALU | deck 07 |
 | 09 | U3 | SR latch, D latch, SR/D/JK/T flip-flops, master–slave, excitation, conversion | MTE Q3, set 2 Q1 |
 | 10 | U3 | drawing flip-flop and latch waveforms | MTE Q7, set 2 Q2–Q3 |
@@ -119,10 +119,13 @@ When you reach a **Guess first** box, write a guess on paper **before** reading 
 | Deck 13 slide 8 (16) | D0 = X(y0)', D1 = X'm1 + Xm2 | D0 = X, D1 = X'm1 + Xm2 + X'm3 | the chart has more paths into y0 = 1 and into S2; checked by simulation |
 | Deck 13 slide 9 (16) | D0 = X[Σm(0, 2, 4)] + d(6, 7) (no hold terms) | D0 = X ⊕ y0 | with X = 0 the counter must hold, not fall to 000 |
 | Deck 13 slide 18 (16) | decision box on E after S3, both exits to S0 | box left out | a decision with one outcome decides nothing |
+| Deck 06 slide 5 (07) | G = A&gt;B: A1B1' + … (colon) | G = A_{1}B_{1}' + … | the colon stands for "=" |
+| Deck 06 slide 14 (07) | P = X ⊕ Y ⊕ Z is "a 3-input even function" | an odd function | slide 18: an odd function's 1s are the inputs with an odd number of 1s; slide 22 agrees |
+| Deck 07 slide 8 (08) | titled "1-bit ALU design" | 1-bit logic unit | the circuit has no adder; slides 9–10 add the arithmetic half |
 | Deck header vs paper | ECE 2105 | ECE2102 | same syllabus; the deck code is stale |
 
 ## How this pack was checked
 
 - Facts: the subject knowledge base (Anand Kumar, Jain, Brown & Vranesic, Mano).
-- Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 `verify.py`, 192 checks, plus `src/verify.py`: 450 checks: every expression in 01–03; every MUX data list, decoder circuit and encoder equation in 05–06 evaluated on every input row; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).
+- Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 `verify.py`, 192 checks, plus `src/verify.py`: 598 checks: every expression in 01–03; every adder, subtractor, BCD adder, shift, barrel shifter and ALU operation in 04 and 08 evaluated on all inputs; every segment, comparator and parity expression in 07 checked on every input row (two cascaded comparators on all 65 536 pairs of 8-bit numbers); every MUX data list, decoder circuit and encoder equation in 05–06 evaluated on every input row; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).
 - Where a slide has a slip, the pack uses the corrected version and says so in a Note.

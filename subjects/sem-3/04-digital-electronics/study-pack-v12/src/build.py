@@ -71,6 +71,10 @@ import figs_u4  # noqa: E402  (v1.3 unit-4 state-machine figures, S4)
 ALL.update(figs_u4.FIGS)
 import figs_u2  # noqa: E402  (v1.3 unit-2 MUX/decoder figures, S5)
 ALL.update(figs_u2.FIGS)
+import figs_u2b  # noqa: E402  (v1.3 figures for 04 and 08, S6)
+ALL.update(figs_u2b.FIGS)
+import figs_u2c  # noqa: E402  (v1.3 figures for 07, S6)
+ALL.update(figs_u2c.FIGS)
 import matplotlib.pyplot as _plt  # noqa: E402  the v1 modules select the svg backend on import; figlib's check needs Agg
 _plt.switch_backend("Agg")
 

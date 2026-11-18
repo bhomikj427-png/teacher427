@@ -409,7 +409,7 @@ An XOR gate with one input tied to a control E: what does it output when E = 0, 
 **Controlled inverter:** an XOR with one input on a control line; X ⊕ 0 = X (passes), X ⊕ 1 = X' (inverts). **E:** the mode line; E = 0 add, E = 1 subtract.
 :::
 
-[[fig:addsub_cell|Full adder/subtractor cell (deck 03 slide 28): two half adder/subtractor stages. In each, an XOR with E (controlled inverter) feeds the AND, so E = 0 gives the adder's AND and E = 1 the subtractor's.|w=78]]
+[[fig:addsub_cell|Full adder/subtractor cell (deck 03 slide 28): two half adder/subtractor stages. In each, an XOR with E (controlled inverter) feeds the AND, so E = 0 gives the adder's AND and E = 1 the subtractor's.|w=88]]
 
 1. Stage 1: XOR(A_{i}, B_{i}) = A_{i} ⊕ B_{i}, and AND((A_{i} ⊕ E), B_{i}).
 2. Stage 2: D_{i} = (A_{i} ⊕ B_{i}) ⊕ C_{i}, and AND(((A_{i} ⊕ B_{i}) ⊕ E), C_{i}).

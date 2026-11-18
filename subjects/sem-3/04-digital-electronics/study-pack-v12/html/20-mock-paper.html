@@ -153,11 +153,11 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 </tr>
 <tr>
 <td>07 Display, comparator, parity</td>
-<td>common anode lit by 0 · G = A<sub>1</sub>B<sub>1</sub>' + x<sub>1</sub>A<sub>0</sub>B<sub>0</sub>' · P<sub>even</sub> = XOR of data</td>
+<td>common anode lit by 0 · x<sub>i</sub> = A<sub>i</sub> ⊙ B<sub>i</sub>, G = A<sub>1</sub>B<sub>1</sub>' + x<sub>1</sub>A<sub>0</sub>B<sub>0</sub>' · P<sub>even</sub> = XOR of data, checker E = XOR of data and P</td>
 </tr>
 <tr>
 <td>08 Shifts, ALU</td>
-<td>arithmetic right copies sign · Y<sub>i</sub> = B<sub>i</sub>S<sub>0</sub> + B<sub>i</sub>'S<sub>1</sub>, F = A + Y + C<sub>in</sub></td>
+<td>arithmetic right copies sign · MUX gives Y = B, 0000, 1111, B' for S C<sub>in</sub> = 00, 01, 10, 11; F = A + Y + C<sub>in</sub></td>
 </tr>
 <tr>
 <td>09 Flip-flops</td>
@@ -205,7 +205,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <li><strong>ΠM(0, 2, 4, 5, 7)</strong>. (01)</li>
 <li>NOT, AND and OR can each be built from NANDs alone, so any function can. (03)</li>
 <li><strong>4</strong> select lines; <strong>five</strong> 4:1 MUXes. (05 steps 2, 7)</li>
-<li>Four 1s (even): odd parity bit <strong>1</strong>. (07)</li>
+<li>Four 1s (even): odd parity bit <strong>1</strong>. (07 step 9)</li>
 <li>Latch: level-triggered, transparent while enabled, passes glitches. Flip-flop: edge-triggered, samples once per clock. (09)</li>
 <li><strong>4</strong> flip-flops; <strong>4</strong> unused states. (12)</li>
 <li>Mealy: output from state and input, on arrows, fewer states. Moore: from state only, in circles, one more state (any two). (15)</li>

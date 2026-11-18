@@ -167,8 +167,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>11</td>
 <td><strong>04 Adders, subtractors</strong></td>
 <td>Deck 03; mid-term Q6 used the full adder</td>
-<td>04 full adder</td>
-<td>30 min</td>
+<td>04 steps 2–5 (full adder, ripple adder), step 12 (2's-complement subtract)</td>
+<td>50 min</td>
 </tr>
 <tr>
 <td>12</td>
@@ -180,9 +180,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <tr>
 <td>13</td>
 <td><strong>07, 08 Display, comparator, parity, shifter, ALU</strong></td>
-<td>Mid-term Q2 (2 marks); decks 06–07</td>
-<td>07 parity</td>
-<td>30 min</td>
+<td>Mid-term Q2 (2 marks); practice set 1 Q9, Q10; decks 05–07</td>
+<td>07 steps 9–11 (parity, MTE Q2), steps 2–3 (common-anode segments), 08 steps 6–8 (ALU)</td>
+<td>70 min</td>
 </tr>
 <tr>
 <td>14</td>
@@ -269,7 +269,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <tr>
 <td>07</td>
 <td>U2</td>
-<td>7-segment driver, multiplexed display, comparator, parity</td>
+<td>BCD to 7-segment decoder (common cathode and anode), multiplexed display, 1-, 2- and n-bit comparator, cascading, parity generator (chain, tree) and checker</td>
 <td>MTE Q2, set 1 Q9–Q10</td>
 </tr>
 <tr>
@@ -493,6 +493,24 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>a decision with one outcome decides nothing</td>
 </tr>
 <tr>
+<td>Deck 06 slide 5 (07)</td>
+<td>G = A&gt;B: A1B1' + … (colon)</td>
+<td>G = A<sub>1</sub>B<sub>1</sub>' + …</td>
+<td>the colon stands for "="</td>
+</tr>
+<tr>
+<td>Deck 06 slide 14 (07)</td>
+<td>P = X ⊕ Y ⊕ Z is "a 3-input even function"</td>
+<td>an odd function</td>
+<td>slide 18: an odd function's 1s are the inputs with an odd number of 1s; slide 22 agrees</td>
+</tr>
+<tr>
+<td>Deck 07 slide 8 (08)</td>
+<td>titled "1-bit ALU design"</td>
+<td>1-bit logic unit</td>
+<td>the circuit has no adder; slides 9–10 add the arithmetic half</td>
+</tr>
+<tr>
 <td>Deck header vs paper</td>
 <td>ECE 2105</td>
 <td>ECE2102</td>
@@ -503,6 +521,6 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <h2>How this pack was checked</h2>
 <ul>
 <li>Facts: the subject knowledge base (Anand Kumar, Jain, Brown &amp; Vranesic, Mano).</li>
-<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 <code>verify.py</code>, 192 checks, plus <code>src/verify.py</code>: 450 checks: every expression in 01–03; every MUX data list, decoder circuit and encoder equation in 05–06 evaluated on every input row; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).</li>
+<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 <code>verify.py</code>, 192 checks, plus <code>src/verify.py</code>: 598 checks: every expression in 01–03; every adder, subtractor, BCD adder, shift, barrel shifter and ALU operation in 04 and 08 evaluated on all inputs; every segment, comparator and parity expression in 07 checked on every input row (two cascaded comparators on all 65 536 pairs of 8-bit numbers); every MUX data list, decoder circuit and encoder equation in 05–06 evaluated on every input row; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).</li>
 <li>Where a slide has a slip, the pack uses the corrected version and says so in a Note.</li>
 </ul></body></html>

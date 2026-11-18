@@ -78,27 +78,98 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 .c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
 .c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
 .c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>08 — Shifts, barrel shifter, ALU</h1>
-<div class="sub">Deck 07 (shifts slides 2–4, ALU slides 9–10) · syllabus Unit 2 · needs 04 (parallel adder, 2's complement) and 05 (MUX)</div>
+<div class="sub">Deck 07 (slides 1–10) · syllabus Unit 2 (shifter, ALU) · no exam question yet; deck examples EX 7.2–7.4 (shifts of 110110), EX 7.9–7.10 (arithmetic circuit) · needs 04 steps 5 and 12 (ripple adder, A − B = A + B' + 1), 05 steps 1–2 (2:1 and 4:1 MUX)</div>
 
 <h2>Map</h2>
-<div class="map"><span class="n here">1 Logical, circular, arithmetic shifts</span><span class="a">→</span><span class="n">2 Barrel shifter</span><span class="a">→</span><span class="n">3 Arithmetic logic unit</span></div>
+<div class="map"><span class="n here">1 Logical shift</span><span class="a">→</span><span class="n">2 Circular shift</span><span class="a">→</span><span class="n">3 Arithmetic shift</span><span class="a">→</span><span class="n">4 Barrel shifter</span><span class="a">→</span><span class="n">5 Logic unit</span><span class="a">→</span><span class="n">6 Arithmetic circuit</span><span class="a">→</span><span class="n">7 Choosing the operation</span><span class="a">→</span><span class="n">8 The ALU</span></div>
 
-<p>Two blocks of every processor's datapath, built from parts you already have: a barrel shifter is a row of 05's MUXes; an ALU is 04's adder with a MUX choosing what goes into its B input.</p>
+<p>File 04 ended with one ripple adder that adds or subtracts, depending on what reaches its B inputs. This file builds the two blocks every processor's datapath is made of: a <strong>shifter</strong>, which moves the bits of a word sideways, and an <strong>arithmetic logic unit (ALU)</strong>, which is 04's adder plus file 05's multiplexers choosing what it computes. Shift registers (file 11) do the same shifts one place per clock; here they happen at once, with no clock.</p>
+<h2>Symbols</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>What it means in this file</th>
+<th>Typical value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n</td>
+<td>the number of bits in the word</td>
+<td>6 (deck 07), 4, 8</td>
+</tr>
+<tr>
+<td>serial input</td>
+<td>the bit that enters the empty end of the word during a shift; the three shift types differ only in this bit</td>
+<td>0, the bit that fell out, or the sign bit</td>
+</tr>
+<tr>
+<td>sign bit</td>
+<td>the leftmost bit of a 2's-complement number: 1 means negative</td>
+<td>—</td>
+</tr>
+<tr>
+<td>s (S<sub>1</sub>S<sub>0</sub>)</td>
+<td>shift amount of the barrel shifter, as a binary number</td>
+<td>0–3 for 4 bits</td>
+</tr>
+<tr>
+<td>D<sub>3</sub> … D<sub>0</sub>, Y<sub>3</sub> … Y<sub>0</sub></td>
+<td>barrel shifter: data in, data out</td>
+<td>—</td>
+</tr>
+<tr>
+<td>S<sub>1</sub>S<sub>0</sub></td>
+<td>logic unit select: which of NOT, AND, OR, XOR reaches the output</td>
+<td>00–11</td>
+</tr>
+<tr>
+<td>S, C<sub>in</sub></td>
+<td>arithmetic circuit selects: S and the adder's carry in; together they pick +B, +1, −1, −B</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>X<sub>i</sub>, Y<sub>i</sub></td>
+<td>the two inputs of full adder i in the arithmetic circuit (X<sub>i</sub> = A<sub>i</sub>; Y<sub>i</sub> from the MUX)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>M</td>
+<td>mode: 0 arithmetic, 1 logic (step 8)</td>
+<td>0 or 1</td>
+</tr>
+<tr>
+<td>F</td>
+<td>ALU output word</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2>Running example</h2>
+<p><strong>Shifts: the 6-bit word 110110</strong> (deck 07 EX 7.2–7.4; as a 2's-complement number, −10). <strong>Arithmetic and ALU: A = 0110 (6), B = 0011 (3).</strong> Steps 1–3 shift 110110 every way the deck does; steps 5–8 put A and B through every operation.</p>
 <h2>The questions this file answers</h2>
 <ul>
-<li><span class="tag">Deck 07 slides 2–4</span> For 110110: logical shift left by 2, circular shift left by 2, arithmetic shift right by 1.</li>
-<li><span class="tag">Deck 07 slides 9–10</span> Design an arithmetic circuit for add, subtract, increment and decrement.</li>
+<li><span class="tag">Deck 07 slide 2 (EX 7.2)</span> Logical shift of 110110 left by 2 and right by 1.</li>
+<li><span class="tag">Deck 07 slide 3 (EX 7.3)</span> Circular shift of 110110 left by 2 and right by 1.</li>
+<li><span class="tag">Deck 07 slide 4 (EX 7.4)</span> Arithmetic shift of 110110 right by 1 and left by 2.</li>
+<li><span class="tag">Deck 07 slides 9–10 (EX 7.9, 7.10)</span> Design an arithmetic circuit with inputs A and B that generates addition, subtraction, increment and decrement; draw the first two stages.</li>
 </ul>
 <hr />
 <h2>Build</h2>
-<h3>1 · Shifts</h3>
+<h3>1 · Logical shift: fill with 0</h3>
+<p>Write 0350 and move every digit one place left: 3500, ten times bigger. A binary shift does the same with ×2, and the only question is what goes into the empty place.</p>
 <div class="box q">
-<div class="bh"><span class="tag">Deck 07 slides 2–4</span></div>
-<p>For the word 110110 give (i) logical shift left by 2, (ii) circular shift left by 2, (iii) arithmetic shift right by 1.</p>
+<div class="bh"><span class="tag">Deck 07 slides 1–2 (EX 7.2)</span></div>
+<p>Shift 110110 logically (i) left by 2 places, (ii) right by 1 place.</p>
 </div>
 <div class="box guess">
 <div class="bh">Guess first</div>
-<p>110110 is negative in 2's complement. After a right shift, what must the new leftmost bit be to keep it negative?</p>
+<p>Shifting left by 2 empties two places on the right. What goes into them?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Shift:</strong> every bit moves the same number of places left or right; bits pushed past the end are lost. <strong>Serial input:</strong> the bit that enters the emptied place (slide 1: the three kinds of shift differ only in this). <strong>Logical shift:</strong> the serial input is always 0.</p>
 </div>
 
 <figure style="max-width:75%"><div style="width:183mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 322.702441 133.272" xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -106,7 +177,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:05.842779</dc:date>
+    <dc:date>2026-11-18T04:06:14.112736</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -136,7 +207,7 @@ L 96.813728 23.506941
 L 96.813728 8.505529 
 L 81.812316 8.505529 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 96.813728 23.506941 
@@ -144,7 +215,7 @@ L 111.81514 23.506941
 L 111.81514 8.505529 
 L 96.813728 8.505529 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 111.81514 23.506941 
@@ -152,7 +223,7 @@ L 126.816551 23.506941
 L 126.816551 8.505529 
 L 111.81514 8.505529 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 126.816551 23.506941 
@@ -160,7 +231,7 @@ L 141.817963 23.506941
 L 141.817963 8.505529 
 L 126.816551 8.505529 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 141.817963 23.506941 
@@ -168,7 +239,7 @@ L 156.819375 23.506941
 L 156.819375 8.505529 
 L 141.817963 8.505529 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
     <path d="M 156.819375 23.506941 
@@ -176,7 +247,7 @@ L 171.820787 23.506941
 L 171.820787 8.505529 
 L 156.819375 8.505529 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_8">
     <path d="M 81.812316 43.196294 
@@ -184,7 +255,7 @@ L 96.813728 43.196294
 L 96.813728 28.194882 
 L 81.812316 28.194882 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
     <path d="M 96.813728 43.196294 
@@ -192,7 +263,7 @@ L 111.81514 43.196294
 L 111.81514 28.194882 
 L 96.813728 28.194882 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_10">
     <path d="M 111.81514 43.196294 
@@ -200,7 +271,7 @@ L 126.816551 43.196294
 L 126.816551 28.194882 
 L 111.81514 28.194882 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_11">
     <path d="M 126.816551 43.196294 
@@ -208,7 +279,7 @@ L 141.817963 43.196294
 L 141.817963 28.194882 
 L 126.816551 28.194882 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_12">
     <path d="M 141.817963 43.196294 
@@ -216,7 +287,7 @@ L 156.819375 43.196294
 L 156.819375 28.194882 
 L 141.817963 28.194882 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_13">
     <path d="M 156.819375 43.196294 
@@ -224,7 +295,7 @@ L 171.820787 43.196294
 L 171.820787 28.194882 
 L 156.819375 28.194882 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_14">
     <path d="M 81.812316 62.885647 
@@ -232,7 +303,7 @@ L 96.813728 62.885647
 L 96.813728 47.884235 
 L 81.812316 47.884235 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_15">
     <path d="M 96.813728 62.885647 
@@ -240,7 +311,7 @@ L 111.81514 62.885647
 L 111.81514 47.884235 
 L 96.813728 47.884235 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_16">
     <path d="M 111.81514 62.885647 
@@ -248,7 +319,7 @@ L 126.816551 62.885647
 L 126.816551 47.884235 
 L 111.81514 47.884235 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_17">
     <path d="M 126.816551 62.885647 
@@ -256,7 +327,7 @@ L 141.817963 62.885647
 L 141.817963 47.884235 
 L 126.816551 47.884235 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_18">
     <path d="M 141.817963 62.885647 
@@ -264,7 +335,7 @@ L 156.819375 62.885647
 L 156.819375 47.884235 
 L 141.817963 47.884235 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_19">
     <path d="M 156.819375 62.885647 
@@ -272,7 +343,7 @@ L 171.820787 62.885647
 L 171.820787 47.884235 
 L 156.819375 47.884235 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_20">
     <path d="M 81.812316 82.575 
@@ -280,7 +351,7 @@ L 96.813728 82.575
 L 96.813728 67.573588 
 L 81.812316 67.573588 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_21">
     <path d="M 96.813728 82.575 
@@ -288,7 +359,7 @@ L 111.81514 82.575
 L 111.81514 67.573588 
 L 96.813728 67.573588 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_22">
     <path d="M 111.81514 82.575 
@@ -296,7 +367,7 @@ L 126.816551 82.575
 L 126.816551 67.573588 
 L 111.81514 67.573588 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_23">
     <path d="M 126.816551 82.575 
@@ -304,7 +375,7 @@ L 141.817963 82.575
 L 141.817963 67.573588 
 L 126.816551 67.573588 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_24">
     <path d="M 141.817963 82.575 
@@ -312,7 +383,7 @@ L 156.819375 82.575
 L 156.819375 67.573588 
 L 141.817963 67.573588 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_25">
     <path d="M 156.819375 82.575 
@@ -320,7 +391,7 @@ L 171.820787 82.575
 L 171.820787 67.573588 
 L 156.819375 67.573588 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_26">
     <path d="M 81.812316 102.264353 
@@ -328,7 +399,7 @@ L 96.813728 102.264353
 L 96.813728 87.262941 
 L 81.812316 87.262941 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_27">
     <path d="M 96.813728 102.264353 
@@ -336,7 +407,7 @@ L 111.81514 102.264353
 L 111.81514 87.262941 
 L 96.813728 87.262941 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_28">
     <path d="M 111.81514 102.264353 
@@ -344,7 +415,7 @@ L 126.816551 102.264353
 L 126.816551 87.262941 
 L 111.81514 87.262941 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_29">
     <path d="M 126.816551 102.264353 
@@ -352,7 +423,7 @@ L 141.817963 102.264353
 L 141.817963 87.262941 
 L 126.816551 87.262941 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_30">
     <path d="M 141.817963 102.264353 
@@ -360,7 +431,7 @@ L 156.819375 102.264353
 L 156.819375 87.262941 
 L 141.817963 87.262941 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_31">
     <path d="M 156.819375 102.264353 
@@ -368,7 +439,7 @@ L 171.820787 102.264353
 L 171.820787 87.262941 
 L 156.819375 87.262941 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_32">
     <path d="M 81.812316 121.953706 
@@ -376,7 +447,7 @@ L 96.813728 121.953706
 L 96.813728 106.952294 
 L 81.812316 106.952294 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #fdeee3; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_33">
     <path d="M 96.813728 121.953706 
@@ -384,7 +455,7 @@ L 111.81514 121.953706
 L 111.81514 106.952294 
 L 96.813728 106.952294 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_34">
     <path d="M 111.81514 121.953706 
@@ -392,7 +463,7 @@ L 126.816551 121.953706
 L 126.816551 106.952294 
 L 111.81514 106.952294 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_35">
     <path d="M 126.816551 121.953706 
@@ -400,7 +471,7 @@ L 141.817963 121.953706
 L 141.817963 106.952294 
 L 126.816551 106.952294 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_36">
     <path d="M 141.817963 121.953706 
@@ -408,7 +479,7 @@ L 156.819375 121.953706
 L 156.819375 106.952294 
 L 141.817963 106.952294 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_37">
     <path d="M 156.819375 121.953706 
@@ -416,7 +487,7 @@ L 171.820787 121.953706
 L 171.820787 106.952294 
 L 156.819375 106.952294 
 z
-" clip-path="url(#p80231f8b59)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#p9143c5114e)" style="fill: #ffffff; stroke: #c9cbc4; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
     <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="77.124375" y="18.302642" transform="rotate(-0 77.124375 18.302642)">start</text>
@@ -562,140 +633,138 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="p80231f8b59">
+  <clipPath id="p9143c5114e">
    <rect x="3.054904" y="2.88" width="294.402706" height="127.512"/>
   </clipPath>
  </defs>
 </svg>
-</div><figcaption>Logical, circular and arithmetic shifts.</figcaption></figure>
+</div><figcaption>The three shifts on one register (deck 07 slides 2–4). Logical: 0 enters. Circular: the bit leaving one end enters the other. Arithmetic right: the sign bit is copied into itself.</figcaption></figure>
 
-<table>
-<thead>
-<tr>
-<th>Shift</th>
-<th>Empty places filled with</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Logical</td>
-<td>0</td>
-<td>left = × 2, right = ÷ 2 (unsigned)</td>
-</tr>
-<tr>
-<td>Circular (rotate)</td>
-<td>the bits that fell off the other end</td>
-<td>nothing lost</td>
-</tr>
-<tr>
-<td>Arithmetic</td>
-<td>right: a copy of the sign bit; left: 0</td>
-<td>÷ 2 keeping the sign (2's complement)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Answer.</strong> (i) <strong>011000</strong>. (ii) <strong>011011</strong>: the 11 that leaves the left comes back on the right. (iii) <strong>111011</strong>: the sign bit is copied.</p>
+<p>Left by 2, one line per place (slide 2):</p>
+<ol>
+<li>110110 → drop the two leftmost bits 1, 1 → 0110 _ _.</li>
+<li>Fill the two right places with 0 → <strong>011000</strong>.</li>
+</ol>
+<p>Right by 1: drop the rightmost 0 → _ 11011 → fill with 0 → <strong>011011</strong>.</p>
+<p>For an unsigned number, each place left is × 2 and each place right is ÷ 2 (rounded down), as long as no 1 is pushed out: 0011 (3) shifted left 1 is 0110 (6). In 110110 two 1s fall off the left, so the result is not 54 × 4.</p>
+<p><strong>Answer to the Guess.</strong> <strong>0s</strong>: 110110 → <strong>011000</strong>; right by 1 → <strong>011011</strong>.</p>
 <div class="box check">
 <div class="bh">Check 1</div>
-<p>(a) Arithmetic shift right of 1001. What numbers are these in 2's complement? (b) Circular shift right by 1 of 110110.</p>
+<p>(a) Logical shift right by 2 of 10110100. (b) 00001101 (13) logically shifted left by 1: the result, and its decimal value.</p>
 </div>
-<h3>2 · The barrel shifter</h3>
-<div class="box guess">
-<div class="bh">Predict</div>
-<p>A shift register (11) moves one place per clock. How could a circuit shift by 3 places in one step, with no clock?</p>
-</div>
-<p>A <strong>barrel shifter</strong> is combinational: each output bit has a MUX, and the shift amount drives every select. 4-bit rotate-left:</p>
-<table>
-<thead>
-<tr>
-<th>S<sub>1</sub>S<sub>0</sub></th>
-<th>Y<sub>3</sub> Y<sub>2</sub> Y<sub>1</sub> Y<sub>0</sub></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>00</td>
-<td>D<sub>3</sub> D<sub>2</sub> D<sub>1</sub> D<sub>0</sub></td>
-</tr>
-<tr>
-<td>01</td>
-<td>D<sub>2</sub> D<sub>1</sub> D<sub>0</sub> D<sub>3</sub></td>
-</tr>
-<tr>
-<td>10</td>
-<td>D<sub>1</sub> D<sub>0</sub> D<sub>3</sub> D<sub>2</sub></td>
-</tr>
-<tr>
-<td>11</td>
-<td>D<sub>0</sub> D<sub>3</sub> D<sub>2</sub> D<sub>1</sub></td>
-</tr>
-</tbody>
-</table>
-
-<figure style="max-width:40%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 150.84 109.876235" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:39.920081</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 109.876235 L 150.84 109.876235 L 150.84 0 L 0 0 L 0 109.876235 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 58.351765 74.993294 L 58.351765 17.814706 L 94.621765 29.549118 L 94.621765 63.258882 z " clip-path="url(#p85114f4a86)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/> </g> <g id="patch_3"> <path d="M 94.621765 46.404 Q 104.222647 46.404 112.541529 46.404 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 108.541529 44.051059 L 112.541529 46.404 L 108.541529 48.756941 z " clip-path="url(#p85114f4a86)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_1"> <path d="M 43.417059 24.962029 L 58.351765 24.962029 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 43.417059 39.256676 L 58.351765 39.256676 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_3"> <path d="M 43.417059 53.551324 L 58.351765 53.551324 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_4"> <path d="M 43.417059 67.845971 L 58.351765 67.845971 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_5"> <path d="M 65.819118 89.928 L 65.819118 72.577386 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_6"> <path d="M 89.287941 89.928 L 89.287941 64.984531 " clip-path="url(#p85114f4a86)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="text_1"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="26.901217" transform="rotate(-0 60.912 26.901217)">I0</text> </g> <g id="text_2"> <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="27.386014" transform="rotate(-0 41.283529 27.386014)">D0</text> </g> <g id="text_3"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="41.195864" transform="rotate(-0 60.912 41.195864)">I1</text> </g> <g id="text_4"> <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="41.680661" transform="rotate(-0 41.283529 41.680661)">D3</text> </g> <g id="text_5"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="55.490511" transform="rotate(-0 60.912 55.490511)">I2</text> </g> <g id="text_6"> <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="55.975308" transform="rotate(-0 41.283529 55.975308)">D2</text> </g> <g id="text_7"> <text style="fill: #6a707a; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="60.912" y="69.785158" transform="rotate(-0 60.912 69.785158)">I3</text> </g> <g id="text_8"> <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="41.283529" y="70.269955" transform="rotate(-0 41.283529 70.269955)">D1</text> </g> <g id="text_9"> <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="115.957059" y="49.083141" transform="rotate(-0 115.957059 49.083141)">Y0</text> </g> <g id="text_10"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="65.819118" y="100.161263" transform="rotate(-0 65.819118 100.161263)">S1</text> </g> <g id="text_11"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="89.287941" y="100.161263" transform="rotate(-0 89.287941 100.161263)">S0</text> </g> <g id="text_12"> <text style="fill: #2f5bea; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="76.486765" y="12.480882" transform="rotate(-0 76.486765 12.480882)">the MUX for Y0</text> </g> </g> </g> <defs> <clipPath id="p85114f4a86"> <rect x="2.88" y="2.88" width="145.08" height="104.116235"/> </clipPath> </defs> </svg><figcaption>The MUX for Y<sub>0</sub>.</figcaption></figure>
-
-<p><strong>Answer.</strong> One n:1 MUX per output bit (n MUXes), or log<sub>2</sub>n rows of 2:1 MUXes shifting by 1, 2, 4, ….</p>
-<div class="box check">
-<div class="bh">Check 2</div>
-<p>How many 8:1 MUXes does an 8-bit barrel shifter need?</p>
-</div>
-<h3>3 · The arithmetic logic unit</h3>
+<h3>2 · Circular shift: nothing is lost</h3>
+<p>Step 1 threw away the bits pushed out. A circular shift (also called rotate) feeds them back into the other end.</p>
 <div class="box q">
-<div class="bh"><span class="tag">Deck 07 slides 9–10</span></div>
-<p>Design an arithmetic circuit with inputs A and B that generates addition, subtraction, increment and decrement.</p>
+<div class="bh"><span class="tag">Deck 07 slide 3 (EX 7.3)</span></div>
+<p>Circular-shift 110110 (i) left by 2, (ii) right by 1.</p>
 </div>
 <div class="box guess">
 <div class="bh">Guess first</div>
-<p>An adder computes A + (something) + carry-in. What "something" and carry-in give A − 1?</p>
+<p>Left by 2: the two bits leaving on the left are 1 and 1. Where do they reappear?</p>
 </div>
-<p>Keep one parallel adder (04) and change its B input, Y. Two selects choose Y; C<sub>in</sub> is a third control:</p>
-<div class="eq">Y<sub>i</sub> = B<sub>i</sub>S<sub>0</sub> + B<sub>i</sub>'S<sub>1</sub>&emsp;&emsp;&emsp;F = A + Y + C<sub>in</sub></div>
-
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Circular shift (rotate):</strong> the serial input is the bit shifted out of the other end of the register (slide 3), so the word turns like a ring.</p>
+</div>
+<ol>
+<li>Left by 2: 110110 → the leading 11 leaves → 0110 _ _ → 11 enters on the right → <strong>011011</strong>.</li>
+<li>Right by 1: the trailing 0 leaves → _ 11011 → 0 enters on the left → <strong>011011</strong>.</li>
+</ol>
+<p>Both answers are 011011. That is a property of this word, not of rotation: 110110 is 110 written twice, so turning it by 1 to the right lands on the same word as turning it by 2 to the left. A 6-bit rotate by 6 places always gives the word back.</p>
+<p><strong>Answer to the Guess.</strong> On the <strong>right</strong>, in the same order: <strong>011011</strong>.</p>
+<div class="box check">
+<div class="bh">Check 2</div>
+<p>(a) Rotate 1001 left by 1. (b) Rotate 1011 right by 1, then left by 1. What do you get back?</p>
+</div>
+<h3>3 · Arithmetic shift: keep the sign</h3>
+<p>A logical right shift halves an unsigned number. For a negative 2's-complement number it fails: 110110 (−10) logically shifted right gives 011011 (+27). The arithmetic shift fixes the sign.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 07 slide 4 (EX 7.4)</span></div>
+<p>Arithmetic-shift 110110 (i) right by 1, (ii) left by 2.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>110110 is negative (sign bit 1). After a right shift, what must the new leftmost bit be for the result to stay negative?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Sign bit:</strong> the leftmost bit of a 2's-complement number; 1 = negative. <strong>Arithmetic shift:</strong> right, the serial input is a copy of the sign bit; left, it is 0, as in a logical shift (slide 4).</p>
+</div>
+<ol>
+<li>Right by 1: _ 11011, and the sign bit 1 is copied into the empty place → <strong>111011</strong>.</li>
+<li>Check by value: 110110 = −32 + 16 + 4 + 2 = −10; 111011 = −32 + 16 + 8 + 2 + 1 = −5. <strong>÷ 2, sign kept</strong>.</li>
+<li>Left by 2: the same as logical → <strong>011000</strong> = +24.</li>
+</ol>
+<p>−10 × 4 = −40 does not fit in 6 bits (the range is −32 to +31), so the left shift <strong>overflows</strong>: the sign bit changed from 1 to 0, which is how an arithmetic left shift shows overflow.</p>
+<p><strong>Answer to the Guess.</strong> <strong>1</strong>, a copy of the old sign bit: 110110 → <strong>111011</strong> (−5).</p>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>(a) Arithmetic shift right of 1001 (4-bit). What numbers are 1001 and the result? (b) Arithmetic shift right of 0110: result and value.</p>
+</div>
+<h3>4 · The barrel shifter: any shift in one step</h3>
+<p>Steps 1–3 moved bits one place at a time, as a shift register (file 11) does, one place per clock. A shift by 3 would take three clocks.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Predict</span></div>
+<p>Build a 4-bit circuit with no clock that rotates D<sub>3</sub>D<sub>2</sub>D<sub>1</sub>D<sub>0</sub> left by any amount s = 0, 1, 2 or 3 in one step. What does each output bit need?</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Output Y<sub>0</sub> gets a different input bit for each of the four shift amounts. Which block from file 05 picks one of four inputs with a 2-bit code?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Barrel shifter:</strong> a combinational circuit that shifts or rotates a word by any amount in one step; the amount is a binary number on its select lines (slide 3 names it with the circular shift).</p>
+</div>
+<p>Rotate left by s: output bit i takes input bit (i − s), counted round the ring.</p>
 <table>
 <thead>
 <tr>
-<th>S<sub>1</sub> S<sub>0</sub></th>
-<th>Y</th>
-<th>C<sub>in</sub> = 0</th>
-<th>C<sub>in</sub> = 1</th>
+<th>S<sub>1</sub>S<sub>0</sub> (s)</th>
+<th>Y<sub>3</sub></th>
+<th>Y<sub>2</sub></th>
+<th>Y<sub>1</sub></th>
+<th>Y<sub>0</sub></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>0 0</td>
-<td>all 0s</td>
-<td>A (transfer)</td>
-<td><strong>A + 1 (increment)</strong></td>
+<td>00 (0)</td>
+<td>D<sub>3</sub></td>
+<td>D<sub>2</sub></td>
+<td>D<sub>1</sub></td>
+<td>D<sub>0</sub></td>
 </tr>
 <tr>
-<td>0 1</td>
-<td>B</td>
-<td><strong>A + B (add)</strong></td>
-<td>A + B + 1</td>
+<td>01 (1)</td>
+<td>D<sub>2</sub></td>
+<td>D<sub>1</sub></td>
+<td>D<sub>0</sub></td>
+<td>D<sub>3</sub></td>
 </tr>
 <tr>
-<td>1 0</td>
-<td>B'</td>
-<td>A + B'</td>
-<td><strong>A − B (subtract)</strong></td>
+<td>10 (2)</td>
+<td>D<sub>1</sub></td>
+<td>D<sub>0</sub></td>
+<td>D<sub>3</sub></td>
+<td>D<sub>2</sub></td>
 </tr>
 <tr>
-<td>1 1</td>
-<td>all 1s</td>
-<td><strong>A − 1 (decrement)</strong></td>
-<td>A (transfer)</td>
+<td>11 (3)</td>
+<td>D<sub>0</sub></td>
+<td>D<sub>3</sub></td>
+<td>D<sub>2</sub></td>
+<td>D<sub>1</sub></td>
 </tr>
 </tbody>
 </table>
-<p>All 1s is −1 in 2's complement, so adding it decrements. Each stage: a full adder plus two ANDs and an OR for Y<sub>i</sub>.</p>
+<p>Each <strong>column</strong> is one 4:1 MUX: the column lists its data inputs I<sub>0</sub>…I<sub>3</sub> in order, and S<sub>1</sub>S<sub>0</sub> drives all four MUXes together.</p>
 
-<figure style="max-width:60%"><div style="width:178mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 396.36 146.045915" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<figure style="max-width:80%"><div style="width:92mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 207.33984 305.136" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-15T02:56:05.947557</dc:date>
+    <dc:date>2026-11-18T04:06:14.289626</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -710,264 +779,2427 @@ z
  </defs>
  <g id="figure_1">
   <g id="patch_1">
-   <path d="M 0 146.045915 
-L 396.36 146.045915 
-L 396.36 0 
+   <path d="M 0 305.136 
+L 207.33984 305.136 
+L 207.33984 0 
 L 0 0 
-L 0 146.045915 
+L 0 305.136 
 z
 " style="fill: none"/>
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 65.596056 52.392676 
-L 132.713239 52.392676 
-Q 134.913803 52.392676 134.913803 50.192113 
-L 134.913803 18.834085 
-Q 134.913803 16.633521 132.713239 16.633521 
-L 65.596056 16.633521 
-Q 63.395493 16.633521 63.395493 18.834085 
-L 63.395493 50.192113 
-Q 63.395493 52.392676 65.596056 52.392676 
+    <path d="M 154.56384 50.78016 
+Q 163.54512 50.78016 171.2444 50.78016 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 167.2444 48.427219 
+L 171.2444 50.78016 
+L 167.2444 53.133101 
 z
-" clip-path="url(#pe7689ca8e6)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p9f98a9c2a7)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_3">
-    <path d="M 65.596056 107.406761 
-L 132.713239 107.406761 
-Q 134.913803 107.406761 134.913803 105.206197 
-L 134.913803 73.848169 
-Q 134.913803 71.647606 132.713239 71.647606 
-L 65.596056 71.647606 
-Q 63.395493 71.647606 63.395493 73.848169 
-L 63.395493 105.206197 
-Q 63.395493 107.406761 65.596056 107.406761 
+    <path d="M 154.56384 116.64288 
+Q 163.54512 116.64288 171.2444 116.64288 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 167.2444 114.289939 
+L 171.2444 116.64288 
+L 167.2444 118.995821 
 z
-" clip-path="url(#pe7689ca8e6)" style="fill: #eaf6ef; stroke: #12925a; stroke-width: 1.4; stroke-linejoin: miter"/>
+" clip-path="url(#p9f98a9c2a7)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_4">
-    <path d="M 35.888451 27.636338 
-Q 49.641972 27.636338 62.113493 27.636338 
-" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 58.113493 25.283397 
-L 62.113493 27.636338 
-L 58.113493 29.989279 
+    <path d="M 154.56384 182.5056 
+Q 163.54512 182.5056 171.2444 182.5056 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 167.2444 180.152659 
+L 171.2444 182.5056 
+L 167.2444 184.858541 
 z
-" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p9f98a9c2a7)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="patch_5">
-    <path d="M 35.888451 41.389859 
-Q 49.641972 41.389859 62.113493 41.389859 
-" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 58.113493 39.036918 
-L 62.113493 41.389859 
-L 58.113493 43.7428 
+    <path d="M 154.56384 248.36832 
+Q 163.54512 248.36832 171.2444 248.36832 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 167.2444 246.015379 
+L 171.2444 248.36832 
+L 167.2444 250.721261 
 z
-" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="patch_6">
-    <path d="M 35.888451 82.650423 
-Q 49.641972 82.650423 62.113493 82.650423 
-" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 58.113493 80.297481 
-L 62.113493 82.650423 
-L 58.113493 85.003364 
-z
-" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="patch_7">
-    <path d="M 35.888451 96.403944 
-Q 49.641972 96.403944 62.113493 96.403944 
-" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 58.113493 94.051002 
-L 62.113493 96.403944 
-L 58.113493 98.756885 
-z
-" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="patch_8">
-    <path d="M 200.930704 101.905352 
-L 200.930704 22.13493 
-L 236.689859 35.888451 
-L 236.689859 88.151831 
-z
-" clip-path="url(#pe7689ca8e6)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
-   </g>
-   <g id="patch_9">
-    <path d="M 134.913803 34.513099 
-Q 167.922254 34.513099 199.648704 34.513099 
-" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 195.648704 32.160157 
-L 199.648704 34.513099 
-L 195.648704 36.86604 
-z
-" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="patch_10">
-    <path d="M 134.913803 89.527183 
-Q 167.922254 89.527183 199.648704 89.527183 
-" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 195.648704 87.174242 
-L 199.648704 89.527183 
-L 195.648704 91.880124 
-z
-" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="patch_11">
-    <path d="M 236.689859 62.020141 
-Q 251.818732 62.020141 265.665605 62.020141 
-" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 261.665605 59.6672 
-L 265.665605 62.020141 
-L 261.665605 64.373082 
-z
-" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-   </g>
-   <g id="patch_12">
-    <path d="M 99.154648 16.633521 
-Q 99.154648 11.132113 99.154648 6.912705 
-" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
-    <path d="M 96.801707 10.912705 
-L 99.154648 6.912705 
-L 101.507589 10.912705 
-z
-" clip-path="url(#pe7689ca8e6)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+" clip-path="url(#p9f98a9c2a7)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_1">
-    <path d="M 218.810282 126.66169 
-L 218.810282 95.028592 
-" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 28.82592 20.84256 
+L 28.82592 263.33712 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_2">
-    <path d="M 90.902535 126.66169 
-L 90.902535 107.406761 
-" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 44.79264 20.84256 
+L 44.79264 263.33712 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="line2d_3">
-    <path d="M 107.406761 126.66169 
-L 107.406761 117.034225 
-L 154.168732 117.034225 
-L 154.168732 62.020141 
-L 107.406761 62.020141 
-L 107.406761 52.392676 
-" clip-path="url(#pe7689ca8e6)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 60.75936 20.84256 
+L 60.75936 263.33712 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 76.72608 20.84256 
+L 76.72608 263.33712 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 124.62624 70.73856 
+L 124.62624 30.82176 
+L 154.56384 38.80512 
+L 154.56384 62.7552 
+z
+" clip-path="url(#p9f98a9c2a7)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 124.62624 35.81136 
+L 124.62624 35.81136 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 124.62624 45.79056 
+L 124.62624 45.79056 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 124.62624 55.76976 
+L 124.62624 55.76976 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 124.62624 65.74896 
+L 124.62624 65.74896 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 132.410016 80.637926 
+L 132.410016 68.662886 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 147.378816 76.646246 
+L 147.378816 64.671206 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 28.82592 35.81136 
+L 124.62624 35.81136 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 44.79264 45.79056 
+L 124.62624 45.79056 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 60.75936 55.76976 
+L 124.62624 55.76976 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_14">
+    <path d="M 76.72608 65.74896 
+L 124.62624 65.74896 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 124.62624 136.60128 
+L 124.62624 96.68448 
+L 154.56384 104.66784 
+L 154.56384 128.61792 
+z
+" clip-path="url(#p9f98a9c2a7)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_15">
+    <path d="M 124.62624 101.67408 
+L 124.62624 101.67408 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_16">
+    <path d="M 124.62624 111.65328 
+L 124.62624 111.65328 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_17">
+    <path d="M 124.62624 121.63248 
+L 124.62624 121.63248 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_18">
+    <path d="M 124.62624 131.61168 
+L 124.62624 131.61168 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_19">
+    <path d="M 132.410016 146.500646 
+L 132.410016 134.525606 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_20">
+    <path d="M 147.378816 142.508966 
+L 147.378816 130.533926 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_21">
+    <path d="M 44.79264 101.67408 
+L 124.62624 101.67408 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_22">
+    <path d="M 60.75936 111.65328 
+L 124.62624 111.65328 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_23">
+    <path d="M 76.72608 121.63248 
+L 124.62624 121.63248 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_24">
+    <path d="M 28.82592 131.61168 
+L 124.62624 131.61168 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 124.62624 202.464 
+L 124.62624 162.5472 
+L 154.56384 170.53056 
+L 154.56384 194.48064 
+z
+" clip-path="url(#p9f98a9c2a7)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_25">
+    <path d="M 124.62624 167.5368 
+L 124.62624 167.5368 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_26">
+    <path d="M 124.62624 177.516 
+L 124.62624 177.516 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_27">
+    <path d="M 124.62624 187.4952 
+L 124.62624 187.4952 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_28">
+    <path d="M 124.62624 197.4744 
+L 124.62624 197.4744 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_29">
+    <path d="M 132.410016 212.363366 
+L 132.410016 200.388326 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_30">
+    <path d="M 147.378816 208.371686 
+L 147.378816 196.396646 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_31">
+    <path d="M 60.75936 167.5368 
+L 124.62624 167.5368 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_32">
+    <path d="M 76.72608 177.516 
+L 124.62624 177.516 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_33">
+    <path d="M 28.82592 187.4952 
+L 124.62624 187.4952 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_34">
+    <path d="M 44.79264 197.4744 
+L 124.62624 197.4744 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 124.62624 268.32672 
+L 124.62624 228.40992 
+L 154.56384 236.39328 
+L 154.56384 260.34336 
+z
+" clip-path="url(#p9f98a9c2a7)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_35">
+    <path d="M 124.62624 233.39952 
+L 124.62624 233.39952 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_36">
+    <path d="M 124.62624 243.37872 
+L 124.62624 243.37872 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_37">
+    <path d="M 124.62624 253.35792 
+L 124.62624 253.35792 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_38">
+    <path d="M 124.62624 263.33712 
+L 124.62624 263.33712 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_39">
+    <path d="M 132.410016 278.226086 
+L 132.410016 266.251046 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_40">
+    <path d="M 147.378816 274.234406 
+L 147.378816 262.259366 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_41">
+    <path d="M 76.72608 233.39952 
+L 124.62624 233.39952 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_42">
+    <path d="M 28.82592 243.37872 
+L 124.62624 243.37872 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_43">
+    <path d="M 44.79264 253.35792 
+L 124.62624 253.35792 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_44">
+    <path d="M 60.75936 263.33712 
+L 124.62624 263.33712 
+" clip-path="url(#p9f98a9c2a7)" style="fill: none; stroke: #e0661b; stroke-width: 1.3; stroke-linecap: round"/>
    </g>
    <g id="text_1">
-    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(79.216132 31.776817)">arithmetic</text>
-    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(91.446289 41.842192)">unit</text>
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="28.82592" y="14.285264" transform="rotate(-0 28.82592 14.285264)">D3</text>
    </g>
    <g id="text_2">
-    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(89.609726 86.766996)">logic</text>
-    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(91.446289 96.880183)">unit</text>
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="44.79264" y="14.285264" transform="rotate(-0 44.79264 14.285264)">D2</text>
    </g>
    <g id="text_3">
-    <!-- $\mathrm{A}_{\mathrm{i}}$, $\mathrm{B}_{\mathrm{i}}$, -->
-    <g style="fill: #1c1f24" transform="translate(11.087746 31.776817)">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="60.75936" y="14.285264" transform="rotate(-0 60.75936 14.285264)">D1</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #e0661b; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="76.72608" y="14.285264" transform="rotate(-0 76.72608 14.285264)">D0</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="132.410016" y="89.666735" transform="rotate(-0 132.410016 89.666735)">S1</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="147.378816" y="85.675055" transform="rotate(-0 147.378816 85.675055)">S0</text>
+   </g>
+   <g id="text_7">
+    <g id="patch_10">
+     <path d="M 112.196857 40.106547 
+L 122.839232 40.106547 
+L 122.839232 31.516172 
+L 112.196857 31.516172 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="37.750547" transform="rotate(-0 122.231232 37.750547)">D3</text>
+   </g>
+   <g id="text_8">
+    <g id="patch_11">
+     <path d="M 112.196857 50.085747 
+L 122.839232 50.085747 
+L 122.839232 41.495372 
+L 112.196857 41.495372 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="47.729747" transform="rotate(-0 122.231232 47.729747)">D2</text>
+   </g>
+   <g id="text_9">
+    <g id="patch_12">
+     <path d="M 112.196857 60.064947 
+L 122.839232 60.064947 
+L 122.839232 51.474572 
+L 112.196857 51.474572 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="57.708947" transform="rotate(-0 122.231232 57.708947)">D1</text>
+   </g>
+   <g id="text_10">
+    <g id="patch_13">
+     <path d="M 112.196857 70.044147 
+L 122.839232 70.044147 
+L 122.839232 61.453772 
+L 112.196857 61.453772 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="67.688147" transform="rotate(-0 122.231232 67.688147)">D0</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="174.52224" y="53.459301" transform="rotate(-0 174.52224 53.459301)">Y3</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="132.410016" y="155.529455" transform="rotate(-0 132.410016 155.529455)">S1</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="147.378816" y="151.537775" transform="rotate(-0 147.378816 151.537775)">S0</text>
+   </g>
+   <g id="text_14">
+    <g id="patch_14">
+     <path d="M 112.196857 105.969268 
+L 122.839232 105.969268 
+L 122.839232 97.378892 
+L 112.196857 97.378892 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="103.613268" transform="rotate(-0 122.231232 103.613268)">D2</text>
+   </g>
+   <g id="text_15">
+    <g id="patch_15">
+     <path d="M 112.196857 115.948467 
+L 122.839232 115.948467 
+L 122.839232 107.358092 
+L 112.196857 107.358092 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="113.592467" transform="rotate(-0 122.231232 113.592467)">D1</text>
+   </g>
+   <g id="text_16">
+    <g id="patch_16">
+     <path d="M 112.196857 125.927667 
+L 122.839232 125.927667 
+L 122.839232 117.337292 
+L 112.196857 117.337292 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="123.571667" transform="rotate(-0 122.231232 123.571667)">D0</text>
+   </g>
+   <g id="text_17">
+    <g id="patch_17">
+     <path d="M 112.196857 135.906867 
+L 122.839232 135.906867 
+L 122.839232 127.316492 
+L 112.196857 127.316492 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="133.550867" transform="rotate(-0 122.231232 133.550867)">D3</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="174.52224" y="119.322021" transform="rotate(-0 174.52224 119.322021)">Y2</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="132.410016" y="221.392175" transform="rotate(-0 132.410016 221.392175)">S1</text>
+   </g>
+   <g id="text_20">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="147.378816" y="217.400495" transform="rotate(-0 147.378816 217.400495)">S0</text>
+   </g>
+   <g id="text_21">
+    <g id="patch_18">
+     <path d="M 112.196857 171.831987 
+L 122.839232 171.831987 
+L 122.839232 163.241612 
+L 112.196857 163.241612 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="169.475987" transform="rotate(-0 122.231232 169.475987)">D1</text>
+   </g>
+   <g id="text_22">
+    <g id="patch_19">
+     <path d="M 112.196857 181.811187 
+L 122.839232 181.811187 
+L 122.839232 173.220812 
+L 112.196857 173.220812 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="179.455187" transform="rotate(-0 122.231232 179.455187)">D0</text>
+   </g>
+   <g id="text_23">
+    <g id="patch_20">
+     <path d="M 112.196857 191.790387 
+L 122.839232 191.790387 
+L 122.839232 183.200012 
+L 112.196857 183.200012 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="189.434387" transform="rotate(-0 122.231232 189.434387)">D3</text>
+   </g>
+   <g id="text_24">
+    <g id="patch_21">
+     <path d="M 112.196857 201.769587 
+L 122.839232 201.769587 
+L 122.839232 193.179212 
+L 112.196857 193.179212 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="199.413587" transform="rotate(-0 122.231232 199.413587)">D2</text>
+   </g>
+   <g id="text_25">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="174.52224" y="185.184741" transform="rotate(-0 174.52224 185.184741)">Y1</text>
+   </g>
+   <g id="text_26">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="132.410016" y="287.254895" transform="rotate(-0 132.410016 287.254895)">S1</text>
+   </g>
+   <g id="text_27">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="147.378816" y="283.263215" transform="rotate(-0 147.378816 283.263215)">S0</text>
+   </g>
+   <g id="text_28">
+    <g id="patch_22">
+     <path d="M 112.196857 237.694707 
+L 122.839232 237.694707 
+L 122.839232 229.104332 
+L 112.196857 229.104332 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="235.338707" transform="rotate(-0 122.231232 235.338707)">D0</text>
+   </g>
+   <g id="text_29">
+    <g id="patch_23">
+     <path d="M 112.196857 247.673907 
+L 122.839232 247.673907 
+L 122.839232 239.083532 
+L 112.196857 239.083532 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="245.317907" transform="rotate(-0 122.231232 245.317907)">D3</text>
+   </g>
+   <g id="text_30">
+    <g id="patch_24">
+     <path d="M 112.196857 257.653107 
+L 122.839232 257.653107 
+L 122.839232 249.062732 
+L 112.196857 249.062732 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="255.297107" transform="rotate(-0 122.231232 255.297107)">D2</text>
+   </g>
+   <g id="text_31">
+    <g id="patch_25">
+     <path d="M 112.196857 267.632307 
+L 122.839232 267.632307 
+L 122.839232 259.041932 
+L 112.196857 259.041932 
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="fill: #e0661b; font: 7.6px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="122.231232" y="265.276307" transform="rotate(-0 122.231232 265.276307)">D1</text>
+   </g>
+   <g id="text_32">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="174.52224" y="251.047461" transform="rotate(-0 174.52224 251.047461)">Y0</text>
+   </g>
+   <g id="text_33">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="37.699516" transform="rotate(-0 126.62208 37.699516)">I0</text>
+   </g>
+   <g id="text_34">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="47.678716" transform="rotate(-0 126.62208 47.678716)">I1</text>
+   </g>
+   <g id="text_35">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="57.657916" transform="rotate(-0 126.62208 57.657916)">I2</text>
+   </g>
+   <g id="text_36">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="67.637116" transform="rotate(-0 126.62208 67.637116)">I3</text>
+   </g>
+   <g id="text_37">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="144.385056" y="52.82141" transform="rotate(-0 144.385056 52.82141)">4:1</text>
+   </g>
+   <g id="text_38">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="103.562236" transform="rotate(-0 126.62208 103.562236)">I0</text>
+   </g>
+   <g id="text_39">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="113.541436" transform="rotate(-0 126.62208 113.541436)">I1</text>
+   </g>
+   <g id="text_40">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="123.520636" transform="rotate(-0 126.62208 123.520636)">I2</text>
+   </g>
+   <g id="text_41">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="133.499836" transform="rotate(-0 126.62208 133.499836)">I3</text>
+   </g>
+   <g id="text_42">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="144.385056" y="118.68413" transform="rotate(-0 144.385056 118.68413)">4:1</text>
+   </g>
+   <g id="text_43">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="169.424956" transform="rotate(-0 126.62208 169.424956)">I0</text>
+   </g>
+   <g id="text_44">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="179.404156" transform="rotate(-0 126.62208 179.404156)">I1</text>
+   </g>
+   <g id="text_45">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="189.383356" transform="rotate(-0 126.62208 189.383356)">I2</text>
+   </g>
+   <g id="text_46">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="199.362556" transform="rotate(-0 126.62208 199.362556)">I3</text>
+   </g>
+   <g id="text_47">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="144.385056" y="184.54685" transform="rotate(-0 144.385056 184.54685)">4:1</text>
+   </g>
+   <g id="text_48">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="235.287676" transform="rotate(-0 126.62208 235.287676)">I0</text>
+   </g>
+   <g id="text_49">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="245.266876" transform="rotate(-0 126.62208 245.266876)">I1</text>
+   </g>
+   <g id="text_50">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="255.246076" transform="rotate(-0 126.62208 255.246076)">I2</text>
+   </g>
+   <g id="text_51">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="126.62208" y="265.225276" transform="rotate(-0 126.62208 265.225276)">I3</text>
+   </g>
+   <g id="text_52">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="144.385056" y="250.40957" transform="rotate(-0 144.385056 250.40957)">4:1</text>
+   </g>
+   <g id="line2d_45">
+    <defs>
+     <path id="md06653b6ac" d="M 0 1.8 
+C 0.477366 1.8 0.935244 1.610341 1.272792 1.272792 
+C 1.610341 0.935244 1.8 0.477366 1.8 0 
+C 1.8 -0.477366 1.610341 -0.935244 1.272792 -1.272792 
+C 0.935244 -1.610341 0.477366 -1.8 0 -1.8 
+C -0.477366 -1.8 -0.935244 -1.610341 -1.272792 -1.272792 
+C -1.610341 -0.935244 -1.8 -0.477366 -1.8 0 
+C -1.8 0.477366 -1.610341 0.935244 -1.272792 1.272792 
+C -0.935244 1.610341 -0.477366 1.8 0 1.8 
+z
+" style="stroke: #e0661b"/>
+    </defs>
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="28.82592" y="35.81136" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_46">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="44.79264" y="45.79056" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_47">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="60.75936" y="55.76976" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_48">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="76.72608" y="65.74896" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_49">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="44.79264" y="101.67408" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_50">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="60.75936" y="111.65328" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_51">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="76.72608" y="121.63248" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_52">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="28.82592" y="131.61168" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_53">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="60.75936" y="167.5368" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_54">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="76.72608" y="177.516" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_55">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="28.82592" y="187.4952" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_56">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="44.79264" y="197.4744" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_57">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="76.72608" y="233.39952" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_58">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="28.82592" y="243.37872" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_59">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="44.79264" y="253.35792" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+   <g id="line2d_60">
+    <g clip-path="url(#p9f98a9c2a7)">
+     <use xlink:href="#md06653b6ac" x="60.75936" y="263.33712" style="fill: #e0661b; stroke: #e0661b"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p9f98a9c2a7">
+   <rect x="2.88" y="2.88" width="201.57984" height="299.376"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>4-bit rotate-left barrel shifter: four 4:1 MUXes, one per output bit, sharing the selects S<sub>1</sub>S<sub>0</sub>. Each MUX's inputs I<sub>0</sub>–I<sub>3</sub> are the four data bits in the order of its column in the table.</figcaption></figure>
+
+<p>An n-bit barrel shifter needs n MUXes of n:1. A different shift type only changes the wiring: a logical shift wires 0 where the rotate wires a wrapped-round bit.</p>
+<p><strong>Answer to the Predict.</strong> One <strong>4:1 MUX per output bit</strong> (four in all), selects on s. Y<sub>0</sub>'s MUX has inputs D<sub>0</sub>, D<sub>3</sub>, D<sub>2</sub>, D<sub>1</sub>.</p>
+<div class="box check">
+<div class="bh">Check 4</div>
+<p>(a) D<sub>3</sub>D<sub>2</sub>D<sub>1</sub>D<sub>0</sub> = 1011, S<sub>1</sub>S<sub>0</sub> = 10. Give Y<sub>3</sub>Y<sub>2</sub>Y<sub>1</sub>Y<sub>0</sub>. (b) How many MUXes, and of what size, does an 8-bit barrel shifter need?</p>
+</div>
+<h3>5 · The logic unit: a MUX picks the operation</h3>
+<p>Step 4 used a MUX to pick one of four bits. Slide 8 uses one to pick one of four <strong>operations</strong>: every gate computes at once, and the select lines decide which answer is passed on.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 07 slide 8</span></div>
+<p>Design a 1-bit logic unit that gives A', AB, A + B or A ⊕ B, chosen by S<sub>1</sub>S<sub>0</sub>.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>A = 0, B = 1. Which of the four operations give 1?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Logic unit (LU):</strong> computes a bitwise logic operation; bit i of the output depends only on bit i of A and B. <strong>Function select S<sub>1</sub>S<sub>0</sub>:</strong> the MUX select lines; their code names the operation.</p>
+</div>
+
+<figure style="max-width:62%"><div style="width:105mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 235.50336 202.68288" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-18T04:06:14.402624</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 202.68288 
+L 235.50336 202.68288 
+L 235.50336 0 
+L 0 0 
+L 0 202.68288 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 193.64904 99.29016 
+Q 203.90544 99.29016 212.87984 99.29016 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 208.87984 96.937219 
+L 212.87984 99.29016 
+L 208.87984 101.643101 
+z
+" clip-path="url(#pa28919292b)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 162.87984 164.93112 
+L 162.87984 33.6492 
+L 193.64904 41.85432 
+L 193.64904 156.726 
+z
+" clip-path="url(#pa28919292b)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 162.87984 50.05944 
+L 162.87984 50.05944 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 162.87984 82.87992 
+L 162.87984 82.87992 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 162.87984 115.7004 
+L 162.87984 115.7004 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 162.87984 148.52088 
+L 162.87984 148.52088 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 170.879832 175.105469 
+L 170.879832 162.797789 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 186.264432 171.002909 
+L 186.264432 158.695229 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 31.59792 23.3928 
+L 31.59792 143.39268 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 48.00816 175.18752 
+L 48.00816 88.00812 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 31.59792 50.05944 
+L 84.9312 50.05944 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 100.520928 50.05944 
+L 162.87984 50.05944 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 31.59792 77.75172 
+L 84.9312 77.75172 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 48.00816 88.00812 
+L 84.9312 88.00812 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 109.54656 82.87992 
+L 162.87984 82.87992 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_14">
+    <path d="M 31.59792 110.5722 
+L 87.63889 110.5722 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_15">
+    <path d="M 48.00816 120.8286 
+L 87.63889 120.8286 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_16">
+    <path d="M 109.54656 115.7004 
+L 162.87984 115.7004 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_17">
+    <path d="M 31.59792 143.39268 
+L 84.41838 143.39268 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_18">
+    <path d="M 48.00816 153.64908 
+L 84.41838 153.64908 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_19">
+    <path d="M 109.54656 148.52088 
+L 162.87984 148.52088 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="170.879832" y="184.189718" transform="rotate(-0 170.879832 184.189718)">S1</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="186.264432" y="180.087158" transform="rotate(-0 186.264432 180.087158)">S0</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="31.59792" y="19.918101" transform="rotate(-0 31.59792 19.918101)">A</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #1c1f24; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="48.00816" y="189.114641" transform="rotate(-0 48.00816 189.114641)">B</text>
+   </g>
+   <g id="patch_4">
+    <path d="M 84.9312 55.18764 
+L 84.9312 44.93124 
+L 97.23888 50.05944 
+z
+" clip-path="url(#pa28919292b)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 98.879904 51.700464 
+C 99.315109 51.700464 99.732547 51.527555 100.040283 51.219819 
+C 100.348019 50.912083 100.520928 50.494645 100.520928 50.05944 
+C 100.520928 49.624235 100.348019 49.206797 100.040283 48.899061 
+C 99.732547 48.591325 99.315109 48.418416 98.879904 48.418416 
+C 98.444699 48.418416 98.027261 48.591325 97.719525 48.899061 
+C 97.411789 49.206797 97.23888 49.624235 97.23888 50.05944 
+C 97.23888 50.494645 97.411789 50.912083 97.719525 51.219819 
+C 98.027261 51.527555 98.444699 51.700464 98.879904 51.700464 
+z
+" clip-path="url(#pa28919292b)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 84.9312 93.13632 
+L 97.23888 93.13632 
+L 98.569574 93.076197 
+L 99.884667 92.896531 
+L 101.168741 92.59943 
+L 102.406741 92.188377 
+L 103.584152 91.66819 
+L 104.687171 91.044969 
+L 105.702865 90.32602 
+L 106.619327 89.519773 
+L 107.425811 88.635679 
+L 108.112864 87.684104 
+L 108.672428 86.676205 
+L 109.097945 85.623798 
+L 109.384425 84.539221 
+L 109.52851 83.43519 
+L 109.52851 82.32465 
+L 109.384425 81.220619 
+L 109.097945 80.136042 
+L 108.672428 79.083635 
+L 108.112864 78.075736 
+L 107.425811 77.124161 
+L 106.619327 76.240067 
+L 105.702865 75.43382 
+L 104.687171 74.714871 
+L 103.584152 74.09165 
+L 102.406741 73.571463 
+L 101.168741 73.16041 
+L 99.884667 72.863309 
+L 98.569574 72.683643 
+L 97.23888 72.62352 
+L 84.9312 72.62352 
+z
+" clip-path="url(#pa28919292b)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 84.9312 105.444 
+L 86.153421 105.461806 
+L 87.358548 105.515225 
+L 88.546581 105.604256 
+L 89.71752 105.7289 
+L 90.871365 105.889156 
+L 92.008116 106.085025 
+L 93.127773 106.316506 
+L 94.230336 106.5836 
+L 95.315805 106.886306 
+L 96.38418 107.224625 
+L 97.435461 107.598556 
+L 98.469648 108.0081 
+L 99.486741 108.453256 
+L 100.48674 108.934025 
+L 101.469645 109.450406 
+L 102.435456 110.0024 
+L 103.384173 110.590006 
+L 104.315796 111.213225 
+L 105.230325 111.872056 
+L 106.12776 112.5665 
+L 107.008101 113.296556 
+L 107.871348 114.062225 
+L 108.717501 114.863506 
+L 109.54656 115.7004 
+L 109.54656 115.7004 
+L 108.717501 116.537294 
+L 107.871348 117.338575 
+L 107.008101 118.104244 
+L 106.12776 118.8343 
+L 105.230325 119.528744 
+L 104.315796 120.187575 
+L 103.384173 120.810794 
+L 102.435456 121.3984 
+L 101.469645 121.950394 
+L 100.48674 122.466775 
+L 99.486741 122.947544 
+L 98.469648 123.3927 
+L 97.435461 123.802244 
+L 96.38418 124.176175 
+L 95.315805 124.514494 
+L 94.230336 124.8172 
+L 93.127773 125.084294 
+L 92.008116 125.315775 
+L 90.871365 125.511644 
+L 89.71752 125.6719 
+L 88.546581 125.796544 
+L 87.358548 125.885575 
+L 86.153421 125.938994 
+L 84.9312 125.9568 
+L 84.9312 125.9568 
+L 85.520943 125.1021 
+L 86.059404 124.2474 
+L 86.546583 123.3927 
+L 86.98248 122.538 
+L 87.367095 121.6833 
+L 87.700428 120.8286 
+L 87.982479 119.9739 
+L 88.213248 119.1192 
+L 88.392735 118.2645 
+L 88.52094 117.4098 
+L 88.597863 116.5551 
+L 88.623504 115.7004 
+L 88.597863 114.8457 
+L 88.52094 113.991 
+L 88.392735 113.1363 
+L 88.213248 112.2816 
+L 87.982479 111.4269 
+L 87.700428 110.5722 
+L 87.367095 109.7175 
+L 86.98248 108.8628 
+L 86.546583 108.0081 
+L 86.059404 107.1534 
+L 85.520943 106.2987 
+z
+" clip-path="url(#pa28919292b)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 84.9312 138.26448 
+L 86.153421 138.282286 
+L 87.358548 138.335705 
+L 88.546581 138.424736 
+L 89.71752 138.54938 
+L 90.871365 138.709636 
+L 92.008116 138.905505 
+L 93.127773 139.136986 
+L 94.230336 139.40408 
+L 95.315805 139.706786 
+L 96.38418 140.045105 
+L 97.435461 140.419036 
+L 98.469648 140.82858 
+L 99.486741 141.273736 
+L 100.48674 141.754505 
+L 101.469645 142.270886 
+L 102.435456 142.82288 
+L 103.384173 143.410486 
+L 104.315796 144.033705 
+L 105.230325 144.692536 
+L 106.12776 145.38698 
+L 107.008101 146.117036 
+L 107.871348 146.882705 
+L 108.717501 147.683986 
+L 109.54656 148.52088 
+L 109.54656 148.52088 
+L 108.717501 149.357774 
+L 107.871348 150.159055 
+L 107.008101 150.924724 
+L 106.12776 151.65478 
+L 105.230325 152.349224 
+L 104.315796 153.008055 
+L 103.384173 153.631274 
+L 102.435456 154.21888 
+L 101.469645 154.770874 
+L 100.48674 155.287255 
+L 99.486741 155.768024 
+L 98.469648 156.21318 
+L 97.435461 156.622724 
+L 96.38418 156.996655 
+L 95.315805 157.334974 
+L 94.230336 157.63768 
+L 93.127773 157.904774 
+L 92.008116 158.136255 
+L 90.871365 158.332124 
+L 89.71752 158.49238 
+L 88.546581 158.617024 
+L 87.358548 158.706055 
+L 86.153421 158.759474 
+L 84.9312 158.77728 
+L 84.9312 158.77728 
+L 85.520943 157.92258 
+L 86.059404 157.06788 
+L 86.546583 156.21318 
+L 86.98248 155.35848 
+L 87.367095 154.50378 
+L 87.700428 153.64908 
+L 87.982479 152.79438 
+L 88.213248 151.93968 
+L 88.392735 151.08498 
+L 88.52094 150.23028 
+L 88.597863 149.37558 
+L 88.623504 148.52088 
+L 88.597863 147.66618 
+L 88.52094 146.81148 
+L 88.392735 145.95678 
+L 88.213248 145.10208 
+L 87.982479 144.24738 
+L 87.700428 143.39268 
+L 87.367095 142.53798 
+L 86.98248 141.68328 
+L 86.546583 140.82858 
+L 86.059404 139.97388 
+L 85.520943 139.11918 
+z
+" clip-path="url(#pa28919292b)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_20">
+    <path d="M 81.649152 158.77728 
+L 82.238895 157.92258 
+L 82.777356 157.06788 
+L 83.264535 156.21318 
+L 83.700432 155.35848 
+L 84.085047 154.50378 
+L 84.41838 153.64908 
+L 84.700431 152.79438 
+L 84.9312 151.93968 
+L 85.110687 151.08498 
+L 85.238892 150.23028 
+L 85.315815 149.37558 
+L 85.341456 148.52088 
+L 85.315815 147.66618 
+L 85.238892 146.81148 
+L 85.110687 145.95678 
+L 84.9312 145.10208 
+L 84.700431 144.24738 
+L 84.41838 143.39268 
+L 84.085047 142.53798 
+L 83.700432 141.68328 
+L 83.264535 140.82858 
+L 82.777356 139.97388 
+L 82.238895 139.11918 
+L 81.649152 138.26448 
+" clip-path="url(#pa28919292b)" style="fill: none; stroke: #1c1f24; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_5">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="134.16192" y="45.642904" transform="rotate(-0 134.16192 45.642904)">A'</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="134.16192" y="78.463384" transform="rotate(-0 134.16192 78.463384)">AB</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="134.16192" y="111.283864" transform="rotate(-0 134.16192 111.283864)">A + B</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="134.16192" y="144.104344" transform="rotate(-0 134.16192 144.104344)">A ⊕ B</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #2f5bea; font: 700 10.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="216.21312" y="101.969301" transform="rotate(-0 216.21312 101.969301)">Y</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="164.93112" y="51.947596" transform="rotate(-0 164.93112 51.947596)">I0</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="164.93112" y="84.768076" transform="rotate(-0 164.93112 84.768076)">I1</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="164.93112" y="117.588556" transform="rotate(-0 164.93112 117.588556)">I2</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="164.93112" y="150.409036" transform="rotate(-0 164.93112 150.409036)">I3</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="183.187512" y="101.33141" transform="rotate(-0 183.187512 101.33141)">4:1</text>
+   </g>
+   <g id="line2d_21">
+    <defs>
+     <path id="m361cd59042" d="M 0 1.8 
+C 0.477366 1.8 0.935244 1.610341 1.272792 1.272792 
+C 1.610341 0.935244 1.8 0.477366 1.8 0 
+C 1.8 -0.477366 1.610341 -0.935244 1.272792 -1.272792 
+C 0.935244 -1.610341 0.477366 -1.8 0 -1.8 
+C -0.477366 -1.8 -0.935244 -1.610341 -1.272792 -1.272792 
+C -1.610341 -0.935244 -1.8 -0.477366 -1.8 0 
+C -1.8 0.477366 -1.610341 0.935244 -1.272792 1.272792 
+C -0.935244 1.610341 -0.477366 1.8 0 1.8 
+z
+" style="stroke: #1c1f24"/>
+    </defs>
+    <g clip-path="url(#pa28919292b)">
+     <use xlink:href="#m361cd59042" x="31.59792" y="50.05944" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_22">
+    <g clip-path="url(#pa28919292b)">
+     <use xlink:href="#m361cd59042" x="31.59792" y="77.75172" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_23">
+    <g clip-path="url(#pa28919292b)">
+     <use xlink:href="#m361cd59042" x="48.00816" y="88.00812" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_24">
+    <g clip-path="url(#pa28919292b)">
+     <use xlink:href="#m361cd59042" x="31.59792" y="110.5722" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_25">
+    <g clip-path="url(#pa28919292b)">
+     <use xlink:href="#m361cd59042" x="48.00816" y="120.8286" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_26">
+    <g clip-path="url(#pa28919292b)">
+     <use xlink:href="#m361cd59042" x="31.59792" y="143.39268" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_27">
+    <g clip-path="url(#pa28919292b)">
+     <use xlink:href="#m361cd59042" x="48.00816" y="153.64908" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pa28919292b">
+   <rect x="2.88" y="2.88" width="229.74336" height="196.92288"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>1-bit logic unit (deck 07 slide 8): NOT, AND, OR and XOR gates all fed by A and B, into inputs I<sub>0</sub>–I<sub>3</sub> of a 4:1 MUX; S<sub>1</sub>S<sub>0</sub> choose; output Y.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>S<sub>1</sub>S<sub>0</sub></th>
+<th>Output</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td>A'</td>
+<td>complement</td>
+</tr>
+<tr>
+<td>01</td>
+<td>AB</td>
+<td>AND</td>
+</tr>
+<tr>
+<td>10</td>
+<td>A + B</td>
+<td>OR</td>
+</tr>
+<tr>
+<td>11</td>
+<td>A ⊕ B</td>
+<td>XOR</td>
+</tr>
+</tbody>
+</table>
+<p>For a 4-bit word, four copies, one per bit, share S<sub>1</sub>S<sub>0</sub>. Running example A = 0110, B = 0011: NOT A = 1001, AND = 0010, OR = 0111, XOR = 0101.</p>
+<div class="box note">
+<div class="bh">Slip in the slides</div>
+<p>Slide 8 is titled "1-bit ALU design", but the circuit has no adder: it is a 1-bit <strong>logic</strong> unit. The arithmetic half is slides 9–10 (step 6); step 8 joins them into an ALU.</p>
+</div>
+<p><strong>Answer to the Guess.</strong> A' = 1, AB = 0, A + B = 1, A ⊕ B = 1: <strong>NOT, OR and XOR</strong> give 1.</p>
+<div class="box check">
+<div class="bh">Check 5</div>
+<p>A = 1010, B = 1100 (4 copies of the unit). Give the output for S<sub>1</sub>S<sub>0</sub> = 01 and for 11.</p>
+</div>
+<h3>6 · The arithmetic circuit: change what the adder adds</h3>
+<p>File 04 step 12 subtracted by feeding B' into the adder with carry in 1. Slides 9–10 generalise this: one ripple adder, and a MUX per bit choosing what goes into its second input.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 07 slides 9–10 (EX 7.9, 7.10)</span></div>
+<p>Design an arithmetic circuit with inputs A and B that generates A + B, A + 1, A − 1 and A − B. Draw the logic diagram for the first two stages.</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>An adder computes A + Y + C<sub>in</sub>. Which word Y, with which C<sub>in</sub>, gives A − 1?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>X<sub>i</sub>, Y<sub>i</sub>:</strong> the two inputs of full adder i; X<sub>i</sub> = A<sub>i</sub>, Y<sub>i</sub> comes from a 4:1 MUX. <strong>S, C<sub>in</sub>:</strong> the MUX selects (S<sub>1</sub> = S, S<sub>0</sub> = C<sub>in</sub>); the same C<sub>in</sub> is the adder's carry into bit 0.</p>
+</div>
+<p>Four things can go into Y: B, all 0s, all 1s, or B'. With C<sub>in</sub>, each gives one operation (slide 10's table):</p>
+<table>
+<thead>
+<tr>
+<th>S</th>
+<th>C<sub>in</sub></th>
+<th>Y</th>
+<th>F = A + Y + C<sub>in</sub></th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>B</td>
+<td>A + B</td>
+<td>add</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0000</td>
+<td>A + 1</td>
+<td>increment</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1111</td>
+<td>A + 1111 = A − 1</td>
+<td>decrement</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>B'</td>
+<td>A + B' + 1 = A − B</td>
+<td>subtract</td>
+</tr>
+</tbody>
+</table>
+<p>Why 1111 decrements: 1111 is −1 in 4-bit 2's complement, so adding it subtracts 1 (the carry out is discarded).</p>
+
+<figure style="max-width:82%"><div style="width:141mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 314.44992 155.28168" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-18T04:06:14.670104</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 155.28168 
+L 314.44992 155.28168 
+L 314.44992 0 
+L 0 0 
+L 0 155.28168 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 90.985248 59.1516 
+L 130.214592 59.1516 
+Q 131.5008 59.1516 131.5008 57.865392 
+L 131.5008 37.929168 
+Q 131.5008 36.64296 130.214592 36.64296 
+L 90.985248 36.64296 
+Q 89.69904 36.64296 89.69904 37.929168 
+L 89.69904 57.865392 
+Q 89.69904 59.1516 90.985248 59.1516 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 121.85424 97.73784 
+Q 121.85424 78.44472 121.85424 60.4336 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 119.501299 64.4336 
+L 121.85424 60.4336 
+L 124.207181 64.4336 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 96.13008 15.74208 
+Q 96.13008 26.19252 96.13008 35.36096 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 98.483021 31.36096 
+L 96.13008 35.36096 
+L 93.777139 31.36096 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 123.462 36.64296 
+Q 123.462 26.19252 123.462 17.02408 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 121.109059 21.02408 
+L 123.462 17.02408 
+L 125.814941 21.02408 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 209.959488 59.1516 
+L 249.188832 59.1516 
+Q 250.47504 59.1516 250.47504 57.865392 
+L 250.47504 37.929168 
+Q 250.47504 36.64296 249.188832 36.64296 
+L 209.959488 36.64296 
+Q 208.67328 36.64296 208.67328 37.929168 
+L 208.67328 57.865392 
+Q 208.67328 59.1516 209.959488 59.1516 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 240.82848 97.73784 
+Q 240.82848 78.44472 240.82848 60.4336 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 238.475539 64.4336 
+L 240.82848 60.4336 
+L 243.181421 64.4336 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 215.10432 15.74208 
+Q 215.10432 26.19252 215.10432 35.36096 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 217.457261 31.36096 
+L 215.10432 35.36096 
+L 212.751379 31.36096 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 242.43624 36.64296 
+Q 242.43624 26.19252 242.43624 17.02408 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 240.083299 21.02408 
+L 242.43624 17.02408 
+L 244.789181 21.02408 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 208.67328 47.89728 
+Q 170.08704 47.89728 132.7828 47.89728 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 136.7828 50.250221 
+L 132.7828 47.89728 
+L 136.7828 45.544339 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 89.69904 47.89728 
+Q 79.2486 47.89728 70.08016 47.89728 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 74.08016 50.250221 
+L 70.08016 47.89728 
+L 74.08016 45.544339 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 261.72936 47.89728 
+Q 256.1022 47.89728 251.75704 47.89728 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 255.75704 50.250221 
+L 251.75704 47.89728 
+L 255.75704 45.544339 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 88.09128 117.03096 
+L 88.09128 78.44472 
+L 112.20768 84.87576 
+L 112.20768 110.59992 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 88.09128 83.268 
+L 88.09128 83.268 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 88.09128 92.91456 
+L 88.09128 92.91456 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 88.09128 102.56112 
+L 88.09128 102.56112 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 88.09128 112.20768 
+L 88.09128 112.20768 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 47.89728 83.268 
+L 88.09128 83.268 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 57.54384 83.268 
+L 57.54384 112.20768 
+L 63.97488 112.20768 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 76.193856 112.20768 
+L 88.09128 112.20768 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 72.01368 92.91456 
+L 88.09128 92.91456 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 72.01368 102.56112 
+L 88.09128 102.56112 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 94.361544 115.35889 
+L 94.361544 131.5008 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 106.419744 112.14337 
+L 106.419744 141.14736 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 112.20768 97.73784 
+L 121.85424 97.73784 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 207.06552 117.03096 
+L 207.06552 78.44472 
+L 231.18192 84.87576 
+L 231.18192 110.59992 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 207.06552 83.268 
+L 207.06552 83.268 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_14">
+    <path d="M 207.06552 92.91456 
+L 207.06552 92.91456 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_15">
+    <path d="M 207.06552 102.56112 
+L 207.06552 102.56112 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_16">
+    <path d="M 207.06552 112.20768 
+L 207.06552 112.20768 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_17">
+    <path d="M 166.87152 83.268 
+L 207.06552 83.268 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_18">
+    <path d="M 176.51808 83.268 
+L 176.51808 112.20768 
+L 182.94912 112.20768 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_19">
+    <path d="M 195.168096 112.20768 
+L 207.06552 112.20768 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_20">
+    <path d="M 190.98792 92.91456 
+L 207.06552 92.91456 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_21">
+    <path d="M 190.98792 102.56112 
+L 207.06552 102.56112 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_22">
+    <path d="M 213.335784 115.35889 
+L 213.335784 131.5008 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_23">
+    <path d="M 225.393984 112.14337 
+L 225.393984 141.14736 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_24">
+    <path d="M 231.18192 97.73784 
+L 240.82848 97.73784 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_25">
+    <path d="M 41.46624 131.5008 
+L 221.53536 131.5008 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_26">
+    <path d="M 41.46624 141.14736 
+L 261.72936 141.14736 
+L 261.72936 47.89728 
+" clip-path="url(#p7c8657481c)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <!-- $\mathrm{B}_{\mathrm{1}}$ -->
+    <g style="fill: #1c1f24" transform="translate(36.88452 85.691984)">
      <text>
-      <tspan style="font: 9px 'Segoe UI'" x="0 12.556582" y="-0.703125">AB</tspan>
-      <tspan style="font: 6.3px 'Segoe UI'" x="5.883926 17.794512" y="0.6468749999999996">ii</tspan>
-      <tspan style="font: 700 9px 'Segoe UI'" x="7.634707 10.073672 19.545293" y="-0.703125">, ,</tspan>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.0">B</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="5.533301" y="1.5">1</tspan>
      </text>
     </g>
-    <!-- $\mathrm{C}_{\mathrm{i}}$ -->
-    <g style="fill: #1c1f24" transform="translate(25.667746 41.842192)">
+   </g>
+   <g id="patch_15">
+    <path d="M 63.97488 116.22708 
+L 63.97488 108.18828 
+L 73.62144 112.20768 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 74.907648 113.493888 
+C 75.248754 113.493888 75.575936 113.358365 75.817134 113.117166 
+C 76.058333 112.875968 76.193856 112.548786 76.193856 112.20768 
+C 76.193856 111.866574 76.058333 111.539392 75.817134 111.298194 
+C 75.575936 111.056995 75.248754 110.921472 74.907648 110.921472 
+C 74.566542 110.921472 74.23936 111.056995 73.998162 111.298194 
+C 73.756963 111.539392 73.62144 111.866574 73.62144 112.20768 
+C 73.62144 112.548786 73.756963 112.875968 73.998162 113.117166 
+C 74.23936 113.358365 74.566542 113.493888 74.907648 113.493888 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_2">
+    <!-- $\mathrm{B}_{\mathrm{1}}$' -->
+    <g style="fill: #6a707a" transform="translate(75.654808 120.381044)">
      <text>
-      <tspan style="font: 9px 'Segoe UI'" x="0" y="-0.59375">C</tspan>
-      <tspan style="font: 6.3px 'Segoe UI'" x="5.651016" y="0.7562499999999996">i</tspan>
+      <tspan style="font: 8px 'Segoe UI'" x="0 7.874688" y="-0.390625">B'</tspan>
+      <tspan style="font: 5.6px 'Segoe UI'" x="4.655938" y="0.8093750000000002">1</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_3">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="70.40592" y="95.338544" transform="rotate(-0 70.40592 95.338544)">0</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="70.40592" y="104.985104" transform="rotate(-0 70.40592 104.985104)">1</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(104.465154 45.160999)">full</text>
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(95.434217 55.226374)">adder 1</text>
+   </g>
+   <g id="text_6">
+    <!-- $\mathrm{Y}_{\mathrm{1}}$ -->
+    <g style="fill: #1c1f24" transform="translate(124.26588 80.868704)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.0">Y</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="5.338477" y="1.5">1</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_7">
+    <!-- $\mathrm{X}_{\mathrm{1}}$ = $\mathrm{A}_{\mathrm{1}}$ -->
+    <g style="fill: #1c1f24" transform="translate(80.36008 11.14544)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0 21.484277" y="-0.0">XA</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="5.691016 27.699463" y="1.5">11</tspan>
+      <tspan style="font: 700 9.5px 'Segoe UI'" x="9.525781 12.146631 18.863428" y="-0.0"> = </tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_8">
+    <!-- $\mathrm{F}_{\mathrm{1}}$ -->
+    <g style="fill: #2f5bea" transform="translate(119.187 11.14544)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.0">F</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="4.726172" y="1.5">1</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_9">
+    <!-- $\mathrm{B}_{\mathrm{0}}$ -->
+    <g style="fill: #1c1f24" transform="translate(155.85876 85.691984)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.0">B</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="5.533301" y="1.5">0</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="patch_17">
+    <path d="M 182.94912 116.22708 
+L 182.94912 108.18828 
+L 192.59568 112.20768 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #e8eefe; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 193.881888 113.493888 
+C 194.222994 113.493888 194.550176 113.358365 194.791374 113.117166 
+C 195.032573 112.875968 195.168096 112.548786 195.168096 112.20768 
+C 195.168096 111.866574 195.032573 111.539392 194.791374 111.298194 
+C 194.550176 111.056995 194.222994 110.921472 193.881888 110.921472 
+C 193.540782 110.921472 193.2136 111.056995 192.972402 111.298194 
+C 192.731203 111.539392 192.59568 111.866574 192.59568 112.20768 
+C 192.59568 112.548786 192.731203 112.875968 192.972402 113.117166 
+C 193.2136 113.358365 193.540782 113.493888 193.881888 113.493888 
+z
+" clip-path="url(#p7c8657481c)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_10">
+    <!-- $\mathrm{B}_{\mathrm{0}}$' -->
+    <g style="fill: #6a707a" transform="translate(194.629048 120.381044)">
+     <text>
+      <tspan style="font: 8px 'Segoe UI'" x="0 7.874688" y="-0.390625">B'</tspan>
+      <tspan style="font: 5.6px 'Segoe UI'" x="4.655938" y="0.8093750000000002">0</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_11">
+    <text style="fill: #6a707a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="189.38016" y="95.338544" transform="rotate(-0 189.38016 95.338544)">0</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #12925a; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="189.38016" y="104.985104" transform="rotate(-0 189.38016 104.985104)">1</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(223.439394 45.160999)">full</text>
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(214.408457 55.226374)">adder 0</text>
+   </g>
+   <g id="text_14">
+    <!-- $\mathrm{Y}_{\mathrm{0}}$ -->
+    <g style="fill: #1c1f24" transform="translate(243.24012 80.868704)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.0">Y</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="5.338477" y="1.5">0</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_15">
+    <!-- $\mathrm{X}_{\mathrm{0}}$ = $\mathrm{A}_{\mathrm{0}}$ -->
+    <g style="fill: #1c1f24" transform="translate(199.33432 11.14544)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0 21.484277" y="-0.0">XA</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="5.691016 27.699463" y="1.5">00</tspan>
+      <tspan style="font: 700 9.5px 'Segoe UI'" x="9.525781 12.146631 18.863428" y="-0.0"> = </tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_16">
+    <!-- $\mathrm{F}_{\mathrm{0}}$ -->
+    <g style="fill: #2f5bea" transform="translate(238.16124 11.14544)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.0">F</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="4.726172" y="1.5">0</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_17">
+    <text style="fill: #1c1f24; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="39.85848" y="133.797206" transform="rotate(-0 39.85848 133.797206)">S1 = S</text>
+   </g>
+   <g id="text_18">
+    <!-- S0 = $\mathrm{C}_{\mathrm{in}}$ -->
+    <g style="fill: #1c1f24" transform="translate(7.27848 143.443766)">
+     <text>
+      <tspan style="font: 700 9px 'Segoe UI'" x="0 5.044922 10.22168 12.70459 19.067871" y="-0.59375">S0 = </tspan>
+      <tspan style="font: 9px 'Segoe UI'" x="21.550781" y="-0.59375">C</tspan>
+      <tspan style="font: 6.3px 'Segoe UI'" x="27.201797 28.727578" y="0.7562499999999996">in</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_19">
+    <!-- $\mathrm{C}_{\mathrm{1}}$ -->
+    <g style="fill: #1c1f24" transform="translate(165.14704 43.30064)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.875">C</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="5.969336" y="0.625">1</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_20">
+    <!-- $\mathrm{C}_{\mathrm{2}}$ -->
+    <g style="fill: #1c1f24" transform="translate(57.3104 50.321264)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.875">C</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="5.969336" y="0.625">2</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_21">
+    <!-- $\mathrm{C}_{\mathrm{0}}$ = $\mathrm{C}_{\mathrm{in}}$ -->
+    <g style="fill: #1c1f24" transform="translate(264.94488 50.321264)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0 21.762598" y="-0.875">CC</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="5.969336 27.731934 29.34248" y="0.625">0in</tspan>
+      <tspan style="font: 700 9.5px 'Segoe UI'" x="9.804102 12.424951 19.141748" y="-0.875"> = </tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_22">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="89.69904" y="85.156156" transform="rotate(-0 89.69904 85.156156)">I0</text>
+   </g>
+   <g id="text_23">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="89.69904" y="94.802716" transform="rotate(-0 89.69904 94.802716)">I1</text>
+   </g>
+   <g id="text_24">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="89.69904" y="104.449276" transform="rotate(-0 89.69904 104.449276)">I2</text>
+   </g>
+   <g id="text_25">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="89.69904" y="114.095836" transform="rotate(-0 89.69904 114.095836)">I3</text>
+   </g>
+   <g id="text_26">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="104.008104" y="99.77909" transform="rotate(-0 104.008104 99.77909)">4:1</text>
+   </g>
+   <g id="text_27">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="208.67328" y="85.156156" transform="rotate(-0 208.67328 85.156156)">I0</text>
+   </g>
+   <g id="text_28">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="208.67328" y="94.802716" transform="rotate(-0 208.67328 94.802716)">I1</text>
+   </g>
+   <g id="text_29">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="208.67328" y="104.449276" transform="rotate(-0 208.67328 104.449276)">I2</text>
+   </g>
+   <g id="text_30">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="208.67328" y="114.095836" transform="rotate(-0 208.67328 114.095836)">I3</text>
+   </g>
+   <g id="text_31">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="222.982344" y="99.77909" transform="rotate(-0 222.982344 99.77909)">4:1</text>
+   </g>
+   <g id="line2d_27">
+    <defs>
+     <path id="m0f567175e6" d="M 0 1.8 
+C 0.477366 1.8 0.935244 1.610341 1.272792 1.272792 
+C 1.610341 0.935244 1.8 0.477366 1.8 0 
+C 1.8 -0.477366 1.610341 -0.935244 1.272792 -1.272792 
+C 0.935244 -1.610341 0.477366 -1.8 0 -1.8 
+C -0.477366 -1.8 -0.935244 -1.610341 -1.272792 -1.272792 
+C -1.610341 -0.935244 -1.8 -0.477366 -1.8 0 
+C -1.8 0.477366 -1.610341 0.935244 -1.272792 1.272792 
+C -0.935244 1.610341 -0.477366 1.8 0 1.8 
+z
+" style="stroke: #1c1f24"/>
+    </defs>
+    <g clip-path="url(#p7c8657481c)">
+     <use xlink:href="#m0f567175e6" x="57.54384" y="83.268" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_28">
+    <g clip-path="url(#p7c8657481c)">
+     <use xlink:href="#m0f567175e6" x="94.361544" y="131.5008" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_29">
+    <g clip-path="url(#p7c8657481c)">
+     <use xlink:href="#m0f567175e6" x="106.419744" y="141.14736" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_30">
+    <g clip-path="url(#p7c8657481c)">
+     <use xlink:href="#m0f567175e6" x="176.51808" y="83.268" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_31">
+    <g clip-path="url(#p7c8657481c)">
+     <use xlink:href="#m0f567175e6" x="213.335784" y="131.5008" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_32">
+    <g clip-path="url(#p7c8657481c)">
+     <use xlink:href="#m0f567175e6" x="225.393984" y="141.14736" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p7c8657481c">
+   <rect x="2.88" y="2.88" width="308.68992" height="149.52168"/>
+  </clipPath>
+ </defs>
+</svg>
+</div><figcaption>First two stages of the arithmetic circuit (deck 07 slide 10). In each stage a 4:1 MUX, selects S and C<sub>in</sub> choose Y<sub>i</sub> from B<sub>i</sub>, 0, 1, B<sub>i</sub>'; full adder i adds X<sub>i</sub> = A<sub>i</sub> and Y<sub>i</sub>; C<sub>0</sub> = C<sub>in</sub>, C<sub>1</sub> passes from stage 0 to stage 1.</figcaption></figure>
+
+<p>Running example, A = 0110, B = 0011:</p>
+<table>
+<thead>
+<tr>
+<th>S C<sub>in</sub></th>
+<th>A + Y + C<sub>in</sub></th>
+<th>F</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td>0110 + 0011 + 0</td>
+<td>1001</td>
+<td>6 + 3 = 9</td>
+</tr>
+<tr>
+<td>01</td>
+<td>0110 + 0000 + 1</td>
+<td>0111</td>
+<td>6 + 1 = 7</td>
+</tr>
+<tr>
+<td>10</td>
+<td>0110 + 1111 + 0 = 1 0101</td>
+<td>0101</td>
+<td>6 − 1 = 5</td>
+</tr>
+<tr>
+<td>11</td>
+<td>0110 + 1100 + 1 = 1 0011</td>
+<td>0011</td>
+<td>6 − 3 = 3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer to the Guess.</strong> <strong>Y = 1111</strong> (all 1s, = −1) with <strong>C<sub>in</sub> = 0</strong>.</p>
+<div class="box check">
+<div class="bh">Check 6</div>
+<p>(a) A = 1010, B = 0111, S C<sub>in</sub> = 11. Give Y and F. (b) A = 0000, S C<sub>in</sub> = 10. Give F and say what it means.</p>
+</div>
+<h3>7 · Why these four codes</h3>
+<p>Step 6's table looks arbitrary. It follows from asking, for each of the four Y words, which carry in gives a useful result.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Predict</span></div>
+<p>Swap C<sub>in</sub> in every row of step 6's table. Which four operations do you get, and why did the slide not use them?</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Y = B with C<sub>in</sub> = 1 gives A + B + 1. Is that one of the four operations asked for?</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Y</th>
+<th>C<sub>in</sub> = 0</th>
+<th>C<sub>in</sub> = 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B</td>
+<td><strong>A + B</strong></td>
+<td>A + B + 1</td>
+</tr>
+<tr>
+<td>0000</td>
+<td>A (transfer)</td>
+<td><strong>A + 1</strong></td>
+</tr>
+<tr>
+<td>1111</td>
+<td><strong>A − 1</strong></td>
+<td>A (transfer)</td>
+</tr>
+<tr>
+<td>B'</td>
+<td>A − B − 1</td>
+<td><strong>A − B</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Each Y gives two results, one per C<sub>in</sub>. The slide keeps the one that is a named operation (bold) and drops the other; that is why C<sub>in</sub> doubles as a select line. With a 4:1 MUX on S and C<sub>in</sub>, each of the four codes picks both Y and C<sub>in</sub> in one go.</p>
+<p><strong>Answer to the Predict.</strong> A + B + 1, A (twice: transfer) and A − B − 1. None of them is among the four required operations.</p>
+<div class="box check">
+<div class="bh">Check 7</div>
+<p>Which (Y, C<sub>in</sub>) pairs pass A through unchanged, and why does each one work?</p>
+</div>
+<h3>8 · The ALU: arithmetic and logic behind one more MUX</h3>
+<p>Steps 5 and 6 each give four operations from two selects. Slide 5's ALU is both units side by side, with one more choice: arithmetic or logic.</p>
+<div class="box q">
+<div class="bh"><span class="tag">Deck 07 slides 5–7</span></div>
+<p>Join step 5's logic unit and step 6's arithmetic circuit into one ALU. How many select lines does it need, and what does each code do?</p>
+</div>
+<div class="box guess">
+<div class="bh">Guess first</div>
+<p>Each unit already takes a 2-bit code. How many more select lines choose between the two units?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>ALU:</strong> computes one arithmetic or logic operation on two words, chosen by select lines; the arithmetic unit, the logic unit and the control that chooses are its parts (slide 5). <strong>Mode M:</strong> 0 passes the arithmetic result, 1 the logic result, through a 2:1 MUX per bit.</p>
+</div>
+
+<figure style="max-width:78%"><div style="width:141mm;max-width:100%;margin:0 auto"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 313.11936 225.3024" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-18T04:06:15.011648</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 225.3024 
+L 313.11936 225.3024 
+L 313.11936 0 
+L 0 0 
+L 0 225.3024 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 132.410016 108.99216 
+L 206.322624 108.99216 
+Q 207.78624 108.99216 207.78624 107.528544 
+L 207.78624 62.888256 
+Q 207.78624 61.42464 206.322624 61.42464 
+L 132.410016 61.42464 
+Q 130.9464 61.42464 130.9464 62.888256 
+L 130.9464 107.528544 
+Q 130.9464 108.99216 132.410016 108.99216 
+z
+" clip-path="url(#pfdb43d63c5)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 132.410016 200.46816 
+L 206.322624 200.46816 
+Q 207.78624 200.46816 207.78624 199.004544 
+L 207.78624 158.023296 
+Q 207.78624 156.55968 206.322624 156.55968 
+L 132.410016 156.55968 
+Q 130.9464 156.55968 130.9464 158.023296 
+L 130.9464 199.004544 
+Q 130.9464 200.46816 132.410016 200.46816 
+z
+" clip-path="url(#pfdb43d63c5)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 68.74272 76.0608 
+Q 99.84456 76.0608 129.6644 76.0608 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 125.6644 73.707859 
+L 129.6644 76.0608 
+L 125.6644 78.413741 
+z
+" clip-path="url(#pfdb43d63c5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 68.74272 167.5368 
+Q 99.84456 167.5368 129.6644 167.5368 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 125.6644 165.183859 
+L 129.6644 167.5368 
+L 125.6644 169.889741 
+z
+" clip-path="url(#pfdb43d63c5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 90.69696 98.01504 
+Q 110.82168 98.01504 129.6644 98.01504 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 125.6644 95.662099 
+L 129.6644 98.01504 
+L 125.6644 100.367981 
+z
+" clip-path="url(#pfdb43d63c5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 90.69696 189.49104 
+Q 110.82168 189.49104 129.6644 189.49104 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 125.6644 187.138099 
+L 129.6644 189.49104 
+L 125.6644 191.843981 
+z
+" clip-path="url(#pfdb43d63c5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 193.15008 39.4704 
+Q 193.15008 50.44752 193.15008 60.14264 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 195.503021 56.14264 
+L 193.15008 60.14264 
+L 190.797139 56.14264 
+z
+" clip-path="url(#pfdb43d63c5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 145.58256 61.42464 
+Q 145.58256 50.44752 145.58256 40.7524 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 143.229619 44.7524 
+L 145.58256 40.7524 
+L 147.935501 44.7524 
+z
+" clip-path="url(#pfdb43d63c5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 233.39952 120.88404 
+Q 240.7176 120.88404 246.75368 120.88404 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 242.75368 118.531099 
+L 246.75368 120.88404 
+L 242.75368 123.236981 
+z
+" clip-path="url(#pfdb43d63c5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 233.39952 144.6678 
+Q 240.7176 144.6678 246.75368 144.6678 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 242.75368 142.314859 
+L 246.75368 144.6678 
+L 242.75368 147.020741 
+z
+" clip-path="url(#pfdb43d63c5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 275.47848 132.77592 
+Q 284.62608 132.77592 292.49168 132.77592 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 288.49168 130.422979 
+L 292.49168 132.77592 
+L 288.49168 135.128861 
+z
+" clip-path="url(#pfdb43d63c5)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 43.12944 123.62832 
+L 68.74272 123.62832 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 68.74272 76.0608 
+L 68.74272 167.5368 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 90.69696 39.4704 
+L 90.69696 189.49104 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 248.03568 156.55968 
+L 248.03568 108.99216 
+L 275.47848 116.31024 
+L 275.47848 149.2416 
+z
+" clip-path="url(#pfdb43d63c5)" style="fill: #e8eefe; stroke: #2f5bea; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 248.03568 120.88404 
+L 248.03568 120.88404 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 248.03568 144.6678 
+L 248.03568 144.6678 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 261.75708 163.87776 
+L 261.75708 152.90064 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 207.78624 76.0608 
+L 233.39952 76.0608 
+L 233.39952 120.88404 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 207.78624 167.5368 
+L 233.39952 167.5368 
+L 233.39952 144.6678 
+" clip-path="url(#pfdb43d63c5)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(137.467648 82.448213)">arithmetic stage</text>
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(132.445929 92.5614)">(MUX + full adder)</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="169.36632" y="180.78642" transform="rotate(-0 169.36632 180.78642)">logic unit</text>
+   </g>
+   <g id="text_3">
+    <!-- $\mathrm{A}_{\mathrm{i}}$, $\mathrm{B}_{\mathrm{i}}$ -->
+    <g style="fill: #1c1f24" transform="translate(20.58992 126.052304)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0 13.271045" y="-0.0">AB</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="6.215186 18.804346" y="1.5">ii</tspan>
+      <tspan style="font: 700 9.5px 'Segoe UI'" x="8.075732 10.650195" y="-0.0">, </tspan>
      </text>
     </g>
    </g>
    <g id="text_4">
-    <!-- $\mathrm{A}_{\mathrm{i}}$, $\mathrm{B}_{\mathrm{i}}$ -->
-    <g style="fill: #1c1f24" transform="translate(13.517746 91.823589)">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="90.69696" y="25.428704" transform="rotate(-0 90.69696 25.428704)">S1 S0</text>
+   </g>
+   <g id="text_5">
+    <!-- (S, $\mathrm{C}_{\mathrm{in}}$ if M = 0) -->
+    <g style="fill: #6a707a" transform="translate(65.87196 34.980752)">
      <text>
-      <tspan style="font: 9px 'Segoe UI'" x="0 12.556582" y="-0.703125">AB</tspan>
-      <tspan style="font: 6.3px 'Segoe UI'" x="5.883926 17.794512" y="0.6468749999999996">ii</tspan>
-      <tspan style="font: 700 9px 'Segoe UI'" x="7.634707 10.073672" y="-0.703125">, </tspan>
+      <tspan style="font: 7.5px 'Segoe UI'" x="0 2.263184 6.247559 7.873535 9.927979 19.084087 21.13853 22.954937 25.302349 27.356792 34.091411 36.145854 41.27647 43.330913 47.373882" y="-0.984375">(S, C if M = 0)</tspan>
+      <tspan style="font: 5.25px 'Segoe UI'" x="14.641533 15.913018" y="0.21562500000000018">in</tspan>
      </text>
     </g>
    </g>
-   <g id="text_5">
-    <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(213.306532 59.435875)">2:1</text>
-    <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(209.567196 68.942063)">MUX</text>
-   </g>
    <g id="text_6">
+    <!-- $\mathrm{C}_{\mathrm{i}}$ -->
+    <g style="fill: #1c1f24" transform="translate(189.20758 34.54112)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.875">C</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="5.969336" y="0.625">i</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_7">
+    <!-- $\mathrm{C}_{\mathrm{i+1}}$ -->
+    <g style="fill: #1c1f24" transform="translate(136.46256 34.54112)">
+     <text>
+      <tspan style="font: 9.5px 'Segoe UI'" x="0" y="-0.875">C</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="5.969336 8.720903 14.411069" y="0.625">i+1</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_8">
+    <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="261.75708" y="172.740249" transform="rotate(-0 261.75708 172.740249)">M</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="231.57" y="71.47652" transform="rotate(-0 231.57 71.47652)">M = 0</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="231.57" y="162.95252" transform="rotate(-0 231.57 162.95252)">M = 1</text>
+   </g>
+   <g id="text_11">
     <!-- $\mathrm{F}_{\mathrm{i}}$ -->
-    <g style="fill: #2f5bea" transform="translate(269.69831 64.699281)">
+    <g style="fill: #2f5bea" transform="translate(295.6032 135.455061)">
      <text>
       <tspan style="font: 10.5px 'Segoe UI'" x="0" y="-0.296875">F</tspan>
       <tspan style="font: 7.35px 'Segoe UI'" x="5.223203" y="1.3531250000000004">i</tspan>
      </text>
     </g>
    </g>
-   <g id="text_7">
-    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="218.810282" y="137.080403" transform="rotate(-0 218.810282 137.080403)">S2: 0 = arithmetic, 1 = logic</text>
+   <g id="text_12">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="249.8652" y="122.772196" transform="rotate(-0 249.8652 122.772196)">I0</text>
    </g>
-   <g id="text_8">
-    <text style="fill: #e0661b; font: 700 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="99.154648" y="137.080403" transform="rotate(-0 99.154648 137.080403)">S1 S0: which operation</text>
+   <g id="text_13">
+    <text style="fill: #6a707a; font: 7.4px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="249.8652" y="146.555956" transform="rotate(-0 249.8652 146.555956)">I1</text>
    </g>
-   <g id="text_9">
-    <!-- $\mathrm{C}_{\mathrm{i}}$+1 to the next stage -->
-    <g style="fill: #6a707a" transform="translate(103.280704 10.497908)">
-     <text>
-      <tspan style="font: 8.3px 'Segoe UI'" x="0 6.776543 12.42022 16.867485 19.127373 21.923027 26.757012 29.016899 31.812554 36.481377 40.795708 43.055596 47.724419 52.03875 55.825371 58.621025 60.880913 64.381523 67.177178 71.374687 76.232842" y="-0.078125">C+1 to the next stage</tspan>
-      <tspan style="font: 5.81px 'Segoe UI'" x="5.17791" y="1.1218750000000002">i</tspan>
-     </text>
+   <g id="text_14">
+    <text style="fill: #2f5bea; font: 700 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="266.147928" y="134.81717" transform="rotate(-0 266.147928 134.81717)">2:1</text>
+   </g>
+   <g id="line2d_9">
+    <defs>
+     <path id="m06ed692115" d="M 0 1.8 
+C 0.477366 1.8 0.935244 1.610341 1.272792 1.272792 
+C 1.610341 0.935244 1.8 0.477366 1.8 0 
+C 1.8 -0.477366 1.610341 -0.935244 1.272792 -1.272792 
+C 0.935244 -1.610341 0.477366 -1.8 0 -1.8 
+C -0.477366 -1.8 -0.935244 -1.610341 -1.272792 -1.272792 
+C -1.610341 -0.935244 -1.8 -0.477366 -1.8 0 
+C -1.8 0.477366 -1.610341 0.935244 -1.272792 1.272792 
+C -0.935244 1.610341 -0.477366 1.8 0 1.8 
+z
+" style="stroke: #1c1f24"/>
+    </defs>
+    <g clip-path="url(#pfdb43d63c5)">
+     <use xlink:href="#m06ed692115" x="68.74272" y="123.62832" style="fill: #1c1f24; stroke: #1c1f24"/>
     </g>
    </g>
-   <g id="text_10">
-    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(299.956056 23.027105)">one-bit slice;</text>
-    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(299.956056 32.533292)">n slices side by side</text>
-    <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(299.956056 42.084636)">make an n-bit ALU</text>
+   <g id="line2d_10">
+    <g clip-path="url(#pfdb43d63c5)">
+     <use xlink:href="#m06ed692115" x="68.74272" y="76.0608" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_11">
+    <g clip-path="url(#pfdb43d63c5)">
+     <use xlink:href="#m06ed692115" x="68.74272" y="167.5368" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_12">
+    <g clip-path="url(#pfdb43d63c5)">
+     <use xlink:href="#m06ed692115" x="90.69696" y="98.01504" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
+   </g>
+   <g id="line2d_13">
+    <g clip-path="url(#pfdb43d63c5)">
+     <use xlink:href="#m06ed692115" x="90.69696" y="189.49104" style="fill: #1c1f24; stroke: #1c1f24"/>
+    </g>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="pe7689ca8e6">
-   <rect x="2.88" y="2.88" width="390.6" height="140.285915"/>
+  <clipPath id="pfdb43d63c5">
+   <rect x="2.88" y="2.88" width="307.35936" height="219.5424"/>
   </clipPath>
  </defs>
 </svg>
-</div><figcaption>One ALU stage: Y<sub>i</sub> logic into a full adder.</figcaption></figure>
+</div><figcaption>One bit of the ALU: the arithmetic stage (MUX + full adder, step 6) and the logic unit (step 5) share the two code lines; a 2:1 MUX on M passes one result to F<sub>i</sub>. The carry runs only through the arithmetic stages.</figcaption></figure>
 
-<p>A full ALU adds a logic unit (AND, OR, XOR, NOT) and a MUX per bit choosing arithmetic or logic; it outputs flags: <strong>carry, zero, sign, overflow</strong>.</p>
-<p><strong>Answer.</strong> The table: add (01, C<sub>in</sub> 0), subtract (10, 1), increment (00, 1), decrement (11, 0).</p>
+<p>The two code lines are shared: for M = 0 they are S, C<sub>in</sub>; for M = 1 they are S<sub>1</sub>S<sub>0</sub>.</p>
+<table>
+<thead>
+<tr>
+<th>M</th>
+<th>code</th>
+<th>F</th>
+<th></th>
+<th>M</th>
+<th>code</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>00</td>
+<td>A + B</td>
+<td></td>
+<td>1</td>
+<td>00</td>
+<td>A'</td>
+</tr>
+<tr>
+<td>0</td>
+<td>01</td>
+<td>A + 1</td>
+<td></td>
+<td>1</td>
+<td>01</td>
+<td>A AND B</td>
+</tr>
+<tr>
+<td>0</td>
+<td>10</td>
+<td>A − 1</td>
+<td></td>
+<td>1</td>
+<td>10</td>
+<td>A OR B</td>
+</tr>
+<tr>
+<td>0</td>
+<td>11</td>
+<td>A − B</td>
+<td></td>
+<td>1</td>
+<td>11</td>
+<td>A XOR B</td>
+</tr>
+</tbody>
+</table>
+<p>Three select lines, 2<sup>3</sup> = 8 operations. Slide 7 lists further ALU jobs (multiplication by repeated addition, shifts and rotations): in practice they are added the same way, as another input to the output MUX, for example a barrel shifter from step 4.</p>
+<p><strong>Answer to the Guess.</strong> <strong>One</strong> (M): three select lines, eight operations.</p>
 <div class="box check">
-<div class="bh">Check 3</div>
-<p>(a) A = 0110, B = 0011, S<sub>1</sub>S<sub>0</sub> = 10, C<sub>in</sub> = 1. Find F. (b) A = 0110, S<sub>1</sub>S<sub>0</sub> = 11, C<sub>in</sub> = 0. Find F.</p>
+<div class="bh">Check 8</div>
+<p>A = 0110, B = 0011. Give F for (a) M = 1, code 10, and (b) M = 0, code 01. (c) Which two codes give the same F for this A and B?</p>
 </div>
 <hr />
 <h2>Exam form</h2>
-<p><strong>Shifts.</strong> The three types with an example each.</p>
-<p><strong>Barrel shifter.</strong> Table and MUX per bit.</p>
-<p><strong>ALU.</strong> Y<sub>i</sub> = B<sub>i</sub>S<sub>0</sub> + B<sub>i</sub>'S<sub>1</sub>; the 8-entry function table; stage diagram; flags.</p>
+<p><strong>Shifts</strong> (EX 7.2–7.4, word 110110):</p>
+<table>
+<thead>
+<tr>
+<th>Shift</th>
+<th>Serial input</th>
+<th>Left 2</th>
+<th>Right 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logical</td>
+<td>0</td>
+<td>011000</td>
+<td>011011</td>
+</tr>
+<tr>
+<td>Circular</td>
+<td>the bit leaving the other end</td>
+<td>011011</td>
+<td>011011</td>
+</tr>
+<tr>
+<td>Arithmetic</td>
+<td>right: copy of the sign bit; left: 0</td>
+<td>011000</td>
+<td>111011</td>
+</tr>
+</tbody>
+</table>
+<p>Logical left/right = × 2 / ÷ 2 unsigned; arithmetic right = ÷ 2 keeping the sign; arithmetic left overflows if the sign bit changes.</p>
+<p><strong>Barrel shifter.</strong> Table of Y against S<sub>1</sub>S<sub>0</sub>; one n:1 MUX per output bit, each column of the table = one MUX's inputs.</p>
+<p><strong>Arithmetic circuit (EX 7.9–7.10).</strong></p>
+<ol>
+<li>Per bit: a 4:1 MUX with selects S, C<sub>in</sub> and inputs B<sub>i</sub>, 0, 1, B<sub>i</sub>'; its output Y<sub>i</sub> into full adder i with X<sub>i</sub> = A<sub>i</sub>.</li>
+<li>C<sub>0</sub> = C<sub>in</sub>, carries ripple.</li>
+<li>Table: 00 A + B · 01 A + 1 · 10 A − 1 · 11 A − B.</li>
+<li>Draw stages 0 and 1.</li>
+</ol>
+<p><strong>Logic unit and ALU.</strong> 4:1 MUX on NOT, AND, OR, XOR (S<sub>1</sub>S<sub>0</sub>); ALU = both units + a 2:1 MUX per bit on M; 8-row function table.</p>
 <h2>Traps</h2>
 <ul>
-<li>Arithmetic left shift copying the sign: it fills with 0.</li>
-<li>Decrement with C<sub>in</sub> = 1: that gives A again.</li>
-<li>Reading the circular shift as logical.</li>
+<li>Arithmetic <strong>left</strong> shift copying the sign bit: it fills with 0.</li>
+<li>Arithmetic right shift filling with 0: that is the logical shift and turns a negative number positive.</li>
+<li>Reading a circular shift as logical: the leaving bits come back, nothing is lost.</li>
+<li>Decrement with C<sub>in</sub> = 1: A + 1111 + 1 gives A back.</li>
+<li>Calling slide 8's circuit an ALU: it has no adder (logic unit only).</li>
+<li>Giving a barrel shifter a clock: it is combinational, one step for any amount.</li>
 </ul>
 <h2>Self-test</h2>
 <ol>
 <li>Logical shift right by 2 of 10110100.</li>
 <li>Rotate left by 1 of 1001.</li>
-<li>Arithmetic shift right by 1 of 0110. What is it in decimal?</li>
-<li>ALU: A = 0101, S<sub>1</sub>S<sub>0</sub> = 00, C<sub>in</sub> = 1. F?</li>
-<li>ALU: A = 0101, B = 0010, S<sub>1</sub>S<sub>0</sub> = 01, C<sub>in</sub> = 0. F?</li>
-<li>Why is all 1s the right Y for decrement?</li>
+<li>Arithmetic shift right by 1 of 0110. Give the result in decimal.</li>
+<li>Arithmetic circuit: A = 0101, S C<sub>in</sub> = 01. F?</li>
+<li>Arithmetic circuit: A = 0101, B = 0010, S C<sub>in</sub> = 00. F?</li>
+<li>Why does Y = 1111 with C<sub>in</sub> = 0 decrement A? One line.</li>
+<li>In the 4-bit rotate-left barrel shifter, list the inputs I<sub>0</sub>–I<sub>3</sub> of the MUX for Y<sub>2</sub>.</li>
+<li>The 6-bit word 011000 is arithmetically shifted right by 3. Result and decimal values before and after?</li>
 </ol>
 <div class="answers">
 <h2>Answers</h2>
-<p><strong>Check 1.</strong> (a) <strong>1100</strong>: 1001 = −7, 1100 = −4 (÷ 2, rounded down). (b) <strong>011011</strong>.</p>
-<p><strong>Check 2.</strong> <strong>Eight</strong>.</p>
-<p><strong>Check 3.</strong> (a) Y = 1100; 0110 + 1100 + 1 = 1 0011: <strong>F = 0011</strong> (6 − 3). (b) Y = 1111; 0110 + 1111 = 1 0101: <strong>F = 0101</strong> (6 − 1).</p>
+<p><strong>Check 1.</strong> (a) <strong>00101101</strong>. (b) <strong>00011010</strong> = 26 (13 × 2).</p>
+<p><strong>Check 2.</strong> (a) <strong>0011</strong>. (b) 1011 → right 1 → <strong>1101</strong> → left 1 → <strong>1011</strong>: the original word.</p>
+<p><strong>Check 3.</strong> (a) 1001 = −8 + 1 = <strong>−7</strong>; result <strong>1100</strong> = −8 + 4 = <strong>−4</strong> (÷ 2 rounded down, towards −∞). (b) <strong>0011</strong> = 3 (6 ÷ 2).</p>
+<p><strong>Check 4.</strong> (a) Rotate left by 2: Y<sub>3</sub> = D<sub>1</sub> = 1, Y<sub>2</sub> = D<sub>0</sub> = 1, Y<sub>1</sub> = D<sub>3</sub> = 1, Y<sub>0</sub> = D<sub>2</sub> = 0: <strong>1110</strong>. (b) <strong>Eight 8:1 MUXes</strong>.</p>
+<p><strong>Check 5.</strong> 01 (AND): <strong>1000</strong>. 11 (XOR): <strong>0110</strong>.</p>
+<p><strong>Check 6.</strong> (a) Y = B' = <strong>1000</strong>; 1010 + 1000 + 1 = 1 0011: <strong>F = 0011</strong> (10 − 7 = 3). (b) 0000 + 1111 + 0 = <strong>1111</strong>: −1 in 2's complement (or 15 if read unsigned: 0 − 1 wraps round).</p>
+<p><strong>Check 7.</strong> <strong>Y = 0000, C<sub>in</sub> = 0</strong> (A + 0 + 0) and <strong>Y = 1111, C<sub>in</sub> = 1</strong> (A − 1 + 1).</p>
+<p><strong>Check 8.</strong> (a) A OR B = <strong>0111</strong>. (b) A + 1 = <strong>0111</strong>. (c) <strong>These two</strong>: M = 1 code 10 (OR) and M = 0 code 01 (increment) both give 0111.</p>
 <p><strong>Self-test.</strong></p>
 <ol>
 <li><strong>00101101</strong>.</li>
 <li><strong>0011</strong>.</li>
 <li><strong>0011</strong> = 3 (6 ÷ 2).</li>
-<li><strong>0110</strong> (increment).</li>
-<li><strong>0111</strong> (5 + 2).</li>
-<li>All 1s is −1 in 2's complement, so A + 1111 = A − 1 (carry discarded).</li>
+<li>A + 1 = <strong>0110</strong>.</li>
+<li>A + B = <strong>0111</strong> (5 + 2).</li>
+<li>1111 is −1 in 2's complement, so A + 1111 = A − 1 (the carry out is discarded).</li>
+<li>Y<sub>2</sub> column of the table: <strong>D<sub>2</sub>, D<sub>1</sub>, D<sub>0</sub>, D<sub>3</sub></strong>.</li>
+<li><strong>000011</strong>; 011000 = 24, 000011 = 3 (24 ÷ 8). The sign bit is 0, so 0s enter.</li>
 </ol>
 </div></body></html>

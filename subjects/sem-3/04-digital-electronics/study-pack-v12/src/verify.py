@@ -753,7 +753,14 @@ def u2b():
     m.u2b()
 
 
-UNITS = {"u0": u0, "u1": u1, "u2": u2, "u3": u3, "u3c": u3c, "u4": u4, "u2b": u2b}
+def u2c():
+    """File 07 (7-segment display, comparator, parity), S6: checks in verify_u2c.py."""
+    import verify_u2c as m
+    m.__dict__.update(ok=ok, fn=fn, check_sop=check_sop)
+    m.u2c()
+
+
+UNITS = {"u0": u0, "u1": u1, "u2": u2, "u3": u3, "u3c": u3c, "u4": u4, "u2b": u2b, "u2c": u2c}
 
 
 def main(argv):

@@ -218,3 +218,5 @@
 - 2026-11-18 session 12: S5 done: 05 (10 steps) and 06 (10 steps) rebuilt to v1.3; verify 450/0; build no OVERLAP; agy page checks 05, 06, 15, 16 clean; START-HERE, mock, sources.md updated. Next: S6.
 
 - 2026-11-18 auto session 13: S6 start (04 + 07 + 08). verify.py 450 checks, 0 failures.
+- 2026-11-18 auto session 14: rebuilt state from 3b53bc2 (session 13 crashed, usage limit): 04 + 08 text rewritten (04: 13 steps, 08: 8 steps), verify_u2b.py wired (verify 502/0), figs_u2b.py unfinished (3 of 10 figures, FIGS empty, not in build.py); 07 not started. S6 continue: figures (Sonnet), 07 rebuild, build, page check.
+- 2026-11-18 session 14: S6 done: 07 rebuilt to v1.3 (11 steps); figs_u2b (10) + figs_u2c (6) finished by Sonnet and wired; verify 598/0; build 00 04 07 08 20 no OVERLAP; agy page checks 04 (1 fix), 07, 08 clean; START-HERE, mock rows updated. Next: S7 (11 + 14).

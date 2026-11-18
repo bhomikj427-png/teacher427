@@ -50,8 +50,8 @@ Cover the right column, write each line from the cue, then uncover. Any row you 
 | 04 Adders | S = A ⊕ B ⊕ C_{in}, C_{out} = AB + C_{in}(A ⊕ B) · C_{i+1} = G_{i} + P_{i}C_{i} · ripple (2n + 1)T · BCD: + 0110 if K + Z_{3}Z_{2} + Z_{3}Z_{1} |
 | 05 MUX | n variables on 2^{n−1}:1: inputs 0, 1, x, x' per row pair |
 | 06 Decoder, encoder | output j = m_{j}; OR (NAND if active-low) · x = D_{2} + D_{3}, y = D_{3} + D_{1}D_{2}', V = D_{0} + D_{1} + D_{2} + D_{3} |
-| 07 Display, comparator, parity | common anode lit by 0 · G = A_{1}B_{1}' + x_{1}A_{0}B_{0}' · P_{even} = XOR of data |
-| 08 Shifts, ALU | arithmetic right copies sign · Y_{i} = B_{i}S_{0} + B_{i}'S_{1}, F = A + Y + C_{in} |
+| 07 Display, comparator, parity | common anode lit by 0 · x_{i} = A_{i} ⊙ B_{i}, G = A_{1}B_{1}' + x_{1}A_{0}B_{0}' · P_{even} = XOR of data, checker E = XOR of data and P |
+| 08 Shifts, ALU | arithmetic right copies sign · MUX gives Y = B, 0000, 1111, B' for S C_{in} = 00, 01, 10, 11; F = A + Y + C_{in} |
 | 09 Flip-flops | Q⁺ = JQ' + K'Q · Q⁺ = D · Q⁺ = T ⊕ Q · excitation table |
 | 11 Shift counters | ring MOD-n · Johnson MOD-2n |
 | 12 Ripple | n·t_{pd} · clear at first unwanted state |
@@ -72,7 +72,7 @@ Cover the right column, write each line from the cue, then uncover. Any row you 
 2. **ΠM(0, 2, 4, 5, 7)**. (01)
 3. NOT, AND and OR can each be built from NANDs alone, so any function can. (03)
 4. **4** select lines; **five** 4:1 MUXes. (05 steps 2, 7)
-5. Four 1s (even): odd parity bit **1**. (07)
+5. Four 1s (even): odd parity bit **1**. (07 step 9)
 6. Latch: level-triggered, transparent while enabled, passes glitches. Flip-flop: edge-triggered, samples once per clock. (09)
 7. **4** flip-flops; **4** unused states. (12)
 8. Mealy: output from state and input, on arrows, fewer states. Moore: from state only, in circles, one more state (any two). (15)

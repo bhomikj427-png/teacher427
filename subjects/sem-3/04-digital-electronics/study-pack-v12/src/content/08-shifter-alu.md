@@ -227,7 +227,7 @@ Four things can go into Y: B, all 0s, all 1s, or B'. With C_{in}, each gives one
 
 Why 1111 decrements: 1111 is −1 in 4-bit 2's complement, so adding it subtracts 1 (the carry out is discarded).
 
-[[fig:arith2|First two stages of the arithmetic circuit (deck 07 slide 10). In each stage a 4:1 MUX, selects S and C_{in}, chooses Y_{i} from B_{i}, 0, 1, B_{i}'; full adder i adds X_{i} = A_{i} and Y_{i}; C_{0} = C_{in}, C_{1} passes from stage 0 to stage 1.|w=82]]
+[[fig:arith2|First two stages of the arithmetic circuit (deck 07 slide 10). In each stage a 4:1 MUX, selects S and C_{in} choose Y_{i} from B_{i}, 0, 1, B_{i}'; full adder i adds X_{i} = A_{i} and Y_{i}; C_{0} = C_{in}, C_{1} passes from stage 0 to stage 1.|w=82]]
 
 Running example, A = 0110, B = 0011:
 
