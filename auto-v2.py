@@ -1117,7 +1117,13 @@ class Run:
             else:
                 summ = (res.summary or "").splitlines()[0][:300] if res.summary else "(no summary)"
                 msg = "auto: %s session %d (%s): %s" % (self.subject, n, res.status, summ)
-            branch_now = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
+            # A failed git call (e.g. under low memory) returns "" -- retry before
+            # reading it as a branch change (DE sessions 14-15, 2026-11-18).
+            for _try in range(6):
+                branch_now = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
+                if branch_now:
+                    break
+                time.sleep(10)
             if not a.no_commit and branch_now != self.branch:
                 commit_error = ("branch changed from %s to %s during the session; nothing "
                                 "committed (switch back, then check git status)" % (self.branch, branch_now))
