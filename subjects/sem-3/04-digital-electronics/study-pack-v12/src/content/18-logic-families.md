@@ -82,7 +82,7 @@ An edge goes from 0 V to 5 V. You want one number for "how long it took". Why no
 
 [[fig:u5_rise_fall|What this graph plots: voltage (V) up, time (ns) across, for one pulse with sloped edges. The dashed lines are 10 % and 90 % of the 5 V swing; t_r and t_f are read between the dots where the edges cross them.|w=62]]
 
-Deck 14 slide 6 defines t_{r} and t_{f} this way, and TI's 74HC00 data sheet draws them the same way (its Figure 7-2). For a 0 → 5 V swing, 10 % is 0.5 V and 90 % is 4.5 V.
+Deck 14 slide 6 defines t_{r} and t_{f} this way, and TI's 74HC00 data sheet draws them the same way (its Figure 7-3). For a 0 → 5 V swing, 10 % is 0.5 V and 90 % is 4.5 V.
 
 | Point read on the figure | Time |
 |---|---|
@@ -202,7 +202,7 @@ A 7400 output can sink 16 mA when LOW and source 0.4 mA when HIGH. Each 7400 inp
 
 Deck 14 slide 12:
 
-$$\text{fan-out} = \min\left(\frac{I_{OL}}{I_{IL}},\ \frac{I_{OH}}{I_{IH}}\right)$$
+$$\text{fan-out} = \min(\frac{I_{OL}}{I_{IL}},\ \frac{I_{OH}}{I_{IH}})$$
 
 Read it: *how many inputs' worth of current the output can take in the LOW state, and in the HIGH state; the smaller one wins*, because the output must work in both.
 

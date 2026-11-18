@@ -46,7 +46,7 @@ in `exam-pack/` (index: `exam-pack/README.md`): MTE 2025 paper, practice sets 1�
 | S5 | **05 + 06** MUX/DEMUX; decoder/encoder | old 05, 06 · KB `02` · decks 04, 05 · MTE Q5, Q6 · set 1 Q3, Q5–Q8 | `05-…`, `06-…` rebuilt, `src/figs_u2.py` | same | **done** 2026-11-17/18 (sessions 10-12; 05: 10 steps, 06: 10 steps; no split; agy page check 05, 06 clean) |
 | S6 | **04 + 07 + 08** adders/subtractors; display, comparator, parity; shifter, ALU | old 04, 07, 08 · KB `01`, `02` · decks 03, 06, 07 · MTE Q2 · set 1 Q9–Q10 | `04-…`, `07-…`, `08-…` rebuilt | same | **done** 2026-11-18 (sessions 13-14; 04: 13 steps, 07: 11, 08: 8; no split) |
 | S7 | **11 + 14** registers; timing analysis | old 11, 14 · KB `03` · deck 09 | `11-…`, `14-…` rebuilt | same | **done** 2026-11-18 (session 17; 11: 10 steps, 14: 8 steps; no split) |
-| S8 | **18 + 19** logic families; memories and PLDs | old 18, 19 · KB `05` · decks 14, 15 | `18-…`, `19-…` rebuilt, `src/figs_u5.py` | same; noise margins and fan-out in verify; PLA/PAL tables checked | |
+| S8 | **18 + 19** logic families; memories and PLDs | old 18, 19 · KB `05` · decks 14, 15 | `18-…`, `19-…` rebuilt, `src/figs_u5.py` | same; noise margins and fan-out in verify; PLA/PAL tables checked | **done** 2026-11-19 (sessions 18-19; 18: 14 steps, 19: 12 steps; no split) |
 | S9 | **17 + integration** timing generators, asynchronous circuits; mock paper re-pointed; START-HERE ranks, times, map, slip table | old 17, 20 · `00-START-HERE.md` · KB `04`, `05` | `17-…` rebuilt; 00 and 20 updated; full build | grep finds no reference to a removed file; `src/verify.py` passes; build prints no `OVERLAP` | |
 
 **Learner check-ins are not sprints:** report misses on any delivered file whenever you like; the next
@@ -60,9 +60,8 @@ sprint reads them first.
 |---|---|---|
 | ETE date and format not given; no memory deck (19 is built from the KB) | progress log 2026-11-14 | [learner] |
 | Deck header reads ECE 2105, MTE paper reads ECE2102 (same syllabus) `uncertain` | 2026-09-11 | [learner] |
-| Deck 14 numbers not verified: CMOS noise immunity 30 % (slide) vs KB05 0.45 V_DD; CMOS fan-out ~50; CMOS supply 3–15 vs 5–15 V; ECL "±5 V" (likely −5.2 V); TTL typical NM 1–1.6 V (KB05 *Open* block, brief §3) | S0b 2026-11-17 | S8 |
+| Deck 14 numbers still open after S8: CMOS fan-out ~50; 4000-series supply 3–15/3–18 V; ECL "±5 V" (leads −5.2 V, levels −0.9/−1.7 V); TTL typical NM 1–1.6 V. Closed in S8: CMOS NM 30 % (74HC00 data sheet: 1.25 V at 4.5 V = 28 %) (KB05 *Still open* block) | S0b 2026-11-17 | [interactive: needs a textbook or the 4000B / MC10K data sheets as text] |
 | Deck 10 slide 36: brief transcription reads J1 = Q2'Q0', K1 = Q2Q0' (pack flags it as a slip, uses slide 37's J1 = Q2'Q0, K1 = Q2Q0); slide image not re-viewed `uncertain` | S3 2026-11-17 | S9 |
-| t_PLH/t_PHL at 50 % points, rise/fall 10–90 %, PDP = t_pd × P: not yet checked against textbook (`likely`) | S0b 2026-11-17 | S8 |
 
 ## Assumptions to review (persistent — the learner confirms or overrules)
 
@@ -82,49 +81,48 @@ sprint reads them first.
 | 12 | 07 step 8 models 7485 cascading as G = G_own + E_own·I(A>B), E = E_own·I(A=B), L = L_own + E_own·I(A<B) with the lowest stage seeded 0/1/0 (KB 02 §1); the datasheet's full table for odd cascade-input combinations is not taught | S6 | open |
 | 13 | 11 step 4's PISO first stage takes 0 during a shift (an AND gate SHIFT'·D₀); the brief transcribes slide 15's D₀ as wired straight to FF0. The serial output for the first n bits is the same either way | S7 | open |
 | 14 | 14 uses one t_pd for both the setup and the hold sums (exam style); KB 03 §6 notes that the hold check strictly uses the minimum (contamination) clock-to-Q delay | S7 | open |
+| 15 | 18 keeps 14 steps in one file (the S1 rule says a/b above 13): splitting would cost a sprint for one extra step | S8 | open |
+| 16 | 19 puts memories (steps 1–4, no deck) before deck 15's PLDs, and carries one function pair (deck 15 slide 31) through PROM, PAL and PLA so step 12 can compare costs | S8 | open |
+| 17 | 19 step 12 answers deck 15 slide 37's PLA with 5 lines (F2 written non-minimally as AB + A'B'C + A'B'C', F3 complemented), found by verify.py's exhaustive search; a 7-line answer from the minimal forms is also correct | S8 | open |
 
 ## Current hand-off
 
 ```
-Sprint: S7 — 11 + 14 registers; timing analysis — done (2026-11-18, session 17; session 16 was cut
-  off with no changes, state rebuilt from e6ff646 = S6 done).
-Written: 11-registers.md: 10 steps (register, SISO delay, SIPO loading 1011, PISO SHIFT/LOAD',
-    universal 74194, ring EX 9.20, Johnson EX 9.22 + decode, lock-out, XOR feedback EX 9.24, serial
-    adder EX 9.26); running example the word 1011; 4 slip notes (deck 09 slides 2, 13, 15, 17).
-  14-timing-analysis.md: 8 steps (clock-to-Q, setup, hold, metastability, longest path -> f_max,
-    hold check, clock skew, ripple vs synchronous counters); running example t_pd 8, t_su 3, t_h 2,
-    t_comb 12/1 ns (43.5 MHz). No deck: Predict prompts only.
-  figs_u3r.py (14 figures, Sonnet) wired in build.py; verify_u3r.py (unit u3r) wired in verify.py.
-  KB 03 §5 (74194 mode table) and §6 (clock skew in setup/hold) + sources.md + CHANGELOG.
-  00-START-HERE: rank 8 and 14 rows (Do first + times), file rows 11 and 14, 4 slip rows (deck 09),
-    how-checked = 661 checks. 20-mock-paper: 11 and 14 formula rows.
-Verified this sprint: numbers: verify.py 661 checks, 0 failures (every shift-register trace,
-  74194 mode, ring/Johnson sequence and decode term, both unused-state loops, the XOR register's
-  15-state cycle, serial additions, every timing sum and skew case). New facts: 74194 mode table from
-  the Nexperia 74HC194 data sheet (Table 3); skew in the setup/hold inequalities from UCSD CSE140
-  lec10 and Cornell ECE4740 lecture 17 (agree). Build 00 11 14 20: no OVERLAP.
-  agy failed: exit 124 twice (900 s full task, then 570 s short task; log shows only "Failed to refresh
-  cache in background: admin controls not applicable"). Page check done by Opus instead: sheets
-  11 p5-8 and 14 p5-8 viewed: 4 captions in 14 printed raw t_pd/t_su (fixed to t_{pd}), PISO label
-  "SHIFT/LOAD'" crossed by the D0 wire (moved left, zoom re-viewed: clean). Sheets 11 p1-4, 9-16 and
-  14 p1-4, 9-12 not viewed (build OVERLAP check clean): first job for S8's agy run is to check them.
-Open (carried): deck-14 numbers (backlog -> S8); deck 10 slide 36 (backlog -> S9). Tri-state buffer
-  still owed to file 18 (S8). Sonnet noted: some wire crossings in u3r_reg4, u3r_ring4,
-  u3r_serial_adder have no crossing dot (crossings, not joins: correct as drawn).
-Decisions made: 11 writes words Q0Q1Q2Q3 with Q0 the serial-input stage (deck 09 slides 8, 11, 22);
-  slide 23's left-shift Johnson and slide 17's ring are the same counters in the other bit order.
-  11 keeps deck order (registers, SISO, SIPO, PISO, universal, ring, Johnson, XOR, serial adder);
-  lock-out is its own step. 14's skew sign: δ = capture clock later than launch (positive helps
-  setup, hurts hold); worst-case |δ| form mentioned.
-Assumptions to review: 13 (PISO first stage), 14 (one t_pd for hold): copied to the persistent table.
-Helpers: Sonnet x1: all 14 figures + build of 11/14 (107k subagent tokens, 42 tool uses, 6.7 min).
-  agy x2: both timed out (exit 124), no report. Opus viewed one sheet per file + one zoom. Opus: 11 and 14 text, verify_u3r, KB + source
-  checks (web: 2 searches, 3 fetches, 1 script download), START-HERE/mock rows.
-Next sprint: S8 — 18 + 19 logic families; memories and PLDs — first action: run src/verify.py
-  (expect 661, 0 failures; run it without -I), then grep brief 1.14, 1.15 and the §2/§4/§5 rows for
-  18 and 19.
-Read at start: this hand-off + S8 row · ../../../study-pack-sprint-protocol.md · brief 1.14, 1.15
-  (rows truncated to ~400 chars with a script; print with sys.stdout.reconfigure(encoding='utf-8'))
-  and §2/§4/§5 rows for 18, 19 · old 18, 19 · KB 05 by heading · Verify backlog rows for deck 14 ·
-  11 lines 1-40 as the v1.3 format model
+Sprint: S8 — 18 + 19 logic families; memories and PLDs — done (2026-11-19, session 19; session 18
+  crashed at the usage limit after writing 18 + figs_u5.py, commit feeb93b; state rebuilt from it).
+Written: 18-logic-families.md (session 18, checked and fixed this session): 14 steps (t_PLH/t_PHL,
+    rise/fall, power, noise margin, PDP, fan-out, CMOS inverter, CMOS NAND/NOR, TTL NAND, totem pole /
+    open collector, tristate bus, ECL, families compared, interfacing); running example one SN7400
+    gate. Fixes: \left/\right removed from the fan-out formula; 74HC00 rise/fall figure is 7-3.
+  19-memories-plds.md: 12 steps (organisation, SRAM/DRAM, ROM types, expansion, AND-OR array, 8x4
+    ROM EX 15.20-21, PROM EX 15.22, PAL read EX 15.24, PAL design EX 15.25-27, PLA + output XOR,
+    PLA design EX 15.31-34, PROM/PAL/PLA compared EX 15.37); running example 1K x 8 chip and
+    F1 = S(0,1,2,4), F2 = S(0,5,6,7) through PROM/PAL/PLA (8 / 6 / 4 lines). 2 slip notes (slides 21, 24).
+  figs_u5.py (11 figures, session 18) wired; verify_u5.py (unit u5, 85 checks) wired in verify.py.
+  KB 05: Open block replaced by "Data-sheet numbers and deck-14 checks" + "Still open"; sources.md
+    (4 sources) + CHANGELOG. 00-START-HERE: rank 9/10 rows (Do first, 55 min each), file rows 18/19,
+    4 slip rows (deck 14 slides 14/20/21, deck 15 slides 21/24), facts + how-checked (746). 20-mock:
+    formula rows 18/19, answers 9, 10, 16, 18 re-pointed to steps.
+Verified this sprint: numbers: verify.py 746 checks, 0 failures (incl. a search proving the PLA line
+  counts 4 and 5 are minimum; it found the 5-line answer for slide 37, better than the 7 from minimal
+  forms). Facts read this session: TI SN7400 (SDLS025D) and SN74HC00 (SCLS181H) data sheets as text
+  (levels, currents, I_CC, C_pd, C_i, t_pd, Fig. 7-2/7-3 definitions, unused inputs); UMBC CMPE 640
+  notes (PDP = energy per switch); DJ Greaves Cambridge notes (1985 HC/F/ECL quad NAND table).
+  Build 00 18 19 20: no OVERLAP; combined PDF 300 pages.
+  agy failed: exit 124 (timed out at 900 s, no report; same as S7). Not retried: the context notice arrived. Page check of 18 and 19 NOT done (sheets ready in scratch sheets7/18_*.png, 19_*.png; build OVERLAP check clean); S7 leftovers (11 p1-4, 9-16; 14 p1-4, 9-12) still unchecked. First job for S9: view or agy-check these sheets.
+Open (carried): deck-14 leftovers (CMOS fan-out ~50, 4000 supply, ECL levels, TTL typical NM) stay
+  `uncertain` in KB 05 and are printed in 18 only as "not checked" notes; backlog row re-targeted to an
+  interactive session. Deck 10 slide 36 (backlog -> S9).
+Decisions made: 18 kept at 14 steps (assumption 15). 19 order: memories first, then deck 15 order
+  (assumption 16). PLA tables use a T/C row as deck 15 slide 33.
+Assumptions to review: 15, 16, 17 copied to the persistent table.
+Helpers: none this session. figs_u5.py came from session 18 (no record of a Sonnet run; the crash
+  lost its hand-off). verify_u5 written by Opus: every value in it is a teaching number chosen while
+  writing 19, so a spec would have been as long as the code. agy x1 (failed, exit 124): page check of 18, 19 and the
+  S7 leftovers (11 p1-4, 9-16; 14 p1-4, 9-12).
+Next sprint: S9 — 17 + integration — first action: page-check 18 and 19 (rebuild sheets with scratch sheets.py; agy once, else view the sheets), plus the S7 leftovers of 11 and 14; then run src/verify.py (expect 746, 0 failures), then
+  grep brief 1.x rows for 17 (decks on timing generators / async) and §2/§4/§5 rows for 17.
+Read at start: this hand-off + S9 row · ../../../study-pack-sprint-protocol.md · brief rows for 17 and
+  §4 row 17 · old 17 · KB 04 and 05 by heading · 00-START-HERE (rank table, map, slip table) ·
+  20-mock-paper formula rows · Verify backlog row for deck 10 slide 36 · 19 lines 1-40 as format model
 ```

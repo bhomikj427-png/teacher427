@@ -59,8 +59,8 @@ Cover the right column, write each line from the cue, then uncover. Any row you 
 | 14 Timing | T ≥ t_{pd} + t_{comb,max} + t_{su} · t_{pd} + t_{comb,min} ≥ t_{h} · skew δ (capture late): − δ on setup, + δ on hold |
 | 15, 16 FSM | Moore output in circle, Mealy on arrow · partition by outputs, then by next-state blocks |
 | 17 Generators, async | LFSR 2^{n} − 1 · 555 f = 1.44/((R_{1} + 2R_{2})C) · ring f = 1/(2Nt_{pd}) · add consensus terms |
-| 18 Families | NM_{H} = V_{OH} − V_{IH}, NM_{L} = V_{IL} − V_{OL} · fan-out = min(I_{OL}/I_{IL}, I_{OH}/I_{IH}) · P = CV^{2}f |
-| 19 Memory, PLD | 2^{k} × m: k address, m data lines · PROM fixed AND · PAL fixed OR · PLA both programmable |
+| 18 Families | t_{pd} = larger of t_{PLH}, t_{PHL} (50 % points) · t_{r}, t_{f}: 10–90 % · NM_{H} = V_{OH} − V_{IH}, NM_{L} = V_{IL} − V_{OL} · fan-out = min(I_{OL}/I_{IL}, I_{OH}/I_{IH}) · P = CV^{2}f · PDP = t_{pd} × P |
+| 19 Memory, PLD | 2^{k} × m: k address, m data lines · chips = (words ÷ words per chip) × (bits ÷ bits per chip) · PROM fixed AND · PAL fixed OR (feed an output back) · PLA both programmable (minimise F and F', share) |
 
 <!--ANSWERS-->
 
@@ -76,8 +76,8 @@ Cover the right column, write each line from the cue, then uncover. Any row you 
 6. Latch: level-triggered, transparent while enabled, passes glitches. Flip-flop: edge-triggered, samples once per clock. (09)
 7. **4** flip-flops; **4** unused states. (12)
 8. Mealy: output from state and input, on arrows, fewer states. Moore: from state only, in circles, one more state (any two). (15)
-9. NM_{H} = **0.7 V**, NM_{L} = **0.3 V**. (18)
-10. PAL: programmable AND, fixed OR, no sharing. PLA: both programmable, terms shared. (19)
+9. NM_{H} = **0.7 V**, NM_{L} = **0.3 V**. (18 step 4)
+10. PAL: programmable AND, fixed OR, no sharing. PLA: both programmable, terms shared. (19 steps 5, 12)
 
 **Part B.**
 
@@ -86,12 +86,12 @@ Cover the right column, write each line from the cue, then uncover. Any row you 
 13. A 4:16 decoder (two 3:8s, a enabling one directly and the other through an inverter); **OR outputs 0, 1, 2, 5, 6, 8, 9, 15** (8-input NAND if active-low). (06 steps 4, 8)
 14. 00 → 01 → 10 → 11 → 00. Excitation (J_{1}K_{1}, J_{0}K_{0}): 00: 0X, 1X · 01: 1X, X1 · 10: X0, 1X · 11: X1, X1. **J_{0} = K_{0} = 1, J_{1} = K_{1} = Q_{0}**. (13)
 15. P_{1}: (ADFG)(BCEH). P_{2}: on x = 1, D → B (other block): D separates → (AFG)(BCEH)(D). P_{3}: A, F → D but G → G: G separates; on x = 1, E → F but B, C, H → D: E separates → (AF)(BCH)(D)(E)(G). P_{4} = P_{3}. **A ≡ F, B ≡ C ≡ H**: 8 states become 5. (16)
-16. Circuit and operation: 18 §2. Fan-out: 8/0.4 = 20 and 400/20 = 20: **20**.
+16. Circuit and operation: 18 steps 9–10. Fan-out: 8/0.4 = 20 and 400/20 = 20: **20**.
 
 **Part C.**
 
 17. S0 nothing, S1 "1", S2 "10", S3 "101", S4 "1011" (z = 1). Next (x = 0, x = 1): S0 → S0, S1 · S1 → S2, S1 · S2 → S0, S3 · S3 → S2, S4 · S4 → S2, S1. Codes Y_{2}Y_{1}Y_{0}: 000, 001, 010, 011, 100; 101–111 don't-care. **D_{2} = Y_{1}Y_{0}X · D_{1} = Y_{0}X' + Y_{1}Y_{0}'X + Y_{2}X' · D_{0} = Y_{1}'X + Y_{0}'X · z = Y_{2}**. (15)
-18. **F_{1} = A'B + BC' + AB'C + A'C'D** (four terms), **F_{2} = A'B + AB'C**, **F_{3} = B + AC + AD**. F_{1} does not fit in three terms, but two of its terms are F_{2}: feed F_{2} back, **F_{1} = F_{2} + BC' + A'C'D**. Table (A B C D F_{2}; 1 = true, 0 = complement, – = none): F_{2}: A'B = 0 1 – – –; AB'C = 1 0 1 – –. F_{1}: F_{2} = – – – – 1; BC' = – 1 0 – –; A'C'D = 0 – 0 1 –. F_{3}: B = – 1 – – –; AC = 1 – 1 – –; AD = 1 – – 1 –. (19)
+18. **F_{1} = A'B + BC' + AB'C + A'C'D** (four terms), **F_{2} = A'B + AB'C**, **F_{3} = B + AC + AD**. F_{1} does not fit in three terms, but two of its terms are F_{2}: feed F_{2} back, **F_{1} = F_{2} + BC' + A'C'D**. Table (A B C D F_{2}; 1 = true, 0 = complement, – = none): F_{2}: A'B = 0 1 – – –; AB'C = 1 0 1 – –. F_{1}: F_{2} = – – – – 1; BC' = – 1 0 – –; A'C'D = 0 – 0 1 –. F_{3}: B = – 1 – – –; AC = 1 – 1 – –; AD = 1 – – 1 –. (19 step 9)
 
 **Part D.**
 

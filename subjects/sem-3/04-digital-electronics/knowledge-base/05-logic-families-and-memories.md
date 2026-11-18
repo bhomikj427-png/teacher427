@@ -168,16 +168,34 @@ story (→ `../../../electronic-devices-1` MOSFET physics).
 
 ---
 
-## Open — deck-14 numbers not yet verified (S0b, 2026-11-17) `uncertain`
+## Data-sheet numbers and deck-14 checks (S8, 2026-11-19)
 
-The professor's deck 14 prints these; none is verified at tier 1 yet. Close in S8 (file 18) against
-Jain / Anand Kumar or the manufacturer datasheet; until then, do not teach them as fact.
-- CMOS noise immunity "about 30 % of supply" (slide 20) vs this file's "~0.45 V_DD" (§4). Leads: ST
-  4000B data "45 % V_DD typical"; TI CD4002B guaranteed NM 1 V @ 5 V, 2 V @ 10 V, 2.5 V @ 15 V.
-  Likely both: 45 % typical, smaller guaranteed. `uncertain`.
-- CMOS fan-out "about 50 / > 50" (slides 14, 20). Lead: set by load capacitance, not DC current. `uncertain`.
-- CMOS supply "3–15 V" (slide 14) vs "5–15 V" (slide 20); lead: 4000B rated 3–18 V. `uncertain`.
-- ECL supply "±5 V" (slide 14); leads: V_EE = −5.2 V (10K), levels ≈ −0.9 / −1.7 V, NM ≈ 0.3 V. `uncertain`.
-- TTL "typical noise immunity 1–1.6 V" (slide 21): a typical figure, not the guaranteed 0.4 V of §1. `uncertain`.
-- t_PLH/t_PHL measured at the 50 % points; rise/fall 10 %→90 %; PDP = t_pd × P (slides 5, 6, 9):
-  standard definitions, not yet checked against the textbook here. `likely`.
+Read this session in the manufacturer data sheets (tier 1 for device numbers) and university notes:
+- **SN7400** (TI SDLS025D), standard TTL: V_OH 2.4 V min / 3.4 V typ (I_OH −0.4 mA); V_OL 0.2 typ /
+  0.4 V max (I_OL 16 mA); V_IH 2 V; V_IL 0.8 V; I_IH 40 µA; I_IL −1.6 mA; I_CCH 4 typ / 8 max mA,
+  I_CCL 12 typ / 22 max mA per package; t_PLH 11 typ / 22 max ns, t_PHL 7 typ / 15 max ns
+  (R_L 400 Ω, C_L 15 pF); totem-pole outputs. Per gate at 50 % duty: 5 V × 8 mA / 4 = 10 mW. `settled`.
+- **SN74HC00** (TI SCLS181H): V_CC 2–6 V; at 4.5 V: V_IH 3.15 V, V_IL 1.35 V, V_OH 4.4 V (−20 µA) and
+  3.98 V (−4 mA, 25 °C), V_OL 0.1 V (20 µA) and 0.26 V (4 mA, 25 °C); I_CC 2 µA max per package (25 °C);
+  C_i 3 typ / 10 max pF; C_pd 20 pF per gate; t_pd 9 typ / 18 max ns at 4.5 V. Guaranteed noise margin
+  at 4.5 V: 1.25 V both ways = 28 % of V_CC. Unused inputs "must be terminated at VCC or GND". `settled`.
+- **Timing definitions** (74HC00 Fig. 7-2, 7-3): t_PLH, t_PHL between 50 % points; "the greater
+  between tPLH and tPHL is the same as tpd"; t_r, t_f between 10 % and 90 %. The 7400 sheet measures at
+  1.5 V. Deck 14 slides 5–6 agree. `settled`.
+- **PDP = t_pd × P = energy per switching event**; for one technology roughly constant (UMBC CMPE 640
+  notes, "Quality metrics"); speed-power product in pJ, 1985 quad NANDs: 74HC00 7 ns, 1 mW, 7 pJ;
+  74F00 3.4 ns, 5 mW, 17 pJ; ECL SP92701 0.8 ns, 200 mW, 160 pJ (DJ Greaves, Cambridge Computer Lab
+  notes). Deck 14 slide 9 agrees. `settled`.
+- Correction to §4: "~0.45 V_DD" is a *typical* 4000-series figure (lead only); the guaranteed 74HC
+  noise margin is 1.25 V at 4.5 V (28 %), which matches deck 14 slide 20's "about 30 %". `settled` for 74HC.
+- TTL "typical noise immunity 1–1.6 V" (slide 21): uses typical levels (3.4 / 0.2 V); the slide's own
+  range is not read in a data sheet. `uncertain` (taught as a slide slip; exam value 0.4 V).
+
+## Still open (after S8) `uncertain`
+
+- CMOS fan-out "about 50 / > 50" (slides 14, 20): set by load capacitance (C_i 3–10 pF per input),
+  not DC current; no tier-1 number found. `uncertain`.
+- CMOS supply "3–15 V" (slide 14) vs "5–15 V" (slide 20): fits the 4000 series (lead: 3–18 V), not
+  74HC (2–6 V, settled). The 4000-series range is not read in a data sheet. `uncertain`.
+- ECL supply "±5 V" (slide 14); leads: V_EE = −5.2 V (10K), levels ≈ −0.9 / −1.7 V, NM ≈ 0.1–0.3 V.
+  Not read in a data sheet. `uncertain`.

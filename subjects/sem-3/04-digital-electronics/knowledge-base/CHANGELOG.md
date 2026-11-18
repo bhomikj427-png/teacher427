@@ -62,3 +62,5 @@
 - 2026-11-17 (S0b): KB05 gains an *Open — deck-14 numbers* block: 6 slide values `uncertain`/`likely`, to close in S8. No fact promoted.
 
 - 2026-11-18 (S7): KB 03 §5 gains the 74194 mode table (Nexperia data sheet); §6 gains clock skew in the setup and hold inequalities (UCSD CSE140 + Cornell ECE4740).
+
+- 2026-11-19 (S8): KB05 *Open* block replaced by *Data-sheet numbers and deck-14 checks*: SN7400 and SN74HC00 tables, timing definitions, PDP settled (TI sheets, UMBC, Cambridge); §4's 0.45 V_DD marked typical-4000 only; CMOS fan-out, 4000 supply, ECL levels stay `uncertain`.

@@ -224,3 +224,5 @@
 - 2026-11-18 session 17: S7 done: 11 (10 steps) and 14 (8 steps) rebuilt to v1.3; figs_u3r (14, Sonnet) and verify_u3r wired; verify 661/0; build 00 11 14 20 no OVERLAP; KB 03 gains 74194 mode table (Nexperia data sheet) and clock skew (UCSD + Cornell notes); START-HERE, mock rows updated. Where we stopped: S7 closed. Next up: S8 (18 + 19).
 
 - 2026-11-18 session 18 (auto): S8 start (18 logic families + 19 memories/PLDs). verify.py 661/0 at start.
+- 2026-11-19 auto session 19: session 18 crashed (usage limit) after writing 18-logic-families.md v1.3 + figs_u5.py + build.py wiring (feeb93b); rebuilding state, then continuing S8.
+- 2026-11-19 session 19: S8 done: 18 (14 steps, from session 18, fixed) and 19 (12 steps) at v1.3; verify_u5 wired, verify 746/0; build 00 18 19 20 no OVERLAP; KB 05 deck-14 block closed against TI SN7400/SN74HC00 data sheets, UMBC, Cambridge notes; START-HERE, mock rows updated. Where we stopped: S8 closed. Next up: S9 (17 + integration).

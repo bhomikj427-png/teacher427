@@ -767,7 +767,15 @@ def u3r():
     m.u3r()
 
 
-UNITS = {"u0": u0, "u1": u1, "u2": u2, "u3": u3, "u3c": u3c, "u4": u4, "u2b": u2b, "u2c": u2c, "u3r": u3r}
+def u5():
+    """Files 18 (logic families) and 19 (memories, PLDs), S8: checks in verify_u5.py."""
+    import verify_u5 as m
+    m.__dict__.update(ok=ok, check_sop=check_sop, same=same, minterms=minterms)
+    m.u5()
+
+
+UNITS = {"u0": u0, "u1": u1, "u2": u2, "u3": u3, "u3c": u3c, "u4": u4, "u2b": u2b, "u2c": u2c, "u3r": u3r,
+         "u5": u5}
 
 
 def main(argv):

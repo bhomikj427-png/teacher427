@@ -105,3 +105,14 @@
 - **Cornell ECE4740 lecture 17 "sequential circuits"** (ocw.ece.cornell.edu, 2018): signed skew (capture
   clock delayed by a buffer): T_min = t_pd,ff + t_pd,A + t_su − t_buf ("useful skew"), hold
   t_cd,ff + t_cd,A ≥ t_h + t_buf; hold violations not fixable by clock frequency. KB 03 §6.
+- **TI SN7400 data sheet** (SDLS025D, ti.com): standard-TTL V_OH/V_OL/V_IH/V_IL, I_OH/I_OL/I_IH/I_IL,
+  I_CCH/I_CCL, t_PLH 11/22 ns, t_PHL 7/15 ns (400 Ω, 15 pF), 1.5 V timing reference. KB 05 S8 block.
+- **TI SN74HC00 data sheet** (SCLS181H, 2021): V_CC 2–6 V; 4.5 V levels 3.15/1.35/4.4/3.98/0.1/0.26 V;
+  I_CC 2 µA; C_i 3/10 pF; C_pd 20 pF; t_pd 9/18 ns; Fig. 7-2 (50 % points, t_pd = greater of t_PLH,
+  t_PHL), Fig. 7-3 (10–90 %); unused inputs terminated. KB 05 S8 block.
+- **UMBC CMPE 640 lecture "Quality metrics of a digital design"** (courses.cs.umbc.edu): PDP = energy
+  per switching event, constant for a given technology. KB 05 S8 block.
+- **DJ Greaves, University of Cambridge Computer Laboratory, ACS P35 notes** ("speed-power product"
+  table, cl.cam.ac.uk): 1985 74HC00 7 ns 1 mW 7 pJ, 74F00 3.4 ns 5 mW 17 pJ, ECL SP92701 0.8 ns 200 mW
+  160 pJ. KB 05 S8 block.
+

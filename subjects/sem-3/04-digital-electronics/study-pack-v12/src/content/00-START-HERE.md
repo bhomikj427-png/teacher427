@@ -16,8 +16,8 @@ Ranked by the professor's own material: the 2025 mid-term paper (30 marks: 2-mar
 | 6 | **09, 10 Flip-flops and waveforms** | Mid-term Q3 (2) and Q7 (4); practice set 2 Q1–Q3 | 10 the waveform procedure | 50 min |
 | 7 | **16 State reduction, ASM** | Decks 12–13, worked tables | 16 steps 3–5 (partitioning, implication table) | 60 min |
 | 8 | **11, 12 Registers, ripple counters** | Decks 09–10 | 11 steps 6–7 (ring, Johnson), 12 steps 6–7 (MOD-N by reset) | 60 min |
-| 9 | **19 Memories, PLDs** | Deck 15, with PAL and PLA design examples | 19 PLA table | 40 min |
-| 10 | **18 Logic families** | Deck 14 | 18 noise margin, fan-out | 35 min |
+| 9 | **19 Memories, PLDs** | Deck 15, with PAL and PLA design examples | 19 steps 9 and 11 (PAL with feedback, PLA table), step 4 (memory expansion) | 55 min |
+| 10 | **18 Logic families** | Deck 14 | 18 steps 4 and 6 (noise margin, fan-out), step 14 (TTL–CMOS interfacing) | 55 min |
 | 11 | **04 Adders, subtractors** | Deck 03; mid-term Q6 used the full adder | 04 steps 2–5 (full adder, ripple adder), step 12 (2's-complement subtract) | 50 min |
 | 12 | **01, 03 Boolean algebra, NAND/NOR** | Mid-term Q1 (2 marks); practice set 1 Q2 and Q1's circuit | 03 §2 (MTE Q1), §6 (map → NAND) | 60 min |
 | 13 | **07, 08 Display, comparator, parity, shifter, ALU** | Mid-term Q2 (2 marks); practice set 1 Q9, Q10; decks 05–07 | 07 steps 9–11 (parity, MTE Q2), steps 2–3 (common-anode segments), 08 steps 6–8 (ALU) | 70 min |
@@ -70,8 +70,8 @@ Each file needs the ones before it. 02 is Boolean algebra drawn as a grid. 05–
 | 15 | U4 | states as memory, sequence detectors (overlap or not), state table, assignment (counting, Gray), D/T/JK circuits, Mealy vs Moore, wildcard detectors | deck 11 slides 4–43 |
 | 16 | U4 | equivalent states, inspection, partitioning (Moore, Mealy), implication tables, compatibles and closed covers, ASM charts, serial adder | decks 12–13 |
 | 17 | U4 | skew, metastability, LFSR, pulse train, clocks, races, hazards | practice |
-| 18 | U5 | noise margin, fan-out, TTL NAND, tristate, ECL, CMOS, interfacing | deck 14 |
-| 19 | U5 | RAM, ROM, memory decoding, PROM, PAL, PLA | deck 15 |
+| 18 | U5 | t_{PLH}/t_{PHL}, rise/fall, power, noise margin, PDP, fan-out, CMOS inverter/NAND/NOR, TTL NAND, totem pole and open collector, tristate bus, ECL, families compared, interfacing | deck 14 slides 4–25, deck 05 slides 44–48 |
+| 19 | U5 | 2^{k} × m organisation, SRAM/DRAM, ROM types, memory expansion, AND–OR array, ROM as a table, PROM design, PAL (feedback), PLA (output XOR, shared terms), PROM/PAL/PLA compared | deck 15 slides 2–37 |
 | 20 | all | one closed-book paper with a key | sets 1–2, decks |
 
 ## Where the questions come from
@@ -126,10 +126,14 @@ When you reach a **Guess first** box, write a guess on paper **before** reading 
 | Deck 09 slide 13 (11) | parallel-in parallel-out listed as a shift register | a plain register | no wire runs from one stage to the next |
 | Deck 09 slide 15 (11) | callout SHIFT·Q₀ + SHIFT'·D₁ pointing at stage 2 | SHIFT·Q₁ + SHIFT'·D₂ at stage 2 | the callout is stage 1's expression |
 | Deck 09 slide 17 (11) | loop 0001 → 0010 → 0100 → 1000, timing diagram shifts Q_{A} → Q_{D} | 1000 → 0100 → 0010 → 0001 (Q_{0} first) | same counter, opposite bit order; slide 18 agrees |
+| Deck 14 slide 21 (18) | TTL "typical noise immunity about 1–1.6 V" | NM = 0.4 V both ways | that range uses typical output levels (3.4 V, 0.2 V); exam answers use the guaranteed SN7400 levels |
+| Deck 14 slides 14, 20 (18) | CMOS supply "3–15 V" and "5–15 V" | 74HC: 2–6 V | the slide ranges fit the older 4000 series; the two slides also disagree |
+| Deck 15 slide 21 (19) | input 011 gives output 0011 | 0000 | D_{3} carries no × in the slide's array; 0011 is the word at 001 |
+| Deck 15 slide 24 (19) | "4-input, 3-output PAL" | four outputs | the circuit and equations have F_{1}–F_{4} |
 | Deck header vs paper | ECE 2105 | ECE2102 | same syllabus; the deck code is stale |
 
 ## How this pack was checked
 
-- Facts: the subject knowledge base (Anand Kumar, Jain, Brown & Vranesic, Mano).
-- Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 `verify.py`, 192 checks, plus `src/verify.py`: 661 checks: every expression in 01–03; every adder, subtractor, BCD adder, shift, barrel shifter and ALU operation in 04 and 08 evaluated on all inputs; every segment, comparator and parity expression in 07 checked on every input row (two cascaded comparators on all 65 536 pairs of 8-bit numbers); every MUX data list, decoder circuit and encoder equation in 05–06 evaluated on every input row; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every shift-register trace, ring and Johnson sequence (with the unused-state loops), XOR-feedback register and serial addition in 11 simulated; every timing sum in 14 recomputed; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).
+- Facts: the subject knowledge base (Anand Kumar, Jain, Brown & Vranesic, Mano); device numbers in 18 from the TI SN7400 and SN74HC00 data sheets.
+- Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 `verify.py`, 192 checks, plus `src/verify.py`: 746 checks: every expression in 01–03; every delay, noise margin, power, PDP, fan-out and interfacing number in 18, with the CMOS and TTL gates checked at switch level; every memory size, ROM word and PROM/PAL/PLA expression in 19, with a search showing its PLA line counts are the minimum; every adder, subtractor, BCD adder, shift, barrel shifter and ALU operation in 04 and 08 evaluated on all inputs; every segment, comparator and parity expression in 07 checked on every input row (two cascaded comparators on all 65 536 pairs of 8-bit numbers); every MUX data list, decoder circuit and encoder equation in 05–06 evaluated on every input row; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every shift-register trace, ring and Johnson sequence (with the unused-state loops), XOR-feedback register and serial addition in 11 simulated; every timing sum in 14 recomputed; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).
 - Where a slide has a slip, the pack uses the corrected version and says so in a Note.

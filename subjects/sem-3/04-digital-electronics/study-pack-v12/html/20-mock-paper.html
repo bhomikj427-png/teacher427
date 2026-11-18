@@ -189,11 +189,11 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 </tr>
 <tr>
 <td>18 Families</td>
-<td>NM<sub>H</sub> = V<sub>OH</sub> − V<sub>IH</sub>, NM<sub>L</sub> = V<sub>IL</sub> − V<sub>OL</sub> · fan-out = min(I<sub>OL</sub>/I<sub>IL</sub>, I<sub>OH</sub>/I<sub>IH</sub>) · P = CV<sup>2</sup>f</td>
+<td>t<sub>pd</sub> = larger of t<sub>PLH</sub>, t<sub>PHL</sub> (50 % points) · t<sub>r</sub>, t<sub>f</sub>: 10–90 % · NM<sub>H</sub> = V<sub>OH</sub> − V<sub>IH</sub>, NM<sub>L</sub> = V<sub>IL</sub> − V<sub>OL</sub> · fan-out = min(I<sub>OL</sub>/I<sub>IL</sub>, I<sub>OH</sub>/I<sub>IH</sub>) · P = CV<sup>2</sup>f · PDP = t<sub>pd</sub> × P</td>
 </tr>
 <tr>
 <td>19 Memory, PLD</td>
-<td>2<sup>k</sup> × m: k address, m data lines · PROM fixed AND · PAL fixed OR · PLA both programmable</td>
+<td>2<sup>k</sup> × m: k address, m data lines · chips = (words ÷ words per chip) × (bits ÷ bits per chip) · PROM fixed AND · PAL fixed OR (feed an output back) · PLA both programmable (minimise F and F', share)</td>
 </tr>
 </tbody>
 </table>
@@ -209,8 +209,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <li>Latch: level-triggered, transparent while enabled, passes glitches. Flip-flop: edge-triggered, samples once per clock. (09)</li>
 <li><strong>4</strong> flip-flops; <strong>4</strong> unused states. (12)</li>
 <li>Mealy: output from state and input, on arrows, fewer states. Moore: from state only, in circles, one more state (any two). (15)</li>
-<li>NM<sub>H</sub> = <strong>0.7 V</strong>, NM<sub>L</sub> = <strong>0.3 V</strong>. (18)</li>
-<li>PAL: programmable AND, fixed OR, no sharing. PLA: both programmable, terms shared. (19)</li>
+<li>NM<sub>H</sub> = <strong>0.7 V</strong>, NM<sub>L</sub> = <strong>0.3 V</strong>. (18 step 4)</li>
+<li>PAL: programmable AND, fixed OR, no sharing. PLA: both programmable, terms shared. (19 steps 5, 12)</li>
 </ol>
 <p><strong>Part B.</strong></p>
 <ol start="11">
@@ -219,12 +219,12 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <li>A 4:16 decoder (two 3:8s, a enabling one directly and the other through an inverter); <strong>OR outputs 0, 1, 2, 5, 6, 8, 9, 15</strong> (8-input NAND if active-low). (06 steps 4, 8)</li>
 <li>00 → 01 → 10 → 11 → 00. Excitation (J<sub>1</sub>K<sub>1</sub>, J<sub>0</sub>K<sub>0</sub>): 00: 0X, 1X · 01: 1X, X1 · 10: X0, 1X · 11: X1, X1. <strong>J<sub>0</sub> = K<sub>0</sub> = 1, J<sub>1</sub> = K<sub>1</sub> = Q<sub>0</sub></strong>. (13)</li>
 <li>P<sub>1</sub>: (ADFG)(BCEH). P<sub>2</sub>: on x = 1, D → B (other block): D separates → (AFG)(BCEH)(D). P<sub>3</sub>: A, F → D but G → G: G separates; on x = 1, E → F but B, C, H → D: E separates → (AF)(BCH)(D)(E)(G). P<sub>4</sub> = P<sub>3</sub>. <strong>A ≡ F, B ≡ C ≡ H</strong>: 8 states become 5. (16)</li>
-<li>Circuit and operation: 18 §2. Fan-out: 8/0.4 = 20 and 400/20 = 20: <strong>20</strong>.</li>
+<li>Circuit and operation: 18 steps 9–10. Fan-out: 8/0.4 = 20 and 400/20 = 20: <strong>20</strong>.</li>
 </ol>
 <p><strong>Part C.</strong></p>
 <ol start="17">
 <li>S0 nothing, S1 "1", S2 "10", S3 "101", S4 "1011" (z = 1). Next (x = 0, x = 1): S0 → S0, S1 · S1 → S2, S1 · S2 → S0, S3 · S3 → S2, S4 · S4 → S2, S1. Codes Y<sub>2</sub>Y<sub>1</sub>Y<sub>0</sub>: 000, 001, 010, 011, 100; 101–111 don't-care. <strong>D<sub>2</sub> = Y<sub>1</sub>Y<sub>0</sub>X · D<sub>1</sub> = Y<sub>0</sub>X' + Y<sub>1</sub>Y<sub>0</sub>'X + Y<sub>2</sub>X' · D<sub>0</sub> = Y<sub>1</sub>'X + Y<sub>0</sub>'X · z = Y<sub>2</sub></strong>. (15)</li>
-<li><strong>F<sub>1</sub> = A'B + BC' + AB'C + A'C'D</strong> (four terms), <strong>F<sub>2</sub> = A'B + AB'C</strong>, <strong>F<sub>3</sub> = B + AC + AD</strong>. F<sub>1</sub> does not fit in three terms, but two of its terms are F<sub>2</sub>: feed F<sub>2</sub> back, <strong>F<sub>1</sub> = F<sub>2</sub> + BC' + A'C'D</strong>. Table (A B C D F<sub>2</sub>; 1 = true, 0 = complement, – = none): F<sub>2</sub>: A'B = 0 1 – – –; AB'C = 1 0 1 – –. F<sub>1</sub>: F<sub>2</sub> = – – – – 1; BC' = – 1 0 – –; A'C'D = 0 – 0 1 –. F<sub>3</sub>: B = – 1 – – –; AC = 1 – 1 – –; AD = 1 – – 1 –. (19)</li>
+<li><strong>F<sub>1</sub> = A'B + BC' + AB'C + A'C'D</strong> (four terms), <strong>F<sub>2</sub> = A'B + AB'C</strong>, <strong>F<sub>3</sub> = B + AC + AD</strong>. F<sub>1</sub> does not fit in three terms, but two of its terms are F<sub>2</sub>: feed F<sub>2</sub> back, <strong>F<sub>1</sub> = F<sub>2</sub> + BC' + A'C'D</strong>. Table (A B C D F<sub>2</sub>; 1 = true, 0 = complement, – = none): F<sub>2</sub>: A'B = 0 1 – – –; AB'C = 1 0 1 – –. F<sub>1</sub>: F<sub>2</sub> = – – – – 1; BC' = – 1 0 – –; A'C'D = 0 – 0 1 –. F<sub>3</sub>: B = – 1 – – –; AC = 1 – 1 – –; AD = 1 – – 1 –. (19 step 9)</li>
 </ol>
 <p><strong>Part D.</strong></p>
 <ol start="19">
