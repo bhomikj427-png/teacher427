@@ -260,7 +260,7 @@ def totem_oc():
     x1, x2 = 2.4, 7.4
     _line(ax, [1.6, 8.2], [8.0, 8.0], lw=2.2)
     _t(ax, 1.4, 8.0, "+5 V", fs=9.5, ha="right", weight="bold")
-    for x, up, lab in ((x1, True, "gate 1 (output HIGH)"), (x2, False, "gate 2 (output LOW)")):
+    for x, up, lab in ((x1, True, "gate 1\n(output HIGH)"), (x2, False, "gate 2\n(output LOW)")):
         _line(ax, [x, x], [8.0, 7.2])
         _sw(ax, x, 7.2, 5.8, closed=up)
         _line(ax, [x, x], [5.8, 5.2])

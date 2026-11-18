@@ -56,7 +56,7 @@ A memory holds 1024 words of 8 bits. To pick one word you send its number in bin
 **Cell:** stores one bit. **Word:** the bits read or written together, one per data line. **Address:** the binary number of a word; it arrives on the **address lines**. **Capacity:** words × bits per word. **RAM (random-access memory):** can be read and written; **volatile**, it loses its contents without power. **ROM (read-only memory):** keeps its contents without power (**non-volatile**).
 :::
 
-[[fig:memory_org|A 2^k × m memory: the k address lines enter a decoder, which activates one word line; the m cells of that word connect to the m data lines. Chip select and read/write enter the control block.|w=60]]
+[[fig:memory_org|A 2ᵏ × m memory: the k address lines enter a decoder, which activates one word line; the m cells of that word connect to the m data lines. Chip select and read/write enter the control block.|w=60]]
 
 A **2^{k} × m** memory has **k address lines** (k bits choose one of 2^{k} words) and **m data lines** (one per bit of the word). Its capacity is 2^{k} · m bits. Two control inputs complete the chip: **CS** (chip select) and **R/W** (read or write). When CS is inactive the data outputs go to the high-impedance state of file 18 step 11, so several chips can share one data bus.
 
