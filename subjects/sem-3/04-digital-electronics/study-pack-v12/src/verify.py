@@ -760,7 +760,14 @@ def u2c():
     m.u2c()
 
 
-UNITS = {"u0": u0, "u1": u1, "u2": u2, "u3": u3, "u3c": u3c, "u4": u4, "u2b": u2b, "u2c": u2c}
+def u3r():
+    """Files 11 (registers, ring/Johnson) and 14 (timing analysis), S7: checks in verify_u3r.py."""
+    import verify_u3r as m
+    m.__dict__.update(ok=ok)
+    m.u3r()
+
+
+UNITS = {"u0": u0, "u1": u1, "u2": u2, "u3": u3, "u3c": u3c, "u4": u4, "u2b": u2b, "u2c": u2c, "u3r": u3r}
 
 
 def main(argv):

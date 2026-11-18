@@ -53,10 +53,10 @@ Cover the right column, write each line from the cue, then uncover. Any row you 
 | 07 Display, comparator, parity | common anode lit by 0 · x_{i} = A_{i} ⊙ B_{i}, G = A_{1}B_{1}' + x_{1}A_{0}B_{0}' · P_{even} = XOR of data, checker E = XOR of data and P |
 | 08 Shifts, ALU | arithmetic right copies sign · MUX gives Y = B, 0000, 1111, B' for S C_{in} = 00, 01, 10, 11; F = A + Y + C_{in} |
 | 09 Flip-flops | Q⁺ = JQ' + K'Q · Q⁺ = D · Q⁺ = T ⊕ Q · excitation table |
-| 11 Shift counters | ring MOD-n · Johnson MOD-2n |
+| 11 Registers, shift counters | SIPO/SISO: n clocks for n bits · 74194 S_{1}S_{0} = 00 hold, 01 right, 10 left, 11 load · ring MOD-n · Johnson MOD-2n, 2-input decode |
 | 12 Ripple | n·t_{pd} · clear at first unwanted state |
 | 13 Synchronous | six steps; T = Q ⊕ Q⁺; unused states → self-start check |
-| 14 Timing | T ≥ t_{pd} + t_{comb,max} + t_{su} · t_{pd} + t_{comb,min} ≥ t_{h} |
+| 14 Timing | T ≥ t_{pd} + t_{comb,max} + t_{su} · t_{pd} + t_{comb,min} ≥ t_{h} · skew δ (capture late): − δ on setup, + δ on hold |
 | 15, 16 FSM | Moore output in circle, Mealy on arrow · partition by outputs, then by next-state blocks |
 | 17 Generators, async | LFSR 2^{n} − 1 · 555 f = 1.44/((R_{1} + 2R_{2})C) · ring f = 1/(2Nt_{pd}) · add consensus terms |
 | 18 Families | NM_{H} = V_{OH} − V_{IH}, NM_{L} = V_{IL} − V_{OL} · fan-out = min(I_{OL}/I_{IL}, I_{OH}/I_{IH}) · P = CV^{2}f |

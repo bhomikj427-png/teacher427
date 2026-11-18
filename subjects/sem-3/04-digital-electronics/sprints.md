@@ -45,7 +45,7 @@ in `exam-pack/` (index: `exam-pack/README.md`): MTE 2025 paper, practice sets 1�
 | S4 | **15 + 16** FSM design; state reduction, ASM | old 15, 16 · KB `04` · decks 11, 12, 13 | `15-…`, `16-…` rebuilt, `src/figs_u4.py` | same; the five detectors on deck 11's last slide simulated in verify |**done** 2026-11-17 (sessions 9-10; 15: 12 steps, 16: 12; no split; START-HERE rows + slips done; agy page check of 15, 16 done in S5 session 12: clean) |
 | S5 | **05 + 06** MUX/DEMUX; decoder/encoder | old 05, 06 · KB `02` · decks 04, 05 · MTE Q5, Q6 · set 1 Q3, Q5–Q8 | `05-…`, `06-…` rebuilt, `src/figs_u2.py` | same | **done** 2026-11-17/18 (sessions 10-12; 05: 10 steps, 06: 10 steps; no split; agy page check 05, 06 clean) |
 | S6 | **04 + 07 + 08** adders/subtractors; display, comparator, parity; shifter, ALU | old 04, 07, 08 · KB `01`, `02` · decks 03, 06, 07 · MTE Q2 · set 1 Q9–Q10 | `04-…`, `07-…`, `08-…` rebuilt | same | **done** 2026-11-18 (sessions 13-14; 04: 13 steps, 07: 11, 08: 8; no split) |
-| S7 | **11 + 14** registers; timing analysis | old 11, 14 · KB `03` · deck 09 | `11-…`, `14-…` rebuilt | same | |
+| S7 | **11 + 14** registers; timing analysis | old 11, 14 · KB `03` · deck 09 | `11-…`, `14-…` rebuilt | same | **done** 2026-11-18 (session 17; 11: 10 steps, 14: 8 steps; no split) |
 | S8 | **18 + 19** logic families; memories and PLDs | old 18, 19 · KB `05` · decks 14, 15 | `18-…`, `19-…` rebuilt, `src/figs_u5.py` | same; noise margins and fan-out in verify; PLA/PAL tables checked | |
 | S9 | **17 + integration** timing generators, asynchronous circuits; mock paper re-pointed; START-HERE ranks, times, map, slip table | old 17, 20 · `00-START-HERE.md` · KB `04`, `05` | `17-…` rebuilt; 00 and 20 updated; full build | grep finds no reference to a removed file; `src/verify.py` passes; build prints no `OVERLAP` | |
 
@@ -80,43 +80,51 @@ sprint reads them first.
 | 10 | Deck 11 slide 43's detectors are solved as overlapping (deck 11's default, slide 6); 1X1/1XX1 read X as "either bit" | S4 | open |
 | 11 | 07's digit shapes: 6 with the top bar a, 9 with the bottom bar d, 7 = a b c (deck 05 slides 28-29); other shapes change the a, d, f equations | S6 | open |
 | 12 | 07 step 8 models 7485 cascading as G = G_own + E_own·I(A>B), E = E_own·I(A=B), L = L_own + E_own·I(A<B) with the lowest stage seeded 0/1/0 (KB 02 §1); the datasheet's full table for odd cascade-input combinations is not taught | S6 | open |
+| 13 | 11 step 4's PISO first stage takes 0 during a shift (an AND gate SHIFT'·D₀); the brief transcribes slide 15's D₀ as wired straight to FF0. The serial output for the first n bits is the same either way | S7 | open |
+| 14 | 14 uses one t_pd for both the setup and the hold sums (exam style); KB 03 §6 notes that the hold check strictly uses the minimum (contamination) clock-to-Q delay | S7 | open |
 
 ## Current hand-off
 
 ```
-Sprint: S6 — 04 + 07 + 08 adders/subtractors; display, comparator, parity; shifter, ALU — done
-  (2026-11-18, sessions 13-14; session 13 crashed on the usage limit after writing 04, 08 text,
-  verify_u2b and part of figs_u2b; session 14 rebuilt state from commit 3b53bc2 and finished).
-Written: 04-adders.md: 13 steps (half adder, FA table, carry K-map, 2 HAs, ripple, ripple delay,
-    CLA, NAND/NOR adders, half/full subtractor, add/sub cell, 2's-complement add-sub, BCD adder).
-  08-shifter-alu.md: 8 steps (logical, circular, arithmetic shift, barrel shifter, logic unit,
-    arithmetic circuit, why these codes, ALU); slip note deck 07 slide 8.
-  07-display-comparator-parity.md: 11 steps (segment table EX 5.30, segment K-maps, common anode
-    PS1 Q10, multiplexed display, 1-bit, 2-bit, n-bit comparator, 7485 cascading, parity bit
-    MTE Q2, 4-bit generator chain/tree PS1 Q9, checker EX 6.23); running example 0110.
-  figs_u2b.py (10 figures for 04/08) + figs_u2c.py (6 for 07) wired in build.py.
-  verify_u2b.py (04/08) + verify_u2c.py (07, 96 checks) wired in verify.py.
-  00-START-HERE: rank 11 and 13 rows (Do first + times), file row 07, 3 slip rows (deck 06
-    slides 5, 14; deck 07 slide 8), how-checked = 598 checks. 20-mock-paper: 07 and 08 formula
-    rows (08's Y now the MUX table B, 0000, 1111, B'), key A5 -> 07 step 9.
-Verified this sprint: numbers: verify.py 598 checks, 0 failures (every segment SOP and its
-  active-low complement QM-minimal on 0-9 with 10-15 as X; 4-bit comparator equations on 256 pairs;
-  two cascaded comparators on 65 536 pairs; parity generator/checker tables; 1-, 2-, 3-bit error
-  detection exhaustively). Comparator, display and parity facts from KB 02 §1, §4 and KB 01
-  (settled); no new sources. Build 00 04 07 08 20: no OVERLAP.
-  agy page checks: 08 clean (3 sheets); 04 one fault (addsub_cell: 3 labels on wires) fixed and re-viewed by Opus (sheet p13-16): clean; 07 first run timed out (exit 124, 3 agy runs in parallel), retry alone clean (5 sheets; digit shapes 6/7/9 and MSB-first flow confirmed). Lesson: run agy one at a time.
-Open (carried): deck-14 numbers (backlog -> S8); deck 10 slide 36 (backlog -> S9).
-Decisions made: 07 follows deck order: display (deck 05 slides 27-30) before comparator and parity
-  (deck 06). 07 names the BCD MSB A (as file 02); deck 05 slide 28 names it D (a Trap says so).
-  Old 07's "10-20 mA per segment" dropped (not in KB, not verified). Tri-state buffer still owed
-  to file 18 (S8, from S5).
-Assumptions to review: 11 (07 digit shapes), 12 (07 cascade model): copied to the persistent table.
-Helpers: Sonnet x1: all 16 figures (finish figs_u2b, write figs_u2c, wire build.py, build 04 08,
-  view PNGs; 216k subagent tokens, 99 tool uses, 17 min). agy: page checks (see Verified line).
-  Opus: 07 text, verify_u2c, START-HERE/mock rows, one figure label fix (addsub_cell).
-Next sprint: S7 — 11 + 14 registers; timing analysis — first action: run src/verify.py (expect
-  598, 0 failures), then grep brief 1.9 and the §2/§4/§5 rows for 11 and 14.
-Read at start: this hand-off + S7 row · ../../../study-pack-sprint-protocol.md · brief 1.9 (rows
-  truncated to ~330 chars with a script: the rows are long) and §2/§4/§5 rows for 11, 14 · old 11,
-  14 · KB 03 by heading · 07 lines 1-60 as the v1.3 format model
+Sprint: S7 — 11 + 14 registers; timing analysis — done (2026-11-18, session 17; session 16 was cut
+  off with no changes, state rebuilt from e6ff646 = S6 done).
+Written: 11-registers.md: 10 steps (register, SISO delay, SIPO loading 1011, PISO SHIFT/LOAD',
+    universal 74194, ring EX 9.20, Johnson EX 9.22 + decode, lock-out, XOR feedback EX 9.24, serial
+    adder EX 9.26); running example the word 1011; 4 slip notes (deck 09 slides 2, 13, 15, 17).
+  14-timing-analysis.md: 8 steps (clock-to-Q, setup, hold, metastability, longest path -> f_max,
+    hold check, clock skew, ripple vs synchronous counters); running example t_pd 8, t_su 3, t_h 2,
+    t_comb 12/1 ns (43.5 MHz). No deck: Predict prompts only.
+  figs_u3r.py (14 figures, Sonnet) wired in build.py; verify_u3r.py (unit u3r) wired in verify.py.
+  KB 03 §5 (74194 mode table) and §6 (clock skew in setup/hold) + sources.md + CHANGELOG.
+  00-START-HERE: rank 8 and 14 rows (Do first + times), file rows 11 and 14, 4 slip rows (deck 09),
+    how-checked = 661 checks. 20-mock-paper: 11 and 14 formula rows.
+Verified this sprint: numbers: verify.py 661 checks, 0 failures (every shift-register trace,
+  74194 mode, ring/Johnson sequence and decode term, both unused-state loops, the XOR register's
+  15-state cycle, serial additions, every timing sum and skew case). New facts: 74194 mode table from
+  the Nexperia 74HC194 data sheet (Table 3); skew in the setup/hold inequalities from UCSD CSE140
+  lec10 and Cornell ECE4740 lecture 17 (agree). Build 00 11 14 20: no OVERLAP.
+  agy failed: exit 124 twice (900 s full task, then 570 s short task; log shows only "Failed to refresh
+  cache in background: admin controls not applicable"). Page check done by Opus instead: sheets
+  11 p5-8 and 14 p5-8 viewed: 4 captions in 14 printed raw t_pd/t_su (fixed to t_{pd}), PISO label
+  "SHIFT/LOAD'" crossed by the D0 wire (moved left, zoom re-viewed: clean). Sheets 11 p1-4, 9-16 and
+  14 p1-4, 9-12 not viewed (build OVERLAP check clean): first job for S8's agy run is to check them.
+Open (carried): deck-14 numbers (backlog -> S8); deck 10 slide 36 (backlog -> S9). Tri-state buffer
+  still owed to file 18 (S8). Sonnet noted: some wire crossings in u3r_reg4, u3r_ring4,
+  u3r_serial_adder have no crossing dot (crossings, not joins: correct as drawn).
+Decisions made: 11 writes words Q0Q1Q2Q3 with Q0 the serial-input stage (deck 09 slides 8, 11, 22);
+  slide 23's left-shift Johnson and slide 17's ring are the same counters in the other bit order.
+  11 keeps deck order (registers, SISO, SIPO, PISO, universal, ring, Johnson, XOR, serial adder);
+  lock-out is its own step. 14's skew sign: δ = capture clock later than launch (positive helps
+  setup, hurts hold); worst-case |δ| form mentioned.
+Assumptions to review: 13 (PISO first stage), 14 (one t_pd for hold): copied to the persistent table.
+Helpers: Sonnet x1: all 14 figures + build of 11/14 (107k subagent tokens, 42 tool uses, 6.7 min).
+  agy x2: both timed out (exit 124), no report. Opus viewed one sheet per file + one zoom. Opus: 11 and 14 text, verify_u3r, KB + source
+  checks (web: 2 searches, 3 fetches, 1 script download), START-HERE/mock rows.
+Next sprint: S8 — 18 + 19 logic families; memories and PLDs — first action: run src/verify.py
+  (expect 661, 0 failures; run it without -I), then grep brief 1.14, 1.15 and the §2/§4/§5 rows for
+  18 and 19.
+Read at start: this hand-off + S8 row · ../../../study-pack-sprint-protocol.md · brief 1.14, 1.15
+  (rows truncated to ~400 chars with a script; print with sys.stdout.reconfigure(encoding='utf-8'))
+  and §2/§4/§5 rows for 18, 19 · old 18, 19 · KB 05 by heading · Verify backlog rows for deck 14 ·
+  11 lines 1-40 as the v1.3 format model
 ```

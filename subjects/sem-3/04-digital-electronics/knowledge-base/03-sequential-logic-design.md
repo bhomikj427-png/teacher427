@@ -124,6 +124,9 @@ Cascade of FFs (usually D) sharing a clock; each clock shifts the stored word on
 - **Applications:** serial↔parallel conversion, delay lines, serial adder (U1), sequence generation.
 - **Ring counter:** feed last output back to first → a single 1 circulates; n FFs → mod-n, one-hot,
   self-decoding (no decode gates) but inefficient (n states from n FFs). `settled`.
+- **74194 / 74HC194 mode table** (Nexperia 74HC194 data sheet Rev. 4, 2021, Table 3; checked S7
+  2026-11-18): S1 S0 = 00 hold, 01 shift right (DSR -> Q0, Q0 -> Q1 ...), 10 shift left (Q1 -> Q0 ...,
+  DSL -> Q3), 11 parallel load D0-D3; rising-edge clock; MR active-low, asynchronous, forces Q = 0. `settled`.
 - **Johnson / twisted-ring counter:** feed *complemented* last output back → n FFs → **mod-2n**,
   with simple 2-input decode per state. `settled`.
 
@@ -146,6 +149,13 @@ Real FFs/gates have finite timing — logical correctness ≠ hardware correctne
 - **Hold check** uses the *shortest* path: t_pd,FF + t_comb,min ≥ t_h. `settled`.
 - **Clock skew** (clock arriving at FFs at different times) eats into setup or hold margin → a real
   failure mode introduced in U4's "timing issues." `settled`.
+- **Skew in the two inequalities** (S7 2026-11-18; UCSD CSE140 sp19 lec10 timing slides + Cornell
+  ECE4740 lecture 17 "sequential circuits", agreeing): with δ = how much later the *capturing* FF's clock
+  edge arrives than the launching FF's, setup: T + δ ≥ t_cq + t_comb,max + t_su (late capture clock =
+  "useful skew" for setup); hold: t_cq,min + t_comb,min ≥ t_h + δ (late capture clock hurts hold).
+  Unknown sign → design for the worst case: T ≥ … + t_su + |δ| and … ≥ t_h + |δ| (UCSD form). Hold
+  violations are not fixed by the clock period (Cornell 4740 p.7): add delay on the short path. Strictly
+  the hold check uses the minimum (contamination) clock-to-Q delay; exam questions give one t_pd. `settled`.
 
 **Exam pattern:** given t_pd, t_su, t_h and a logic-delay range, compute f_max; check for hold
 violations.

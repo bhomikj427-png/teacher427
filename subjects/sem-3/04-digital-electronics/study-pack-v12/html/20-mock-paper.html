@@ -164,8 +164,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>Q⁺ = JQ' + K'Q · Q⁺ = D · Q⁺ = T ⊕ Q · excitation table</td>
 </tr>
 <tr>
-<td>11 Shift counters</td>
-<td>ring MOD-n · Johnson MOD-2n</td>
+<td>11 Registers, shift counters</td>
+<td>SIPO/SISO: n clocks for n bits · 74194 S<sub>1</sub>S<sub>0</sub> = 00 hold, 01 right, 10 left, 11 load · ring MOD-n · Johnson MOD-2n, 2-input decode</td>
 </tr>
 <tr>
 <td>12 Ripple</td>
@@ -177,7 +177,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 </tr>
 <tr>
 <td>14 Timing</td>
-<td>T ≥ t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub> · t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub></td>
+<td>T ≥ t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub> · t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub> · skew δ (capture late): − δ on setup, + δ on hold</td>
 </tr>
 <tr>
 <td>15, 16 FSM</td>

@@ -146,8 +146,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>8</td>
 <td><strong>11, 12 Registers, ripple counters</strong></td>
 <td>Decks 09–10</td>
-<td>12 steps 6–7 (MOD-N by reset)</td>
-<td>45 min</td>
+<td>11 steps 6–7 (ring, Johnson), 12 steps 6–7 (MOD-N by reset)</td>
+<td>60 min</td>
 </tr>
 <tr>
 <td>9</td>
@@ -188,8 +188,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>14</td>
 <td><strong>14, 17 Timing; generators, asynchronous circuits</strong></td>
 <td>Syllabus items with no deck coverage</td>
-<td>17 hazards</td>
-<td>40 min</td>
+<td>14 steps 5–6 (f<sub>max</sub>, hold check), 17 hazards</td>
+<td>50 min</td>
 </tr>
 <tr>
 <td>last</td>
@@ -293,8 +293,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <tr>
 <td>11</td>
 <td>U3</td>
-<td>SISO, SIPO, PISO, PIPO, universal register, ring, Johnson</td>
-<td>deck 09</td>
+<td>register, SISO delay, SIPO, PISO (SHIFT/LOAD'), universal 74194, ring, Johnson, lock-out, XOR feedback, serial adder</td>
+<td>deck 09 slides 1–26</td>
 </tr>
 <tr>
 <td>12</td>
@@ -311,8 +311,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <tr>
 <td>14</td>
 <td>U3</td>
-<td>setup, hold, propagation delay, f<sub>max</sub></td>
-<td>practice</td>
+<td>clock-to-Q delay, setup, hold, metastability, f<sub>max</sub> (longest path), hold check (shortest path), clock skew, ripple vs synchronous counters</td>
+<td>KB 03 (no deck)</td>
 </tr>
 <tr>
 <td>15</td>
@@ -511,6 +511,30 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <td>the circuit has no adder; slides 9–10 add the arithmetic half</td>
 </tr>
 <tr>
+<td>Deck 09 slide 2 (11)</td>
+<td>"Simple registers": a new 4-bit data loaded every clock</td>
+<td>the drawing is a shift register: 4 clocks for 4 bits</td>
+<td>a parallel register (slides 3–4) loads in one clock</td>
+</tr>
+<tr>
+<td>Deck 09 slide 13 (11)</td>
+<td>parallel-in parallel-out listed as a shift register</td>
+<td>a plain register</td>
+<td>no wire runs from one stage to the next</td>
+</tr>
+<tr>
+<td>Deck 09 slide 15 (11)</td>
+<td>callout SHIFT·Q₀ + SHIFT'·D₁ pointing at stage 2</td>
+<td>SHIFT·Q₁ + SHIFT'·D₂ at stage 2</td>
+<td>the callout is stage 1's expression</td>
+</tr>
+<tr>
+<td>Deck 09 slide 17 (11)</td>
+<td>loop 0001 → 0010 → 0100 → 1000, timing diagram shifts Q<sub>A</sub> → Q<sub>D</sub></td>
+<td>1000 → 0100 → 0010 → 0001 (Q<sub>0</sub> first)</td>
+<td>same counter, opposite bit order; slide 18 agrees</td>
+</tr>
+<tr>
 <td>Deck header vs paper</td>
 <td>ECE 2105</td>
 <td>ECE2102</td>
@@ -521,6 +545,6 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 <h2>How this pack was checked</h2>
 <ul>
 <li>Facts: the subject knowledge base (Anand Kumar, Jain, Brown &amp; Vranesic, Mano).</li>
-<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 <code>verify.py</code>, 192 checks, plus <code>src/verify.py</code>: 598 checks: every expression in 01–03; every adder, subtractor, BCD adder, shift, barrel shifter and ALU operation in 04 and 08 evaluated on all inputs; every segment, comparator and parity expression in 07 checked on every input row (two cascaded comparators on all 65 536 pairs of 8-bit numbers); every MUX data list, decoder circuit and encoder equation in 05–06 evaluated on every input row; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).</li>
+<li>Answers: every minimised expression was compared with a computer minimiser (Quine–McCluskey) and with its truth table; every counter and sequence detector was simulated; every state reduction was redone by partitioning (the v1 <code>verify.py</code>, 192 checks, plus <code>src/verify.py</code>: 661 checks: every expression in 01–03; every adder, subtractor, BCD adder, shift, barrel shifter and ALU operation in 04 and 08 evaluated on all inputs; every segment, comparator and parity expression in 07 checked on every input row (two cascaded comparators on all 65 536 pairs of 8-bit numbers); every MUX data list, decoder circuit and encoder equation in 05–06 evaluated on every input row; every latch/flip-flop table, conversion and waveform answer in 09–10; every counter sequence, excitation equation and unused-state path in 12–13 simulated; every shift-register trace, ring and Johnson sequence (with the unused-state loops), XOR-feedback register and serial addition in 11 simulated; every timing sum in 14 recomputed; every detector in 15 simulated against a reference on all inputs up to 9 bits; every partition, implication table and closed cover in 16 recomputed).</li>
 <li>Where a slide has a slip, the pack uses the corrected version and says so in a Note.</li>
 </ul></body></html>

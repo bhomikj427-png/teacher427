@@ -94,3 +94,14 @@
 - TI CD4002B product page (ti.com/product/cd4002b): noise margin 1 V @ 5 V, 2 V @ 10 V, 2.5 V @ 15 V → KB05 Open block.
 - ROHM logic FAQ (rohm.com faq node 1137/1138): V_IL < 0.3 V_DD, V_IH > 0.7 V_DD → KB05 Open block.
 - Cornell PHYS3360 logic-families lecture and notes (classe.cornell.edu/~ib38/...): ECL V_EE = −5.2 V, levels ≈ −0.9/−1.7 V → KB05 Open block (PDF did not text-extract).
+
+## S7 (2026-11-18) — registers and timing analysis
+- **Nexperia 74HC194 data sheet**, Rev. 4, 16 Mar 2021 (docs.ampnuts.ru mirror of nexperia.com), Table 3
+  function table + pin table: 74194 mode codes (00 hold, 01 shift right via DSR, 10 shift left via DSL,
+  11 parallel load), rising edge, asynchronous active-low MR. Primary (manufacturer) source. KB 03 §5.
+- **UCSD CSE140 (sp19) lecture 10 "timing"** slides (cseweb.ucsd.edu/classes/sp19/cse140-a/slides/lec10timing.pdf):
+  setup T_c ≥ t_pcq + t_pd + t_setup, hold t_ccq + t_cd > t_hold; with skew + t_skew on both (worst case);
+  hold fix by adding delay. KB 03 §6.
+- **Cornell ECE4740 lecture 17 "sequential circuits"** (ocw.ece.cornell.edu, 2018): signed skew (capture
+  clock delayed by a buffer): T_min = t_pd,ff + t_pd,A + t_su − t_buf ("useful skew"), hold
+  t_cd,ff + t_cd,A ≥ t_h + t_buf; hold violations not fixable by clock frequency. KB 03 §6.

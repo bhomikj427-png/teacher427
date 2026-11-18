@@ -75,6 +75,8 @@ import figs_u2b  # noqa: E402  (v1.3 figures for 04 and 08, S6)
 ALL.update(figs_u2b.FIGS)
 import figs_u2c  # noqa: E402  (v1.3 figures for 07, S6)
 ALL.update(figs_u2c.FIGS)
+import figs_u3r  # noqa: E402  (v1.3 figures for 11 and 14, S7)
+ALL.update(figs_u3r.FIGS)
 import matplotlib.pyplot as _plt  # noqa: E402  the v1 modules select the svg backend on import; figlib's check needs Agg
 _plt.switch_backend("Agg")
 

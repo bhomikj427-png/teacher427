@@ -220,3 +220,5 @@
 - 2026-11-18 auto session 13: S6 start (04 + 07 + 08). verify.py 450 checks, 0 failures.
 - 2026-11-18 auto session 14: rebuilt state from 3b53bc2 (session 13 crashed, usage limit): 04 + 08 text rewritten (04: 13 steps, 08: 8 steps), verify_u2b.py wired (verify 502/0), figs_u2b.py unfinished (3 of 10 figures, FIGS empty, not in build.py); 07 not started. S6 continue: figures (Sonnet), 07 rebuild, build, page check.
 - 2026-11-18 session 14: S6 done: 07 rebuilt to v1.3 (11 steps); figs_u2b (10) + figs_u2c (6) finished by Sonnet and wired; verify 598/0; build 00 04 07 08 20 no OVERLAP; agy page checks 04 (1 fix), 07, 08 clean; START-HERE, mock rows updated. Next: S7 (11 + 14).
+- 2026-11-18 auto session 17: session 16 cut off with no changes (last state e6ff646 = S6 done). S7 start (11 + 14 registers; timing analysis).
+- 2026-11-18 session 17: S7 done: 11 (10 steps) and 14 (8 steps) rebuilt to v1.3; figs_u3r (14, Sonnet) and verify_u3r wired; verify 661/0; build 00 11 14 20 no OVERLAP; KB 03 gains 74194 mode table (Nexperia data sheet) and clock skew (UCSD + Cornell notes); START-HERE, mock rows updated. Where we stopped: S7 closed. Next up: S8 (18 + 19).

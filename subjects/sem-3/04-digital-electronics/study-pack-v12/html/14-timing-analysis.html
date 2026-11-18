@@ -78,82 +78,2320 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
 .c2 .k-grp, .c2 .k-chip { fill: var(--g2); stroke: var(--g2); } .c2 .k-chip-t, .g-term.c2 { fill: var(--g2); }
 .c3 .k-grp, .c3 .k-chip { fill: var(--g3); stroke: var(--g3); } .c3 .k-chip-t, .g-term.c3 { fill: var(--g3); }
 .c4 .k-grp, .c4 .k-chip { fill: var(--g4); stroke: var(--g4); } .c4 .k-chip-t, .g-term.c4 { fill: var(--g4); }</style></head><body><h1>14 — Timing analysis</h1>
-<div class="sub">Syllabus Unit 3 item with no deck coverage: practice questions only · needs 09 (flip-flops) and 13 (synchronous circuits)</div>
+<div class="sub">Syllabus Unit 3 (timing analysis of sequential circuits) · no deck covers it: built from KB 03 §6 and its sources · no real question in the papers: Predict prompts · needs 09 (the D flip-flop and its edge), 12 step on ripple delay, 13 step 1 (synchronous counter)</div>
 
 <h2>Map</h2>
-<div class="map"><span class="n here">1 Setup, hold, propagation delay</span><span class="a">→</span><span class="n">2 f<sub>max</sub> and the hold check</span></div>
+<div class="map"><span class="n here">1 Clock-to-Q delay</span><span class="a">→</span><span class="n">2 Setup time</span><span class="a">→</span><span class="n">3 Hold time</span><span class="a">→</span><span class="n">4 Metastability</span><span class="a">→</span><span class="n">5 Longest path and f_max</span><span class="a">→</span><span class="n">6 Shortest path and hold</span><span class="a">→</span><span class="n">7 Clock skew</span><span class="a">→</span><span class="n">8 Counters compared</span></div>
 
-<p>Every synchronous circuit is flip-flops with logic between them. How fast can its clock run? Three numbers per flip-flop and two per logic path answer it.</p>
+<p>Files 09–13 treated a flip-flop as perfect: it copies D at the edge, instantly. File 12 already met one real delay (a ripple counter's stages settle one after another). This file gives every flip-flop three timing numbers and every logic path two, and turns them into the two rules a synchronous circuit must obey: the clock may not be too fast (setup), and the fastest path may not be too fast (hold). Files 15–17 build machines that obey them.</p>
+<h2>Symbols</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>What it means in this file</th>
+<th>Typical value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>t<sub>pd</sub></td>
+<td>clock-to-Q delay: time from the clock edge until Q shows its new value; set by the flip-flop's transistors</td>
+<td>8 ns</td>
+</tr>
+<tr>
+<td>t<sub>su</sub></td>
+<td>setup time: how long D must be steady before the edge for the flip-flop to read it reliably</td>
+<td>3 ns</td>
+</tr>
+<tr>
+<td>t<sub>h</sub></td>
+<td>hold time: how long D must stay steady after the edge</td>
+<td>2 ns</td>
+</tr>
+<tr>
+<td>t<sub>comb,max</sub>, t<sub>comb,min</sub></td>
+<td>delay of the slowest and of the fastest gate path between two flip-flops: sum of the gate delays along it</td>
+<td>12 ns, 1 ns</td>
+</tr>
+<tr>
+<td>T, f</td>
+<td>clock period and frequency, f = 1/T</td>
+<td>25 ns, 40 MHz</td>
+</tr>
+<tr>
+<td>T<sub>min</sub>, f<sub>max</sub></td>
+<td>smallest period (largest frequency) the circuit works at</td>
+<td>23 ns, 43.5 MHz</td>
+</tr>
+<tr>
+<td>δ</td>
+<td>clock skew: how much later the clock edge reaches the capturing flip-flop than the launching one (negative = earlier)</td>
+<td>0 – 3 ns</td>
+</tr>
+</tbody>
+</table>
+<h2>Running example</h2>
+<p><strong>One flip-flop → logic → flip-flop path</strong> with t<sub>pd</sub> = 8 ns, t<sub>su</sub> = 3 ns, t<sub>h</sub> = 2 ns, t<sub>comb,max</sub> = 12 ns, t<sub>comb,min</sub> = 1 ns (KB 03 §6). Steps 1–7 all use it; step 8 applies the same sums to the counters of files 12 and 13.</p>
 <h2>The questions this file answers</h2>
 <ul>
-<li><span class="tag">practice</span> t<sub>pd</sub> = 8 ns, t<sub>su</sub> = 3 ns, t<sub>h</sub> = 2 ns, logic 12 ns longest and 1 ns shortest. Find f<sub>max</sub> and check hold.</li>
-<li><span class="tag">practice</span> Compare the maximum clock of a ripple counter (12) and a synchronous counter (13).</li>
+<li><span class="tag">Predict (exam pattern, KB 03 §6)</span> Given t<sub>pd</sub>, t<sub>su</sub>, t<sub>h</sub> and the longest and shortest logic delays, find f<sub>max</sub> and check the hold time.</li>
+<li><span class="tag">Predict</span> How does clock skew change f<sub>max</sub> and the hold check?</li>
+<li><span class="tag">Predict</span> Compare the maximum clock of a ripple counter (file 12) and a synchronous counter (file 13).</li>
 </ul>
 <hr />
 <h2>Build</h2>
-<h3>1 · Setup, hold and propagation delay</h3>
+<h3>1 · Clock-to-Q delay: the output is late</h3>
+<p>A flip-flop is a camera pointed at its D input: at the clock edge it takes a picture, and Q shows the picture. Like a real camera, it needs a moment before the picture is ready.</p>
 <div class="box guess">
 <div class="bh">Predict</div>
-<p>A D flip-flop samples at the edge. What do you think happens if D is changing at exactly that instant?</p>
+<p>A D flip-flop with t<sub>pd</sub> = 8 ns is clocked at 50 MHz. D went to 1 long before the edge at 10 ns. When does Q go to 1, and what fraction of a clock period has passed by then?</p>
 </div>
-
-<figure style="max-width:60%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 409.786925 114.2352" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.466493</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M -0 114.2352 L 409.786925 114.2352 L 409.786925 0 L -0 0 L -0 114.2352 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 116.342606 99.3024 L 184.641806 99.3024 L 184.641806 6.8976 L 116.342606 6.8976 z " clip-path="url(#p2fc3668ae1)" style="fill: #d92d20; opacity: 0.12"/> </g> <g id="patch_3"> <path d="M 184.641806 99.3024 L 224.817806 99.3024 L 224.817806 6.8976 L 184.641806 6.8976 z " clip-path="url(#p2fc3668ae1)" style="fill: #e0661b; opacity: 0.15"/> </g> <g id="line2d_1"> <path d="M 23.937806 43.056 L 184.641806 43.056 L 184.641806 14.9328 L 385.521806 14.9328 " clip-path="url(#p2fc3668ae1)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 23.937806 59.1264 L 88.219406 59.1264 L 100.272206 85.2408 L 264.993806 85.2408 L 277.046606 59.1264 L 385.521806 59.1264 " clip-path="url(#p2fc3668ae1)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linecap: square"/> </g> <g id="line2d_3"> <path d="M 23.937806 85.2408 L 88.219406 85.2408 L 100.272206 59.1264 L 264.993806 59.1264 L 277.046606 85.2408 L 385.521806 85.2408 " clip-path="url(#p2fc3668ae1)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linecap: square"/> </g> <g id="text_1"> <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="17.911406" y="31.290806" transform="rotate(-0 17.911406 31.290806)">CLK</text> </g> <g id="text_2"> <!-- $\mathrm{t}_{\mathrm{su}}$ --> <g style="fill: #d92d20" transform="translate(145.677206 10.9152)"> <text> <tspan style="font: 9px 'Segoe UI'" x="0" y="-0.171875">t</tspan> <tspan style="font: 6.3px 'Segoe UI'" x="3.128555 5.801748" y="1.1781249999999996">su</tspan> </text> </g> </g> <g id="text_3"> <!-- $\mathrm{t}_{\mathrm{h}}$ --> <g style="fill: #e0661b" transform="translate(201.264806 10.9152)"> <text> <tspan style="font: 9px 'Segoe UI'" x="0" y="-0.171875">t</tspan> <tspan style="font: 6.3px 'Segoe UI'" x="3.128555" y="1.1781249999999996">h</tspan> </text> </g> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="17.911406" y="74.406704" transform="rotate(-0 17.911406 74.406704)">D</text> </g> <g id="text_5"> <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="321.240206" y="107.3376" transform="rotate(-0 321.240206 107.3376)">D must not change inside the shaded window</text> </g> </g> </g> <defs> <clipPath id="p2fc3668ae1"> <rect x="3.849806" y="2.88" width="401.76" height="108.4752"/> </clipPath> </defs> </svg><figcaption>D must be steady from t<sub>su</sub> before the edge to t<sub>h</sub> after it.</figcaption></figure>
-
 <div class="box note">
 <div class="bh">Terms</div>
-<p><strong>Setup time t<sub>su</sub>:</strong> D must be steady this long before the edge. <strong>Hold time t<sub>h</sub>:</strong> and this long after. <strong>Propagation delay t<sub>pd</sub>:</strong> edge to valid Q. <strong>Metastability:</strong> if setup or hold is broken, Q can hang between 0 and 1 for an unpredictable time.</p>
+<p><strong>Propagation delay t<sub>pd</sub> (clock-to-Q):</strong> the time from the active clock edge until Q shows the new value; the transistors inside need it to switch, so it is fixed by the chip (data-sheet number). <strong>Clock period T:</strong> the time from one rising edge to the next, T = 1/f.</p>
 </div>
-<p><strong>Answer.</strong> The flip-flop may go <strong>metastable</strong>: an in-between output that resolves to 0 or 1 after an unknown time (17 shows the synchronizer that guards against it).</p>
+
+<figure style="max-width:70%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 462.333203 256.455938" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-18T23:31:49.908917</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 256.455938 
+L 462.333203 256.455938 
+L 462.333203 0 
+L 0 0 
+L 0 256.455938 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 41.412109 68.103529 
+L 454.332109 68.103529 
+L 454.332109 2.88 
+L 41.412109 2.88 
+L 41.412109 68.103529 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1"/>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2"/>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3"/>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4"/>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5"/>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6"/>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7"/>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_8"/>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_9"/>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_10">
+      <defs>
+       <path id="m57685eabb9" d="M 0 0 
+L -3.5 0 
+" style="stroke: #1c1f24; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m57685eabb9" x="41.412109" y="60.430173" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.412109" y="63.576501" transform="rotate(-0 34.412109 63.576501)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_11">
+      <g>
+       <use xlink:href="#m57685eabb9" x="41.412109" y="22.063391" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.412109" y="25.209719" transform="rotate(-0 34.412109 25.209719)">1</text>
+     </g>
+    </g>
+    <g id="text_3">
+     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="19.830078" y="37.915749" transform="rotate(-0 19.830078 37.915749)">CLK</text>
+    </g>
+   </g>
+   <g id="line2d_12">
+    <path d="M 41.412109 60.430173 
+L 144.642109 60.430173 
+L 144.642109 22.063391 
+L 247.872109 22.063391 
+L 247.872109 60.430173 
+L 351.102109 60.430173 
+L 351.102109 22.063391 
+L 454.332109 22.063391 
+" clip-path="url(#ped42b2031b)" style="fill: none; stroke: #6a707a; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 144.642109 68.103529 
+L 144.642109 2.88 
+" clip-path="url(#ped42b2031b)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.9"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 41.412109 68.103529 
+L 41.412109 2.88 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_4">
+    <path d="M 41.412109 146.371765 
+L 454.332109 146.371765 
+L 454.332109 81.148235 
+L 41.412109 81.148235 
+L 41.412109 146.371765 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_3">
+    <g id="xtick_10">
+     <g id="line2d_14"/>
+    </g>
+    <g id="xtick_11">
+     <g id="line2d_15"/>
+    </g>
+    <g id="xtick_12">
+     <g id="line2d_16"/>
+    </g>
+    <g id="xtick_13">
+     <g id="line2d_17"/>
+    </g>
+    <g id="xtick_14">
+     <g id="line2d_18"/>
+    </g>
+    <g id="xtick_15">
+     <g id="line2d_19"/>
+    </g>
+    <g id="xtick_16">
+     <g id="line2d_20"/>
+    </g>
+    <g id="xtick_17">
+     <g id="line2d_21"/>
+    </g>
+    <g id="xtick_18">
+     <g id="line2d_22"/>
+    </g>
+   </g>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_3">
+     <g id="line2d_23">
+      <g>
+       <use xlink:href="#m57685eabb9" x="41.412109" y="138.698408" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.412109" y="141.844736" transform="rotate(-0 34.412109 141.844736)">0</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_24">
+      <g>
+       <use xlink:href="#m57685eabb9" x="41.412109" y="100.331626" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.412109" y="103.477954" transform="rotate(-0 34.412109 103.477954)">1</text>
+     </g>
+    </g>
+    <g id="text_6">
+     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="19.830078" y="116.183984" transform="rotate(-0 19.830078 116.183984)">D</text>
+    </g>
+   </g>
+   <g id="line2d_25">
+    <path d="M 41.412109 138.698408 
+L 62.058109 138.698408 
+L 62.058109 100.331626 
+L 454.332109 100.331626 
+" clip-path="url(#p32bbe32ee1)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_26">
+    <path d="M 144.642109 146.371765 
+L 144.642109 81.148235 
+" clip-path="url(#p32bbe32ee1)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.9"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 41.412109 146.371765 
+L 41.412109 81.148235 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="patch_6">
+    <path d="M 41.412109 224.64 
+L 454.332109 224.64 
+L 454.332109 159.416471 
+L 41.412109 159.416471 
+L 41.412109 224.64 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_5">
+    <g id="xtick_19">
+     <g id="line2d_27">
+      <defs>
+       <path id="m99af4bb30c" d="M 0 0 
+L 0 3 
+" style="stroke: #1c1f24; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m99af4bb30c" x="41.412109" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="41.412109" y="238.172969" transform="rotate(-0 41.412109 238.172969)">0</text>
+     </g>
+    </g>
+    <g id="xtick_20">
+     <g id="line2d_28">
+      <g>
+       <use xlink:href="#m99af4bb30c" x="93.027109" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="93.027109" y="238.172969" transform="rotate(-0 93.027109 238.172969)">5</text>
+     </g>
+    </g>
+    <g id="xtick_21">
+     <g id="line2d_29">
+      <g>
+       <use xlink:href="#m99af4bb30c" x="144.642109" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="144.642109" y="238.172969" transform="rotate(-0 144.642109 238.172969)">10</text>
+     </g>
+    </g>
+    <g id="xtick_22">
+     <g id="line2d_30">
+      <g>
+       <use xlink:href="#m99af4bb30c" x="196.257109" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="196.257109" y="238.172969" transform="rotate(-0 196.257109 238.172969)">15</text>
+     </g>
+    </g>
+    <g id="xtick_23">
+     <g id="line2d_31">
+      <g>
+       <use xlink:href="#m99af4bb30c" x="247.872109" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="247.872109" y="238.172969" transform="rotate(-0 247.872109 238.172969)">20</text>
+     </g>
+    </g>
+    <g id="xtick_24">
+     <g id="line2d_32">
+      <g>
+       <use xlink:href="#m99af4bb30c" x="299.487109" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="299.487109" y="238.172969" transform="rotate(-0 299.487109 238.172969)">25</text>
+     </g>
+    </g>
+    <g id="xtick_25">
+     <g id="line2d_33">
+      <g>
+       <use xlink:href="#m99af4bb30c" x="351.102109" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="351.102109" y="238.172969" transform="rotate(-0 351.102109 238.172969)">30</text>
+     </g>
+    </g>
+    <g id="xtick_26">
+     <g id="line2d_34">
+      <g>
+       <use xlink:href="#m99af4bb30c" x="402.717109" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="402.717109" y="238.172969" transform="rotate(-0 402.717109 238.172969)">35</text>
+     </g>
+    </g>
+    <g id="xtick_27">
+     <g id="line2d_35">
+      <g>
+       <use xlink:href="#m99af4bb30c" x="454.332109" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_15">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="454.332109" y="238.172969" transform="rotate(-0 454.332109 238.172969)">40</text>
+     </g>
+    </g>
+    <g id="text_16">
+     <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="247.872109" y="251.390938" transform="rotate(-0 247.872109 251.390938)">time (ns)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_6">
+    <g id="ytick_5">
+     <g id="line2d_36">
+      <g>
+       <use xlink:href="#m57685eabb9" x="41.412109" y="216.966644" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_17">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.412109" y="220.112972" transform="rotate(-0 34.412109 220.112972)">0</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_37">
+      <g>
+       <use xlink:href="#m57685eabb9" x="41.412109" y="178.599862" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_18">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.412109" y="181.74619" transform="rotate(-0 34.412109 181.74619)">1</text>
+     </g>
+    </g>
+    <g id="text_19">
+     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="19.830078" y="194.45222" transform="rotate(-0 19.830078 194.45222)">Q</text>
+    </g>
+   </g>
+   <g id="line2d_38">
+    <path d="M 41.412109 216.966644 
+L 227.226109 216.966644 
+L 227.226109 178.599862 
+L 454.332109 178.599862 
+" clip-path="url(#p7a1b1776f1)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_39">
+    <path d="M 144.642109 224.64 
+L 144.642109 159.416471 
+" clip-path="url(#p7a1b1776f1)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.9"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 41.412109 224.64 
+L 41.412109 159.416471 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 41.412109 224.64 
+L 454.332109 224.64 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 146.207357 197.783253 
+Q 185.934109 197.783253 225.660862 197.783253 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 150.207357 199.783253 
+L 146.207357 197.783253 
+L 150.207357 195.783253 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 221.660862 195.783253 
+L 225.660862 197.783253 
+L 221.660862 199.783253 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_20">
+    <!-- $t_{\mathrm{pd}}$ = 8 ns -->
+    <g style="fill: #d92d20" transform="translate(165.366609 190.906574)">
+     <text>
+      <tspan style="font: italic 9.5px 'Segoe UI'" x="0" y="-0.875">t</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="3.070801 6.980273" y="0.625">pd</tspan>
+      <tspan style="font: 700 9.5px 'Segoe UI'" x="11.14624 13.76709 20.483887 23.104736 28.569092 31.189941 36.937256" y="-0.875"> = 8 ns</tspan>
+     </text>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="ped42b2031b">
+   <rect x="41.412109" y="2.88" width="412.92" height="65.223529"/>
+  </clipPath>
+  <clipPath id="p32bbe32ee1">
+   <rect x="41.412109" y="81.148235" width="412.92" height="65.223529"/>
+  </clipPath>
+  <clipPath id="p7a1b1776f1">
+   <rect x="41.412109" y="159.416471" width="412.92" height="65.223529"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>What this graph plots: time across (ns), one row per signal, high = 1. The clock rises at 10 ns and 30 ns (period 20 ns, 50 MHz). D is already 1; Q follows only 8 ns after the edge.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Time (ns)</th>
+<th>CLK</th>
+<th>D</th>
+<th>Q</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>0 (old value)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>rising edge</td>
+<td>1</td>
+<td>0: the picture is taken, not yet shown</td>
+</tr>
+<tr>
+<td>18</td>
+<td>1</td>
+<td>1</td>
+<td><strong>1</strong> (10 + t<sub>pd</sub>)</td>
+</tr>
+<tr>
+<td>25</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Every signal that comes from a flip-flop is therefore t<sub>pd</sub> late, and anything that uses Q (the logic of step 5, the next stage of a ripple counter) starts only then.</p>
+<p><strong>Answer to the Predict.</strong> T = 1/50 MHz = 20 ns. Q goes to 1 at 10 + 8 = <strong>18 ns</strong>, <strong>40 %</strong> of the period after the edge.</p>
 <div class="box check">
 <div class="bh">Check 1</div>
-<p>Define t<sub>su</sub>, t<sub>h</sub> and t<sub>pd</sub> in one line each, with a sketch.</p>
+<p>(a) The same flip-flop is clocked at 100 MHz. What fraction of the period does t<sub>pd</sub> take now? (b) Why does the next flip-flop in a chain not see the new Q at the same edge?</p>
 </div>
-<h3>2 · f<sub>max</sub> and the hold check</h3>
-<div class="box q">
-<div class="bh"><span class="tag">practice</span></div>
-<p>A synchronous circuit has t<sub>pd</sub> = 8 ns, t<sub>su</sub> = 3 ns, t<sub>h</sub> = 2 ns, and combinational delays of 12 ns (longest path) and 1 ns (shortest). Find the maximum clock frequency and check the hold time.</p>
-</div>
+<h3>2 · Setup time: D must be steady before the edge</h3>
+<p>Step 1 said the camera takes the picture at the edge. A picture of something moving is blurred; the flip-flop's "picture" needs D to stand still for a moment first.</p>
 <div class="box guess">
-<div class="bh">Guess first</div>
-<p>Data leaves one flip-flop at an edge. By when must it reach the next one?</p>
+<div class="bh">Predict</div>
+<p>D changes 1 ns before the edge, and the flip-flop's data sheet says t<sub>su</sub> = 3 ns. Is the new D reliably stored?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Setup time t<sub>su</sub>:</strong> the time before the clock edge during which D must not change; inside the flip-flop the new value needs this long to reach the part that stores it.</p>
 </div>
 
-<figure style="max-width:70%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 494.404116 159.683774" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.523730</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 159.683774 L 494.404116 159.683774 L 494.404116 0 L 0 0 L 0 159.683774 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 28.847361 70.787547 L 84.984267 70.787547 Q 88.606002 70.787547 88.606002 67.165811 L 88.606002 20.083245 Q 88.606002 16.461509 84.984267 16.461509 L 28.847361 16.461509 Q 25.225625 16.461509 25.225625 20.083245 L 25.225625 67.165811 Q 25.225625 70.787547 28.847361 70.787547 z " clip-path="url(#p2701789750)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_3"> <path d="M 183.676568 68.523962 L 274.219965 68.523962 Q 296.855814 68.523962 296.855814 45.888113 L 296.855814 41.360943 Q 296.855814 18.725094 274.219965 18.725094 L 183.676568 18.725094 Q 161.040719 18.725094 161.040719 41.360943 L 161.040719 45.888113 Q 161.040719 68.523962 183.676568 68.523962 z " clip-path="url(#p2701789750)" style="fill: #f0f0eb; stroke: #6a707a; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="patch_4"> <path d="M 372.912267 70.787547 L 429.049172 70.787547 Q 432.670908 70.787547 432.670908 67.165811 L 432.670908 20.083245 Q 432.670908 16.461509 429.049172 16.461509 L 372.912267 16.461509 Q 369.290531 16.461509 369.290531 20.083245 L 369.290531 67.165811 Q 369.290531 70.787547 372.912267 70.787547 z " clip-path="url(#p2701789750)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_5"> <path d="M 88.606002 43.624528 Q 124.823361 43.624528 159.758719 43.624528 " clip-path="url(#p2701789750)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 155.758719 41.271587 L 159.758719 43.624528 L 155.758719 45.977469 z " clip-path="url(#p2701789750)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_6"> <path d="M 296.855814 43.624528 Q 333.073172 43.624528 368.00853 43.624528 " clip-path="url(#p2701789750)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 364.00853 41.271587 L 368.00853 43.624528 L 364.00853 45.977469 z " clip-path="url(#p2701789750)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_7"> <path d="M 25.225625 122.85 L 142.93204 122.85 L 142.93204 102.477736 L 25.225625 102.477736 z " clip-path="url(#p2701789750)" style="fill: #2f5bea; opacity: 0.22; stroke: #2f5bea; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="patch_8"> <path d="M 142.93204 122.85 L 324.018833 122.85 L 324.018833 102.477736 L 142.93204 102.477736 z " clip-path="url(#p2701789750)" style="fill: #e0661b; opacity: 0.22; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="patch_9"> <path d="M 324.018833 122.85 L 387.39921 122.85 L 387.39921 102.477736 L 324.018833 102.477736 z " clip-path="url(#p2701789750)" style="fill: #d92d20; opacity: 0.22; stroke: #d92d20; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="patch_10"> <path d="M 387.39921 122.85 L 450.779587 122.85 L 450.779587 102.477736 L 387.39921 102.477736 z " clip-path="url(#p2701789750)" style="fill: #12925a; opacity: 0.22; stroke: #12925a; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="line2d_1"> <path d="M 25.225625 143.222264 L 25.225625 95.686981 " clip-path="url(#p2701789750)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 450.779587 143.222264 L 450.779587 95.686981 " clip-path="url(#p2701789750)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="56.915814" y="46.176091" transform="rotate(-0 56.915814 46.176091)">FF1</text> </g> <g id="text_2"> <text style="fill: #6a707a; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="228.948267" y="46.023278" transform="rotate(-0 228.948267 46.023278)">combinational logic</text> </g> <g id="text_3"> <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="400.980719" y="46.176091" transform="rotate(-0 400.980719 46.176091)">FF2</text> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="124.823361" y="36.833774" transform="rotate(-0 124.823361 36.833774)">Q</text> </g> <g id="text_5"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="333.073172" y="36.833774" transform="rotate(-0 333.073172 36.833774)">D</text> </g> <g id="text_6"> <!-- $\mathrm{t}_{\mathrm{pd}}$(FF) clk→Q --> <g style="fill: #1c1f24" transform="translate(59.718333 114.674726)"> <text> <tspan style="font: 8.3px 'Segoe UI'" x="0 9.861431 12.350933 16.379253 20.407573 22.897075 25.156963 28.967754 30.965801 35.066631 42.184673" y="-0.078125">t(FF) clk→Q</tspan> <tspan style="font: 5.81px 'Segoe UI'" x="2.865654 6.260723" y="1.1218750000000002">pd</tspan> </text> </g> </g> <g id="text_7"> <!-- $\mathrm{t}_{\mathrm{comb}}$ (longest path) --> <g style="fill: #1c1f24" transform="translate(197.992936 115.006726)"> <text> <tspan style="font: 8.3px 'Segoe UI'" x="0 17.486235 19.746123 22.235625 24.233672 29.067656 33.736479 38.594634 42.908965 46.409575 49.205229 51.465117 56.315215 60.512725 63.308379 67.977202" y="-0.078125">t (longest path)</tspan> <tspan style="font: 5.81px 'Segoe UI'" x="2.865654 5.533208 8.916997 13.891167" y="1.1218750000000002">comb</tspan> </text> </g> </g> <g id="text_8"> <!-- $\mathrm{t}_{\mathrm{su}}$ --> <g style="fill: #1c1f24" transform="translate(351.268521 115.008023)"> <text> <tspan style="font: 8.3px 'Segoe UI'" x="0" y="-0.8125">t</tspan> <tspan style="font: 5.81px 'Segoe UI'" x="2.865654 5.316082" y="0.3875000000000002">su</tspan> </text> </g> </g> <g id="text_9"> <text style="fill: #1c1f24; font: 8.3px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="419.089399" y="115.008023" transform="rotate(-0 419.089399 115.008023)">slack</text> </g> <g id="text_10"> <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="25.225625" y="151.37117" transform="rotate(-0 25.225625 151.37117)">clock edge n</text> </g> <g id="text_11"> <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="450.779587" y="151.37117" transform="rotate(-0 450.779587 151.37117)">clock edge n+1</text> </g> <g id="text_12"> <!-- $\mathrm{T}_{\mathrm{clk}}$ ≥ $\mathrm{t}_{\mathrm{pd}}$ + $\mathrm{t}_{\mathrm{comb,max}}$ + $\mathrm{t}_{\mathrm{su}}$ --> <g style="fill: #1c1f24" transform="translate(185.182606 140.958679)"> <text> <tspan style="font: 9.5px 'Segoe UI'" x="0 25.270361 48.611035 95.478032" y="-0.0">Tttt</tspan> <tspan style="font: 6.65px 'Segoe UI'" x="5.064795 8.136523 9.74707 28.5771 32.486572 51.917773 54.989502 58.885986 64.613818 68.523291 71.106011 76.833843 80.21729 98.784771 101.606475" y="1.5">clkpdcomb,maxsu</tspan> <tspan style="font: 700 9.5px 'Segoe UI'" x="13.302588 15.923438 22.649512 36.652539 39.273389 45.990186 83.519536 86.140386 92.857183" y="-0.0"> ≥ + + </tspan> </text> </g> </g> </g> </g> <defs> <clipPath id="p2701789750"> <rect x="11.644116" y="2.88" width="479.88" height="153.923774"/> </clipPath> </defs> </svg><figcaption>Flip-flop → logic → flip-flop on one clock.</figcaption></figure>
+<figure style="max-width:60%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 409.786925 114.2352" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.466493</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M -0 114.2352 L 409.786925 114.2352 L 409.786925 0 L -0 0 L -0 114.2352 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 116.342606 99.3024 L 184.641806 99.3024 L 184.641806 6.8976 L 116.342606 6.8976 z " clip-path="url(#p2fc3668ae1)" style="fill: #d92d20; opacity: 0.12"/> </g> <g id="patch_3"> <path d="M 184.641806 99.3024 L 224.817806 99.3024 L 224.817806 6.8976 L 184.641806 6.8976 z " clip-path="url(#p2fc3668ae1)" style="fill: #e0661b; opacity: 0.15"/> </g> <g id="line2d_1"> <path d="M 23.937806 43.056 L 184.641806 43.056 L 184.641806 14.9328 L 385.521806 14.9328 " clip-path="url(#p2fc3668ae1)" style="fill: none; stroke: #6a707a; stroke-width: 1.6; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 23.937806 59.1264 L 88.219406 59.1264 L 100.272206 85.2408 L 264.993806 85.2408 L 277.046606 59.1264 L 385.521806 59.1264 " clip-path="url(#p2fc3668ae1)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linecap: square"/> </g> <g id="line2d_3"> <path d="M 23.937806 85.2408 L 88.219406 85.2408 L 100.272206 59.1264 L 264.993806 59.1264 L 277.046606 85.2408 L 385.521806 85.2408 " clip-path="url(#p2fc3668ae1)" style="fill: none; stroke: #2f5bea; stroke-width: 1.6; stroke-linecap: square"/> </g> <g id="text_1"> <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="17.911406" y="31.290806" transform="rotate(-0 17.911406 31.290806)">CLK</text> </g> <g id="text_2"> <!-- $\mathrm{t}_{\mathrm{su}}$ --> <g style="fill: #d92d20" transform="translate(145.677206 10.9152)"> <text> <tspan style="font: 9px 'Segoe UI'" x="0" y="-0.171875">t</tspan> <tspan style="font: 6.3px 'Segoe UI'" x="3.128555 5.801748" y="1.1781249999999996">su</tspan> </text> </g> </g> <g id="text_3"> <!-- $\mathrm{t}_{\mathrm{h}}$ --> <g style="fill: #e0661b" transform="translate(201.264806 10.9152)"> <text> <tspan style="font: 9px 'Segoe UI'" x="0" y="-0.171875">t</tspan> <tspan style="font: 6.3px 'Segoe UI'" x="3.128555" y="1.1781249999999996">h</tspan> </text> </g> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="17.911406" y="74.406704" transform="rotate(-0 17.911406 74.406704)">D</text> </g> <g id="text_5"> <text style="fill: #6a707a; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="321.240206" y="107.3376" transform="rotate(-0 321.240206 107.3376)">D must not change inside the shaded window</text> </g> </g> </g> <defs> <clipPath id="p2fc3668ae1"> <rect x="3.849806" y="2.88" width="401.76" height="108.4752"/> </clipPath> </defs> </svg><figcaption>What this graph plots: time across, rows CLK and D. The shaded window around the rising edge is where D must not change: it starts t<sub>su</sub> before the edge and ends t<sub>h</sub> after it.</figcaption></figure>
 
-<p><strong>Setup (longest path):</strong> launched at one edge, the data must pass the flip-flop and the slowest logic and arrive t<sub>su</sub> before the next edge:</p>
-<div class="eq">T<sub>clk</sub> ≥ t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub>&emsp;&emsp;&emsp;f<sub>max</sub> = 1/T<sub>clk,min</sub></div>
-
-<p><strong>Hold (shortest path):</strong> the new data must not arrive while the next flip-flop is still holding: <strong>t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub></strong>. The period is not in this inequality, so <strong>slowing the clock cannot fix a hold violation</strong>: add delay to the short path.</p>
-<p><strong>Answer.</strong> T<sub>min</sub> = 8 + 12 + 3 = <strong>23 ns</strong>, <strong>f<sub>max</sub> = 43.5 MHz</strong>. Hold: 8 + 1 = 9 ns ≥ 2 ns ✓.</p>
+<p>The rule reads: <strong>the last change of D must happen at least t<sub>su</sub> before the edge</strong>. With t<sub>su</sub> = 3 ns and an edge at 20 ns, D may change up to 17 ns and not later. Setup is broken when the data arrives late: when the path feeding D is slow, or the clock is fast (step 5).</p>
+<p><strong>Answer to the Predict.</strong> <strong>No.</strong> 1 ns before the edge is inside the 3 ns setup window: the flip-flop may store the old value, the new one, or neither (step 4).</p>
 <div class="box check">
 <div class="bh">Check 2</div>
-<p>(a) The longest path gains 4 ns. New f<sub>max</sub>? Does the hold check change? (b) A synchronous counter has t<sub>pd</sub> = 10 ns, one 5 ns AND gate between flip-flops, t<sub>su</sub> = 5 ns. f<sub>max</sub>?</p>
+<p>The edge is at 40 ns and t<sub>su</sub> = 3 ns. Which of these D changes are safe: at 30 ns, 37 ns, 38.5 ns?</p>
+</div>
+<h3>3 · Hold time: D must stay steady after the edge</h3>
+<p>The camera's shutter does not close at the exact instant of the edge either: D must stay still a little after it.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>D changes 1 ns after the edge, and t<sub>h</sub> = 2 ns. Is the value present at the edge stored safely?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Hold time t<sub>h</sub>:</strong> the time after the clock edge during which D must not change; the flip-flop's input is still being closed off during it.</p>
+</div>
+<p>Same figure as step 2: the hold part of the window runs from the edge to t<sub>h</sub> after it. The rule reads: <strong>the first change of D after an edge must come at least t<sub>h</sub> after that edge</strong>. Hold is broken when new data arrives too <em>early</em>: in step 6 this happens when the path from the previous flip-flop is very short.</p>
+<table>
+<thead>
+<tr>
+<th>D changes at (edge at 20 ns, t<sub>su</sub> = 3, t<sub>h</sub> = 2)</th>
+<th>inside the window 17–22 ns?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15 ns</td>
+<td>no: safe</td>
+</tr>
+<tr>
+<td>18 ns</td>
+<td>yes: setup broken</td>
+</tr>
+<tr>
+<td>21 ns</td>
+<td>yes: hold broken</td>
+</tr>
+<tr>
+<td>23 ns</td>
+<td>no: safe (it is read at the next edge)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer to the Predict.</strong> <strong>No.</strong> 1 ns after the edge is inside the 2 ns hold window.</p>
+<div class="box check">
+<div class="bh">Check 3</div>
+<p>Edge at 20 ns, t<sub>su</sub> = 3 ns, t<sub>h</sub> = 2 ns. How long is the window in which D must not change, and from when to when?</p>
+</div>
+<h3>4 · Metastability: what happens when the window is broken</h3>
+<p>Steps 2 and 3 said "not reliably stored". Here is what the flip-flop actually does then.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>D changes exactly at the edge. Name three things Q could do.</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Metastability:</strong> the state of a flip-flop whose setup or hold was broken: Q sits at a level between 0 and 1 for a time that cannot be predicted, then falls to 0 or 1 at random.</p>
+</div>
+
+<figure style="max-width:70%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 469.542109 234.279937" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-18T23:31:50.176002</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 234.279937 
+L 469.542109 234.279937 
+L 469.542109 0 
+L 0 0 
+L 0 234.279937 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 41.412109 78.48 
+L 454.332109 78.48 
+L 454.332109 2.88 
+L 41.412109 2.88 
+L 41.412109 78.48 
+z
+" style="fill: none"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 113.673109 78.48 
+L 165.288109 78.48 
+L 165.288109 2.88 
+L 113.673109 2.88 
+z
+" clip-path="url(#ped0767a266)" style="fill: #e0661b; opacity: 0.18"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1"/>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2"/>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3"/>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4"/>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5"/>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6"/>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7"/>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_8"/>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_9"/>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_10">
+      <defs>
+       <path id="m34f4b6b965" d="M 0 0 
+L -3.5 0 
+" style="stroke: #1c1f24; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m34f4b6b965" x="41.412109" y="71.28" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.412109" y="74.426328" transform="rotate(-0 34.412109 74.426328)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_11">
+      <g>
+       <use xlink:href="#m34f4b6b965" x="41.412109" y="35.28" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.412109" y="38.426328" transform="rotate(-0 34.412109 38.426328)">1</text>
+     </g>
+    </g>
+    <g id="text_3">
+     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="19.830078" y="43.103984" transform="rotate(-0 19.830078 43.103984)">CLK</text>
+    </g>
+   </g>
+   <g id="line2d_12">
+    <path d="M 41.412109 71.28 
+L 144.642109 71.28 
+L 144.642109 35.28 
+L 247.872109 35.28 
+L 247.872109 71.28 
+L 351.102109 71.28 
+L 351.102109 35.28 
+L 454.332109 35.28 
+" clip-path="url(#ped0767a266)" style="fill: none; stroke: #6a707a; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 41.412109 78.48 
+L 41.412109 2.88 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_4">
+    <text style="fill: #e0661b; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="139.480609" y="26.01" transform="rotate(-0 139.480609 26.01)">setup + hold window</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_5">
+    <path d="M 41.412109 202.464 
+L 454.332109 202.464 
+L 454.332109 96.624 
+L 41.412109 96.624 
+L 41.412109 202.464 
+z
+" style="fill: none"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 41.412109 158.7168 
+L 454.332109 158.7168 
+L 454.332109 147.4272 
+L 41.412109 147.4272 
+z
+" clip-path="url(#p355a3197fe)" style="fill: #6a707a; opacity: 0.22"/>
+   </g>
+   <g id="matplotlib.axis_3">
+    <g id="xtick_10">
+     <g id="line2d_13">
+      <defs>
+       <path id="m09bbf047c7" d="M 0 0 
+L 0 3 
+" style="stroke: #1c1f24; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m09bbf047c7" x="41.412109" y="202.464" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="41.412109" y="215.996969" transform="rotate(-0 41.412109 215.996969)">0</text>
+     </g>
+    </g>
+    <g id="xtick_11">
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#m09bbf047c7" x="93.027109" y="202.464" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="93.027109" y="215.996969" transform="rotate(-0 93.027109 215.996969)">5</text>
+     </g>
+    </g>
+    <g id="xtick_12">
+     <g id="line2d_15">
+      <g>
+       <use xlink:href="#m09bbf047c7" x="144.642109" y="202.464" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="144.642109" y="215.996969" transform="rotate(-0 144.642109 215.996969)">10</text>
+     </g>
+    </g>
+    <g id="xtick_13">
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#m09bbf047c7" x="196.257109" y="202.464" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="196.257109" y="215.996969" transform="rotate(-0 196.257109 215.996969)">15</text>
+     </g>
+    </g>
+    <g id="xtick_14">
+     <g id="line2d_17">
+      <g>
+       <use xlink:href="#m09bbf047c7" x="247.872109" y="202.464" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="247.872109" y="215.996969" transform="rotate(-0 247.872109 215.996969)">20</text>
+     </g>
+    </g>
+    <g id="xtick_15">
+     <g id="line2d_18">
+      <g>
+       <use xlink:href="#m09bbf047c7" x="299.487109" y="202.464" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="299.487109" y="215.996969" transform="rotate(-0 299.487109 215.996969)">25</text>
+     </g>
+    </g>
+    <g id="xtick_16">
+     <g id="line2d_19">
+      <g>
+       <use xlink:href="#m09bbf047c7" x="351.102109" y="202.464" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="351.102109" y="215.996969" transform="rotate(-0 351.102109 215.996969)">30</text>
+     </g>
+    </g>
+    <g id="xtick_17">
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#m09bbf047c7" x="402.717109" y="202.464" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="402.717109" y="215.996969" transform="rotate(-0 402.717109 215.996969)">35</text>
+     </g>
+    </g>
+    <g id="xtick_18">
+     <g id="line2d_21">
+      <g>
+       <use xlink:href="#m09bbf047c7" x="454.332109" y="202.464" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="454.332109" y="215.996969" transform="rotate(-0 454.332109 215.996969)">40</text>
+     </g>
+    </g>
+    <g id="text_14">
+     <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="247.872109" y="229.214937" transform="rotate(-0 247.872109 229.214937)">time (ns)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_3">
+     <g id="line2d_22">
+      <g>
+       <use xlink:href="#m34f4b6b965" x="41.412109" y="188.352" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_15">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.412109" y="191.498328" transform="rotate(-0 34.412109 191.498328)">0</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_23">
+      <g>
+       <use xlink:href="#m34f4b6b965" x="41.412109" y="117.792" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_16">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="34.412109" y="120.938328" transform="rotate(-0 34.412109 120.938328)">1</text>
+     </g>
+    </g>
+    <g id="text_17">
+     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="19.830078" y="151.967984" transform="rotate(-0 19.830078 151.967984)">Q</text>
+    </g>
+   </g>
+   <g id="line2d_24">
+    <path d="M 41.412109 188.352 
+L 196.257109 188.352 
+L 227.226109 153.072 
+L 227.226109 153.072 
+L 229.806859 151.577432 
+L 232.387609 150.692397 
+L 234.968359 150.777841 
+L 237.549109 151.798918 
+L 240.129859 153.339199 
+L 242.710609 154.770507 
+L 245.291359 155.50911 
+L 247.872109 155.25378 
+L 250.452859 154.108649 
+L 253.033609 152.54074 
+L 255.614359 151.189495 
+L 258.195109 150.605997 
+L 260.775859 151.028215 
+L 263.356609 152.283955 
+L 265.937359 153.861085 
+L 268.518109 155.1164 
+L 271.098859 155.537943 
+L 273.679609 154.953795 
+L 276.260359 153.602189 
+L 278.841109 152.034355 
+L 281.421859 150.889707 
+L 284.002609 150.635068 
+L 286.583359 151.374289 
+L 289.164109 152.805892 
+L 291.744859 154.346022 
+L 294.325609 155.366565 
+L 296.906359 155.45131 
+L 299.487109 154.565695 
+L 302.067859 153.070903 
+L 304.648609 151.576559 
+L 307.229359 150.692104 
+L 309.810109 150.778247 
+L 312.390859 151.799858 
+L 314.971609 153.340289 
+L 317.552359 154.771303 
+L 320.133109 155.509287 
+L 322.713859 155.253266 
+L 325.294609 154.107654 
+L 327.875359 152.539669 
+L 330.456109 151.188786 
+L 333.036859 150.605938 
+L 335.617609 151.028831 
+L 338.198359 152.284994 
+L 340.779109 153.862124 
+L 343.359859 155.117015 
+L 345.940609 155.537883 
+L 348.521359 154.953084 
+L 351.102109 153.601118 
+L 351.102109 153.072 
+L 363.489709 117.792 
+L 454.332109 117.792 
+" clip-path="url(#p355a3197fe)" style="fill: none; stroke: #2f5bea; stroke-width: 1.7; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_25">
+    <path d="M 41.412109 188.352 
+L 196.257109 188.352 
+L 227.226109 153.072 
+L 227.226109 153.072 
+L 229.806859 151.577432 
+L 232.387609 150.692397 
+L 234.968359 150.777841 
+L 237.549109 151.798918 
+L 240.129859 153.339199 
+L 242.710609 154.770507 
+L 245.291359 155.50911 
+L 247.872109 155.25378 
+L 250.452859 154.108649 
+L 253.033609 152.54074 
+L 255.614359 151.189495 
+L 258.195109 150.605997 
+L 260.775859 151.028215 
+L 263.356609 152.283955 
+L 265.937359 153.861085 
+L 268.518109 155.1164 
+L 271.098859 155.537943 
+L 273.679609 154.953795 
+L 276.260359 153.602189 
+L 278.841109 152.034355 
+L 281.421859 150.889707 
+L 284.002609 150.635068 
+L 286.583359 151.374289 
+L 289.164109 152.805892 
+L 291.744859 154.346022 
+L 294.325609 155.366565 
+L 296.906359 155.45131 
+L 299.487109 154.565695 
+L 302.067859 153.070903 
+L 304.648609 151.576559 
+L 307.229359 150.692104 
+L 309.810109 150.778247 
+L 312.390859 151.799858 
+L 314.971609 153.340289 
+L 317.552359 154.771303 
+L 320.133109 155.509287 
+L 322.713859 155.253266 
+L 325.294609 154.107654 
+L 327.875359 152.539669 
+L 330.456109 151.188786 
+L 333.036859 150.605938 
+L 335.617609 151.028831 
+L 338.198359 152.284994 
+L 340.779109 153.862124 
+L 343.359859 155.117015 
+L 345.940609 155.537883 
+L 348.521359 154.953084 
+L 351.102109 153.601118 
+L 351.102109 153.072 
+L 363.489709 188.352 
+L 454.332109 188.352 
+" clip-path="url(#p355a3197fe)" style="fill: none; stroke-dasharray: 2.55,3.74; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.7"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 41.412109 202.464 
+L 41.412109 96.624 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 41.412109 202.464 
+L 454.332109 202.464 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_18">
+    <text style="fill: #6a707a; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="49.670509" y="141.1236" transform="rotate(-0 49.670509 141.1236)">invalid: neither 0 nor 1</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(376.909609 150.335719)">resolves to 1 or 0</text>
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'" transform="translate(376.909609 160.401094)">after an unknown time</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="ped0767a266">
+   <rect x="41.412109" y="2.88" width="412.92" height="75.6"/>
+  </clipPath>
+  <clipPath id="p355a3197fe">
+   <rect x="41.412109" y="96.624" width="412.92" height="105.84"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>What this graph plots: time across (ns). Top: CLK rising at 10 ns with the setup + hold window shaded. Bottom: Q when D changed inside the window: it rises only to the middle (shaded: neither 0 nor 1), stays there, and later resolves to 1 (solid) or 0 (dotted).</figcaption></figure>
+
+<p>A flip-flop stores a bit in two cross-coupled gates (file 09's latch), which settle in one of two stable states. Between them is a balance point, like a ball on top of a hill: a D change caught by the edge can leave the gates near that point, and they take an unbounded time to roll off to one side. Logic reading Q meanwhile may see 0, 1 or a level that some gates read as 1 and others as 0.</p>
+<p>The cure is never "hope": obey setup and hold everywhere (steps 5–6), and pass a signal from outside the clock's control through a synchronizer first (file 17).</p>
+<p><strong>Answer to the Predict.</strong> Q may (1) take the new value, (2) keep the old one, or (3) go <strong>metastable</strong>: hang between 0 and 1 for an unknown time before resolving to either.</p>
+<div class="box check">
+<div class="bh">Check 4</div>
+<p>Why is metastability worse than simply storing the wrong bit?</p>
+</div>
+<h3>5 · The longest path sets f<sub>max</sub></h3>
+<p>Steps 1–2 gave two pieces: data leaves a flip-flop t<sub>pd</sub> after an edge, and must arrive at the next flip-flop t<sub>su</sub> before the following edge. Between them sits the logic.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>Running example: t<sub>pd</sub> = 8 ns, slowest logic path 12 ns, t<sub>su</sub> = 3 ns. What is the shortest clock period that works? Will it run at 40 MHz? At 50 MHz?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Launching / capturing flip-flop:</strong> the flip-flop whose Q starts a path, and the one whose D ends it; both are clocked by the same edge train. <strong>Longest (critical) path:</strong> the slowest chain of gates between them, delay t<sub>comb,max</sub>.</p>
+</div>
+
+<figure style="max-width:70%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 494.404116 159.683774" xmlns="http://www.w3.org/2000/svg" version="1.1"> <metadata> <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <cc:Work> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/> <dc:date>2026-11-14T16:54:40.523730</dc:date> <dc:format>image/svg+xml</dc:format> <dc:creator> <cc:Agent> <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title> </cc:Agent> </dc:creator> </cc:Work> </rdf:RDF> </metadata> <defs> <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style> </defs> <g id="figure_1"> <g id="patch_1"> <path d="M 0 159.683774 L 494.404116 159.683774 L 494.404116 0 L 0 0 L 0 159.683774 z " style="fill: none"/> </g> <g id="axes_1"> <g id="patch_2"> <path d="M 28.847361 70.787547 L 84.984267 70.787547 Q 88.606002 70.787547 88.606002 67.165811 L 88.606002 20.083245 Q 88.606002 16.461509 84.984267 16.461509 L 28.847361 16.461509 Q 25.225625 16.461509 25.225625 20.083245 L 25.225625 67.165811 Q 25.225625 70.787547 28.847361 70.787547 z " clip-path="url(#p2701789750)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_3"> <path d="M 183.676568 68.523962 L 274.219965 68.523962 Q 296.855814 68.523962 296.855814 45.888113 L 296.855814 41.360943 Q 296.855814 18.725094 274.219965 18.725094 L 183.676568 18.725094 Q 161.040719 18.725094 161.040719 41.360943 L 161.040719 45.888113 Q 161.040719 68.523962 183.676568 68.523962 z " clip-path="url(#p2701789750)" style="fill: #f0f0eb; stroke: #6a707a; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="patch_4"> <path d="M 372.912267 70.787547 L 429.049172 70.787547 Q 432.670908 70.787547 432.670908 67.165811 L 432.670908 20.083245 Q 432.670908 16.461509 429.049172 16.461509 L 372.912267 16.461509 Q 369.290531 16.461509 369.290531 20.083245 L 369.290531 67.165811 Q 369.290531 70.787547 372.912267 70.787547 z " clip-path="url(#p2701789750)" style="fill: #ffffff; stroke: #1c1f24; stroke-width: 1.4; stroke-linejoin: miter"/> </g> <g id="patch_5"> <path d="M 88.606002 43.624528 Q 124.823361 43.624528 159.758719 43.624528 " clip-path="url(#p2701789750)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 155.758719 41.271587 L 159.758719 43.624528 L 155.758719 45.977469 z " clip-path="url(#p2701789750)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_6"> <path d="M 296.855814 43.624528 Q 333.073172 43.624528 368.00853 43.624528 " clip-path="url(#p2701789750)" style="fill: none; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> <path d="M 364.00853 41.271587 L 368.00853 43.624528 L 364.00853 45.977469 z " clip-path="url(#p2701789750)" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="patch_7"> <path d="M 25.225625 122.85 L 142.93204 122.85 L 142.93204 102.477736 L 25.225625 102.477736 z " clip-path="url(#p2701789750)" style="fill: #2f5bea; opacity: 0.22; stroke: #2f5bea; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="patch_8"> <path d="M 142.93204 122.85 L 324.018833 122.85 L 324.018833 102.477736 L 142.93204 102.477736 z " clip-path="url(#p2701789750)" style="fill: #e0661b; opacity: 0.22; stroke: #e0661b; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="patch_9"> <path d="M 324.018833 122.85 L 387.39921 122.85 L 387.39921 102.477736 L 324.018833 102.477736 z " clip-path="url(#p2701789750)" style="fill: #d92d20; opacity: 0.22; stroke: #d92d20; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="patch_10"> <path d="M 387.39921 122.85 L 450.779587 122.85 L 450.779587 102.477736 L 387.39921 102.477736 z " clip-path="url(#p2701789750)" style="fill: #12925a; opacity: 0.22; stroke: #12925a; stroke-width: 1.2; stroke-linejoin: miter"/> </g> <g id="line2d_1"> <path d="M 25.225625 143.222264 L 25.225625 95.686981 " clip-path="url(#p2701789750)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="line2d_2"> <path d="M 450.779587 143.222264 L 450.779587 95.686981 " clip-path="url(#p2701789750)" style="fill: none; stroke: #6a707a; stroke-width: 1.3; stroke-linecap: round"/> </g> <g id="text_1"> <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="56.915814" y="46.176091" transform="rotate(-0 56.915814 46.176091)">FF1</text> </g> <g id="text_2"> <text style="fill: #6a707a; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="228.948267" y="46.023278" transform="rotate(-0 228.948267 46.023278)">combinational logic</text> </g> <g id="text_3"> <text style="fill: #1c1f24; font: 700 10px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="400.980719" y="46.176091" transform="rotate(-0 400.980719 46.176091)">FF2</text> </g> <g id="text_4"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="124.823361" y="36.833774" transform="rotate(-0 124.823361 36.833774)">Q</text> </g> <g id="text_5"> <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: start" x="333.073172" y="36.833774" transform="rotate(-0 333.073172 36.833774)">D</text> </g> <g id="text_6"> <!-- $\mathrm{t}_{\mathrm{pd}}$(FF) clk→Q --> <g style="fill: #1c1f24" transform="translate(59.718333 114.674726)"> <text> <tspan style="font: 8.3px 'Segoe UI'" x="0 9.861431 12.350933 16.379253 20.407573 22.897075 25.156963 28.967754 30.965801 35.066631 42.184673" y="-0.078125">t(FF) clk→Q</tspan> <tspan style="font: 5.81px 'Segoe UI'" x="2.865654 6.260723" y="1.1218750000000002">pd</tspan> </text> </g> </g> <g id="text_7"> <!-- $\mathrm{t}_{\mathrm{comb}}$ (longest path) --> <g style="fill: #1c1f24" transform="translate(197.992936 115.006726)"> <text> <tspan style="font: 8.3px 'Segoe UI'" x="0 17.486235 19.746123 22.235625 24.233672 29.067656 33.736479 38.594634 42.908965 46.409575 49.205229 51.465117 56.315215 60.512725 63.308379 67.977202" y="-0.078125">t (longest path)</tspan> <tspan style="font: 5.81px 'Segoe UI'" x="2.865654 5.533208 8.916997 13.891167" y="1.1218750000000002">comb</tspan> </text> </g> </g> <g id="text_8"> <!-- $\mathrm{t}_{\mathrm{su}}$ --> <g style="fill: #1c1f24" transform="translate(351.268521 115.008023)"> <text> <tspan style="font: 8.3px 'Segoe UI'" x="0" y="-0.8125">t</tspan> <tspan style="font: 5.81px 'Segoe UI'" x="2.865654 5.316082" y="0.3875000000000002">su</tspan> </text> </g> </g> <g id="text_9"> <text style="fill: #1c1f24; font: 8.3px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="419.089399" y="115.008023" transform="rotate(-0 419.089399 115.008023)">slack</text> </g> <g id="text_10"> <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="25.225625" y="151.37117" transform="rotate(-0 25.225625 151.37117)">clock edge n</text> </g> <g id="text_11"> <text style="fill: #6a707a; font: 8px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="450.779587" y="151.37117" transform="rotate(-0 450.779587 151.37117)">clock edge n+1</text> </g> <g id="text_12"> <!-- $\mathrm{T}_{\mathrm{clk}}$ ≥ $\mathrm{t}_{\mathrm{pd}}$ + $\mathrm{t}_{\mathrm{comb,max}}$ + $\mathrm{t}_{\mathrm{su}}$ --> <g style="fill: #1c1f24" transform="translate(185.182606 140.958679)"> <text> <tspan style="font: 9.5px 'Segoe UI'" x="0 25.270361 48.611035 95.478032" y="-0.0">Tttt</tspan> <tspan style="font: 6.65px 'Segoe UI'" x="5.064795 8.136523 9.74707 28.5771 32.486572 51.917773 54.989502 58.885986 64.613818 68.523291 71.106011 76.833843 80.21729 98.784771 101.606475" y="1.5">clkpdcomb,maxsu</tspan> <tspan style="font: 700 9.5px 'Segoe UI'" x="13.302588 15.923438 22.649512 36.652539 39.273389 45.990186 83.519536 86.140386 92.857183" y="-0.0"> ≥ + + </tspan> </text> </g> </g> </g> </g> <defs> <clipPath id="p2701789750"> <rect x="11.644116" y="2.88" width="479.88" height="153.923774"/> </clipPath> </defs> </svg><figcaption>Flip-flop → logic → flip-flop on one clock: the launching flip-flop's Q goes through the logic into the capturing flip-flop's D.</figcaption></figure>
+
+
+<figure style="max-width:80%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 426.361641 179.491344" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-18T23:31:50.304044</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M -0 179.491344 
+L 426.361641 179.491344 
+L 426.361641 0 
+L -0 0 
+L -0 179.491344 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 5.440547 147.024 
+L 418.360547 147.024 
+L 418.360547 2.88 
+L 5.440547 2.88 
+L 5.440547 147.024 
+z
+" style="fill: none"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 5.440547 106.984 
+L 123.41769 106.984 
+L 123.41769 66.944 
+L 5.440547 66.944 
+z
+" clip-path="url(#p73cd7b6e98)" style="fill: #c9d7fb; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 123.41769 106.984 
+L 300.383404 106.984 
+L 300.383404 66.944 
+L 123.41769 66.944 
+z
+" clip-path="url(#p73cd7b6e98)" style="fill: #fbd9bf; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 300.383404 106.984 
+L 344.624833 106.984 
+L 344.624833 66.944 
+L 300.383404 66.944 
+z
+" clip-path="url(#p73cd7b6e98)" style="fill: #c3ecd8; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m1bc2f00275" d="M 0 0 
+L 0 3.5 
+" style="stroke: #1c1f24; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m1bc2f00275" x="5.440547" y="147.024" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="5.440547" y="161.056969" transform="rotate(-0 5.440547 161.056969)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m1bc2f00275" x="64.429118" y="147.024" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="64.429118" y="161.056969" transform="rotate(-0 64.429118 161.056969)">4</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m1bc2f00275" x="123.41769" y="147.024" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="123.41769" y="161.056969" transform="rotate(-0 123.41769 161.056969)">8</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m1bc2f00275" x="182.406261" y="147.024" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="182.406261" y="161.056969" transform="rotate(-0 182.406261 161.056969)">12</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#m1bc2f00275" x="241.394833" y="147.024" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="241.394833" y="161.056969" transform="rotate(-0 241.394833 161.056969)">16</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m1bc2f00275" x="300.383404" y="147.024" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="300.383404" y="161.056969" transform="rotate(-0 300.383404 161.056969)">20</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m1bc2f00275" x="359.371975" y="147.024" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="359.371975" y="161.056969" transform="rotate(-0 359.371975 161.056969)">24</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m1bc2f00275" x="418.360547" y="147.024" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="418.360547" y="161.056969" transform="rotate(-0 418.360547 161.056969)">28</text>
+     </g>
+    </g>
+    <g id="text_9">
+     <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="211.900547" y="174.375875" transform="rotate(-0 211.900547 174.375875)">time after the launching clock edge (ns)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2"/>
+   <g id="line2d_9">
+    <path d="M 374.119118 118.996 
+L 374.119118 20.898 
+" clip-path="url(#p73cd7b6e98)" style="fill: none; stroke: #1c1f24; stroke-width: 1.5; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 300.383404 118.996 
+L 300.383404 42.92 
+" clip-path="url(#p73cd7b6e98)" style="fill: none; stroke-dasharray: 6,4.5; stroke-dashoffset: 0; stroke: #d92d20; stroke-width: 1.5"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 5.440547 147.024 
+L 418.360547 147.024 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_10">
+    <!-- $t_{\mathrm{pd}}$ = 8 -->
+    <g style="fill: #1c1f24" transform="translate(50.416618 88.864)">
+     <text>
+      <tspan style="font: italic 9.5px 'Segoe UI'" x="0" y="-0.875">t</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="3.070801 6.980273" y="0.625">pd</tspan>
+      <tspan style="font: 9.5px 'Segoe UI'" x="11.14624 13.748535 20.247314 22.849609" y="-0.875"> = 8</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_11">
+    <!-- $t_{\mathrm{comb,max}}$ = 12 -->
+    <g style="fill: #1c1f24" transform="translate(183.590547 89.197984)">
+     <text>
+      <tspan style="font: italic 9.5px 'Segoe UI'" x="0" y="-0.84375">t</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="3.070801 6.142529 10.039014 15.766846 19.676318 22.259038 27.98687 31.370317" y="0.65625">comb,max</tspan>
+      <tspan style="font: 9.5px 'Segoe UI'" x="34.672563 37.274858 43.773638 46.375933 51.497026" y="-0.84375"> = 12</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_12">
+    <!-- $t_{\mathrm{su}}$ = 3 -->
+    <g style="fill: #1c1f24" transform="translate(309.109118 89.387984)">
+     <text>
+      <tspan style="font: italic 9.5px 'Segoe UI'" x="0" y="-0.875">t</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="3.070801 5.892505" y="0.625">su</tspan>
+      <tspan style="font: 9.5px 'Segoe UI'" x="9.905859 12.508154 19.006934 21.609229" y="-0.875"> = 3</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_13">
+    <text style="fill: #1c1f24; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="369.694975" y="23.172609" transform="rotate(-0 369.694975 23.172609)">next edge at 40 MHz (25 ns): 2 ns spare</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #d92d20; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="295.959261" y="45.194609" transform="rotate(-0 295.959261 45.194609)">next edge at 50 MHz (20 ns): too early</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p73cd7b6e98">
+   <rect x="5.440547" y="2.88" width="412.92" height="144.144"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>What this graph plots: time after the launching edge (ns). The bars are the delays the data meets in turn: t<sub>pd</sub> (8), the slowest logic (12), and the setup time the capturing flip-flop needs (3). A vertical line is the next clock edge: at 40 MHz (25 ns) the bars fit with 2 ns spare; at 50 MHz (20 ns) the edge comes too early.</figcaption></figure>
+
+<p>Put the pieces together, line by line:</p>
+<ol>
+<li>At the edge at time 0 the launching flip-flop's Q changes at t<sub>pd</sub> (step 1).</li>
+<li>The change passes the slowest logic: it reaches the capturing D at t<sub>pd</sub> + t<sub>comb,max</sub>.</li>
+<li>The capturing flip-flop needs it t<sub>su</sub> before <em>its</em> next edge, at T (step 2): t<sub>pd</sub> + t<sub>comb,max</sub> ≤ T − t<sub>su</sub>.</li>
+<li>So <strong>T ≥ t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub></strong>, and <strong>f<sub>max</sub> = 1 / (t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub>)</strong>.</li>
+</ol>
+<p>Read in words: <em>one clock period must cover the flip-flop's delay, the slowest logic, and the next flip-flop's setup time.</em> If the circuit fails setup, slowing the clock fixes it.</p>
+<table>
+<thead>
+<tr>
+<th>Clock</th>
+<th>T (ns)</th>
+<th>data ready (ns) = T<sub>min</sub></th>
+<th>spare</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>40 MHz</td>
+<td>25</td>
+<td>23</td>
+<td>2 ns: works</td>
+</tr>
+<tr>
+<td>43.5 MHz</td>
+<td>23</td>
+<td>23</td>
+<td>0: the limit</td>
+</tr>
+<tr>
+<td>50 MHz</td>
+<td>20</td>
+<td>23</td>
+<td>−3 ns: fails</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Answer to the Predict.</strong> T<sub>min</sub> = 8 + 12 + 3 = <strong>23 ns</strong>, f<sub>max</sub> = 1 / 23 ns = <strong>43.5 MHz</strong>. 40 MHz works (2 ns spare); 50 MHz fails (3 ns short).</p>
+<div class="box check">
+<div class="bh">Check 5</div>
+<p>The longest path gains 4 ns (another gate). New T<sub>min</sub> and f<sub>max</sub>?</p>
+</div>
+<h3>6 · The shortest path and the hold check</h3>
+<p>Step 5 asked whether data arrives soon enough. Step 3 raises the opposite worry: at the same edge that the capturing flip-flop reads its D, the launching flip-flop starts sending the <em>next</em> value. It must not arrive before the hold window closes.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>Running example: the fastest path from launching Q to capturing D has 1 ns of logic. t<sub>pd</sub> = 8 ns, t<sub>h</sub> = 2 ns. Is hold met? Would slowing the clock help if it were not?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Shortest path:</strong> the fastest chain of gates between the two flip-flops, delay t<sub>comb,min</sub>; it may be a plain wire (0 ns).</p>
+</div>
+
+<figure style="max-width:70%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 426.361641 185.035344" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-18T23:31:50.430648</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M -0 185.035344 
+L 426.361641 185.035344 
+L 426.361641 0 
+L -0 0 
+L -0 185.035344 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 5.440547 152.568 
+L 418.360547 152.568 
+L 418.360547 2.88 
+L 5.440547 2.88 
+L 5.440547 152.568 
+z
+" style="fill: none"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 5.440547 129.699 
+L 74.260547 129.699 
+L 74.260547 34.065 
+L 5.440547 34.065 
+z
+" clip-path="url(#p6ef6817b84)" style="fill: #e0661b; opacity: 0.18"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 5.440547 110.988 
+L 280.720547 110.988 
+L 280.720547 69.408 
+L 5.440547 69.408 
+z
+" clip-path="url(#p6ef6817b84)" style="fill: #c9d7fb; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 280.720547 110.988 
+L 315.130547 110.988 
+L 315.130547 69.408 
+L 280.720547 69.408 
+z
+" clip-path="url(#p6ef6817b84)" style="fill: #fbd9bf; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m8870c038b2" d="M 0 0 
+L 0 3.5 
+" style="stroke: #1c1f24; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m8870c038b2" x="5.440547" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="5.440547" y="166.600969" transform="rotate(-0 5.440547 166.600969)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m8870c038b2" x="74.260547" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="74.260547" y="166.600969" transform="rotate(-0 74.260547 166.600969)">2</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m8870c038b2" x="143.080547" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="143.080547" y="166.600969" transform="rotate(-0 143.080547 166.600969)">4</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m8870c038b2" x="211.900547" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="211.900547" y="166.600969" transform="rotate(-0 211.900547 166.600969)">6</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#m8870c038b2" x="280.720547" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="280.720547" y="166.600969" transform="rotate(-0 280.720547 166.600969)">8</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m8870c038b2" x="349.540547" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="349.540547" y="166.600969" transform="rotate(-0 349.540547 166.600969)">10</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m8870c038b2" x="418.360547" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="418.360547" y="166.600969" transform="rotate(-0 418.360547 166.600969)">12</text>
+     </g>
+    </g>
+    <g id="text_8">
+     <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="211.900547" y="179.919875" transform="rotate(-0 211.900547 179.919875)">time after the clock edge (ns)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2"/>
+   <g id="patch_6">
+    <path d="M 5.440547 152.568 
+L 418.360547 152.568 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_9">
+    <!-- $t_{\mathrm{h}}$ = 2: capturing FF still reading the old D -->
+    <g style="fill: #e0661b" transform="translate(5.440547 28.044)">
+     <text>
+      <tspan style="font: italic 9px 'Segoe UI'" x="0" y="-0.34375">t</tspan>
+      <tspan style="font: 6.3px 'Segoe UI'" x="2.90918" y="1.0062499999999996">h</tspan>
+      <tspan style="font: 700 9px 'Segoe UI'" x="6.699463 9.182373 15.545654 18.028564 23.205322 25.644287 28.127197 32.447021 37.289795 42.87085 46.373291 51.818115 55.399658 57.957275 63.4021 68.974365 71.457275 76.137451 80.817627 83.300537 87.26001 90.762451 93.320068 95.877686 98.435303 100.918213 104.499756 109.368896 114.21167 119.783936 122.341553 127.786377 133.358643 135.841553 139.343994 144.762451 149.631592 152.114502 157.616455 160.174072 165.746338 168.229248" y="-0.34375"> = 2: capturing FF still reading the old D</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_10">
+    <!-- $t_{\mathrm{pd}}$ = 8 -->
+    <g style="fill: #1c1f24" transform="translate(129.068047 92.098)">
+     <text>
+      <tspan style="font: italic 9.5px 'Segoe UI'" x="0" y="-0.875">t</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="3.070801 6.980273" y="0.625">pd</tspan>
+      <tspan style="font: 9.5px 'Segoe UI'" x="11.14624 13.748535 20.247314 22.849609" y="-0.875"> = 8</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_11">
+    <!-- $t_{\mathrm{comb,min}}$ = 1 -->
+    <g style="fill: #1c1f24" transform="translate(285.882047 125.786812)">
+     <text>
+      <tspan style="font: italic 9px 'Segoe UI'" x="0" y="-0.5625">t</tspan>
+      <tspan style="font: 6.3px 'Segoe UI'" x="2.90918 5.819238 9.510645 14.937012 18.640723 21.08751 26.513877 28.039658" y="0.7874999999999996">comb,min</tspan>
+      <tspan style="font: 9px 'Segoe UI'" x="31.829941 34.295273 40.452012 42.917344" y="-0.5625"> = 1</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="patch_7">
+    <path d="M 315.130547 52.776 
+Q 315.130547 60.0525 315.130547 65.651949 
+" style="fill: none; stroke: #12925a; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 317.130547 61.651949 
+L 315.130547 65.651949 
+L 313.130547 61.651949 
+z
+" style="fill: #12925a; stroke: #12925a; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="text_12">
+    <text style="fill: #12925a; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="414.919547" y="48.835406" transform="rotate(-0 414.919547 48.835406)">new D arrives at 9 ns: after the window, safe</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p6ef6817b84">
+   <rect x="5.440547" y="2.88" width="412.92" height="149.688"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>What this graph plots: time after one clock edge (ns). Shaded: the hold window 0–2 ns in which the capturing flip-flop still reads its old D. Bars: the new value's trip, t<sub>pd</sub> (8) then the fastest logic (1). It arrives at 9 ns, after the window.</figcaption></figure>
+
+<ol>
+<li>At the edge (time 0) the capturing flip-flop reads D; it needs D unchanged until t<sub>h</sub> (step 3).</li>
+<li>At the same edge the launching flip-flop's new Q appears at t<sub>pd</sub>, and through the fastest logic reaches D at t<sub>pd</sub> + t<sub>comb,min</sub>.</li>
+<li>Safe if it arrives after the window: <strong>t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub></strong>.</li>
+</ol>
+<p>Read in words: <em>the fastest new data must not overtake the hold time.</em> Both sides are measured from the <strong>same</strong> edge, so <strong>T does not appear</strong>: slowing the clock cannot fix a hold violation. The fix is to add delay (buffers) in the short path.</p>
+<p><strong>Answer to the Predict.</strong> 8 + 1 = <strong>9 ns ≥ 2 ns: hold met</strong>, with 7 ns spare. No: the clock period is not in the inequality, so slowing the clock would not help.</p>
+<div class="box check">
+<div class="bh">Check 6</div>
+<p>t<sub>pd</sub> = 2 ns, shortest logic 0.5 ns, t<sub>h</sub> = 3 ns. Is hold met? If not, what is the fix and how much?</p>
+</div>
+<h3>7 · Clock skew: the two edges do not arrive together</h3>
+<p>Steps 5 and 6 assumed both flip-flops see the edge at the same instant. On a real board the clock wire is longer to some flip-flops than to others.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>The capturing flip-flop's clock arrives 3 ns after the launching one's. Does that help setup or hurt it? Does it help hold or hurt it?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Clock skew δ:</strong> how much later the clock edge reaches the capturing flip-flop than the launching one; set by wire lengths and buffers in the clock path. Positive = capture late, negative = capture early.</p>
+</div>
+
+<figure style="max-width:80%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 486.2925 256.455938" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-18T23:31:50.676569</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 256.455938 
+L 486.2925 256.455938 
+L 486.2925 0 
+L 0 0 
+L 0 256.455938 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 65.371406 67.034291 
+L 478.291406 67.034291 
+L 478.291406 2.88 
+L 65.371406 2.88 
+L 65.371406 67.034291 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1"/>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2"/>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3"/>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4"/>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5"/>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6"/>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7"/>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_8">
+      <defs>
+       <path id="mb5c1c36d13" d="M 0 0 
+L -3.5 0 
+" style="stroke: #1c1f24; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mb5c1c36d13" x="65.371406" y="59.486728" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="58.371406" y="62.633056" transform="rotate(-0 58.371406 62.633056)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#mb5c1c36d13" x="65.371406" y="21.748909" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="58.371406" y="24.895237" transform="rotate(-0 58.371406 24.895237)">1</text>
+     </g>
+    </g>
+    <g id="text_3">
+     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(23.095703 32.068849)">CLK₁</text>
+     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(7.187656 42.693411)">(launch)</text>
+    </g>
+   </g>
+   <g id="line2d_10">
+    <path d="M 65.371406 21.748909 
+L 203.011406 21.748909 
+L 203.011406 59.486728 
+L 340.651406 59.486728 
+L 340.651406 21.748909 
+L 478.291406 21.748909 
+L 478.291406 59.486728 
+L 478.291406 59.486728 
+" clip-path="url(#pf2a644cc7a)" style="fill: none; stroke: #6a707a; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 106.663406 67.034291 
+L 106.663406 2.88 
+" clip-path="url(#pf2a644cc7a)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.9"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 381.943406 67.034291 
+L 381.943406 2.88 
+" clip-path="url(#pf2a644cc7a)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.9"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 65.371406 67.034291 
+L 65.371406 2.88 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_4">
+    <path d="M 65.371406 144.233288 
+L 478.291406 144.233288 
+L 478.291406 80.078997 
+L 65.371406 80.078997 
+L 65.371406 144.233288 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_3">
+    <g id="xtick_8">
+     <g id="line2d_13"/>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_14"/>
+    </g>
+    <g id="xtick_10">
+     <g id="line2d_15"/>
+    </g>
+    <g id="xtick_11">
+     <g id="line2d_16"/>
+    </g>
+    <g id="xtick_12">
+     <g id="line2d_17"/>
+    </g>
+    <g id="xtick_13">
+     <g id="line2d_18"/>
+    </g>
+    <g id="xtick_14">
+     <g id="line2d_19"/>
+    </g>
+   </g>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_3">
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#mb5c1c36d13" x="65.371406" y="136.685725" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="58.371406" y="139.832053" transform="rotate(-0 58.371406 139.832053)">0</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_21">
+      <g>
+       <use xlink:href="#mb5c1c36d13" x="65.371406" y="98.947906" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="fill: #1c1f24; font: 8.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="58.371406" y="102.094234" transform="rotate(-0 58.371406 102.094234)">1</text>
+     </g>
+    </g>
+    <g id="text_6">
+     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(22.997734 109.267846)">CLK₂</text>
+     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'" transform="translate(2.88 119.892408)">(capture)</text>
+    </g>
+   </g>
+   <g id="line2d_22">
+    <path d="M 65.371406 136.685725 
+L 106.663406 136.685725 
+L 106.663406 98.947906 
+L 244.303406 98.947906 
+L 244.303406 136.685725 
+L 381.943406 136.685725 
+L 381.943406 98.947906 
+L 478.291406 98.947906 
+" clip-path="url(#p784c53dc20)" style="fill: none; stroke: #6a707a; stroke-width: 1.7; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_23">
+    <path d="M 106.663406 144.233288 
+L 106.663406 80.078997 
+" clip-path="url(#p784c53dc20)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.9"/>
+   </g>
+   <g id="line2d_24">
+    <path d="M 381.943406 144.233288 
+L 381.943406 80.078997 
+" clip-path="url(#p784c53dc20)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.9"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 65.371406 144.233288 
+L 65.371406 80.078997 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 66.936654 117.816815 
+Q 86.017406 117.816815 105.098159 117.816815 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 70.936654 119.816815 
+L 66.936654 117.816815 
+L 70.936654 115.816815 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 101.098159 115.816815 
+L 105.098159 117.816815 
+L 101.098159 119.816815 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="fill: #d92d20; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="86.017406" y="111.103277" transform="rotate(-0 86.017406 111.103277)">δ = 3 ns</text>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="patch_7">
+    <path d="M 65.371406 224.64 
+L 478.291406 224.64 
+L 478.291406 157.277994 
+L 65.371406 157.277994 
+L 65.371406 224.64 
+z
+" style="fill: none"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 65.371406 202.987927 
+L 175.483406 202.987927 
+L 175.483406 178.930068 
+L 65.371406 178.930068 
+z
+" clip-path="url(#pfab869d7e7)" style="fill: #c9d7fb; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 175.483406 202.987927 
+L 340.651406 202.987927 
+L 340.651406 178.930068 
+L 175.483406 178.930068 
+z
+" clip-path="url(#pfab869d7e7)" style="fill: #fbd9bf; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 340.651406 202.987927 
+L 381.943406 202.987927 
+L 381.943406 178.930068 
+L 340.651406 178.930068 
+z
+" clip-path="url(#pfab869d7e7)" style="fill: url(#h2277ecf87b); stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="matplotlib.axis_5">
+    <g id="xtick_15">
+     <g id="line2d_25">
+      <defs>
+       <path id="m4c3ac5c778" d="M 0 0 
+L 0 3 
+" style="stroke: #1c1f24; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m4c3ac5c778" x="65.371406" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="65.371406" y="238.172969" transform="rotate(-0 65.371406 238.172969)">0</text>
+     </g>
+    </g>
+    <g id="xtick_16">
+     <g id="line2d_26">
+      <g>
+       <use xlink:href="#m4c3ac5c778" x="134.191406" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="134.191406" y="238.172969" transform="rotate(-0 134.191406 238.172969)">5</text>
+     </g>
+    </g>
+    <g id="xtick_17">
+     <g id="line2d_27">
+      <g>
+       <use xlink:href="#m4c3ac5c778" x="203.011406" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="203.011406" y="238.172969" transform="rotate(-0 203.011406 238.172969)">10</text>
+     </g>
+    </g>
+    <g id="xtick_18">
+     <g id="line2d_28">
+      <g>
+       <use xlink:href="#m4c3ac5c778" x="271.831406" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="271.831406" y="238.172969" transform="rotate(-0 271.831406 238.172969)">15</text>
+     </g>
+    </g>
+    <g id="xtick_19">
+     <g id="line2d_29">
+      <g>
+       <use xlink:href="#m4c3ac5c778" x="340.651406" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="340.651406" y="238.172969" transform="rotate(-0 340.651406 238.172969)">20</text>
+     </g>
+    </g>
+    <g id="xtick_20">
+     <g id="line2d_30">
+      <g>
+       <use xlink:href="#m4c3ac5c778" x="409.471406" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="409.471406" y="238.172969" transform="rotate(-0 409.471406 238.172969)">25</text>
+     </g>
+    </g>
+    <g id="xtick_21">
+     <g id="line2d_31">
+      <g>
+       <use xlink:href="#m4c3ac5c778" x="478.291406" y="224.64" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="478.291406" y="238.172969" transform="rotate(-0 478.291406 238.172969)">30</text>
+     </g>
+    </g>
+    <g id="text_15">
+     <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="271.831406" y="251.390938" transform="rotate(-0 271.831406 251.390938)">time (ns)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_6">
+    <g id="text_16">
+     <text style="fill: #1c1f24; font: 700 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="55.371406" y="193.382981" transform="rotate(-0 55.371406 193.382981)">data</text>
+    </g>
+   </g>
+   <g id="line2d_32">
+    <path d="M 106.663406 224.64 
+L 106.663406 157.277994 
+" clip-path="url(#pfab869d7e7)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.9"/>
+   </g>
+   <g id="line2d_33">
+    <path d="M 381.943406 224.64 
+L 381.943406 157.277994 
+" clip-path="url(#pfab869d7e7)" style="fill: none; stroke-dasharray: 2.7,2.7; stroke-dashoffset: 0; stroke: #e0661b; stroke-width: 0.9"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 65.371406 224.64 
+L 478.291406 224.64 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_17">
+    <!-- $t_{\mathrm{pd}}$ -->
+    <g style="fill: #1c1f24" transform="translate(114.822406 192.527981)">
+     <text>
+      <tspan style="font: italic 9.5px 'Segoe UI'" x="0" y="-0.515625">t</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="3.070801 6.980273" y="0.984375">pd</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_18">
+    <!-- $t_{\mathrm{comb,max}}$ -->
+    <g style="fill: #1c1f24" transform="translate(240.729906 193.192981)">
+     <text>
+      <tspan style="font: italic 9.5px 'Segoe UI'" x="0" y="-0.515625">t</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="3.070801 6.142529 10.039014 15.766846 19.676318 22.259038 27.98687 31.370317" y="0.984375">comb,max</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_19">
+    <!-- $t_{\mathrm{su}}$ -->
+    <g style="fill: #1c1f24" transform="translate(356.309906 213.629574)">
+     <text>
+      <tspan style="font: italic 9.5px 'Segoe UI'" x="0" y="-0.515625">t</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="3.070801 5.892505" y="0.984375">su</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_20">
+    <!-- data ready at 20 = 23 − $t_{\mathrm{su}}$: just in time -->
+    <g style="fill: #12925a" transform="translate(212.907806 172.804817)">
+     <text>
+      <tspan style="font: 700 9px 'Segoe UI'" x="0 5.572266 10.415039 13.91748 18.760254 21.243164 24.824707 29.693848 34.536621 40.108887 44.95166 47.43457 52.277344 55.779785 58.262695 63.439453 68.616211 71.099121 77.462402 79.945312 85.12207 90.298828 92.781738 99.14502 111.000586 113.439551 115.922461 118.480078 123.924902 127.884375 131.386816 133.869727 136.427344 141.872168 144.355078 147.85752 150.415137 158.659277" y="-0.34375">data ready at 20 = 23 − : just in time</tspan>
+      <tspan style="font: italic 9px 'Segoe UI'" x="101.62793" y="-0.34375">t</tspan>
+      <tspan style="font: 6.3px 'Segoe UI'" x="104.537109 107.210303" y="1.0062499999999996">su</tspan>
+     </text>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pf2a644cc7a">
+   <rect x="65.371406" y="2.88" width="412.92" height="64.154291"/>
+  </clipPath>
+  <clipPath id="p784c53dc20">
+   <rect x="65.371406" y="80.078997" width="412.92" height="64.154291"/>
+  </clipPath>
+  <clipPath id="pfab869d7e7">
+   <rect x="65.371406" y="157.277994" width="412.92" height="67.362006"/>
+  </clipPath>
+ </defs>
+ <defs>
+  <pattern id="h2277ecf87b" patternUnits="userSpaceOnUse" x="0" y="0" width="72" height="72">
+   <rect x="0" y="0" width="73" height="73" fill="#c3ecd8"/>
+   <path d="M -36 36 
+L 36 -36 
+M -32 40 
+L 40 -32 
+M -28 44 
+L 44 -28 
+M -24 48 
+L 48 -24 
+M -20 52 
+L 52 -20 
+M -16 56 
+L 56 -16 
+M -12 60 
+L 60 -12 
+M -8 64 
+L 64 -8 
+M -4 68 
+L 68 -4 
+M 0 72 
+L 72 0 
+M 4 76 
+L 76 4 
+M 8 80 
+L 80 8 
+M 12 84 
+L 84 12 
+M 16 88 
+L 88 16 
+M 20 92 
+L 92 20 
+M 24 96 
+L 96 24 
+M 28 100 
+L 100 28 
+M 32 104 
+L 104 32 
+M 36 108 
+L 108 36 
+" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 1.0; stroke-linecap: butt; stroke-linejoin: miter"/>
+  </pattern>
+ </defs>
+</svg>
+<figcaption>What this graph plots: time across (ns). CLK1 clocks the launching flip-flop (edges at 0, 20); CLK2 is the capturing flip-flop's clock, 3 ns late (edges at 3, 23). The bar is the data path from CLK1's edge: t<sub>pd</sub>, the slowest logic, and t<sub>su</sub> before CLK2's edge. With T = 20 ns it just fits.</figcaption></figure>
+
+<p>Redo steps 5 and 6 with the capturing edges moved δ later:</p>
+<ol>
+<li>Setup: the data must be ready t<sub>su</sub> before the capturing edge, now at T + δ: t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub> ≤ T + δ, so <strong>T ≥ t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub> − δ</strong>.</li>
+<li>Hold: the capturing flip-flop's hold window now ends at δ + t<sub>h</sub>: <strong>t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub> + δ</strong>.</li>
+</ol>
+<p><em>A late capture clock gives the slow data more time but keeps the hold window open longer for the fast data.</em> An early capture clock (δ &lt; 0) does the reverse. When the sign is unknown, designers assume the worst for each: + |δ| on the setup side and + |δ| on the hold side (UCSD CSE140 and Cornell ECE4740 timing notes, KB 03 §6).</p>
+
+<figure style="max-width:70%"><svg xmlns:xlink="http://www.w3.org/1999/xlink" class="mpl" viewBox="0 0 426.361641 185.035344" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-18T23:31:50.829679</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M -0 185.035344 
+L 426.361641 185.035344 
+L 426.361641 0 
+L -0 0 
+L -0 185.035344 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 5.440547 152.568 
+L 418.360547 152.568 
+L 418.360547 2.88 
+L 5.440547 2.88 
+L 5.440547 152.568 
+z
+" style="fill: none"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 241.394833 129.699 
+L 300.383404 129.699 
+L 300.383404 34.065 
+L 241.394833 34.065 
+z
+" clip-path="url(#p94a44cfba6)" style="fill: #d92d20; opacity: 0.18"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 5.440547 110.988 
+L 241.394833 110.988 
+L 241.394833 69.408 
+L 5.440547 69.408 
+z
+" clip-path="url(#p94a44cfba6)" style="fill: #c9d7fb; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 241.394833 110.988 
+L 270.889118 110.988 
+L 270.889118 69.408 
+L 241.394833 69.408 
+z
+" clip-path="url(#p94a44cfba6)" style="fill: #fbd9bf; stroke: #1c1f24; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m0090d3b1fb" d="M 0 0 
+L 0 3.5 
+" style="stroke: #1c1f24; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m0090d3b1fb" x="5.440547" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="5.440547" y="166.600969" transform="rotate(-0 5.440547 166.600969)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m0090d3b1fb" x="64.429118" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="64.429118" y="166.600969" transform="rotate(-0 64.429118 166.600969)">2</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m0090d3b1fb" x="123.41769" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="123.41769" y="166.600969" transform="rotate(-0 123.41769 166.600969)">4</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m0090d3b1fb" x="182.406261" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="182.406261" y="166.600969" transform="rotate(-0 182.406261 166.600969)">6</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#m0090d3b1fb" x="241.394833" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="241.394833" y="166.600969" transform="rotate(-0 241.394833 166.600969)">8</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m0090d3b1fb" x="300.383404" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="300.383404" y="166.600969" transform="rotate(-0 300.383404 166.600969)">10</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m0090d3b1fb" x="359.371975" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="359.371975" y="166.600969" transform="rotate(-0 359.371975 166.600969)">12</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m0090d3b1fb" x="418.360547" y="152.568" style="fill: #1c1f24; stroke: #1c1f24; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="418.360547" y="166.600969" transform="rotate(-0 418.360547 166.600969)">14</text>
+     </g>
+    </g>
+    <g id="text_9">
+     <text style="fill: #1c1f24; font: 9.5px 'Segoe UI', 'DejaVu Sans'; text-anchor: middle" x="211.900547" y="179.919875" transform="rotate(-0 211.900547 179.919875)">time after the clock edge (ns)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2"/>
+   <g id="line2d_9">
+    <path d="M 241.394833 140.094 
+L 241.394833 56.934 
+" clip-path="url(#p94a44cfba6)" style="fill: none; stroke-dasharray: 4.8,3.6; stroke-dashoffset: 0; stroke: #1c1f24; stroke-width: 1.2"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 5.440547 152.568 
+L 418.360547 152.568 
+" style="fill: none; stroke: #1c1f24; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_10">
+    <!-- capture edge at 8 + $t_{\mathrm{h}}$ = 2 -->
+    <g style="fill: #d92d20" transform="translate(241.394833 28.044)">
+     <text>
+      <tspan style="font: 700 9px 'Segoe UI'" x="0 4.319824 9.162598 14.743652 18.246094 23.690918 27.272461 32.141602 34.624512 39.493652 45.065918 50.638184 55.507324 57.990234 62.833008 66.335449 68.818359 73.995117 76.478027 82.841309 92.023682 94.506592 100.869873 103.352783" y="-0.34375">capture edge at 8 +  = 2</tspan>
+      <tspan style="font: italic 9px 'Segoe UI'" x="85.324219" y="-0.34375">t</tspan>
+      <tspan style="font: 6.3px 'Segoe UI'" x="88.233398" y="1.0062499999999996">h</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_11">
+    <!-- $t_{\mathrm{pd}}$ = 8 -->
+    <g style="fill: #1c1f24" transform="translate(109.40519 92.098)">
+     <text>
+      <tspan style="font: italic 9.5px 'Segoe UI'" x="0" y="-0.875">t</tspan>
+      <tspan style="font: 6.65px 'Segoe UI'" x="3.070801 6.980273" y="0.625">pd</tspan>
+      <tspan style="font: 9.5px 'Segoe UI'" x="11.14624 13.748535 20.247314 22.849609" y="-0.875"> = 8</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="text_12">
+    <!-- $t_{\mathrm{comb,min}}$ = 1 -->
+    <g style="fill: #1c1f24" transform="translate(245.818975 125.786812)">
+     <text>
+      <tspan style="font: italic 9px 'Segoe UI'" x="0" y="-0.5625">t</tspan>
+      <tspan style="font: 6.3px 'Segoe UI'" x="2.90918 5.819238 9.510645 14.937012 18.640723 21.08751 26.513877 28.039658" y="0.7874999999999996">comb,min</tspan>
+      <tspan style="font: 9px 'Segoe UI'" x="31.829941 34.295273 40.452012 42.917344" y="-0.5625"> = 1</tspan>
+     </text>
+    </g>
+   </g>
+   <g id="patch_7">
+    <path d="M 270.889118 52.776 
+Q 270.889118 60.0525 270.889118 65.651949 
+" style="fill: none; stroke: #d92d20; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 272.889118 61.651949 
+L 270.889118 65.651949 
+L 268.889118 61.651949 
+z
+" style="fill: #d92d20; stroke: #d92d20; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="text_13">
+    <text style="fill: #d92d20; font: 700 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="415.411118" y="48.835406" transform="rotate(-0 415.411118 48.835406)">new D at 9 ns: inside the window, hold violated</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #1c1f24; font: 9px 'Segoe UI', 'DejaVu Sans'; text-anchor: end" x="238.445404" y="142.3665" transform="rotate(-0 238.445404 142.3665)">CLK2 edge (8 ns late)</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p94a44cfba6">
+   <rect x="5.440547" y="2.88" width="412.92" height="149.688"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption>What this graph plots: time after the launching edge (ns). The capturing edge is 8 ns late, so its hold window is 8–10 ns. The fastest new data still arrives at 9 ns: inside the window, hold violated.</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>Skew δ</th>
+<th>T<sub>min</sub> = 23 − δ</th>
+<th>f<sub>max</sub></th>
+<th>hold: 9 ≥ 2 + δ?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>−3 ns</td>
+<td>26 ns</td>
+<td>38.5 MHz</td>
+<td>9 ≥ −1: met</td>
+</tr>
+<tr>
+<td>0</td>
+<td>23 ns</td>
+<td>43.5 MHz</td>
+<td>9 ≥ 2: met</td>
+</tr>
+<tr>
+<td>+3 ns</td>
+<td>20 ns</td>
+<td>50 MHz</td>
+<td>9 ≥ 5: met</td>
+</tr>
+<tr>
+<td>+8 ns</td>
+<td>15 ns</td>
+<td>66.7 MHz</td>
+<td>9 ≥ 10: <strong>violated by 1 ns</strong></td>
+</tr>
+</tbody>
+</table>
+<p>At δ = +8 ns, again the clock cannot fix it: add at least 1 ns to the short path. A 2 ns buffer gives 8 + 3 = 11 ≥ 10 and leaves the slow path untouched.</p>
+<p><strong>Answer to the Predict.</strong> A late capture clock <strong>helps setup</strong> (T<sub>min</sub> falls from 23 to 20 ns, f<sub>max</sub> rises to 50 MHz) and <strong>hurts hold</strong> (the 9 ns arrival must now beat 2 + 3 = 5 ns; it still does).</p>
+<div class="box check">
+<div class="bh">Check 7</div>
+<p>Running example with δ = +7 ns. Is hold met? What are T<sub>min</sub> and f<sub>max</sub>?</p>
+</div>
+<h3>8 · Counters compared: ripple against synchronous</h3>
+<p>Files 12 and 13 built the same counts two ways. Step 5's sum now says which one can be clocked faster.</p>
+<div class="box guess">
+<div class="bh">Predict</div>
+<p>4-bit counters with t<sub>pd</sub> = 10 ns: a ripple counter (file 12), and a synchronous counter with one 5 ns AND gate before each T input and t<sub>su</sub> = 5 ns (file 13). Which has the higher f<sub>max</sub>, and what happens to each at 8 bits?</p>
+</div>
+<div class="box note">
+<div class="bh">Terms</div>
+<p><strong>Settling time of a ripple counter:</strong> the time for a change to pass through all n stages, n · t<sub>pd</sub>, since each stage is clocked by the one before (file 12).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Counter</th>
+<th>What one clock period must cover</th>
+<th>4 bits</th>
+<th>8 bits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ripple</td>
+<td>every stage in turn: n · t<sub>pd</sub></td>
+<td>40 ns, <strong>25 MHz</strong></td>
+<td>80 ns, <strong>12.5 MHz</strong></td>
+</tr>
+<tr>
+<td>synchronous</td>
+<td>one flip-flop, one gate level, setup: t<sub>pd</sub> + t<sub>AND</sub> + t<sub>su</sub></td>
+<td>20 ns, <strong>50 MHz</strong></td>
+<td>20 ns, <strong>50 MHz</strong> (if the enables stay one gate deep)</td>
+</tr>
+</tbody>
+</table>
+<p>The ripple counter's period grows with every stage, because the stages wait for each other. The synchronous counter's flip-flops all switch t<sub>pd</sub> after the same edge, so its period is step 5's single path, whatever n is (as long as the AND gates feeding the T inputs stay one level deep, file 13).</p>
+<p><strong>Answer to the Predict.</strong> The <strong>synchronous</strong> counter: <strong>50 MHz</strong> against 25 MHz at 4 bits; at 8 bits the ripple counter drops to <strong>12.5 MHz</strong> while the synchronous one stays at 50 MHz.</p>
+<div class="box check">
+<div class="bh">Check 8</div>
+<p>A 3-bit ripple counter uses flip-flops with t<sub>pd</sub> = 20 ns. What is its f<sub>max</sub>, and what would a synchronous version with a 5 ns AND and t<sub>su</sub> = 5 ns reach?</p>
 </div>
 <hr />
 <h2>Exam form</h2>
-<p>Define t<sub>su</sub>, t<sub>h</sub>, t<sub>pd</sub>, metastability with a timing sketch. Setup inequality → f<sub>max</sub>. Hold inequality and why the clock does not appear. Ripple counter f<sub>max</sub> = 1/(n·t<sub>pd</sub>) for comparison.</p>
+<p><strong>Definitions (with one timing sketch: CLK, D with the shaded window, Q late by t<sub>pd</sub>).</strong> t<sub>pd</sub>: edge to valid Q. t<sub>su</sub>: D steady before the edge. t<sub>h</sub>: D steady after the edge. Metastability: setup or hold broken → Q between 0 and 1 for an unknown time, then random.</p>
+<p><strong>f<sub>max</sub> (setup, longest path).</strong>
+1. T ≥ t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub>.
+2. f<sub>max</sub> = 1 / (t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub>).</p>
+<p><strong>Hold check (shortest path).</strong> t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub>; T is not in it, so the fix is delay in the short path, never a slower clock.</p>
+<p><strong>With skew δ (capture late = positive).</strong> T ≥ t<sub>pd</sub> + t<sub>comb,max</sub> + t<sub>su</sub> − δ; t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub> + δ.</p>
+<p><strong>Counters.</strong> Ripple f<sub>max</sub> = 1 / (n · t<sub>pd</sub>); synchronous f<sub>max</sub> = 1 / (t<sub>pd</sub> + t<sub>gate</sub> + t<sub>su</sub>).</p>
 <h2>Traps</h2>
 <ul>
-<li>Leaving out t<sub>pd</sub> or t<sub>su</sub> from the period.</li>
-<li>Using the longest path for the hold check.</li>
-<li>Trying to fix hold by slowing the clock.</li>
+<li>Leaving t<sub>pd</sub> or t<sub>su</sub> out of the period.</li>
+<li>Using the longest path for the hold check (it needs the shortest).</li>
+<li>Trying to fix a hold violation by slowing the clock.</li>
+<li>Getting the skew sign backwards: a late capture clock helps setup and hurts hold.</li>
+<li>Using one t<sub>pd</sub> for a ripple counter: it is n · t<sub>pd</sub>.</li>
 </ul>
 <h2>Self-test</h2>
 <ol>
 <li>t<sub>pd</sub> = 5 ns, longest logic 10 ns, t<sub>su</sub> = 2 ns. f<sub>max</sub>?</li>
-<li>t<sub>pd</sub> = 2 ns, shortest logic 0.5 ns, t<sub>h</sub> = 3 ns. Is hold met? If not, what is the fix?</li>
+<li>t<sub>pd</sub> = 2 ns, shortest logic 0.5 ns, t<sub>h</sub> = 3 ns. Is hold met?</li>
 <li>Why can't a slower clock fix a hold violation?</li>
-<li>Compare f<sub>max</sub> of a 4-bit ripple counter (t<sub>pd</sub> = 10 ns) and the synchronous counter of Check 2(b).</li>
+<li>t<sub>pd</sub> = 6 ns, longest logic 9 ns, shortest 1 ns, t<sub>su</sub> = 2 ns, t<sub>h</sub> = 1 ns, capture clock 2 ns late. Find T<sub>min</sub>, f<sub>max</sub>, and check hold.</li>
+<li>A design must run at 100 MHz with t<sub>pd</sub> = 4 ns and t<sub>su</sub> = 2 ns. What is the most logic delay allowed between two flip-flops?</li>
+<li>Name the three things a flip-flop's Q can do when D changes inside the setup–hold window.</li>
 </ol>
 <div class="answers">
 <h2>Answers</h2>
-<p><strong>Check 1.</strong> t<sub>su</sub>: D steady before the edge; t<sub>h</sub>: D steady after it; t<sub>pd</sub>: edge to valid Q. Sketch as in step 1.</p>
-<p><strong>Check 2.</strong> (a) 8 + 16 + 3 = 27 ns: <strong>37.0 MHz</strong>. Hold unchanged: it uses the shortest path. (b) 10 + 5 + 5 = 20 ns: <strong>50 MHz</strong>.</p>
+<p><strong>Check 1.</strong> (a) T = 10 ns: 8/10 = <strong>80 %</strong>. (b) It reads D at the edge, and the new Q appears only t<sub>pd</sub> later; it is read at the following edge.</p>
+<p><strong>Check 2.</strong> Window 37–40 ns before the edge: <strong>30 ns safe</strong>; 37 ns is exactly at the limit (safe, just); <strong>38.5 ns breaks setup</strong>.</p>
+<p><strong>Check 3.</strong> t<sub>su</sub> + t<sub>h</sub> = <strong>5 ns</strong>, from <strong>17 ns to 22 ns</strong>.</p>
+<p><strong>Check 4.</strong> A wrong bit is at least a valid 0 or 1 that every gate reads the same way. A metastable Q may be read as 1 by one gate and 0 by another, and it settles at an unknown time, possibly after the next edge.</p>
+<p><strong>Check 5.</strong> 8 + 16 + 3 = <strong>27 ns</strong>, f<sub>max</sub> = <strong>37.0 MHz</strong>. The hold check does not change: it uses the shortest path.</p>
+<p><strong>Check 6.</strong> 2 + 0.5 = 2.5 ns &lt; 3 ns: <strong>violated</strong>. Add at least <strong>0.5 ns</strong> of delay to the short path.</p>
+<p><strong>Check 7.</strong> Hold: 9 ≥ 2 + 7 = 9: <strong>met, with no margin</strong>. T<sub>min</sub> = 23 − 7 = <strong>16 ns</strong>, f<sub>max</sub> = <strong>62.5 MHz</strong>.</p>
+<p><strong>Check 8.</strong> Ripple: 3 × 20 = 60 ns, <strong>16.7 MHz</strong>. Synchronous: 20 + 5 + 5 = 30 ns, <strong>33.3 MHz</strong>.</p>
 <p><strong>Self-test.</strong></p>
 <ol>
-<li>17 ns: <strong>58.8 MHz</strong>.</li>
-<li>2.5 &lt; 3: <strong>violated</strong>; add at least 0.5 ns of delay to the short path.</li>
-<li>Hold compares two delays after the same edge; the period is not involved.</li>
-<li>Ripple: 4 × 10 = 40 ns, <strong>25 MHz</strong>. Synchronous: <strong>50 MHz</strong>, and its period does not grow with the number of bits.</li>
+<li>5 + 10 + 2 = 17 ns: <strong>58.8 MHz</strong>.</li>
+<li>2 + 0.5 = 2.5 &lt; 3: <strong>no</strong>, violated by 0.5 ns.</li>
+<li>Hold compares two delays measured from the same edge; the period does not appear in t<sub>pd</sub> + t<sub>comb,min</sub> ≥ t<sub>h</sub>.</li>
+<li>T<sub>min</sub> = 6 + 9 + 2 − 2 = <strong>15 ns</strong>, f<sub>max</sub> = <strong>66.7 MHz</strong>. Hold: 6 + 1 = 7 ≥ 1 + 2 = 3: <strong>met</strong>.</li>
+<li>T = 10 ns: 4 + t<sub>comb</sub> + 2 ≤ 10, so <strong>t<sub>comb,max</sub> ≤ 4 ns</strong>.</li>
+<li>Take the new value, keep the old one, or go <strong>metastable</strong> (hang between 0 and 1, then resolve at random).</li>
 </ol>
 </div></body></html>
