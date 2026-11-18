@@ -222,3 +222,5 @@
 - 2026-11-18 session 14: S6 done: 07 rebuilt to v1.3 (11 steps); figs_u2b (10) + figs_u2c (6) finished by Sonnet and wired; verify 598/0; build 00 04 07 08 20 no OVERLAP; agy page checks 04 (1 fix), 07, 08 clean; START-HERE, mock rows updated. Next: S7 (11 + 14).
 - 2026-11-18 auto session 17: session 16 cut off with no changes (last state e6ff646 = S6 done). S7 start (11 + 14 registers; timing analysis).
 - 2026-11-18 session 17: S7 done: 11 (10 steps) and 14 (8 steps) rebuilt to v1.3; figs_u3r (14, Sonnet) and verify_u3r wired; verify 661/0; build 00 11 14 20 no OVERLAP; KB 03 gains 74194 mode table (Nexperia data sheet) and clock skew (UCSD + Cornell notes); START-HERE, mock rows updated. Where we stopped: S7 closed. Next up: S8 (18 + 19).
+
+- 2026-11-18 session 18 (auto): S8 start (18 logic families + 19 memories/PLDs). verify.py 661/0 at start.
