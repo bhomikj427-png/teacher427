@@ -224,6 +224,14 @@ prefers minimal prose, wants diagrams described, etc.)*
   → plan every subject's `sprints.md` to fit 9–10; batch 1–3 files per sprint; fold research into the sprint that
   uses it; write the reason in `sprints.md` if a plan needs more than 12 (written into `study-pack-format.md` §7.2).
 
+- [stated 2026-11-19] **The material is everything; nothing assumed.** On the Stats pack: "a lot of information
+  that was just assumed that i would know, be it formulas or just straight up questions from books i dont have or
+  slides which i never intended to open". → every formula used is stated where it is used; every question is quoted
+  in full; never point to a book, slide or page the learner would have to open; keep the climb gradual.
+- [stated 2026-11-19] **Fractions stacked, never inline.** "if a/b then the two are in different lines rather than
+  in one line written as a/b". → render every fraction as display math (numerator over denominator); never write
+  a/b, a÷b or a^(b/c) style one-line maths.
+
 ## 4. Autonomy & choice
 - [stated 2026-10-17] **Engine does all verification; the learner only learns.** "I can only either
   learn or be checking everything myself." → re-derive and cross-check every answer independently,
@@ -346,3 +354,4 @@ without breaking the method.)*
 - 2026-11-14 — Added §3 pref: study packs follow `study-pack-format.md` (v1.2, self-regulating); the
   dense "v1" PDF format is rejected. `CLAUDE.md` gains a *Study packs* section and a file-map line.
 - 2026-11-16 — Added §3 pref: sprint budget 9–10 per subject (12 fine, 15+ only if seriously necessary); spec now v1.3.
+- 2026-11-19 — Added two §3 prefs from the Stats-pack verdict: self-contained material (no assumed formulas, books or slides) and stacked fractions.
