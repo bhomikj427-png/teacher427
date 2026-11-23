@@ -232,6 +232,11 @@ prefers minimal prose, wants diagrams described, etc.)*
   in one line written as a/b". → render every fraction as display math (numerator over denominator); never write
   a/b, a÷b or a^(b/c) style one-line maths.
 
+- [stated 2026-11-22] **Chat-tutor files: no teaching script, only correctness.** After the DE chat trial: "felt pretty
+  shitty and i still had to teach it how i want the session to be". → a chat instruction file carries no session
+  script or teaching rules; its preference section says only that every fact and every piece of maths must be correct
+  (no room for error); the learner directs the session. The content (topic list, facts, formulas) stays.
+
 ## 4. Autonomy & choice
 - [stated 2026-10-17] **Engine does all verification; the learner only learns.** "I can only either
   learn or be checking everything myself." → re-derive and cross-check every answer independently,
@@ -355,3 +360,4 @@ without breaking the method.)*
   dense "v1" PDF format is rejected. `CLAUDE.md` gains a *Study packs* section and a file-map line.
 - 2026-11-16 — Added §3 pref: sprint budget 9–10 per subject (12 fine, 15+ only if seriously necessary); spec now v1.3.
 - 2026-11-19 — Added two §3 prefs from the Stats-pack verdict: self-contained material (no assumed formulas, books or slides) and stacked fractions.
+- 2026-11-22 — Added §3 pref: chat-tutor files hold content + a correctness rule only, no teaching script.
