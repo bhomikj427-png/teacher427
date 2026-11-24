@@ -40,12 +40,13 @@ script**. Teach from it.
   Next: <question id>
   ```
 
-### B0. PRIORITY OVERRIDE (2026-11-24): most of the paper is from the units AFTER FinFET
+### B0. PRIORITY OVERRIDE (2026-11-24): most of the paper is from FinFET onward
 The units after FinFET are U5 BJT, U6 Feedback and U7 Oscillators. Teach them first. Use this order,
 which overrides B1:
 
 | # | Time | Content |
 |---|---|---|
+| 0 | 20 min | Part D0: FinFET. Short-channel effects, structure, W = W_F + 2H_F, SG and IG types, the 7 fabrication steps, MOSFET vs FinFET, pros and cons |
 | 1 | 20 min | Part D1: BJT basics. Regions; CB/CE/CC; α, β, γ; leakage; BJT vs MOSFET |
 | 2 | 60 min | Part D2 (fixed, emitter and divider bias; S derivation; compensation), then Block 1 (A2-Q5, Q1, Q9, Q2, Q3, Q4, Q6, Q7) and SA-4 |
 | 3 | 35 min | Part D3 (exact CE h-parameter analysis, cascade, Darlington), then Block 4 (A2-Q8, A2-Q10) |
@@ -452,12 +453,95 @@ Draw: voltage-divider circuit with the diode/thermistor shown in its position.
 
 ---
 
-## Part D: post-FinFET units (U5 BJT, U6 Feedback, U7 Oscillators). Teach these first (see B0)
+## Part D: FinFET and the units after it (U4 FinFET, U5 BJT, U6 Feedback, U7 Oscillators). Teach these first (see B0)
 
 These come from the professor's decks L20–L27, the U6 feedback deck and the U7 oscillator decks.
 Every number has been recomputed. Teach each item in the Part B format: concept, worked example
 with a reason for every step, final hand-in answer, marks lost for. Write the formulas below in
 LaTeX with \frac so that fractions stack.
+
+### D0. FinFET (two U4 decks: "structure vs MOSFET" and "types and fabrication")
+Teach this first. Expect short answers (4–8 marks): why FinFET, structure, types, fabrication
+steps, comparison with the MOSFET, advantages and disadvantages. Draw a 3-D sketch of a fin with
+the gate wrapped over it, and label S, D, G, the fin, the oxide and the substrate.
+
+- **Why multigate (short-channel effects).** When a planar MOSFET is scaled to tens of nanometres,
+  the drain is so close to the source that its field reaches into the channel, and the gate loses
+  control. This causes three short-channel effects:
+  1. the threshold voltage V_th shifts (falls);
+  2. the subthreshold slope degrades, so the transistor no longer turns off sharply;
+  3. the off-state current I_OFF rises (leakage).
+  Overall performance (the figure of merit) drops. A multigate FinFET fixes this, so scaling can
+  continue.
+- **Structure.** FinFET stands for Fin Field-Effect Transistor. It is a non-planar (3-D) multigate
+  MOSFET.
+  - The channel is a thin vertical **fin** of silicon between source and drain. It is named after
+    the back fin of a fish.
+  - The **gate** wraps over the fin on **three sides**: both side walls and the top. This gives
+    strong electrostatic control of the whole thin body.
+  - Source and drain play the same roles as in a MOSFET.
+  - The substrate is the base; it can be bulk silicon or SOI (silicon-on-insulator).
+  - It is still a 3-terminal device (G, D, S), except for the IG type below.
+- **Effective width.** Current flows on three faces of the fin, so the width of one fin is
+  W = W_F + 2H_F, where W_F is the fin width and H_F the fin height.
+  - Worked example: W_F = 6 nm, H_F = 50 nm gives W = 6 + 2(50) = **106 nm** per fin.
+  - H_F is fixed by the process, so a wider transistor needs **more fins**: n fins give n × W.
+    Width is therefore quantized.
+- **Fin spacing S_F** is fixed by the technology.
+  - Too close: the fields of neighbouring fins interact, parasitic capacitance rises, and the gate
+    loses independent control of each fin.
+  - Too far apart: poor area efficiency, because fewer fins fit in the layout.
+- **Channel doping is optional.** A planar MOSFET dopes its channel to fight short-channel effects
+  and set V_th. The FinFET's thin body and wrap-around gate already suppress those effects. Leaving
+  the channel undoped gives less variation from dopants and higher mobility. The result is a lower
+  V_th, faster operation and lower power.
+- **Types:**
+  - **Shorted-gate (SG, 3-terminal):** the two side gates are tied together and control the channel
+    jointly. Higher I_on, but also higher I_off.
+  - **Independent-gate (IG, 4-terminal):** the two gates are driven separately. The back-gate bias
+    tunes the front gate's V_th linearly. The cost is a large area penalty, because it needs two
+    gate contacts.
+- **Fabrication steps (bulk wafer):**
+  1. **Substrate:** a lightly p-doped wafer, with a hard mask (silicon nitride) and a patterned resist on top.
+  2. **Fin etch:** a highly anisotropic etch. It is time-based, because a bulk wafer has no etch-stop
+     layer. In a 22 nm process the fins are 10–15 nm wide and ideally at least twice as tall.
+  3. **Oxide deposition:** an oxide with high-aspect-ratio fill, to isolate the fins from each other.
+  4. **Planarization:** chemical-mechanical polishing (CMP), with the hard mask as the stop layer.
+  5. **Recess etch:** etch the oxide back to expose the fins and leave lateral isolation.
+  6. **Gate oxide:** thermal oxidation on the fins. A high-dose angled implant at the base of each
+     fin completes the isolation.
+  7. **Gate deposition:** n⁺ polysilicon over the fins, which gives up to three gates (two sides, plus
+     the top depending on how thick the top oxide is).
+- **MOSFET vs FinFET (the deck's table; write at least 6 rows):**
+
+  | | MOSFET | FinFET |
+  |---|---|---|
+  | Gates | single gate | multigate |
+  | Shape | planar | non-planar, 3-D fins |
+  | Power | more | less |
+  | Switching speed | slower | faster |
+  | Leakage current | more | less |
+  | Parasitic R and C | less | more (3-D shape) |
+  | Voltage gain | less | more (better control → higher g_m) |
+  | Fabrication | easy and cheap | complex and costly |
+
+- **Advantages:**
+  - better channel control and suppressed short-channel effects;
+  - lower static leakage, so low standby power;
+  - faster switching and a sharp on/off;
+  - higher drain current;
+  - lower switching voltage and lower power.
+- **Disadvantages:**
+  - self-heating (heat is hard to remove from a thin fin);
+  - quantized device width (whole fins only);
+  - higher parasitics and very high capacitance;
+  - corner effect;
+  - high fabrication cost.
+- **Marks lost for:**
+  - Saying the gate covers four sides (that is gate-all-around, not FinFET).
+  - Listing "leakage" without naming the three short-channel effects.
+  - Writing the width as W_F alone instead of W_F + 2H_F.
+  - Leaving out the disadvantages when asked for a comparison.
 
 ### D1. BJT basics (decks L20–L25)
 - **Structure:** n-p-n or p-n-p, so two junctions, EB and CB. The emitter is heavily doped so that
