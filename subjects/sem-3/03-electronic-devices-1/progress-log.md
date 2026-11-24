@@ -94,3 +94,4 @@
 
 2026-11-19 · E0 (brief) start, auto-v2 unattended: Sonnet subagents extract per-deck sections from e0-transcripts (+ RC-LC .ppt, WSU PDF, FinFET decks via deck_extract); Opus checks slips, constants vs KB, question-bank mapping, figure list; output src/brief.md.
 - 2026-11-24 (interactive, ETE day): learner uploaded EDC assignments 1, 2, 4 + Special I/II (II = A4) to _inbox; moved to exam-pack/. Built chat-pack/instructions-chat.md: exam-crunch rules (learner's DE lessons) + all assignment questions solved in 7 ranked blocks; numbers recomputed by chat-pack/verify_assignments.py.
+- 2026-11-24 — learner: most ETE questions come after FinFET. instructions-chat.md: B0 priority override (U5 BJT → U6 feedback → U7 oscillators first) + Part D (D1–D5 concepts and worked examples from the v12 pack, numbers recomputed); paste-in prompt given for the running chat.
