@@ -1,0 +1,277 @@
+NEW PRIORITY for the rest of this chat: most of the exam is from FinFET onward. Overrides the earlier order.
+
+Order: D0 FinFET (20 min) -> D1 BJT basics (20) -> D2 biasing + stability, then the Assignment 2 BJT-biasing questions + SA-4 compensation (60) -> D3 h-parameters/cascade/Darlington, then A2-Q8, A2-Q10 (35) -> D4 feedback, then A4-Q7, A4-Q8 (30) -> D5 oscillators, then A4-Q9, A4-Q10 (30) -> only if time is left: JFET/MOSFET, Zener/diode, semiconductor physics.
+
+Rules: everything factually and mathematically correct (the numbers below are verified - use them). Fractions stacked in LaTeX (rac), never a/b inline. Define every symbol before using it. For each item: base concept -> worked example with the reason for each step -> Final hand-in answer (what to write + what to draw) -> Marks lost for. I'm warmed up: send 3 items per message; I type "next" to continue, "slow" for one at a time. Skip anything we already covered in this chat. Keep the carry block going. Start with D0 now.
+
+Material to teach from:
+
+## Part D: FinFET and the units after it (U4 FinFET, U5 BJT, U6 Feedback, U7 Oscillators). Teach these first (see B0)
+
+These come from the professor's decks L20–L27, the U6 feedback deck and the U7 oscillator decks.
+Every number has been recomputed. Teach each item in the Part B format: concept, worked example
+with a reason for every step, final hand-in answer, marks lost for. Write the formulas below in
+LaTeX with \frac so that fractions stack.
+
+### D0. FinFET (two U4 decks: "structure vs MOSFET" and "types and fabrication")
+Teach this first. Expect short answers (4–8 marks): why FinFET, structure, types, fabrication
+steps, comparison with the MOSFET, advantages and disadvantages. Draw a 3-D sketch of a fin with
+the gate wrapped over it, and label S, D, G, the fin, the oxide and the substrate.
+
+- **Why multigate (short-channel effects).** When a planar MOSFET is scaled to tens of nanometres,
+  the drain is so close to the source that its field reaches into the channel, and the gate loses
+  control. This causes three short-channel effects:
+  1. the threshold voltage V_th shifts (falls);
+  2. the subthreshold slope degrades, so the transistor no longer turns off sharply;
+  3. the off-state current I_OFF rises (leakage).
+  Overall performance (the figure of merit) drops. A multigate FinFET fixes this, so scaling can
+  continue.
+- **Structure.** FinFET stands for Fin Field-Effect Transistor. It is a non-planar (3-D) multigate
+  MOSFET.
+  - The channel is a thin vertical **fin** of silicon between source and drain. It is named after
+    the back fin of a fish.
+  - The **gate** wraps over the fin on **three sides**: both side walls and the top. This gives
+    strong electrostatic control of the whole thin body.
+  - Source and drain play the same roles as in a MOSFET.
+  - The substrate is the base; it can be bulk silicon or SOI (silicon-on-insulator).
+  - It is still a 3-terminal device (G, D, S), except for the IG type below.
+- **Effective width.** Current flows on three faces of the fin, so the width of one fin is
+  W = W_F + 2H_F, where W_F is the fin width and H_F the fin height.
+  - Worked example: W_F = 6 nm, H_F = 50 nm gives W = 6 + 2(50) = **106 nm** per fin.
+  - H_F is fixed by the process, so a wider transistor needs **more fins**: n fins give n × W.
+    Width is therefore quantized.
+- **Fin spacing S_F** is fixed by the technology.
+  - Too close: the fields of neighbouring fins interact, parasitic capacitance rises, and the gate
+    loses independent control of each fin.
+  - Too far apart: poor area efficiency, because fewer fins fit in the layout.
+- **Channel doping is optional.** A planar MOSFET dopes its channel to fight short-channel effects
+  and set V_th. The FinFET's thin body and wrap-around gate already suppress those effects. Leaving
+  the channel undoped gives less variation from dopants and higher mobility. The result is a lower
+  V_th, faster operation and lower power.
+- **Types:**
+  - **Shorted-gate (SG, 3-terminal):** the two side gates are tied together and control the channel
+    jointly. Higher I_on, but also higher I_off.
+  - **Independent-gate (IG, 4-terminal):** the two gates are driven separately. The back-gate bias
+    tunes the front gate's V_th linearly. The cost is a large area penalty, because it needs two
+    gate contacts.
+- **Fabrication steps (bulk wafer):**
+  1. **Substrate:** a lightly p-doped wafer, with a hard mask (silicon nitride) and a patterned resist on top.
+  2. **Fin etch:** a highly anisotropic etch. It is time-based, because a bulk wafer has no etch-stop
+     layer. In a 22 nm process the fins are 10–15 nm wide and ideally at least twice as tall.
+  3. **Oxide deposition:** an oxide with high-aspect-ratio fill, to isolate the fins from each other.
+  4. **Planarization:** chemical-mechanical polishing (CMP), with the hard mask as the stop layer.
+  5. **Recess etch:** etch the oxide back to expose the fins and leave lateral isolation.
+  6. **Gate oxide:** thermal oxidation on the fins. A high-dose angled implant at the base of each
+     fin completes the isolation.
+  7. **Gate deposition:** n⁺ polysilicon over the fins, which gives up to three gates (two sides, plus
+     the top depending on how thick the top oxide is).
+- **MOSFET vs FinFET (the deck's table; write at least 6 rows):**
+
+  | | MOSFET | FinFET |
+  |---|---|---|
+  | Gates | single gate | multigate |
+  | Shape | planar | non-planar, 3-D fins |
+  | Power | more | less |
+  | Switching speed | slower | faster |
+  | Leakage current | more | less |
+  | Parasitic R and C | less | more (3-D shape) |
+  | Voltage gain | less | more (better control → higher g_m) |
+  | Fabrication | easy and cheap | complex and costly |
+
+- **Advantages:**
+  - better channel control and suppressed short-channel effects;
+  - lower static leakage, so low standby power;
+  - faster switching and a sharp on/off;
+  - higher drain current;
+  - lower switching voltage and lower power.
+- **Disadvantages:**
+  - self-heating (heat is hard to remove from a thin fin);
+  - quantized device width (whole fins only);
+  - higher parasitics and very high capacitance;
+  - corner effect;
+  - high fabrication cost.
+- **Marks lost for:**
+  - Saying the gate covers four sides (that is gate-all-around, not FinFET).
+  - Listing "leakage" without naming the three short-channel effects.
+  - Writing the width as W_F alone instead of W_F + 2H_F.
+  - Leaving out the disadvantages when asked for a comparison.
+
+### D1. BJT basics (decks L20–L25)
+- **Structure:** n-p-n or p-n-p, so two junctions, EB and CB. The emitter is heavily doped so that
+  it injects carriers. The base is thin and lightly doped so that only about 1% of those carriers
+  recombine there. The collector is the largest region because it dissipates the most heat.
+- **Regions:**
+  - Active: EB forward, CB reverse; I_C = βI_B. Used as an amplifier.
+  - Saturation: both junctions forward; V_CE(sat) ≈ 0.2 V. Closed switch.
+  - Cutoff: both junctions reverse; I_C ≈ 0. Open switch.
+- **Currents:** I_E = I_C + I_B. α = I_C / I_E (0.95–0.995). β = I_C / I_B (50–400). γ = I_E / I_B = 1 + β.
+- **Relations** (derive by substituting I_E = I_C + I_B):
+  β = α / (1 − α), α = β / (1 + β), γ = 1 / (1 − α).
+- **Leakage:** I_C = αI_E + I_CBO, and I_C = βI_B + (1 + β)I_CBO. Hence I_CEO = (1 + β)I_CBO.
+- **CB / CE / CC comparison table:**
+
+  | | CB | CE | CC |
+  |---|---|---|---|
+  | Input / output | E / C | B / C | B / E |
+  | Current gain | α < 1 | β, high | 1 + β |
+  | Voltage gain | high | high | just under 1 |
+  | R_in | very low | about 1 kΩ | very high |
+  | R_out | very high | medium | very low |
+  | Phase | 0° | 180° | 0° |
+  | Use | high frequency | general amplifier (highest power gain) | buffer |
+
+- **Characteristics:**
+  - CB input: I_E against V_EB, like a forward diode.
+  - CE input: I_B against V_BE, like a forward diode; the curve shifts right as V_CE rises (Early effect).
+  - CE output: I_C against V_CE, one curve per I_B. Nearly flat in the active region; the saturation
+    region is near V_CE = 0; cutoff is below the I_B = 0 curve.
+  - Draw all of these with labelled axes and regions.
+- **Worked example 1:** β = 100, I_CBO = 20 nA. Then α = 100/101 = **0.990** and
+  I_CEO = 101 × 20 nA = **2.02 μA**.
+- **Worked example 2:** α = 0.98. Then β = 0.98/0.02 = **49** and γ = **50**.
+- **Worked example 3:** I_E = 10 mA, α = 0.99. Then I_C = **9.9 mA** and I_B = **0.1 mA**.
+- **BJT vs MOSFET (write at least 8 rows):**
+
+  | | BJT | MOSFET |
+  |---|---|---|
+  | Control | current-controlled | voltage-controlled |
+  | Carriers | bipolar | unipolar |
+  | R_in | about 1 kΩ | 10¹⁰ Ω or more |
+  | Law | exponential | square law |
+  | g_m | higher (I_C/V_T = 38 mS at 1 mA) | lower |
+  | Temperature | thermal runaway risk | self-limiting (mobility falls) |
+  | Switching | slower (stored charge) | faster |
+  | Static power in logic | yes | CMOS ≈ 0 |
+  | Density | lower | far higher |
+  | Static damage | robust | oxide damaged by static |
+
+- **Marks lost for:** swapping α and β; leaving out the (1 + β) on the leakage; saying CC has voltage gain.
+
+### D2. Biasing and stability (decks L26–L27)
+- **Fixed bias, deck slide 15.** V_CC = 12 V, R_B = 240 kΩ, R_C = 2.2 kΩ, β = 50.
+  - I_B = (V_CC − 0.7)/R_B = **47.08 μA**; I_C = βI_B = **2.35 mA**.
+  - V_CE = V_CC − I_C·R_C = **6.82 V**; I_C(sat) = V_CC/R_C = **5.45 mA**.
+  - Load-line ends: (12 V, 0) and (0, 5.45 mA).
+  - Follow-up: with β = 100, I_C becomes 4.71 mA and V_CE 1.64 V, so Q moves to near saturation.
+    This shows that fixed bias is β-dependent.
+- **Why Q drifts:**
+  - I_CO doubles for every 10 °C rise.
+  - V_BE falls by 2.5 mV per °C.
+  - β rises with temperature and varies between devices.
+  - All three raise I_C. The result is thermal runaway: more I_C, more heat, more I_C.
+- **Stability factors:** S = ∂I_C/∂I_CO (ideal 1; smaller is better), S′ = ∂I_C/∂V_BE, S″ = ∂I_C/∂β.
+- **Derivation:** start from I_C = βI_B + (1 + β)I_CO and differentiate with respect to I_C.
+  This gives S = (1 + β) / (1 − β·dI_B/dI_C).
+- **Table of S:**
+  - Fixed bias: dI_B/dI_C = 0, so S = 1 + β (worst).
+  - Emitter bias: S = (1 + β)(1 + R_B/R_E) / (1 + β + R_B/R_E).
+  - Voltage-divider bias: the same with R_B → R_Th (best, because R_Th is small).
+  - Collector-to-base bias: S = (1 + β) / (1 + βR_C/(R_B + R_C)).
+- **Emitter bias, deck slide 27.** V_CC = 20 V, R_B = 430 kΩ, R_C = 2 kΩ, R_E = 1 kΩ, β = 50.
+  - I_B = (V_CC − 0.7)/(R_B + (β + 1)R_E) = 19.3/481k = **40.1 μA**; I_C = **2.01 mA**.
+  - V_CE = 20 − 2.01(2) − 2.05(1) = **13.94 V**.
+  - S = 51 × 431/481 = **45.7**, against 51 for fixed bias.
+  - How R_E stabilises: if I_C rises, V_E rises, so I_B falls and pulls I_C back (negative feedback).
+- **Voltage-divider bias.** V_CC = 22 V, R1 = 39k, R2 = 3.9k, R_C = 10k, R_E = 1.5k, β = 100.
+  - Thévenin: E_Th = 2.0 V, R_Th = 3.55 kΩ.
+  - Exact: I_B = 1.3/(3.55k + 151.5k) = 8.38 μA, so **I_C = 0.838 mA** and **V_CE = 12.35 V**; **S = 3.29**.
+  - Approximate (valid when βR_E ≥ 10R2: 150k ≥ 39k ✓): V_E = 1.3 V, so **I_C ≈ 0.867 mA**.
+- **Compensation** (the same as SA-4): a diode in the base circuit tracks V_BE; a thermistor in the
+  R2 arm; a sensistor in the R1 arm or the emitter.
+- **Marks lost for:**
+  - Leaving out the R_E drop in V_CE.
+  - Missing the (β + 1) in front of R_E.
+  - Not checking βR_E ≥ 10R2.
+  - Writing I_C(sat) = V_CC/R_C when R_E is present (it is V_CC/(R_C + R_E)).
+
+### D3. h-parameters, multistage, Darlington (deck L26–27 and the book sheet pp. 131–145)
+- **Model:** v_be = h_ie·i_b + h_re·v_ce and i_c = h_fe·i_b + h_oe·v_ce.
+  - h_ie: input resistance, measured with the output shorted (Ω).
+  - h_re: reverse voltage ratio, measured with the input open.
+  - h_fe: forward current gain, measured with the output shorted.
+  - h_oe: output admittance, measured with the input open (S).
+  - They are "hybrid" because their units are mixed. Draw the equivalent circuit.
+- **Exact CE analysis.** Do it in this order, because each step uses the one before:
+  1. A_i = −h_fe/(1 + h_oe·R_L)
+  2. R_i = h_ie + h_re·A_i·R_L
+  3. A_v = A_i·R_L/R_i
+  4. Y_o = h_oe − h_fe·h_re/(h_ie + R_s)
+  - Also: A_vs = A_v·R_i/(R_i + R_s), A_p = A_i·A_v, R_ot = R_o ∥ R_L.
+  - Approximate (valid when h_oe·R_L < 0.1): A_i = −h_fe, R_i = h_ie, A_v = −h_fe·R_L/h_ie.
+- **Worked example (book P9).** R_s = 800 Ω, R_L = 2k, h_ie = 1.1k, h_fe = 50, h_oe = 25 μS,
+  h_re = 2.5 × 10⁻⁴.
+  - **A_i = −47.6**, **R_i = 1076.2 Ω**, **A_v = −88.5**, A_vs = −50.75.
+  - Y_o = 18.42 μS, so **R_o = 54.29 kΩ**; **R_ot = 1.93 kΩ**; **A_p = 4214**.
+  - Approximate: A_i = −50, R_i = 1100, A_v = −90.9. Error in A_i = **5%**.
+- **Cascade:** the overall gain is the product of the loaded stage gains. Gains of 40 and 60 give
+  **2400**, which is **67.6 dB** (in dB the stage gains add).
+  - Couplings: RC (cheap, blocks DC), transformer (impedance matching, bulky),
+    direct (amplifies down to DC, but drift is amplified).
+- **Darlington:** β_D = β1β2 + β1 + β2 ≈ β1β2. Derive it from I_E1 = I_B2.
+  - V_BE ≈ 1.4 V and the input resistance is very high.
+  - β = 100 each gives **10 200**.
+- **Marks lost for:** finding R_i before A_i; dropping the minus signs; reading μmho as mho;
+  leaving R_s out of Y_o.
+
+### D4. Feedback amplifiers (U6 deck, 51 slides)
+- **Closed-loop gain:** V_i = V_s − βV_o, so A_f = A/(1 + βA).
+  - Loop gain = βA. Desensitivity D = 1 + βA.
+  - When βA ≫ 1, A_f ≈ 1/β.
+- **Worked example (deck slide 32).** β = 0.01.
+  - A = 1000 gives A_f = **90.9**. A = 10 000 gives A_f = **99.0**.
+  - A changes by 900% but A_f by only 9%. The slide prints 98.3 for A = 5000; the correct value is 98.0.
+- **The four amplifier types:**
+  - Voltage amplifier: high R_i, low R_o.
+  - Current amplifier: low R_i, high R_o.
+  - Transconductance amplifier: high R_i, high R_o.
+  - Transresistance amplifier: low R_i, low R_o.
+- **The four topologies (sampling – mixing):**
+  - Voltage-series: Z_if ×(1+βA), Z_of ÷(1+βA). Example: emitter follower.
+  - Voltage-shunt: Z_if ÷, Z_of ÷. Example: collector-to-base resistor.
+  - Current-series: Z_if ×, Z_of ×. Example: CE with an unbypassed R_E.
+  - Current-shunt: Z_if ÷, Z_of ×. Example: two stages, 2nd emitter → 1st base.
+  - Rule: a series connection raises the resistance at that port; a shunt connection lowers it.
+- **Effects of negative feedback:**
+  - Gain is reduced to A/(1 + βA).
+  - Gain is stabilised: dA_f/A_f = (dA/A)/(1 + βA). Derive this by differentiating A_f.
+  - Bandwidth widens: f_Hf = f_H(1 + βA) and f_Lf = f_L/(1 + βA).
+  - Distortion and noise fall: D_f = D/(1 + βA).
+  - Impedances change as in the topology list above.
+  - Disadvantages: lower gain, so more stages are needed; possible oscillation.
+- **Worked example.** A = 1000, f_H = 20 kHz, Z_i = 2k, Z_o = 20k, 10% distortion; voltage-series
+  feedback with β = 0.1.
+  - 1 + βA = 101, so **A_f = 9.90** and **f_Hf = 2.02 MHz**.
+  - **Z_if = 202 kΩ**, **Z_of = 198 Ω**, distortion **0.099%**.
+- **Marks lost for:** confusing the feedback β with the transistor's β; saying current sampling
+  lowers Z_o.
+
+### D5. Oscillators (U7 decks)
+- **Barkhausen criterion:** |βA| = 1 and a total loop phase of 0° or 360°.
+  - With positive feedback A_f = A/(1 − βA), which is infinite when βA = 1.
+  - Oscillation starts from noise with |βA| slightly above 1.
+  - Types: RC for audio (phase-shift, Wien); LC for 100 kHz–100 MHz (Hartley, Colpitts);
+    crystal (very stable); relaxation.
+- **RC phase-shift oscillator:**
+  - An inverting amplifier (180°) plus three RC sections (180°).
+  - f₀ = 1/(2πRC√6); β = 1/29, so |A| ≥ 29 and R_f = 29R.
+  - BJT version: f₀ = 1/(2πRC√(6 + 4R_C/R)), h_fe ≥ 23 + 29R/R_C + 4R_C/R.
+  - **Design example:** 800 Hz with C = 10 nF gives R = **8.12 kΩ** (use 8.2k) and R_f = **238 kΩ**.
+- **Wien bridge oscillator:**
+  - A non-inverting amplifier and a lead-lag network (0°).
+  - f₀ = 1/(2πRC); β = 1/3, so A = 3 and R2 = 2R1.
+  - **Example:** R = 10k, C = 10 nF gives f₀ = **1.59 kHz**; R2 = **20k**.
+  - Compare it with the phase-shift oscillator: a table of amplifier, network, f₀, β, gain, tuning.
+- **Hartley vs Colpitts:**
+  - Hartley taps the inductor: L_eq = L1 + L2 (+2M if coupled) and f₀ = 1/(2π√(L_eq·C)).
+  - Colpitts taps the capacitor: C_eq = C1C2/(C1 + C2) and f₀ = 1/(2π√(L·C_eq)).
+  - **Colpitts example:** C1 = C2 = 200 pF, L = 1 mH gives C_eq = 100 pF and f₀ = **503 kHz**.
+  - **Hartley example:** L1 = L2 = 1 mH, C = 100 pF gives f₀ = **356 kHz**.
+- **Crystal oscillator:**
+  - Piezoelectric effect: squeezing quartz produces a voltage. Inverse effect: a voltage makes it vibrate.
+  - Equivalent circuit: R_s, L_s, C_s in series, all in parallel with C_p.
+  - f_s = 1/(2π√(L_sC_s)) and f_p = f_s√(1 + C_s/C_p).
+  - **Example:** L_s = 1 H, C_s = 0.01 pF, R_s = 1k, C_p = 10 pF.
+    f_s = **1.592 MHz**, f_p is **796 Hz** above it, and **Q = 10 000** (an LC tank has about 100),
+    which is why it is very stable.
+- **Marks lost for:** swapping 29 and 3; adding C1 + C2 in a Colpitts; leaving out the √6 or the
+  square root.
