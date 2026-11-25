@@ -6,7 +6,12 @@ Build `subjects/sem-3/11-computer-architecture-and-processor/chat-pack/instructi
 ## Hard requirements (learner, 2026-11-25)
 - **Lean.** Chats re-read it constantly. No prose, no history, no "why", no source notes. Tables, formulas, solved answers only.
 - **Complete.** Every important fact from the professor's material plus every assignment and MTE question solved. Nothing he could ask is missing.
-- **Material-based.** Scope = his material. Truth = the KB (`knowledge-base/`, Mano 3e; Bhurchandi for 8086).
+- **Material-based.** Scope = his material (decks, assignments, MTE, hand-out). Truth = the textbooks his decks list as references; never a fact straight off a slide:
+  - **Mano, *Computer System Architecture* 3e**: U1–U6. The decks say "Ref: M. M. Mano", and his assignments are Mano's end-of-chapter problems, so use Mano's notation and methods.
+  - **Bhurchandi & Ray, *Advanced Microprocessors and Peripheral Devices* 3e**: 8086.
+  - **Patterson & Hennessy, *COD RISC-V Edition***: RISC-V.
+  - Hamacher 5e and Sonal Yadav (AICTE) are also listed, as secondary references.
+  - The KB (`knowledge-base/`) is already checked against these. Read it with grep, by section, not whole files.
 - **No teaching script** (`learner-preferences.md` §3). Header = 2 lines: the file is the truth authority; every fact/number must be right. Fractions stacked.
 - Do not copy the EDC chat file's Part A/B script. Its other parts show the shape: solved questions + compact concepts.
 - The 2026-11-25 draft was deleted for bulk. Start fresh.
