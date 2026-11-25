@@ -400,3 +400,5 @@
   A3 Q9/Q10 = deck Part 3's interface problems. Learner request: build `chat-pack/instructions-chat.md` now, **completely
   material-based, every important bit of information**, no teaching script (2026-11-22 rule).
 - [2026-11-25] Learner stopped the chat-file build: the draft was too bulky for a file chats re-read constantly. Draft deleted; HANDOFF.md written for a fresh build (lean + complete). Lean-file preference added to `learner-preferences.md` §3.
+- [2026-11-25] Handoff picked up: fresh build of `chat-pack/instructions-chat.md` (lean + complete). **Learner stated: ETE = tomorrow, 2026-11-26.**
+- [2026-11-25] Build not started (session spent on Claude Code permission prompts; `blockReadsOutsideWorkingDirectories` removed from user settings). HANDOFF.md re-written with the same task + ETE date; nothing in `chat-pack/` yet.
