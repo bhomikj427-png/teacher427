@@ -392,3 +392,11 @@
   block exchange, smallest-of-ten via procedure. **Delta candidates for the KB (not yet run; waiting on assignments):** memory-interfacing
   design problems (KB U7 pins section is partial, U6 only names interfacing), microprocessor generations/history, Part 2 programs.
   CAP missing-list item 5 (loops/conditional programs) is now **covered**.
+- [2026-11-25] Inbox triage: **Assignment 3** (`3. ECE2108 Assignment 3.pdf`, 10 Q / 100 marks, due 06-10-2026: 8086 addressing-mode
+  before/after, 6 ALPs incl. Repeat-Until / While structures, gray code, square root, Mano 12-2-style memory map (256×8 RAM, 1024×8 ROM),
+  two 8086 memory-interface designs) → `exam-pack/ASSIGNMENT-A3-ECE2108-2026-10.pdf`; **Special Practice Assignment** (`4. ECE2108 Spl.
+  Practice Assignment.pdf`, 20 Q / 50 marks, due 04-11-2026: foundations one-liners, memory-chip counts, 8086 instructions/addressing/flags/
+  pins/queue, 3 ALPs) → `exam-pack/ASSIGNMENT-SPL-PRACTICE-ECE2108-2026-11.pdf`. Both text PDFs. A3 Q2–Q4 = deck Part 2's programs;
+  A3 Q9/Q10 = deck Part 3's interface problems. Learner request: build `chat-pack/instructions-chat.md` now, **completely
+  material-based, every important bit of information**, no teaching script (2026-11-22 rule).
+- [2026-11-25] Learner stopped the chat-file build: the draft was too bulky for a file chats re-read constantly. Draft deleted; HANDOFF.md written for a fresh build (lean + complete). Lean-file preference added to `learner-preferences.md` §3.

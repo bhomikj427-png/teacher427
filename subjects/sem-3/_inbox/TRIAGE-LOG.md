@@ -118,3 +118,5 @@
   `ASSGN1-EDC.pdf` → `ASSIGNMENT-1.pdf` · `ASSIGN2-EDC.pdf` → `ASSIGNMENT-2.pdf` · `ASSIGNMENT4EDC.pdf` → `ASSIGNMENT-4.pdf` ·
   `SPECIAL ASSIGNMENT-I.odt` → `SPECIAL-ASSIGNMENT-I.odt` · `special assignment-ii.docx` → `SPECIAL-ASSIGNMENT-II-is-A4.docx`.
   No duplicates by MD5. `_unsorted/` is empty.
+
+- `[2026-11-25]` **2 files, both ECE2108** → `11-computer-architecture-and-processor/exam-pack/`: `3. ECE2108 Assignment 3.pdf` → `ASSIGNMENT-A3-ECE2108-2026-10.pdf` (ASSIGNMENT, 10 Q / 100 marks; 8086 + memory interfacing) · `4. ECE2108 Spl. Practice Assignment.pdf` → `ASSIGNMENT-SPL-PRACTICE-ECE2108-2026-11.pdf` (ASSIGNMENT, 20 Q / 50 marks). No duplicates. `_unsorted/` is empty.

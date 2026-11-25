@@ -238,6 +238,7 @@ prefers minimal prose, wants diagrams described, etc.)*
   (no room for error); the learner directs the session. The content (topic list, facts, formulas) stays.
   Re-confirmed 2026-11-25 for CAP ("i always seem to have to tell the chat what to do anyways"); the 2026-11-24 EDC file broke
   this with a Part A/B script, so do not copy it.
+- [stated 2026-11-25] **Chat files must be lean.** Chats re-read them constantly: no prose, history or source notes; tables, formulas and solved answers only, yet complete for the exam. Throwaway working files go in `_tmp/` inside the project, deleted after.
 
 ## 4. Autonomy & choice
 - [stated 2026-10-17] **Engine does all verification; the learner only learns.** "I can only either
