@@ -23,6 +23,18 @@ inference.
 
 ## What's missing (and worth chasing)
 
+**2026-11-25 list (learner is fetching these; the chat file waits on them):**
+1. Memory organization deck incl. cache (L23–L26)
+2. I/O organization deck (L20–L22)
+3. RISC-V deck (L35–L36)
+4. Control unit / microprogrammed control deck (L12–L15)
+5. Possibly an 8086 loops / conditional-jump programming deck (CO5; the programming deck has only transfer/arithmetic programs)
+6. Assignment 3+ (if any)
+7. Quiz papers (CWS)
+8. Any ETE model paper / question bank / "important questions"
+
+*Older notes:*
+
 Ranked by value to exam performance — see `../knowledge-base/exam-map.md` §5:
 
 1. **ETE-style evidence.** The MTE paper arrived 2026-09-24; no ETE paper can exist for this first

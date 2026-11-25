@@ -229,6 +229,11 @@ This file is the single place the format lives. It is kept true by rule:
   including the Circuits & Systems pack the reference was copied from, never changes this spec or the
   frozen reference. A new file that drifts from the spec is a defect in that file, not a new format.
   The reference copies are replaced only when the learner says so.
+- **Pre-spec ECE2108 packs** (built 2026-09-12/23, before this spec existed; folder names are old
+  draft labels, not format versions). `study-pack-v3/` was where the v1.0 shape was first designed,
+  but it has no ranked START-HERE, figures, symbol tables or v1.3 depth, and covers U1–U4 only. Its
+  questions and verified numbers are reused; it is not copied (listed 2026-11-25):
+  - `11-computer-architecture-and-processor/study-pack/`, `study-pack-v2/`, `study-pack-v3/`
 - **Rebuilds follow, they do not lead.** Changing this file does not by itself rebuild old packs; the
   learner decides which ones to redo and in what order.
 

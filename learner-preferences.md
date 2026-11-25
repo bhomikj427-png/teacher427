@@ -236,6 +236,8 @@ prefers minimal prose, wants diagrams described, etc.)*
   shitty and i still had to teach it how i want the session to be". → a chat instruction file carries no session
   script or teaching rules; its preference section says only that every fact and every piece of maths must be correct
   (no room for error); the learner directs the session. The content (topic list, facts, formulas) stays.
+  Re-confirmed 2026-11-25 for CAP ("i always seem to have to tell the chat what to do anyways"); the 2026-11-24 EDC file broke
+  this with a Part A/B script, so do not copy it.
 
 ## 4. Autonomy & choice
 - [stated 2026-10-17] **Engine does all verification; the learner only learns.** "I can only either

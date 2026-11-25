@@ -375,3 +375,9 @@
   → `exam-pack/slides-unit7-8086-assembler-directives-and-programming.pdf` (36 pp., text: data-definition directives, ASSUME, MACRO/ENDM,
   location counter, modular linking; programs: direct addressing, swap, 8/16-bit add/sub, 8-bit multiply, 16÷8 division).
   KB `07-8086-microprocessor.md` was built textbook-primary; a delta diagnosis against these decks is due before teaching U7.
+- [2026-11-25] (interactive, no teaching) Learner asked what exists for the CAP ETE. Decisions: **no ETE study pack**; the
+  deliverable is `chat-pack/instructions-chat.md` (claude.ai chat brief). Learner confirmed the 2026-11-22 rule applies: **no
+  teaching rules / session plan in the file — correctness rule + content only; the learner directs the chat** ("i always seem
+  to have to tell the chat what to do anyways"). Old `study-pack/`, `-v2/`, `-v3/` listed as non-conforming in
+  `study-pack-format.md`. ETE date not given. **Build is on hold until the learner uploads the missing professor material**
+  (list written to `exam-pack/README.md` "What's missing", 2026-11-25).
