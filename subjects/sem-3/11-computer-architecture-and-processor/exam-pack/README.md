@@ -16,6 +16,9 @@ Material for **Computer Architecture & Processor [ECE2108]**. Routed here from `
 | `ASSIGNMENT-A2-ECE2108-2026-09.pdf` | **assignment** (CWS, 15 Q / 150 marks, due 16-09-2026) — added 2026-09-15 | U2 instruction format/bus/traces/control gates + U4 pipeline numericals; 12 of 15 are Mano ch. 5/9 end-of-chapter problems |
 | `slides-unit7-8086-architecture-addressing-modes-instructions.pdf` | prof deck (85 pp., **image-only**, pages rotated 90°; titled "UNIT-1 THE 8086 MICROPROCESSORS") — added 2026-11-13 | U7: 8086 architecture, addressing modes, instruction set |
 | `slides-unit7-8086-assembler-directives-and-programming.pdf` | prof deck (36 pp., text) — added 2026-11-13 | U7: directives (DB/DW/DD/DQ/DT, DUP, ASSUME, MACRO/ENDM, location counter/alignment, modular linking) + programs (direct addressing, register swap, mem↔reg transfer, 8-bit add, 16-bit sub, 8-bit mul, 16÷8 div) |
+| `slides-U6-8086-part1-intro-architecture-addressing-modes.pdf` | prof deck (87 pp., text; "Unit 6") — added 2026-11-25 | 8086 sub-units I–II: history of µP/µC, von Neumann/Harvard, RISC/CISC, BIU/EU, registers, flags, segmentation, physical address, all addressing modes incl. control-transfer, string and port |
+| `slides-U6-8086-part2-instruction-set-programming.pdf` | prof deck (46 pp., text) — added 2026-11-25 | sub-unit III: languages, assembler, directives (DUP, ORG, memory models), ALPs: 8-bit add, case conversion, count +ve/−ve, block exchange, LOOP structure, procedures, smallest of ten |
+| `slides-U6-8086-part3-pins-min-max-mode-memory-interfacing.pdf` | prof deck (34 pp., text) — added 2026-11-25 | sub-unit IV pins + min/max mode signals; sub-unit V memory interfacing (decoder-based design problems: 4K×8 and 16K×8 EPROM/RAM) |
 
 **The hand-out is the most valuable single document in the whole sem-3 batch so far** — it is the only
 first-party source that fixes a marks split and an MTE/ETE boundary by direct statement rather than
@@ -28,7 +31,7 @@ inference.
 2. I/O organization deck (L20–L22)
 3. RISC-V deck (L35–L36)
 4. Control unit / microprogrammed control deck (L12–L15)
-5. Possibly an 8086 loops / conditional-jump programming deck (CO5; the programming deck has only transfer/arithmetic programs)
+5. ~~Possibly an 8086 loops / conditional-jump programming deck~~ — **covered** by Part 2 (2026-11-25)
 6. Assignment 3+ (if any)
 7. Quiz papers (CWS)
 8. Any ETE model paper / question bank / "important questions"

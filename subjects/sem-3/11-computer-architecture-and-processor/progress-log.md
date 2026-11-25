@@ -381,3 +381,14 @@
   to have to tell the chat what to do anyways"). Old `study-pack/`, `-v2/`, `-v3/` listed as non-conforming in
   `study-pack-format.md`. ETE date not given. **Build is on hold until the learner uploads the missing professor material**
   (list written to `exam-pack/README.md` "What's missing", 2026-11-25).
+- [2026-11-25] Inbox triage (no teaching): **three professor 8086 decks** `Unit 6 - 8086 Microprocessor - Part 1/2/3.pdf` (87/46/34 pp,
+  text, ECE2108 headers) → `exam-pack/slides-U6-8086-part1-intro-architecture-addressing-modes.pdf`, `…-part2-instruction-set-programming.pdf`,
+  `…-part3-pins-min-max-mode-memory-interfacing.pdf`. **Not duplicates** of the 2026-11-13 decks: the image-only 85-pp deck is titled
+  "UNIT-1 THE 8086 MICROPROCESSORS" (different deck, kept); Part 2 shares 172 of 1048 words with the assembler deck (kept).
+  **Scope findings from the decks' own syllabus slide (p. 5):** the 8086 unit has 5 sub-units — I intro + history of microprocessors/
+  microcontrollers · II architecture, segmentation, addressing modes · III instruction set + ALP + directives · **IV 8086 signals,
+  min/max mode** · **V interfacing: memory & I/O with 8086** (Part 3 pp. 24–33: decoder-based memory-interface design problems,
+  e.g. CPU + two 4K×8 EPROMs + two 4K×8 RAMs). Part 2 adds programs the KB lacks: case conversion, count +ve/−ve in a 10-byte array,
+  block exchange, smallest-of-ten via procedure. **Delta candidates for the KB (not yet run; waiting on assignments):** memory-interfacing
+  design problems (KB U7 pins section is partial, U6 only names interfacing), microprocessor generations/history, Part 2 programs.
+  CAP missing-list item 5 (loops/conditional programs) is now **covered**.

@@ -109,3 +109,12 @@
   `ppt 8_LMS_Hypothesis _o.pptx` → `exam-pack/slides-08-hypothesis-testing.pptx` ·
   `Fundamentals-of-Mathematical-Statistics_Gupta-Kapoor.pdf` → `books/Gupta-Kapoor-Fundamentals-of-Mathematical-Statistics.pdf` (textbook, 1303 pp.).
   No duplicates. `_unsorted/` is empty.
+
+- `[2026-11-25]` **8 files.** **3 → `11-computer-architecture-and-processor/exam-pack/`** (PPT, ECE2108 "Unit 6 8086"):
+  `Unit 6 - 8086 Microprocessor - Part 1.pdf` → `slides-U6-8086-part1-intro-architecture-addressing-modes.pdf` (87 pp.) ·
+  `… Part 2.pdf` → `slides-U6-8086-part2-instruction-set-programming.pdf` (46 pp.) ·
+  `… Part 3.pdf` → `slides-U6-8086-part3-pins-min-max-mode-memory-interfacing.pdf` (34 pp.). Not duplicates of the 2026-11-13 8086 decks (different deck / 172 of 1048 words shared); all kept.
+  **5 → `03-electronic-devices-1/exam-pack/`** (ASSIGNMENTS; logged as moved on 2026-11-24 but had stayed in `_unsorted/`):
+  `ASSGN1-EDC.pdf` → `ASSIGNMENT-1.pdf` · `ASSIGN2-EDC.pdf` → `ASSIGNMENT-2.pdf` · `ASSIGNMENT4EDC.pdf` → `ASSIGNMENT-4.pdf` ·
+  `SPECIAL ASSIGNMENT-I.odt` → `SPECIAL-ASSIGNMENT-I.odt` · `special assignment-ii.docx` → `SPECIAL-ASSIGNMENT-II-is-A4.docx`.
+  No duplicates by MD5. `_unsorted/` is empty.
