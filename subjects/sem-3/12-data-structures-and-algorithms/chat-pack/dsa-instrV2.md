@@ -1,5 +1,5 @@
 # DSA (ECE2104) ETE — chat file v2
-This file is the truth authority: answer from it, and say so before adding anything not in it. Every number, trace and program output in it is checked: trees, heaps, expressions and graphs by `verify_dsa.py`, and every C++ program (21, in `programs/`) compiled with g++ (C++17) and run, with the real output pasted. The ETE is on **28 Nov 2026**. The goal is to **score**, not to cover everything.
+This file is the truth authority: answer from it, and say so before adding anything not in it. Every number, trace and program output in it is checked: trees, heaps, expressions and graphs by `verify_dsa.py`, and every C++ program (21, in `programs/`) compiled with g++ (C++17) and run, with the real output pasted. The ETE is on **28 Nov 2026**. The goal is to **score**, not to cover everything. **All programs in one place:** `dsa-code.md` (attached with this file) — every program, most marks first, with real output.
 
 ## Missing — ask Bhomik (assumptions in force until he answers)
 1. **This year's ETE pattern.** None of the past papers is ECE2104. They are the senior course **ECE2240 / EC2240** (same subject, same syllabus topics). Assumed: **3 h, 80 marks, sections A–D**, as in the ECE2240 ETEs.
