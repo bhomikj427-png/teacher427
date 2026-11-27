@@ -407,3 +407,4 @@
 - [2026-11-25] Inbox triage: 4 PYQs (mujstella scans, ECE2202 = old code of this course) → `exam-pack/PYQ-ETE-ECE2202-2025-05.pdf`, `PYQ-ETE-ECE2202-2026-05.pdf`, `PYQ-MAKEUP-ECE2202-2026-06.pdf`, `PYQ-SUMMER-ECE2202-2026-07.pdf`. All four end with an 8086 memory-interfacing Section D; none asks RISC-V. `_tmp/` deleted.
 - [2026-11-27] Inbox triage: `instcV2.md` (CAP chat file v2, 1302 lines, Progress dated 26 Nov 06:15) → `chat-pack/instructions-chat-v2.md`;
   v1 kept beside it. v2 is the template named in the DSA chat-pack brief.
+- [2026-11-27] `chat-pack/instructions-chat-v2.md` moved to root `chat-pack-template/reference-instcV2-CAP.md` (learner: reuse the instcV2 format for other subjects). v1 stays in `chat-pack/`.

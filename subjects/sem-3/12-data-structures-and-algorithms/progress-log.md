@@ -82,3 +82,9 @@
   MTE pack, so it is ETE practice evidence.
 - [2026-11-27] **ETE date (learner-stated): 28 Nov 2026.** Inbox triage: `dsa_generator_prompt.md` → `chat-pack/BRIEF.md` (task brief:
   build `chat-pack/instructions-chat.md` in the CAP v2 shape, WHERE/HOW/HOW MUCH trunk). Not started; waiting on DSA material (PYQs) from learner.
+- [2026-11-27] Inbox triage (learner upload, ETE tomorrow). 17 exact duplicates deleted (14 decks already in exam-pack, 3 other-subject files already filed); `slides-08-queue-pointers-COPY.pptx` removed (same text as deck 8, logged as a copy on 2026-09-24).
+  Filed: `PYQ-ETE-2025-AprMay-ECE2240.pdf`, `PYQ-ETE-2026-JanMay-ECE2240-with-solutions.pdf` (3rd-party handwritten key), `PYQ-MTE-2024-Mar-EC2240.pdf`,
+  `ASSIGNMENT-DSA-50Q-question-set.pdf`, `ASSIGNMENT-A2-ECE2104-2026-10-queue-simulations.docx`, `slides-09-data-structure-II-trees-sorting-graphs.pptx` (Upadhyay, 135 slides: trees, AVL, RB, sorting, graphs).
+  Evidence: A1 (Aug 2026) reuses ETE26 items word for word (zip-code output, array queue, linked-list insertion, constructor area program).
+  Found: the ETE26 key's AVL step 7 (insert 36) rotates at 27, but BF(27) = 1 − 2 = −1, so no rotation is needed; ETE25 Q11 "postfix" string is invalid as printed (starts with an operator).
+- [2026-11-27] Built `chat-pack/dsa-instrV2.md` (CAP-v2 shape; WHERE/HOW/HOW MUCH trunk). Checks: `chat-pack/verify_dsa.py` (all tree/heap/expression/graph traces) + `chat-pack/programs/p1–p9.cpp` (all compiled with g++ -std=c++17 and run; outputs pasted).

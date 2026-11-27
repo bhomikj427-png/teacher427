@@ -104,3 +104,4 @@
   whole PDF was reviewed visually. Fixed before shipping: the 00 path map had taken a whole page, the 06/08/09 maps were too wide,
   a blank page came from a non-breaking table, hard-wrapped lines were rendering as mid-sentence breaks, `Q*` was turning into
   italics, and labels overlapped on the tax and EOQ figures. The .md files are unchanged and remain the source. Rebuild with `study-pack/pdf-src/build.py`.
+- [2026-11-27] Inbox triage: `Assignment 3.pdf` → `exam-pack/ASSIGNMENT-A3-MEE2003-2026-10.pdf` (MEE2003 Assignment III, due 29 Oct 2026: LCC, value analysis, risk types).

@@ -16,8 +16,13 @@ Material for **Data Structures and Algorithms [ECE2104]**. Routed here from `../
 | `slides-07-stack.pptx` | 18 | stack ADT, LIFO, PUSH/POP algorithms (overflow/underflow), infix/prefix/postfix | — |
 | `slides-08-queue-pointers.pptx` | 27 | queue, FIFO, circular queue, pointers (`&`, `*`) | 6 items incl. array queue + circular queue programs |
 | `ASSIGNMENT-A1-ECE2104-2026-08.pdf` | 50 marks | **Assignment 1** (CWS), due 27-08-2026. 23 Q: A 9×1 / B 5×2 / C 5×3 / D 4×4. Arrays, loops, classes/constructors, access specifiers, stack (array, trace, infix→postfix, postfix eval), queue, **singly linked list**, call by value/reference | first professor-set questions |
-| `slides-08-queue-pointers-COPY.pptx` | 27 | **duplicate of deck 8**, identical slide text | kept, not deleted. Safe to remove |
 | `PRACTICE-DSA-question-booklet.pdf` | 26 pp. | **Practice question booklet** (added 2026-11-13): classes/objects/constructors, stacks/queues/pointers, linked lists, infix/prefix/postfix, sorting (merge/quick/heap), trees (BST, AVL), graphs (BFS, DFS, Dijkstra, Prim) | runs past the MTE pack, so it is ETE practice |
+| `slides-09-data-structure-II-trees-sorting-graphs.pptx` | 135 | **Upadhyay, unit 2** (added 2026-11-27): tree terms, binary-tree properties, traversals, AVL, red-black, insertion/selection sort, graphs (representation, BFS/DFS, topological sort, Prim, Kruskal, Dijkstra) | — |
+| `ASSIGNMENT-A2-ECE2104-2026-10-queue-simulations.docx` | 3 Q | **Assignment 2** (due 16-10-2026): airport runway (two queues), parking lot, lift simulation | long programs; too big for a paper |
+| `ASSIGNMENT-DSA-50Q-question-set.pdf` | 50 Q | 50-question set: C++ basics, OOP, arrays, linked lists, stack/queue, BST, AVL, red-black, tree reconstruction | trace keys in `../chat-pack/dsa-instrV2.md` §5 |
+| `PYQ-ETE-2026-JanMay-ECE2240-with-solutions.pdf` | 17 pp. | **ETE Jan–May 2026, ECE2240** (senior code, same subject), 80 marks + a third-party handwritten key (its AVL step 7 is wrong) | A1 copies 4 of its questions word for word |
+| `PYQ-ETE-2025-AprMay-ECE2240.pdf` | 1 p. | **ETE Apr–May 2025, ECE2240**, 80 marks (graph terms, BST 30 marks, expressions, queue via list, selection sort) | Q11 expression invalid as printed |
+| `PYQ-MTE-2024-Mar-EC2240.pdf` | 2 pp. | **MTE Mar 2024, EC2240**, 30 marks (output prediction, reverse a linked list) | |
 
 Most slides are image-heavy. Only the text layer was read at triage (`unzip`), so figures and code
 screenshots are not yet captured.

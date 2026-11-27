@@ -443,6 +443,9 @@ intuition or pop-pedagogy — stop and re-anchor to the five principles. Every m
 - `study-pack-sprint-protocol.md` — the fixed steps of one study-pack sprint, shared by every
   subject's `sprints.md` (which holds only its table, hand-off and backlog). Tools: `tools/study_pack_build.py`
   (builder), `tools/figlib.py` (shared figure helpers), `tools/fig_overlap_check.py` (label-overlap check).
+- `chat-pack-template/` — **exam chat files ("instrV2")**: `generator-prompt.md` (subject-agnostic build spec) +
+  `reference-instcV2-CAP.md` (frozen reference for the teaching rules and example-flow skeleton). Output lives in
+  each subject's `chat-pack/`; delivery only, never overrides the five principles.
 - `marathon.md` — **the marathon protocol** (learner-designed question-driven study mode over a
   defined book; modes, curation rule, per-question page order, misses-only evidence, revision set).
   Live marathon state lives in the subject's progress log + the marathon's `manifest.md`.

@@ -123,3 +123,9 @@
 
 - `[2026-11-27]` **2 files, neither exam material.** `instcV2.md` → `11-computer-architecture-and-processor/chat-pack/instructions-chat-v2.md` (CAP chat file v2; v1 kept) ·
   `dsa_generator_prompt.md` → `12-data-structures-and-algorithms/chat-pack/BRIEF.md` (task brief for the DSA chat file). `_unsorted/` is empty.
+
+- `[2026-11-27]` **Learner upload, 24 files.** 17 exact duplicates (MD5) deleted: decks `1.pptx`–`9.pptx` + `(1)` copies (= DSA `slides-01…08`), `4. ECE2108 Spl. Practice Assignment.pdf` (= CAP exam-pack), `Assignment 4_MAS2001.pdf`, `Assignment -5 MAS2001.pdf` (= Stats exam-pack).
+  **6 → `12-data-structures-and-algorithms/exam-pack/`:** `DSA-CPP_ETE_Sem-4_2024-25.pdf` → `PYQ-ETE-2025-AprMay-ECE2240.pdf` · `DSA-CPP_ETE_Sem-4_2025-26(with Solns).pdf` → `PYQ-ETE-2026-JanMay-ECE2240-with-solutions.pdf` ·
+  `DSA-CPP_MTE_Sem-4_2023-24.pdf` → `PYQ-MTE-2024-Mar-EC2240.pdf` · `DSA_Assignment.pdf` → `ASSIGNMENT-DSA-50Q-question-set.pdf` · `Assignment 2.docx` → `ASSIGNMENT-A2-ECE2104-2026-10-queue-simulations.docx` ·
+  `Data Structure II.pptx` → `slides-09-data-structure-II-trees-sorting-graphs.pptx`. Also removed the old `slides-08-queue-pointers-COPY.pptx` (copy of deck 8).
+  **1 → `14-engineering-economics/exam-pack/`:** `Assignment 3.pdf` → `ASSIGNMENT-A3-MEE2003-2026-10.pdf`. Chat-file templates moved to root `chat-pack-template/`. `_inbox/` is empty.
