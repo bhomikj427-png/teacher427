@@ -88,3 +88,4 @@
   Evidence: A1 (Aug 2026) reuses ETE26 items word for word (zip-code output, array queue, linked-list insertion, constructor area program).
   Found: the ETE26 key's AVL step 7 (insert 36) rotates at 27, but BF(27) = 1 − 2 = −1, so no rotation is needed; ETE25 Q11 "postfix" string is invalid as printed (starts with an operator).
 - [2026-11-27] Built `chat-pack/dsa-instrV2.md` (CAP-v2 shape; WHERE/HOW/HOW MUCH trunk). Checks: `chat-pack/verify_dsa.py` (all tree/heap/expression/graph traces) + `chat-pack/programs/p1–p9.cpp` (all compiled with g++ -std=c++17 and run; outputs pasted).
+- [2026-11-27] Learner: "where is the code? … maybe even half of the paper". Count confirmed: ETE26 code = A6 + B7 + B8 + D13 = 35/80; A1, booklet 1–33, 50Q 6–20 are mostly programs. Added §P code bank (P1–P8) to `chat-pack/dsa-instrV2.md` + `programs/p10–p21.cpp` (all compiled g++ -std=c++17 -Wall, run on the inputs shown, outputs pasted); bank/progress/A1 key cross-referenced.

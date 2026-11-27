@@ -1,5 +1,5 @@
 # DSA (ECE2104) ETE — chat file v2
-This file is the truth authority: answer from it, and say so before adding anything not in it. Every number, trace and program output in it is checked: trees, heaps, expressions and graphs by `verify_dsa.py`, and every C++ program compiled with g++ (C++17) and run, with the real output pasted. The ETE is on **28 Nov 2026**. The goal is to **score**, not to cover everything.
+This file is the truth authority: answer from it, and say so before adding anything not in it. Every number, trace and program output in it is checked: trees, heaps, expressions and graphs by `verify_dsa.py`, and every C++ program (21, in `programs/`) compiled with g++ (C++17) and run, with the real output pasted. The ETE is on **28 Nov 2026**. The goal is to **score**, not to cover everything.
 
 ## Missing — ask Bhomik (assumptions in force until he answers)
 1. **This year's ETE pattern.** None of the past papers is ECE2104. They are the senior course **ECE2240 / EC2240** (same subject, same syllabus topics). Assumed: **3 h, 80 marks, sections A–D**, as in the ECE2240 ETEs.
@@ -113,8 +113,12 @@ Three model replies. Diagrams are described in [brackets]; in a session, actuall
 | Q13 output prediction | not started |
 | Q14 red-black insertion | not started |
 | Q15 Huffman + hashing | not started |
+| §P skeletons (class / array loop / node walk) | not started |
+| P1 stack · P2 infix→postfix · P3 postfix eval | not started |
+| P4 linked list full · P5 class programs · P6 inheritance/copy | not started |
+| P7 arrays · P8 swap/sorts/circular queue | not started |
 
-**Next, in order:** trunk → Q1 → Q2 → Q3 → Q4 → Q5 → Q6 → Q7 → Q12 → the rest as time allows.
+**Next, in order:** trunk → Q1 → Q2 → Q3 → §P skeletons → Q4 → Q5 → Q6 → P1 → P4 → P5 → P2 → P3 → Q7 → Q12 → P7 → P8 → the rest as time allows.
 
 ---
 
@@ -129,7 +133,7 @@ Three model replies. Diagrams are described in [brackets]; in a session, actuall
 | Balagurusamy, *OOP with C++* (2020) | classes, constructors, destructors |
 | Goodrich–Tamassia–Mount (2011), Drozdek (2012) | graphs, sorting, complexity |
 
-**Paper (ECE2240 pattern):** 3 h, 80 marks, no calculator. **ETE 2026:** A = 6 short (3, 3, 2, 2, 3, 3 = 16: constructor vs destructor, array vs linked list, degree, leaf/depth, bubble vs selection, output prediction) · B = 4 × 8 (array queue program, linked-list insertion program, AVL insertion, max-heap delete) · C = 2 × 8 (BST + 3 traversals, infix → prefix and postfix) · D = 1 × 16 (constructor program). **ETE 2025:** A = graph terms (10) · B = BST + 3 traversals + subtree counts (30) · C = two expression conversions (20) · D = queue with a linked list + selection sort program (20). **MTE 2024:** output prediction (2–4 marks each) + reverse a linked list (8).
+**Paper (ECE2240 pattern):** 3 h, 80 marks, no calculator. **ETE 2026:** A = 6 short (3, 3, 2, 2, 3, 3 = 16: constructor vs destructor, array vs linked list, degree, leaf/depth, bubble vs selection, output prediction) · B = 4 × 8 (array queue program, linked-list insertion program, AVL insertion, max-heap delete) · C = 2 × 8 (BST + 3 traversals, infix → prefix and postfix) · D = 1 × 16 (constructor program). **ETE 2025:** A = graph terms (10) · B = BST + 3 traversals + subtree counts (30) · C = two expression conversions (20) · D = queue with a linked list + selection sort program (20). **MTE 2024:** output prediction (2–4 marks each) + reverse a linked list (8). **Code share:** ETE26 35/80 (A6, B7, B8, D13); ETE25 20/80 (D12, D13); MTE almost all; A1 about two-thirds. See §P.
 
 **What repeats (most marks first):**
 
@@ -166,6 +170,9 @@ Three model replies. Diagrams are described in [brackets]; in a session, actuall
 | Q13 | Output prediction | 2–4 each | ETE26 A6, MTE | low | 15 |
 | Q14 | Red-black insertion | 8 | booklet ×10, 50Q | med | 30 — *only if time is left* |
 | Q15 | Huffman code, hashing | 3–5 | syllabus only | med | 15 — *only if time is left* |
+| **P1–P8** | **Code bank** (stack, infix→postfix and postfix-eval programs, full linked list, class programs, inheritance, arrays, swap, sorts, circular queue) | 2–16 each | A1 (most of it), booklet 1–33, 50Q 6–20 | low | 150 total; ranked inside §P |
+
+**Code is about half the paper** (ETE26: 35/80 marks; A1 mostly programs). Q4, Q5, Q6, Q8, Q13 hold the paper's own programs; §P holds the rest. Teach the three skeletons in §P (class, array loop, node walk) once, before Q4.
 
 Cut today: Python, std::variant lists (booklet 30–33), the airport/parking/lift simulations (A2: too long for a paper), topological sort, B-trees.
 
@@ -950,6 +957,725 @@ Check: black height = 2 on every path (22 + one of 5/17/27/44); no red–red pai
 
 ---
 
+## P. Code bank: the program questions (about half the paper)
+
+**Why this section exists.** In ETE 2026, code is **35 of 80 marks**: A6 output (3) + B7 array queue (8) + B8 linked-list insertion (8) + D13 constructors (16). ETE 2025 has 20 marks of code (D12, D13), and the MTE is almost all code. Assignment 1, booklet 1–33 and 50Q 6–20 are mostly "Write a C++ program…". The programs already in Q1 (BST), Q4 (constructors), Q5 (queues), Q6 (linked list), Q8 (selection sort) and Q13 (outputs) are part of this bank; P1–P8 below cover the rest. Every program here was compiled with g++ and run; "Real output" shows the program's printed lines (the `cin` prompts and typed input are left out unless shown).
+
+**The picture: every program is one of three skeletons plus one changing part.** Teach the skeleton once, then each new question is only "what goes in the slot".
+
+| Skeleton | WHERE the data sits | HOW you move | The slot that changes |
+|---|---|---|---|
+| **Class** | fields inside an object | call a member function | which constructors, which function does the work |
+| **Array loop** | boxes 0 … n−1 side by side | `for (i = 0; i < n; i++)` | the line inside the loop (add, compare, count, swap, shift) |
+| **Node walk** | boxes scattered, each holding `next` | `for (p = head; p != NULL; p = p->next)` | where you stop and which arrow you re-point |
+
+Stack and queue programs are the array skeleton with one or two index variables (`top`; `front`, `rear`). Expression programs are the stack program used inside an array loop over the characters.
+
+**How the chat session teaches a program (rule 7 applied to code):** never ask Bhomik to memorise a program. (1) Draw the boxes and the moving index/pointer. (2) Ask him to say in words what one step does. (3) Write the 3–6 core lines together. (4) Add the boilerplate last (`#include`, `main`, `cin`/`cout`), which is the same every time. (5) Trace one small input in a state table. **Marks rule:** the examiner gives most marks for the core lines and the overflow/underflow/empty checks; "user-friendly" = prompts with `cout`, input with `cin`, a clear message for each case.
+
+| Rank | Program | Marks | Seen in | Rote load | Minutes |
+|---|---|---|---|---|---|
+| P1 | Stack with an array: PUSH, POP, PEEK, DISPLAY | 2–8 | A1 B5, C1; booklet 21–24; 50Q 25 | low | 20 |
+| P2 | Infix → postfix program | 4–8 | A1 D3 | low (after Q2) | 20 |
+| P3 | Postfix evaluation program | 3–8 | A1 C4; 50Q 27 | low | 15 |
+| P4 | Linked list: insert, delete, search, display, sort by swapping data | 2–8 | A1 B1, D2; ETE26 B8 | low (after Q6) | 25 |
+| P5 | Class programs: Student + grade, Triangle + function overloading | 3–16 | A1 C3, D1; booklet 1–9; 50Q 6–10 | low (after Q4) | 20 |
+| P6 | Inheritance + copy constructor | 3–8 | booklet 4; 50Q 8; MTE Q5 | med | 10 |
+| P7 | Array: insert/delete at a position; sum/max/search/count/reverse | 2–8 | A1 B4; booklet 10–17; 50Q 11–16 | low | 20 |
+| P8 | Swap by value vs reference; bubble + insertion programs; circular queue | 2–8 | A1 B2; 50Q 13; booklet 73–76; deck 8 | low | 20 |
+
+---
+
+### P1. Stack using an array (2–8 marks)
+**Question (A1 B5):** "Apply the LIFO principle to implement a stack using an array with PUSH, POP, PEEK, and DISPLAY operations. Handle overflow and underflow conditions." **(A1 C1):** trace PUSH(10) PUSH(20) POP() POP() POP() PUSH(30) PUSH(40).
+
+**Picture.** A **stack** is a pile of plates: you add and remove only at the **top**. That is **LIFO**, last in, first out. In an array, the plates sit in boxes 0, 1, 2, … and one integer `top` holds the index of the top plate; `top = -1` means the pile is empty. **Push** = move `top` up one, then store. **Pop** = read the top plate, then move `top` down one. **Overflow** = pushing when `top == MAX − 1` (no box left); **underflow** = popping when `top == -1` (nothing to take).
+
+**Diagram spec.**
+- [vertical array of 5 boxes, index 0 at the bottom; arrow "top" pointing at the highest filled box; one frame per A1 C1 step: 10 | 10 20 | 10 | empty (top = −1) | red "UNDERFLOW" | 30 | 30 40]
+- [DE bridge: the same picture as a register file with an up/down counter driving the address]
+
+**State table (A1 C1, MAX = 5):**
+
+| Step | top before | Action | Stack (bottom → top) | top after |
+|---|---|---|---|---|
+| PUSH 10 | −1 | `a[++top] = 10` | 10 | 0 |
+| PUSH 20 | 0 | `a[++top] = 20` | 10 20 | 1 |
+| POP | 1 | return `a[top--]` = 20 | 10 | 0 |
+| POP | 0 | return 10 | empty | −1 |
+| POP | −1 | `top == -1` → **underflow** | empty | −1 |
+| PUSH 30 | −1 | store | 30 | 0 |
+| PUSH 40 | 0 | store | 30 40 | 1 |
+
+Overflow can't happen here (only 2 items ever sit in a 5-box stack); it would need 6 pushes.
+
+**Exam answer (program `p16_stack_array.cpp`):**
+```cpp
+#include <iostream>
+using namespace std;
+#define MAX 5
+class Stack {
+    int a[MAX];
+    int top;                                     // index of the top box; -1 = empty
+public:
+    Stack() { top = -1; }
+    void push(int x) {
+        if (top == MAX - 1) { cout << "Overflow: cannot push " << x << "\n"; return; }
+        a[++top] = x;                            // move up first, then store
+        cout << "Pushed " << x << "\n";
+    }
+    void pop() {
+        if (top == -1) { cout << "Underflow: stack empty\n"; return; }
+        cout << "Popped " << a[top--] << "\n";   // read first, then move down
+    }
+    void peek() {
+        if (top == -1) cout << "Stack empty\n";
+        else cout << "Top = " << a[top] << "\n";
+    }
+    void display() {
+        if (top == -1) { cout << "Stack empty\n"; return; }
+        cout << "Stack (bottom -> top): ";
+        for (int i = 0; i <= top; i++) cout << a[i] << " ";
+        cout << "\n";
+    }
+};
+int main() {
+    Stack s;
+    s.push(10); s.push(20);                      // A1 C1 sequence
+    s.pop(); s.pop(); s.pop();                   // third POP = underflow
+    s.push(30); s.push(40);
+    s.peek(); s.display();
+    return 0;
+}
+```
+Real output:
+```
+Pushed 10
+Pushed 20
+Popped 20
+Popped 10
+Underflow: stack empty
+Pushed 30
+Pushed 40
+Top = 40
+Stack (bottom -> top): 30 40
+```
+
+| Write | Why |
+|---|---|
+| Stack = linear structure, insert and delete at one end (top), LIFO | the definition marks |
+| Overflow condition `top == MAX-1`; underflow condition `top == -1` | the examiner checks for these two lines |
+| Push and pop are $O(1)$ | one index change, no loop |
+| Applications: browser back button, undo, function calls, expression conversion/evaluation | booklet 21–24 are these |
+
+**Try:**
+1. Booklet 21 (browser back with Google → YouTube → Amazon → Wikipedia): what changes in the code? → `int a[MAX]` becomes `string a[MAX]` (and `#include <string>`); push the four sites; "Back" = pop, so Wikipedia leaves first and the current page is then Amazon (the new top).
+2. A1 C1 with MAX = 1: where does it first fail? → PUSH 40 overflows (30 already fills the only box).
+
+---
+
+### P2. Infix → postfix program (4–8 marks)
+**Question (A1 D3):** "Write a C++ program using data structure to convert an Infix form to Postfix form. The program must be general in nature and fully user friendly."
+
+**Picture.** This is exactly the hand method of Q2, written as code. The stack holds operators that are **waiting** because something to their right might bind tighter. **Precedence** = how tightly an operator binds: `^` (3) > `*` `/` (2) > `+` `-` (1). Four rules, one per kind of character: operand → output · `(` → push · `)` → pop to the output until `(`, then drop the `(` · operator → pop while the top binds at least as tightly, then push. At the end, pop everything.
+
+**Diagram spec.**
+- [three columns per step: character read | stack (drawn as a vertical pile) | output so far; for ((A+B)/C)*(D−E)]
+
+**State table (A1 B3 input `((A+B)/C)*(D-E)`):**
+
+| Read | Rule | Stack | Output |
+|---|---|---|---|
+| ( ( | push | ( ( | |
+| A | operand | ( ( | A |
+| + | push (top is `(`) | ( ( + | A |
+| B | operand | ( ( + | A B |
+| ) | pop to `(` | ( | A B + |
+| / | push | ( / | A B + |
+| C | operand | ( / | A B + C |
+| ) | pop to `(` | | A B + C / |
+| * | push | * | A B + C / |
+| ( D − E ) | as above | * | A B + C / D E − |
+| end | pop all | | **A B + C / D E − \*** |
+
+**Exam answer (program `p18_infix_postfix.cpp`):**
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+char st[100]; int top = -1;
+void push(char c) { st[++top] = c; }
+char pop() { return st[top--]; }
+int prec(char c) {                               // bigger number = binds tighter
+    if (c == '^') return 3;
+    if (c == '*' || c == '/') return 2;
+    if (c == '+' || c == '-') return 1;
+    return 0;                                    // '(' sits lowest, never popped by an operator
+}
+int main() {
+    string in, out = "";
+    cout << "Enter infix expression: ";
+    cin >> in;
+    for (char c : in) {
+        if (isalnum(c)) out += c;                // operand: straight to output
+        else if (c == '(') push(c);              // '(' : always push
+        else if (c == ')') {                     // ')' : pop until the matching '('
+            while (st[top] != '(') out += pop();
+            pop();                               // throw the '(' away
+        } else {                                 // operator
+            while (top != -1 && prec(st[top]) >= prec(c) && c != '^')
+                out += pop();                    // pop everything that binds at least as tight
+            push(c);
+        }
+    }
+    while (top != -1) out += pop();              // empty the stack at the end
+    cout << "Postfix: " << out << "\n";
+    return 0;
+}
+```
+Real runs (input → output):
+```
+((A+B)/C)*(D-E)   ->  Postfix: AB+C/DE-*
+A+B*C-D/(E+F^G)   ->  Postfix: ABC*+DEFG^+/-
+A^B^C             ->  Postfix: ABC^^
+```
+
+| Write | Why |
+|---|---|
+| Algorithm in 4 rules (above), then the program | the rules earn marks even if code has a slip |
+| `c != '^'` in the pop condition | `^` is right-associative: $A^{B^C}$, so an incoming `^` never pops another `^` |
+| Time $O(n)$ | each character is pushed and popped at most once |
+
+**Try:** run the rules on `A*(B+C)/D` → **A B C + \* D /**. (The `/` arrives with `*` on top, equal precedence, so `*` pops first: left to right.)
+
+---
+
+### P3. Postfix evaluation program (3–8 marks)
+**Question (A1 C4):** "Analyze the following postfix expression and develop a C++ program to evaluate it using a stack. Display the stack after processing every operator. 12 3 4 * + 6 2 / -"
+
+**Picture.** Postfix puts the operator **after** its two operands, so no brackets are needed. Read left to right: a number → push it; an operator → pop two numbers, apply, push the result. The **first** pop is the **right** operand (it went in last). At the end, the one number left is the answer.
+
+**Diagram spec.**
+- [row of tokens 12 3 4 * + 6 2 / −; under each operator, the stack drawn after it: 12 12 | 24 | 24 3 | 21]
+
+**State table:**
+
+| Token | Action | Stack after |
+|---|---|---|
+| 12, 3, 4 | push | 12 3 4 |
+| * | 3 × 4 = 12 | **12 12** |
+| + | 12 + 12 = 24 | **24** |
+| 6, 2 | push | 24 6 2 |
+| / | 6 / 2 = 3 | **24 3** |
+| − | 24 − 3 = 21 | **21** |
+
+**Exam answer (program `p17_postfix_eval.cpp`):**
+```cpp
+#include <iostream>
+#include <sstream>
+#include <string>
+using namespace std;
+int st[50], top = -1;
+void push(int x) { st[++top] = x; }
+int pop() { return st[top--]; }
+void show() {
+    cout << "  stack: ";
+    for (int i = 0; i <= top; i++) cout << st[i] << " ";
+    cout << "\n";
+}
+int main() {
+    string line, tok;
+    cout << "Enter postfix (tokens separated by spaces): ";
+    getline(cin, line);
+    stringstream ss(line);                       // split the line into tokens
+    while (ss >> tok) {
+        if (isdigit(tok[0])) push(stoi(tok));    // operand: push it
+        else {
+            int b = pop();                       // operator: pop the RIGHT operand first
+            int a = pop();                       // then the left one
+            int r;
+            if (tok == "+") r = a + b;
+            else if (tok == "-") r = a - b;
+            else if (tok == "*") r = a * b;
+            else r = a / b;
+            push(r);                             // result goes back on the stack
+            cout << "after " << tok; show();
+        }
+    }
+    cout << "Result = " << pop() << "\n";
+    return 0;
+}
+```
+Real output (input `12 3 4 * + 6 2 / -`):
+```
+after *  stack: 12 12
+after +  stack: 24
+after /  stack: 24 3
+after -  stack: 21
+Result = 21
+```
+
+**Try:** 50Q 27-style `5 1 2 + 4 * + 3 -` → 1 + 2 = 3 · 3 × 4 = 12 · 5 + 12 = 17 · 17 − 3 = **14**. Why does `b` pop before `a`? → for `8 2 -` the stack is 8 2; the 2 is on top, and 8 − 2 needs 8 on the left.
+
+---
+
+### P4. Linked list: the full set of operations (2–8 marks)
+**Question (A1 B1):** "Apply linked-list concepts to create a singly linked list and perform insertion at the beginning, insertion at the end, deletion of a node, searching, and traversal operations." **(A1 D2):** "Write a C++ program using data structure to sort a linked list by swapping data. The program must be general in nature and fully user friendly."
+
+**Picture.** (Q6 has the boxes-and-arrows picture.) Every operation is the node walk with a different stop: **insert at end** stops at the last box (`p->next == NULL`); **delete** stops one box **before** the target, because that box's arrow is the one to re-point; **search** stops at a match. **Sort by swapping data** leaves every arrow alone and swaps only the numbers inside boxes, like selection-style bubble sort on an array.
+
+**Diagram spec.**
+- [delete 30 from 5 → 40 → 10 → 30 → 50 → 20: p on box 10 (coral), its arrow redrawn to skip 30 (dashed old arrow, box 30 crossed out "delete t")]
+- [sort: the same 5 boxes, arrows unchanged; only the numbers move, shown in two rows before/after]
+
+**Exam answer (program `p19_ll_full.cpp`; `insertAfter` and `reverse` are in Q6):**
+```cpp
+#include <iostream>
+using namespace std;
+struct Node {
+    int data;
+    Node *next;
+};
+Node *head = NULL;
+void insertBegin(int x) {
+    Node *n = new Node; n->data = x;
+    n->next = head;                              // new box points at the old first box
+    head = n;                                    // head now points at the new box
+}
+void insertEnd(int x) {
+    Node *n = new Node; n->data = x; n->next = NULL;
+    if (head == NULL) { head = n; return; }      // empty list: it becomes the head
+    Node *p = head;
+    while (p->next != NULL) p = p->next;         // walk to the last box
+    p->next = n;                                 // hook the new box on
+}
+void deleteValue(int x) {
+    if (head == NULL) { cout << "List empty\n"; return; }
+    if (head->data == x) {                       // deleting the first box
+        Node *t = head; head = head->next; delete t;
+        cout << "Deleted " << x << "\n"; return;
+    }
+    Node *p = head;
+    while (p->next != NULL && p->next->data != x) p = p->next;   // stop one box BEFORE it
+    if (p->next == NULL) { cout << x << " not found\n"; return; }
+    Node *t = p->next;
+    p->next = t->next;                           // bypass the box
+    delete t;                                    // free its memory
+    cout << "Deleted " << x << "\n";
+}
+void search(int x) {
+    int pos = 1;
+    for (Node *p = head; p != NULL; p = p->next, pos++)
+        if (p->data == x) { cout << x << " found at position " << pos << "\n"; return; }
+    cout << x << " not found\n";
+}
+void display() {
+    for (Node *p = head; p != NULL; p = p->next) cout << p->data << " -> ";
+    cout << "NULL\n";
+}
+void sortList() {                                // swap DATA, not links
+    for (Node *p = head; p != NULL; p = p->next)
+        for (Node *q = p->next; q != NULL; q = q->next)
+            if (p->data > q->data) { int t = p->data; p->data = q->data; q->data = t; }
+}
+int main() {
+    int n, x;
+    cout << "How many nodes? "; cin >> n;
+    cout << "Enter " << n << " values: ";
+    for (int i = 0; i < n; i++) { cin >> x; insertEnd(x); }
+    cout << "\nList: "; display();
+    insertBegin(5); cout << "After insertBegin(5): "; display();
+    deleteValue(30); cout << "List: "; display();
+    search(40);
+    sortList(); cout << "Sorted: "; display();
+    return 0;
+}
+```
+Real output (input: 5, then 40 10 30 50 20):
+```
+List: 40 -> 10 -> 30 -> 50 -> 20 -> NULL
+After insertBegin(5): 5 -> 40 -> 10 -> 30 -> 50 -> 20 -> NULL
+Deleted 30
+List: 5 -> 40 -> 10 -> 50 -> 20 -> NULL
+40 found at position 2
+Sorted: 5 -> 10 -> 20 -> 40 -> 50 -> NULL
+```
+
+| Write | Why |
+|---|---|
+| Insert at beginning $O(1)$; at end $O(n)$ (walk to the last box); search $O(n)$ | count the walk |
+| Delete: handle the head case separately; otherwise stop at the box before | the head has no "box before" |
+| `delete t` after unlinking | frees the memory (no leak); unlinking first means the list is never broken |
+| Sort by data: nested walks, swap `data` when out of order, $O(n^2)$ | the links never change |
+
+**Try:** delete 99 from the list above → the walk reaches the last box with `p->next == NULL` → prints **"99 not found"**. Delete 5 (the head) → head moves to 10 (in the sorted list), output "Deleted 5".
+
+---
+
+### P5. Class programs: Student + grade; Triangle + function overloading (3–16 marks)
+**Question (A1 C3):** "Apply the concept of classes and constructors to write a C++ program for a Student class. Use a parameterized constructor to initialize the student's name, roll number, and marks, and use a member function to display the details and calculate the grade." **(A1 D1):** "Write a C++ program to calculate and the area of a triangle. Implement and display it using: Default Constructor, Parameterized constructor and Function overloading in one program."
+
+**Picture.** Same class skeleton as Q4: private fields, public constructor(s), one function that does the work, one that prints. **Grade** = an if-else ladder that tests the **highest band first**, so the first true test is the right grade. **Function overloading** = several functions with the **same name** and **different parameter lists**; the compiler picks one by the number/types of the arguments (the same idea as constructor overloading, applied to an ordinary function).
+
+**Diagram spec.**
+- [class box Student: fields name, roll, marks (private, lock icon); methods Student(n, r, m), grade(), display(); two object boxes s1 (Riya 101 82), s2 (Aman 102 35)]
+- [grade ladder as a vertical flowchart: marks ≥ 90 → A, else ≥ 75 → B, else ≥ 60 → C, else ≥ 40 → D, else F]
+- [three calls area(), area(4, 5), area(3, 4, 5), each arrow going to the version with the matching argument count]
+
+**Exam answer — Student (program `p10_student_class.cpp`; grade bands are an assumption: write "grade scale assumed" on the sheet):**
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+class Student {
+    string name;                                 // private data members
+    int roll;
+    float marks;
+public:
+    Student(string n, int r, float m) {          // parameterized constructor fills the fields
+        name = n; roll = r; marks = m;
+    }
+    char grade() {                               // if-else ladder, top band first
+        if (marks >= 90) return 'A';
+        else if (marks >= 75) return 'B';
+        else if (marks >= 60) return 'C';
+        else if (marks >= 40) return 'D';
+        else return 'F';
+    }
+    void display() {                             // member function uses the private data
+        cout << "Name: " << name << ", Roll: " << roll << ", Marks: " << marks
+             << ", Grade: " << grade() << (marks >= 40 ? " (Pass)" : " (Fail)") << "\n";
+    }
+};
+int main() {
+    Student s1("Riya", 101, 82);                 // constructor runs here
+    Student s2("Aman", 102, 35);
+    s1.display();
+    s2.display();
+    return 0;
+}
+```
+Real output:
+```
+Name: Riya, Roll: 101, Marks: 82, Grade: B (Pass)
+Name: Aman, Roll: 102, Marks: 35, Grade: F (Fail)
+```
+
+**Exam answer — Triangle (program `p11_triangle_overload.cpp`):**
+```cpp
+#include <iostream>
+#include <cmath>
+using namespace std;
+class Triangle {
+    float base, height;
+public:
+    Triangle() {                                         // default constructor
+        base = 1; height = 1;
+        cout << "Default constructor called\n";
+    }
+    Triangle(float b, float h) {                         // parameterized constructor
+        base = b; height = h;
+        cout << "Parameterized constructor called\n";
+    }
+    float area() { return 0.5 * base * height; }         // version 0: the stored sides
+    float area(float b, float h) { return 0.5 * b * h; } // overload 1: base and height
+    float area(float a, float b, float c) {              // overload 2: three sides (Heron)
+        float s = (a + b + c) / 2;                       // semi-perimeter
+        return sqrt(s * (s - a) * (s - b) * (s - c));
+    }
+};
+int main() {
+    Triangle t1;                                         // default
+    Triangle t2(10, 6);                                  // parameterized
+    cout << "t1 area = " << t1.area() << "\n";
+    cout << "t2 area = " << t2.area() << "\n";
+    cout << "area(4, 5) = " << t2.area(4, 5) << "\n";    // compiler picks by argument count
+    cout << "area(3, 4, 5) = " << t2.area(3, 4, 5) << "\n";
+    return 0;
+}
+```
+Real output:
+```
+Default constructor called
+Parameterized constructor called
+t1 area = 0.5
+t2 area = 30
+area(4, 5) = 10
+area(3, 4, 5) = 6
+```
+Heron's formula: $$s = \frac{a+b+c}{2}, \qquad \text{Area} = \sqrt{s(s-a)(s-b)(s-c)}$$ For 3, 4, 5: $s = 6$, $\sqrt{6 \cdot 3 \cdot 2 \cdot 1} = 6$.
+
+**Try:**
+1. Booklet 8 (BankAccount with 1-, 2- and 3-parameter constructors): what's the skeleton? → fields accNo, name, balance; `BankAccount(float b)`, `BankAccount(int a, float b)`, `BankAccount(int a, string n, float b)`; set the missing fields to defaults (e.g. accNo 0, name "NA"); one `display()`; three objects, one per constructor.
+2. Booklet 5 (Employee default constructor prints a message; create two objects): how many times does it print? → **twice**, once per object created.
+
+---
+
+### P6. Inheritance + copy constructor (3–8 marks)
+**Question (booklet 4):** single inheritance: Student (protected Name, Roll Number, Marks) → Result (public), getData() and displayResult() with Pass/Fail. **(50Q 8):** "Write a C++ program demonstrating a copy constructor."
+
+**Picture.** **Inheritance** = a new class (the **derived** or child class) gets all the fields and functions of an existing one (the **base** or parent) and adds its own: "Result IS-A Student". **Protected** = hidden from the outside like private, but visible to child classes. A **copy constructor** `ClassName(const ClassName &p)` builds a new object as a copy of an existing one; it runs on `Point p2 = p1;` and when an object is passed by value. (MTE Q5 in Q13: with several bases, the base constructors run first, in the listed order, then the derived one.)
+
+**Diagram spec.**
+- [two class boxes: Student (protected name, roll, marks) with a hollow-headed arrow up from Result (getData, displayResult); the Result object drawn containing the Student fields]
+- [p1 (3, 4) → arrow labelled "copy constructor" → p2 (3, 4)]
+
+**Exam answer (program `p12_inherit_copy.cpp`):**
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+class Student {
+protected:                                       // protected: the child class can use these
+    string name; int roll; float marks;
+};
+class Result : public Student {                  // Result IS-A Student, gets its fields
+public:
+    void getData() {
+        cout << "Enter name, roll, marks: ";
+        cin >> name >> roll >> marks;
+    }
+    void displayResult() {
+        cout << name << " (" << roll << "): " << marks
+             << (marks >= 40 ? " Pass" : " Fail") << "\n";
+    }
+};
+class Point {
+    int x, y;
+public:
+    Point(int a, int b) { x = a; y = b; }
+    Point(const Point &p) {                      // copy constructor: build from another object
+        x = p.x; y = p.y;
+        cout << "Copy constructor called\n";
+    }
+    void show() { cout << "(" << x << ", " << y << ")\n"; }
+};
+int main() {
+    Result r;
+    r.getData();
+    r.displayResult();
+    Point p1(3, 4);
+    Point p2 = p1;                               // copy constructor runs here
+    p1.show(); p2.show();
+    return 0;
+}
+```
+Real output (input `Riya 101 82`):
+```
+Enter name, roll, marks: Riya 101 82
+Riya (101): 82 Pass
+Copy constructor called
+(3, 4)
+(3, 4)
+```
+
+**Try:** why is the copy constructor's parameter a **reference** (`&p`)? → passing by value would itself need a copy, which calls the copy constructor again, forever. Types of inheritance (one line each): single, multiple (MTE Q5), multilevel (A → B → C), hierarchical (one base, many children), hybrid. *Only if time is left.*
+
+---
+
+### P7. Array programs (2–8 marks)
+**Question (A1 B4):** "Apply the concept of array insertion and deletion to develop a C++ program that inserts an element at a specified position and deletes an element from a specified position." **(Booklet 10–17, 50Q 11–16):** sum/average/max/min, linear search, count even/odd/positive/negative, reverse without a second array, element-wise A + B → C, pointer moves.
+
+**Picture.** An array is a row of boxes side by side, so there is no gap to slip a new value into. **Insert at position pos** = make a gap by shifting every box from the end down to pos one place **right** (start at the end, or you overwrite values you still need), then drop the value in. **Delete** = shift every box after pos one place **left**, covering the hole. Both are $O(n)$ because of the shifting. All the other array programs are one loop with one changing line.
+
+**Diagram spec.**
+- [insert 99 at position 3 into 10 20 30 40 50: four arrows 50→, 40→, 30→ (right to left order numbered 1, 2, 3), then 99 dropped into the gap]
+- [delete position 5 from 10 20 99 30 40 50: 40 removed, 50 slides left]
+
+**Exam answer — insert/delete (program `p13_array_insert_delete.cpp`; positions counted from 1):**
+```cpp
+#include <iostream>
+using namespace std;
+void display(int a[], int n) {
+    for (int i = 0; i < n; i++) cout << a[i] << " ";
+    cout << "\n";
+}
+int main() {
+    int a[50], n, pos, x;
+    cout << "How many elements? "; cin >> n;
+    cout << "Enter " << n << " elements: ";
+    for (int i = 0; i < n; i++) cin >> a[i];
+    cout << "Insert: value and position (1.." << n + 1 << "): "; cin >> x >> pos;
+    if (pos < 1 || pos > n + 1) cout << "Invalid position\n";
+    else {
+        for (int i = n; i >= pos; i--)           // shift right, starting from the END
+            a[i] = a[i - 1];
+        a[pos - 1] = x;                          // drop the value into the gap
+        n++;                                     // one more element
+        cout << "After insertion: "; display(a, n);
+    }
+    cout << "Delete: position (1.." << n << "): "; cin >> pos;
+    if (pos < 1 || pos > n) cout << "Invalid position\n";
+    else {
+        cout << "Deleted " << a[pos - 1] << "\n";
+        for (int i = pos - 1; i < n - 1; i++)    // shift left over the hole
+            a[i] = a[i + 1];
+        n--;                                     // one fewer element
+        cout << "After deletion: "; display(a, n);
+    }
+    return 0;
+}
+```
+Real output (input: 5 · 10 20 30 40 50 · insert 99 at 3 · delete position 5):
+```
+After insertion: 10 20 99 30 40 50
+Deleted 40
+After deletion: 10 20 99 30 50
+```
+
+**The one-loop programs (program `p14_array_basics.cpp`, array 12 −5 8 21 −3 40 7 0 16 −9).** Same `for` loop each time; only the line inside changes:
+
+| Task | The line inside the loop | Real output |
+|---|---|---|
+| Sum, average, max, min | `sum += a[i]; if (a[i] > mx) mx = a[i]; if (a[i] < mn) mn = a[i];` (start mx = mn = a[0]) | Sum 87, Avg 8.7, Max 40, Min −9 |
+| Linear search for 21 | `if (a[i] == key) { found = i; break; }` (found starts at −1) | 21 found at index 3 |
+| Count | `if (a[i] % 2 == 0) ev++; else od++; if (a[i] > 0) pos++; else if (a[i] < 0) neg++;` | Even 5, Odd 5, Positive 6, Negative 3 (0 is neither) |
+| Reverse in place | two indices: `for (i = 0, j = n-1; i < j; i++, j--) swap a[i], a[j]` | −9 16 0 7 40 −3 21 8 −5 12 |
+| A + B → C (booklet 10–14) | `c[i] = a[i] + b[i];` (× for 11, `a[i]*a[i]` for 13) | — |
+| Pointer moves (booklet 28) on 10 20 30 40 50 60 | `int *p = b; p += 3;` then `p -= 2;` | `*p` = 40, then 20 |
+
+Pointer rule: `p += 3` moves **3 elements**, not 3 bytes (the compiler multiplies by `sizeof(int)`), because an array name is the address of box 0 and `a[i]` means `*(a + i)`.
+
+**Try:** insert 7 at position 1 into 10 20 30 → how many shifts? → **3** (every element moves) → 7 10 20 30. Insert at position n + 1 → **0** shifts (it's an append).
+
+---
+
+### P8. Swap, bubble/insertion programs, circular queue (2–8 marks)
+**Question (A1 B2):** "Apply call by value and call by reference concepts to write a C++ program that swaps two numbers and demonstrates the difference between the two methods." **(50Q 13):** "Write a C++ program to sort the elements of a one-dimensional array in ascending order using bubble sort."
+
+**Picture.** **Call by value** gives the function photocopies of x and y, so swapping the copies changes nothing outside. **Call by reference** (`int &a`) makes `a` another name for x itself, so the swap is real. Bubble and insertion sort are the Q8 pictures in code. A **circular queue** is the Q5 array queue with the indices wrapping round: `rear = (rear + 1) % MAX`, so freed boxes at the front are reused (Q5's false "full" disappears).
+
+**Diagram spec.**
+- [two memory boxes x = 5, y = 9 in main; swapValue: two separate boxes a, b (copies) that swap, with x, y untouched; swapRef: a, b drawn as labels stuck on x, y themselves]
+- [circular queue ring of 5 boxes after the run below: 60 70 at indices 0, 1; 30 40 50 at 2–4; front → 2, rear → 1]
+
+**Exam answer — swap (program `p15_swap.cpp`):**
+```cpp
+#include <iostream>
+using namespace std;
+void swapValue(int a, int b) {                   // a, b are COPIES
+    int t = a; a = b; b = t;
+}
+void swapRef(int &a, int &b) {                   // a, b are other names for x, y
+    int t = a; a = b; b = t;
+}
+int main() {
+    int x = 5, y = 9;
+    swapValue(x, y);
+    cout << "After swapValue: x = " << x << ", y = " << y << "\n";
+    swapRef(x, y);
+    cout << "After swapRef:   x = " << x << ", y = " << y << "\n";
+    return 0;
+}
+```
+Real output:
+```
+After swapValue: x = 5, y = 9
+After swapRef:   x = 9, y = 5
+```
+
+**Exam answer — bubble + insertion (program `p20_bubble_insertion.cpp`, input 6 · 29 10 14 37 13 5):**
+```cpp
+#include <iostream>
+using namespace std;
+void show(int a[], int n) { for (int i = 0; i < n; i++) cout << a[i] << " "; cout << "\n"; }
+void bubble(int a[], int n) {
+    for (int i = 0; i < n - 1; i++) {            // after pass i, the last i+1 are in place
+        bool swapped = false;
+        for (int j = 0; j < n - 1 - i; j++)      // compare neighbours in the unsorted part
+            if (a[j] > a[j + 1]) {
+                int t = a[j]; a[j] = a[j + 1]; a[j + 1] = t;
+                swapped = true;
+            }
+        if (!swapped) break;                     // no swap = already sorted: stop early
+    }
+}
+void insertion(int a[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = a[i];                          // the next card
+        int j = i - 1;
+        while (j >= 0 && a[j] > key) {           // shift bigger cards one place right
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = key;                          // drop the card into the gap
+    }
+}
+int main() {
+    int a[50], b[50], n;
+    cout << "How many elements? "; cin >> n;
+    cout << "Enter " << n << " elements: ";
+    for (int i = 0; i < n; i++) { cin >> a[i]; b[i] = a[i]; }
+    bubble(a, n);    cout << "Bubble:    "; show(a, n);
+    insertion(b, n); cout << "Insertion: "; show(b, n);
+    return 0;
+}
+```
+Real output:
+```
+Bubble:    5 10 13 14 29 37
+Insertion: 5 10 13 14 29 37
+```
+(Pass-by-pass traces for both are in Q8.) Descending order = flip one comparison: `a[j] < a[j + 1]` / `a[j] < key`.
+
+**Exam answer — circular queue (program `p21_circular_queue.cpp`):**
+```cpp
+#include <iostream>
+using namespace std;
+#define MAX 5
+class CQueue {
+    int a[MAX], front, rear, count;
+public:
+    CQueue() { front = 0; rear = -1; count = 0; }
+    void enqueue(int x) {
+        if (count == MAX) { cout << "Queue full, cannot add " << x << "\n"; return; }
+        rear = (rear + 1) % MAX;                 // step right, wrap 4 -> 0
+        a[rear] = x; count++;
+        cout << "Added " << x << " at index " << rear << "\n";
+    }
+    void dequeue() {
+        if (count == 0) { cout << "Queue empty\n"; return; }
+        cout << "Removed " << a[front] << "\n";
+        front = (front + 1) % MAX;               // front wraps the same way
+        count--;
+    }
+    void display() {
+        cout << "Queue (front -> rear): ";
+        for (int i = 0, k = front; i < count; i++, k = (k + 1) % MAX) cout << a[k] << " ";
+        cout << "\n";
+    }
+};
+int main() {
+    CQueue q;
+    for (int x = 10; x <= 50; x += 10) q.enqueue(x);   // fill all 5
+    q.enqueue(60);                                      // full
+    q.dequeue(); q.dequeue();                           // free index 0 and 1
+    q.enqueue(60); q.enqueue(70);                       // reuse them (wrap)
+    q.display();
+    return 0;
+}
+```
+Real output:
+```
+Added 10 at index 0
+Added 20 at index 1
+Added 30 at index 2
+Added 40 at index 3
+Added 50 at index 4
+Queue full, cannot add 60
+Removed 10
+Removed 20
+Added 60 at index 0
+Added 70 at index 1
+Queue (front -> rear): 30 40 50 60 70
+```
+
+**Try:**
+1. Change `swapRef` to take `int *a, int *b`. What changes in the body and in the call? → body `int t = *a; *a = *b; *b = t;`, call `swapPtr(&x, &y)`: call by **address**, same effect as by reference.
+2. Circular queue, MAX 5, rear = 4. Where does the next item go? → `(4 + 1) % 5 = 0`, box 0 (if count < 5).
+
+---
+
 ## 1. ETE April–May 2026 (ECE2240), solved — the paper A1 copies from
 | Q | Answer |
 |---|---|
@@ -994,19 +1720,19 @@ Check: black height = 2 on every path (22 + one of 5/17/27/44); no red–red pai
 |---|---|
 | A1–A6, A8, A9 | Q12 rows |
 | A7 | 8959 |
-| B1 | Q6 program (+ delete: `p->next = p->next->next`; search: walk and compare) |
-| B2 | swap by value leaves x, y unchanged; by reference (`int &a, int &b`) swaps them |
+| B1 | **P4** full program (Q6 for insertAfter) |
+| B2 | **P8** program: by value leaves x, y unchanged; by reference swaps them |
 | B3 ((A+B)/C)(D−E) | **A B + C / D E − ×** |
-| B4 | array insert at pos: shift `a[i] = a[i-1]` from the end down to pos, then `a[pos] = x`, n++; delete: shift left from pos, n-- |
-| B5 | stack: `top = -1`; push `if (top == MAX-1) overflow; a[++top] = x`; pop `if (top == -1) underflow; return a[top--]` |
-| C1 PUSH 10, 20, POP, POP, POP, PUSH 30, 40 | stack 10 → 10 20 → 10 → empty → **underflow** (3rd POP) → 30 → **30 40** (top = 40); overflow only if MAX < 2 |
+| B4 | **P7** program: insert = shift right from the end, drop in, n++; delete = shift left over the hole, n-- |
+| B5 | **P1** program |
+| C1 PUSH 10, 20, POP, POP, POP, PUSH 30, 40 | stack 10 → 10 20 → 10 → empty → **underflow** (3rd POP) → 30 → **30 40** (top = 40); overflow only if MAX < 2 (**P1** state table) |
 | C2 | browser back = **stack** (latest page first); printer = **queue** (FIFO); dynamic student records = **linked list** (grows, cheap insert/delete) |
-| C3 | Q4 pattern with name, roll, marks; grade by if-else |
-| C4 12 3 4 × + 6 2 / − | stack after each operator: × → 12 12 · + → 24 · / → 24 3 · − → **21** |
+| C3 | **P5** Student program |
+| C4 12 3 4 × + 6 2 / − | stack after each operator: × → 12 12 · + → 24 · / → 24 3 · − → **21** (**P3** program) |
 | C5 | Q6 |
-| D1 | Q4 with a triangle + function overloading |
-| D2 sort a linked list by swapping data | bubble sort on nodes: `for (p = head; p; p = p->next) for (q = p->next; q; q = q->next) if (p->data > q->data) swap(p->data, q->data);` |
-| D3 infix → postfix program | the Q2 stack algorithm in code: operand → output; `(` push; `)` pop to `(`; operator: pop while top has ≥ precedence, then push; at the end pop all |
+| D1 | **P5** Triangle program |
+| D2 sort a linked list by swapping data | **P4** `sortList()` |
+| D3 infix → postfix program | **P2** program |
 | D4 | Q5 array queue |
 
 ## 5. DSA 50-question assignment — keys for the trace questions
