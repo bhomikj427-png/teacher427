@@ -80,3 +80,5 @@
   (26 pp., ~41 numbered Qs + repeated drill items). Sections: functions/classes/objects/constructors, stacks/queues/pointers, linked lists,
   infix/prefix/postfix, sorting (merge/quick/heap), trees (AVL ×39 mentions, BST), graphs (BFS, DFS, Dijkstra, Prim). Covers topics past the
   MTE pack, so it is ETE practice evidence.
+- [2026-11-27] **ETE date (learner-stated): 28 Nov 2026.** Inbox triage: `dsa_generator_prompt.md` → `chat-pack/BRIEF.md` (task brief:
+  build `chat-pack/instructions-chat.md` in the CAP v2 shape, WHERE/HOW/HOW MUCH trunk). Not started; waiting on DSA material (PYQs) from learner.

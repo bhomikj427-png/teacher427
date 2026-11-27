@@ -37,3 +37,4 @@ Per-subject deviations (a subject whose paper falls outside the common window): 
   retrievals first). Scoring-over-depth governs — Stage-2 depth pauses inside the taper window.
 - **After the exam:** items return to normal expanding intervals (durable learning is the goal;
   the exam is a milestone, not the endpoint).
+- DSA (ECE2104) ETE: **28 Nov 2026** (learner-stated 2026-11-27).

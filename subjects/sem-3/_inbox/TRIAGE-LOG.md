@@ -120,3 +120,6 @@
   No duplicates by MD5. `_unsorted/` is empty.
 
 - `[2026-11-25]` **2 files, both ECE2108** → `11-computer-architecture-and-processor/exam-pack/`: `3. ECE2108 Assignment 3.pdf` → `ASSIGNMENT-A3-ECE2108-2026-10.pdf` (ASSIGNMENT, 10 Q / 100 marks; 8086 + memory interfacing) · `4. ECE2108 Spl. Practice Assignment.pdf` → `ASSIGNMENT-SPL-PRACTICE-ECE2108-2026-11.pdf` (ASSIGNMENT, 20 Q / 50 marks). No duplicates. `_unsorted/` is empty.
+
+- `[2026-11-27]` **2 files, neither exam material.** `instcV2.md` → `11-computer-architecture-and-processor/chat-pack/instructions-chat-v2.md` (CAP chat file v2; v1 kept) ·
+  `dsa_generator_prompt.md` → `12-data-structures-and-algorithms/chat-pack/BRIEF.md` (task brief for the DSA chat file). `_unsorted/` is empty.
