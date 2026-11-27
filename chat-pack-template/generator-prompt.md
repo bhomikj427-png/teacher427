@@ -14,7 +14,7 @@ They were good answer keys but bad teaching sequences: every question jumped str
    - DSA: **WHERE** the data sits / **HOW** you move through it / **HOW MUCH** it costs.
 4. **Example flow**: 2–3 example replies in the reference's skeleton (picture → [diagram description] → Write | Why → Try with its answer below). Use real PYQ questions. Keep the "Don't do this" line.
 5. **Progress table**: all topics "not started"; "Next" = the top-ranked question.
-6. **Paper pattern + what repeats**, from the PYQs: sections, marks, and which question types recur, with paper names. Note any evidence that the current professor reuses a paper (word-for-word overlap with assignments).
+6. **Paper pattern + what repeats**, from the PYQs: sections, marks, and which question types recur, with paper names. Note any evidence that the current professor reuses a paper (word-for-word overlap with assignments). **Count marks by answer type** (e.g. code / derivation / numerical / theory) and make the question bank cover each type in proportion: the first DSA file covered trees in depth but only 7 programs, although code was 35/80 marks (fixed 27 Nov with a code bank).
 7. **§Q question bank**, ranked by (chance of appearing × marks), with columns: rank · question type · marks · seen in · **rote load (low/med/high)** · minutes. Mark high-rote, low-mark items "only if time is left".
 8. **One entry per §Q row**, each with these parts in this order:
    - **Question**, copied exactly as a paper prints it (cite the paper).
